@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["max_pixel_value",""]],"struct":[["PPMEncoder","A representation of a PPM encoder."]]});

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `animation` mod in crate `style`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, animation">
+
+    <title>style::animation - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>style</a></p><script>window.sidebarCurrent = {name: 'animation', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>style</a>::<wbr><a class='mod' href=''>animation</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-25' class='srclink' href='../../src/style/animation.rs.html#5-988' title='goto source code'>[src]</a></span></h1>
+<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Animation.html'
+                                  title='style::animation::Animation'>Animation</a></td>
+                           <td class='docblock short'>
+                                <p>State relating to an animation.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.PropertyAnimation.html'
+                                  title='style::animation::PropertyAnimation'>PropertyAnimation</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.AnimatedProperty.html'
+                                  title='style::animation::AnimatedProperty'>AnimatedProperty</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.GetMod.html'
+                                  title='style::animation::GetMod'>GetMod</a></td>
+                           <td class='docblock short'>
+                                <p>Accesses an element of an array, &quot;wrapping around&quot; using modular arithmetic. This is needed
+to handle values of differing lengths according to CSS-TRANSITIONS § 2.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.Interpolate.html'
+                                  title='style::animation::Interpolate'>Interpolate</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.build_identity_transform_list.html'
+                                  title='style::animation::build_identity_transform_list'>build_identity_transform_list</a></td>
+                           <td class='docblock short'>
+                                <p>Build an equivalent &#39;identity transform function list&#39; based
+on an existing transform list.
+<a href="http://dev.w3.org/csswg/css-transforms/#none-transform-animation">http://dev.w3.org/csswg/css-transforms/#none-transform-animation</a></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.can_interpolate_list.html'
+                                  title='style::animation::can_interpolate_list'>can_interpolate_list</a></td>
+                           <td class='docblock short'>
+                                <p>Check if it&#39;s possible to do a direct numerical interpolation
+between these two transform lists.
+<a href="http://dev.w3.org/csswg/css-transforms/#transform-transform-animation">http://dev.w3.org/csswg/css-transforms/#transform-transform-animation</a></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.interpolate_transform_list.html'
+                                  title='style::animation::interpolate_transform_list'>interpolate_transform_list</a></td>
+                           <td class='docblock short'>
+                                <p>Interpolate two transform lists.
+<a href="http://dev.w3.org/csswg/css-transforms/#interpolation-of-transforms">http://dev.w3.org/csswg/css-transforms/#interpolation-of-transforms</a></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.start_transitions_if_applicable.html'
+                                  title='style::animation::start_transitions_if_applicable'>start_transitions_if_applicable</a></td>
+                           <td class='docblock short'>
+                                <p>Inserts transitions into the queue of running animations as applicable for the given style
+difference. This is called from the layout worker threads. Returns true if any animations were
+kicked off and false otherwise.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.update_style_for_animation.html'
+                                  title='style::animation::update_style_for_animation'>update_style_for_animation</a></td>
+                           <td class='docblock short'>
+                                <p>Updates a single animation and associated style based on the current time. If <code>damage</code> is
+provided, inserts the appropriate restyle damage.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "style";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

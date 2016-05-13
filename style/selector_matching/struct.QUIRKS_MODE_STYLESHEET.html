@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `QUIRKS_MODE_STYLESHEET` struct in crate `style`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, QUIRKS_MODE_STYLESHEET">
+
+    <title>style::selector_matching::QUIRKS_MODE_STYLESHEET - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>style</a>::<wbr><a href='index.html'>selector_matching</a></p><script>window.sidebarCurrent = {name: 'QUIRKS_MODE_STYLESHEET', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>style</a>::<wbr><a href='index.html'>selector_matching</a>::<wbr><a class='struct' href=''>QUIRKS_MODE_STYLESHEET</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span></span></h1>
+<pre class='rust struct'>pub struct QUIRKS_MODE_STYLESHEET {
+    __private_field: <a class='primitive' href='../../std/primitive.tuple.html'>()</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.__private_field'><code>__private_field</code></td><td></td></tr></table><h2 id='deref-methods'>Methods from <a class='trait' href='../../core/ops/trait.Deref.html' title='core::ops::Deref'>__Deref</a>&lt;Target=<a class='struct' href='../../style/stylesheets/struct.Stylesheet.html' title='style::stylesheets::Stylesheet'>Stylesheet</a>&lt;<a class='struct' href='../../style/selector_impl/struct.ServoSelectorImpl.html' title='style::selector_impl::ServoSelectorImpl'>ServoSelectorImpl</a>&gt;&gt;</h2><div class='impl-items'><h4 id='method.set_media' class='method'><code>fn <a href='#method.set_media' class='fnname'>set_media</a>(&amp;mut self, media: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../style/media_queries/struct.MediaQueryList.html' title='style::media_queries::MediaQueryList'>MediaQueryList</a>&gt;)</code></h4>
+<div class='docblock'><p>Set the MediaQueryList associated with the style-sheet.</p>
+</div><h4 id='method.is_effective_for_device' class='method'><code>fn <a href='#method.is_effective_for_device' class='fnname'>is_effective_for_device</a>(&amp;self, device: &amp;<a class='struct' href='../../style/media_queries/struct.Device.html' title='style::media_queries::Device'>Device</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns whether the style-sheet applies for the current device depending
+on the associated MediaQueryList.</p>
+
+<p>Always true if no associated MediaQueryList exists.</p>
+</div><h4 id='method.rules' class='method'><code>fn <a href='#method.rules' class='fnname'>rules</a>(&amp;self) -&gt; <a class='struct' href='../../style/stylesheets/struct.Rules.html' title='style::stylesheets::Rules'>Rules</a>&lt;Impl&gt;</code></h4>
+<div class='docblock'><p>Return an iterator over all the rules within the style-sheet.</p>
+</div><h4 id='method.effective_rules' class='method'><code>fn <a href='#method.effective_rules' class='fnname'>effective_rules</a>&lt;'a&gt;(&amp;'a self, device: &amp;'a <a class='struct' href='../../style/media_queries/struct.Device.html' title='style::media_queries::Device'>Device</a>) -&gt; <a class='struct' href='../../style/stylesheets/struct.Rules.html' title='style::stylesheets::Rules'>Rules</a>&lt;'a, Impl&gt;</code></h4>
+<div class='docblock'><p>Return an iterator over the effective rules within the style-sheet, as
+according to the supplied <code>Device</code>.</p>
+
+<p>If a condition does not hold, its associated conditional group rule and
+nested rules will be skipped. Use <code>rules</code> if all rules need to be
+examined.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/ops/trait.Deref.html' title='core::ops::Deref'>__Deref</a> for <a class='struct' href='../../style/selector_matching/struct.QUIRKS_MODE_STYLESHEET.html' title='style::selector_matching::QUIRKS_MODE_STYLESHEET'>QUIRKS_MODE_STYLESHEET</a></code></h3><div class='impl-items'><h4 id='associatedtype.Target' class='type'><code>type <a href='../../core/ops/trait.Deref.html#associatedtype.Target' class='type'>Target</a> = <a class='struct' href='../../style/stylesheets/struct.Stylesheet.html' title='style::stylesheets::Stylesheet'>Stylesheet</a>&lt;<a class='struct' href='../../style/selector_impl/struct.ServoSelectorImpl.html' title='style::selector_impl::ServoSelectorImpl'>ServoSelectorImpl</a>&gt;</code></h4>
+<h4 id='method.deref' class='method'><code>fn <a href='../../core/ops/trait.Deref.html#tymethod.deref' class='fnname'>deref</a>&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a <a class='struct' href='../../style/stylesheets/struct.Stylesheet.html' title='style::stylesheets::Stylesheet'>Stylesheet</a>&lt;<a class='struct' href='../../style/selector_impl/struct.ServoSelectorImpl.html' title='style::selector_impl::ServoSelectorImpl'>ServoSelectorImpl</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "style";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `TreeBuilder` struct in crate `html5ever`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TreeBuilder">
+
+    <title>html5ever::tree_builder::TreeBuilder - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>html5ever</a>::<wbr><a href='index.html'>tree_builder</a></p><script>window.sidebarCurrent = {name: 'TreeBuilder', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>html5ever</a>::<wbr><a href='index.html'>tree_builder</a>::<wbr><a class='struct' href=''>TreeBuilder</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3447' class='srclink' href='../../src/html5ever/tree_builder/mod.rs.html#81-141' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct TreeBuilder&lt;Handle, Sink&gt; {
+    opts: <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilderOpts.html' title='html5ever::tree_builder::TreeBuilderOpts'>TreeBuilderOpts</a>,
+    sink: Sink,
+    mode: <a class='enum' href='../../html5ever/tree_builder/types/enum.InsertionMode.html' title='html5ever::tree_builder::types::InsertionMode'>InsertionMode</a>,
+    orig_mode: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../html5ever/tree_builder/types/enum.InsertionMode.html' title='html5ever::tree_builder::types::InsertionMode'>InsertionMode</a>&gt;,
+    template_modes: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../html5ever/tree_builder/types/enum.InsertionMode.html' title='html5ever::tree_builder::types::InsertionMode'>InsertionMode</a>&gt;,
+    pending_table_text: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='enum' href='../../html5ever/tree_builder/types/enum.SplitStatus.html' title='html5ever::tree_builder::types::SplitStatus'>SplitStatus</a>, <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;,
+    quirks_mode: <a class='enum' href='../../html5ever/tree_builder/interface/enum.QuirksMode.html' title='html5ever::tree_builder::interface::QuirksMode'>QuirksMode</a>,
+    doc_handle: Handle,
+    open_elems: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;Handle&gt;,
+    active_formatting: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../html5ever/tree_builder/types/enum.FormatEntry.html' title='html5ever::tree_builder::types::FormatEntry'>FormatEntry</a>&lt;Handle&gt;&gt;,
+    head_elem: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Handle&gt;,
+    form_elem: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Handle&gt;,
+    next_tokenizer_state: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../html5ever/tokenizer/states/enum.State.html' title='html5ever::tokenizer::states::State'>State</a>&gt;,
+    frameset_ok: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    ignore_lf: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    foster_parenting: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    context_elem: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Handle&gt;,
+}</pre><div class='docblock'><p>The HTML tree builder.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.opts'><code>opts</code></td><td><div class='docblock'><p>Options controlling the behavior of the tree builder.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.sink'><code>sink</code></td><td><div class='docblock'><p>Consumer of tree modifications.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.mode'><code>mode</code></td><td><div class='docblock'><p>Insertion mode.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.orig_mode'><code>orig_mode</code></td><td><div class='docblock'><p>Original insertion mode, used by Text and InTableText modes.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.template_modes'><code>template_modes</code></td><td><div class='docblock'><p>Stack of template insertion modes.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.pending_table_text'><code>pending_table_text</code></td><td><div class='docblock'><p>Pending table character tokens.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.quirks_mode'><code>quirks_mode</code></td><td><div class='docblock'><p>Quirks mode as set by the parser.
+FIXME: can scripts etc. change this?</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.doc_handle'><code>doc_handle</code></td><td><div class='docblock'><p>The document node, which is created by the sink.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.open_elems'><code>open_elems</code></td><td><div class='docblock'><p>Stack of open elements, most recently added at end.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.active_formatting'><code>active_formatting</code></td><td><div class='docblock'><p>List of active formatting elements.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.head_elem'><code>head_elem</code></td><td><div class='docblock'><p>Head element pointer.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.form_elem'><code>form_elem</code></td><td><div class='docblock'><p>Form element pointer.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.next_tokenizer_state'><code>next_tokenizer_state</code></td><td><div class='docblock'><p>Next state change for the tokenizer, if any.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.frameset_ok'><code>frameset_ok</code></td><td><div class='docblock'><p>Frameset-ok flag.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.ignore_lf'><code>ignore_lf</code></td><td><div class='docblock'><p>Ignore a following U+000A LINE FEED?</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.foster_parenting'><code>foster_parenting</code></td><td><div class='docblock'><p>Is foster parenting enabled?</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.context_elem'><code>context_elem</code></td><td><div class='docblock'><p>The context element for the fragment parsing algorithm.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;Handle, Sink&gt; <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilder.html' title='html5ever::tree_builder::TreeBuilder'>TreeBuilder</a>&lt;Handle, Sink&gt; <span class='where'>where Handle: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Sink: <a class='trait' href='../../html5ever/tree_builder/interface/trait.TreeSink.html' title='html5ever::tree_builder::interface::TreeSink'>TreeSink</a>&lt;Handle=Handle&gt;</span></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(sink: Sink, opts: <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilderOpts.html' title='html5ever::tree_builder::TreeBuilderOpts'>TreeBuilderOpts</a>) -&gt; <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilder.html' title='html5ever::tree_builder::TreeBuilder'>TreeBuilder</a>&lt;Handle, Sink&gt;</code></h4>
+<div class='docblock'><p>Create a new tree builder which sends tree modifications to a particular <code>TreeSink</code>.</p>
+
+<p>The tree builder is also a <code>TokenSink</code>.</p>
+</div><h4 id='method.new_for_fragment' class='method'><code>fn <a href='#method.new_for_fragment' class='fnname'>new_for_fragment</a>(sink: Sink, context_elem: Handle, form_elem: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Handle&gt;, opts: <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilderOpts.html' title='html5ever::tree_builder::TreeBuilderOpts'>TreeBuilderOpts</a>) -&gt; <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilder.html' title='html5ever::tree_builder::TreeBuilder'>TreeBuilder</a>&lt;Handle, Sink&gt;</code></h4>
+<div class='docblock'><p>Create a new tree builder which sends tree modifications to a particular <code>TreeSink</code>.
+This is for parsing fragments.</p>
+
+<p>The tree builder is also a <code>TokenSink</code>.</p>
+</div><h4 id='method.tokenizer_state_for_context_elem' class='method'><code>fn <a href='#method.tokenizer_state_for_context_elem' class='fnname'>tokenizer_state_for_context_elem</a>(&amp;self) -&gt; <a class='enum' href='../../html5ever/tokenizer/states/enum.State.html' title='html5ever::tokenizer::states::State'>State</a></code></h4>
+<h4 id='method.unwrap' class='method'><code>fn <a href='#method.unwrap' class='fnname'>unwrap</a>(self) -&gt; Sink</code></h4>
+<h4 id='method.sink' class='method'><code>fn <a href='#method.sink' class='fnname'>sink</a>&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a Sink</code></h4>
+<h4 id='method.sink_mut' class='method'><code>fn <a href='#method.sink_mut' class='fnname'>sink_mut</a>&lt;'a&gt;(&amp;'a mut self) -&gt; &amp;'a mut Sink</code></h4>
+<h4 id='method.trace_handles' class='method'><code>fn <a href='#method.trace_handles' class='fnname'>trace_handles</a>(&amp;self, tracer: &amp;<a class='trait' href='../../html5ever/tree_builder/interface/trait.Tracer.html' title='html5ever::tree_builder::interface::Tracer'>Tracer</a>&lt;Handle=Handle&gt;)</code></h4>
+<div class='docblock'><p>Call the <code>Tracer</code>&#39;s <code>trace_handle</code> method on every <code>Handle</code> in the tree builder&#39;s
+internal state.  This is intended to support garbage-collected DOMs.</p>
+</div><h4 id='method.dump_state' class='method'><code>fn <a href='#method.dump_state' class='fnname'>dump_state</a>(&amp;self, label: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>)</code></h4>
+<h4 id='method.debug_step' class='method'><code>fn <a href='#method.debug_step' class='fnname'>debug_step</a>(&amp;self, mode: <a class='enum' href='../../html5ever/tree_builder/types/enum.InsertionMode.html' title='html5ever::tree_builder::types::InsertionMode'>InsertionMode</a>, token: &amp;<a class='enum' href='../../html5ever/tree_builder/types/enum.Token.html' title='html5ever::tree_builder::types::Token'>Token</a>)</code></h4>
+<h4 id='method.process_to_completion' class='method'><code>fn <a href='#method.process_to_completion' class='fnname'>process_to_completion</a>(&amp;mut self, token: <a class='enum' href='../../html5ever/tree_builder/types/enum.Token.html' title='html5ever::tree_builder::types::Token'>Token</a>)</code></h4>
+<h4 id='method.is_fragment' class='method'><code>fn <a href='#method.is_fragment' class='fnname'>is_fragment</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Are we parsing a HTML fragment?</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;Handle, Sink&gt; <a class='trait' href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html' title='html5ever::tree_builder::actions::TreeBuilderActions'>TreeBuilderActions</a>&lt;Handle&gt; for <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilder.html' title='html5ever::tree_builder::TreeBuilder'>TreeBuilder</a>&lt;Handle, Sink&gt; <span class='where'>where Handle: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Sink: <a class='trait' href='../../html5ever/tree_builder/interface/trait.TreeSink.html' title='html5ever::tree_builder::interface::TreeSink'>TreeSink</a>&lt;Handle=Handle&gt;</span></code></h3><div class='impl-items'><h4 id='method.unexpected' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.unexpected' class='fnname'>unexpected</a>&lt;T: <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>&gt;(&amp;mut self, _thing: &amp;T) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.assert_named' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.assert_named' class='fnname'>assert_named</a>(&amp;mut self, node: Handle, name: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>)</code></h4>
+<h4 id='method.active_formatting_end_to_marker' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.active_formatting_end_to_marker' class='fnname'>active_formatting_end_to_marker</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='struct' href='../../html5ever/tree_builder/actions/struct.ActiveFormattingIter.html' title='html5ever::tree_builder::actions::ActiveFormattingIter'>ActiveFormattingIter</a>&lt;'a, Handle&gt;</code></h4>
+<div class='docblock'><p>Iterate over the active formatting elements (with index in the list) from the end
+to the last marker, or the beginning if there are no markers.</p>
+</div><h4 id='method.position_in_active_formatting' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.position_in_active_formatting' class='fnname'>position_in_active_formatting</a>(&amp;self, element: &amp;Handle) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>
+<h4 id='method.set_quirks_mode' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.set_quirks_mode' class='fnname'>set_quirks_mode</a>(&amp;mut self, mode: <a class='enum' href='../../html5ever/tree_builder/interface/enum.QuirksMode.html' title='html5ever::tree_builder::interface::QuirksMode'>QuirksMode</a>)</code></h4>
+<h4 id='method.stop_parsing' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.stop_parsing' class='fnname'>stop_parsing</a>(&amp;mut self) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.to_raw_text_mode' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.to_raw_text_mode' class='fnname'>to_raw_text_mode</a>(&amp;mut self, k: <a class='enum' href='../../html5ever/tokenizer/states/enum.RawKind.html' title='html5ever::tokenizer::states::RawKind'>RawKind</a>)</code></h4>
+<h4 id='method.parse_raw_data' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.parse_raw_data' class='fnname'>parse_raw_data</a>(&amp;mut self, tag: <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>, k: <a class='enum' href='../../html5ever/tokenizer/states/enum.RawKind.html' title='html5ever::tokenizer::states::RawKind'>RawKind</a>)</code></h4>
+<h4 id='method.current_node' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.current_node' class='fnname'>current_node</a>(&amp;self) -&gt; Handle</code></h4>
+<h4 id='method.adjusted_current_node' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.adjusted_current_node' class='fnname'>adjusted_current_node</a>(&amp;self) -&gt; Handle</code></h4>
+<h4 id='method.current_node_in' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.current_node_in' class='fnname'>current_node_in</a>&lt;TagSet&gt;(&amp;self, set: TagSet) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> <span class='where'>where TagSet: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(<a class='struct' href='../../string_cache/namespace/struct.QualName.html' title='string_cache::namespace::QualName'>QualName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.insert_appropriately' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.insert_appropriately' class='fnname'>insert_appropriately</a>(&amp;mut self, child: <a class='enum' href='../../html5ever/tree_builder/interface/enum.NodeOrText.html' title='html5ever::tree_builder::interface::NodeOrText'>NodeOrText</a>&lt;Handle&gt;, override_target: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Handle&gt;)</code></h4>
+<h4 id='method.adoption_agency' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.adoption_agency' class='fnname'>adoption_agency</a>(&amp;mut self, subject: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>)</code></h4>
+<h4 id='method.push' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.push' class='fnname'>push</a>(&amp;mut self, elem: &amp;Handle)</code></h4>
+<h4 id='method.pop' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.pop' class='fnname'>pop</a>(&amp;mut self) -&gt; Handle</code></h4>
+<h4 id='method.remove_from_stack' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.remove_from_stack' class='fnname'>remove_from_stack</a>(&amp;mut self, elem: &amp;Handle)</code></h4>
+<h4 id='method.is_marker_or_open' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.is_marker_or_open' class='fnname'>is_marker_or_open</a>(&amp;self, entry: &amp;<a class='enum' href='../../html5ever/tree_builder/types/enum.FormatEntry.html' title='html5ever::tree_builder::types::FormatEntry'>FormatEntry</a>&lt;Handle&gt;) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.reconstruct_formatting' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.reconstruct_formatting' class='fnname'>reconstruct_formatting</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Reconstruct the active formatting elements.</p>
+</div><h4 id='method.html_elem' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.html_elem' class='fnname'>html_elem</a>(&amp;self) -&gt; Handle</code></h4>
+<div class='docblock'><p>Get the first element on the stack, which will be the <html> element.</p>
+</div><h4 id='method.body_elem' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.body_elem' class='fnname'>body_elem</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Handle&gt;</code></h4>
+<div class='docblock'><p>Get the second element on the stack, if it&#39;s a HTML body element.</p>
+</div><h4 id='method.check_body_end' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.check_body_end' class='fnname'>check_body_end</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Signal an error depending on the state of the stack of open elements at
+the end of the body.</p>
+</div><h4 id='method.in_scope' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.in_scope' class='fnname'>in_scope</a>&lt;TagSet, Pred&gt;(&amp;self, scope: TagSet, pred: Pred) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> <span class='where'>where TagSet: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(<a class='struct' href='../../string_cache/namespace/struct.QualName.html' title='string_cache::namespace::QualName'>QualName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, Pred: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(Handle) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.elem_in' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.elem_in' class='fnname'>elem_in</a>&lt;TagSet&gt;(&amp;self, elem: Handle, set: TagSet) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> <span class='where'>where TagSet: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(<a class='struct' href='../../string_cache/namespace/struct.QualName.html' title='string_cache::namespace::QualName'>QualName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.html_elem_named' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.html_elem_named' class='fnname'>html_elem_named</a>(&amp;self, elem: Handle, name: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.in_html_elem_named' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.in_html_elem_named' class='fnname'>in_html_elem_named</a>(&amp;self, name: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.current_node_named' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.current_node_named' class='fnname'>current_node_named</a>(&amp;self, name: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.in_scope_named' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.in_scope_named' class='fnname'>in_scope_named</a>&lt;TagSet&gt;(&amp;self, scope: TagSet, name: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> <span class='where'>where TagSet: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(<a class='struct' href='../../string_cache/namespace/struct.QualName.html' title='string_cache::namespace::QualName'>QualName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.generate_implied_end' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.generate_implied_end' class='fnname'>generate_implied_end</a>&lt;TagSet&gt;(&amp;mut self, set: TagSet) <span class='where'>where TagSet: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(<a class='struct' href='../../string_cache/namespace/struct.QualName.html' title='string_cache::namespace::QualName'>QualName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.generate_implied_end_except' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.generate_implied_end_except' class='fnname'>generate_implied_end_except</a>(&amp;mut self, except: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>)</code></h4>
+<h4 id='method.pop_until_current' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.pop_until_current' class='fnname'>pop_until_current</a>&lt;TagSet&gt;(&amp;mut self, pred: TagSet) <span class='where'>where TagSet: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(<a class='struct' href='../../string_cache/namespace/struct.QualName.html' title='string_cache::namespace::QualName'>QualName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.pop_until' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.pop_until' class='fnname'>pop_until</a>&lt;P&gt;(&amp;mut self, pred: P) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a> <span class='where'>where P: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(<a class='struct' href='../../string_cache/namespace/struct.QualName.html' title='string_cache::namespace::QualName'>QualName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.pop_until_named' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.pop_until_named' class='fnname'>pop_until_named</a>(&amp;mut self, name: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+<h4 id='method.expect_to_close' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.expect_to_close' class='fnname'>expect_to_close</a>(&amp;mut self, name: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>)</code></h4>
+<h4 id='method.close_p_element' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.close_p_element' class='fnname'>close_p_element</a>(&amp;mut self)</code></h4>
+<h4 id='method.close_p_element_in_button_scope' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.close_p_element_in_button_scope' class='fnname'>close_p_element_in_button_scope</a>(&amp;mut self)</code></h4>
+<h4 id='method.is_type_hidden' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.is_type_hidden' class='fnname'>is_type_hidden</a>(&amp;self, tag: &amp;<a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.foster_parent_in_body' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.foster_parent_in_body' class='fnname'>foster_parent_in_body</a>(&amp;mut self, token: <a class='enum' href='../../html5ever/tree_builder/types/enum.Token.html' title='html5ever::tree_builder::types::Token'>Token</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.process_chars_in_table' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.process_chars_in_table' class='fnname'>process_chars_in_table</a>(&amp;mut self, token: <a class='enum' href='../../html5ever/tree_builder/types/enum.Token.html' title='html5ever::tree_builder::types::Token'>Token</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.reset_insertion_mode' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.reset_insertion_mode' class='fnname'>reset_insertion_mode</a>(&amp;mut self) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.InsertionMode.html' title='html5ever::tree_builder::types::InsertionMode'>InsertionMode</a></code></h4>
+<h4 id='method.close_the_cell' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.close_the_cell' class='fnname'>close_the_cell</a>(&amp;mut self)</code></h4>
+<h4 id='method.append_text' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.append_text' class='fnname'>append_text</a>(&amp;mut self, text: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.append_comment' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.append_comment' class='fnname'>append_comment</a>(&amp;mut self, text: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.append_comment_to_doc' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.append_comment_to_doc' class='fnname'>append_comment_to_doc</a>(&amp;mut self, text: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.append_comment_to_html' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.append_comment_to_html' class='fnname'>append_comment_to_html</a>(&amp;mut self, text: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.create_root' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.create_root' class='fnname'>create_root</a>(&amp;mut self, attrs: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../html5ever/struct.Attribute.html' title='html5ever::Attribute'>Attribute</a>&gt;)</code></h4>
+<h4 id='method.insert_element' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.insert_element' class='fnname'>insert_element</a>(&amp;mut self, push: <a class='enum' href='../../html5ever/tree_builder/actions/enum.PushFlag.html' title='html5ever::tree_builder::actions::PushFlag'>PushFlag</a>, ns: <a class='struct' href='../../string_cache/namespace/struct.Namespace.html' title='string_cache::namespace::Namespace'>Namespace</a>, name: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>, attrs: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../html5ever/struct.Attribute.html' title='html5ever::Attribute'>Attribute</a>&gt;) -&gt; Handle</code></h4>
+<h4 id='method.insert_element_for' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.insert_element_for' class='fnname'>insert_element_for</a>(&amp;mut self, tag: <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>) -&gt; Handle</code></h4>
+<h4 id='method.insert_and_pop_element_for' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.insert_and_pop_element_for' class='fnname'>insert_and_pop_element_for</a>(&amp;mut self, tag: <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>) -&gt; Handle</code></h4>
+<h4 id='method.insert_phantom' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.insert_phantom' class='fnname'>insert_phantom</a>(&amp;mut self, name: <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; Handle</code></h4>
+<h4 id='method.create_formatting_element_for' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.create_formatting_element_for' class='fnname'>create_formatting_element_for</a>(&amp;mut self, tag: <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>) -&gt; Handle</code></h4>
+<h4 id='method.clear_active_formatting_to_marker' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.clear_active_formatting_to_marker' class='fnname'>clear_active_formatting_to_marker</a>(&amp;mut self)</code></h4>
+<h4 id='method.process_end_tag_in_body' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.process_end_tag_in_body' class='fnname'>process_end_tag_in_body</a>(&amp;mut self, tag: <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>)</code></h4>
+<h4 id='method.handle_misnested_a_tags' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.handle_misnested_a_tags' class='fnname'>handle_misnested_a_tags</a>(&amp;mut self, tag: &amp;<a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>)</code></h4>
+<h4 id='method.is_foreign' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.is_foreign' class='fnname'>is_foreign</a>(&amp;mut self, token: &amp;<a class='enum' href='../../html5ever/tree_builder/types/enum.Token.html' title='html5ever::tree_builder::types::Token'>Token</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.enter_foreign' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.enter_foreign' class='fnname'>enter_foreign</a>(&amp;mut self, tag: <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>, ns: <a class='struct' href='../../string_cache/namespace/struct.Namespace.html' title='string_cache::namespace::Namespace'>Namespace</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.adjust_svg_tag_name' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.adjust_svg_tag_name' class='fnname'>adjust_svg_tag_name</a>(&amp;mut self, tag: &amp;mut <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>)</code></h4>
+<h4 id='method.adjust_attributes' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.adjust_attributes' class='fnname'>adjust_attributes</a>&lt;F&gt;(&amp;mut self, tag: &amp;mut <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>, map: F) <span class='where'>where F: <a class='trait' href='../../core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(<a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../string_cache/namespace/struct.QualName.html' title='string_cache::namespace::QualName'>QualName</a>&gt;</span></code></h4>
+<h4 id='method.adjust_svg_attributes' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.adjust_svg_attributes' class='fnname'>adjust_svg_attributes</a>(&amp;mut self, tag: &amp;mut <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>)</code></h4>
+<h4 id='method.adjust_mathml_attributes' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.adjust_mathml_attributes' class='fnname'>adjust_mathml_attributes</a>(&amp;mut self, tag: &amp;mut <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>)</code></h4>
+<h4 id='method.adjust_foreign_attributes' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.adjust_foreign_attributes' class='fnname'>adjust_foreign_attributes</a>(&amp;mut self, tag: &amp;mut <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>)</code></h4>
+<h4 id='method.foreign_start_tag' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.foreign_start_tag' class='fnname'>foreign_start_tag</a>(&amp;mut self, tag: <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.unexpected_start_tag_in_foreign_content' class='method'><code>fn <a href='../../html5ever/tree_builder/actions/trait.TreeBuilderActions.html#tymethod.unexpected_start_tag_in_foreign_content' class='fnname'>unexpected_start_tag_in_foreign_content</a>(&amp;mut self, tag: <a class='struct' href='../../html5ever/tokenizer/struct.Tag.html' title='html5ever::tokenizer::Tag'>Tag</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;Handle, Sink&gt; <a class='trait' href='../../html5ever/tree_builder/rules/trait.TreeBuilderStep.html' title='html5ever::tree_builder::rules::TreeBuilderStep'>TreeBuilderStep</a> for <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilder.html' title='html5ever::tree_builder::TreeBuilder'>TreeBuilder</a>&lt;Handle, Sink&gt; <span class='where'>where Handle: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Sink: <a class='trait' href='../../html5ever/tree_builder/interface/trait.TreeSink.html' title='html5ever::tree_builder::interface::TreeSink'>TreeSink</a>&lt;Handle=Handle&gt;</span></code></h3><div class='impl-items'><h4 id='method.step' class='method'><code>fn <a href='../../html5ever/tree_builder/rules/trait.TreeBuilderStep.html#tymethod.step' class='fnname'>step</a>(&amp;mut self, mode: <a class='enum' href='../../html5ever/tree_builder/types/enum.InsertionMode.html' title='html5ever::tree_builder::types::InsertionMode'>InsertionMode</a>, token: <a class='enum' href='../../html5ever/tree_builder/types/enum.Token.html' title='html5ever::tree_builder::types::Token'>Token</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+<h4 id='method.step_foreign' class='method'><code>fn <a href='../../html5ever/tree_builder/rules/trait.TreeBuilderStep.html#tymethod.step_foreign' class='fnname'>step_foreign</a>(&amp;mut self, token: <a class='enum' href='../../html5ever/tree_builder/types/enum.Token.html' title='html5ever::tree_builder::types::Token'>Token</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;Handle, Sink&gt; <a class='trait' href='../../html5ever/tokenizer/interface/trait.TokenSink.html' title='html5ever::tokenizer::interface::TokenSink'>TokenSink</a> for <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilder.html' title='html5ever::tree_builder::TreeBuilder'>TreeBuilder</a>&lt;Handle, Sink&gt; <span class='where'>where Handle: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Sink: <a class='trait' href='../../html5ever/tree_builder/interface/trait.TreeSink.html' title='html5ever::tree_builder::interface::TreeSink'>TreeSink</a>&lt;Handle=Handle&gt;</span></code></h3><div class='impl-items'><h4 id='method.process_token' class='method'><code>fn <a href='../../html5ever/tokenizer/interface/trait.TokenSink.html#tymethod.process_token' class='fnname'>process_token</a>(&amp;mut self, token: <a class='enum' href='../../html5ever/tokenizer/enum.Token.html' title='html5ever::tokenizer::Token'>Token</a>)</code></h4>
+<h4 id='method.adjusted_current_node_present_but_not_in_html_namespace' class='method'><code>fn <a href='../../html5ever/tokenizer/interface/trait.TokenSink.html#method.adjusted_current_node_present_but_not_in_html_namespace' class='fnname'>adjusted_current_node_present_but_not_in_html_namespace</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.query_state_change' class='method'><code>fn <a href='../../html5ever/tokenizer/interface/trait.TokenSink.html#method.query_state_change' class='fnname'>query_state_change</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../html5ever/tokenizer/states/enum.State.html' title='html5ever::tokenizer::states::State'>State</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "html5ever";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

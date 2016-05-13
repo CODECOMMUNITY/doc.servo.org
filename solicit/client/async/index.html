@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `async` mod in crate `solicit`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, async">
+
+    <title>solicit::client::async - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>solicit</a>::<wbr><a href='../index.html'>client</a></p><script>window.sidebarCurrent = {name: 'async', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>solicit</a>::<wbr><a href='../index.html'>client</a>::<wbr><a class='mod' href=''>async</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1699' class='srclink' href='../../../src/solicit/client/async.rs.html#1-717' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Contains an implementation of an asynchronous client.</p>
+
+<p>It allows users to make requests to the same underlying connection from
+different threads concurrently, as well as to receive the response
+asynchronously.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.AsyncRequest.html'
+                                  title='solicit::client::async::AsyncRequest'>AsyncRequest</a></td>
+                           <td class='docblock short'>
+                                <p>A struct representing an asynchronously dispatched request. It is used
+internally be the <code>ClientService</code> and <code>Client</code> structs.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ChannelFrameReceiver.html'
+                                  title='solicit::client::async::ChannelFrameReceiver'>ChannelFrameReceiver</a></td>
+                           <td class='docblock short'>
+                                <p>A struct that buffers <code>HttpFrame</code>s read by the wrapped <code>ReceiveFrame</code> instance in an internal
+<code>mpsc</code> channel. The reads from the wrapped <code>ReceiveFrame</code> instance are triggered by calls to
+the <code>read_next</code> method.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ChannelFrameReceiverHandle.html'
+                                  title='solicit::client::async::ChannelFrameReceiverHandle'>ChannelFrameReceiverHandle</a></td>
+                           <td class='docblock short'>
+                                <p>A handle to the <code>ChannelFrameReceiver</code> and an implementation of the <code>ReceiveFrame</code> trait.
+It simply pops the next frame from the internal channel that buffers the frames read by the
+<code>ReceiveFrame</code> instance wrapped by the associated <code>ChannelFrameReceiver</code>. If there are no
+frames currently buffered, it blocks until there is one. Therefore, the <code>handle_next_frame</code>
+method of the <code>HttpConnection</code> that relies on the IO provided by this <code>ReceiveFrame</code>
+implementation should be triggered only when sure that there are buffered frames, if blocking
+handles are to be avoided.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ChannelFrameSender.html'
+                                  title='solicit::client::async::ChannelFrameSender'>ChannelFrameSender</a></td>
+                           <td class='docblock short'>
+                                <p>A struct that buffers <code>RawFrame</code>s in an internal <code>mpsc</code> channel and sends them using the
+wrapped <code>SendFrame</code> instance when the <code>send_next</code> method is called.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ChannelFrameSenderHandle.html'
+                                  title='solicit::client::async::ChannelFrameSenderHandle'>ChannelFrameSenderHandle</a></td>
+                           <td class='docblock short'>
+                                <p>A handle to the <code>ChannelFrameSender</code> and an implementation of the <code>SendFrame</code> trait. It simply
+queues the given frames into the send queue of the <code>ChannelFrameSender</code> without ever blocking.
+(Except possibly to allocate some memory, as per the <code>mpsc::channel</code> specification.)</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Client.html'
+                                  title='solicit::client::async::Client'>Client</a></td>
+                           <td class='docblock short'>
+                                <p>A struct representing an HTTP/2 client that receives responses to its
+requests asynchronously. Additionally, this client can be cloned and all
+clones can issue (concurrently) requests to the server, using the same
+underlying HTTP/2 connection.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ClientService.html'
+                                  title='solicit::client::async::ClientService'>ClientService</a></td>
+                           <td class='docblock short'>
+                                <p>An internal struct encapsulating a service that lets multiple clients
+issue concurrent requests to the same HTTP/2 connection.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Service.html'
+                                  title='solicit::client::async::Service'>Service</a></td>
+                           <td class='docblock short'>
+                                <p>A helper wrapper around the components of the <code>ClientService</code> that are returned from its
+constructor.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ClientServiceErr.html'
+                                  title='solicit::client::async::ClientServiceErr'>ClientServiceErr</a></td>
+                           <td class='docblock short'>
+                                <p>An enum that represents errors that can be raised by the operation of a
+<code>ClientService</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.WorkItem.html'
+                                  title='solicit::client::async::WorkItem'>WorkItem</a></td>
+                           <td class='docblock short'>
+                                <p>An enum representing the types of work that the <code>ClientService</code> can perform from within its
+<code>run_once</code> method.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "solicit";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

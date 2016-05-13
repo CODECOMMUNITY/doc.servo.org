@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["DeserializeError","An error that can be produced during decoding."]],"fn":[["utf8_char_width",""]],"static":[["UTF8_CHAR_WIDTH",""]],"struct":[["Deserializer","A Deserializer that reads bytes from a buffer."],["InvalidEncoding",""]],"type":[["DeserializeResult",""]]});

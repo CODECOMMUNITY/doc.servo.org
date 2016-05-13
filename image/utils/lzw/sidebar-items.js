@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["MAX_CODESIZE",""],["MAX_ENTRIES",""]],"fn":[["decode","Decodes a lzw compressed stream."],["decode_early_change","Decodes a lzw compressed stream using an “early change” algorithm."],["encode",""]],"struct":[["DecodingDict","Decoding dictionary"],["EncodingDict",""],["Node",""]],"type":[["Code","Alias for a LZW code point"]]});

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `LineBreaker` struct in crate `layout`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, LineBreaker">
+
+    <title>layout::inline::LineBreaker - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>layout</a>::<wbr><a href='index.html'>inline</a></p><script>window.sidebarCurrent = {name: 'LineBreaker', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>layout</a>::<wbr><a href='index.html'>inline</a>::<wbr><a class='struct' href=''>LineBreaker</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-7516' class='srclink' href='../../src/layout/inline.rs.html#187-211' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>struct LineBreaker {
+    floats: <a class='struct' href='../../layout/floats/struct.Floats.html' title='layout::floats::Floats'>Floats</a>,
+    new_fragments: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>&gt;,
+    work_list: <a class='struct' href='../../collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>&gt;,
+    pending_line: <a class='struct' href='../../layout/inline/struct.Line.html' title='layout::inline::Line'>Line</a>,
+    lines: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/inline/struct.Line.html' title='layout::inline::Line'>Line</a>&gt;,
+    last_known_line_breaking_opportunity: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../layout/inline/struct.FragmentIndex.html' title='layout::inline::FragmentIndex'>FragmentIndex</a>&gt;,
+    cur_b: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>,
+    first_line_indentation: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>,
+    minimum_block_size_above_baseline: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>,
+    minimum_depth_below_baseline: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>,
+}</pre><div class='docblock'><p>Arranges fragments into lines, splitting them up as necessary.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.floats'><code>floats</code></td><td><div class='docblock'><p>The floats we need to flow around.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.new_fragments'><code>new_fragments</code></td><td><div class='docblock'><p>The resulting fragment list for the flow, consisting of possibly-broken fragments.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.work_list'><code>work_list</code></td><td><div class='docblock'><p>The next fragment or fragments that we need to work on.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.pending_line'><code>pending_line</code></td><td><div class='docblock'><p>The line we&#39;re currently working on.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.lines'><code>lines</code></td><td><div class='docblock'><p>The lines we&#39;ve already committed.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.last_known_line_breaking_opportunity'><code>last_known_line_breaking_opportunity</code></td><td><div class='docblock'><p>The index of the last known good line breaking opportunity. The opportunity will either
+be inside this fragment (if it is splittable) or immediately prior to it.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.cur_b'><code>cur_b</code></td><td><div class='docblock'><p>The current position in the block direction.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.first_line_indentation'><code>first_line_indentation</code></td><td><div class='docblock'><p>The computed value of the indentation for the first line (<code>text-indent</code>, CSS 2.1 § 16.1).</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.minimum_block_size_above_baseline'><code>minimum_block_size_above_baseline</code></td><td><div class='docblock'><p>The minimum block-size above the baseline for each line, as specified by the line height
+and font style.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.minimum_depth_below_baseline'><code>minimum_depth_below_baseline</code></td><td><div class='docblock'><p>The minimum depth below the baseline for each line, as specified by the line height and
+font style.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../layout/inline/struct.LineBreaker.html' title='layout::inline::LineBreaker'>LineBreaker</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(float_context: <a class='struct' href='../../layout/floats/struct.Floats.html' title='layout::floats::Floats'>Floats</a>, first_line_indentation: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, minimum_block_size_above_baseline: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, minimum_depth_below_baseline: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>) -&gt; <a class='struct' href='../../layout/inline/struct.LineBreaker.html' title='layout::inline::LineBreaker'>LineBreaker</a></code></h4>
+<div class='docblock'><p>Creates a new <code>LineBreaker</code> with a set of floats and the indentation of the first line.</p>
+</div><h4 id='method.reset_scanner' class='method'><code>fn <a href='#method.reset_scanner' class='fnname'>reset_scanner</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Resets the <code>LineBreaker</code> to the initial state it had after a call to <code>new</code>.</p>
+</div><h4 id='method.reset_line' class='method'><code>fn <a href='#method.reset_line' class='fnname'>reset_line</a>(&amp;mut self) -&gt; <a class='struct' href='../../layout/inline/struct.Line.html' title='layout::inline::Line'>Line</a></code></h4>
+<div class='docblock'><p>Reinitializes the pending line to blank data.</p>
+</div><h4 id='method.scan_for_lines' class='method'><code>fn <a href='#method.scan_for_lines' class='fnname'>scan_for_lines</a>(&amp;mut self, flow: &amp;mut <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a>, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<div class='docblock'><p>Reflows fragments for the given inline flow.</p>
+</div><h4 id='method.reflow_fragments' class='method'><code>fn <a href='#method.reflow_fragments' class='fnname'>reflow_fragments</a>&lt;'a, I&gt;(&amp;mut self, old_fragment_iter: I, flow: &amp;'a <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a>, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) <span class='where'>where I: <a class='trait' href='../../core/iter/iterator/trait.Iterator.html' title='core::iter::iterator::Iterator'>Iterator</a>&lt;Item=<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>&gt;</span></code></h4>
+<div class='docblock'><p>Reflows the given fragments, which have been plucked out of the inline flow.</p>
+</div><h4 id='method.next_fragment' class='method'><code>fn <a href='#method.next_fragment' class='fnname'>next_fragment</a>&lt;I&gt;(&amp;mut self, old_fragment_iter: &amp;mut I) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>&gt; <span class='where'>where I: <a class='trait' href='../../core/iter/iterator/trait.Iterator.html' title='core::iter::iterator::Iterator'>Iterator</a>&lt;Item=<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>&gt;</span></code></h4>
+<div class='docblock'><p>Acquires a new fragment to lay out from the work list or fragment list as appropriate.
+Note that you probably don&#39;t want to call this method directly in order to be incremental-
+reflow-safe; try <code>next_unbroken_fragment</code> instead.</p>
+</div><h4 id='method.next_unbroken_fragment' class='method'><code>fn <a href='#method.next_unbroken_fragment' class='fnname'>next_unbroken_fragment</a>&lt;I&gt;(&amp;mut self, old_fragment_iter: &amp;mut I) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>&gt; <span class='where'>where I: <a class='trait' href='../../core/iter/iterator/trait.Iterator.html' title='core::iter::iterator::Iterator'>Iterator</a>&lt;Item=<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>&gt;</span></code></h4>
+<div class='docblock'><p>Acquires a new fragment to lay out from the work list or fragment list, merging it with any
+subsequent fragments as appropriate. In effect, what this method does is to return the next
+fragment to lay out, undoing line break operations that any previous reflows may have
+performed. You probably want to be using this method instead of <code>next_fragment</code>.</p>
+</div><h4 id='method.flush_current_line' class='method'><code>fn <a href='#method.flush_current_line' class='fnname'>flush_current_line</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Commits a line to the list.</p>
+</div><h4 id='method.strip_trailing_whitespace_from_pending_line_if_necessary' class='method'><code>fn <a href='#method.strip_trailing_whitespace_from_pending_line_if_necessary' class='fnname'>strip_trailing_whitespace_from_pending_line_if_necessary</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Removes trailing whitespace from the pending line if necessary. This is done right before
+flushing it.</p>
+</div><h4 id='method.new_inline_metrics_for_line' class='method'><code>fn <a href='#method.new_inline_metrics_for_line' class='fnname'>new_inline_metrics_for_line</a>(&amp;self, new_fragment: &amp;<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) -&gt; <a class='struct' href='../../layout/inline/struct.InlineMetrics.html' title='layout::inline::InlineMetrics'>InlineMetrics</a></code></h4>
+<h4 id='method.new_block_size_for_line' class='method'><code>fn <a href='#method.new_block_size_for_line' class='fnname'>new_block_size_for_line</a>(&amp;self, new_fragment: &amp;<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) -&gt; <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a></code></h4>
+<h4 id='method.initial_line_placement' class='method'><code>fn <a href='#method.initial_line_placement' class='fnname'>initial_line_placement</a>(&amp;self, flow: &amp;<a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a>, first_fragment: &amp;<a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, ceiling: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../style/logical_geometry/struct.LogicalRect.html' title='style::logical_geometry::LogicalRect'>LogicalRect</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;, <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Computes the position of a line that has only the provided fragment. Returns the bounding
+rect of the line&#39;s green zone (whose origin coincides with the line&#39;s origin) and the
+actual inline-size of the first fragment after splitting.</p>
+</div><h4 id='method.avoid_floats' class='method'><code>fn <a href='#method.avoid_floats' class='fnname'>avoid_floats</a>(&amp;mut self, flow: &amp;<a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a>, in_fragment: <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, new_block_size: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Performs float collision avoidance. This is called when adding a fragment is going to
+increase the block-size, and because of that we will collide with some floats.</p>
+
+<p>We have two options here:
+1) Move the entire line so that it doesn&#39;t collide any more.
+2) Break the line and put the new fragment on the next line.</p>
+
+<p>The problem with option 1 is that we might move the line and then wind up breaking anyway,
+which violates the standard. But option 2 is going to look weird sometimes.</p>
+
+<p>So we&#39;ll try to move the line whenever we can, but break if we have to.</p>
+
+<p>Returns false if and only if we should break the line.</p>
+</div><h4 id='method.reflow_fragment' class='method'><code>fn <a href='#method.reflow_fragment' class='fnname'>reflow_fragment</a>(&amp;mut self, fragment: <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, flow: &amp;<a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a>, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<div class='docblock'><p>Tries to append the given fragment to the line, splitting it if necessary. Commits the
+current line if needed.</p>
+</div><h4 id='method.push_fragment_to_line' class='method'><code>fn <a href='#method.push_fragment_to_line' class='fnname'>push_fragment_to_line</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, fragment: <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, line_flush_mode: <a class='enum' href='../../layout/inline/enum.LineFlushMode.html' title='layout::inline::LineFlushMode'>LineFlushMode</a>)</code></h4>
+<div class='docblock'><p>Pushes a fragment to the current line unconditionally, possibly truncating it and placing
+an ellipsis based on the value of <code>text-overflow</code>. If <code>flush_line</code> is <code>Flush</code>, then flushes
+the line afterward;</p>
+</div><h4 id='method.push_fragment_to_line_ignoring_text_overflow' class='method'><code>fn <a href='#method.push_fragment_to_line_ignoring_text_overflow' class='fnname'>push_fragment_to_line_ignoring_text_overflow</a>(&amp;mut self, fragment: <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<div class='docblock'><p>Pushes a fragment to the current line unconditionally, without placing an ellipsis in the
+case of <code>text-overflow: ellipsis</code>.</p>
+</div><h4 id='method.split_line_at_last_known_good_position' class='method'><code>fn <a href='#method.split_line_at_last_known_good_position' class='fnname'>split_line_at_last_known_good_position</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, cur_fragment: <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, line_flush_mode: <a class='enum' href='../../layout/inline/enum.LineFlushMode.html' title='layout::inline::LineFlushMode'>LineFlushMode</a>)</code></h4>
+<h4 id='method.indentation_for_pending_fragment' class='method'><code>fn <a href='#method.indentation_for_pending_fragment' class='fnname'>indentation_for_pending_fragment</a>(&amp;self) -&gt; <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a></code></h4>
+<div class='docblock'><p>Returns the indentation that needs to be applied before the fragment we&#39;re reflowing.</p>
+</div><h4 id='method.pending_line_is_empty' class='method'><code>fn <a href='#method.pending_line_is_empty' class='fnname'>pending_line_is_empty</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if the pending line is empty and false otherwise.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "layout";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

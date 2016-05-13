@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `InProgressLoad` struct in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, InProgressLoad">
+
+    <title>script::script_thread::InProgressLoad - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>script</a>::<wbr><a href='index.html'>script_thread</a></p><script>window.sidebarCurrent = {name: 'InProgressLoad', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>script</a>::<wbr><a href='index.html'>script_thread</a>::<wbr><a class='struct' href=''>InProgressLoad</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-108774' class='srclink' href='../../src/script/script_thread.rs.html#128-143' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>struct InProgressLoad {
+    pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
+    parent_info: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;,
+    window_size: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../msg/constellation_msg/struct.WindowSizeData.html' title='msg::constellation_msg::WindowSizeData'>WindowSizeData</a>&gt;,
+    layout_chan: <a class='struct' href='../../script/layout_interface/struct.LayoutChan.html' title='script::layout_interface::LayoutChan'>LayoutChan</a>,
+    clip_rect: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;&gt;,
+    is_frozen: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>,
+}</pre><div class='docblock'><p>A document load that is in the process of fetching the requested resource. Contains
+data that will need to be present when the document and frame tree entry are created,
+but is only easily available at initiation of the load and on a push basis (so some
+data will be updated according to future resize events, viewport changes, etc.)</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.pipeline_id'><code>pipeline_id</code></td><td><div class='docblock'><p>The pipeline which requested this load.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.parent_info'><code>parent_info</code></td><td><div class='docblock'><p>The parent pipeline and child subpage associated with this load, if any.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.window_size'><code>window_size</code></td><td><div class='docblock'><p>The current window size associated with this pipeline.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.layout_chan'><code>layout_chan</code></td><td><div class='docblock'><p>Channel to the layout thread associated with this pipeline.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.clip_rect'><code>clip_rect</code></td><td><div class='docblock'><p>The current viewport clipping rectangle applying to this pipeline, if any.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.is_frozen'><code>is_frozen</code></td><td><div class='docblock'><p>Window is frozen (navigated away while loading for example).</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.url'><code>url</code></td><td><div class='docblock'><p>The requested URL of the load.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../script/script_thread/struct.InProgressLoad.html' title='script::script_thread::InProgressLoad'>InProgressLoad</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, parent_info: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;, layout_chan: <a class='struct' href='../../script/layout_interface/struct.LayoutChan.html' title='script::layout_interface::LayoutChan'>LayoutChan</a>, window_size: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../msg/constellation_msg/struct.WindowSizeData.html' title='msg::constellation_msg::WindowSizeData'>WindowSizeData</a>&gt;, url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>) -&gt; <a class='struct' href='../../script/script_thread/struct.InProgressLoad.html' title='script::script_thread::InProgressLoad'>InProgressLoad</a></code></h4>
+<div class='docblock'><p>Create a new InProgressLoad object.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a> for <a class='struct' href='../../script/script_thread/struct.InProgressLoad.html' title='script::script_thread::InProgressLoad'>InProgressLoad</a></code></h3><div class='impl-items'><h4 id='method.trace' class='method'><code>fn <a href='../../script/dom/bindings/trace/trait.JSTraceable.html#tymethod.trace' class='fnname'>trace</a>(&amp;self, __arg_0: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../js/jsapi/struct.JSTracer.html' title='js::jsapi::JSTracer'>JSTracer</a>)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

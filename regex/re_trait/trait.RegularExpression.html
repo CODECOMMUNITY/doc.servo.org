@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `RegularExpression` trait in crate `regex`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, RegularExpression">
+
+    <title>regex::re_trait::RegularExpression - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../regex/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <p class='location'><a href='../index.html'>regex</a>::<wbr><a href='index.html'>re_trait</a></p><script>window.sidebarCurrent = {name: 'RegularExpression', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>regex</a>::<wbr><a href='index.html'>re_trait</a>::<wbr><a class='trait' href=''>RegularExpression</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3986' class='srclink' href='../../src/regex/re_trait.rs.html#28-95' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait RegularExpression: <a class='trait' href='../../core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> {
+    type <a href='#associatedtype.Text' class='type'>Text</a>: ?<a class='trait' href='../../core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a>;
+    fn <a href='#tymethod.slots_len' class='fnname'>slots_len</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a>;
+    fn <a href='#tymethod.next_after_empty' class='fnname'>next_after_empty</a>(&amp;self, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, i: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a>;
+    fn <a href='#tymethod.shortest_match_at' class='fnname'>shortest_match_at</a>(&amp;self, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, start: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;;
+    fn <a href='#tymethod.is_match_at' class='fnname'>is_match_at</a>(&amp;self, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, start: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.find_at' class='fnname'>find_at</a>(&amp;self, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, start: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../std/primitive.usize.html'>usize</a>, <a class='primitive' href='../../std/primitive.usize.html'>usize</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;;
+    fn <a href='#tymethod.read_captures_at' class='fnname'>read_captures_at</a>(&amp;self, slots: <a class='primitive' href='../../std/primitive.slice.html'>&amp;mut [</a><a class='type' href='../../regex/re_trait/type.Slot.html' title='regex::re_trait::Slot'>Slot</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, start: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../std/primitive.usize.html'>usize</a>, <a class='primitive' href='../../std/primitive.usize.html'>usize</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;;
+
+    fn <a href='#method.find_iter' class='fnname'>find_iter</a>&lt;'t&gt;(self, text: &amp;'t Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>) -&gt; <a class='struct' href='../../regex/re_trait/struct.FindMatches.html' title='regex::re_trait::FindMatches'>FindMatches</a>&lt;'t, Self&gt; { ... }
+    fn <a href='#method.captures_iter' class='fnname'>captures_iter</a>&lt;'t&gt;(self, text: &amp;'t Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>) -&gt; <a class='struct' href='../../regex/re_trait/struct.FindCaptures.html' title='regex::re_trait::FindCaptures'>FindCaptures</a>&lt;'t, Self&gt; { ... }
+}</pre><div class='docblock'><p>RegularExpression describes types that can implement regex searching.</p>
+
+<p>This trait is my attempt at reducing code duplication and to standardize
+the internal API. Specific duplication that is avoided are the <code>find</code>
+and <code>capture</code> iterators, which are slightly tricky.</p>
+
+<p>It&#39;s not clear whether this trait is worth it, and it also isn&#39;t
+clear whether it&#39;s useful as a public trait or not. Methods like
+<code>next_after_empty</code> reak of bad design, but the rest of the methods seem
+somewhat reasonable. One particular thing this trait would expose would be
+the ability to start the search of a regex anywhere in a haystack, which
+isn&#39;t possible in the current public API.</p>
+</div>
+            <h2 id='associated-types'>Associated Types</h2>
+            <div class='methods'>
+        <h3 id='associatedtype.Text' class='method stab '><code>type <a href='#associatedtype.Text' class='type'>Text</a>: ?<a class='trait' href='../../core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></code></h3><div class='docblock'><p>The type of the haystack.</p>
+</div></div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.slots_len' class='method stab '><code>fn <a href='#tymethod.slots_len' class='fnname'>slots_len</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h3><div class='docblock'><p>The number of capture slots in the compiled regular expression. This is
+always two times the number of capture groups (two slots per group).</p>
+</div><h3 id='tymethod.next_after_empty' class='method stab '><code>fn <a href='#tymethod.next_after_empty' class='fnname'>next_after_empty</a>(&amp;self, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, i: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h3><div class='docblock'><p>Returns the position of the next character after <code>i</code>.</p>
+
+<p>For example, a haystack with type <code>&amp;[u8]</code> probably returns <code>i+1</code>,
+whereas a haystack with type <code>&amp;str</code> probably returns <code>i</code> plus the
+length of the next UTF-8 sequence.</p>
+</div><h3 id='tymethod.shortest_match_at' class='method stab '><code>fn <a href='#tymethod.shortest_match_at' class='fnname'>shortest_match_at</a>(&amp;self, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, start: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h3><div class='docblock'><p>Returns the location of the shortest match.</p>
+</div><h3 id='tymethod.is_match_at' class='method stab '><code>fn <a href='#tymethod.is_match_at' class='fnname'>is_match_at</a>(&amp;self, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, start: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns whether the regex matches the text given.</p>
+</div><h3 id='tymethod.find_at' class='method stab '><code>fn <a href='#tymethod.find_at' class='fnname'>find_at</a>(&amp;self, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, start: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../std/primitive.usize.html'>usize</a>, <a class='primitive' href='../../std/primitive.usize.html'>usize</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;</code></h3><div class='docblock'><p>Returns the leftmost-first match location if one exists.</p>
+</div><h3 id='tymethod.read_captures_at' class='method stab '><code>fn <a href='#tymethod.read_captures_at' class='fnname'>read_captures_at</a>(&amp;self, slots: <a class='primitive' href='../../std/primitive.slice.html'>&amp;mut [</a><a class='type' href='../../regex/re_trait/type.Slot.html' title='regex::re_trait::Slot'>Slot</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, text: &amp;Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>, start: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../std/primitive.usize.html'>usize</a>, <a class='primitive' href='../../std/primitive.usize.html'>usize</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;</code></h3><div class='docblock'><p>Returns the leftmost-first match location if one exists, and also
+fills in any matching capture slot locations.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.find_iter' class='method stab '><code>fn <a href='#method.find_iter' class='fnname'>find_iter</a>&lt;'t&gt;(self, text: &amp;'t Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>) -&gt; <a class='struct' href='../../regex/re_trait/struct.FindMatches.html' title='regex::re_trait::FindMatches'>FindMatches</a>&lt;'t, Self&gt;</code></h3><div class='docblock'><p>Returns an iterator over all non-overlapping successive leftmost-first
+matches.</p>
+</div><h3 id='method.captures_iter' class='method stab '><code>fn <a href='#method.captures_iter' class='fnname'>captures_iter</a>&lt;'t&gt;(self, text: &amp;'t Self::<a class='trait' href='../../regex/re_trait/trait.RegularExpression.html' title='regex::re_trait::RegularExpression'>Text</a>) -&gt; <a class='struct' href='../../regex/re_trait/struct.FindCaptures.html' title='regex::re_trait::FindCaptures'>FindCaptures</a>&lt;'t, Self&gt;</code></h3><div class='docblock'><p>Returns an iterator over all non-overlapping successive leftmost-first
+matches with captures.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl&lt;'c&gt; RegularExpression for <a class='struct' href='../../regex/exec/struct.ExecNoSyncStr.html' title='regex::exec::ExecNoSyncStr'>ExecNoSyncStr</a>&lt;'c&gt;</code></li>
+<li><code>impl&lt;'c&gt; RegularExpression for <a class='struct' href='../../regex/exec/struct.ExecNoSync.html' title='regex::exec::ExecNoSync'>ExecNoSync</a>&lt;'c&gt;</code></li>
+<li><code>impl RegularExpression for <a class='struct' href='../../regex/re_plugin/struct.Plugin.html' title='regex::re_plugin::Plugin'>Plugin</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/regex/re_trait/trait.RegularExpression.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "regex";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

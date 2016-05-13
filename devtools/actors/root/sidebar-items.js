@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["_IMPL_SERIALIZE_FOR_ActorTraits",""],["_IMPL_SERIALIZE_FOR_AddonMsg",""],["_IMPL_SERIALIZE_FOR_ListAddonsReply",""],["_IMPL_SERIALIZE_FOR_ListTabsReply",""],["_IMPL_SERIALIZE_FOR_RootActorMsg",""]],"enum":[["AddonMsg",""]],"struct":[["ActorTraits",""],["ListAddonsReply",""],["ListTabsReply",""],["RootActor",""],["RootActorMsg",""]]});

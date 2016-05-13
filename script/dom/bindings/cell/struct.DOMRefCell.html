@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `DOMRefCell` struct in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, DOMRefCell">
+
+    <title>script::dom::bindings::cell::DOMRefCell - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../../index.html'>script</a>::<wbr><a href='../../index.html'>dom</a>::<wbr><a href='../index.html'>bindings</a>::<wbr><a href='index.html'>cell</a></p><script>window.sidebarCurrent = {name: 'DOMRefCell', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../../index.html'>script</a>::<wbr><a href='../../index.html'>dom</a>::<wbr><a href='../index.html'>bindings</a>::<wbr><a href='index.html'>cell</a>::<wbr><a class='struct' href=''>DOMRefCell</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1452' class='srclink' href='../../../../src/script/dom/bindings/cell.rs.html#18-20' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct DOMRefCell&lt;T&gt; {
+    value: <a class='struct' href='../../../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;T&gt;,
+}</pre><div class='docblock'><p>A mutable field in the DOM.</p>
+
+<p>This extends the API of <code>core::cell::RefCell</code> to allow unsafe access in
+certain situations, with dynamic checking in debug builds.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.value'><code>value</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;T&gt; <a class='struct' href='../../../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.borrow_for_layout' class='method'><code>unsafe fn <a href='#method.borrow_for_layout' class='fnname'>borrow_for_layout</a>(&amp;self) -&gt; &amp;T</code></h4>
+<div class='docblock'><p>Return a reference to the contents.</p>
+
+<p>For use in the layout thread only.</p>
+</div><h4 id='method.borrow_for_gc_trace' class='method'><code>unsafe fn <a href='#method.borrow_for_gc_trace' class='fnname'>borrow_for_gc_trace</a>(&amp;self) -&gt; &amp;T</code></h4>
+<div class='docblock'><p>Borrow the contents for the purpose of GC tracing.</p>
+
+<p>This succeeds even if the object is mutably borrowed,
+so you have to be careful in trace code!</p>
+</div><h4 id='method.borrow_for_script_deallocation' class='method'><code>unsafe fn <a href='#method.borrow_for_script_deallocation' class='fnname'>borrow_for_script_deallocation</a>(&amp;self) -&gt; &amp;mut T</code></h4>
+<div class='docblock'><p>Borrow the contents for the purpose of script deallocation.</p>
+</div><h4 id='method.is_mutably_borrowed' class='method'><code>fn <a href='#method.is_mutably_borrowed' class='fnname'>is_mutably_borrowed</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Is the cell mutably borrowed?</p>
+
+<p>For safety checks in debug builds only.</p>
+</div><h4 id='method.try_borrow' class='method'><code>fn <a href='#method.try_borrow' class='fnname'>try_borrow</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../../core/cell/struct.Ref.html' title='core::cell::Ref'>Ref</a>&lt;T&gt;&gt;</code></h4>
+<div class='docblock'><p>Attempts to immutably borrow the wrapped value.</p>
+
+<p>The borrow lasts until the returned <code>Ref</code> exits scope. Multiple
+immutable borrows can be taken out at the same time.</p>
+
+<p>Returns <code>None</code> if the value is currently mutably borrowed.</p>
+
+<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<p>Panics if this is called off the script thread.</p>
+</div><h4 id='method.try_borrow_mut' class='method'><code>fn <a href='#method.try_borrow_mut' class='fnname'>try_borrow_mut</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../../core/cell/struct.RefMut.html' title='core::cell::RefMut'>RefMut</a>&lt;T&gt;&gt;</code></h4>
+<div class='docblock'><p>Mutably borrows the wrapped value.</p>
+
+<p>The borrow lasts until the returned <code>RefMut</code> exits scope. The value
+cannot be borrowed while this borrow is active.</p>
+
+<p>Returns <code>None</code> if the value is currently borrowed.</p>
+
+<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<p>Panics if this is called off the script thread.</p>
+</div><h4 id='method.borrow_mut_for_layout' class='method'><code>fn <a href='#method.borrow_mut_for_layout' class='fnname'>borrow_mut_for_layout</a>(&amp;self) -&gt; <a class='struct' href='../../../../core/cell/struct.RefMut.html' title='core::cell::RefMut'>RefMut</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p>Version of the above that we use during restyle while the script thread
+is blocked.</p>
+</div></div><h3 class='impl'><code>impl&lt;T&gt; <a class='struct' href='../../../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(value: T) -&gt; <a class='struct' href='../../../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p>Create a new <code>DOMRefCell</code> containing <code>value</code>.</p>
+</div><h4 id='method.borrow' class='method'><code>fn <a href='#method.borrow' class='fnname'>borrow</a>(&amp;self) -&gt; <a class='struct' href='../../../../core/cell/struct.Ref.html' title='core::cell::Ref'>Ref</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p>Immutably borrows the wrapped value.</p>
+
+<p>The borrow lasts until the returned <code>Ref</code> exits scope. Multiple
+immutable borrows can be taken out at the same time.</p>
+
+<h1 id='panics-2' class='section-header'><a href='#panics-2'>Panics</a></h1>
+<p>Panics if this is called off the script thread.</p>
+
+<p>Panics if the value is currently mutably borrowed.</p>
+</div><h4 id='method.borrow_mut' class='method'><code>fn <a href='#method.borrow_mut' class='fnname'>borrow_mut</a>(&amp;self) -&gt; <a class='struct' href='../../../../core/cell/struct.RefMut.html' title='core::cell::RefMut'>RefMut</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p>Mutably borrows the wrapped value.</p>
+
+<p>The borrow lasts until the returned <code>RefMut</code> exits scope. The value
+cannot be borrowed while this borrow is active.</p>
+
+<h1 id='panics-3' class='section-header'><a href='#panics-3'>Panics</a></h1>
+<p>Panics if this is called off the script thread.</p>
+
+<p>Panics if the value is currently borrowed.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;T: <a class='trait' href='../../../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a>&gt; <a class='trait' href='../../../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a> for <a class='struct' href='../../../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.trace' class='method'><code>fn <a href='../../../../script/dom/bindings/trace/trait.JSTraceable.html#tymethod.trace' class='fnname'>trace</a>(&amp;self, trc: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../../../js/jsapi/struct.JSTracer.html' title='js::jsapi::JSTracer'>JSTracer</a>)</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl&lt;T: <a class='trait' href='../../../../heapsize/trait.HeapSizeOf.html' title='heapsize::HeapSizeOf'>HeapSizeOf</a>&gt; <a class='trait' href='../../../../heapsize/trait.HeapSizeOf.html' title='heapsize::HeapSizeOf'>HeapSizeOf</a> for <a class='struct' href='../../../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.heap_size_of_children' class='method'><code>fn <a href='../../../../heapsize/trait.HeapSizeOf.html#tymethod.heap_size_of_children' class='fnname'>heap_size_of_children</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.usize.html'>usize</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;T: <a class='trait' href='../../../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='trait' href='../../../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;T&gt;</code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script defer src="../../../../search-index.js"></script>
+</body>
+</html>

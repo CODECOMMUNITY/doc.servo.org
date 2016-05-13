@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ProxyTraps` struct in crate `js`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ProxyTraps">
+
+    <title>js::glue::ProxyTraps - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>js</a>::<wbr><a href='index.html'>glue</a></p><script>window.sidebarCurrent = {name: 'ProxyTraps', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>js</a>::<wbr><a href='index.html'>glue</a>::<wbr><a class='struct' href=''>ProxyTraps</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-11938' class='srclink' href='../../src/js/glue.rs.html#9-146' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ProxyTraps {
+    pub enter: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, id: <a class='type' href='../../js/jsapi/type.HandleId.html' title='js::jsapi::HandleId'>HandleId</a>, action: <a class='enum' href='../../js/glue/enum.Action.html' title='js::glue::Action'>Action</a>, bp: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub getOwnPropertyDescriptor: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, id: <a class='type' href='../../js/jsapi/type.HandleId.html' title='js::jsapi::HandleId'>HandleId</a>, desc: <a class='struct' href='../../js/jsapi/struct.MutableHandle.html' title='js::jsapi::MutableHandle'>MutableHandle</a>&lt;<a class='struct' href='../../js/jsapi/struct.PropertyDescriptor.html' title='js::jsapi::PropertyDescriptor'>PropertyDescriptor</a>&gt;) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub defineProperty: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, id: <a class='type' href='../../js/jsapi/type.HandleId.html' title='js::jsapi::HandleId'>HandleId</a>, desc: <a class='struct' href='../../js/jsapi/struct.Handle.html' title='js::jsapi::Handle'>Handle</a>&lt;<a class='struct' href='../../js/jsapi/struct.PropertyDescriptor.html' title='js::jsapi::PropertyDescriptor'>PropertyDescriptor</a>&gt;, result: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../js/jsapi/struct.ObjectOpResult.html' title='js::jsapi::ObjectOpResult'>ObjectOpResult</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub ownPropertyKeys: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, props: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../js/jsapi/type.AutoIdVector.html' title='js::jsapi::AutoIdVector'>AutoIdVector</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub delete_: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, id: <a class='type' href='../../js/jsapi/type.HandleId.html' title='js::jsapi::HandleId'>HandleId</a>, result: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../js/jsapi/struct.ObjectOpResult.html' title='js::jsapi::ObjectOpResult'>ObjectOpResult</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub enumerate: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, objp: <a class='type' href='../../js/jsapi/type.MutableHandleObject.html' title='js::jsapi::MutableHandleObject'>MutableHandleObject</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub preventExtensions: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, result: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../js/jsapi/struct.ObjectOpResult.html' title='js::jsapi::ObjectOpResult'>ObjectOpResult</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub isExtensible: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, succeeded: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub has: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, id: <a class='type' href='../../js/jsapi/type.HandleId.html' title='js::jsapi::HandleId'>HandleId</a>, bp: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub get: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, receiver: <a class='type' href='../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>, id: <a class='type' href='../../js/jsapi/type.HandleId.html' title='js::jsapi::HandleId'>HandleId</a>, vp: <a class='type' href='../../js/jsapi/type.MutableHandleValue.html' title='js::jsapi::MutableHandleValue'>MutableHandleValue</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub set: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, id: <a class='type' href='../../js/jsapi/type.HandleId.html' title='js::jsapi::HandleId'>HandleId</a>, v: <a class='type' href='../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>, receiver: <a class='type' href='../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>, result: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../js/jsapi/struct.ObjectOpResult.html' title='js::jsapi::ObjectOpResult'>ObjectOpResult</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub call: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, args: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.CallArgs.html' title='js::jsapi::CallArgs'>CallArgs</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub construct: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, args: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.CallArgs.html' title='js::jsapi::CallArgs'>CallArgs</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub getPropertyDescriptor: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, id: <a class='type' href='../../js/jsapi/type.HandleId.html' title='js::jsapi::HandleId'>HandleId</a>, desc: <a class='struct' href='../../js/jsapi/struct.MutableHandle.html' title='js::jsapi::MutableHandle'>MutableHandle</a>&lt;<a class='struct' href='../../js/jsapi/struct.PropertyDescriptor.html' title='js::jsapi::PropertyDescriptor'>PropertyDescriptor</a>&gt;) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub hasOwn: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, id: <a class='type' href='../../js/jsapi/type.HandleId.html' title='js::jsapi::HandleId'>HandleId</a>, bp: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub getOwnEnumerablePropertyKeys: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, props: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../js/jsapi/type.AutoIdVector.html' title='js::jsapi::AutoIdVector'>AutoIdVector</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub nativeCall: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, test: <a class='type' href='../../js/jsapi/type.IsAcceptableThis.html' title='js::jsapi::IsAcceptableThis'>IsAcceptableThis</a>, _impl: <a class='type' href='../../js/jsapi/type.NativeImpl.html' title='js::jsapi::NativeImpl'>NativeImpl</a>, args: <a class='struct' href='../../js/jsapi/struct.CallArgs.html' title='js::jsapi::CallArgs'>CallArgs</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub hasInstance: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, v: <a class='type' href='../../js/jsapi/type.MutableHandleValue.html' title='js::jsapi::MutableHandleValue'>MutableHandleValue</a>, bp: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub objectClassIs: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(obj: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, classValue: <a class='enum' href='../../js/jsapi/enum.ESClassValue.html' title='js::jsapi::ESClassValue'>ESClassValue</a>, cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub className: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>) -&gt; <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='primitive' href='../../std/primitive.i8.html'>i8</a>&gt;,
+    pub fun_toString: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, indent: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>) -&gt; <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSString.html' title='js::jsapi::JSString'>JSString</a>&gt;,
+    pub boxedValue_unbox: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, proxy: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, vp: <a class='type' href='../../js/jsapi/type.MutableHandleValue.html' title='js::jsapi::MutableHandleValue'>MutableHandleValue</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub defaultValue: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, obj: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, hint: <a class='enum' href='../../js/jsapi/enum.JSType.html' title='js::jsapi::JSType'>JSType</a>, vp: <a class='type' href='../../js/jsapi/type.MutableHandleValue.html' title='js::jsapi::MutableHandleValue'>MutableHandleValue</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub trace: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(trc: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../js/jsapi/struct.JSTracer.html' title='js::jsapi::JSTracer'>JSTracer</a>, proxy: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSObject.html' title='js::jsapi::JSObject'>JSObject</a>)&gt;,
+    pub finalize: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(fop: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.FreeOp.html' title='js::jsapi::FreeOp'>FreeOp</a>, proxy: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSObject.html' title='js::jsapi::JSObject'>JSObject</a>)&gt;,
+    pub objectMoved: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(proxy: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSObject.html' title='js::jsapi::JSObject'>JSObject</a>, old: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='enum' href='../../js/jsapi/enum.JSObject.html' title='js::jsapi::JSObject'>JSObject</a>)&gt;,
+    pub isCallable: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(obj: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSObject.html' title='js::jsapi::JSObject'>JSObject</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub isConstructor: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;unsafe extern fn(obj: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSObject.html' title='js::jsapi::JSObject'>JSObject</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.enter'><code>enter</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.getOwnPropertyDescriptor'><code>getOwnPropertyDescriptor</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.defineProperty'><code>defineProperty</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.ownPropertyKeys'><code>ownPropertyKeys</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.delete_'><code>delete_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.enumerate'><code>enumerate</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.preventExtensions'><code>preventExtensions</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.isExtensible'><code>isExtensible</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.has'><code>has</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.get'><code>get</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.set'><code>set</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.call'><code>call</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.construct'><code>construct</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.getPropertyDescriptor'><code>getPropertyDescriptor</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.hasOwn'><code>hasOwn</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.getOwnEnumerablePropertyKeys'><code>getOwnEnumerablePropertyKeys</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.nativeCall'><code>nativeCall</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.hasInstance'><code>hasInstance</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.objectClassIs'><code>objectClassIs</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.className'><code>className</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.fun_toString'><code>fun_toString</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.boxedValue_unbox'><code>boxedValue_unbox</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.defaultValue'><code>defaultValue</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.trace'><code>trace</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.finalize'><code>finalize</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.objectMoved'><code>objectMoved</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.isCallable'><code>isCallable</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.isConstructor'><code>isConstructor</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> for <a class='struct' href='../../js/glue/struct.ProxyTraps.html' title='js::glue::ProxyTraps'>ProxyTraps</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../../core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../js/glue/struct.ProxyTraps.html' title='js::glue::ProxyTraps'>ProxyTraps</a></code></h3><div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='../../core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../js/glue/struct.ProxyTraps.html' title='js::glue::ProxyTraps'>ProxyTraps</a></code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../js/glue/struct.ProxyTraps.html' title='js::glue::ProxyTraps'>ProxyTraps</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../js/glue/struct.ProxyTraps.html' title='js::glue::ProxyTraps'>ProxyTraps</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../js/glue/struct.ProxyTraps.html' title='js::glue::ProxyTraps'>ProxyTraps</a></code></h3><div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "js";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

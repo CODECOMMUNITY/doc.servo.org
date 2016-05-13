@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Backend",""],["MonitorId",""],["PollEventsIterator",""],["WaitEventsIterator",""],["Window",""],["WindowProxy",""]],"fn":[["get_available_monitors",""],["get_primary_monitor",""],["x_error_callback",""]],"static":[["BACKEND",""]],"struct":[["BACKEND",""],["PlatformSpecificWindowBuilderAttributes",""]]});

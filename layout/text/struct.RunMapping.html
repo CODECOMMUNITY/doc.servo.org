@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `RunMapping` struct in crate `layout`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, RunMapping">
+
+    <title>layout::text::RunMapping - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>layout</a>::<wbr><a href='index.html'>text</a></p><script>window.sidebarCurrent = {name: 'RunMapping', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>layout</a>::<wbr><a href='index.html'>text</a>::<wbr><a class='struct' href=''>RunMapping</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-12276' class='srclink' href='../../src/layout/text.rs.html#572-581' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>struct RunMapping {
+    byte_range: <a class='struct' href='../../range/struct.Range.html' title='range::Range'>Range</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;,
+    old_fragment_index: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    text_run_index: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    selected: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+}</pre><div class='docblock'><p>A mapping from a portion of an unscanned text fragment to the text run we&#39;re going to create
+for it.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.byte_range'><code>byte_range</code></td><td><div class='docblock'><p>The range of byte indices within the text fragment.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.old_fragment_index'><code>old_fragment_index</code></td><td><div class='docblock'><p>The index of the unscanned text fragment that this mapping corresponds to.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.text_run_index'><code>text_run_index</code></td><td><div class='docblock'><p>The index of the text run we&#39;re going to create.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.selected'><code>selected</code></td><td><div class='docblock'><p>Is the text in this fragment selected?</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../layout/text/struct.RunMapping.html' title='layout::text::RunMapping'>RunMapping</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(run_info_list: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../layout/text/struct.RunInfo.html' title='layout::text::RunInfo'>RunInfo</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, fragment_index: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='struct' href='../../layout/text/struct.RunMapping.html' title='layout::text::RunMapping'>RunMapping</a></code></h4>
+<div class='docblock'><p>Given the current set of text runs, creates a run mapping for the next fragment.
+<code>run_info_list</code> describes the set of runs we&#39;ve seen already.</p>
+</div><h4 id='method.flush' class='method'><code>fn <a href='#method.flush' class='fnname'>flush</a>(self, mappings: &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/text/struct.RunMapping.html' title='layout::text::RunMapping'>RunMapping</a>&gt;, run_info: &amp;mut <a class='struct' href='../../layout/text/struct.RunInfo.html' title='layout::text::RunInfo'>RunInfo</a>, text: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, compression: <a class='enum' href='../../gfx/text/util/enum.CompressionMode.html' title='gfx::text::util::CompressionMode'>CompressionMode</a>, text_transform: <a class='enum' href='../../style/properties/longhands/text_transform/computed_value/enum.T.html' title='style::properties::longhands::text_transform::computed_value::T'>T</a>, last_whitespace: &amp;mut <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, start_position: &amp;mut <a class='primitive' href='../../std/primitive.usize.html'>usize</a>, end_position: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>)</code></h4>
+<div class='docblock'><p>Flushes this run mapping to the list. <code>run_info</code> describes the text run that we&#39;re
+currently working on. <code>text</code> refers to the text of this fragment.</p>
+</div><h4 id='method.contains_insertion_point' class='method'><code>fn <a href='#method.contains_insertion_point' class='fnname'>contains_insertion_point</a>(&amp;self, insertion_point: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../gfx/text/glyph/struct.ByteIndex.html' title='gfx::text::glyph::ByteIndex'>ByteIndex</a>&gt;) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Is the insertion point for this text run within this mapping?</p>
+
+<p>NOTE: We treat the range as inclusive at both ends, since the insertion point can lie
+before the first character <em>or</em> after the last character, and should be drawn even if the
+text is empty.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../layout/text/struct.RunMapping.html' title='layout::text::RunMapping'>RunMapping</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../layout/text/struct.RunMapping.html' title='layout::text::RunMapping'>RunMapping</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../layout/text/struct.RunMapping.html' title='layout::text::RunMapping'>RunMapping</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../layout/text/struct.RunMapping.html' title='layout::text::RunMapping'>RunMapping</a></code></h3><div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "layout";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

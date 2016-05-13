@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["BLUR_INFLATION_FACTOR",""],["MAX_CACHED_QUAD_VAOS",""],["MAX_RASTER_OP_SIZE",""]],"fn":[["draw_simple_triangles",""]],"struct":[["FileWatcher",""],["RenderContext",""],["Renderer",""],["RendererOptions",""],["VertexBuffer",""],["VertexBufferAndOffset",""]],"trait":[["CompositionOpHelpers",""]]});

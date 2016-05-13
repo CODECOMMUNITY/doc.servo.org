@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["SHADER_OUTPUT_FORMAT",""]],"enum":[["ShaderCompilationStatus",""]],"static":[["GLSLANG_INITIALIZATION",""]],"struct":[["WebGLShader",""]]});

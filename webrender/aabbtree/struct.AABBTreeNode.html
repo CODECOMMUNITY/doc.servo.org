@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `AABBTreeNode` struct in crate `webrender`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, AABBTreeNode">
+
+    <title>webrender::aabbtree::AABBTreeNode - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>webrender</a>::<wbr><a href='index.html'>aabbtree</a></p><script>window.sidebarCurrent = {name: 'AABBTreeNode', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>webrender</a>::<wbr><a href='index.html'>aabbtree</a>::<wbr><a class='struct' href=''>AABBTreeNode</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-66' class='srclink' href='../../src/webrender/aabbtree.rs.html#29-42' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct AABBTreeNode {
+    pub split_rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;,
+    pub actual_rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;,
+    pub children: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/aabbtree/struct.NodeIndex.html' title='webrender::aabbtree::NodeIndex'>NodeIndex</a>&gt;,
+    pub is_visible: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub draw_list_group_segments: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender/aabbtree/struct.DrawListGroupSegment.html' title='webrender::aabbtree::DrawListGroupSegment'>DrawListGroupSegment</a>&gt;,
+    pub resource_list: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/resource_list/struct.ResourceList.html' title='webrender::resource_list::ResourceList'>ResourceList</a>&gt;,
+    pub compiled_node: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/internal_types/struct.CompiledNode.html' title='webrender::internal_types::CompiledNode'>CompiledNode</a>&gt;,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.split_rect'><code>split_rect</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.actual_rect'><code>actual_rect</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.children'><code>children</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.is_visible'><code>is_visible</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.draw_list_group_segments'><code>draw_list_group_segments</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.resource_list'><code>resource_list</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.compiled_node'><code>compiled_node</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../webrender/aabbtree/struct.AABBTreeNode.html' title='webrender::aabbtree::AABBTreeNode'>AABBTreeNode</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(split_rect: &amp;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='struct' href='../../webrender/aabbtree/struct.AABBTreeNode.html' title='webrender::aabbtree::AABBTreeNode'>AABBTreeNode</a></code></h4>
+<h4 id='method.append_item' class='method'><code>fn <a href='#method.append_item' class='fnname'>append_item</a>(&amp;mut self, draw_list_group_id: <a class='struct' href='../../webrender/internal_types/struct.DrawListGroupId.html' title='webrender::internal_types::DrawListGroupId'>DrawListGroupId</a>, draw_list_id: <a class='type' href='../../webrender/internal_types/type.DrawListId.html' title='webrender::internal_types::DrawListId'>DrawListId</a>, item_index: <a class='struct' href='../../webrender/internal_types/struct.DrawListItemIndex.html' title='webrender::internal_types::DrawListItemIndex'>DrawListItemIndex</a>, rect: &amp;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.item_count' class='method'><code>fn <a href='#method.item_count' class='fnname'>item_count</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../webrender/node_compiler/trait.NodeCompiler.html' title='webrender::node_compiler::NodeCompiler'>NodeCompiler</a> for <a class='struct' href='../../webrender/aabbtree/struct.AABBTreeNode.html' title='webrender::aabbtree::AABBTreeNode'>AABBTreeNode</a></code></h3><div class='impl-items'><h4 id='method.compile' class='method'><code>fn <a href='../../webrender/node_compiler/trait.NodeCompiler.html#tymethod.compile' class='fnname'>compile</a>(&amp;mut self, resource_cache: &amp;<a class='struct' href='../../webrender/resource_cache/struct.ResourceCache.html' title='webrender::resource_cache::ResourceCache'>ResourceCache</a>, frame_id: <a class='struct' href='../../webrender/frame/struct.FrameId.html' title='webrender::frame::FrameId'>FrameId</a>, device_pixel_ratio: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, stacking_context_info: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../webrender/internal_types/struct.StackingContextInfo.html' title='webrender::internal_types::StackingContextInfo'>StackingContextInfo</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, draw_list_groups: &amp;<a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender/internal_types/struct.DrawListGroupId.html' title='webrender::internal_types::DrawListGroupId'>DrawListGroupId</a>, <a class='struct' href='../../webrender/frame/struct.DrawListGroup.html' title='webrender::frame::DrawListGroup'>DrawListGroup</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;, pipeline_auxiliary_lists: &amp;<a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender_traits/types/struct.PipelineId.html' title='webrender_traits::types::PipelineId'>PipelineId</a>, <a class='struct' href='../../webrender_traits/display_list/struct.AuxiliaryLists.html' title='webrender_traits::display_list::AuxiliaryLists'>AuxiliaryLists</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../webrender/resource_list/trait.BuildRequiredResources.html' title='webrender::resource_list::BuildRequiredResources'>BuildRequiredResources</a> for <a class='struct' href='../../webrender/aabbtree/struct.AABBTreeNode.html' title='webrender::aabbtree::AABBTreeNode'>AABBTreeNode</a></code></h3><div class='impl-items'><h4 id='method.build_resource_list' class='method'><code>fn <a href='../../webrender/resource_list/trait.BuildRequiredResources.html#tymethod.build_resource_list' class='fnname'>build_resource_list</a>(&amp;mut self, resource_cache: &amp;<a class='struct' href='../../webrender/resource_cache/struct.ResourceCache.html' title='webrender::resource_cache::ResourceCache'>ResourceCache</a>, pipeline_auxiliary_lists: &amp;<a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender_traits/types/struct.PipelineId.html' title='webrender_traits::types::PipelineId'>PipelineId</a>, <a class='struct' href='../../webrender_traits/display_list/struct.AuxiliaryLists.html' title='webrender_traits::display_list::AuxiliaryLists'>AuxiliaryLists</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "webrender";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

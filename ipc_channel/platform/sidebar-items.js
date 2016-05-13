@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["OsIpcChannel",""],["OsIpcSelectionResult",""]],"fn":[["channel",""]],"mod":[["linux",""]],"struct":[["OsIpcOneShotServer",""],["OsIpcReceiver",""],["OsIpcReceiverSet",""],["OsIpcSender",""],["OsIpcSharedMemory",""],["OsOpaqueIpcChannel",""]]});

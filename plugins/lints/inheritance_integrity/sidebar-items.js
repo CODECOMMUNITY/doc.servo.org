@@ -1,0 +1,1 @@
+initSidebarItems({"static":[["INHERITANCE_INTEGRITY",""]],"struct":[["InheritancePass","Lint for ensuring proper layout of DOM structs"]]});

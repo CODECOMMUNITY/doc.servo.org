@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["FileReaderEvent",""],["FileReaderFunction",""],["FileReaderReadyState",""]],"fn":[["perform_annotated_read_operation",""]],"struct":[["FileReader",""],["GenerationId",""],["ReadMetaData",""]],"type":[["TrustedFileReader",""]]});

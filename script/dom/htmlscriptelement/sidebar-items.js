@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ScriptOrigin",""]],"static":[["SCRIPT_JS_MIMES","Supported script types as defined by <https://html.spec.whatwg.org/multipage/#javascript-mime-type>."]],"struct":[["HTMLScriptElement",""],["ScriptContext","The context required for asynchronously loading an external script source."]]});

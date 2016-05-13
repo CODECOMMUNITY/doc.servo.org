@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Device` struct in crate `webrender`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Device">
+
+    <title>webrender::device::Device - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>webrender</a>::<wbr><a href='index.html'>device</a></p><script>window.sidebarCurrent = {name: 'Device', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>webrender</a>::<wbr><a href='index.html'>device</a>::<wbr><a class='struct' href=''>Device</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1622' class='srclink' href='../../src/webrender/device.rs.html#769-797' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Device {
+    bound_color_texture: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>,
+    bound_mask_texture: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>,
+    bound_program: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>,
+    bound_vao: <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>,
+    bound_fbo: <a class='struct' href='../../webrender/device/struct.FBOId.html' title='webrender::device::FBOId'>FBOId</a>,
+    default_fbo: <a class='type' href='../../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>,
+    device_pixel_ratio: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>,
+    inside_frame: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    resource_path: <a class='struct' href='../../std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>,
+    textures: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, <a class='struct' href='../../webrender/device/struct.Texture.html' title='webrender::device::Texture'>Texture</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    raw_textures: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../../std/primitive.u32.html'>u32</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    programs: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>, <a class='struct' href='../../webrender/device/struct.Program.html' title='webrender::device::Program'>Program</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    vaos: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>, <a class='struct' href='../../webrender/device/struct.VAO.html' title='webrender::device::VAO'>VAO</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    vertex_shader_preamble: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>,
+    fragment_shader_preamble: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>,
+    next_vao_id: <a class='type' href='../../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.bound_color_texture'><code>bound_color_texture</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.bound_mask_texture'><code>bound_mask_texture</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.bound_program'><code>bound_program</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.bound_vao'><code>bound_vao</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.bound_fbo'><code>bound_fbo</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.default_fbo'><code>default_fbo</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.device_pixel_ratio'><code>device_pixel_ratio</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.inside_frame'><code>inside_frame</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.resource_path'><code>resource_path</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.textures'><code>textures</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.raw_textures'><code>raw_textures</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.programs'><code>programs</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.vaos'><code>vaos</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.vertex_shader_preamble'><code>vertex_shader_preamble</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.fragment_shader_preamble'><code>fragment_shader_preamble</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.next_vao_id'><code>next_vao_id</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../webrender/device/struct.Device.html' title='webrender::device::Device'>Device</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(resource_path: <a class='struct' href='../../std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>, device_pixel_ratio: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, _file_changed_handler: <a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../webrender/device/trait.FileWatcherHandler.html' title='webrender::device::FileWatcherHandler'>FileWatcherHandler</a>&gt;) -&gt; <a class='struct' href='../../webrender/device/struct.Device.html' title='webrender::device::Device'>Device</a></code></h4>
+<h4 id='method.compile_shader' class='method'><code>fn <a href='#method.compile_shader' class='fnname'>compile_shader</a>(path: &amp;<a class='struct' href='../../std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>, shader_type: <a class='type' href='../../gleam/ffi/types/type.GLenum.html' title='gleam::ffi::types::GLenum'>GLenum</a>, shader_preamble: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, panic_on_fail: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>&gt;</code></h4>
+<h4 id='method.begin_frame' class='method'><code>fn <a href='#method.begin_frame' class='fnname'>begin_frame</a>(&amp;mut self)</code></h4>
+<h4 id='method.bind_color_texture' class='method'><code>fn <a href='#method.bind_color_texture' class='fnname'>bind_color_texture</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>)</code></h4>
+<h4 id='method.bind_mask_texture' class='method'><code>fn <a href='#method.bind_mask_texture' class='fnname'>bind_mask_texture</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>)</code></h4>
+<h4 id='method.bind_render_target' class='method'><code>fn <a href='#method.bind_render_target' class='fnname'>bind_render_target</a>(&amp;mut self, texture_id: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>&gt;)</code></h4>
+<h4 id='method.bind_program' class='method'><code>fn <a href='#method.bind_program' class='fnname'>bind_program</a>(&amp;mut self, program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>, projection: &amp;<a class='struct' href='../../euclid/matrix4d/struct.Matrix4D.html' title='euclid::matrix4d::Matrix4D'>Matrix4D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.create_texture_ids' class='method'><code>fn <a href='#method.create_texture_ids' class='fnname'>create_texture_ids</a>(&amp;mut self, count: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>) -&gt; <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>&gt;</code></h4>
+<h4 id='method.get_texture_dimensions' class='method'><code>fn <a href='#method.get_texture_dimensions' class='fnname'>get_texture_dimensions</a>(&amp;self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../../std/primitive.u32.html'>u32</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<h4 id='method.texture_has_alpha' class='method'><code>fn <a href='#method.texture_has_alpha' class='fnname'>texture_has_alpha</a>(&amp;self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.update_raw_texture' class='method'><code>fn <a href='#method.update_raw_texture' class='fnname'>update_raw_texture</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, x0: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, y0: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>)</code></h4>
+<h4 id='method.set_texture_parameters' class='method'><code>fn <a href='#method.set_texture_parameters' class='fnname'>set_texture_parameters</a>(&amp;mut self, filter: <a class='enum' href='../../webrender/device/enum.TextureFilter.html' title='webrender::device::TextureFilter'>TextureFilter</a>)</code></h4>
+<h4 id='method.upload_2d_texture_image' class='method'><code>fn <a href='#method.upload_2d_texture_image' class='fnname'>upload_2d_texture_image</a>(&amp;mut self, width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, internal_format: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, format: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, pixels: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>&gt;)</code></h4>
+<h4 id='method.upload_texture_image' class='method'><code>fn <a href='#method.upload_texture_image' class='fnname'>upload_texture_image</a>(&amp;mut self, width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, internal_format: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, format: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, pixels: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>&gt;)</code></h4>
+<h4 id='method.deinit_texture_image' class='method'><code>fn <a href='#method.deinit_texture_image' class='fnname'>deinit_texture_image</a>(&amp;mut self)</code></h4>
+<h4 id='method.init_texture' class='method'><code>fn <a href='#method.init_texture' class='fnname'>init_texture</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, format: <a class='enum' href='../../webrender_traits/types/enum.ImageFormat.html' title='webrender_traits::types::ImageFormat'>ImageFormat</a>, filter: <a class='enum' href='../../webrender/device/enum.TextureFilter.html' title='webrender::device::TextureFilter'>TextureFilter</a>, mode: <a class='enum' href='../../webrender/internal_types/enum.RenderTargetMode.html' title='webrender::internal_types::RenderTargetMode'>RenderTargetMode</a>, pixels: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>&gt;)</code></h4>
+<h4 id='method.create_fbo_for_texture_if_necessary' class='method'><code>fn <a href='#method.create_fbo_for_texture_if_necessary' class='fnname'>create_fbo_for_texture_if_necessary</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>)</code></h4>
+<h4 id='method.resize_texture' class='method'><code>fn <a href='#method.resize_texture' class='fnname'>resize_texture</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, new_width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, new_height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, format: <a class='enum' href='../../webrender_traits/types/enum.ImageFormat.html' title='webrender_traits::types::ImageFormat'>ImageFormat</a>, filter: <a class='enum' href='../../webrender/device/enum.TextureFilter.html' title='webrender::device::TextureFilter'>TextureFilter</a>, mode: <a class='enum' href='../../webrender/internal_types/enum.RenderTargetMode.html' title='webrender::internal_types::RenderTargetMode'>RenderTargetMode</a>)</code></h4>
+<h4 id='method.deinit_texture' class='method'><code>fn <a href='#method.deinit_texture' class='fnname'>deinit_texture</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>)</code></h4>
+<h4 id='method.init_texture_if_necessary' class='method'><code>fn <a href='#method.init_texture_if_necessary' class='fnname'>init_texture_if_necessary</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, format: <a class='enum' href='../../webrender_traits/types/enum.ImageFormat.html' title='webrender_traits::types::ImageFormat'>ImageFormat</a>, filter: <a class='enum' href='../../webrender/device/enum.TextureFilter.html' title='webrender::device::TextureFilter'>TextureFilter</a>, mode: <a class='enum' href='../../webrender/internal_types/enum.RenderTargetMode.html' title='webrender::internal_types::RenderTargetMode'>RenderTargetMode</a>)</code></h4>
+<h4 id='method.create_program' class='method'><code>fn <a href='#method.create_program' class='fnname'>create_program</a>(&amp;mut self, base_filename: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a></code></h4>
+<h4 id='method.load_program' class='method'><code>fn <a href='#method.load_program' class='fnname'>load_program</a>(&amp;mut self, program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>, panic_on_fail: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>)</code></h4>
+<h4 id='method.refresh_shader' class='method'><code>fn <a href='#method.refresh_shader' class='fnname'>refresh_shader</a>(&amp;mut self, path: <a class='struct' href='../../std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>)</code></h4>
+<h4 id='method.get_uniform_location' class='method'><code>fn <a href='#method.get_uniform_location' class='fnname'>get_uniform_location</a>(&amp;self, program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>, name: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a></code></h4>
+<h4 id='method.set_uniform_2f' class='method'><code>fn <a href='#method.set_uniform_2f' class='fnname'>set_uniform_2f</a>(&amp;self, uniform: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>, x: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, y: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>)</code></h4>
+<h4 id='method.set_uniform_4f' class='method'><code>fn <a href='#method.set_uniform_4f' class='fnname'>set_uniform_4f</a>(&amp;self, uniform: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>, x: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, y: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, z: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, w: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>)</code></h4>
+<h4 id='method.set_uniform_vec4_array' class='method'><code>fn <a href='#method.set_uniform_vec4_array' class='fnname'>set_uniform_vec4_array</a>(&amp;self, uniform: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>, vectors: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.f32.html'>f32</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>)</code></h4>
+<h4 id='method.set_uniform_mat4_array' class='method'><code>fn <a href='#method.set_uniform_mat4_array' class='fnname'>set_uniform_mat4_array</a>(&amp;self, uniform: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>, matrices: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../euclid/matrix4d/struct.Matrix4D.html' title='euclid::matrix4d::Matrix4D'>Matrix4D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;<a class='primitive' href='../../std/primitive.slice.html'>]</a>)</code></h4>
+<h4 id='method.set_uniforms' class='method'><code>fn <a href='#method.set_uniforms' class='fnname'>set_uniforms</a>(&amp;self, program: &amp;<a class='struct' href='../../webrender/device/struct.Program.html' title='webrender::device::Program'>Program</a>, transform: &amp;<a class='struct' href='../../euclid/matrix4d/struct.Matrix4D.html' title='euclid::matrix4d::Matrix4D'>Matrix4D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.update_image_for_2d_texture' class='method'><code>fn <a href='#method.update_image_for_2d_texture' class='fnname'>update_image_for_2d_texture</a>(&amp;mut self, x0: <a class='type' href='../../gleam/ffi/types/type.GLint.html' title='gleam::ffi::types::GLint'>GLint</a>, y0: <a class='type' href='../../gleam/ffi/types/type.GLint.html' title='gleam::ffi::types::GLint'>GLint</a>, width: <a class='type' href='../../gleam/ffi/types/type.GLint.html' title='gleam::ffi::types::GLint'>GLint</a>, height: <a class='type' href='../../gleam/ffi/types/type.GLint.html' title='gleam::ffi::types::GLint'>GLint</a>, format: <a class='type' href='../../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>, data: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>)</code></h4>
+<h4 id='method.update_texture' class='method'><code>fn <a href='#method.update_texture' class='fnname'>update_texture</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, x0: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, y0: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, data: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>)</code></h4>
+<h4 id='method.read_framebuffer_rect' class='method'><code>fn <a href='#method.read_framebuffer_rect' class='fnname'>read_framebuffer_rect</a>(&amp;mut self, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, dest_x: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, dest_y: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, src_x: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, src_y: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, width: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, height: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>)</code></h4>
+<h4 id='method.clear_vertex_array' class='method'><code>fn <a href='#method.clear_vertex_array' class='fnname'>clear_vertex_array</a>(&amp;mut self)</code></h4>
+<h4 id='method.bind_vao' class='method'><code>fn <a href='#method.bind_vao' class='fnname'>bind_vao</a>(&amp;mut self, vao_id: <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>)</code></h4>
+<h4 id='method.create_vao_with_vbos' class='method'><code>fn <a href='#method.create_vao_with_vbos' class='fnname'>create_vao_with_vbos</a>(&amp;mut self, format: <a class='enum' href='../../webrender/device/enum.VertexFormat.html' title='webrender::device::VertexFormat'>VertexFormat</a>, main_vbo_id: <a class='struct' href='../../webrender/device/struct.VBOId.html' title='webrender::device::VBOId'>VBOId</a>, aux_vbo_id: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/device/struct.VBOId.html' title='webrender::device::VBOId'>VBOId</a>&gt;, ibo_id: <a class='struct' href='../../webrender/device/struct.IBOId.html' title='webrender::device::IBOId'>IBOId</a>, offset: <a class='type' href='../../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>, owns_vbos: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a></code></h4>
+<h4 id='method.create_vao' class='method'><code>fn <a href='#method.create_vao' class='fnname'>create_vao</a>(&amp;mut self, format: <a class='enum' href='../../webrender/device/enum.VertexFormat.html' title='webrender::device::VertexFormat'>VertexFormat</a>, quad_vertex_buffer: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/device/struct.VBOId.html' title='webrender::device::VBOId'>VBOId</a>&gt;) -&gt; <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a></code></h4>
+<h4 id='method.create_similar_vao' class='method'><code>fn <a href='#method.create_similar_vao' class='fnname'>create_similar_vao</a>(&amp;mut self, format: <a class='enum' href='../../webrender/device/enum.VertexFormat.html' title='webrender::device::VertexFormat'>VertexFormat</a>, source_vao_id: <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>, offset: <a class='type' href='../../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>) -&gt; <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a></code></h4>
+<h4 id='method.create_quad_vertex_buffer' class='method'><code>fn <a href='#method.create_quad_vertex_buffer' class='fnname'>create_quad_vertex_buffer</a>(&amp;mut self) -&gt; <a class='struct' href='../../webrender/device/struct.VBOId.html' title='webrender::device::VBOId'>VBOId</a></code></h4>
+<h4 id='method.update_vao_main_vertices' class='method'><code>fn <a href='#method.update_vao_main_vertices' class='fnname'>update_vao_main_vertices</a>&lt;V&gt;(&amp;mut self, vao_id: <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>, vertices: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a>V<a class='primitive' href='../../std/primitive.slice.html'>]</a>, usage_hint: <a class='enum' href='../../webrender/device/enum.VertexUsageHint.html' title='webrender::device::VertexUsageHint'>VertexUsageHint</a>)</code></h4>
+<h4 id='method.update_vao_aux_vertices' class='method'><code>fn <a href='#method.update_vao_aux_vertices' class='fnname'>update_vao_aux_vertices</a>&lt;V&gt;(&amp;mut self, vao_id: <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>, vertices: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a>V<a class='primitive' href='../../std/primitive.slice.html'>]</a>, usage_hint: <a class='enum' href='../../webrender/device/enum.VertexUsageHint.html' title='webrender::device::VertexUsageHint'>VertexUsageHint</a>)</code></h4>
+<h4 id='method.update_vao_indices' class='method'><code>fn <a href='#method.update_vao_indices' class='fnname'>update_vao_indices</a>&lt;I&gt;(&amp;mut self, vao_id: <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>, indices: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a>I<a class='primitive' href='../../std/primitive.slice.html'>]</a>, usage_hint: <a class='enum' href='../../webrender/device/enum.VertexUsageHint.html' title='webrender::device::VertexUsageHint'>VertexUsageHint</a>)</code></h4>
+<h4 id='method.draw_triangles_u16' class='method'><code>fn <a href='#method.draw_triangles_u16' class='fnname'>draw_triangles_u16</a>(&amp;mut self, first_vertex: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, index_count: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>)</code></h4>
+<h4 id='method.draw_triangles_u32' class='method'><code>fn <a href='#method.draw_triangles_u32' class='fnname'>draw_triangles_u32</a>(&amp;mut self, first_vertex: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, index_count: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>)</code></h4>
+<h4 id='method.draw_nonindexed_lines' class='method'><code>fn <a href='#method.draw_nonindexed_lines' class='fnname'>draw_nonindexed_lines</a>(&amp;mut self, first_vertex: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, vertex_count: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>)</code></h4>
+<h4 id='method.draw_triangles_instanced_u16' class='method'><code>fn <a href='#method.draw_triangles_instanced_u16' class='fnname'>draw_triangles_instanced_u16</a>(&amp;mut self, first_vertex: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, index_count: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, instance_count: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>)</code></h4>
+<h4 id='method.delete_vao' class='method'><code>fn <a href='#method.delete_vao' class='fnname'>delete_vao</a>(&amp;mut self, vao_id: <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>)</code></h4>
+<h4 id='method.end_frame' class='method'><code>fn <a href='#method.end_frame' class='fnname'>end_frame</a>(&amp;mut self)</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../webrender/device/struct.Device.html' title='webrender::device::Device'>Device</a></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='../../core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "webrender";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

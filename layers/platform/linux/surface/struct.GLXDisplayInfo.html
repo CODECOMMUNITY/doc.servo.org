@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `GLXDisplayInfo` struct in crate `layers`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, GLXDisplayInfo">
+
+    <title>layers::platform::linux::surface::GLXDisplayInfo - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../../index.html'>layers</a>::<wbr><a href='../../index.html'>platform</a>::<wbr><a href='../index.html'>linux</a>::<wbr><a href='index.html'>surface</a></p><script>window.sidebarCurrent = {name: 'GLXDisplayInfo', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../../index.html'>layers</a>::<wbr><a href='../../index.html'>platform</a>::<wbr><a href='../index.html'>linux</a>::<wbr><a href='index.html'>surface</a>::<wbr><a class='struct' href=''>GLXDisplayInfo</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1058' class='srclink' href='../../../../src/layers/platform/linux/surface.rs.html#45-49' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct GLXDisplayInfo {
+    pub display: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../x11/xlib/type.Display.html' title='x11::xlib::Display'>Display</a>,
+    visual_info: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../../../x11/xlib/struct.XVisualInfo.html' title='x11::xlib::XVisualInfo'>XVisualInfo</a>,
+    framebuffer_configuration: <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../../../glx/types/type.GLXFBConfig.html' title='glx::types::GLXFBConfig'>GLXFBConfig</a>&gt;,
+}</pre><div class='docblock'><p>The display, visual info, and framebuffer configuration. This is needed in order to bind to a
+texture on the compositor side. This holds only a <em>weak</em> reference to the display and does not
+close it.</p>
+
+<p>FIXME(pcwalton): Unchecked weak references are bad and can violate memory safety. This is hard
+to fix because the Display is given to us by the native windowing system, but we should fix it
+someday.
+FIXME(pcwalton): Mark nonsendable.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.display'><code>display</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.visual_info'><code>visual_info</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.framebuffer_configuration'><code>framebuffer_configuration</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../../../layers/platform/linux/surface/struct.GLXDisplayInfo.html' title='layers::platform::linux::surface::GLXDisplayInfo'>GLXDisplayInfo</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../../../layers/platform/linux/surface/struct.GLXDisplayInfo.html' title='layers::platform::linux::surface::GLXDisplayInfo'>GLXDisplayInfo</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../../core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../../../layers/platform/linux/surface/struct.GLXDisplayInfo.html' title='layers::platform::linux::surface::GLXDisplayInfo'>GLXDisplayInfo</a></code></h3><div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "layers";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script defer src="../../../../search-index.js"></script>
+</body>
+</html>

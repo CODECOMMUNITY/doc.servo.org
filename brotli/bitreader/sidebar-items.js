@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["BitReaderError","Error types that can be returned by the decompressor"]],"struct":[["BitReader","Wrapper for a Reader, providing convenience methods to read the stream bit-by-bit."]]});

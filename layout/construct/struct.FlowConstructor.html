@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `FlowConstructor` struct in crate `layout`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, FlowConstructor">
+
+    <title>layout::construct::FlowConstructor - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>layout</a>::<wbr><a href='index.html'>construct</a></p><script>window.sidebarCurrent = {name: 'FlowConstructor', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>layout</a>::<wbr><a href='index.html'>construct</a>::<wbr><a class='struct' href=''>FlowConstructor</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1603' class='srclink' href='../../src/layout/construct.rs.html#273-279' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct FlowConstructor&lt;'a, N: <a class='trait' href='../../layout/wrapper/trait.ThreadSafeLayoutNode.html' title='layout::wrapper::ThreadSafeLayoutNode'>ThreadSafeLayoutNode</a>&gt; {
+    pub layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;,
+    phantom2: <a class='struct' href='../../core/marker/struct.PhantomData.html' title='core::marker::PhantomData'>PhantomData</a>&lt;N&gt;,
+}</pre><div class='docblock'><p>An object that knows how to create flows.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.layout_context'><code>layout_context</code></td><td><div class='docblock'><p>The layout context.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.phantom2'><code>phantom2</code></td><td><div class='docblock'><p>Satisfy the compiler about the unused parameters, which we use to improve the ergonomics of
+the ensuing impl {} by removing the need to parameterize all the methods individually.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'a, ConcreteThreadSafeLayoutNode: <a class='trait' href='../../layout/wrapper/trait.ThreadSafeLayoutNode.html' title='layout::wrapper::ThreadSafeLayoutNode'>ThreadSafeLayoutNode</a>&gt; <a class='struct' href='../../layout/construct/struct.FlowConstructor.html' title='layout::construct::FlowConstructor'>FlowConstructor</a>&lt;'a, ConcreteThreadSafeLayoutNode&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;) -&gt; Self</code></h4>
+<div class='docblock'><p>Creates a new flow constructor.</p>
+</div><h4 id='method.style_context' class='method'><code>fn <a href='#method.style_context' class='fnname'>style_context</a>(&amp;self) -&gt; &amp;<a class='type' href='../../style/servo/type.SharedStyleContext.html' title='style::servo::SharedStyleContext'>SharedStyleContext</a></code></h4>
+<h4 id='method.set_flow_construction_result' class='method'><code>fn <a href='#method.set_flow_construction_result' class='fnname'>set_flow_construction_result</a>(&amp;self, node: &amp;ConcreteThreadSafeLayoutNode, result: <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a>)</code></h4>
+<h4 id='method.build_fragment_for_block' class='method'><code>fn <a href='#method.build_fragment_for_block' class='fnname'>build_fragment_for_block</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a></code></h4>
+<div class='docblock'><p>Builds the fragment for the given block or subclass thereof.</p>
+</div><h4 id='method.generate_anonymous_table_flows_if_necessary' class='method'><code>fn <a href='#method.generate_anonymous_table_flows_if_necessary' class='fnname'>generate_anonymous_table_flows_if_necessary</a>(&amp;mut self, flow: &amp;mut <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, child: &amp;mut <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, child_node: &amp;ConcreteThreadSafeLayoutNode)</code></h4>
+<div class='docblock'><p>Generates anonymous table objects per CSS 2.1 § 17.2.1.</p>
+</div><h4 id='method.flush_inline_fragments_to_flow_or_list' class='method'><code>fn <a href='#method.flush_inline_fragments_to_flow_or_list' class='fnname'>flush_inline_fragments_to_flow_or_list</a>(&amp;mut self, fragment_accumulator: <a class='struct' href='../../layout/construct/struct.InlineFragmentsAccumulator.html' title='layout::construct::InlineFragmentsAccumulator'>InlineFragmentsAccumulator</a>, flow: &amp;mut <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, flow_list: &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;, absolute_descendants: &amp;mut <a class='struct' href='../../layout/flow/struct.AbsoluteDescendants.html' title='layout::flow::AbsoluteDescendants'>AbsoluteDescendants</a>, node: &amp;ConcreteThreadSafeLayoutNode)</code></h4>
+<div class='docblock'><p>Creates an inline flow from a set of inline fragments, then adds it as a child of the given
+flow or pushes it onto the given flow list.</p>
+
+<p><code>#[inline(always)]</code> because this is performance critical and LLVM will not inline it
+otherwise.</p>
+</div><h4 id='method.build_block_flow_using_construction_result_of_child' class='method'><code>fn <a href='#method.build_block_flow_using_construction_result_of_child' class='fnname'>build_block_flow_using_construction_result_of_child</a>(&amp;mut self, flow: &amp;mut <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, consecutive_siblings: &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;, node: &amp;ConcreteThreadSafeLayoutNode, kid: ConcreteThreadSafeLayoutNode, inline_fragment_accumulator: &amp;mut <a class='struct' href='../../layout/construct/struct.InlineFragmentsAccumulator.html' title='layout::construct::InlineFragmentsAccumulator'>InlineFragmentsAccumulator</a>, abs_descendants: &amp;mut <a class='struct' href='../../layout/flow/struct.AbsoluteDescendants.html' title='layout::flow::AbsoluteDescendants'>AbsoluteDescendants</a>)</code></h4>
+<h4 id='method.build_flow_for_block_starting_with_fragments' class='method'><code>fn <a href='#method.build_flow_for_block_starting_with_fragments' class='fnname'>build_flow_for_block_starting_with_fragments</a>(&amp;mut self, flow: <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, node: &amp;ConcreteThreadSafeLayoutNode, initial_fragments: <a class='struct' href='../../layout/construct/struct.IntermediateInlineFragments.html' title='layout::construct::IntermediateInlineFragments'>IntermediateInlineFragments</a>) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Constructs a block flow, beginning with the given <code>initial_fragments</code> if present and then
+appending the construction results of children to the child list of the block flow. {ib}
+splits and absolutely-positioned descendants are handled correctly.</p>
+</div><h4 id='method.build_flow_for_block_like' class='method'><code>fn <a href='#method.build_flow_for_block_like' class='fnname'>build_flow_for_block_like</a>(&amp;mut self, flow: <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Constructs a flow for the given block node and its children. This method creates an
+initial fragment as appropriate and then dispatches to
+<code>build_flow_for_block_starting_with_fragments</code>. Currently the following kinds of flows get
+initial content:</p>
+
+<ul>
+<li>Generated content gets the initial content specified by the <code>content</code> attribute of the
+CSS.</li>
+<li><code>&lt;input&gt;</code> and <code>&lt;textarea&gt;</code> elements get their content.</li>
+</ul>
+
+<p>FIXME(pcwalton): It is not clear to me that there isn&#39;t a cleaner way to handle
+<code>&lt;textarea&gt;</code>.</p>
+</div><h4 id='method.create_fragments_for_node_text_content' class='method'><code>fn <a href='#method.create_fragments_for_node_text_content' class='fnname'>create_fragments_for_node_text_content</a>(&amp;self, fragments: &amp;mut <a class='struct' href='../../layout/construct/struct.IntermediateInlineFragments.html' title='layout::construct::IntermediateInlineFragments'>IntermediateInlineFragments</a>, node: &amp;ConcreteThreadSafeLayoutNode, style: &amp;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;)</code></h4>
+<div class='docblock'><p>Pushes fragments appropriate for the content of the given node onto the given list.</p>
+</div><h4 id='method.build_flow_for_block' class='method'><code>fn <a href='#method.build_flow_for_block' class='fnname'>build_flow_for_block</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode, float_kind: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../layout/floats/enum.FloatKind.html' title='layout::floats::FloatKind'>FloatKind</a>&gt;) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with <code>display: block</code>. This yields a <code>BlockFlow</code> with possibly
+other <code>BlockFlow</code>s or <code>InlineFlow</code>s underneath it, depending on whether {ib} splits needed
+to happen.</p>
+</div><h4 id='method.accumulate_inline_block_splits' class='method'><code>fn <a href='#method.accumulate_inline_block_splits' class='fnname'>accumulate_inline_block_splits</a>(&amp;mut self, splits: <a class='struct' href='../../collections/linked_list/struct.LinkedList.html' title='collections::linked_list::LinkedList'>LinkedList</a>&lt;<a class='struct' href='../../layout/construct/struct.InlineBlockSplit.html' title='layout::construct::InlineBlockSplit'>InlineBlockSplit</a>&gt;, node: &amp;ConcreteThreadSafeLayoutNode, fragment_accumulator: &amp;mut <a class='struct' href='../../layout/construct/struct.InlineFragmentsAccumulator.html' title='layout::construct::InlineFragmentsAccumulator'>InlineFragmentsAccumulator</a>, opt_inline_block_splits: &amp;mut <a class='struct' href='../../collections/linked_list/struct.LinkedList.html' title='collections::linked_list::LinkedList'>LinkedList</a>&lt;<a class='struct' href='../../layout/construct/struct.InlineBlockSplit.html' title='layout::construct::InlineBlockSplit'>InlineBlockSplit</a>&gt;)</code></h4>
+<div class='docblock'><p>Bubbles up {ib} splits.</p>
+</div><h4 id='method.build_fragments_for_nonreplaced_inline_content' class='method'><code>fn <a href='#method.build_fragments_for_nonreplaced_inline_content' class='fnname'>build_fragments_for_nonreplaced_inline_content</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Concatenates the fragments of kids, adding in our own borders/padding/margins if necessary.
+Returns the <code>InlineFragmentsConstructionResult</code>, if any. There will be no
+<code>InlineFragmentsConstructionResult</code> if this node consisted entirely of ignorable
+whitespace.</p>
+</div><h4 id='method.build_fragments_for_replaced_inline_content' class='method'><code>fn <a href='#method.build_fragments_for_replaced_inline_content' class='fnname'>build_fragments_for_replaced_inline_content</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Creates an <code>InlineFragmentsConstructionResult</code> for replaced content. Replaced content
+doesn&#39;t render its children, so this just nukes a child&#39;s fragments and creates a
+<code>Fragment</code>.</p>
+</div><h4 id='method.build_fragment_for_inline_block' class='method'><code>fn <a href='#method.build_fragment_for_inline_block' class='fnname'>build_fragment_for_inline_block</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<h4 id='method.build_fragment_for_absolutely_positioned_inline' class='method'><code>fn <a href='#method.build_fragment_for_absolutely_positioned_inline' class='fnname'>build_fragment_for_absolutely_positioned_inline</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>This is an annoying case, because the computed <code>display</code> value is <code>block</code>, but the
+hypothetical box is inline.</p>
+</div><h4 id='method.build_fragments_for_inline' class='method'><code>fn <a href='#method.build_fragments_for_inline' class='fnname'>build_fragments_for_inline</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds one or more fragments for a node with <code>display: inline</code>. This yields an
+<code>InlineFragmentsConstructionResult</code>.</p>
+</div><h4 id='method.place_table_caption_under_table_wrapper_on_side' class='method'><code>fn <a href='#method.place_table_caption_under_table_wrapper_on_side' class='fnname'>place_table_caption_under_table_wrapper_on_side</a>(&amp;mut self, table_wrapper_flow: &amp;mut <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, node: &amp;ConcreteThreadSafeLayoutNode, side: <a class='enum' href='../../style/properties/longhands/caption_side/computed_value/enum.T.html' title='style::properties::longhands::caption_side::computed_value::T'>T</a>)</code></h4>
+<div class='docblock'><p>Places any table captions found under the given table wrapper, if the value of their
+<code>caption-side</code> property is equal to the given <code>side</code>.</p>
+</div><h4 id='method.generate_anonymous_missing_child' class='method'><code>fn <a href='#method.generate_anonymous_missing_child' class='fnname'>generate_anonymous_missing_child</a>(&amp;mut self, child_flows: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;, flow: &amp;mut <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, node: &amp;ConcreteThreadSafeLayoutNode)</code></h4>
+<div class='docblock'><p>Generates an anonymous table flow according to CSS 2.1 § 17.2.1, step 2.
+If necessary, generate recursively another anonymous table flow.</p>
+</div><h4 id='method.build_flow_for_multicol' class='method'><code>fn <a href='#method.build_flow_for_multicol' class='fnname'>build_flow_for_multicol</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode, float_kind: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../layout/floats/enum.FloatKind.html' title='layout::floats::FloatKind'>FloatKind</a>&gt;) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with <code>column-count</code> or <code>column-width</code> non-<code>auto</code>.
+This yields a <code>MulticolFlow</code> with a single <code>MulticolColumnFlow</code> underneath it.</p>
+</div><h4 id='method.build_flow_for_table_wrapper' class='method'><code>fn <a href='#method.build_flow_for_table_wrapper' class='fnname'>build_flow_for_table_wrapper</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode, float_value: <a class='enum' href='../../style/properties/longhands/float/computed_value/enum.T.html' title='style::properties::longhands::float::computed_value::T'>T</a>) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with <code>display: table</code>. This yields a <code>TableWrapperFlow</code> with
+possibly other <code>TableCaptionFlow</code>s or <code>TableFlow</code>s underneath it.</p>
+</div><h4 id='method.build_flow_for_table_caption' class='method'><code>fn <a href='#method.build_flow_for_table_caption' class='fnname'>build_flow_for_table_caption</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with <code>display: table-caption</code>. This yields a <code>TableCaptionFlow</code>
+with possibly other <code>BlockFlow</code>s or <code>InlineFlow</code>s underneath it.</p>
+</div><h4 id='method.build_flow_for_table_rowgroup' class='method'><code>fn <a href='#method.build_flow_for_table_rowgroup' class='fnname'>build_flow_for_table_rowgroup</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with <code>display: table-row-group</code>. This yields a <code>TableRowGroupFlow</code>
+with possibly other <code>TableRowFlow</code>s underneath it.</p>
+</div><h4 id='method.build_flow_for_table_row' class='method'><code>fn <a href='#method.build_flow_for_table_row' class='fnname'>build_flow_for_table_row</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with <code>display: table-row</code>. This yields a <code>TableRowFlow</code> with
+possibly other <code>TableCellFlow</code>s underneath it.</p>
+</div><h4 id='method.build_flow_for_table_cell' class='method'><code>fn <a href='#method.build_flow_for_table_cell' class='fnname'>build_flow_for_table_cell</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with <code>display: table-cell</code>. This yields a <code>TableCellFlow</code> with
+possibly other <code>BlockFlow</code>s or <code>InlineFlow</code>s underneath it.</p>
+</div><h4 id='method.build_flow_for_list_item' class='method'><code>fn <a href='#method.build_flow_for_list_item' class='fnname'>build_flow_for_list_item</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode, flotation: <a class='enum' href='../../style/properties/longhands/float/computed_value/enum.T.html' title='style::properties::longhands::float::computed_value::T'>T</a>) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with <code>display: list-item</code>. This yields a <code>ListItemFlow</code> with
+possibly other <code>BlockFlow</code>s or <code>InlineFlow</code>s underneath it.</p>
+</div><h4 id='method.build_fragments_for_table_column' class='method'><code>fn <a href='#method.build_fragments_for_table_column' class='fnname'>build_fragments_for_table_column</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Creates a fragment for a node with <code>display: table-column</code>.</p>
+</div><h4 id='method.build_flow_for_table_colgroup' class='method'><code>fn <a href='#method.build_flow_for_table_colgroup' class='fnname'>build_flow_for_table_colgroup</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with <code>display: table-column-group</code>.
+This yields a <code>TableColGroupFlow</code>.</p>
+</div><h4 id='method.build_flow_for_flex' class='method'><code>fn <a href='#method.build_flow_for_flex' class='fnname'>build_flow_for_flex</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode, float_kind: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../layout/floats/enum.FloatKind.html' title='layout::floats::FloatKind'>FloatKind</a>&gt;) -&gt; <a class='enum' href='../../layout/construct/enum.ConstructionResult.html' title='layout::construct::ConstructionResult'>ConstructionResult</a></code></h4>
+<div class='docblock'><p>Builds a flow for a node with &#39;display: flex&#39;.</p>
+</div><h4 id='method.repair_if_possible' class='method'><code>fn <a href='#method.repair_if_possible' class='fnname'>repair_if_possible</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Attempts to perform incremental repair to account for recent changes to this node. This
+can fail and return false, indicating that flows will need to be reconstructed.</p>
+
+<p>TODO(pcwalton): Add some more fast paths, like toggling <code>display: none</code>, adding block kids
+to block parents with no {ib} splits, adding out-of-flow kids, etc.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, ConcreteThreadSafeLayoutNode&gt; <a class='trait' href='../../layout/traversal/trait.PostorderNodeMutTraversal.html' title='layout::traversal::PostorderNodeMutTraversal'>PostorderNodeMutTraversal</a>&lt;ConcreteThreadSafeLayoutNode&gt; for <a class='struct' href='../../layout/construct/struct.FlowConstructor.html' title='layout::construct::FlowConstructor'>FlowConstructor</a>&lt;'a, ConcreteThreadSafeLayoutNode&gt; <span class='where'>where ConcreteThreadSafeLayoutNode: <a class='trait' href='../../layout/wrapper/trait.ThreadSafeLayoutNode.html' title='layout::wrapper::ThreadSafeLayoutNode'>ThreadSafeLayoutNode</a></span></code></h3><div class='impl-items'><h4 id='method.process' class='method'><code>fn <a href='../../layout/traversal/trait.PostorderNodeMutTraversal.html#tymethod.process' class='fnname'>process</a>(&amp;mut self, node: &amp;ConcreteThreadSafeLayoutNode) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "layout";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

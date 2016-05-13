@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["BrowserElementErrorEventDetail",""],["BrowserElementIconChangeEventDetail",""],["BrowserElementLocationChangeEventDetail",""],["BrowserElementNextPaintEventCallback",""],["BrowserElementSecurityChangeDetail",""],["BrowserShowModalPromptEventDetail",""]]});

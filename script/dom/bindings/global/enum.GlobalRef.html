@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `GlobalRef` enum in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, GlobalRef">
+
+    <title>script::dom::bindings::global::GlobalRef - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../../index.html'>script</a>::<wbr><a href='../../index.html'>dom</a>::<wbr><a href='../index.html'>bindings</a>::<wbr><a href='index.html'>global</a></p><script>window.sidebarCurrent = {name: 'GlobalRef', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../../index.html'>script</a>::<wbr><a href='../../index.html'>dom</a>::<wbr><a href='../index.html'>bindings</a>::<wbr><a href='index.html'>global</a>::<wbr><a class='enum' href=''>GlobalRef</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1890' class='srclink' href='../../../../src/script/dom/bindings/global.rs.html#34-39' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum GlobalRef&lt;'a&gt; {
+    Window(&amp;'a <a class='struct' href='../../../../script/dom/window/struct.Window.html' title='script::dom::window::Window'>Window</a>),
+    Worker(&amp;'a <a class='struct' href='../../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a>),
+}</pre><div class='docblock'><p>A freely-copyable reference to a rooted global object.</p>
+</div><h2 class='variants'>Variants</h2>
+<table class='variants_table'><tr><td id='variant.Window'><code>Window</code></td><td><div class='docblock'><p>A reference to a <code>Window</code> object.</p>
+</div></td><td></td></tr><tr><td id='variant.Worker'><code>Worker</code></td><td><div class='docblock'><p>A reference to a <code>WorkerGlobalScope</code> object.</p>
+</div></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'a&gt; <a class='enum' href='../../../../script/dom/bindings/global/enum.GlobalRef.html' title='script::dom::bindings::global::GlobalRef'>GlobalRef</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.get_cx' class='method'><code>fn <a href='#method.get_cx' class='fnname'>get_cx</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a></code></h4>
+<div class='docblock'><p>Get the <code>JSContext</code> for the <code>JSRuntime</code> associated with the thread
+this global object is on.</p>
+</div><h4 id='method.as_window' class='method'><code>fn <a href='#method.as_window' class='fnname'>as_window</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../../script/dom/window/struct.Window.html' title='script::dom::window::Window'>Window</a></code></h4>
+<div class='docblock'><p>Extract a <code>Window</code>, causing thread failure if the global object is not
+a <code>Window</code>.</p>
+</div><h4 id='method.pipeline' class='method'><code>fn <a href='#method.pipeline' class='fnname'>pipeline</a>(&amp;self) -&gt; <a class='struct' href='../../../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a></code></h4>
+<div class='docblock'><p>Get the <code>PipelineId</code> for this global scope.</p>
+</div><h4 id='method.mem_profiler_chan' class='method'><code>fn <a href='#method.mem_profiler_chan' class='fnname'>mem_profiler_chan</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a></code></h4>
+<div class='docblock'><p>Get a <code>mem::ProfilerChan</code> to send messages to the memory profiler thread.</p>
+</div><h4 id='method.constellation_chan' class='method'><code>fn <a href='#method.constellation_chan' class='fnname'>constellation_chan</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='enum' href='../../../../script_traits/script_msg/enum.ScriptMsg.html' title='script_traits::script_msg::ScriptMsg'>ConstellationMsg</a>&gt;</code></h4>
+<div class='docblock'><p>Get a <code>ConstellationChan</code> to send messages to the constellation channel when available.</p>
+</div><h4 id='method.scheduler_chan' class='method'><code>fn <a href='#method.scheduler_chan' class='fnname'>scheduler_chan</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../../../../script_traits/struct.TimerEventRequest.html' title='script_traits::TimerEventRequest'>TimerEventRequest</a>&gt;</code></h4>
+<div class='docblock'><p>Get the scheduler channel to request timer events.</p>
+</div><h4 id='method.devtools_chan' class='method'><code>fn <a href='#method.devtools_chan' class='fnname'>devtools_chan</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../../../devtools_traits/enum.ScriptToDevtoolsControlMsg.html' title='devtools_traits::ScriptToDevtoolsControlMsg'>ScriptToDevtoolsControlMsg</a>&gt;&gt;</code></h4>
+<div class='docblock'><p>Get an <code>IpcSender&lt;ScriptToDevtoolsControlMsg&gt;</code> to send messages to Devtools
+thread when available.</p>
+</div><h4 id='method.resource_thread' class='method'><code>fn <a href='#method.resource_thread' class='fnname'>resource_thread</a>(&amp;self) -&gt; <a class='type' href='../../../../net_traits/type.ResourceThread.html' title='net_traits::ResourceThread'>ResourceThread</a></code></h4>
+<div class='docblock'><p>Get the <code>ResourceThread</code> for this global scope.</p>
+</div><h4 id='method.get_worker_id' class='method'><code>fn <a href='#method.get_worker_id' class='fnname'>get_worker_id</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../../devtools_traits/struct.WorkerId.html' title='devtools_traits::WorkerId'>WorkerId</a>&gt;</code></h4>
+<div class='docblock'><p>Get the worker&#39;s id.</p>
+</div><h4 id='method.get_next_worker_id' class='method'><code>fn <a href='#method.get_next_worker_id' class='fnname'>get_next_worker_id</a>(&amp;self) -&gt; <a class='struct' href='../../../../devtools_traits/struct.WorkerId.html' title='devtools_traits::WorkerId'>WorkerId</a></code></h4>
+<div class='docblock'><p>Get next worker id.</p>
+</div><h4 id='method.get_url' class='method'><code>fn <a href='#method.get_url' class='fnname'>get_url</a>(&amp;self) -&gt; <a class='struct' href='../../../../url/struct.Url.html' title='url::Url'>Url</a></code></h4>
+<div class='docblock'><p>Get the URL for this global scope.</p>
+</div><h4 id='method.api_base_url' class='method'><code>fn <a href='#method.api_base_url' class='fnname'>api_base_url</a>(&amp;self) -&gt; <a class='struct' href='../../../../url/struct.Url.html' title='url::Url'>Url</a></code></h4>
+<div class='docblock'><p>Get the <a href="https://html.spec.whatwg.org/multipage/#api-base-url">base url</a>
+for this global scope.</p>
+</div><h4 id='method.script_chan' class='method'><code>fn <a href='#method.script_chan' class='fnname'>script_chan</a>(&amp;self) -&gt; <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/script_runtime/trait.ScriptChan.html' title='script::script_runtime::ScriptChan'>ScriptChan</a> + <a class='trait' href='../../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;</code></h4>
+<div class='docblock'><p><code>ScriptChan</code> used to send messages to the event loop of this global&#39;s
+thread.</p>
+</div><h4 id='method.dom_manipulation_task_source' class='method'><code>fn <a href='#method.dom_manipulation_task_source' class='fnname'>dom_manipulation_task_source</a>(&amp;self) -&gt; <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/task_source/trait.TaskSource.html' title='script::task_source::TaskSource'>TaskSource</a>&lt;<a class='enum' href='../../../../script/task_source/dom_manipulation/enum.DOMManipulationTask.html' title='script::task_source::dom_manipulation::DOMManipulationTask'>DOMManipulationTask</a>&gt; + <a class='trait' href='../../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;</code></h4>
+<div class='docblock'><p><code>TaskSource</code> used to queue DOM manipulation messages to the event loop of this global&#39;s
+thread.</p>
+</div><h4 id='method.networking_task_source' class='method'><code>fn <a href='#method.networking_task_source' class='fnname'>networking_task_source</a>(&amp;self) -&gt; <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/script_runtime/trait.ScriptChan.html' title='script::script_runtime::ScriptChan'>ScriptChan</a> + <a class='trait' href='../../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;</code></h4>
+<div class='docblock'><p><code>ScriptChan</code> used to send messages to the event loop of this global&#39;s
+thread.</p>
+</div><h4 id='method.history_traversal_task_source' class='method'><code>fn <a href='#method.history_traversal_task_source' class='fnname'>history_traversal_task_source</a>(&amp;self) -&gt; <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/script_runtime/trait.ScriptChan.html' title='script::script_runtime::ScriptChan'>ScriptChan</a> + <a class='trait' href='../../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;</code></h4>
+<div class='docblock'><p><code>ScriptChan</code> used to send messages to the event loop of this global&#39;s
+thread.</p>
+</div><h4 id='method.file_reading_task_source' class='method'><code>fn <a href='#method.file_reading_task_source' class='fnname'>file_reading_task_source</a>(&amp;self) -&gt; <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/script_runtime/trait.ScriptChan.html' title='script::script_runtime::ScriptChan'>ScriptChan</a> + <a class='trait' href='../../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;</code></h4>
+<div class='docblock'><p><code>ScriptChan</code> used to send messages to the event loop of this global&#39;s
+thread.</p>
+</div><h4 id='method.new_script_pair' class='method'><code>fn <a href='#method.new_script_pair' class='fnname'>new_script_pair</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.tuple.html'>(</a><a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/script_runtime/trait.ScriptChan.html' title='script::script_runtime::ScriptChan'>ScriptChan</a> + <a class='trait' href='../../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;, <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/script_runtime/trait.ScriptPort.html' title='script::script_runtime::ScriptPort'>ScriptPort</a> + <a class='trait' href='../../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;<a class='primitive' href='../../../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Create a new sender/receiver pair that can be used to implement an on-demand
+event loop. Used for implementing web APIs that require blocking semantics
+without resorting to nested event loops.</p>
+</div><h4 id='method.process_event' class='method'><code>fn <a href='#method.process_event' class='fnname'>process_event</a>(&amp;self, msg: <a class='enum' href='../../../../script/script_runtime/enum.CommonScriptMsg.html' title='script::script_runtime::CommonScriptMsg'>CommonScriptMsg</a>)</code></h4>
+<div class='docblock'><p>Process a single event as if it were the next event in the thread queue for
+this global.</p>
+</div><h4 id='method.evaluate_js_on_global_with_result' class='method'><code>fn <a href='#method.evaluate_js_on_global_with_result' class='fnname'>evaluate_js_on_global_with_result</a>(&amp;self, code: &amp;<a class='primitive' href='../../../../std/primitive.str.html'>str</a>, rval: <a class='type' href='../../../../js/jsapi/type.MutableHandleValue.html' title='js::jsapi::MutableHandleValue'>MutableHandleValue</a>)</code></h4>
+<div class='docblock'><p>Evaluate the JS messages on the <code>RootedValue</code> of this global</p>
+</div><h4 id='method.set_devtools_wants_updates' class='method'><code>fn <a href='#method.set_devtools_wants_updates' class='fnname'>set_devtools_wants_updates</a>(&amp;self, send_updates: <a class='primitive' href='../../../../std/primitive.bool.html'>bool</a>)</code></h4>
+<div class='docblock'><p>Set the <code>bool</code> value to indicate whether developer tools has requested
+updates from the global</p>
+</div><h4 id='method.schedule_callback' class='method'><code>fn <a href='#method.schedule_callback' class='fnname'>schedule_callback</a>(&amp;self, callback: <a class='enum' href='../../../../script/timers/enum.OneshotTimerCallback.html' title='script::timers::OneshotTimerCallback'>OneshotTimerCallback</a>, duration: <a class='type' href='../../../../script_traits/type.MsDuration.html' title='script_traits::MsDuration'>MsDuration</a>) -&gt; <a class='struct' href='../../../../script/timers/struct.OneshotTimerHandle.html' title='script::timers::OneshotTimerHandle'>OneshotTimerHandle</a></code></h4>
+<div class='docblock'><p>Schedule the given <code>callback</code> to be invoked after at least <code>duration</code> milliseconds have
+passed.</p>
+</div><h4 id='method.unschedule_callback' class='method'><code>fn <a href='#method.unschedule_callback' class='fnname'>unschedule_callback</a>(&amp;self, handle: <a class='struct' href='../../../../script/timers/struct.OneshotTimerHandle.html' title='script::timers::OneshotTimerHandle'>OneshotTimerHandle</a>)</code></h4>
+<div class='docblock'><p>Unschedule a previously-scheduled callback.</p>
+</div><h4 id='method.reflector' class='method'><code>fn <a href='#method.reflector' class='fnname'>reflector</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../../script/dom/bindings/reflector/struct.Reflector.html' title='script::dom::bindings::reflector::Reflector'>Reflector</a></code></h4>
+<div class='docblock'><p>Returns the receiver&#39;s reflector.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../../../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../../../../script/dom/bindings/global/enum.GlobalRef.html' title='script::dom::bindings::global::GlobalRef'>GlobalRef</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../../../../script/dom/bindings/global/enum.GlobalRef.html' title='script::dom::bindings::global::GlobalRef'>GlobalRef</a>&lt;'a&gt;</code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../../../../core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../../../../script/dom/bindings/global/enum.GlobalRef.html' title='script::dom::bindings::global::GlobalRef'>GlobalRef</a>&lt;'a&gt;</code></h3><div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script defer src="../../../../search-index.js"></script>
+</body>
+</html>

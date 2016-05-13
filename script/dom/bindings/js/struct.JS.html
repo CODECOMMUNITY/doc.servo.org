@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `JS` struct in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, JS">
+
+    <title>script::dom::bindings::js::JS - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../../index.html'>script</a>::<wbr><a href='../../index.html'>dom</a>::<wbr><a href='../index.html'>bindings</a>::<wbr><a href='index.html'>js</a></p><script>window.sidebarCurrent = {name: 'JS', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../../index.html'>script</a>::<wbr><a href='../../index.html'>dom</a>::<wbr><a href='../index.html'>bindings</a>::<wbr><a href='index.html'>js</a>::<wbr><a class='struct' href=''>JS</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2296' class='srclink' href='../../../../src/script/dom/bindings/js.rs.html#55-57' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct JS&lt;T&gt; {
+    ptr: <a class='struct' href='../../../../core/nonzero/struct.NonZero.html' title='core::nonzero::NonZero'>NonZero</a>&lt;<a class='primitive' href='../../../../std/primitive.pointer.html'>*const T</a>&gt;,
+}</pre><div class='docblock'><p>A traced reference to a DOM object</p>
+
+<p>This type is critical to making garbage collection work with the DOM,
+but it is very dangerous; if garbage collection happens with a <code>JS&lt;T&gt;</code>
+on the stack, the <code>JS&lt;T&gt;</code> can point to freed memory.</p>
+
+<p>This should only be used as a field in other DOM objects.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.ptr'><code>ptr</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;T&gt; <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.to_layout' class='method'><code>unsafe fn <a href='#method.to_layout' class='fnname'>to_layout</a>(&amp;self) -&gt; <a class='struct' href='../../../../script/dom/bindings/js/struct.LayoutJS.html' title='script::dom::bindings::js::LayoutJS'>LayoutJS</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p>Returns <code>LayoutJS&lt;T&gt;</code> containing the same pointer.</p>
+</div></div><h3 class='impl'><code>impl&lt;T: <a class='trait' href='../../../../script/dom/bindings/reflector/trait.Reflectable.html' title='script::dom::bindings::reflector::Reflectable'>Reflectable</a>&gt; <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.from_rooted' class='method'><code>fn <a href='#method.from_rooted' class='fnname'>from_rooted</a>(root: &amp;<a class='struct' href='../../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;T&gt;) -&gt; <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p>Create a JS<T> from a Root<T>
+XXX Not a great API. Should be a call on Root<T> instead</p>
+</div><h4 id='method.from_ref' class='method'><code>fn <a href='#method.from_ref' class='fnname'>from_ref</a>(obj: &amp;T) -&gt; <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p>Create a JS<T> from a &amp;T</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../../../../heapsize/trait.HeapSizeOf.html' title='heapsize::HeapSizeOf'>HeapSizeOf</a> for <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.heap_size_of_children' class='method'><code>fn <a href='../../../../heapsize/trait.HeapSizeOf.html#tymethod.heap_size_of_children' class='fnname'>heap_size_of_children</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.usize.html'>usize</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;T: <a class='trait' href='../../../../script/dom/bindings/reflector/trait.Reflectable.html' title='script::dom::bindings::reflector::Reflectable'>Reflectable</a>&gt; <a class='trait' href='../../../../core/ops/trait.Deref.html' title='core::ops::Deref'>Deref</a> for <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='associatedtype.Target' class='type'><code>type <a href='../../../../core/ops/trait.Deref.html#associatedtype.Target' class='type'>Target</a> = T</code></h4>
+<h4 id='method.deref' class='method'><code>fn <a href='../../../../core/ops/trait.Deref.html#tymethod.deref' class='fnname'>deref</a>(&amp;self) -&gt; &amp;T</code></h4>
+</div><h3 class='impl'><code>impl&lt;T: <a class='trait' href='../../../../script/dom/bindings/reflector/trait.Reflectable.html' title='script::dom::bindings::reflector::Reflectable'>Reflectable</a>&gt; <a class='trait' href='../../../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a> for <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.trace' class='method'><code>fn <a href='../../../../script/dom/bindings/trace/trait.JSTraceable.html#tymethod.trace' class='fnname'>trace</a>(&amp;self, trc: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../../../js/jsapi/struct.JSTracer.html' title='js::jsapi::JSTracer'>JSTracer</a>)</code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../../../../core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../../../../core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;) -&gt; <a class='primitive' href='../../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='../../../../core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='../../../../std/primitive.bool.html'>bool</a></code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../../../../core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> for <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.assert_receiver_is_total_eq' class='method'><code>fn <a href='../../../../core/cmp/trait.Eq.html#method.assert_receiver_is_total_eq' class='fnname'>assert_receiver_is_total_eq</a>(&amp;self)</code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../../../../core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> for <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.hash' class='method'><code>fn <a href='../../../../core/hash/trait.Hash.html#tymethod.hash' class='fnname'>hash</a>&lt;H: <a class='trait' href='../../../../core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a>&gt;(&amp;self, state: &amp;mut H)</code></h4>
+<h4 id='method.hash_slice' class='method'><code>fn <a href='../../../../core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class='primitive' href='../../../../std/primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../../../../core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a></span></code><span class="since">1.3.0</span></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../../../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl&lt;T: <a class='trait' href='../../../../script/dom/bindings/reflector/trait.Reflectable.html' title='script::dom::bindings::reflector::Reflectable'>Reflectable</a>&gt; <a class='trait' href='../../../../script/dom/bindings/js/trait.HeapGCValue.html' title='script::dom::bindings::js::HeapGCValue'>HeapGCValue</a> for <a class='struct' href='../../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;T&gt;</code></h3><div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script defer src="../../../../search-index.js"></script>
+</body>
+</html>

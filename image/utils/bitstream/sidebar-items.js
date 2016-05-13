@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["LsbReader","Reads bits from a byte stream, LSB first."],["LsbWriter","Writes bits to a byte stream, LSB first."],["MsbReader","Reads bits from a byte stream, MSB first."],["MsbWriter","Writes bits to a byte stream, MSB first."]],"trait":[["BitReader","Bit reader"],["BitWriter","Bit writer"]]});

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ScriptThread` struct in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ScriptThread">
+
+    <title>script::script_thread::ScriptThread - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>script</a>::<wbr><a href='index.html'>script_thread</a></p><script>window.sidebarCurrent = {name: 'ScriptThread', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>script</a>::<wbr><a href='index.html'>script_thread</a>::<wbr><a class='struct' href=''>ScriptThread</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-108911' class='srclink' href='../../src/script/script_thread.rs.html#306-386' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ScriptThread {
+    browsing_context: <a class='struct' href='../../script/dom/bindings/js/struct.MutNullableHeap.html' title='script::dom::bindings::js::MutNullableHeap'>MutNullableHeap</a>&lt;<a class='struct' href='../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;<a class='struct' href='../../script/dom/browsingcontext/struct.BrowsingContext.html' title='script::dom::browsingcontext::BrowsingContext'>BrowsingContext</a>&gt;&gt;,
+    incomplete_loads: <a class='struct' href='../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;<a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../script/script_thread/struct.InProgressLoad.html' title='script::script_thread::InProgressLoad'>InProgressLoad</a>&gt;&gt;,
+    image_cache_thread: <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a>,
+    resource_thread: <a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='type' href='../../net_traits/type.ResourceThread.html' title='net_traits::ResourceThread'>ResourceThread</a>&gt;,
+    bluetooth_thread: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../net_traits/bluetooth_thread/enum.BluetoothMethodMsg.html' title='net_traits::bluetooth_thread::BluetoothMethodMsg'>BluetoothMethodMsg</a>&gt;,
+    storage_thread: <a class='type' href='../../net_traits/storage_thread/type.StorageThread.html' title='net_traits::storage_thread::StorageThread'>StorageThread</a>,
+    port: <a class='struct' href='../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../script/script_thread/enum.MainThreadScriptMsg.html' title='script::script_thread::MainThreadScriptMsg'>MainThreadScriptMsg</a>&gt;,
+    chan: <a class='struct' href='../../script/script_thread/struct.MainThreadScriptChan.html' title='script::script_thread::MainThreadScriptChan'>MainThreadScriptChan</a>,
+    dom_manipulation_task_source: <a class='struct' href='../../script/task_source/dom_manipulation/struct.DOMManipulationTaskSource.html' title='script::task_source::dom_manipulation::DOMManipulationTaskSource'>DOMManipulationTaskSource</a>,
+    user_interaction_task_source: <a class='struct' href='../../script/task_source/user_interaction/struct.UserInteractionTaskSource.html' title='script::task_source::user_interaction::UserInteractionTaskSource'>UserInteractionTaskSource</a>,
+    networking_task_source: <a class='struct' href='../../script/task_source/networking/struct.NetworkingTaskSource.html' title='script::task_source::networking::NetworkingTaskSource'>NetworkingTaskSource</a>,
+    history_traversal_task_source: <a class='struct' href='../../script/task_source/history_traversal/struct.HistoryTraversalTaskSource.html' title='script::task_source::history_traversal::HistoryTraversalTaskSource'>HistoryTraversalTaskSource</a>,
+    file_reading_task_source: <a class='struct' href='../../script/task_source/file_reading/struct.FileReadingTaskSource.html' title='script::task_source::file_reading::FileReadingTaskSource'>FileReadingTaskSource</a>,
+    control_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;,
+    control_port: <a class='struct' href='../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;,
+    constellation_chan: <a class='struct' href='../../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='enum' href='../../script_traits/script_msg/enum.ScriptMsg.html' title='script_traits::script_msg::ScriptMsg'>ConstellationMsg</a>&gt;,
+    layout_to_constellation_chan: <a class='struct' href='../../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='enum' href='../../script_traits/script_msg/enum.LayoutMsg.html' title='script_traits::script_msg::LayoutMsg'>LayoutMsg</a>&gt;,
+    compositor: <a class='struct' href='../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;<a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../script_traits/enum.ScriptToCompositorMsg.html' title='script_traits::ScriptToCompositorMsg'>ScriptToCompositorMsg</a>&gt;&gt;,
+    image_cache_port: <a class='struct' href='../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheResult.html' title='net_traits::image_cache_thread::ImageCacheResult'>ImageCacheResult</a>&gt;,
+    image_cache_channel: <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheChan.html' title='net_traits::image_cache_thread::ImageCacheChan'>ImageCacheChan</a>,
+    time_profiler_chan: <a class='struct' href='../../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a>,
+    mem_profiler_chan: <a class='struct' href='../../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a>,
+    devtools_chan: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../devtools_traits/enum.ScriptToDevtoolsControlMsg.html' title='devtools_traits::ScriptToDevtoolsControlMsg'>ScriptToDevtoolsControlMsg</a>&gt;&gt;,
+    devtools_port: <a class='struct' href='../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>&gt;,
+    devtools_sender: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>&gt;,
+    js_runtime: <a class='struct' href='../../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../../js/rust/struct.Runtime.html' title='js::rust::Runtime'>Runtime</a>&gt;,
+    topmost_mouse_over_target: <a class='struct' href='../../script/dom/bindings/js/struct.MutNullableHeap.html' title='script::dom::bindings::js::MutNullableHeap'>MutNullableHeap</a>&lt;<a class='struct' href='../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;<a class='struct' href='../../script/dom/element/struct.Element.html' title='script::dom::element::Element'>Element</a>&gt;&gt;,
+    closed_pipelines: <a class='struct' href='../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;<a class='struct' href='../../std/collections/hash/set/struct.HashSet.html' title='std::collections::hash::set::HashSet'>HashSet</a>&lt;<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>&gt;&gt;,
+    scheduler_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../../script_traits/struct.TimerEventRequest.html' title='script_traits::TimerEventRequest'>TimerEventRequest</a>&gt;,
+    timer_event_chan: <a class='struct' href='../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='struct' href='../../script_traits/struct.TimerEvent.html' title='script_traits::TimerEvent'>TimerEvent</a>&gt;,
+    timer_event_port: <a class='struct' href='../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='struct' href='../../script_traits/struct.TimerEvent.html' title='script_traits::TimerEvent'>TimerEvent</a>&gt;,
+    content_process_shutdown_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;,
+}</pre><div class='docblock'><p>Information for an entire page. Pages are top-level browsing contexts and can contain multiple
+frames.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.browsing_context'><code>browsing_context</code></td><td><div class='docblock'><p>A handle to the information pertaining to page layout</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.incomplete_loads'><code>incomplete_loads</code></td><td><div class='docblock'><p>A list of data pertaining to loads that have not yet received a network response</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.image_cache_thread'><code>image_cache_thread</code></td><td><div class='docblock'><p>A handle to the image cache thread.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.resource_thread'><code>resource_thread</code></td><td><div class='docblock'><p>A handle to the resource thread. This is an <code>Arc</code> to avoid running out of file descriptors if
+there are many iframes.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.bluetooth_thread'><code>bluetooth_thread</code></td><td><div class='docblock'><p>A handle to the bluetooth thread.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.storage_thread'><code>storage_thread</code></td><td><div class='docblock'><p>A handle to the storage thread.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.port'><code>port</code></td><td><div class='docblock'><p>The port on which the script thread receives messages (load URL, exit, etc.)</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.chan'><code>chan</code></td><td><div class='docblock'><p>A channel to hand out to script thread-based entities that need to be able to enqueue
+events in the event queue.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.dom_manipulation_task_source'><code>dom_manipulation_task_source</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.user_interaction_task_source'><code>user_interaction_task_source</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.networking_task_source'><code>networking_task_source</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.history_traversal_task_source'><code>history_traversal_task_source</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.file_reading_task_source'><code>file_reading_task_source</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.control_chan'><code>control_chan</code></td><td><div class='docblock'><p>A channel to hand out to threads that need to respond to a message from the script thread.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.control_port'><code>control_port</code></td><td><div class='docblock'><p>The port on which the constellation and layout threads can communicate with the
+script thread.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.constellation_chan'><code>constellation_chan</code></td><td><div class='docblock'><p>For communicating load url messages to the constellation</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.layout_to_constellation_chan'><code>layout_to_constellation_chan</code></td><td><div class='docblock'><p>For communicating layout messages to the constellation</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.compositor'><code>compositor</code></td><td><div class='docblock'><p>A handle to the compositor for communicating ready state messages.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.image_cache_port'><code>image_cache_port</code></td><td><div class='docblock'><p>The port on which we receive messages from the image cache</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.image_cache_channel'><code>image_cache_channel</code></td><td><div class='docblock'><p>The channel on which the image cache can send messages to ourself.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.time_profiler_chan'><code>time_profiler_chan</code></td><td><div class='docblock'><p>For providing contact with the time profiler.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.mem_profiler_chan'><code>mem_profiler_chan</code></td><td><div class='docblock'><p>For providing contact with the memory profiler.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.devtools_chan'><code>devtools_chan</code></td><td><div class='docblock'><p>For providing instructions to an optional devtools server.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.devtools_port'><code>devtools_port</code></td><td><div class='docblock'><p>For receiving commands from an optional devtools server. Will be ignored if
+no such server exists.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.devtools_sender'><code>devtools_sender</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.js_runtime'><code>js_runtime</code></td><td><div class='docblock'><p>The JavaScript runtime.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.topmost_mouse_over_target'><code>topmost_mouse_over_target</code></td><td><div class='docblock'><p>The topmost element over the mouse.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.closed_pipelines'><code>closed_pipelines</code></td><td><div class='docblock'><p>List of pipelines that have been owned and closed by this script thread.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.scheduler_chan'><code>scheduler_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.timer_event_chan'><code>timer_event_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.timer_event_port'><code>timer_event_port</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.content_process_shutdown_chan'><code>content_process_shutdown_chan</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../script/script_thread/struct.ScriptThread.html' title='script::script_thread::ScriptThread'>ScriptThread</a></code></h3><div class='impl-items'><h4 id='method.page_fetch_complete' class='method'><code>fn <a href='#method.page_fetch_complete' class='fnname'>page_fetch_complete</a>(id: &amp;<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, subpage: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>&gt;, metadata: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../net_traits/struct.Metadata.html' title='net_traits::Metadata'>Metadata</a>&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../script/parse/enum.ParserRoot.html' title='script::parse::ParserRoot'>ParserRoot</a>&gt;</code></h4>
+<h4 id='method.parsing_complete' class='method'><code>fn <a href='#method.parsing_complete' class='fnname'>parsing_complete</a>(id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<h4 id='method.process_event' class='method'><code>fn <a href='#method.process_event' class='fnname'>process_event</a>(msg: <a class='enum' href='../../script/script_runtime/enum.CommonScriptMsg.html' title='script::script_runtime::CommonScriptMsg'>CommonScriptMsg</a>)</code></h4>
+<h4 id='method.await_stable_state' class='method'><code>fn <a href='#method.await_stable_state' class='fnname'>await_stable_state</a>&lt;T: <a class='trait' href='../../script/script_thread/trait.Runnable.html' title='script::script_thread::Runnable'>Runnable</a> + <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a> + 'static&gt;(task: T)</code></h4>
+<h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(state: <a class='struct' href='../../script_traits/struct.InitialScriptState.html' title='script_traits::InitialScriptState'>InitialScriptState</a>, port: <a class='struct' href='../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../script/script_thread/enum.MainThreadScriptMsg.html' title='script::script_thread::MainThreadScriptMsg'>MainThreadScriptMsg</a>&gt;, chan: <a class='struct' href='../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../../script/script_thread/enum.MainThreadScriptMsg.html' title='script::script_thread::MainThreadScriptMsg'>MainThreadScriptMsg</a>&gt;) -&gt; <a class='struct' href='../../script/script_thread/struct.ScriptThread.html' title='script::script_thread::ScriptThread'>ScriptThread</a></code></h4>
+<div class='docblock'><p>Creates a new script thread.</p>
+</div><h4 id='method.root_browsing_context' class='method'><code>fn <a href='#method.root_browsing_context' class='fnname'>root_browsing_context</a>(&amp;self) -&gt; <a class='struct' href='../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../script/dom/browsingcontext/struct.BrowsingContext.html' title='script::dom::browsingcontext::BrowsingContext'>BrowsingContext</a>&gt;</code></h4>
+<h4 id='method.root_browsing_context_exists' class='method'><code>fn <a href='#method.root_browsing_context_exists' class='fnname'>root_browsing_context_exists</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.find_child_context' class='method'><code>fn <a href='#method.find_child_context' class='fnname'>find_child_context</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../script/dom/browsingcontext/struct.BrowsingContext.html' title='script::dom::browsingcontext::BrowsingContext'>BrowsingContext</a>&gt;&gt;</code></h4>
+<div class='docblock'><p>Find a child browsing context of the root context by pipeline id. Returns <code>None</code> if the
+root context does not exist or the child context cannot be found.</p>
+</div><h4 id='method.get_cx' class='method'><code>fn <a href='#method.get_cx' class='fnname'>get_cx</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a></code></h4>
+<h4 id='method.start' class='method'><code>fn <a href='#method.start' class='fnname'>start</a>(&amp;self)</code></h4>
+<div class='docblock'><p>Starts the script thread. After calling this method, the script thread will loop receiving
+messages on its port.</p>
+</div><h4 id='method.handle_msgs' class='method'><code>fn <a href='#method.handle_msgs' class='fnname'>handle_msgs</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Handle incoming control messages.</p>
+</div><h4 id='method.categorize_msg' class='method'><code>fn <a href='#method.categorize_msg' class='fnname'>categorize_msg</a>(&amp;self, msg: &amp;<a class='enum' href='../../script/script_thread/enum.MixedMessage.html' title='script::script_thread::MixedMessage'>MixedMessage</a>) -&gt; <a class='enum' href='../../script/script_runtime/enum.ScriptThreadEventCategory.html' title='script::script_runtime::ScriptThreadEventCategory'>ScriptThreadEventCategory</a></code></h4>
+<h4 id='method.profile_event' class='method'><code>fn <a href='#method.profile_event' class='fnname'>profile_event</a>&lt;F, R&gt;(&amp;self, category: <a class='enum' href='../../script/script_runtime/enum.ScriptThreadEventCategory.html' title='script::script_runtime::ScriptThreadEventCategory'>ScriptThreadEventCategory</a>, f: F) -&gt; R <span class='where'>where F: <a class='trait' href='../../core/ops/trait.FnOnce.html' title='core::ops::FnOnce'>FnOnce</a>() -&gt; R</span></code></h4>
+<h4 id='method.handle_msg_from_constellation' class='method'><code>fn <a href='#method.handle_msg_from_constellation' class='fnname'>handle_msg_from_constellation</a>(&amp;self, msg: <a class='enum' href='../../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>)</code></h4>
+<h4 id='method.handle_msg_from_script' class='method'><code>fn <a href='#method.handle_msg_from_script' class='fnname'>handle_msg_from_script</a>(&amp;self, msg: <a class='enum' href='../../script/script_thread/enum.MainThreadScriptMsg.html' title='script::script_thread::MainThreadScriptMsg'>MainThreadScriptMsg</a>)</code></h4>
+<h4 id='method.handle_timer_event' class='method'><code>fn <a href='#method.handle_timer_event' class='fnname'>handle_timer_event</a>(&amp;self, timer_event: <a class='struct' href='../../script_traits/struct.TimerEvent.html' title='script_traits::TimerEvent'>TimerEvent</a>)</code></h4>
+<h4 id='method.handle_msg_from_devtools' class='method'><code>fn <a href='#method.handle_msg_from_devtools' class='fnname'>handle_msg_from_devtools</a>(&amp;self, msg: <a class='enum' href='../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>)</code></h4>
+<h4 id='method.handle_msg_from_image_cache' class='method'><code>fn <a href='#method.handle_msg_from_image_cache' class='fnname'>handle_msg_from_image_cache</a>(&amp;self, msg: <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheResult.html' title='net_traits::image_cache_thread::ImageCacheResult'>ImageCacheResult</a>)</code></h4>
+<h4 id='method.handle_webdriver_msg' class='method'><code>fn <a href='#method.handle_webdriver_msg' class='fnname'>handle_webdriver_msg</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, msg: <a class='enum' href='../../msg/webdriver_msg/enum.WebDriverScriptCommand.html' title='msg::webdriver_msg::WebDriverScriptCommand'>WebDriverScriptCommand</a>)</code></h4>
+<h4 id='method.handle_resize' class='method'><code>fn <a href='#method.handle_resize' class='fnname'>handle_resize</a>(&amp;self, id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, size: <a class='struct' href='../../msg/constellation_msg/struct.WindowSizeData.html' title='msg::constellation_msg::WindowSizeData'>WindowSizeData</a>, size_type: <a class='enum' href='../../msg/constellation_msg/enum.WindowSizeType.html' title='msg::constellation_msg::WindowSizeType'>WindowSizeType</a>)</code></h4>
+<h4 id='method.handle_viewport' class='method'><code>fn <a href='#method.handle_viewport' class='fnname'>handle_viewport</a>(&amp;self, id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.handle_new_layout' class='method'><code>fn <a href='#method.handle_new_layout' class='fnname'>handle_new_layout</a>(&amp;self, new_layout_info: <a class='struct' href='../../script_traits/struct.NewLayoutInfo.html' title='script_traits::NewLayoutInfo'>NewLayoutInfo</a>)</code></h4>
+<h4 id='method.handle_loads_complete' class='method'><code>fn <a href='#method.handle_loads_complete' class='fnname'>handle_loads_complete</a>(&amp;self, pipeline: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<h4 id='method.collect_reports' class='method'><code>fn <a href='#method.collect_reports' class='fnname'>collect_reports</a>(&amp;self, reports_chan: <a class='struct' href='../../profile_traits/mem/struct.ReportsChan.html' title='profile_traits::mem::ReportsChan'>ReportsChan</a>)</code></h4>
+<h4 id='method.handle_freeze_msg' class='method'><code>fn <a href='#method.handle_freeze_msg' class='fnname'>handle_freeze_msg</a>(&amp;self, id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<div class='docblock'><p>Handles freeze message</p>
+</div><h4 id='method.handle_thaw_msg' class='method'><code>fn <a href='#method.handle_thaw_msg' class='fnname'>handle_thaw_msg</a>(&amp;self, id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<div class='docblock'><p>Handles thaw message</p>
+</div><h4 id='method.handle_focus_iframe_msg' class='method'><code>fn <a href='#method.handle_focus_iframe_msg' class='fnname'>handle_focus_iframe_msg</a>(&amp;self, parent_pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, subpage_id: <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>)</code></h4>
+<h4 id='method.handle_framed_content_changed' class='method'><code>fn <a href='#method.handle_framed_content_changed' class='fnname'>handle_framed_content_changed</a>(&amp;self, parent_pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, subpage_id: <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>)</code></h4>
+<h4 id='method.handle_mozbrowser_event_msg' class='method'><code>fn <a href='#method.handle_mozbrowser_event_msg' class='fnname'>handle_mozbrowser_event_msg</a>(&amp;self, parent_pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, subpage_id: <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>, event: <a class='enum' href='../../script_traits/enum.MozBrowserEvent.html' title='script_traits::MozBrowserEvent'>MozBrowserEvent</a>)</code></h4>
+<div class='docblock'><p>Handles a mozbrowser event, for example see:
+<a href="https://developer.mozilla.org/en-US/docs/Web/Events/mozbrowserloadstart">https://developer.mozilla.org/en-US/docs/Web/Events/mozbrowserloadstart</a></p>
+</div><h4 id='method.handle_update_subpage_id' class='method'><code>fn <a href='#method.handle_update_subpage_id' class='fnname'>handle_update_subpage_id</a>(&amp;self, containing_pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, old_subpage_id: <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>, new_subpage_id: <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>, new_pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<h4 id='method.handle_resize_inactive_msg' class='method'><code>fn <a href='#method.handle_resize_inactive_msg' class='fnname'>handle_resize_inactive_msg</a>(&amp;self, id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, new_size: <a class='struct' href='../../msg/constellation_msg/struct.WindowSizeData.html' title='msg::constellation_msg::WindowSizeData'>WindowSizeData</a>)</code></h4>
+<div class='docblock'><p>Window was resized, but this script was not active, so don&#39;t reflow yet</p>
+</div><h4 id='method.handle_exit_window_msg' class='method'><code>fn <a href='#method.handle_exit_window_msg' class='fnname'>handle_exit_window_msg</a>(&amp;self, _: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<div class='docblock'><p>We have gotten a window.close from script, which we pass on to the compositor.
+We do not shut down the script thread now, because the compositor will ask the
+constellation to shut down the pipeline, which will clean everything up
+normally. If we do exit, we will tear down the DOM nodes, possibly at a point
+where layout is still accessing them.</p>
+</div><h4 id='method.handle_page_fetch_complete' class='method'><code>fn <a href='#method.handle_page_fetch_complete' class='fnname'>handle_page_fetch_complete</a>(&amp;self, id: &amp;<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, subpage: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>&gt;, metadata: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../net_traits/struct.Metadata.html' title='net_traits::Metadata'>Metadata</a>&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../script/parse/enum.ParserRoot.html' title='script::parse::ParserRoot'>ParserRoot</a>&gt;</code></h4>
+<div class='docblock'><p>We have received notification that the response associated with a load has completed.
+Kick off the document and frame tree creation process using the result.</p>
+</div><h4 id='method.handle_get_title_msg' class='method'><code>fn <a href='#method.handle_get_title_msg' class='fnname'>handle_get_title_msg</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<div class='docblock'><p>Handles a request for the window title.</p>
+</div><h4 id='method.handle_exit_pipeline_msg' class='method'><code>fn <a href='#method.handle_exit_pipeline_msg' class='fnname'>handle_exit_pipeline_msg</a>(&amp;self, id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Handles a request to exit the script thread and shut down layout.
+Returns true if the script thread should shut down and false otherwise.</p>
+</div><h4 id='method.handle_tick_all_animations' class='method'><code>fn <a href='#method.handle_tick_all_animations' class='fnname'>handle_tick_all_animations</a>(&amp;self, id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<div class='docblock'><p>Handles when layout thread finishes all animation in one tick</p>
+</div><h4 id='method.handle_web_font_loaded' class='method'><code>fn <a href='#method.handle_web_font_loaded' class='fnname'>handle_web_font_loaded</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<div class='docblock'><p>Handles a Web font being loaded. Does nothing if the page no longer exists.</p>
+</div><h4 id='method.handle_frame_load_event' class='method'><code>fn <a href='#method.handle_frame_load_event' class='fnname'>handle_frame_load_event</a>(&amp;self, containing_pipeline: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<div class='docblock'><p>Notify the containing document of a child frame that has completed loading.</p>
+</div><h4 id='method.load' class='method'><code>fn <a href='#method.load' class='fnname'>load</a>(&amp;self, metadata: <a class='struct' href='../../net_traits/struct.Metadata.html' title='net_traits::Metadata'>Metadata</a>, incomplete: <a class='struct' href='../../script/script_thread/struct.InProgressLoad.html' title='script::script_thread::InProgressLoad'>InProgressLoad</a>) -&gt; <a class='enum' href='../../script/parse/enum.ParserRoot.html' title='script::parse::ParserRoot'>ParserRoot</a></code></h4>
+<div class='docblock'><p>The entry point to document loading. Defines bindings, sets up the window and document
+objects, parses HTML and CSS, and kicks off initial layout.</p>
+</div><h4 id='method.notify_devtools' class='method'><code>fn <a href='#method.notify_devtools' class='fnname'>notify_devtools</a>(&amp;self, title: <a class='struct' href='../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>, url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>, ids: <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../devtools_traits/struct.WorkerId.html' title='devtools_traits::WorkerId'>WorkerId</a>&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a>)</code></h4>
+<h4 id='method.scroll_fragment_point' class='method'><code>fn <a href='#method.scroll_fragment_point' class='fnname'>scroll_fragment_point</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, element: &amp;<a class='struct' href='../../script/dom/element/struct.Element.html' title='script::dom::element::Element'>Element</a>)</code></h4>
+<h4 id='method.rebuild_and_force_reflow' class='method'><code>fn <a href='#method.rebuild_and_force_reflow' class='fnname'>rebuild_and_force_reflow</a>(&amp;self, context: &amp;<a class='struct' href='../../script/dom/browsingcontext/struct.BrowsingContext.html' title='script::dom::browsingcontext::BrowsingContext'>BrowsingContext</a>, reason: <a class='enum' href='../../script/dom/window/enum.ReflowReason.html' title='script::dom::window::ReflowReason'>ReflowReason</a>)</code></h4>
+<div class='docblock'><p>Reflows non-incrementally, rebuilding the entire layout tree in the process.</p>
+</div><h4 id='method.handle_event' class='method'><code>fn <a href='#method.handle_event' class='fnname'>handle_event</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, event: <a class='enum' href='../../script_traits/enum.CompositorEvent.html' title='script_traits::CompositorEvent'>CompositorEvent</a>)</code></h4>
+<div class='docblock'><p>This is the main entry point for receiving and dispatching DOM events.</p>
+
+<p>TODO: Actually perform DOM event dispatch.</p>
+</div><h4 id='method.handle_mouse_event' class='method'><code>fn <a href='#method.handle_mouse_event' class='fnname'>handle_mouse_event</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, mouse_event_type: <a class='enum' href='../../script_traits/enum.MouseEventType.html' title='script_traits::MouseEventType'>MouseEventType</a>, button: <a class='enum' href='../../script_traits/enum.MouseButton.html' title='script_traits::MouseButton'>MouseButton</a>, point: <a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.handle_touch_event' class='method'><code>fn <a href='#method.handle_touch_event' class='fnname'>handle_touch_event</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, event_type: <a class='enum' href='../../script_traits/enum.TouchEventType.html' title='script_traits::TouchEventType'>TouchEventType</a>, identifier: <a class='struct' href='../../script_traits/struct.TouchId.html' title='script_traits::TouchId'>TouchId</a>, point: <a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.handle_navigate' class='method'><code>fn <a href='#method.handle_navigate' class='fnname'>handle_navigate</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, subpage_id: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>&gt;, load_data: <a class='struct' href='../../msg/constellation_msg/struct.LoadData.html' title='msg::constellation_msg::LoadData'>LoadData</a>)</code></h4>
+<div class='docblock'><p><a href="https://html.spec.whatwg.org/multipage/#navigating-across-documents">https://html.spec.whatwg.org/multipage/#navigating-across-documents</a>
+The entry point for content to notify that a new load has been requested
+for the given pipeline (specifically the &quot;navigate&quot; algorithm).</p>
+</div><h4 id='method.handle_resize_event' class='method'><code>fn <a href='#method.handle_resize_event' class='fnname'>handle_resize_event</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, new_size: <a class='struct' href='../../msg/constellation_msg/struct.WindowSizeData.html' title='msg::constellation_msg::WindowSizeData'>WindowSizeData</a>, size_type: <a class='enum' href='../../msg/constellation_msg/enum.WindowSizeType.html' title='msg::constellation_msg::WindowSizeType'>WindowSizeType</a>)</code></h4>
+<h4 id='method.start_page_load' class='method'><code>fn <a href='#method.start_page_load' class='fnname'>start_page_load</a>(&amp;self, incomplete: <a class='struct' href='../../script/script_thread/struct.InProgressLoad.html' title='script::script_thread::InProgressLoad'>InProgressLoad</a>, load_data: <a class='struct' href='../../msg/constellation_msg/struct.LoadData.html' title='msg::constellation_msg::LoadData'>LoadData</a>)</code></h4>
+<div class='docblock'><p>Initiate a non-blocking fetch for a specified resource. Stores the InProgressLoad
+argument until a notification is received that the fetch is complete.</p>
+</div><h4 id='method.handle_parsing_complete' class='method'><code>fn <a href='#method.handle_parsing_complete' class='fnname'>handle_parsing_complete</a>(&amp;self, id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<h4 id='method.handle_css_error_reporting' class='method'><code>fn <a href='#method.handle_css_error_reporting' class='fnname'>handle_css_error_reporting</a>(&amp;self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, filename: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>, line: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>, column: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>, msg: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>)</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../script_traits/trait.ScriptThreadFactory.html' title='script_traits::ScriptThreadFactory'>ScriptThreadFactory</a> for <a class='struct' href='../../script/script_thread/struct.ScriptThread.html' title='script::script_thread::ScriptThread'>ScriptThread</a></code></h3><div class='impl-items'><h4 id='method.create_layout_channel' class='method'><code>fn <a href='../../script_traits/trait.ScriptThreadFactory.html#tymethod.create_layout_channel' class='fnname'>create_layout_channel</a>(_phantom: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;mut <a class='struct' href='../../script/script_thread/struct.ScriptThread.html' title='script::script_thread::ScriptThread'>ScriptThread</a>&gt;) -&gt; <a class='struct' href='../../script_traits/struct.OpaqueScriptLayoutChannel.html' title='script_traits::OpaqueScriptLayoutChannel'>OpaqueScriptLayoutChannel</a></code></h4>
+<h4 id='method.clone_layout_channel' class='method'><code>fn <a href='../../script_traits/trait.ScriptThreadFactory.html#tymethod.clone_layout_channel' class='fnname'>clone_layout_channel</a>(_phantom: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;mut <a class='struct' href='../../script/script_thread/struct.ScriptThread.html' title='script::script_thread::ScriptThread'>ScriptThread</a>&gt;, pair: &amp;<a class='struct' href='../../script_traits/struct.OpaqueScriptLayoutChannel.html' title='script_traits::OpaqueScriptLayoutChannel'>OpaqueScriptLayoutChannel</a>) -&gt; <a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../core/any/trait.Any.html' title='core::any::Any'>Any</a> + <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;</code></h4>
+<h4 id='method.create' class='method'><code>fn <a href='../../script_traits/trait.ScriptThreadFactory.html#tymethod.create' class='fnname'>create</a>(_phantom: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;mut <a class='struct' href='../../script/script_thread/struct.ScriptThread.html' title='script::script_thread::ScriptThread'>ScriptThread</a>&gt;, state: <a class='struct' href='../../script_traits/struct.InitialScriptState.html' title='script_traits::InitialScriptState'>InitialScriptState</a>, layout_chan: &amp;<a class='struct' href='../../script_traits/struct.OpaqueScriptLayoutChannel.html' title='script_traits::OpaqueScriptLayoutChannel'>OpaqueScriptLayoutChannel</a>, load_data: <a class='struct' href='../../msg/constellation_msg/struct.LoadData.html' title='msg::constellation_msg::LoadData'>LoadData</a>)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../script/script_thread/struct.ScriptThread.html' title='script::script_thread::ScriptThread'>ScriptThread</a></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='../../core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a> for <a class='struct' href='../../script/script_thread/struct.ScriptThread.html' title='script::script_thread::ScriptThread'>ScriptThread</a></code></h3><div class='impl-items'><h4 id='method.trace' class='method'><code>fn <a href='../../script/dom/bindings/trace/trait.JSTraceable.html#tymethod.trace' class='fnname'>trace</a>(&amp;self, __arg_0: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../js/jsapi/struct.JSTracer.html' title='js::jsapi::JSTracer'>JSTracer</a>)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

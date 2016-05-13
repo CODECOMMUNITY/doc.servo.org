@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ImageCacheThread` struct in crate `net_traits`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ImageCacheThread">
+
+    <title>net_traits::image_cache_thread::ImageCacheThread - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>net_traits</a>::<wbr><a href='index.html'>image_cache_thread</a></p><script>window.sidebarCurrent = {name: 'ImageCacheThread', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>net_traits</a>::<wbr><a href='index.html'>image_cache_thread</a>::<wbr><a class='struct' href=''>ImageCacheThread</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2960' class='srclink' href='../../src/net_traits/image_cache_thread.rs.html#113-115' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ImageCacheThread {
+    chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../net_traits/image_cache_thread/enum.ImageCacheCommand.html' title='net_traits::image_cache_thread::ImageCacheCommand'>ImageCacheCommand</a>&gt;,
+}</pre><div class='docblock'><p>The client side of the image cache thread. This can be safely cloned
+and passed to different threads.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.chan'><code>chan</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a></code></h3><div class='docblock'><p>The public API for the image cache thread.</p>
+</div><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../net_traits/image_cache_thread/enum.ImageCacheCommand.html' title='net_traits::image_cache_thread::ImageCacheCommand'>ImageCacheCommand</a>&gt;) -&gt; <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a></code></h4>
+<div class='docblock'><p>Construct a new image cache</p>
+</div><h4 id='method.request_image' class='method'><code>fn <a href='#method.request_image' class='fnname'>request_image</a>(&amp;self, url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>, result_chan: <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheChan.html' title='net_traits::image_cache_thread::ImageCacheChan'>ImageCacheChan</a>, responder: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../net_traits/image_cache_thread/struct.ImageResponder.html' title='net_traits::image_cache_thread::ImageResponder'>ImageResponder</a>&gt;)</code></h4>
+<div class='docblock'><p>Asynchronously request an image. See ImageCacheCommand::RequestImage.</p>
+</div><h4 id='method.request_image_and_metadata' class='method'><code>fn <a href='#method.request_image_and_metadata' class='fnname'>request_image_and_metadata</a>(&amp;self, url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>, result_chan: <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheChan.html' title='net_traits::image_cache_thread::ImageCacheChan'>ImageCacheChan</a>, responder: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../net_traits/image_cache_thread/struct.ImageResponder.html' title='net_traits::image_cache_thread::ImageResponder'>ImageResponder</a>&gt;)</code></h4>
+<div class='docblock'><p>Asynchronously request an image and metadata.
+See ImageCacheCommand::RequestImageAndMetadata</p>
+</div><h4 id='method.find_image' class='method'><code>fn <a href='#method.find_image' class='fnname'>find_image</a>(&amp;self, url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>, use_placeholder: <a class='enum' href='../../net_traits/image_cache_thread/enum.UsePlaceholder.html' title='net_traits::image_cache_thread::UsePlaceholder'>UsePlaceholder</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../net_traits/image/base/struct.Image.html' title='net_traits::image::base::Image'>Image</a>&gt;, <a class='enum' href='../../net_traits/image_cache_thread/enum.ImageState.html' title='net_traits::image_cache_thread::ImageState'>ImageState</a>&gt;</code></h4>
+<div class='docblock'><p>Get the current state of an image. See ImageCacheCommand::GetImageIfAvailable.</p>
+</div><h4 id='method.find_image_or_metadata' class='method'><code>fn <a href='#method.find_image_or_metadata' class='fnname'>find_image_or_metadata</a>(&amp;self, url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>, use_placeholder: <a class='enum' href='../../net_traits/image_cache_thread/enum.UsePlaceholder.html' title='net_traits::image_cache_thread::UsePlaceholder'>UsePlaceholder</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../../net_traits/image_cache_thread/enum.ImageOrMetadataAvailable.html' title='net_traits::image_cache_thread::ImageOrMetadataAvailable'>ImageOrMetadataAvailable</a>, <a class='enum' href='../../net_traits/image_cache_thread/enum.ImageState.html' title='net_traits::image_cache_thread::ImageState'>ImageState</a>&gt;</code></h4>
+<div class='docblock'><p>Get the current state of an image, returning its metadata if available.
+See ImageCacheCommand::GetImageOrMetadataIfAvailable.</p>
+</div><h4 id='method.store_complete_image_bytes' class='method'><code>fn <a href='#method.store_complete_image_bytes' class='fnname'>store_complete_image_bytes</a>(&amp;self, url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>, image_data: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;)</code></h4>
+<div class='docblock'><p>Decode the given image bytes and cache the result for the given URL.</p>
+</div><h4 id='method.exit' class='method'><code>fn <a href='#method.exit' class='fnname'>exit</a>(&amp;self)</code></h4>
+<div class='docblock'><p>Shutdown the image cache thread.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "net_traits";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

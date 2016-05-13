@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `PerformanceGroup` struct in crate `js`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, PerformanceGroup">
+
+    <title>js::jsapi::PerformanceGroup - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>js</a>::<wbr><a href='index.html'>jsapi</a></p><script>window.sidebarCurrent = {name: 'PerformanceGroup', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>js</a>::<wbr><a href='index.html'>jsapi</a>::<wbr><a class='struct' href=''>PerformanceGroup</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-5407' class='srclink' href='../../src/js/jsapi_linux_64.rs.html#5795-5805' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct PerformanceGroup {
+    pub _vftable: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct._vftable_PerformanceGroup.html' title='js::jsapi::_vftable_PerformanceGroup'>_vftable_PerformanceGroup</a>,
+    pub recentCycles_: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>,
+    pub recentTicks_: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>,
+    pub recentCPOW_: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>,
+    pub iteration_: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>,
+    pub isActive_: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub isUsedInThisIteration_: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub owner_: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='enum' href='../../js/jsapi/enum.AutoStopwatch.html' title='js::jsapi::AutoStopwatch'>AutoStopwatch</a>,
+    pub refCount_: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>,
+}</pre><div class='docblock'><p>Abstract base class for a representation of the performance of a
+component. Embeddings interested in performance monitoring should
+provide a concrete implementation of this class, as well as the
+relevant callbacks (see below).</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield._vftable'><code>_vftable</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.recentCycles_'><code>recentCycles_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.recentTicks_'><code>recentTicks_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.recentCPOW_'><code>recentCPOW_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.iteration_'><code>iteration_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.isActive_'><code>isActive_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.isUsedInThisIteration_'><code>isUsedInThisIteration_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.owner_'><code>owner_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.refCount_'><code>refCount_</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../js/jsapi/struct.PerformanceGroup.html' title='js::jsapi::PerformanceGroup'>PerformanceGroup</a></code></h3><div class='impl-items'><h4 id='method.iteration' class='method'><code>unsafe fn <a href='#method.iteration' class='fnname'>iteration</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.u64.html'>u64</a></code></h4>
+<h4 id='method.isAcquired' class='method'><code>unsafe fn <a href='#method.isAcquired' class='fnname'>isAcquired</a>(&amp;mut self, it: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.isAcquired1' class='method'><code>unsafe fn <a href='#method.isAcquired1' class='fnname'>isAcquired1</a>(&amp;mut self, it: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>, owner: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='enum' href='../../js/jsapi/enum.AutoStopwatch.html' title='js::jsapi::AutoStopwatch'>AutoStopwatch</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.acquire' class='method'><code>unsafe fn <a href='#method.acquire' class='fnname'>acquire</a>(&amp;mut self, it: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>, owner: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='enum' href='../../js/jsapi/enum.AutoStopwatch.html' title='js::jsapi::AutoStopwatch'>AutoStopwatch</a>)</code></h4>
+<h4 id='method.release' class='method'><code>unsafe fn <a href='#method.release' class='fnname'>release</a>(&amp;mut self, it: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>, owner: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='enum' href='../../js/jsapi/enum.AutoStopwatch.html' title='js::jsapi::AutoStopwatch'>AutoStopwatch</a>)</code></h4>
+<h4 id='method.recentCycles' class='method'><code>unsafe fn <a href='#method.recentCycles' class='fnname'>recentCycles</a>(&amp;mut self, iteration: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>) -&gt; <a class='primitive' href='../../std/primitive.u64.html'>u64</a></code></h4>
+<h4 id='method.addRecentCycles' class='method'><code>unsafe fn <a href='#method.addRecentCycles' class='fnname'>addRecentCycles</a>(&amp;mut self, iteration: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>, cycles: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>)</code></h4>
+<h4 id='method.recentTicks' class='method'><code>unsafe fn <a href='#method.recentTicks' class='fnname'>recentTicks</a>(&amp;mut self, iteration: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>) -&gt; <a class='primitive' href='../../std/primitive.u64.html'>u64</a></code></h4>
+<h4 id='method.addRecentTicks' class='method'><code>unsafe fn <a href='#method.addRecentTicks' class='fnname'>addRecentTicks</a>(&amp;mut self, iteration: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>, ticks: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>)</code></h4>
+<h4 id='method.recentCPOW' class='method'><code>unsafe fn <a href='#method.recentCPOW' class='fnname'>recentCPOW</a>(&amp;mut self, iteration: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>) -&gt; <a class='primitive' href='../../std/primitive.u64.html'>u64</a></code></h4>
+<h4 id='method.addRecentCPOW' class='method'><code>unsafe fn <a href='#method.addRecentCPOW' class='fnname'>addRecentCPOW</a>(&amp;mut self, iteration: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>, CPOW: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>)</code></h4>
+<h4 id='method.resetRecentData' class='method'><code>unsafe fn <a href='#method.resetRecentData' class='fnname'>resetRecentData</a>(&amp;mut self)</code></h4>
+<h4 id='method.isActive' class='method'><code>unsafe fn <a href='#method.isActive' class='fnname'>isActive</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.setIsActive' class='method'><code>unsafe fn <a href='#method.setIsActive' class='fnname'>setIsActive</a>(&amp;mut self, arg1: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>)</code></h4>
+<h4 id='method.isUsedInThisIteration' class='method'><code>unsafe fn <a href='#method.isUsedInThisIteration' class='fnname'>isUsedInThisIteration</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.setIsUsedInThisIteration' class='method'><code>unsafe fn <a href='#method.setIsUsedInThisIteration' class='fnname'>setIsUsedInThisIteration</a>(&amp;mut self, arg1: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>)</code></h4>
+<h4 id='method.AddRef' class='method'><code>unsafe fn <a href='#method.AddRef' class='fnname'>AddRef</a>(&amp;mut self)</code></h4>
+<h4 id='method.Release' class='method'><code>unsafe fn <a href='#method.Release' class='fnname'>Release</a>(&amp;mut self)</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../js/jsapi/struct.PerformanceGroup.html' title='js::jsapi::PerformanceGroup'>PerformanceGroup</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; Self</code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../js/jsapi/struct.PerformanceGroup.html' title='js::jsapi::PerformanceGroup'>PerformanceGroup</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../js/jsapi/struct.PerformanceGroup.html' title='js::jsapi::PerformanceGroup'>PerformanceGroup</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "js";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

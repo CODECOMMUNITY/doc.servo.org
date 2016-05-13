@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["deref_mut","WARNING: This should only be used when there is no aliasing: when the traversal ensures that no other threads accesses the same flow at the same time. See https://github.com/servo/servo/issues/6503 Use Arc::get_mut instead when possible (e.g. on an Arc that was just created)."]],"type":[["FlowRef",""],["WeakFlowRef",""]]});

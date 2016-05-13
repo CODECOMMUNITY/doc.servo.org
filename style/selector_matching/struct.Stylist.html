@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Stylist` struct in crate `style`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Stylist">
+
+    <title>style::selector_matching::Stylist - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>style</a>::<wbr><a href='index.html'>selector_matching</a></p><script>window.sidebarCurrent = {name: 'Stylist', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>style</a>::<wbr><a href='index.html'>selector_matching</a>::<wbr><a class='struct' href=''>Stylist</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-5191' class='srclink' href='../../src/style/selector_matching.rs.html#103-137' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Stylist&lt;Impl: <a class='trait' href='../../style/selector_impl/trait.SelectorImplExt.html' title='style::selector_impl::SelectorImplExt'>SelectorImplExt</a>&gt; {
+    pub device: <a class='struct' href='../../style/media_queries/struct.Device.html' title='style::media_queries::Device'>Device</a>,
+    viewport_constraints: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../style_traits/viewport/struct.ViewportConstraints.html' title='style_traits::viewport::ViewportConstraints'>ViewportConstraints</a>&gt;,
+    quirks_mode: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    is_device_dirty: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    element_map: <a class='struct' href='../../style/selector_matching/struct.PerPseudoElementSelectorMap.html' title='style::selector_matching::PerPseudoElementSelectorMap'>PerPseudoElementSelectorMap</a>&lt;Impl&gt;,
+    pseudos_map: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;Impl::PseudoElement, <a class='struct' href='../../style/selector_matching/struct.PerPseudoElementSelectorMap.html' title='style::selector_matching::PerPseudoElementSelectorMap'>PerPseudoElementSelectorMap</a>&lt;Impl&gt;, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    precomputed_pseudo_element_decls: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;Impl::PseudoElement, <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../style/selector_matching/type.DeclarationBlock.html' title='style::selector_matching::DeclarationBlock'>DeclarationBlock</a>&gt;, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    rules_source_order: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    state_deps: <a class='struct' href='../../style/restyle_hints/struct.DependencySet.html' title='style::restyle_hints::DependencySet'>DependencySet</a>&lt;Impl&gt;,
+}</pre><div class='docblock'><p>This structure holds all the selectors and device characteristics
+for a given document. The selectors are converted into <code>Rule</code>s
+(defined in rust-selectors), and introduced in a <code>SelectorMap</code>
+depending on the pseudo-element (see <code>PerPseudoElementSelectorMap</code>),
+stylesheet origin (see <code>PerOriginSelectorMap</code>), and priority
+(see the <code>normal</code> and <code>important</code> fields in <code>PerOriginSelectorMap</code>).</p>
+
+<p>This structure is effectively created once per pipeline, in the
+LayoutThread corresponding to that pipeline.</p>
+
+<p>The stylist is parameterized on <code>SelectorImplExt</code>, a trait that extends
+<code>selectors::parser::SelectorImpl</code>, and that allows to customise what
+pseudo-classes and pseudo-elements are parsed. This is actually either
+<code>ServoSelectorImpl</code>, the implementation used by Servo&#39;s layout system in
+regular builds, or <code>GeckoSelectorImpl</code>, the implementation used in the
+geckolib port.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.device'><code>device</code></td><td><div class='docblock'><p>Device that the stylist is currently evaluating against.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.viewport_constraints'><code>viewport_constraints</code></td><td><div class='docblock'><p>Viewport constraints based on the current device.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.quirks_mode'><code>quirks_mode</code></td><td><div class='docblock'><p>If true, the quirks-mode stylesheet is applied.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.is_device_dirty'><code>is_device_dirty</code></td><td><div class='docblock'><p>If true, the device has changed, and the stylist needs to be updated.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.element_map'><code>element_map</code></td><td><div class='docblock'><p>The current selector maps, after evaluating media
+rules against the current device.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.pseudos_map'><code>pseudos_map</code></td><td><div class='docblock'><p>The selector maps corresponding to a given pseudo-element
+(depending on the implementation)</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.precomputed_pseudo_element_decls'><code>precomputed_pseudo_element_decls</code></td><td><div class='docblock'><p>Applicable declarations for a given non-eagerly cascaded pseudo-element.
+These are eagerly computed once, and then used to resolve the new
+computed values on the fly on layout.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.rules_source_order'><code>rules_source_order</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.state_deps'><code>state_deps</code></td><td><div class='docblock'><p>Selector dependencies used to compute restyle hints.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;Impl: <a class='trait' href='../../style/selector_impl/trait.SelectorImplExt.html' title='style::selector_impl::SelectorImplExt'>SelectorImplExt</a>&gt; <a class='struct' href='../../style/selector_matching/struct.Stylist.html' title='style::selector_matching::Stylist'>Stylist</a>&lt;Impl&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(device: <a class='struct' href='../../style/media_queries/struct.Device.html' title='style::media_queries::Device'>Device</a>) -&gt; <a class='struct' href='../../style/selector_matching/struct.Stylist.html' title='style::selector_matching::Stylist'>Stylist</a>&lt;Impl&gt;</code></h4>
+<h4 id='method.update' class='method'><code>fn <a href='#method.update' class='fnname'>update</a>(&amp;mut self, doc_stylesheets: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../style/stylesheets/struct.Stylesheet.html' title='style::stylesheets::Stylesheet'>Stylesheet</a>&lt;Impl&gt;&gt;<a class='primitive' href='../../std/primitive.slice.html'>]</a>, stylesheets_changed: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> <span class='where'>where Impl: 'static</span></code></h4>
+<h4 id='method.add_stylesheet' class='method'><code>fn <a href='#method.add_stylesheet' class='fnname'>add_stylesheet</a>(&amp;mut self, stylesheet: &amp;<a class='struct' href='../../style/stylesheets/struct.Stylesheet.html' title='style::stylesheets::Stylesheet'>Stylesheet</a>&lt;Impl&gt;)</code></h4>
+<h4 id='method.precomputed_values_for_pseudo' class='method'><code>fn <a href='#method.precomputed_values_for_pseudo' class='fnname'>precomputed_values_for_pseudo</a>(&amp;self, pseudo: &amp;Impl::PseudoElement, parent: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;Impl::ComputedValues&gt;&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;Impl::ComputedValues&gt;&gt;</code></h4>
+<div class='docblock'><p>Computes the style for a given &quot;precomputed&quot; pseudo-element, taking the
+universal rules and applying them.</p>
+</div><h4 id='method.lazily_compute_pseudo_element_style' class='method'><code>fn <a href='#method.lazily_compute_pseudo_element_style' class='fnname'>lazily_compute_pseudo_element_style</a>&lt;E&gt;(&amp;self, element: &amp;E, pseudo: &amp;Impl::PseudoElement, parent: &amp;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;Impl::ComputedValues&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;Impl::ComputedValues&gt;&gt; <span class='where'>where E: <a class='trait' href='../../selectors/tree/trait.Element.html' title='selectors::tree::Element'>Element</a>&lt;Impl=Impl&gt; + <a class='trait' href='../../style/dom/trait.PresentationalHintsSynthetizer.html' title='style::dom::PresentationalHintsSynthetizer'>PresentationalHintsSynthetizer</a></span></code></h4>
+<h4 id='method.compute_restyle_hint' class='method'><code>fn <a href='#method.compute_restyle_hint' class='fnname'>compute_restyle_hint</a>&lt;E&gt;(&amp;self, element: &amp;E, snapshot: &amp;<a class='struct' href='../../style/restyle_hints/struct.ElementSnapshot.html' title='style::restyle_hints::ElementSnapshot'>ElementSnapshot</a>, current_state: <a class='struct' href='../../style/element_state/struct.ElementState.html' title='style::element_state::ElementState'>ElementState</a>) -&gt; <a class='struct' href='../../style/restyle_hints/struct.RestyleHint.html' title='style::restyle_hints::RestyleHint'>RestyleHint</a> <span class='where'>where E: <a class='trait' href='../../selectors/tree/trait.Element.html' title='selectors::tree::Element'>Element</a>&lt;Impl=Impl&gt; + <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a></span></code></h4>
+<h4 id='method.set_device' class='method'><code>fn <a href='#method.set_device' class='fnname'>set_device</a>(&amp;mut self, device: <a class='struct' href='../../style/media_queries/struct.Device.html' title='style::media_queries::Device'>Device</a>, stylesheets: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../style/stylesheets/struct.Stylesheet.html' title='style::stylesheets::Stylesheet'>Stylesheet</a>&lt;Impl&gt;&gt;<a class='primitive' href='../../std/primitive.slice.html'>]</a>)</code></h4>
+<h4 id='method.viewport_constraints' class='method'><code>fn <a href='#method.viewport_constraints' class='fnname'>viewport_constraints</a>(&amp;self) -&gt; &amp;<a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../style_traits/viewport/struct.ViewportConstraints.html' title='style_traits::viewport::ViewportConstraints'>ViewportConstraints</a>&gt;</code></h4>
+<h4 id='method.set_quirks_mode' class='method'><code>fn <a href='#method.set_quirks_mode' class='fnname'>set_quirks_mode</a>(&amp;mut self, enabled: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>)</code></h4>
+<h4 id='method.push_applicable_declarations' class='method'><code>fn <a href='#method.push_applicable_declarations' class='fnname'>push_applicable_declarations</a>&lt;E, V&gt;(&amp;self, element: &amp;E, parent_bf: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../selectors/bloom/struct.BloomFilter.html' title='selectors::bloom::BloomFilter'>BloomFilter</a>&gt;, style_attribute: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../style/properties/struct.PropertyDeclarationBlock.html' title='style::properties::PropertyDeclarationBlock'>PropertyDeclarationBlock</a>&gt;, pseudo_element: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;Impl::PseudoElement&gt;, applicable_declarations: &amp;mut V) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> <span class='where'>where E: <a class='trait' href='../../selectors/tree/trait.Element.html' title='selectors::tree::Element'>Element</a>&lt;Impl=Impl&gt; + <a class='trait' href='../../style/dom/trait.PresentationalHintsSynthetizer.html' title='style::dom::PresentationalHintsSynthetizer'>PresentationalHintsSynthetizer</a>, V: <a class='trait' href='../../smallvec/trait.VecLike.html' title='smallvec::VecLike'>VecLike</a>&lt;<a class='type' href='../../style/selector_matching/type.DeclarationBlock.html' title='style::selector_matching::DeclarationBlock'>DeclarationBlock</a>&gt;</span></code></h4>
+<div class='docblock'><p>Returns the applicable CSS declarations for the given element.
+This corresponds to <code>ElementRuleCollector</code> in WebKit.</p>
+
+<p>The returned boolean indicates whether the style is <em>shareable</em>;
+that is, whether the matched selectors are simple enough to allow the
+matching logic to be reduced to the logic in
+<code>css::matching::PrivateMatchMethods::candidate_element_allows_for_style_sharing</code>.</p>
+</div><h4 id='method.is_device_dirty' class='method'><code>fn <a href='#method.is_device_dirty' class='fnname'>is_device_dirty</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl&lt;Impl: <a class='trait' href='../../heapsize/trait.HeapSizeOf.html' title='heapsize::HeapSizeOf'>HeapSizeOf</a> + <a class='trait' href='../../style/selector_impl/trait.SelectorImplExt.html' title='style::selector_impl::SelectorImplExt'>SelectorImplExt</a>&gt; <a class='trait' href='../../heapsize/trait.HeapSizeOf.html' title='heapsize::HeapSizeOf'>HeapSizeOf</a> for <a class='struct' href='../../style/selector_matching/struct.Stylist.html' title='style::selector_matching::Stylist'>Stylist</a>&lt;Impl&gt; <span class='where'>where Impl::PseudoElement: <a class='trait' href='../../heapsize/trait.HeapSizeOf.html' title='heapsize::HeapSizeOf'>HeapSizeOf</a></span></code></h3><div class='impl-items'><h4 id='method.heap_size_of_children' class='method'><code>fn <a href='../../heapsize/trait.HeapSizeOf.html#tymethod.heap_size_of_children' class='fnname'>heap_size_of_children</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "style";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

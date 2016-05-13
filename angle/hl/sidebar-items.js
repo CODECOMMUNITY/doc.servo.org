@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Output",""],["ShaderSpec",""]],"fn":[["finalize",""],["initialize",""]],"struct":[["ShaderValidator",""]],"trait":[["AsAngleEnum",""]],"type":[["BuiltInResources",""]]});

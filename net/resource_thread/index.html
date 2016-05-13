@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `resource_thread` mod in crate `net`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, resource_thread">
+
+    <title>net::resource_thread - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>net</a></p><script>window.sidebarCurrent = {name: 'resource_thread', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>net</a>::<wbr><a class='mod' href=''>resource_thread</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2461' class='srclink' href='../../src/net/resource_thread.rs.html#5-471' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>A thread that takes a URL and streams back the binary data.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.AuthCache.html'
+                                  title='net::resource_thread::AuthCache'>AuthCache</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.AuthCacheEntry.html'
+                                  title='net::resource_thread::AuthCacheEntry'>AuthCacheEntry</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.CancellableResource.html'
+                                  title='net::resource_thread::CancellableResource'>CancellableResource</a></td>
+                           <td class='docblock short'>
+                                <p>The optional resources required by the <code>CancellationListener</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.CancellationListener.html'
+                                  title='net::resource_thread::CancellationListener'>CancellationListener</a></td>
+                           <td class='docblock short'>
+                                <p>A listener which is basically a wrapped optional receiver which looks
+for the load cancellation message. Some of the loading processes always keep
+an eye out for this message and stop loading stuff once they receive it.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ResourceChannelManager.html'
+                                  title='net::resource_thread::ResourceChannelManager'>ResourceChannelManager</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ResourceManager.html'
+                                  title='net::resource_thread::ResourceManager'>ResourceManager</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ProgressSender.html'
+                                  title='net::resource_thread::ProgressSender'>ProgressSender</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.new_resource_thread.html'
+                                  title='net::resource_thread::new_resource_thread'>new_resource_thread</a></td>
+                           <td class='docblock short'>
+                                <p>Create a ResourceThread</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.read_json_from_file.html'
+                                  title='net::resource_thread::read_json_from_file'>read_json_from_file</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.send_error.html'
+                                  title='net::resource_thread::send_error'>send_error</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.start_sending_opt.html'
+                                  title='net::resource_thread::start_sending_opt'>start_sending_opt</a></td>
+                           <td class='docblock short'>
+                                <p>For use by loaders in responding to a Load message.
+It takes an optional NetworkError, so that we can extract the SSL Validation errors
+and take it to the HTML parser</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.start_sending_sniffed.html'
+                                  title='net::resource_thread::start_sending_sniffed'>start_sending_sniffed</a></td>
+                           <td class='docblock short'>
+                                <p>For use by loaders in responding to a Load message that allows content sniffing.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.start_sending_sniffed_opt.html'
+                                  title='net::resource_thread::start_sending_sniffed_opt'>start_sending_sniffed_opt</a></td>
+                           <td class='docblock short'>
+                                <p>For use by loaders in responding to a Load message that allows content sniffing.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_json_to_file.html'
+                                  title='net::resource_thread::write_json_to_file'>write_json_to_file</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "net";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

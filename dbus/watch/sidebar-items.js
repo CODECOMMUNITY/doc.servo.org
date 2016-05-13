@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["add_watch_cb",""],["remove_watch_cb",""],["toggled_watch_cb",""]],"struct":[["Watch","A file descriptor to watch for incoming events (for async I/O)."],["WatchList","Note - internal struct, not to be used outside API. Moving it outside its box will break things."]]});

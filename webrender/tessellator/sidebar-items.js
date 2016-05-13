@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["can_tessellate_border","FIXME(pcwalton): For now, we don't tessellate multicolored border radii."],["ellipse_y_coordinate",""],["quad_count_for_border_corner",""]],"trait":[["BorderCornerTessellation",""]]});

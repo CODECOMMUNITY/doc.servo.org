@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["is_token","Returns whether `s` is a `token`, as defined by RFC 2616."]],"struct":[["ByteString","Encapsulates the IDL `ByteString` type."],["USVString","A string that is constructed from a UCS-2 buffer by replacing invalid code points with the replacement character."]]});

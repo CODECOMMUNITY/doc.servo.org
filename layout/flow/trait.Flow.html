@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Flow` trait in crate `layout`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Flow">
+
+    <title>layout::flow::Flow - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>layout</a>::<wbr><a href='index.html'>flow</a></p><script>window.sidebarCurrent = {name: 'Flow', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>layout</a>::<wbr><a href='index.html'>flow</a>::<wbr><a class='trait' href=''>Flow</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3737' class='srclink' href='../../src/layout/flow.rs.html#69-420' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Flow: <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='../../core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> + <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a> + 'static {
+    fn <a href='#tymethod.class' class='fnname'>class</a>(&amp;self) -&gt; <a class='enum' href='../../layout/flow/enum.FlowClass.html' title='layout::flow::FlowClass'>FlowClass</a>;
+    fn <a href='#tymethod.collect_stacking_contexts' class='fnname'>collect_stacking_contexts</a>(&amp;mut self, _parent_id: <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a>, _: &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../gfx/display_list/struct.StackingContext.html' title='gfx::display_list::StackingContext'>StackingContext</a>&gt;&gt;) -&gt; <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a>;
+    fn <a href='#tymethod.build_display_list' class='fnname'>build_display_list</a>(&amp;mut self, state: &amp;mut <a class='struct' href='../../layout/display_list_builder/struct.DisplayListBuildState.html' title='layout::display_list_builder::DisplayListBuildState'>DisplayListBuildState</a>);
+    fn <a href='#tymethod.compute_overflow' class='fnname'>compute_overflow</a>(&amp;self) -&gt; <a class='struct' href='../../layout/fragment/struct.Overflow.html' title='layout::fragment::Overflow'>Overflow</a>;
+    fn <a href='#tymethod.iterate_through_fragment_border_boxes' class='fnname'>iterate_through_fragment_border_boxes</a>(&amp;self, iterator: &amp;mut <a class='trait' href='../../layout/fragment/trait.FragmentBorderBoxIterator.html' title='layout::fragment::FragmentBorderBoxIterator'>FragmentBorderBoxIterator</a>, level: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, stacking_context_position: &amp;<a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;);
+    fn <a href='#tymethod.mutate_fragments' class='fnname'>mutate_fragments</a>(&amp;mut self, mutator: &amp;mut <a class='trait' href='../../core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(&amp;mut <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>));
+    fn <a href='#tymethod.update_late_computed_inline_position_if_necessary' class='fnname'>update_late_computed_inline_position_if_necessary</a>(&amp;mut self, inline_position: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>);
+    fn <a href='#tymethod.update_late_computed_block_position_if_necessary' class='fnname'>update_late_computed_block_position_if_necessary</a>(&amp;mut self, block_position: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>);
+    fn <a href='#tymethod.generated_containing_block_size' class='fnname'>generated_containing_block_size</a>(&amp;self, _: <a class='struct' href='../../layout/flow/struct.OpaqueFlow.html' title='layout::flow::OpaqueFlow'>OpaqueFlow</a>) -&gt; <a class='struct' href='../../style/logical_geometry/struct.LogicalSize.html' title='style::logical_geometry::LogicalSize'>LogicalSize</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;;
+    fn <a href='#tymethod.repair_style' class='fnname'>repair_style</a>(&amp;mut self, new_style: &amp;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;);
+
+    fn <a href='#method.as_block' class='fnname'>as_block</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a> { ... }
+    fn <a href='#method.as_mut_block' class='fnname'>as_mut_block</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a> { ... }
+    fn <a href='#method.as_inline' class='fnname'>as_inline</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a> { ... }
+    fn <a href='#method.as_mut_inline' class='fnname'>as_mut_inline</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a> { ... }
+    fn <a href='#method.as_mut_table_wrapper' class='fnname'>as_mut_table_wrapper</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a> { ... }
+    fn <a href='#method.as_table_wrapper' class='fnname'>as_table_wrapper</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a> { ... }
+    fn <a href='#method.as_mut_table' class='fnname'>as_mut_table</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table/struct.TableFlow.html' title='layout::table::TableFlow'>TableFlow</a> { ... }
+    fn <a href='#method.as_table' class='fnname'>as_table</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table/struct.TableFlow.html' title='layout::table::TableFlow'>TableFlow</a> { ... }
+    fn <a href='#method.as_mut_table_colgroup' class='fnname'>as_mut_table_colgroup</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_colgroup/struct.TableColGroupFlow.html' title='layout::table_colgroup::TableColGroupFlow'>TableColGroupFlow</a> { ... }
+    fn <a href='#method.as_mut_table_rowgroup' class='fnname'>as_mut_table_rowgroup</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_rowgroup/struct.TableRowGroupFlow.html' title='layout::table_rowgroup::TableRowGroupFlow'>TableRowGroupFlow</a> { ... }
+    fn <a href='#method.as_table_rowgroup' class='fnname'>as_table_rowgroup</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_rowgroup/struct.TableRowGroupFlow.html' title='layout::table_rowgroup::TableRowGroupFlow'>TableRowGroupFlow</a> { ... }
+    fn <a href='#method.as_mut_table_row' class='fnname'>as_mut_table_row</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_row/struct.TableRowFlow.html' title='layout::table_row::TableRowFlow'>TableRowFlow</a> { ... }
+    fn <a href='#method.as_table_row' class='fnname'>as_table_row</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_row/struct.TableRowFlow.html' title='layout::table_row::TableRowFlow'>TableRowFlow</a> { ... }
+    fn <a href='#method.as_mut_table_caption' class='fnname'>as_mut_table_caption</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_caption/struct.TableCaptionFlow.html' title='layout::table_caption::TableCaptionFlow'>TableCaptionFlow</a> { ... }
+    fn <a href='#method.as_mut_table_cell' class='fnname'>as_mut_table_cell</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_cell/struct.TableCellFlow.html' title='layout::table_cell::TableCellFlow'>TableCellFlow</a> { ... }
+    fn <a href='#method.as_mut_multicol' class='fnname'>as_mut_multicol</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/multicol/struct.MulticolFlow.html' title='layout::multicol::MulticolFlow'>MulticolFlow</a> { ... }
+    fn <a href='#method.as_table_cell' class='fnname'>as_table_cell</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_cell/struct.TableCellFlow.html' title='layout::table_cell::TableCellFlow'>TableCellFlow</a> { ... }
+    fn <a href='#method.column_intrinsic_inline_sizes' class='fnname'>column_intrinsic_inline_sizes</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/table/struct.ColumnIntrinsicInlineSize.html' title='layout::table::ColumnIntrinsicInlineSize'>ColumnIntrinsicInlineSize</a>&gt; { ... }
+    fn <a href='#method.column_computed_inline_sizes' class='fnname'>column_computed_inline_sizes</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/table/struct.ColumnComputedInlineSize.html' title='layout::table::ColumnComputedInlineSize'>ColumnComputedInlineSize</a>&gt; { ... }
+    fn <a href='#method.bubble_inline_sizes' class='fnname'>bubble_inline_sizes</a>(&amp;mut self) { ... }
+    fn <a href='#method.assign_inline_sizes' class='fnname'>assign_inline_sizes</a>(&amp;mut self, _ctx: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) { ... }
+    fn <a href='#method.assign_block_size' class='fnname'>assign_block_size</a>&lt;'a&gt;(&amp;mut self, _ctx: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;) { ... }
+    fn <a href='#method.fragment' class='fnname'>fragment</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, _fragmentation_context: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../layout/flow/struct.FragmentationContext.html' title='layout::flow::FragmentationContext'>FragmentationContext</a>&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt; { ... }
+    fn <a href='#method.place_float_if_applicable' class='fnname'>place_float_if_applicable</a>&lt;'a&gt;(&amp;mut self, _: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;) { ... }
+    fn <a href='#method.assign_block_size_for_inorder_child_if_necessary' class='fnname'>assign_block_size_for_inorder_child_if_necessary</a>&lt;'a&gt;(&amp;mut self, layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;, parent_thread_id: <a class='primitive' href='../../std/primitive.u8.html'>u8</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> { ... }
+    fn <a href='#method.store_overflow' class='fnname'>store_overflow</a>(&amp;mut self, _: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) { ... }
+    fn <a href='#method.compute_absolute_position' class='fnname'>compute_absolute_position</a>(&amp;mut self, _: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) { ... }
+    fn <a href='#method.compute_collapsible_block_start_margin' class='fnname'>compute_collapsible_block_start_margin</a>(&amp;mut self, _layout_context: &amp;mut <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, _margin_collapse_info: &amp;mut <a class='struct' href='../../layout/model/struct.MarginCollapseInfo.html' title='layout::model::MarginCollapseInfo'>MarginCollapseInfo</a>) { ... }
+    fn <a href='#method.mark_as_root' class='fnname'>mark_as_root</a>(&amp;mut self) { ... }
+    fn <a href='#method.is_root' class='fnname'>is_root</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> { ... }
+    fn <a href='#method.positioning' class='fnname'>positioning</a>(&amp;self) -&gt; <a class='enum' href='../../style/properties/longhands/position/computed_value/enum.T.html' title='style::properties::longhands::position::computed_value::T'>T</a> { ... }
+    fn <a href='#method.is_fixed' class='fnname'>is_fixed</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> { ... }
+    fn <a href='#method.contains_positioned_fragments' class='fnname'>contains_positioned_fragments</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> { ... }
+    fn <a href='#method.contains_relatively_positioned_fragments' class='fnname'>contains_relatively_positioned_fragments</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> { ... }
+    fn <a href='#method.is_absolute_containing_block' class='fnname'>is_absolute_containing_block</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> { ... }
+    fn <a href='#method.layer_id' class='fnname'>layer_id</a>(&amp;self) -&gt; <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a> { ... }
+    fn <a href='#method.layer_id_for_overflow_scroll' class='fnname'>layer_id_for_overflow_scroll</a>(&amp;self) -&gt; <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a> { ... }
+    fn <a href='#method.print_extra_flow_children' class='fnname'>print_extra_flow_children</a>(&amp;self, _: &amp;mut <a class='struct' href='../../util/print_tree/struct.PrintTree.html' title='util::print_tree::PrintTree'>PrintTree</a>) { ... }
+}</pre><div class='docblock'><p>Virtual methods that make up a float context.</p>
+
+<p>Note that virtual methods have a cost; we should not overuse them in Servo. Consider adding
+methods to <code>ImmutableFlowUtils</code> or <code>MutableFlowUtils</code> before adding more methods here.</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.class' class='method stab '><code>fn <a href='#tymethod.class' class='fnname'>class</a>(&amp;self) -&gt; <a class='enum' href='../../layout/flow/enum.FlowClass.html' title='layout::flow::FlowClass'>FlowClass</a></code></h3><div class='docblock'><p>Returns the class of flow that this is.</p>
+</div><h3 id='tymethod.collect_stacking_contexts' class='method stab '><code>fn <a href='#tymethod.collect_stacking_contexts' class='fnname'>collect_stacking_contexts</a>(&amp;mut self, _parent_id: <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a>, _: &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../gfx/display_list/struct.StackingContext.html' title='gfx::display_list::StackingContext'>StackingContext</a>&gt;&gt;) -&gt; <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a></code></h3><h3 id='tymethod.build_display_list' class='method stab '><code>fn <a href='#tymethod.build_display_list' class='fnname'>build_display_list</a>(&amp;mut self, state: &amp;mut <a class='struct' href='../../layout/display_list_builder/struct.DisplayListBuildState.html' title='layout::display_list_builder::DisplayListBuildState'>DisplayListBuildState</a>)</code></h3><div class='docblock'><p>Phase 5 of reflow: builds display lists.</p>
+</div><h3 id='tymethod.compute_overflow' class='method stab '><code>fn <a href='#tymethod.compute_overflow' class='fnname'>compute_overflow</a>(&amp;self) -&gt; <a class='struct' href='../../layout/fragment/struct.Overflow.html' title='layout::fragment::Overflow'>Overflow</a></code></h3><div class='docblock'><p>Returns the union of all overflow rects of all of this flow&#39;s fragments.</p>
+</div><h3 id='tymethod.iterate_through_fragment_border_boxes' class='method stab '><code>fn <a href='#tymethod.iterate_through_fragment_border_boxes' class='fnname'>iterate_through_fragment_border_boxes</a>(&amp;self, iterator: &amp;mut <a class='trait' href='../../layout/fragment/trait.FragmentBorderBoxIterator.html' title='layout::fragment::FragmentBorderBoxIterator'>FragmentBorderBoxIterator</a>, level: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, stacking_context_position: &amp;<a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;)</code></h3><div class='docblock'><p>Iterates through border boxes of all of this flow&#39;s fragments.
+Level provides a zero based index indicating the current
+depth of the flow tree during fragment iteration.</p>
+</div><h3 id='tymethod.mutate_fragments' class='method stab '><code>fn <a href='#tymethod.mutate_fragments' class='fnname'>mutate_fragments</a>(&amp;mut self, mutator: &amp;mut <a class='trait' href='../../core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(&amp;mut <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>))</code></h3><div class='docblock'><p>Mutably iterates through fragments in this flow.</p>
+</div><h3 id='tymethod.update_late_computed_inline_position_if_necessary' class='method stab '><code>fn <a href='#tymethod.update_late_computed_inline_position_if_necessary' class='fnname'>update_late_computed_inline_position_if_necessary</a>(&amp;mut self, inline_position: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>)</code></h3><div class='docblock'><p>Updates the inline position of a child flow during the assign-height traversal. At present,
+this is only used for absolutely-positioned inline-blocks.</p>
+</div><h3 id='tymethod.update_late_computed_block_position_if_necessary' class='method stab '><code>fn <a href='#tymethod.update_late_computed_block_position_if_necessary' class='fnname'>update_late_computed_block_position_if_necessary</a>(&amp;mut self, block_position: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>)</code></h3><div class='docblock'><p>Updates the block position of a child flow during the assign-height traversal. At present,
+this is only used for absolutely-positioned inline-blocks.</p>
+</div><h3 id='tymethod.generated_containing_block_size' class='method stab '><code>fn <a href='#tymethod.generated_containing_block_size' class='fnname'>generated_containing_block_size</a>(&amp;self, _: <a class='struct' href='../../layout/flow/struct.OpaqueFlow.html' title='layout::flow::OpaqueFlow'>OpaqueFlow</a>) -&gt; <a class='struct' href='../../style/logical_geometry/struct.LogicalSize.html' title='style::logical_geometry::LogicalSize'>LogicalSize</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></h3><div class='docblock'><p>Return the size of the containing block generated by this flow for the absolutely-
+positioned descendant referenced by <code>for_flow</code>. For block flows, this is the padding box.</p>
+
+<p>NB: Do not change this <code>&amp;self</code> to <code>&amp;mut self</code> under any circumstances! It has security
+implications because this can be called on parents concurrently from descendants!</p>
+</div><h3 id='tymethod.repair_style' class='method stab '><code>fn <a href='#tymethod.repair_style' class='fnname'>repair_style</a>(&amp;mut self, new_style: &amp;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;)</code></h3><div class='docblock'><p>Attempts to perform incremental fixup of this flow by replacing its fragment&#39;s style with
+the new style. This can only succeed if the flow has exactly one fragment.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.as_block' class='method stab '><code>fn <a href='#method.as_block' class='fnname'>as_block</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h3><div class='docblock'><p>If this is a block flow, returns the underlying object. Fails otherwise.</p>
+</div><h3 id='method.as_mut_block' class='method stab '><code>fn <a href='#method.as_mut_block' class='fnname'>as_mut_block</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h3><div class='docblock'><p>If this is a block flow, returns the underlying object, borrowed mutably. Fails otherwise.</p>
+</div><h3 id='method.as_inline' class='method stab '><code>fn <a href='#method.as_inline' class='fnname'>as_inline</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></h3><div class='docblock'><p>If this is an inline flow, returns the underlying object. Fails otherwise.</p>
+</div><h3 id='method.as_mut_inline' class='method stab '><code>fn <a href='#method.as_mut_inline' class='fnname'>as_mut_inline</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></h3><div class='docblock'><p>If this is an inline flow, returns the underlying object, borrowed mutably. Fails
+otherwise.</p>
+</div><h3 id='method.as_mut_table_wrapper' class='method stab '><code>fn <a href='#method.as_mut_table_wrapper' class='fnname'>as_mut_table_wrapper</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h3><div class='docblock'><p>If this is a table wrapper flow, returns the underlying object, borrowed mutably. Fails
+otherwise.</p>
+</div><h3 id='method.as_table_wrapper' class='method stab '><code>fn <a href='#method.as_table_wrapper' class='fnname'>as_table_wrapper</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h3><div class='docblock'><p>If this is a table wrapper flow, returns the underlying object. Fails otherwise.</p>
+</div><h3 id='method.as_mut_table' class='method stab '><code>fn <a href='#method.as_mut_table' class='fnname'>as_mut_table</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table/struct.TableFlow.html' title='layout::table::TableFlow'>TableFlow</a></code></h3><div class='docblock'><p>If this is a table flow, returns the underlying object, borrowed mutably. Fails otherwise.</p>
+</div><h3 id='method.as_table' class='method stab '><code>fn <a href='#method.as_table' class='fnname'>as_table</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table/struct.TableFlow.html' title='layout::table::TableFlow'>TableFlow</a></code></h3><div class='docblock'><p>If this is a table flow, returns the underlying object. Fails otherwise.</p>
+</div><h3 id='method.as_mut_table_colgroup' class='method stab '><code>fn <a href='#method.as_mut_table_colgroup' class='fnname'>as_mut_table_colgroup</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_colgroup/struct.TableColGroupFlow.html' title='layout::table_colgroup::TableColGroupFlow'>TableColGroupFlow</a></code></h3><div class='docblock'><p>If this is a table colgroup flow, returns the underlying object, borrowed mutably. Fails
+otherwise.</p>
+</div><h3 id='method.as_mut_table_rowgroup' class='method stab '><code>fn <a href='#method.as_mut_table_rowgroup' class='fnname'>as_mut_table_rowgroup</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_rowgroup/struct.TableRowGroupFlow.html' title='layout::table_rowgroup::TableRowGroupFlow'>TableRowGroupFlow</a></code></h3><div class='docblock'><p>If this is a table rowgroup flow, returns the underlying object, borrowed mutably. Fails
+otherwise.</p>
+</div><h3 id='method.as_table_rowgroup' class='method stab '><code>fn <a href='#method.as_table_rowgroup' class='fnname'>as_table_rowgroup</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_rowgroup/struct.TableRowGroupFlow.html' title='layout::table_rowgroup::TableRowGroupFlow'>TableRowGroupFlow</a></code></h3><div class='docblock'><p>If this is a table rowgroup flow, returns the underlying object. Fails otherwise.</p>
+</div><h3 id='method.as_mut_table_row' class='method stab '><code>fn <a href='#method.as_mut_table_row' class='fnname'>as_mut_table_row</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_row/struct.TableRowFlow.html' title='layout::table_row::TableRowFlow'>TableRowFlow</a></code></h3><div class='docblock'><p>If this is a table row flow, returns the underlying object, borrowed mutably. Fails
+otherwise.</p>
+</div><h3 id='method.as_table_row' class='method stab '><code>fn <a href='#method.as_table_row' class='fnname'>as_table_row</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_row/struct.TableRowFlow.html' title='layout::table_row::TableRowFlow'>TableRowFlow</a></code></h3><div class='docblock'><p>If this is a table row flow, returns the underlying object. Fails otherwise.</p>
+</div><h3 id='method.as_mut_table_caption' class='method stab '><code>fn <a href='#method.as_mut_table_caption' class='fnname'>as_mut_table_caption</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_caption/struct.TableCaptionFlow.html' title='layout::table_caption::TableCaptionFlow'>TableCaptionFlow</a></code></h3><div class='docblock'><p>If this is a table cell flow, returns the underlying object, borrowed mutably. Fails
+otherwise.</p>
+</div><h3 id='method.as_mut_table_cell' class='method stab '><code>fn <a href='#method.as_mut_table_cell' class='fnname'>as_mut_table_cell</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_cell/struct.TableCellFlow.html' title='layout::table_cell::TableCellFlow'>TableCellFlow</a></code></h3><div class='docblock'><p>If this is a table cell flow, returns the underlying object, borrowed mutably. Fails
+otherwise.</p>
+</div><h3 id='method.as_mut_multicol' class='method stab '><code>fn <a href='#method.as_mut_multicol' class='fnname'>as_mut_multicol</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/multicol/struct.MulticolFlow.html' title='layout::multicol::MulticolFlow'>MulticolFlow</a></code></h3><div class='docblock'><p>If this is a multicol flow, returns the underlying object, borrowed mutably. Fails
+otherwise.</p>
+</div><h3 id='method.as_table_cell' class='method stab '><code>fn <a href='#method.as_table_cell' class='fnname'>as_table_cell</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_cell/struct.TableCellFlow.html' title='layout::table_cell::TableCellFlow'>TableCellFlow</a></code></h3><div class='docblock'><p>If this is a table cell flow, returns the underlying object. Fails otherwise.</p>
+</div><h3 id='method.column_intrinsic_inline_sizes' class='method stab '><code>fn <a href='#method.column_intrinsic_inline_sizes' class='fnname'>column_intrinsic_inline_sizes</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/table/struct.ColumnIntrinsicInlineSize.html' title='layout::table::ColumnIntrinsicInlineSize'>ColumnIntrinsicInlineSize</a>&gt;</code></h3><div class='docblock'><p>If this is a table row, table rowgroup, or table flow, returns column intrinsic
+inline-sizes. Fails otherwise.</p>
+</div><h3 id='method.column_computed_inline_sizes' class='method stab '><code>fn <a href='#method.column_computed_inline_sizes' class='fnname'>column_computed_inline_sizes</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/table/struct.ColumnComputedInlineSize.html' title='layout::table::ColumnComputedInlineSize'>ColumnComputedInlineSize</a>&gt;</code></h3><div class='docblock'><p>If this is a table row, table rowgroup, or table flow, returns column computed
+inline-sizes. Fails otherwise.</p>
+</div><h3 id='method.bubble_inline_sizes' class='method stab '><code>fn <a href='#method.bubble_inline_sizes' class='fnname'>bubble_inline_sizes</a>(&amp;mut self)</code></h3><div class='docblock'><p>Pass 1 of reflow: computes minimum and preferred inline-sizes.</p>
+
+<p>Recursively (bottom-up) determine the flow&#39;s minimum and preferred inline-sizes. When
+called on this flow, all child flows have had their minimum and preferred inline-sizes set.
+This function must decide minimum/preferred inline-sizes based on its children&#39;s inline-
+sizes and the dimensions of any boxes it is responsible for flowing.</p>
+</div><h3 id='method.assign_inline_sizes' class='method stab '><code>fn <a href='#method.assign_inline_sizes' class='fnname'>assign_inline_sizes</a>(&amp;mut self, _ctx: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h3><div class='docblock'><p>Pass 2 of reflow: computes inline-size.</p>
+</div><h3 id='method.assign_block_size' class='method stab '><code>fn <a href='#method.assign_block_size' class='fnname'>assign_block_size</a>&lt;'a&gt;(&amp;mut self, _ctx: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;)</code></h3><div class='docblock'><p>Pass 3a of reflow: computes block-size.</p>
+</div><h3 id='method.fragment' class='method stab '><code>fn <a href='#method.fragment' class='fnname'>fragment</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, _fragmentation_context: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../layout/flow/struct.FragmentationContext.html' title='layout::flow::FragmentationContext'>FragmentationContext</a>&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;</code></h3><div class='docblock'><p>Like <code>assign_block_size</code>, but is recurses explicitly into descendants.
+Fit as much content as possible within <code>available_block_size</code>.
+If that’s not all of it, truncate the contents of <code>self</code>
+and return a new flow similar to <code>self</code> with the rest of the content.</p>
+
+<p>The default is to make a flow &quot;atomic&quot;: it can not be fragmented.</p>
+</div><h3 id='method.place_float_if_applicable' class='method stab '><code>fn <a href='#method.place_float_if_applicable' class='fnname'>place_float_if_applicable</a>&lt;'a&gt;(&amp;mut self, _: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;)</code></h3><div class='docblock'><p>If this is a float, places it. The default implementation does nothing.</p>
+</div><h3 id='method.assign_block_size_for_inorder_child_if_necessary' class='method stab '><code>fn <a href='#method.assign_block_size_for_inorder_child_if_necessary' class='fnname'>assign_block_size_for_inorder_child_if_necessary</a>&lt;'a&gt;(&amp;mut self, layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;, parent_thread_id: <a class='primitive' href='../../std/primitive.u8.html'>u8</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Assigns block-sizes in-order; or, if this is a float, places the float. The default
+implementation simply assigns block-sizes if this flow might have floats in. Returns true
+if it was determined that this child might have had floats in or false otherwise.</p>
+
+<p><code>parent_thread_id</code> is the thread ID of the parent. This is used for the layout tinting
+debug mode; if the block size of this flow was determined by its parent, we should treat
+it as laid out by its parent.</p>
+</div><h3 id='method.store_overflow' class='method stab '><code>fn <a href='#method.store_overflow' class='fnname'>store_overflow</a>(&amp;mut self, _: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h3><div class='docblock'><p>CSS Section 11.1
+This is the union of rectangles of the flows for which we define the
+Containing Block.</p>
+
+<p>FIXME(pcwalton): This should not be a virtual method, but currently is due to a compiler
+bug (&quot;the trait <code>Sized</code> is not implemented for <code>self</code>&quot;).</p>
+
+<p>Assumption: This is called in a bottom-up traversal, so kids&#39; overflows have
+already been set.
+Assumption: Absolute descendants have had their overflow calculated.</p>
+</div><h3 id='method.compute_absolute_position' class='method stab '><code>fn <a href='#method.compute_absolute_position' class='fnname'>compute_absolute_position</a>(&amp;mut self, _: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h3><div class='docblock'><p>Phase 4 of reflow: computes absolute positions.</p>
+</div><h3 id='method.compute_collapsible_block_start_margin' class='method stab '><code>fn <a href='#method.compute_collapsible_block_start_margin' class='fnname'>compute_collapsible_block_start_margin</a>(&amp;mut self, _layout_context: &amp;mut <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, _margin_collapse_info: &amp;mut <a class='struct' href='../../layout/model/struct.MarginCollapseInfo.html' title='layout::model::MarginCollapseInfo'>MarginCollapseInfo</a>)</code></h3><h3 id='method.mark_as_root' class='method stab '><code>fn <a href='#method.mark_as_root' class='fnname'>mark_as_root</a>(&amp;mut self)</code></h3><div class='docblock'><p>Marks this flow as the root flow. The default implementation is a no-op.</p>
+</div><h3 id='method.is_root' class='method stab '><code>fn <a href='#method.is_root' class='fnname'>is_root</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><h3 id='method.positioning' class='method stab '><code>fn <a href='#method.positioning' class='fnname'>positioning</a>(&amp;self) -&gt; <a class='enum' href='../../style/properties/longhands/position/computed_value/enum.T.html' title='style::properties::longhands::position::computed_value::T'>T</a></code></h3><div class='docblock'><p>The &#39;position&#39; property of this flow.</p>
+</div><h3 id='method.is_fixed' class='method stab '><code>fn <a href='#method.is_fixed' class='fnname'>is_fixed</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Return true if this flow has position &#39;fixed&#39;.</p>
+</div><h3 id='method.contains_positioned_fragments' class='method stab '><code>fn <a href='#method.contains_positioned_fragments' class='fnname'>contains_positioned_fragments</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><h3 id='method.contains_relatively_positioned_fragments' class='method stab '><code>fn <a href='#method.contains_relatively_positioned_fragments' class='fnname'>contains_relatively_positioned_fragments</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><h3 id='method.is_absolute_containing_block' class='method stab '><code>fn <a href='#method.is_absolute_containing_block' class='fnname'>is_absolute_containing_block</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this is an absolute containing block.</p>
+</div><h3 id='method.layer_id' class='method stab '><code>fn <a href='#method.layer_id' class='fnname'>layer_id</a>(&amp;self) -&gt; <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a></code></h3><div class='docblock'><p>Returns a layer ID for the given fragment.</p>
+</div><h3 id='method.layer_id_for_overflow_scroll' class='method stab '><code>fn <a href='#method.layer_id_for_overflow_scroll' class='fnname'>layer_id_for_overflow_scroll</a>(&amp;self) -&gt; <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a></code></h3><div class='docblock'><p>Returns a layer ID for the given fragment.</p>
+</div><h3 id='method.print_extra_flow_children' class='method stab '><code>fn <a href='#method.print_extra_flow_children' class='fnname'>print_extra_flow_children</a>(&amp;self, _: &amp;mut <a class='struct' href='../../util/print_tree/struct.PrintTree.html' title='util::print_tree::PrintTree'>PrintTree</a>)</code></h3><div class='docblock'><p>Print any extra children (such as fragments) contained in this Flow
+for debugging purposes. Any items inserted into the tree will become
+children of this flow.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../../layout/flow/trait.ImmutableFlowUtils.html' title='layout::flow::ImmutableFlowUtils'>ImmutableFlowUtils</a> for &amp;'a <a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a></code></h3><div class='impl-items'><h4 id='method.is_block_like' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_block_like' class='fnname'>is_block_like</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is a block flow or subclass thereof.</p>
+</div><h4 id='method.is_proper_table_child' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_proper_table_child' class='fnname'>is_proper_table_child</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is a proper table child.
+&#39;Proper table child&#39; is defined as table-row flow, table-rowgroup flow,
+table-column-group flow, or table-caption flow.</p>
+</div><h4 id='method.is_table_row' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_table_row' class='fnname'>is_table_row</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is a table row flow.</p>
+</div><h4 id='method.is_table_cell' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_table_cell' class='fnname'>is_table_cell</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is a table cell flow.</p>
+</div><h4 id='method.is_table_colgroup' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_table_colgroup' class='fnname'>is_table_colgroup</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is a table colgroup flow.</p>
+</div><h4 id='method.is_table' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_table' class='fnname'>is_table</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is a table flow.</p>
+</div><h4 id='method.is_table_caption' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_table_caption' class='fnname'>is_table_caption</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is a table caption flow.</p>
+</div><h4 id='method.is_table_rowgroup' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_table_rowgroup' class='fnname'>is_table_rowgroup</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is a table rowgroup flow.</p>
+</div><h4 id='method.is_table_kind' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_table_kind' class='fnname'>is_table_kind</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is one of table-related flows.</p>
+</div><h4 id='method.need_anonymous_flow' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.need_anonymous_flow' class='fnname'>need_anonymous_flow</a>(self, child: &amp;<a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if anonymous flow is needed between this flow and child flow.
+Spec: <a href="http://www.w3.org/TR/CSS21/tables.html#anonymous-boxes">http://www.w3.org/TR/CSS21/tables.html#anonymous-boxes</a></p>
+</div><h4 id='method.generate_missing_child_flow' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.generate_missing_child_flow' class='fnname'>generate_missing_child_flow</a>&lt;N: <a class='trait' href='../../layout/wrapper/trait.ThreadSafeLayoutNode.html' title='layout::wrapper::ThreadSafeLayoutNode'>ThreadSafeLayoutNode</a>&gt;(self, node: &amp;N, ctx: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) -&gt; <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a></code></h4>
+<div class='docblock'><p>Generates missing child flow of this flow.</p>
+
+<p>FIXME(pcwalton): This duplicates some logic in
+<code>generate_anonymous_table_flows_if_necessary()</code>. We should remove this function eventually,
+as it&#39;s harder to understand.</p>
+</div><h4 id='method.contains_roots_of_absolute_flow_tree' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.contains_roots_of_absolute_flow_tree' class='fnname'>contains_roots_of_absolute_flow_tree</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow contains fragments that are roots of an absolute flow tree.</p>
+</div><h4 id='method.is_leaf' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_leaf' class='fnname'>is_leaf</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow has no children.</p>
+</div><h4 id='method.child_count' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.child_count' class='fnname'>child_count</a>(self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+<div class='docblock'><p>Returns the number of children that this flow possesses.</p>
+</div><h4 id='method.is_block_container' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_block_container' class='fnname'>is_block_container</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Return true if this flow is a Block Container.</p>
+
+<p>Except for table fragments and replaced elements, block-level fragments (<code>BlockFlow</code>) are
+also block container fragments.
+Non-replaced inline blocks and non-replaced table cells are also block
+containers.</p>
+</div><h4 id='method.is_block_flow' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_block_flow' class='fnname'>is_block_flow</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is a block flow.</p>
+</div><h4 id='method.is_inline_flow' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.is_inline_flow' class='fnname'>is_inline_flow</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this flow is an inline flow.</p>
+</div><h4 id='method.print' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.print' class='fnname'>print</a>(self, title: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>)</code></h4>
+<div class='docblock'><p>Dumps the flow tree for debugging.</p>
+</div><h4 id='method.print_with_tree' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.print_with_tree' class='fnname'>print_with_tree</a>(self, print_tree: &amp;mut <a class='struct' href='../../util/print_tree/struct.PrintTree.html' title='util::print_tree::PrintTree'>PrintTree</a>)</code></h4>
+<div class='docblock'><p>Dumps the flow tree for debugging into the given PrintTree.</p>
+</div><h4 id='method.floats_might_flow_through' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.floats_might_flow_through' class='fnname'>floats_might_flow_through</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.baseline_offset_of_last_line_box_in_flow' class='method'><code>fn <a href='../../layout/flow/trait.ImmutableFlowUtils.html#tymethod.baseline_offset_of_last_line_box_in_flow' class='fnname'>baseline_offset_of_last_line_box_in_flow</a>(self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../../layout/flow/trait.MutableFlowUtils.html' title='layout::flow::MutableFlowUtils'>MutableFlowUtils</a> for &amp;'a mut <a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a></code></h3><div class='impl-items'><h4 id='method.traverse_preorder' class='method'><code>fn <a href='../../layout/flow/trait.MutableFlowUtils.html#tymethod.traverse_preorder' class='fnname'>traverse_preorder</a>&lt;T: <a class='trait' href='../../layout/flow/trait.PreorderFlowTraversal.html' title='layout::flow::PreorderFlowTraversal'>PreorderFlowTraversal</a>&gt;(self, traversal: &amp;T)</code></h4>
+<div class='docblock'><p>Traverses the tree in preorder.</p>
+</div><h4 id='method.traverse_postorder' class='method'><code>fn <a href='../../layout/flow/trait.MutableFlowUtils.html#tymethod.traverse_postorder' class='fnname'>traverse_postorder</a>&lt;T: <a class='trait' href='../../layout/flow/trait.PostorderFlowTraversal.html' title='layout::flow::PostorderFlowTraversal'>PostorderFlowTraversal</a>&gt;(self, traversal: &amp;T)</code></h4>
+<div class='docblock'><p>Traverses the tree in postorder.</p>
+</div><h4 id='method.repair_style_and_bubble_inline_sizes' class='method'><code>fn <a href='../../layout/flow/trait.MutableFlowUtils.html#tymethod.repair_style_and_bubble_inline_sizes' class='fnname'>repair_style_and_bubble_inline_sizes</a>(self, style: &amp;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;)</code></h4>
+<div class='docblock'><p>Calls <code>repair_style</code> and <code>bubble_inline_sizes</code>. You should use this method instead of
+calling them individually, since there is no reason not to perform both operations.</p>
+</div><h4 id='method.traverse_preorder_absolute_flows' class='method'><code>fn <a href='../../layout/flow/trait.MutableFlowUtils.html#tymethod.traverse_preorder_absolute_flows' class='fnname'>traverse_preorder_absolute_flows</a>&lt;T&gt;(&amp;mut self, traversal: &amp;mut T) <span class='where'>where T: <a class='trait' href='../../layout/flow/trait.PreorderFlowTraversal.html' title='layout::flow::PreorderFlowTraversal'>PreorderFlowTraversal</a></span></code></h4>
+<div class='docblock'><p>Traverse the Absolute flow tree in preorder.</p>
+
+<p>Traverse all your direct absolute descendants, who will then traverse
+their direct absolute descendants.</p>
+
+<p>Return true if the traversal is to continue or false to stop.</p>
+</div><h4 id='method.traverse_postorder_absolute_flows' class='method'><code>fn <a href='../../layout/flow/trait.MutableFlowUtils.html#tymethod.traverse_postorder_absolute_flows' class='fnname'>traverse_postorder_absolute_flows</a>&lt;T&gt;(&amp;mut self, traversal: &amp;mut T) <span class='where'>where T: <a class='trait' href='../../layout/flow/trait.PostorderFlowTraversal.html' title='layout::flow::PostorderFlowTraversal'>PostorderFlowTraversal</a></span></code></h4>
+<div class='docblock'><p>Traverse the Absolute flow tree in postorder.</p>
+
+<p>Return true if the traversal is to continue or false to stop.</p>
+</div></div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../../layout/incremental/trait.LayoutDamageComputation.html' title='layout::incremental::LayoutDamageComputation'>LayoutDamageComputation</a> for &amp;'a mut <a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a></code></h3><div class='impl-items'><h4 id='method.compute_layout_damage' class='method'><code>fn <a href='../../layout/incremental/trait.LayoutDamageComputation.html#tymethod.compute_layout_damage' class='fnname'>compute_layout_damage</a>(self) -&gt; <a class='struct' href='../../layout/incremental/struct.SpecialRestyleDamage.html' title='layout::incremental::SpecialRestyleDamage'>SpecialRestyleDamage</a></code></h4>
+<h4 id='method.reflow_entire_document' class='method'><code>fn <a href='../../layout/incremental/trait.LayoutDamageComputation.html#tymethod.reflow_entire_document' class='fnname'>reflow_entire_document</a>(self)</code></h4>
+</div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl Flow for <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/flex/struct.FlexFlow.html' title='layout::flex::FlexFlow'>FlexFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/list_item/struct.ListItemFlow.html' title='layout::list_item::ListItemFlow'>ListItemFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/multicol/struct.MulticolFlow.html' title='layout::multicol::MulticolFlow'>MulticolFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/multicol/struct.MulticolColumnFlow.html' title='layout::multicol::MulticolColumnFlow'>MulticolColumnFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/table/struct.TableFlow.html' title='layout::table::TableFlow'>TableFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/table_caption/struct.TableCaptionFlow.html' title='layout::table_caption::TableCaptionFlow'>TableCaptionFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/table_cell/struct.TableCellFlow.html' title='layout::table_cell::TableCellFlow'>TableCellFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/table_colgroup/struct.TableColGroupFlow.html' title='layout::table_colgroup::TableColGroupFlow'>TableColGroupFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/table_row/struct.TableRowFlow.html' title='layout::table_row::TableRowFlow'>TableRowFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/table_rowgroup/struct.TableRowGroupFlow.html' title='layout::table_rowgroup::TableRowGroupFlow'>TableRowGroupFlow</a></code></li>
+<li><code>impl Flow for <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/layout/flow/trait.Flow.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "layout";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

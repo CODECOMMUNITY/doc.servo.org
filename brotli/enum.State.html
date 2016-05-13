@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `State` enum in crate `brotli`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, State">
+
+    <title>brotli::State - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>brotli</a></p><script>window.sidebarCurrent = {name: 'State', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>brotli</a>::<wbr><a class='enum' href=''>State</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-814' class='srclink' href='../src/brotli/lib.rs.html#245-291' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>enum State {
+    StreamBegin,
+    HeaderBegin,
+    WBits(<a class='type' href='../brotli/type.WBits.html' title='brotli::WBits'>WBits</a>),
+    HeaderEnd,
+    HeaderMetaBlockBegin,
+    IsLast(<a class='type' href='../brotli/type.IsLast.html' title='brotli::IsLast'>IsLast</a>),
+    IsLastEmpty(<a class='type' href='../brotli/type.IsLastEmpty.html' title='brotli::IsLastEmpty'>IsLastEmpty</a>),
+    MNibbles(<a class='type' href='../brotli/type.MNibbles.html' title='brotli::MNibbles'>MNibbles</a>),
+    MSkipBytes(<a class='type' href='../brotli/type.MSkipBytes.html' title='brotli::MSkipBytes'>MSkipBytes</a>),
+    MSkipLen(<a class='type' href='../brotli/type.MSkipLen.html' title='brotli::MSkipLen'>MSkipLen</a>),
+    MLen(<a class='type' href='../brotli/type.MLen.html' title='brotli::MLen'>MLen</a>),
+    IsUncompressed(<a class='type' href='../brotli/type.IsUncompressed.html' title='brotli::IsUncompressed'>IsUncompressed</a>),
+    MLenLiterals(<a class='type' href='../brotli/type.MLenLiterals.html' title='brotli::MLenLiterals'>MLenLiterals</a>),
+    NBltypesL(<a class='type' href='../brotli/type.NBltypes.html' title='brotli::NBltypes'>NBltypes</a>),
+    PrefixCodeBlockTypesLiterals(<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>),
+    PrefixCodeBlockCountsLiterals(<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>),
+    FirstBlockCountLiterals(<a class='type' href='../brotli/type.BLen.html' title='brotli::BLen'>BLen</a>),
+    NBltypesI(<a class='type' href='../brotli/type.NBltypes.html' title='brotli::NBltypes'>NBltypes</a>),
+    PrefixCodeBlockTypesInsertAndCopyLengths(<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>),
+    PrefixCodeBlockCountsInsertAndCopyLengths(<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>),
+    FirstBlockCountInsertAndCopyLengths(<a class='type' href='../brotli/type.BLen.html' title='brotli::BLen'>BLen</a>),
+    NBltypesD(<a class='type' href='../brotli/type.NBltypes.html' title='brotli::NBltypes'>NBltypes</a>),
+    PrefixCodeBlockTypesDistances(<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>),
+    PrefixCodeBlockCountsDistances(<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>),
+    FirstBlockCountDistances(<a class='type' href='../brotli/type.BLen.html' title='brotli::BLen'>BLen</a>),
+    NPostfix(<a class='type' href='../brotli/type.NPostfix.html' title='brotli::NPostfix'>NPostfix</a>),
+    NDirect(<a class='type' href='../brotli/type.NDirect.html' title='brotli::NDirect'>NDirect</a>),
+    ContextModesLiterals(<a class='type' href='../brotli/type.ContextModes.html' title='brotli::ContextModes'>ContextModes</a>),
+    NTreesL(<a class='type' href='../brotli/type.NTrees.html' title='brotli::NTrees'>NTrees</a>),
+    NTreesD(<a class='type' href='../brotli/type.NTrees.html' title='brotli::NTrees'>NTrees</a>),
+    ContextMapDistances(<a class='type' href='../brotli/type.ContextMap.html' title='brotli::ContextMap'>ContextMap</a>),
+    ContextMapLiterals(<a class='type' href='../brotli/type.ContextMap.html' title='brotli::ContextMap'>ContextMap</a>),
+    PrefixCodesLiterals(<a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>&gt;),
+    PrefixCodesInsertAndCopyLengths(<a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>&gt;),
+    PrefixCodesDistances(<a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>&gt;),
+    DataMetaBlockBegin,
+    InsertAndCopyLength(<a class='type' href='../brotli/type.InsertAndCopyLength.html' title='brotli::InsertAndCopyLength'>InsertAndCopyLength</a>),
+    InsertLengthAndCopyLength(<a class='type' href='../brotli/type.InsertLengthAndCopyLength.html' title='brotli::InsertLengthAndCopyLength'>InsertLengthAndCopyLength</a>),
+    InsertLiterals(<a class='type' href='../brotli/type.Literals.html' title='brotli::Literals'>Literals</a>),
+    DistanceCode(<a class='type' href='../brotli/type.DistanceCode.html' title='brotli::DistanceCode'>DistanceCode</a>),
+    Distance(<a class='type' href='../brotli/type.Distance.html' title='brotli::Distance'>Distance</a>),
+    CopyLiterals(<a class='type' href='../brotli/type.Literals.html' title='brotli::Literals'>Literals</a>),
+    DataMetaBlockEnd,
+    MetaBlockEnd,
+    StreamEnd,
+}</pre><h2 class='variants'>Variants</h2>
+<table class='variants_table'><tr><td id='variant.StreamBegin'><code>StreamBegin</code></td><td></td><td></td></tr><tr><td id='variant.HeaderBegin'><code>HeaderBegin</code></td><td></td><td></td></tr><tr><td id='variant.WBits'><code>WBits</code></td><td></td><td></td></tr><tr><td id='variant.HeaderEnd'><code>HeaderEnd</code></td><td></td><td></td></tr><tr><td id='variant.HeaderMetaBlockBegin'><code>HeaderMetaBlockBegin</code></td><td></td><td></td></tr><tr><td id='variant.IsLast'><code>IsLast</code></td><td></td><td></td></tr><tr><td id='variant.IsLastEmpty'><code>IsLastEmpty</code></td><td></td><td></td></tr><tr><td id='variant.MNibbles'><code>MNibbles</code></td><td></td><td></td></tr><tr><td id='variant.MSkipBytes'><code>MSkipBytes</code></td><td></td><td></td></tr><tr><td id='variant.MSkipLen'><code>MSkipLen</code></td><td></td><td></td></tr><tr><td id='variant.MLen'><code>MLen</code></td><td></td><td></td></tr><tr><td id='variant.IsUncompressed'><code>IsUncompressed</code></td><td></td><td></td></tr><tr><td id='variant.MLenLiterals'><code>MLenLiterals</code></td><td></td><td></td></tr><tr><td id='variant.NBltypesL'><code>NBltypesL</code></td><td></td><td></td></tr><tr><td id='variant.PrefixCodeBlockTypesLiterals'><code>PrefixCodeBlockTypesLiterals</code></td><td></td><td></td></tr><tr><td id='variant.PrefixCodeBlockCountsLiterals'><code>PrefixCodeBlockCountsLiterals</code></td><td></td><td></td></tr><tr><td id='variant.FirstBlockCountLiterals'><code>FirstBlockCountLiterals</code></td><td></td><td></td></tr><tr><td id='variant.NBltypesI'><code>NBltypesI</code></td><td></td><td></td></tr><tr><td id='variant.PrefixCodeBlockTypesInsertAndCopyLengths'><code>PrefixCodeBlockTypesInsertAndCopyLengths</code></td><td></td><td></td></tr><tr><td id='variant.PrefixCodeBlockCountsInsertAndCopyLengths'><code>PrefixCodeBlockCountsInsertAndCopyLengths</code></td><td></td><td></td></tr><tr><td id='variant.FirstBlockCountInsertAndCopyLengths'><code>FirstBlockCountInsertAndCopyLengths</code></td><td></td><td></td></tr><tr><td id='variant.NBltypesD'><code>NBltypesD</code></td><td></td><td></td></tr><tr><td id='variant.PrefixCodeBlockTypesDistances'><code>PrefixCodeBlockTypesDistances</code></td><td></td><td></td></tr><tr><td id='variant.PrefixCodeBlockCountsDistances'><code>PrefixCodeBlockCountsDistances</code></td><td></td><td></td></tr><tr><td id='variant.FirstBlockCountDistances'><code>FirstBlockCountDistances</code></td><td></td><td></td></tr><tr><td id='variant.NPostfix'><code>NPostfix</code></td><td></td><td></td></tr><tr><td id='variant.NDirect'><code>NDirect</code></td><td></td><td></td></tr><tr><td id='variant.ContextModesLiterals'><code>ContextModesLiterals</code></td><td></td><td></td></tr><tr><td id='variant.NTreesL'><code>NTreesL</code></td><td></td><td></td></tr><tr><td id='variant.NTreesD'><code>NTreesD</code></td><td></td><td></td></tr><tr><td id='variant.ContextMapDistances'><code>ContextMapDistances</code></td><td></td><td></td></tr><tr><td id='variant.ContextMapLiterals'><code>ContextMapLiterals</code></td><td></td><td></td></tr><tr><td id='variant.PrefixCodesLiterals'><code>PrefixCodesLiterals</code></td><td></td><td></td></tr><tr><td id='variant.PrefixCodesInsertAndCopyLengths'><code>PrefixCodesInsertAndCopyLengths</code></td><td></td><td></td></tr><tr><td id='variant.PrefixCodesDistances'><code>PrefixCodesDistances</code></td><td></td><td></td></tr><tr><td id='variant.DataMetaBlockBegin'><code>DataMetaBlockBegin</code></td><td></td><td></td></tr><tr><td id='variant.InsertAndCopyLength'><code>InsertAndCopyLength</code></td><td></td><td></td></tr><tr><td id='variant.InsertLengthAndCopyLength'><code>InsertLengthAndCopyLength</code></td><td></td><td></td></tr><tr><td id='variant.InsertLiterals'><code>InsertLiterals</code></td><td></td><td></td></tr><tr><td id='variant.DistanceCode'><code>DistanceCode</code></td><td></td><td></td></tr><tr><td id='variant.Distance'><code>Distance</code></td><td></td><td></td></tr><tr><td id='variant.CopyLiterals'><code>CopyLiterals</code></td><td></td><td></td></tr><tr><td id='variant.DataMetaBlockEnd'><code>DataMetaBlockEnd</code></td><td></td><td></td></tr><tr><td id='variant.MetaBlockEnd'><code>MetaBlockEnd</code></td><td></td><td></td></tr><tr><td id='variant.StreamEnd'><code>StreamEnd</code></td><td></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='../core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "brotli";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

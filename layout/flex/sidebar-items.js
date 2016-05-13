@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["AxisSize","The size of an axis. May be a specified size, a min/max constraint, or an unlimited size"],["Mode",""]],"struct":[["FlexFlow","A block with the CSS `display` property equal to `flex`."],["FlexItem",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ApacheBugFlag",""],["Match",""],["MediaType",""],["NoSniffFlag",""]],"fn":[["as_string_option",""],["eats_until",""]],"struct":[["BinaryOrPlaintextClassifier",""],["ByteMatcher",""],["FeedsClassifier",""],["GroupedClassifier",""],["MIMEClassifier",""],["Mp4Matcher",""],["TagTerminatedByteMatcher",""]],"trait":[["MIMEChecker",""],["Matches",""]]});

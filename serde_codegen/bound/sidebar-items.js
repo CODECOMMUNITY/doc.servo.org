@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["all_struct_fields",""],["all_variants",""],["contains_generic",""],["strip_reference",""],["with_bound",""],["without_defaults",""]]});

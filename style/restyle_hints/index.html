@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `restyle_hints` mod in crate `style`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, restyle_hints">
+
+    <title>style::restyle_hints - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>style</a></p><script>window.sidebarCurrent = {name: 'restyle_hints', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>style</a>::<wbr><a class='mod' href=''>restyle_hints</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-4491' class='srclink' href='../../src/style/restyle_hints.rs.html#5-329' title='goto source code'>[src]</a></span></h1>
+<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Dependency.html'
+                                  title='style::restyle_hints::Dependency'>Dependency</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.DependencySet.html'
+                                  title='style::restyle_hints::DependencySet'>DependencySet</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ElementSnapshot.html'
+                                  title='style::restyle_hints::ElementSnapshot'>ElementSnapshot</a></td>
+                           <td class='docblock short'>
+                                <p>In order to compute restyle hints, we perform a selector match against a list of partial
+selectors whose rightmost simple selector may be sensitive to the thing being changed. We
+do this matching twice, once for the element as it exists now and once for the element as it
+existed at the time of the last restyle. If the results of the selector match differ, that means
+that the given partial selector is sensitive to the change, and we compute a restyle hint
+based on its combinator.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ElementWrapper.html'
+                                  title='style::restyle_hints::ElementWrapper'>ElementWrapper</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.RestyleHint.html'
+                                  title='style::restyle_hints::RestyleHint'>RestyleHint</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Sensitivities.html'
+                                  title='style::restyle_hints::Sensitivities'>Sensitivities</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.RESTYLE_DESCENDANTS.html'
+                                  title='style::restyle_hints::RESTYLE_DESCENDANTS'>RESTYLE_DESCENDANTS</a></td>
+                           <td class='docblock short'>
+                                <p>Rerun selector matching on all of the element&#39;s descendants.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.RESTYLE_LATER_SIBLINGS.html'
+                                  title='style::restyle_hints::RESTYLE_LATER_SIBLINGS'>RESTYLE_LATER_SIBLINGS</a></td>
+                           <td class='docblock short'>
+                                <p>Rerun selector matching on all later siblings of the element and all of their descendants.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.RESTYLE_SELF.html'
+                                  title='style::restyle_hints::RESTYLE_SELF'>RESTYLE_SELF</a></td>
+                           <td class='docblock short'>
+                                <p>Rerun selector matching on the element.</p>
+                           </td>
+                       </tr></table><h2 id='statics' class='section-header'><a href="#statics">Statics</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='static' href='static.EMPTY_SNAPSHOT.html'
+                                  title='style::restyle_hints::EMPTY_SNAPSHOT'>EMPTY_SNAPSHOT</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.combinator_to_restyle_hint.html'
+                                  title='style::restyle_hints::combinator_to_restyle_hint'>combinator_to_restyle_hint</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.is_attr_selector.html'
+                                  title='style::restyle_hints::is_attr_selector'>is_attr_selector</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.selector_to_state.html'
+                                  title='style::restyle_hints::selector_to_state'>selector_to_state</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "style";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

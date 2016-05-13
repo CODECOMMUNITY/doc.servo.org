@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `PaintListener` trait in crate `gfx_traits`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, PaintListener">
+
+    <title>gfx_traits::paint_listener::PaintListener - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>gfx_traits</a>::<wbr><a href='index.html'>paint_listener</a></p><script>window.sidebarCurrent = {name: 'PaintListener', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>gfx_traits</a>::<wbr><a href='index.html'>paint_listener</a>::<wbr><a class='trait' href=''>PaintListener</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-40' class='srclink' href='../../src/gfx_traits/paint_listener.rs.html#15-37' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait PaintListener {
+    fn <a href='#tymethod.native_display' class='fnname'>native_display</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../layers/platform/linux/surface/enum.NativeDisplay.html' title='layers::platform::linux::surface::NativeDisplay'>NativeDisplay</a>&gt;;
+    fn <a href='#tymethod.initialize_layers_for_pipeline' class='fnname'>initialize_layers_for_pipeline</a>(&amp;mut self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, properties: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>&gt;, epoch: <a class='struct' href='../../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>);
+    fn <a href='#tymethod.assign_painted_buffers' class='fnname'>assign_painted_buffers</a>(&amp;mut self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, epoch: <a class='struct' href='../../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>, replies: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, <a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../layers/layers/struct.LayerBufferSet.html' title='layers::layers::LayerBufferSet'>LayerBufferSet</a>&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;, frame_tree_id: <a class='struct' href='../../gfx_traits/struct.FrameTreeId.html' title='gfx_traits::FrameTreeId'>FrameTreeId</a>);
+    fn <a href='#tymethod.ignore_buffer_requests' class='fnname'>ignore_buffer_requests</a>(&amp;mut self, buffer_requests: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layers/layers/struct.BufferRequest.html' title='layers::layers::BufferRequest'>BufferRequest</a>&gt;);
+    fn <a href='#tymethod.notify_paint_thread_exiting' class='fnname'>notify_paint_thread_exiting</a>(&amp;mut self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>);
+}</pre><div class='docblock'><p>The interface used by the painter to acquire draw targets for each paint frame and
+submit them to be drawn to the display.</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.native_display' class='method stab '><code>fn <a href='#tymethod.native_display' class='fnname'>native_display</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../layers/platform/linux/surface/enum.NativeDisplay.html' title='layers::platform::linux::surface::NativeDisplay'>NativeDisplay</a>&gt;</code></h3><h3 id='tymethod.initialize_layers_for_pipeline' class='method stab '><code>fn <a href='#tymethod.initialize_layers_for_pipeline' class='fnname'>initialize_layers_for_pipeline</a>(&amp;mut self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, properties: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>&gt;, epoch: <a class='struct' href='../../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>)</code></h3><div class='docblock'><p>Informs the compositor of the layers for the given pipeline. The compositor responds by
+creating and/or destroying paint layers as necessary.</p>
+</div><h3 id='tymethod.assign_painted_buffers' class='method stab '><code>fn <a href='#tymethod.assign_painted_buffers' class='fnname'>assign_painted_buffers</a>(&amp;mut self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, epoch: <a class='struct' href='../../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>, replies: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, <a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../layers/layers/struct.LayerBufferSet.html' title='layers::layers::LayerBufferSet'>LayerBufferSet</a>&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;, frame_tree_id: <a class='struct' href='../../gfx_traits/struct.FrameTreeId.html' title='gfx_traits::FrameTreeId'>FrameTreeId</a>)</code></h3><div class='docblock'><p>Sends new buffers for the given layers to the compositor.</p>
+</div><h3 id='tymethod.ignore_buffer_requests' class='method stab '><code>fn <a href='#tymethod.ignore_buffer_requests' class='fnname'>ignore_buffer_requests</a>(&amp;mut self, buffer_requests: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layers/layers/struct.BufferRequest.html' title='layers::layers::BufferRequest'>BufferRequest</a>&gt;)</code></h3><div class='docblock'><p>Inform the compositor that these buffer requests will be ignored.</p>
+</div><h3 id='tymethod.notify_paint_thread_exiting' class='method stab '><code>fn <a href='#tymethod.notify_paint_thread_exiting' class='fnname'>notify_paint_thread_exiting</a>(&amp;mut self, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h3></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    </ul><script type="text/javascript" async
+                         src="../../implementors/gfx_traits/paint_listener/trait.PaintListener.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "gfx_traits";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

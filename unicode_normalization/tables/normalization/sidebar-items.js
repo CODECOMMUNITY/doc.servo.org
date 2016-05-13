@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["canonical_table",""],["combining_class_table",""],["compatibility_table",""],["composition_table",""],["general_category_mark",""]],"fn":[["bsearch_range_table",""],["bsearch_range_value_table",""],["canonical_combining_class",""],["is_combining_mark","Return whether the given character is a combining mark (`General_Category=Mark`)"]]});

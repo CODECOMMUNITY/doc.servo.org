@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CompressionMethod",""],["PhotometricInterpretation",""],["PlanarConfiguration",""],["Predictor",""]],"fn":[["rev_hpredict",""],["rev_hpredict_nsamp",""]],"mod":[["ifd","Function for reading TIFF tags"],["stream","All IO functionality needed for TIFF decoding"]],"struct":[["TIFFDecoder","The representation of a TIFF decoder"]]});

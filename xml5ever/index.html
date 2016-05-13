@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `xml5ever` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, xml5ever">
+
+    <title>xml5ever - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'xml5ever', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>xml5ever</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-0' class='srclink' href='../src/xml5ever/lib.rs.html#10-145' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>This crate provides a push based XML parser library that
+adheres to XML5 specification. In other words this library
+trades well-formedness for error recovery.</p>
+
+<p>The idea behind this, was to minimize number of errors from
+tools that generate XML (e.g. <code>&amp;#83</code> won&#39;t just return <code>&amp;#83</code>
+as text, but will parse it into <code>S</code> ).
+You can check out full specification <a href="https://ygg01.github.io/xml5_draft/">here</a>.</p>
+
+<p>What this library provides is a solid XML parser that can:</p>
+
+<ul>
+<li>Parse somewhat erroneous XML input</li>
+<li>Provide support for <a href="https://en.wikipedia.org/wiki/Numeric_character_reference">Numeric character references</a>.</li>
+<li>Provide partial <a href="http://www.w3.org/TR/xml-names11/">XML namespace</a> support.</li>
+<li>Provide full set of SVG/MathML entities</li>
+</ul>
+
+<p>What isn&#39;t in scope for this library:</p>
+
+<ul>
+<li>Document Type Definition parsing - this is pretty hard to do right and nowadays, its used</li>
+</ul>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='rcdom/index.html'
+                                  title='xml5ever::rcdom'>rcdom</a></td>
+                           <td class='docblock short'>
+                                <p>A simple reference-counted that serves as a default tree structure
+A simple reference-counted DOM.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='tendril/index.html'
+                                  title='xml5ever::tendril'>tendril</a></td>
+                           <td class='docblock short'>
+                                <p>Re-export the tendril crate so that users don’t need to depend on it.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='tokenizer/index.html'
+                                  title='xml5ever::tokenizer'>tokenizer</a></td>
+                           <td class='docblock short'>
+                                <p>XML5 tokenizer - converts input into tokens</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='tree_builder/index.html'
+                                  title='xml5ever::tree_builder'>tree_builder</a></td>
+                           <td class='docblock short'>
+                                <p>XML5 tree builder - converts tokens into a tree like structure</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='util/index.html'
+                                  title='xml5ever::util'>util</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.ParseResult.html'
+                                  title='xml5ever::ParseResult'>ParseResult</a></td>
+                           <td class='docblock short'>
+                                <p>Results which can be extracted from a <code>TreeSink</code>.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.parse.html'
+                                  title='xml5ever::parse'>parse</a></td>
+                           <td class='docblock short'>
+                                <p>Parse into a type which implements <code>ParseResult</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.parse_to.html'
+                                  title='xml5ever::parse_to'>parse_to</a></td>
+                           <td class='docblock short'>
+                                <p>Parse and send results to a <code>TreeSink</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.tokenize_to.html'
+                                  title='xml5ever::tokenize_to'>tokenize_to</a></td>
+                           <td class='docblock short'>
+                                <p>Tokenize and send results to a <code>XTokenSink</code>.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "xml5ever";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

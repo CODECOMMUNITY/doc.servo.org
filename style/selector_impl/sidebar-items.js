@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["NonTSPseudoClass",""],["PseudoElement",""],["PseudoElementCascadeType","This function determines if a pseudo-element is eagerly cascaded or not."]],"struct":[["ServoSelectorImpl",""]],"trait":[["ElementExt",""],["SelectorImplExt",""]]});

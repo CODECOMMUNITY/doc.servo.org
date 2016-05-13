@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GLFormats","This structure is here to allow cross-platform formatting"]]});

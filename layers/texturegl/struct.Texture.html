@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Texture` struct in crate `layers`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Texture">
+
+    <title>layers::texturegl::Texture - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>layers</a>::<wbr><a href='index.html'>texturegl</a></p><script>window.sidebarCurrent = {name: 'Texture', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>layers</a>::<wbr><a href='index.html'>texturegl</a>::<wbr><a class='struct' href=''>Texture</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-766' class='srclink' href='../../src/layers/texturegl.rs.html#64-80' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Texture {
+    id: <a class='type' href='../../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>,
+    pub target: <a class='enum' href='../../layers/texturegl/enum.TextureTarget.html' title='layers::texturegl::TextureTarget'>TextureTarget</a>,
+    weak: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub flip: <a class='enum' href='../../layers/texturegl/enum.Flip.html' title='layers::texturegl::Flip'>Flip</a>,
+    pub size: <a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;,
+}</pre><div class='docblock'><p>A texture.</p>
+
+<p>TODO: Include client storage here for <code>GL_CLIENT_STORAGE_APPLE</code>.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.id'><code>id</code></td><td><div class='docblock'><p>The OpenGL texture ID.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.target'><code>target</code></td><td><div class='docblock'><p>The texture target.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.weak'><code>weak</code></td><td><div class='docblock'><p>Whether this texture is weak. Weak textures will not be cleaned up by
+the destructor.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.flip'><code>flip</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.size'><code>size</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../layers/texturegl/struct.Texture.html' title='layers::texturegl::Texture'>Texture</a></code></h3><div class='impl-items'><h4 id='method.zero' class='method'><code>fn <a href='#method.zero' class='fnname'>zero</a>() -&gt; <a class='struct' href='../../layers/texturegl/struct.Texture.html' title='layers::texturegl::Texture'>Texture</a></code></h4>
+<h4 id='method.is_zero' class='method'><code>fn <a href='#method.is_zero' class='fnname'>is_zero</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='struct' href='../../layers/texturegl/struct.Texture.html' title='layers::texturegl::Texture'>Texture</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(target: <a class='enum' href='../../layers/texturegl/enum.TextureTarget.html' title='layers::texturegl::TextureTarget'>TextureTarget</a>, size: <a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;) -&gt; <a class='struct' href='../../layers/texturegl/struct.Texture.html' title='layers::texturegl::Texture'>Texture</a></code></h4>
+<div class='docblock'><p>Creates a new blank texture.</p>
+</div><h4 id='method.new_with_buffer' class='method'><code>fn <a href='#method.new_with_buffer' class='fnname'>new_with_buffer</a>(buffer: &amp;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../layers/layers/struct.LayerBuffer.html' title='layers::layers::LayerBuffer'>LayerBuffer</a>&gt;) -&gt; <a class='struct' href='../../layers/texturegl/struct.Texture.html' title='layers::texturegl::Texture'>Texture</a></code></h4>
+<h4 id='method.texture_flip_and_target' class='method'><code>fn <a href='#method.texture_flip_and_target' class='fnname'>texture_flip_and_target</a>(_: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='enum' href='../../layers/texturegl/enum.Flip.html' title='layers::texturegl::Flip'>Flip</a>, <a class='enum' href='../../layers/texturegl/enum.TextureTarget.html' title='layers::texturegl::TextureTarget'>TextureTarget</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<h4 id='method.native_texture' class='method'><code>fn <a href='#method.native_texture' class='fnname'>native_texture</a>(&amp;self) -&gt; <a class='type' href='../../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a></code></h4>
+<div class='docblock'><p>Returns the raw OpenGL texture underlying this texture.</p>
+</div><h4 id='method.set_default_params' class='method'><code>fn <a href='#method.set_default_params' class='fnname'>set_default_params</a>(&amp;self)</code></h4>
+<div class='docblock'><p>Sets default parameters for this texture.</p>
+</div><h4 id='method.set_filter_mode' class='method'><code>fn <a href='#method.set_filter_mode' class='fnname'>set_filter_mode</a>(&amp;self, mode: <a class='enum' href='../../layers/texturegl/enum.FilterMode.html' title='layers::texturegl::FilterMode'>FilterMode</a>)</code></h4>
+<div class='docblock'><p>Sets the filter mode for this texture.</p>
+</div><h4 id='method.bind' class='method'><code>fn <a href='#method.bind' class='fnname'>bind</a>(&amp;self) -&gt; <a class='struct' href='../../layers/texturegl/struct.BoundTexture.html' title='layers::texturegl::BoundTexture'>BoundTexture</a></code></h4>
+<div class='docblock'><p>Binds the texture to the current context.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../layers/texturegl/struct.Texture.html' title='layers::texturegl::Texture'>Texture</a></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='../../core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "layers";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

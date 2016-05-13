@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["WorkerGlobalScopeTypeId",""]],"struct":[["WorkerGlobalScope",""],["WorkerGlobalScopeInit",""]]});

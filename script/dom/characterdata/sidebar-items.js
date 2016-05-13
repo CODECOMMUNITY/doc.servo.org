@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["find_utf16_code_unit_offset","Given a number of UTF-16 code units from the start of the given string, return the corresponding number of UTF-8 bytes."]],"struct":[["CharacterData",""]],"trait":[["LayoutCharacterDataHelpers",""]]});

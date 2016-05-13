@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_attr",""],["is_favicon","Favicon spec usage in accordance with CEF implementation: only url of icon is required/used https://html.spec.whatwg.org/multipage/#rel-icon"],["string_is_stylesheet",""]],"struct":[["HTMLLinkElement",""],["StylesheetContext","The context required for asynchronously loading an external stylesheet."]]});

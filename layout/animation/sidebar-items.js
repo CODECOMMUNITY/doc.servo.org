@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["recalc_style_for_animations","Recalculates style for a set of animations. This does *not* run with the DOM lock held."],["update_animation_state","Processes any new animations that were discovered after style recalculation. Also expire any old animations that have completed, inserting them into `expired_animations`."]]});

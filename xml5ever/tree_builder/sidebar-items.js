@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["actions",""],["interface","The interface for consumers of the tree builder (and thus the parser overall)."],["rules",""],["types",""]],"static":[["XMLNS_URI",""],["XML_URI",""]],"struct":[["Namespace",""],["NamespaceStack",""],["XmlTreeBuilder","The XML tree builder."]],"type":[["InsResult",""],["UriMapping",""]]});

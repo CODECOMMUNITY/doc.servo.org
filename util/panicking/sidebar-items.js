@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["initiate_panic_hook","Initiates the custom panic hook Should be called in main() after arguments have been parsed"],["set_thread_local_hook","Set the thread-local panic hook"]],"static":[["HOOK_SET",""],["LOCAL_INFO",""]],"struct":[["PanicHandlerLocal","TLS data pertaining to how failures should be reported"]]});

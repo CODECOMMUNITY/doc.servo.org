@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Request` struct in crate `net_traits`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Request">
+
+    <title>net_traits::request::Request - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>net_traits</a>::<wbr><a href='index.html'>request</a></p><script>window.sidebarCurrent = {name: 'Request', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>net_traits</a>::<wbr><a href='index.html'>request</a>::<wbr><a class='struct' href=''>Request</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3519' class='srclink' href='../../src/net_traits/request.rs.html#111-149' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Request {
+    pub method: <a class='struct' href='../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;<a class='enum' href='../../hyper/method/enum.Method.html' title='hyper::method::Method'>Method</a>&gt;,
+    pub local_urls_only: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub sandboxed_storage_area_urls: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub headers: <a class='struct' href='../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;<a class='struct' href='../../hyper/header/struct.Headers.html' title='hyper::header::Headers'>Headers</a>&gt;,
+    pub unsafe_request: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub body: <a class='struct' href='../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;<a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;&gt;&gt;,
+    pub is_service_worker_global_scope: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub window: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='enum' href='../../net_traits/request/enum.Window.html' title='net_traits::request::Window'>Window</a>&gt;,
+    pub keep_alive: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub skip_service_worker: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub initiator: <a class='enum' href='../../net_traits/request/enum.Initiator.html' title='net_traits::request::Initiator'>Initiator</a>,
+    pub type_: <a class='enum' href='../../net_traits/request/enum.Type.html' title='net_traits::request::Type'>Type</a>,
+    pub destination: <a class='enum' href='../../net_traits/request/enum.Destination.html' title='net_traits::request::Destination'>Destination</a>,
+    pub origin: <a class='struct' href='../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;<a class='enum' href='../../net_traits/request/enum.Origin.html' title='net_traits::request::Origin'>Origin</a>&gt;,
+    pub omit_origin_header: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub same_origin_data: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+    pub referer: <a class='enum' href='../../net_traits/request/enum.Referer.html' title='net_traits::request::Referer'>Referer</a>,
+    pub synchronous: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub mode: <a class='enum' href='../../net_traits/request/enum.RequestMode.html' title='net_traits::request::RequestMode'>RequestMode</a>,
+    pub use_cors_preflight: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub credentials_mode: <a class='enum' href='../../net_traits/request/enum.CredentialsMode.html' title='net_traits::request::CredentialsMode'>CredentialsMode</a>,
+    pub use_url_credentials: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub cache_mode: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='enum' href='../../net_traits/request/enum.CacheMode.html' title='net_traits::request::CacheMode'>CacheMode</a>&gt;,
+    pub redirect_mode: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='enum' href='../../net_traits/request/enum.RedirectMode.html' title='net_traits::request::RedirectMode'>RedirectMode</a>&gt;,
+    pub integrity_metadata: <a class='struct' href='../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
+    pub url_list: <a class='struct' href='../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;<a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>&gt;&gt;,
+    pub redirect_count: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;,
+    pub response_tainting: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='enum' href='../../net_traits/request/enum.ResponseTainting.html' title='net_traits::request::ResponseTainting'>ResponseTainting</a>&gt;,
+    pub done: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
+}</pre><div class='docblock'><p>A <a href="https://fetch.spec.whatwg.org/#requests">Request</a> as defined by the Fetch spec</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.method'><code>method</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.local_urls_only'><code>local_urls_only</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.sandboxed_storage_area_urls'><code>sandboxed_storage_area_urls</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.headers'><code>headers</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.unsafe_request'><code>unsafe_request</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.body'><code>body</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.is_service_worker_global_scope'><code>is_service_worker_global_scope</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.window'><code>window</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.keep_alive'><code>keep_alive</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.skip_service_worker'><code>skip_service_worker</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.initiator'><code>initiator</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.type_'><code>type_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.destination'><code>destination</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.origin'><code>origin</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.omit_origin_header'><code>omit_origin_header</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.same_origin_data'><code>same_origin_data</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.referer'><code>referer</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.synchronous'><code>synchronous</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.mode'><code>mode</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.use_cors_preflight'><code>use_cors_preflight</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.credentials_mode'><code>credentials_mode</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.use_url_credentials'><code>use_url_credentials</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.cache_mode'><code>cache_mode</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.redirect_mode'><code>redirect_mode</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.integrity_metadata'><code>integrity_metadata</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.url_list'><code>url_list</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.redirect_count'><code>redirect_count</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.response_tainting'><code>response_tainting</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.done'><code>done</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../net_traits/request/struct.Request.html' title='net_traits::request::Request'>Request</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>, origin: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../net_traits/request/enum.Origin.html' title='net_traits::request::Origin'>Origin</a>&gt;, is_service_worker_global_scope: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../../net_traits/request/struct.Request.html' title='net_traits::request::Request'>Request</a></code></h4>
+<h4 id='method.potential_cors_request' class='method'><code>fn <a href='#method.potential_cors_request' class='fnname'>potential_cors_request</a>(url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>, cors_attribute_state: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../net_traits/request/enum.CORSSettings.html' title='net_traits::request::CORSSettings'>CORSSettings</a>&gt;, is_service_worker_global_scope: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, same_origin_fallback: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../../net_traits/request/struct.Request.html' title='net_traits::request::Request'>Request</a></code></h4>
+<div class='docblock'><p><a href="https://html.spec.whatwg.org/multipage/#create-a-potential-cors-request">https://html.spec.whatwg.org/multipage/#create-a-potential-cors-request</a></p>
+</div><h4 id='method.url' class='method'><code>fn <a href='#method.url' class='fnname'>url</a>(&amp;self) -&gt; <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a></code></h4>
+<h4 id='method.current_url' class='method'><code>fn <a href='#method.current_url' class='fnname'>current_url</a>(&amp;self) -&gt; <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a></code></h4>
+<h4 id='method.current_url_string' class='method'><code>fn <a href='#method.current_url_string' class='fnname'>current_url_string</a>(&amp;self) -&gt; <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a></code></h4>
+<h4 id='method.is_navigation_request' class='method'><code>fn <a href='#method.is_navigation_request' class='fnname'>is_navigation_request</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.is_subresource_request' class='method'><code>fn <a href='#method.is_subresource_request' class='fnname'>is_subresource_request</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../net_traits/request/struct.Request.html' title='net_traits::request::Request'>Request</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../net_traits/request/struct.Request.html' title='net_traits::request::Request'>Request</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "net_traits";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

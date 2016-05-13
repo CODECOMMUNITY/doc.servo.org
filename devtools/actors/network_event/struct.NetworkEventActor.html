@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `NetworkEventActor` struct in crate `devtools`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, NetworkEventActor">
+
+    <title>devtools::actors::network_event::NetworkEventActor - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>devtools</a>::<wbr><a href='../index.html'>actors</a>::<wbr><a href='index.html'>network_event</a></p><script>window.sidebarCurrent = {name: 'NetworkEventActor', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>devtools</a>::<wbr><a href='../index.html'>actors</a>::<wbr><a href='index.html'>network_event</a>::<wbr><a class='struct' href=''>NetworkEventActor</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1480' class='srclink' href='../../../src/devtools/actors/network_event.rs.html#39-43' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct NetworkEventActor {
+    pub name: <a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a>,
+    request: <a class='struct' href='../../../devtools/actors/network_event/struct.HttpRequest.html' title='devtools::actors::network_event::HttpRequest'>HttpRequest</a>,
+    response: <a class='struct' href='../../../devtools/actors/network_event/struct.HttpResponse.html' title='devtools::actors::network_event::HttpResponse'>HttpResponse</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.name'><code>name</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.request'><code>request</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.response'><code>response</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../devtools/actors/network_event/struct.NetworkEventActor.html' title='devtools::actors::network_event::NetworkEventActor'>NetworkEventActor</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(name: <a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a>) -&gt; <a class='struct' href='../../../devtools/actors/network_event/struct.NetworkEventActor.html' title='devtools::actors::network_event::NetworkEventActor'>NetworkEventActor</a></code></h4>
+<h4 id='method.add_request' class='method'><code>fn <a href='#method.add_request' class='fnname'>add_request</a>(&amp;mut self, request: <a class='struct' href='../../../devtools_traits/struct.HttpRequest.html' title='devtools_traits::HttpRequest'>DevtoolsHttpRequest</a>)</code></h4>
+<h4 id='method.add_response' class='method'><code>fn <a href='#method.add_response' class='fnname'>add_response</a>(&amp;mut self, response: <a class='struct' href='../../../devtools_traits/struct.HttpResponse.html' title='devtools_traits::HttpResponse'>DevtoolsHttpResponse</a>)</code></h4>
+<h4 id='method.event_actor' class='method'><code>fn <a href='#method.event_actor' class='fnname'>event_actor</a>(&amp;self) -&gt; <a class='struct' href='../../../devtools/actors/network_event/struct.EventActor.html' title='devtools::actors::network_event::EventActor'>EventActor</a></code></h4>
+<h4 id='method.response_start' class='method'><code>fn <a href='#method.response_start' class='fnname'>response_start</a>(&amp;self) -&gt; <a class='struct' href='../../../devtools/actors/network_event/struct.ResponseStartMsg.html' title='devtools::actors::network_event::ResponseStartMsg'>ResponseStartMsg</a></code></h4>
+<h4 id='method.response_content' class='method'><code>fn <a href='#method.response_content' class='fnname'>response_content</a>(&amp;self) -&gt; <a class='struct' href='../../../devtools/actors/network_event/struct.ResponseContentMsg.html' title='devtools::actors::network_event::ResponseContentMsg'>ResponseContentMsg</a></code></h4>
+<h4 id='method.response_cookies' class='method'><code>fn <a href='#method.response_cookies' class='fnname'>response_cookies</a>(&amp;self) -&gt; <a class='struct' href='../../../devtools/actors/network_event/struct.ResponseCookiesMsg.html' title='devtools::actors::network_event::ResponseCookiesMsg'>ResponseCookiesMsg</a></code></h4>
+<h4 id='method.response_headers' class='method'><code>fn <a href='#method.response_headers' class='fnname'>response_headers</a>(&amp;self) -&gt; <a class='struct' href='../../../devtools/actors/network_event/struct.ResponseHeadersMsg.html' title='devtools::actors::network_event::ResponseHeadersMsg'>ResponseHeadersMsg</a></code></h4>
+<h4 id='method.request_cookies' class='method'><code>fn <a href='#method.request_cookies' class='fnname'>request_cookies</a>(&amp;self) -&gt; <a class='struct' href='../../../devtools/actors/network_event/struct.RequestCookiesMsg.html' title='devtools::actors::network_event::RequestCookiesMsg'>RequestCookiesMsg</a></code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../devtools/actor/trait.Actor.html' title='devtools::actor::Actor'>Actor</a> for <a class='struct' href='../../../devtools/actors/network_event/struct.NetworkEventActor.html' title='devtools::actors::network_event::NetworkEventActor'>NetworkEventActor</a></code></h3><div class='impl-items'><h4 id='method.name' class='method'><code>fn <a href='../../../devtools/actor/trait.Actor.html#tymethod.name' class='fnname'>name</a>(&amp;self) -&gt; <a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a></code></h4>
+<h4 id='method.handle_message' class='method'><code>fn <a href='../../../devtools/actor/trait.Actor.html#tymethod.handle_message' class='fnname'>handle_message</a>(&amp;self, _registry: &amp;<a class='struct' href='../../../devtools/actor/struct.ActorRegistry.html' title='devtools::actor::ActorRegistry'>ActorRegistry</a>, msg_type: &amp;<a class='primitive' href='../../../std/primitive.str.html'>str</a>, _msg: &amp;<a class='struct' href='../../../collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='enum' href='../../../serde_json/value/enum.Value.html' title='serde_json::value::Value'>Value</a>&gt;, stream: &amp;mut <a class='struct' href='../../../std/net/tcp/struct.TcpStream.html' title='std::net::tcp::TcpStream'>TcpStream</a>) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../../../devtools/actor/enum.ActorMessageStatus.html' title='devtools::actor::ActorMessageStatus'>ActorMessageStatus</a>, <a class='primitive' href='../../../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "devtools";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

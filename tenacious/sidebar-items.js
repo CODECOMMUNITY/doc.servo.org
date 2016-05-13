@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["is_in_let",""],["is_ty_no_move",""],["match_def_path","Check if a `DefId`'s path matches the given absolute type path usage."],["plugin_registrar",""]],"static":[["MOVED_NO_MOVE",""]],"struct":[["TenaciousDelegate",""],["TenaciousPass","A lint pass which catches moves of types marked #[no_move]"]]});

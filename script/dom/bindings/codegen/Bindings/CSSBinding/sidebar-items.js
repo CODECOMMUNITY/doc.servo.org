@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["sStaticMethods",""],["sStaticMethods_specs",""]],"fn":[["CreateInterfaceObjects",""],["DefineDOMInterface",""],["GetProtoObject",""],["escape",""]],"static":[["InterfaceObjectClass",""],["PrototypeClass",""]]});

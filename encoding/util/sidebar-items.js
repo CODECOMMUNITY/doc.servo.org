@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["as_char","Unchecked conversion to `char`."]],"struct":[["StatefulDecoderHelper","A helper struct for the stateful decoder DSL."],["StrCharIndexIterator","External iterator for a string's characters with its corresponding byte offset range."]],"trait":[["StrCharIndex","A trait providing an `index_iter` method."]]});

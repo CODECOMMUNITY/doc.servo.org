@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Actor` trait in crate `devtools`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Actor">
+
+    <title>devtools::actor::Actor - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>devtools</a>::<wbr><a href='index.html'>actor</a></p><script>window.sidebarCurrent = {name: 'Actor', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>devtools</a>::<wbr><a href='index.html'>actor</a>::<wbr><a class='trait' href=''>Actor</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-59' class='srclink' href='../../src/devtools/actor.rs.html#25-32' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Actor: <a class='trait' href='../../core/any/trait.Any.html' title='core::any::Any'>Any</a> + <a class='trait' href='../../devtools/actor/trait.ActorAsAny.html' title='devtools::actor::ActorAsAny'>ActorAsAny</a> {
+    fn <a href='#tymethod.handle_message' class='fnname'>handle_message</a>(&amp;self, registry: &amp;<a class='struct' href='../../devtools/actor/struct.ActorRegistry.html' title='devtools::actor::ActorRegistry'>ActorRegistry</a>, msg_type: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, msg: &amp;<a class='struct' href='../../collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='enum' href='../../serde_json/value/enum.Value.html' title='serde_json::value::Value'>Value</a>&gt;, stream: &amp;mut <a class='struct' href='../../std/net/tcp/struct.TcpStream.html' title='std::net::tcp::TcpStream'>TcpStream</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../../devtools/actor/enum.ActorMessageStatus.html' title='devtools::actor::ActorMessageStatus'>ActorMessageStatus</a>, <a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;;
+    fn <a href='#tymethod.name' class='fnname'>name</a>(&amp;self) -&gt; <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>;
+}</pre><div class='docblock'><p>A common trait for all devtools actors that encompasses an immutable name
+and the ability to process messages that are directed to particular actors.
+TODO: ensure the name is immutable</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.handle_message' class='method stab '><code>fn <a href='#tymethod.handle_message' class='fnname'>handle_message</a>(&amp;self, registry: &amp;<a class='struct' href='../../devtools/actor/struct.ActorRegistry.html' title='devtools::actor::ActorRegistry'>ActorRegistry</a>, msg_type: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, msg: &amp;<a class='struct' href='../../collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='enum' href='../../serde_json/value/enum.Value.html' title='serde_json::value::Value'>Value</a>&gt;, stream: &amp;mut <a class='struct' href='../../std/net/tcp/struct.TcpStream.html' title='std::net::tcp::TcpStream'>TcpStream</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../../devtools/actor/enum.ActorMessageStatus.html' title='devtools::actor::ActorMessageStatus'>ActorMessageStatus</a>, <a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;</code></h3><h3 id='tymethod.name' class='method stab '><code>fn <a href='#tymethod.name' class='fnname'>name</a>(&amp;self) -&gt; <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a></code></h3></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl Actor for <a class='struct' href='../../devtools/actors/console/struct.ConsoleActor.html' title='devtools::actors::console::ConsoleActor'>ConsoleActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/framerate/struct.FramerateActor.html' title='devtools::actors::framerate::FramerateActor'>FramerateActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/inspector/struct.HighlighterActor.html' title='devtools::actors::inspector::HighlighterActor'>HighlighterActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/inspector/struct.NodeActor.html' title='devtools::actors::inspector::NodeActor'>NodeActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/inspector/struct.WalkerActor.html' title='devtools::actors::inspector::WalkerActor'>WalkerActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/inspector/struct.PageStyleActor.html' title='devtools::actors::inspector::PageStyleActor'>PageStyleActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/inspector/struct.InspectorActor.html' title='devtools::actors::inspector::InspectorActor'>InspectorActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/memory/struct.MemoryActor.html' title='devtools::actors::memory::MemoryActor'>MemoryActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/network_event/struct.NetworkEventActor.html' title='devtools::actors::network_event::NetworkEventActor'>NetworkEventActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/object/struct.ObjectActor.html' title='devtools::actors::object::ObjectActor'>ObjectActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/performance/struct.PerformanceActor.html' title='devtools::actors::performance::PerformanceActor'>PerformanceActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/profiler/struct.ProfilerActor.html' title='devtools::actors::profiler::ProfilerActor'>ProfilerActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/root/struct.RootActor.html' title='devtools::actors::root::RootActor'>RootActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/tab/struct.TabActor.html' title='devtools::actors::tab::TabActor'>TabActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/thread/struct.ThreadActor.html' title='devtools::actors::thread::ThreadActor'>ThreadActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/timeline/struct.TimelineActor.html' title='devtools::actors::timeline::TimelineActor'>TimelineActor</a></code></li>
+<li><code>impl Actor for <a class='struct' href='../../devtools/actors/worker/struct.WorkerActor.html' title='devtools::actors::worker::WorkerActor'>WorkerActor</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/devtools/actor/trait.Actor.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "devtools";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

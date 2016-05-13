@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["RingBufferError",""]],"struct":[["RingBuffer","RingBuffer to store elements in a fixed size list, overwriting the oldest elements when its capacity is full."]]});

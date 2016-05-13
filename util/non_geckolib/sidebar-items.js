@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["StringificationBehavior","Behavior for stringification of `JSVal`s."]],"fn":[["jsstring_to_str","Convert the given `JSString` to a `DOMString`. Fails if the string does not contain valid UTF-16."]]});

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `msgarg` mod in crate `dbus`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, msgarg">
+
+    <title>dbus::msgarg - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>dbus</a></p><script>window.sidebarCurrent = {name: 'msgarg', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>dbus</a>::<wbr><a class='mod' href=''>msgarg</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2201' class='srclink' href='../../src/dbus/msgarg.rs.html#1-708' title='goto source code'>[src]</a></span></h1>
+<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Array.html'
+                                  title='dbus::msgarg::Array'>Array</a></td>
+                           <td class='docblock short'>
+                                <p>Represents a D-Bus Array. Maximum flexibility (wraps an iterator of items to append).
+Note: Slices of FixedArray can be faster.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Dict.html'
+                                  title='dbus::msgarg::Dict'>Dict</a></td>
+                           <td class='docblock short'>
+                                <p>Append a D-Bus dict type (i e, an array of dict entries).</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Iter.html'
+                                  title='dbus::msgarg::Iter'>Iter</a></td>
+                           <td class='docblock short'>
+                                <p>Helper struct for retrieve one or more arguments from a Message.
+Note that this is not a Rust iterator, because arguments are often of different types</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.IterAppend.html'
+                                  title='dbus::msgarg::IterAppend'>IterAppend</a></td>
+                           <td class='docblock short'>
+                                <p>Helper struct for appending one or more arguments to a Message.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Variant.html'
+                                  title='dbus::msgarg::Variant'>Variant</a></td>
+                           <td class='docblock short'>
+                                <p>A simple wrapper to specify a D-Bus variant.</p>
+                           </td>
+                       </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.FIXED_ARRAY_ALIGNMENTS.html'
+                                  title='dbus::msgarg::FIXED_ARRAY_ALIGNMENTS'>FIXED_ARRAY_ALIGNMENTS</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.Append.html'
+                                  title='dbus::msgarg::Append'>Append</a></td>
+                           <td class='docblock short'>
+                                <p>Types that can be appended to a message as arguments implement this trait.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.Arg.html'
+                                  title='dbus::msgarg::Arg'>Arg</a></td>
+                           <td class='docblock short'>
+                                <p>Types that can represent a D-Bus message argument implement this trait.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.DictKey.html'
+                                  title='dbus::msgarg::DictKey'>DictKey</a></td>
+                           <td class='docblock short'>
+                                <p>Types that can be used as keys in a dict type implement this trait.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.FixedArray.html'
+                                  title='dbus::msgarg::FixedArray'>FixedArray</a></td>
+                           <td class='docblock short'>
+                                <p>If a type implements this trait, it means the size and alignment is the same
+as in D-Bus. This means that you can quickly append and get slices of this type.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.Get.html'
+                                  title='dbus::msgarg::Get'>Get</a></td>
+                           <td class='docblock short'>
+                                <p>Types that can be retrieved from a message as arguments implement this trait.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.arg_append_basic.html'
+                                  title='dbus::msgarg::arg_append_basic'>arg_append_basic</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.arg_append_f64.html'
+                                  title='dbus::msgarg::arg_append_f64'>arg_append_f64</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.arg_append_str.html'
+                                  title='dbus::msgarg::arg_append_str'>arg_append_str</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.arg_get_basic.html'
+                                  title='dbus::msgarg::arg_get_basic'>arg_get_basic</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.arg_get_f64.html'
+                                  title='dbus::msgarg::arg_get_f64'>arg_get_f64</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.arg_get_str.html'
+                                  title='dbus::msgarg::arg_get_str'>arg_get_str</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.check.html'
+                                  title='dbus::msgarg::check'>check</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.ffi_iter.html'
+                                  title='dbus::msgarg::ffi_iter'>ffi_iter</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.test_compile.html'
+                                  title='dbus::msgarg::test_compile'>test_compile</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "dbus";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

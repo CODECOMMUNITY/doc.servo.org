@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["OptionalIpcSender",""],["OptionalOpaqueIpcSender",""]],"fn":[["optional_ipc_channel",""]],"static":[["IN_PROCESS_SENDERS",""],["NEXT_SENDER_ID",""]],"struct":[["IN_PROCESS_SENDERS",""],["OpaqueSender",""]]});

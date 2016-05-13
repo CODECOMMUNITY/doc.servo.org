@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `FromJSValConvertible` trait in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, FromJSValConvertible">
+
+    <title>script::dom::bindings::conversions::FromJSValConvertible - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../../index.html'>script</a>::<wbr><a href='../../index.html'>dom</a>::<wbr><a href='../index.html'>bindings</a>::<wbr><a href='index.html'>conversions</a></p><script>window.sidebarCurrent = {name: 'FromJSValConvertible', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../../../index.html'>script</a>::<wbr><a href='../../index.html'>dom</a>::<wbr><a href='../index.html'>bindings</a>::<wbr><a href='index.html'>conversions</a>::<wbr><a class='trait' href=''>FromJSValConvertible</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-11629' class='srclink' href='../../../../js/conversions/trait.FromJSValConvertible.html?gotosrc=11629' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait FromJSValConvertible {
+    type <a href='#associatedtype.Config' class='type'>Config</a>;
+    unsafe fn <a href='#tymethod.from_jsval' class='fnname'>from_jsval</a>(cx: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, val: <a class='struct' href='../../../../js/jsapi/struct.Handle.html' title='js::jsapi::Handle'>Handle</a>&lt;<a class='struct' href='../../../../js/jsapi/struct.Value.html' title='js::jsapi::Value'>Value</a>&gt;, option: Self::<a class='trait' href='../../../../script/dom/bindings/conversions/trait.FromJSValConvertible.html' title='script::dom::bindings::conversions::FromJSValConvertible'>Config</a>) -&gt; <a class='enum' href='../../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;Self, <a class='primitive' href='../../../../std/primitive.tuple.html'>()</a>&gt;;
+}</pre><div class='docblock'><p>A trait to convert <code>JSVal</code>s to Rust types.</p>
+</div>
+            <h2 id='associated-types'>Associated Types</h2>
+            <div class='methods'>
+        <h3 id='associatedtype.Config' class='method stab '><code>type <a href='#associatedtype.Config' class='type'>Config</a></code></h3><div class='docblock'><p>Optional configurable behaviour switch; use () for no configuration.</p>
+</div></div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.from_jsval' class='method stab '><code>unsafe fn <a href='#tymethod.from_jsval' class='fnname'>from_jsval</a>(cx: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, val: <a class='struct' href='../../../../js/jsapi/struct.Handle.html' title='js::jsapi::Handle'>Handle</a>&lt;<a class='struct' href='../../../../js/jsapi/struct.Value.html' title='js::jsapi::Value'>Value</a>&gt;, option: Self::<a class='trait' href='../../../../script/dom/bindings/conversions/trait.FromJSValConvertible.html' title='script::dom::bindings::conversions::FromJSValConvertible'>Config</a>) -&gt; <a class='enum' href='../../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;Self, <a class='primitive' href='../../../../std/primitive.tuple.html'>()</a>&gt;</code></h3><div class='docblock'><p>Convert <code>val</code> to type <code>Self</code>.
+Optional configuration of type <code>T</code> can be passed as the <code>option</code>
+argument.
+If it returns <code>Err(())</code>, a JSAPI exception is pending.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.bool.html'>bool</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.i8.html'>i8</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.u8.html'>u8</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.i16.html'>i16</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.u16.html'>u16</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.i32.html'>i32</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.u32.html'>u32</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.i64.html'>i64</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.u64.html'>u64</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.f32.html'>f32</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='primitive' href='../../../../std/primitive.f64.html'>f64</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../collections/string/struct.String.html' title='collections::string::String'>String</a></code></li>
+<li><code>impl&lt;T&gt; FromJSValConvertible for <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='../../../../script/dom/bindings/conversions/trait.FromJSValConvertible.html' title='script::dom::bindings::conversions::FromJSValConvertible'>FromJSValConvertible</a></span></code></li>
+<li><code>impl&lt;C, T&gt; FromJSValConvertible for <a class='struct' href='../../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='../../../../script/dom/bindings/conversions/trait.FromJSValConvertible.html' title='script::dom::bindings::conversions::FromJSValConvertible'>FromJSValConvertible</a>&lt;Config=C&gt;, C: <a class='trait' href='../../../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a></span></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a></code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../../../num_traits/float/trait.Float.html' title='num_traits::float::Float'>Float</a> + <a class='trait' href='../../../../script/dom/bindings/conversions/trait.FromJSValConvertible.html' title='script::dom::bindings::conversions::FromJSValConvertible'>FromJSValConvertible</a>&lt;Config=<a class='primitive' href='../../../../std/primitive.tuple.html'>()</a>&gt;&gt; FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/num/struct.Finite.html' title='script::dom::bindings::num::Finite'>Finite</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../../../script/dom/bindings/reflector/trait.Reflectable.html' title='script::dom::bindings::reflector::Reflectable'>Reflectable</a> + <a class='trait' href='../../../../script/dom/bindings/conversions/trait.IDLInterface.html' title='script::dom::bindings::conversions::IDLInterface'>IDLInterface</a>&gt; FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;T&gt;</code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/str/struct.USVString.html' title='script::dom::bindings::str::USVString'>USVString</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/str/struct.ByteString.html' title='script::dom::bindings::str::ByteString'>ByteString</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/BlobBinding/struct.BlobPropertyBag.html' title='script::dom::bindings::codegen::Bindings::BlobBinding::BlobPropertyBag'>BlobPropertyBag</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/BluetoothBinding/struct.BluetoothScanFilter.html' title='script::dom::bindings::codegen::Bindings::BluetoothBinding::BluetoothScanFilter'>BluetoothScanFilter</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/BluetoothBinding/struct.RequestDeviceOptions.html' title='script::dom::bindings::codegen::Bindings::BluetoothBinding::RequestDeviceOptions'>RequestDeviceOptions</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/BrowserElementBinding/struct.BrowserElementSecurityChangeDetail.html' title='script::dom::bindings::codegen::Bindings::BrowserElementBinding::BrowserElementSecurityChangeDetail'>BrowserElementSecurityChangeDetail</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/BrowserElementBinding/struct.BrowserElementErrorEventDetail.html' title='script::dom::bindings::codegen::Bindings::BrowserElementBinding::BrowserElementErrorEventDetail'>BrowserElementErrorEventDetail</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/BrowserElementBinding/struct.BrowserElementLocationChangeEventDetail.html' title='script::dom::bindings::codegen::Bindings::BrowserElementBinding::BrowserElementLocationChangeEventDetail'>BrowserElementLocationChangeEventDetail</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/BrowserElementBinding/struct.BrowserElementIconChangeEventDetail.html' title='script::dom::bindings::codegen::Bindings::BrowserElementBinding::BrowserElementIconChangeEventDetail'>BrowserElementIconChangeEventDetail</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/BrowserElementBinding/struct.BrowserShowModalPromptEventDetail.html' title='script::dom::bindings::codegen::Bindings::BrowserElementBinding::BrowserShowModalPromptEventDetail'>BrowserShowModalPromptEventDetail</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/CloseEventBinding/struct.CloseEventInit.html' title='script::dom::bindings::codegen::Bindings::CloseEventBinding::CloseEventInit'>CloseEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/CustomEventBinding/struct.CustomEventInit.html' title='script::dom::bindings::codegen::Bindings::CustomEventBinding::CustomEventInit'>CustomEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/DOMPointBinding/struct.DOMPointInit.html' title='script::dom::bindings::codegen::Bindings::DOMPointBinding::DOMPointInit'>DOMPointInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/DOMQuadBinding/struct.DOMQuadInit.html' title='script::dom::bindings::codegen::Bindings::DOMQuadBinding::DOMQuadInit'>DOMQuadInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/DOMRectReadOnlyBinding/struct.DOMRectInit.html' title='script::dom::bindings::codegen::Bindings::DOMRectReadOnlyBinding::DOMRectInit'>DOMRectInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/ErrorEventBinding/struct.ErrorEventInit.html' title='script::dom::bindings::codegen::Bindings::ErrorEventBinding::ErrorEventInit'>ErrorEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/EventBinding/struct.EventInit.html' title='script::dom::bindings::codegen::Bindings::EventBinding::EventInit'>EventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/EventSourceBinding/struct.EventSourceInit.html' title='script::dom::bindings::codegen::Bindings::EventSourceBinding::EventSourceInit'>EventSourceInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/FileBinding/struct.FilePropertyBag.html' title='script::dom::bindings::codegen::Bindings::FileBinding::FilePropertyBag'>FilePropertyBag</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/FocusEventBinding/struct.FocusEventInit.html' title='script::dom::bindings::codegen::Bindings::FocusEventBinding::FocusEventInit'>FocusEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/HashChangeEventBinding/struct.HashChangeEventInit.html' title='script::dom::bindings::codegen::Bindings::HashChangeEventBinding::HashChangeEventInit'>HashChangeEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/KeyboardEventBinding/struct.KeyboardEventInit.html' title='script::dom::bindings::codegen::Bindings::KeyboardEventBinding::KeyboardEventInit'>KeyboardEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/MessageEventBinding/struct.MessageEventInit.html' title='script::dom::bindings::codegen::Bindings::MessageEventBinding::MessageEventInit'>MessageEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/MouseEventBinding/struct.MouseEventInit.html' title='script::dom::bindings::codegen::Bindings::MouseEventBinding::MouseEventInit'>MouseEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/PageTransitionEventBinding/struct.PageTransitionEventInit.html' title='script::dom::bindings::codegen::Bindings::PageTransitionEventBinding::PageTransitionEventInit'>PageTransitionEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/PopStateEventBinding/struct.PopStateEventInit.html' title='script::dom::bindings::codegen::Bindings::PopStateEventBinding::PopStateEventInit'>PopStateEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/ProgressEventBinding/struct.ProgressEventInit.html' title='script::dom::bindings::codegen::Bindings::ProgressEventBinding::ProgressEventInit'>ProgressEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/SharedMouseAndKeyboardEventInitBinding/struct.SharedKeyboardAndMouseEventInit.html' title='script::dom::bindings::codegen::Bindings::SharedMouseAndKeyboardEventInitBinding::SharedKeyboardAndMouseEventInit'>SharedKeyboardAndMouseEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/StorageEventBinding/struct.StorageEventInit.html' title='script::dom::bindings::codegen::Bindings::StorageEventBinding::StorageEventInit'>StorageEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/TestBindingBinding/struct.TestDictionary.html' title='script::dom::bindings::codegen::Bindings::TestBindingBinding::TestDictionary'>TestDictionary</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/TestBindingBinding/struct.TestDictionaryDefaults.html' title='script::dom::bindings::codegen::Bindings::TestBindingBinding::TestDictionaryDefaults'>TestDictionaryDefaults</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/TextDecoderBinding/struct.TextDecoderOptions.html' title='script::dom::bindings::codegen::Bindings::TextDecoderBinding::TextDecoderOptions'>TextDecoderOptions</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/UIEventBinding/struct.UIEventInit.html' title='script::dom::bindings::codegen::Bindings::UIEventBinding::UIEventInit'>UIEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/WebGLContextEventBinding/struct.WebGLContextEventInit.html' title='script::dom::bindings::codegen::Bindings::WebGLContextEventBinding::WebGLContextEventInit'>WebGLContextEventInit</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/WebGLRenderingContextBinding/struct.WebGLContextAttributes.html' title='script::dom::bindings::codegen::Bindings::WebGLRenderingContextBinding::WebGLContextAttributes'>WebGLContextAttributes</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/WindowBinding/struct.ScrollOptions.html' title='script::dom::bindings::codegen::Bindings::WindowBinding::ScrollOptions'>ScrollOptions</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/WindowBinding/struct.ScrollToOptions.html' title='script::dom::bindings::codegen::Bindings::WindowBinding::ScrollToOptions'>ScrollToOptions</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.BlobOrBlobSequence.html' title='script::dom::bindings::codegen::UnionTypes::BlobOrBlobSequence'>BlobOrBlobSequence</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.BlobOrBoolean.html' title='script::dom::bindings::codegen::UnionTypes::BlobOrBoolean'>BlobOrBoolean</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.BlobOrString.html' title='script::dom::bindings::codegen::UnionTypes::BlobOrString'>BlobOrString</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.BlobOrStringOrURLSearchParams.html' title='script::dom::bindings::codegen::UnionTypes::BlobOrStringOrURLSearchParams'>BlobOrStringOrURLSearchParams</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.BlobOrUSVString.html' title='script::dom::bindings::codegen::UnionTypes::BlobOrUSVString'>BlobOrUSVString</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.BlobOrUnsignedLong.html' title='script::dom::bindings::codegen::UnionTypes::BlobOrUnsignedLong'>BlobOrUnsignedLong</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.CanvasRenderingContext2DOrWebGLRenderingContext.html' title='script::dom::bindings::codegen::UnionTypes::CanvasRenderingContext2DOrWebGLRenderingContext'>CanvasRenderingContext2DOrWebGLRenderingContext</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.EventOrString.html' title='script::dom::bindings::codegen::UnionTypes::EventOrString'>EventOrString</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.EventOrUSVString.html' title='script::dom::bindings::codegen::UnionTypes::EventOrUSVString'>EventOrUSVString</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.HTMLElementOrLong.html' title='script::dom::bindings::codegen::UnionTypes::HTMLElementOrLong'>HTMLElementOrLong</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.HTMLElementOrUnsignedLongOrStringOrBoolean.html' title='script::dom::bindings::codegen::UnionTypes::HTMLElementOrUnsignedLongOrStringOrBoolean'>HTMLElementOrUnsignedLongOrStringOrBoolean</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.HTMLImageElementOrHTMLCanvasElementOrCanvasRenderingContext2D.html' title='script::dom::bindings::codegen::UnionTypes::HTMLImageElementOrHTMLCanvasElementOrCanvasRenderingContext2D'>HTMLImageElementOrHTMLCanvasElementOrCanvasRenderingContext2D</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.HTMLOptionElementOrHTMLOptGroupElement.html' title='script::dom::bindings::codegen::UnionTypes::HTMLOptionElementOrHTMLOptGroupElement'>HTMLOptionElementOrHTMLOptGroupElement</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.ImageDataOrHTMLImageElementOrHTMLCanvasElementOrHTMLVideoElement.html' title='script::dom::bindings::codegen::UnionTypes::ImageDataOrHTMLImageElementOrHTMLCanvasElementOrHTMLVideoElement'>ImageDataOrHTMLImageElementOrHTMLCanvasElementOrHTMLVideoElement</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.LongSequenceOrBoolean.html' title='script::dom::bindings::codegen::UnionTypes::LongSequenceOrBoolean'>LongSequenceOrBoolean</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.NodeOrString.html' title='script::dom::bindings::codegen::UnionTypes::NodeOrString'>NodeOrString</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.RadioNodeListOrElement.html' title='script::dom::bindings::codegen::UnionTypes::RadioNodeListOrElement'>RadioNodeListOrElement</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.StringOrBoolean.html' title='script::dom::bindings::codegen::UnionTypes::StringOrBoolean'>StringOrBoolean</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.StringOrCanvasGradientOrCanvasPattern.html' title='script::dom::bindings::codegen::UnionTypes::StringOrCanvasGradientOrCanvasPattern'>StringOrCanvasGradientOrCanvasPattern</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.StringOrLongSequence.html' title='script::dom::bindings::codegen::UnionTypes::StringOrLongSequence'>StringOrLongSequence</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.StringOrStringSequence.html' title='script::dom::bindings::codegen::UnionTypes::StringOrStringSequence'>StringOrStringSequence</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.StringOrUnsignedLong.html' title='script::dom::bindings::codegen::UnionTypes::StringOrUnsignedLong'>StringOrUnsignedLong</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.StringSequenceOrUnsignedLong.html' title='script::dom::bindings::codegen::UnionTypes::StringSequenceOrUnsignedLong'>StringSequenceOrUnsignedLong</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.USVStringOrURLSearchParams.html' title='script::dom::bindings::codegen::UnionTypes::USVStringOrURLSearchParams'>USVStringOrURLSearchParams</a></code></li>
+<li><code>impl FromJSValConvertible for <a class='enum' href='../../../../script/dom/bindings/codegen/UnionTypes/enum.UnsignedLongOrBoolean.html' title='script::dom::bindings::codegen::UnionTypes::UnsignedLongOrBoolean'>UnsignedLongOrBoolean</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../../../implementors/js/conversions/trait.FromJSValConvertible.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script defer src="../../../../search-index.js"></script>
+</body>
+</html>

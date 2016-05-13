@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ImmutableFlowUtils` trait in crate `layout`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ImmutableFlowUtils">
+
+    <title>layout::flow::ImmutableFlowUtils - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>layout</a>::<wbr><a href='index.html'>flow</a></p><script>window.sidebarCurrent = {name: 'ImmutableFlowUtils', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>layout</a>::<wbr><a href='index.html'>flow</a>::<wbr><a class='trait' href=''>ImmutableFlowUtils</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3912' class='srclink' href='../../src/layout/flow.rs.html#452-517' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait ImmutableFlowUtils {
+    fn <a href='#tymethod.is_block_like' class='fnname'>is_block_like</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_table' class='fnname'>is_table</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_table_caption' class='fnname'>is_table_caption</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_proper_table_child' class='fnname'>is_proper_table_child</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_table_row' class='fnname'>is_table_row</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_table_cell' class='fnname'>is_table_cell</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_table_colgroup' class='fnname'>is_table_colgroup</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_table_rowgroup' class='fnname'>is_table_rowgroup</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_table_kind' class='fnname'>is_table_kind</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.need_anonymous_flow' class='fnname'>need_anonymous_flow</a>(self, child: &amp;<a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.generate_missing_child_flow' class='fnname'>generate_missing_child_flow</a>&lt;N: <a class='trait' href='../../layout/wrapper/trait.ThreadSafeLayoutNode.html' title='layout::wrapper::ThreadSafeLayoutNode'>ThreadSafeLayoutNode</a>&gt;(self, node: &amp;N, ctx: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) -&gt; <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>;
+    fn <a href='#tymethod.contains_roots_of_absolute_flow_tree' class='fnname'>contains_roots_of_absolute_flow_tree</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_leaf' class='fnname'>is_leaf</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.child_count' class='fnname'>child_count</a>(self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a>;
+    fn <a href='#tymethod.is_block_container' class='fnname'>is_block_container</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_block_flow' class='fnname'>is_block_flow</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.is_inline_flow' class='fnname'>is_inline_flow</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.print' class='fnname'>print</a>(self, title: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>);
+    fn <a href='#tymethod.print_with_tree' class='fnname'>print_with_tree</a>(self, print_tree: &amp;mut <a class='struct' href='../../util/print_tree/struct.PrintTree.html' title='util::print_tree::PrintTree'>PrintTree</a>);
+    fn <a href='#tymethod.floats_might_flow_through' class='fnname'>floats_might_flow_through</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.baseline_offset_of_last_line_box_in_flow' class='fnname'>baseline_offset_of_last_line_box_in_flow</a>(self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;;
+}</pre>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.is_block_like' class='method stab '><code>fn <a href='#tymethod.is_block_like' class='fnname'>is_block_like</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is a block flow or subclass thereof.</p>
+</div><h3 id='tymethod.is_table' class='method stab '><code>fn <a href='#tymethod.is_table' class='fnname'>is_table</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is a table flow.</p>
+</div><h3 id='tymethod.is_table_caption' class='method stab '><code>fn <a href='#tymethod.is_table_caption' class='fnname'>is_table_caption</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is a table caption flow.</p>
+</div><h3 id='tymethod.is_proper_table_child' class='method stab '><code>fn <a href='#tymethod.is_proper_table_child' class='fnname'>is_proper_table_child</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is a proper table child.</p>
+</div><h3 id='tymethod.is_table_row' class='method stab '><code>fn <a href='#tymethod.is_table_row' class='fnname'>is_table_row</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is a table row flow.</p>
+</div><h3 id='tymethod.is_table_cell' class='method stab '><code>fn <a href='#tymethod.is_table_cell' class='fnname'>is_table_cell</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is a table cell flow.</p>
+</div><h3 id='tymethod.is_table_colgroup' class='method stab '><code>fn <a href='#tymethod.is_table_colgroup' class='fnname'>is_table_colgroup</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is a table colgroup flow.</p>
+</div><h3 id='tymethod.is_table_rowgroup' class='method stab '><code>fn <a href='#tymethod.is_table_rowgroup' class='fnname'>is_table_rowgroup</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is a table rowgroup flow.</p>
+</div><h3 id='tymethod.is_table_kind' class='method stab '><code>fn <a href='#tymethod.is_table_kind' class='fnname'>is_table_kind</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is one of table-related flows.</p>
+</div><h3 id='tymethod.need_anonymous_flow' class='method stab '><code>fn <a href='#tymethod.need_anonymous_flow' class='fnname'>need_anonymous_flow</a>(self, child: &amp;<a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if anonymous flow is needed between this flow and child flow.</p>
+</div><h3 id='tymethod.generate_missing_child_flow' class='method stab '><code>fn <a href='#tymethod.generate_missing_child_flow' class='fnname'>generate_missing_child_flow</a>&lt;N: <a class='trait' href='../../layout/wrapper/trait.ThreadSafeLayoutNode.html' title='layout::wrapper::ThreadSafeLayoutNode'>ThreadSafeLayoutNode</a>&gt;(self, node: &amp;N, ctx: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) -&gt; <a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a></code></h3><div class='docblock'><p>Generates missing child flow of this flow.</p>
+</div><h3 id='tymethod.contains_roots_of_absolute_flow_tree' class='method stab '><code>fn <a href='#tymethod.contains_roots_of_absolute_flow_tree' class='fnname'>contains_roots_of_absolute_flow_tree</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow contains fragments that are roots of an absolute flow tree.</p>
+</div><h3 id='tymethod.is_leaf' class='method stab '><code>fn <a href='#tymethod.is_leaf' class='fnname'>is_leaf</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow has no children.</p>
+</div><h3 id='tymethod.child_count' class='method stab '><code>fn <a href='#tymethod.child_count' class='fnname'>child_count</a>(self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h3><div class='docblock'><p>Returns the number of children that this flow possesses.</p>
+</div><h3 id='tymethod.is_block_container' class='method stab '><code>fn <a href='#tymethod.is_block_container' class='fnname'>is_block_container</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Return true if this flow is a Block Container.</p>
+</div><h3 id='tymethod.is_block_flow' class='method stab '><code>fn <a href='#tymethod.is_block_flow' class='fnname'>is_block_flow</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is a block flow.</p>
+</div><h3 id='tymethod.is_inline_flow' class='method stab '><code>fn <a href='#tymethod.is_inline_flow' class='fnname'>is_inline_flow</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this flow is an inline flow.</p>
+</div><h3 id='tymethod.print' class='method stab '><code>fn <a href='#tymethod.print' class='fnname'>print</a>(self, title: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>)</code></h3><div class='docblock'><p>Dumps the flow tree for debugging.</p>
+</div><h3 id='tymethod.print_with_tree' class='method stab '><code>fn <a href='#tymethod.print_with_tree' class='fnname'>print_with_tree</a>(self, print_tree: &amp;mut <a class='struct' href='../../util/print_tree/struct.PrintTree.html' title='util::print_tree::PrintTree'>PrintTree</a>)</code></h3><div class='docblock'><p>Dumps the flow tree for debugging into the given PrintTree.</p>
+</div><h3 id='tymethod.floats_might_flow_through' class='method stab '><code>fn <a href='#tymethod.floats_might_flow_through' class='fnname'>floats_might_flow_through</a>(self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if floats might flow through this flow, as determined by the float placement
+speculation pass.</p>
+</div><h3 id='tymethod.baseline_offset_of_last_line_box_in_flow' class='method stab '><code>fn <a href='#tymethod.baseline_offset_of_last_line_box_in_flow' class='fnname'>baseline_offset_of_last_line_box_in_flow</a>(self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></h3></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl&lt;'a&gt; ImmutableFlowUtils for &amp;'a <a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/layout/flow/trait.ImmutableFlowUtils.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "layout";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["assert_receiver_is_clone",""]],"trait":[["Clone","A common trait for cloning an object."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["allocate",""],["allocated_size",""],["allocation_granularity",""],["available_space",""],["duplicate",""],["flock",""],["free_space",""],["lock_error",""],["lock_exclusive",""],["lock_shared",""],["statvfs",""],["total_space",""],["try_lock_exclusive",""],["try_lock_shared",""],["unlock",""]]});

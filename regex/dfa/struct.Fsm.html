@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Fsm` struct in crate `regex`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Fsm">
+
+    <title>regex::dfa::Fsm - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../regex/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <p class='location'><a href='../index.html'>regex</a>::<wbr><a href='index.html'>dfa</a></p><script>window.sidebarCurrent = {name: 'Fsm', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>regex</a>::<wbr><a href='index.html'>dfa</a>::<wbr><a class='struct' href=''>Fsm</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-965' class='srclink' href='../../src/regex/dfa.rs.html#173-201' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Fsm&lt;'a&gt; {
+    prog: &amp;'a <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>,
+    start: <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>,
+    at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    quit_after_match: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    last_match_si: <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>,
+    last_cache_flush: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    cache: &amp;'a mut <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a>,
+}</pre><div class='docblock'><p>Fsm encapsulates the actual execution of the DFA.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.prog'><code>prog</code></td><td><div class='docblock'><p>prog contains the NFA instruction opcodes. DFA execution uses either
+the <code>dfa</code> instructions or the <code>dfa_reverse</code> instructions from
+<code>exec::ExecReadOnly</code>. (It never uses <code>ExecReadOnly.nfa</code>, which may have
+Unicode opcodes that cannot be executed by the DFA.)</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.start'><code>start</code></td><td><div class='docblock'><p>The start state. We record it here because the pointer may change
+when the cache is wiped.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.at'><code>at</code></td><td><div class='docblock'><p>The current position in the input.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.quit_after_match'><code>quit_after_match</code></td><td><div class='docblock'><p>Should we quit after seeing the first match? e.g., When the caller
+uses <code>is_match</code> or <code>shortest_match</code>.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.last_match_si'><code>last_match_si</code></td><td><div class='docblock'><p>The last state that matched.</p>
+
+<p>When no match has occurred, this is set to STATE_UNKNOWN.</p>
+
+<p>This is only useful when matching regex sets. The last match state
+is useful because it contains all of the match instructions seen,
+thereby allowing us to enumerate which regexes in the set matched.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.last_cache_flush'><code>last_cache_flush</code></td><td><div class='docblock'><p>The input position of the last cache flush. We use this to determine
+if we&#39;re thrashing in the cache too often. If so, the DFA quits so
+that we can fall back to the NFA algorithm.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.cache'><code>cache</code></td><td><div class='docblock'><p>All cached DFA information that is persisted between searches.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'a&gt; <a class='struct' href='../../regex/dfa/struct.Fsm.html' title='regex::dfa::Fsm'>Fsm</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.forward' class='method'><code>fn <a href='#method.forward' class='fnname'>forward</a>(prog: &amp;'a <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, cache: &amp;<a class='type' href='../../regex/exec/type.ProgramCache.html' title='regex::exec::ProgramCache'>ProgramCache</a>, quit_after_match: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>
+<h4 id='method.reverse' class='method'><code>fn <a href='#method.reverse' class='fnname'>reverse</a>(prog: &amp;'a <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, cache: &amp;<a class='type' href='../../regex/exec/type.ProgramCache.html' title='regex::exec::ProgramCache'>ProgramCache</a>, quit_after_match: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>
+<h4 id='method.forward_many' class='method'><code>fn <a href='#method.forward_many' class='fnname'>forward_many</a>(prog: &amp;'a <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, cache: &amp;<a class='type' href='../../regex/exec/type.ProgramCache.html' title='regex::exec::ProgramCache'>ProgramCache</a>, matches: <a class='primitive' href='../../std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='../../std/primitive.bool.html'>bool</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>
+<h4 id='method.exec_at' class='method'><code>fn <a href='#method.exec_at' class='fnname'>exec_at</a>(&amp;mut self, qcur: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, qnext: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>
+<div class='docblock'><p>Executes the DFA on a forward NFA.</p>
+
+<p>{qcur,qnext} are scratch ordered sets which may be non-empty.</p>
+</div><h4 id='method.exec_at_reverse' class='method'><code>fn <a href='#method.exec_at_reverse' class='fnname'>exec_at_reverse</a>(&amp;mut self, qcur: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, qnext: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>
+<div class='docblock'><p>Executes the DFA on a reverse NFA.</p>
+</div><h4 id='method.next_si' class='method'><code>unsafe fn <a href='#method.next_si' class='fnname'>next_si</a>(&amp;self, si: <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, i: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a></code></h4>
+<div class='docblock'><p>next_si transitions to the next state, where the transition input
+corresponds to text[i].</p>
+
+<p>This elides bounds checks, and is therefore unsafe.</p>
+</div><h4 id='method.exec_byte' class='method'><code>fn <a href='#method.exec_byte' class='fnname'>exec_byte</a>(&amp;mut self, qcur: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, qnext: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, si: <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>, b: <a class='struct' href='../../regex/dfa/struct.Byte.html' title='regex::dfa::Byte'>Byte</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;</code></h4>
+<div class='docblock'><p>Computes the next state given the current state and the current input
+byte (which may be EOF).</p>
+
+<p>If STATE_DEAD is returned, then there is no valid state transition.
+This implies that no permutation of future input can lead to a match
+state.</p>
+
+<p>STATE_UNKNOWN can never be returned.</p>
+</div><h4 id='method.follow_epsilons' class='method'><code>fn <a href='#method.follow_epsilons' class='fnname'>follow_epsilons</a>(&amp;mut self, ip: <a class='type' href='../../regex/dfa/type.InstPtr.html' title='regex::dfa::InstPtr'>InstPtr</a>, q: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, flags: <a class='struct' href='../../regex/dfa/struct.EmptyFlags.html' title='regex::dfa::EmptyFlags'>EmptyFlags</a>)</code></h4>
+<div class='docblock'><p>Follows the epsilon transitions starting at (and including) <code>ip</code>. The
+resulting states are inserted into the ordered set <code>q</code>.</p>
+
+<p>Conditional epsilon transitions (i.e., empty width assertions) are only
+followed if they are satisfied by the given flags, which should
+represent the flags set at the current location in the input.</p>
+
+<p>If the current location corresponds to the empty string, then only the
+end line and/or end text flags may be set. If the current location
+corresponds to a real byte in the input, then only the start line
+and/or start text flags may be set.</p>
+
+<p>As an exception to the above, when finding the initial state, any of
+the above flags may be set:</p>
+
+<p>If matching starts at the beginning of the input, then start text and
+start line should be set. If the input is empty, then end text and end
+line should also be set.</p>
+
+<p>If matching starts after the beginning of the input, then only start
+line should be set if the preceding byte is <code>\n</code>. End line should never
+be set in this case. (Even if the proceding byte is a <code>\n</code>, it will
+be handled in a subsequent DFA state.)</p>
+</div><h4 id='method.cached_state' class='method'><code>fn <a href='#method.cached_state' class='fnname'>cached_state</a>(&amp;mut self, q: &amp;<a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, state_flags: <a class='struct' href='../../regex/dfa/struct.StateFlags.html' title='regex::dfa::StateFlags'>StateFlags</a>, current_state: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;mut <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;</code></h4>
+<div class='docblock'><p>Find a previously computed state matching the given set of instructions
+and is_match bool.</p>
+
+<p>The given set of instructions should represent a single state in the
+NFA along with all states reachable without consuming any input.</p>
+
+<p>The is_match bool should be true if and only if the preceding DFA state
+contains an NFA matching state. The cached state produced here will
+then signify a match. (This enables us to delay a match by one byte,
+in order to account for the EOF sentinel byte.)</p>
+
+<p>If the cache is full, then it is wiped before caching a new state.</p>
+
+<p>The current state should be specified if it exists, since it will need
+to be preserved if the cache clears itself. (Start states are
+always saved, so they should not be passed here.) It takes a mutable
+pointer to the index because if the cache is cleared, the state&#39;s
+location may change.</p>
+</div><h4 id='method.cached_state_key' class='method'><code>fn <a href='#method.cached_state_key' class='fnname'>cached_state_key</a>(&amp;mut self, q: &amp;<a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, state_flags: &amp;mut <a class='struct' href='../../regex/dfa/struct.StateFlags.html' title='regex::dfa::StateFlags'>StateFlags</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../regex/dfa/struct.StateKey.html' title='regex::dfa::StateKey'>StateKey</a>&gt;</code></h4>
+<div class='docblock'><p>Produces a key suitable for describing a state in the DFA cache.</p>
+
+<p>The key invariant here is that equivalent keys are produced for any two
+sets of ordered NFA states (and toggling of whether the previous NFA
+states contain a match state) that do not discriminate a match for any
+input.</p>
+
+<p>Specifically, q should be an ordered set of NFA states and is_match
+should be true if and only if the previous NFA states contained a match
+state.</p>
+</div><h4 id='method.clear_cache_and_save' class='method'><code>fn <a href='#method.clear_cache_and_save' class='fnname'>clear_cache_and_save</a>(&amp;mut self, current_state: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;mut <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Clears the cache, but saves and restores current_state if it is not
+none.</p>
+
+<p>The current state must be provided here in case its location in the
+cache changes.</p>
+
+<p>This returns false if the cache is not cleared and the DFA should
+give up.</p>
+</div><h4 id='method.clear_cache' class='method'><code>fn <a href='#method.clear_cache' class='fnname'>clear_cache</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Wipes the state cache, but saves and restores the current start state.</p>
+
+<p>This returns false if the cache is not cleared and the DFA should
+give up.</p>
+</div><h4 id='method.restore_state' class='method'><code>fn <a href='#method.restore_state' class='fnname'>restore_state</a>(&amp;mut self, state: <a class='struct' href='../../regex/dfa/struct.State.html' title='regex::dfa::State'>State</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;</code></h4>
+<div class='docblock'><p>Restores the given state back into the cache, and returns a pointer
+to it.</p>
+</div><h4 id='method.next_state' class='method'><code>fn <a href='#method.next_state' class='fnname'>next_state</a>(&amp;mut self, qcur: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, qnext: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, si: <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>, b: <a class='struct' href='../../regex/dfa/struct.Byte.html' title='regex::dfa::Byte'>Byte</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;</code></h4>
+<div class='docblock'><p>Returns the next state given the current state si and current byte
+b. {qcur,qnext} are used as scratch space for storing ordered NFA
+states.</p>
+
+<p>This tries to fetch the next state from the cache, but if that fails,
+it computes the next state, caches it and returns a pointer to it.</p>
+
+<p>The pointer can be to a real state, or it can be STATE_DEAD.
+STATE_UNKNOWN cannot be returned.</p>
+
+<p>None is returned if a new state could not be allocated (i.e., the DFA
+ran out of space and thinks it&#39;s running too slowly).</p>
+</div><h4 id='method.start_state' class='method'><code>fn <a href='#method.start_state' class='fnname'>start_state</a>(&amp;mut self, q: &amp;mut <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a>, empty_flags: <a class='struct' href='../../regex/dfa/struct.EmptyFlags.html' title='regex::dfa::EmptyFlags'>EmptyFlags</a>, state_flags: <a class='struct' href='../../regex/dfa/struct.StateFlags.html' title='regex::dfa::StateFlags'>StateFlags</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;</code></h4>
+<div class='docblock'><p>Computes and returns the start state, where searching begins at
+position <code>at</code> in <code>text</code>. If the state has already been computed,
+then it is pulled from the cache. If the state hasn&#39;t been cached,
+then it is computed, cached and a pointer to it is returned.</p>
+
+<p>This may return STATE_DEAD but never STATE_UNKNOWN.</p>
+</div><h4 id='method.start_flags' class='method'><code>fn <a href='#method.start_flags' class='fnname'>start_flags</a>(&amp;self, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../regex/dfa/struct.EmptyFlags.html' title='regex::dfa::EmptyFlags'>EmptyFlags</a>, <a class='struct' href='../../regex/dfa/struct.StateFlags.html' title='regex::dfa::StateFlags'>StateFlags</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Computes the set of starting flags for the given position in text.</p>
+
+<p>This should only be used when executing the DFA forwards over the
+input.</p>
+</div><h4 id='method.start_flags_reverse' class='method'><code>fn <a href='#method.start_flags_reverse' class='fnname'>start_flags_reverse</a>(&amp;self, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../regex/dfa/struct.EmptyFlags.html' title='regex::dfa::EmptyFlags'>EmptyFlags</a>, <a class='struct' href='../../regex/dfa/struct.StateFlags.html' title='regex::dfa::StateFlags'>StateFlags</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Computes the set of starting flags for the given position in text.</p>
+
+<p>This should only be used when executing the DFA in reverse over the
+input.</p>
+</div><h4 id='method.state' class='method'><code>fn <a href='#method.state' class='fnname'>state</a>(&amp;self, si: <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>) -&gt; &amp;<a class='struct' href='../../regex/dfa/struct.State.html' title='regex::dfa::State'>State</a></code></h4>
+<div class='docblock'><p>Returns a reference to a State given a pointer to it.</p>
+</div><h4 id='method.add_state' class='method'><code>fn <a href='#method.add_state' class='fnname'>add_state</a>(&amp;mut self, key: <a class='struct' href='../../regex/dfa/struct.StateKey.html' title='regex::dfa::StateKey'>StateKey</a>, state: <a class='struct' href='../../regex/dfa/struct.State.html' title='regex::dfa::State'>State</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;</code></h4>
+<div class='docblock'><p>Adds the given state to the DFA.</p>
+
+<p>This allocates room for transitions out of this state in
+self.cache.trans. The transitions can be set with the returned
+StatePtr.</p>
+
+<p>If None is returned, then the state limit was reached and the DFA
+should quit.</p>
+</div><h4 id='method.prefix_at' class='method'><code>fn <a href='#method.prefix_at' class='fnname'>prefix_at</a>(&amp;self, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>
+<div class='docblock'><p>Quickly finds the next occurrence of any literal prefixes in the regex.
+If there are no literal prefixes, then the current position is
+returned. If there are literal prefixes and one could not be found,
+then None is returned.</p>
+
+<p>This should only be called when the DFA is in a start state.</p>
+</div><h4 id='method.num_byte_classes' class='method'><code>fn <a href='#method.num_byte_classes' class='fnname'>num_byte_classes</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+<div class='docblock'><p>Returns the number of byte classes required to discriminate transitions
+in each state.</p>
+
+<p>invariant: num_byte_classes() == len(State.next)</p>
+</div><h4 id='method.byte_class' class='method'><code>fn <a href='#method.byte_class' class='fnname'>byte_class</a>(&amp;self, b: <a class='struct' href='../../regex/dfa/struct.Byte.html' title='regex::dfa::Byte'>Byte</a>) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+<div class='docblock'><p>Given an input byte or the special EOF sentinel, return its
+corresponding byte class.</p>
+</div><h4 id='method.u8_class' class='method'><code>fn <a href='#method.u8_class' class='fnname'>u8_class</a>(&amp;self, b: <a class='primitive' href='../../std/primitive.u8.html'>u8</a>) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+<div class='docblock'><p>Like byte_class, but explicitly for u8s.</p>
+</div><h4 id='method.continue_past_first_match' class='method'><code>fn <a href='#method.continue_past_first_match' class='fnname'>continue_past_first_match</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if the DFA should continue searching past the first match.</p>
+
+<p>Leftmost first semantics in the DFA are preserved by not following NFA
+transitions after the first match is seen.</p>
+
+<p>On occasion, we want to avoid leftmost first semantics to find either
+the longest match (for reverse search) or all possible matches (for
+regex sets).</p>
+</div><h4 id='method.has_prefix' class='method'><code>fn <a href='#method.has_prefix' class='fnname'>has_prefix</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if there is a prefix we can quickly search for.</p>
+</div><h4 id='method.start_ptr' class='method'><code>fn <a href='#method.start_ptr' class='fnname'>start_ptr</a>(&amp;self, si: <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>) -&gt; <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a></code></h4>
+<div class='docblock'><p>Sets the STATE_START bit in the given state pointer if and only if
+we have a prefix to scan for.</p>
+
+<p>If there&#39;s no prefix, then it&#39;s a waste to treat the start state
+specially.</p>
+</div><h4 id='method.approximate_size' class='method'><code>fn <a href='#method.approximate_size' class='fnname'>approximate_size</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+<div class='docblock'><p>Approximate size returns the approximate heap space currently used by
+the DFA. It is used to determine whether the DFA&#39;s state cache needs to
+be wiped. Namely, it is possible that for certain regexes on certain
+inputs, a new state could be created for every byte of input. (This is
+bad for memory use, so we bound it with a cache.)</p>
+
+<p>The approximation is guaranteed to be done in constant time (and
+indeed, this requirement is why it&#39;s approximate).</p>
+</div><h4 id='method.actual_size' class='method'><code>fn <a href='#method.actual_size' class='fnname'>actual_size</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+<div class='docblock'><p>Returns the actual heap space of the DFA. This visits every state in
+the DFA.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../regex/dfa/struct.Fsm.html' title='regex::dfa::Fsm'>Fsm</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "regex";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

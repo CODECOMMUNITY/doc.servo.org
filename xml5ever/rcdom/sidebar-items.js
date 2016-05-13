@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["NodeEnum","The different kinds of nodes in the DOM."]],"fn":[["append",""],["append_to_existing_text",""],["new_node",""]],"struct":[["Handle","Reference to a DOM node."],["Node","A simple DOM node."],["RcDom","The DOM itself; the result of parsing."]],"type":[["WeakHandle","Weak reference to a DOM node, used for parent pointers."]]});

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `image_cache_thread` mod in crate `net_traits`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, image_cache_thread">
+
+    <title>net_traits::image_cache_thread - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>net_traits</a></p><script>window.sidebarCurrent = {name: 'image_cache_thread', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>net_traits</a>::<wbr><a class='mod' href=''>image_cache_thread</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2029' class='srclink' href='../../src/net_traits/image_cache_thread.rs.html#5-179' title='goto source code'>[src]</a></span></h1>
+<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ImageCacheChan.html'
+                                  title='net_traits::image_cache_thread::ImageCacheChan'>ImageCacheChan</a></td>
+                           <td class='docblock short'>
+                                <p>Channel used by the image cache to send results.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ImageCacheResult.html'
+                                  title='net_traits::image_cache_thread::ImageCacheResult'>ImageCacheResult</a></td>
+                           <td class='docblock short'>
+                                <p>The result of an image cache command that is returned to the
+caller.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ImageCacheThread.html'
+                                  title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a></td>
+                           <td class='docblock short'>
+                                <p>The client side of the image cache thread. This can be safely cloned
+and passed to different threads.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ImageResponder.html'
+                                  title='net_traits::image_cache_thread::ImageResponder'>ImageResponder</a></td>
+                           <td class='docblock short'>
+                                <p>This is optionally passed to the image cache when requesting
+and image, and returned to the specified event loop when the
+image load completes. It is typically used to trigger a reflow
+and/or repaint.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ImageCacheCommand.html'
+                                  title='net_traits::image_cache_thread::ImageCacheCommand'>ImageCacheCommand</a></td>
+                           <td class='docblock short'>
+                                <p>Commands that the image cache understands.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ImageOrMetadataAvailable.html'
+                                  title='net_traits::image_cache_thread::ImageOrMetadataAvailable'>ImageOrMetadataAvailable</a></td>
+                           <td class='docblock short'>
+                                <p>Indicating either entire image or just metadata availability</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ImageResponse.html'
+                                  title='net_traits::image_cache_thread::ImageResponse'>ImageResponse</a></td>
+                           <td class='docblock short'>
+                                <p>The returned image.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ImageState.html'
+                                  title='net_traits::image_cache_thread::ImageState'>ImageState</a></td>
+                           <td class='docblock short'>
+                                <p>The current state of an image in the cache.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.UsePlaceholder.html'
+                                  title='net_traits::image_cache_thread::UsePlaceholder'>UsePlaceholder</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ImageCacheChan.html'
+                                  title='net_traits::image_cache_thread::_IMPL_DESERIALIZE_FOR_ImageCacheChan'>_IMPL_DESERIALIZE_FOR_ImageCacheChan</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ImageCacheCommand.html'
+                                  title='net_traits::image_cache_thread::_IMPL_DESERIALIZE_FOR_ImageCacheCommand'>_IMPL_DESERIALIZE_FOR_ImageCacheCommand</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ImageCacheResult.html'
+                                  title='net_traits::image_cache_thread::_IMPL_DESERIALIZE_FOR_ImageCacheResult'>_IMPL_DESERIALIZE_FOR_ImageCacheResult</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ImageCacheThread.html'
+                                  title='net_traits::image_cache_thread::_IMPL_DESERIALIZE_FOR_ImageCacheThread'>_IMPL_DESERIALIZE_FOR_ImageCacheThread</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ImageOrMetadataAvailable.html'
+                                  title='net_traits::image_cache_thread::_IMPL_DESERIALIZE_FOR_ImageOrMetadataAvailable'>_IMPL_DESERIALIZE_FOR_ImageOrMetadataAvailable</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ImageResponder.html'
+                                  title='net_traits::image_cache_thread::_IMPL_DESERIALIZE_FOR_ImageResponder'>_IMPL_DESERIALIZE_FOR_ImageResponder</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ImageResponse.html'
+                                  title='net_traits::image_cache_thread::_IMPL_DESERIALIZE_FOR_ImageResponse'>_IMPL_DESERIALIZE_FOR_ImageResponse</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ImageState.html'
+                                  title='net_traits::image_cache_thread::_IMPL_DESERIALIZE_FOR_ImageState'>_IMPL_DESERIALIZE_FOR_ImageState</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_UsePlaceholder.html'
+                                  title='net_traits::image_cache_thread::_IMPL_DESERIALIZE_FOR_UsePlaceholder'>_IMPL_DESERIALIZE_FOR_UsePlaceholder</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ImageCacheChan.html'
+                                  title='net_traits::image_cache_thread::_IMPL_SERIALIZE_FOR_ImageCacheChan'>_IMPL_SERIALIZE_FOR_ImageCacheChan</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ImageCacheCommand.html'
+                                  title='net_traits::image_cache_thread::_IMPL_SERIALIZE_FOR_ImageCacheCommand'>_IMPL_SERIALIZE_FOR_ImageCacheCommand</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ImageCacheResult.html'
+                                  title='net_traits::image_cache_thread::_IMPL_SERIALIZE_FOR_ImageCacheResult'>_IMPL_SERIALIZE_FOR_ImageCacheResult</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ImageCacheThread.html'
+                                  title='net_traits::image_cache_thread::_IMPL_SERIALIZE_FOR_ImageCacheThread'>_IMPL_SERIALIZE_FOR_ImageCacheThread</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ImageOrMetadataAvailable.html'
+                                  title='net_traits::image_cache_thread::_IMPL_SERIALIZE_FOR_ImageOrMetadataAvailable'>_IMPL_SERIALIZE_FOR_ImageOrMetadataAvailable</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ImageResponder.html'
+                                  title='net_traits::image_cache_thread::_IMPL_SERIALIZE_FOR_ImageResponder'>_IMPL_SERIALIZE_FOR_ImageResponder</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ImageResponse.html'
+                                  title='net_traits::image_cache_thread::_IMPL_SERIALIZE_FOR_ImageResponse'>_IMPL_SERIALIZE_FOR_ImageResponse</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ImageState.html'
+                                  title='net_traits::image_cache_thread::_IMPL_SERIALIZE_FOR_ImageState'>_IMPL_SERIALIZE_FOR_ImageState</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_UsePlaceholder.html'
+                                  title='net_traits::image_cache_thread::_IMPL_SERIALIZE_FOR_UsePlaceholder'>_IMPL_SERIALIZE_FOR_UsePlaceholder</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "net_traits";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

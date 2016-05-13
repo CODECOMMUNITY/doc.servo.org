@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Handler` struct in crate `webdriver_server`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Handler">
+
+    <title>webdriver_server::Handler - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>webdriver_server</a></p><script>window.sidebarCurrent = {name: 'Handler', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>webdriver_server</a>::<wbr><a class='struct' href=''>Handler</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-71' class='srclink' href='../src/webdriver_server/lib.rs.html#78-84' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>struct Handler {
+    session: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../webdriver_server/struct.WebDriverSession.html' title='webdriver_server::WebDriverSession'>WebDriverSession</a>&gt;,
+    constellation_chan: <a class='struct' href='../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../compositing/enum.CompositorMsg.html' title='compositing::CompositorMsg'>ConstellationMsg</a>&gt;,
+    script_timeout: <a class='primitive' href='../std/primitive.u32.html'>u32</a>,
+    load_timeout: <a class='primitive' href='../std/primitive.u32.html'>u32</a>,
+    implicit_wait_timeout: <a class='primitive' href='../std/primitive.u32.html'>u32</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.session'><code>session</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.constellation_chan'><code>constellation_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.script_timeout'><code>script_timeout</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.load_timeout'><code>load_timeout</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.implicit_wait_timeout'><code>implicit_wait_timeout</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../webdriver_server/struct.Handler.html' title='webdriver_server::Handler'>Handler</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(constellation_chan: <a class='struct' href='../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../compositing/enum.CompositorMsg.html' title='compositing::CompositorMsg'>ConstellationMsg</a>&gt;) -&gt; <a class='struct' href='../webdriver_server/struct.Handler.html' title='webdriver_server::Handler'>Handler</a></code></h4>
+<h4 id='method.pipeline' class='method'><code>fn <a href='#method.pipeline' class='fnname'>pipeline</a>(&amp;self, frame_id: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.FrameId.html' title='msg::constellation_msg::FrameId'>FrameId</a>&gt;) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>&gt;</code></h4>
+<h4 id='method.root_pipeline' class='method'><code>fn <a href='#method.root_pipeline' class='fnname'>root_pipeline</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>&gt;</code></h4>
+<h4 id='method.frame_pipeline' class='method'><code>fn <a href='#method.frame_pipeline' class='fnname'>frame_pipeline</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>&gt;</code></h4>
+<h4 id='method.session' class='method'><code>fn <a href='#method.session' class='fnname'>session</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;&amp;<a class='struct' href='../webdriver_server/struct.WebDriverSession.html' title='webdriver_server::WebDriverSession'>WebDriverSession</a>&gt;</code></h4>
+<h4 id='method.set_frame_id' class='method'><code>fn <a href='#method.set_frame_id' class='fnname'>set_frame_id</a>(&amp;mut self, frame_id: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.FrameId.html' title='msg::constellation_msg::FrameId'>FrameId</a>&gt;) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<h4 id='method.handle_new_session' class='method'><code>fn <a href='#method.handle_new_session' class='fnname'>handle_new_session</a>(&amp;mut self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_delete_session' class='method'><code>fn <a href='#method.handle_delete_session' class='fnname'>handle_delete_session</a>(&amp;mut self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.frame_script_command' class='method'><code>fn <a href='#method.frame_script_command' class='fnname'>frame_script_command</a>(&amp;self, cmd_msg: <a class='enum' href='../msg/webdriver_msg/enum.WebDriverScriptCommand.html' title='msg::webdriver_msg::WebDriverScriptCommand'>WebDriverScriptCommand</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<h4 id='method.root_script_command' class='method'><code>fn <a href='#method.root_script_command' class='fnname'>root_script_command</a>(&amp;self, cmd_msg: <a class='enum' href='../msg/webdriver_msg/enum.WebDriverScriptCommand.html' title='msg::webdriver_msg::WebDriverScriptCommand'>WebDriverScriptCommand</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<h4 id='method.handle_get' class='method'><code>fn <a href='#method.handle_get' class='fnname'>handle_get</a>(&amp;self, parameters: &amp;<a class='struct' href='../webdriver/command/struct.GetParameters.html' title='webdriver::command::GetParameters'>GetParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.wait_for_load' class='method'><code>fn <a href='#method.wait_for_load' class='fnname'>wait_for_load</a>(&amp;self, sender: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../msg/webdriver_msg/enum.LoadStatus.html' title='msg::webdriver_msg::LoadStatus'>LoadStatus</a>&gt;, receiver: <a class='struct' href='../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='enum' href='../msg/webdriver_msg/enum.LoadStatus.html' title='msg::webdriver_msg::LoadStatus'>LoadStatus</a>&gt;) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_current_url' class='method'><code>fn <a href='#method.handle_current_url' class='fnname'>handle_current_url</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_window_size' class='method'><code>fn <a href='#method.handle_window_size' class='fnname'>handle_window_size</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_is_enabled' class='method'><code>fn <a href='#method.handle_is_enabled' class='fnname'>handle_is_enabled</a>(&amp;self, element: &amp;<a class='struct' href='../webdriver/common/struct.WebElement.html' title='webdriver::common::WebElement'>WebElement</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_is_selected' class='method'><code>fn <a href='#method.handle_is_selected' class='fnname'>handle_is_selected</a>(&amp;self, element: &amp;<a class='struct' href='../webdriver/common/struct.WebElement.html' title='webdriver::common::WebElement'>WebElement</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_go_back' class='method'><code>fn <a href='#method.handle_go_back' class='fnname'>handle_go_back</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_go_forward' class='method'><code>fn <a href='#method.handle_go_forward' class='fnname'>handle_go_forward</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_refresh' class='method'><code>fn <a href='#method.handle_refresh' class='fnname'>handle_refresh</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_title' class='method'><code>fn <a href='#method.handle_title' class='fnname'>handle_title</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_window_handle' class='method'><code>fn <a href='#method.handle_window_handle' class='fnname'>handle_window_handle</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_window_handles' class='method'><code>fn <a href='#method.handle_window_handles' class='fnname'>handle_window_handles</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_find_element' class='method'><code>fn <a href='#method.handle_find_element' class='fnname'>handle_find_element</a>(&amp;self, parameters: &amp;<a class='struct' href='../webdriver/command/struct.LocatorParameters.html' title='webdriver::command::LocatorParameters'>LocatorParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_switch_to_frame' class='method'><code>fn <a href='#method.handle_switch_to_frame' class='fnname'>handle_switch_to_frame</a>(&amp;mut self, parameters: &amp;<a class='struct' href='../webdriver/command/struct.SwitchToFrameParameters.html' title='webdriver::command::SwitchToFrameParameters'>SwitchToFrameParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_switch_to_parent_frame' class='method'><code>fn <a href='#method.handle_switch_to_parent_frame' class='fnname'>handle_switch_to_parent_frame</a>(&amp;mut self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.switch_to_frame' class='method'><code>fn <a href='#method.switch_to_frame' class='fnname'>switch_to_frame</a>(&amp;mut self, frame_id: <a class='enum' href='../msg/webdriver_msg/enum.WebDriverFrameId.html' title='msg::webdriver_msg::WebDriverFrameId'>WebDriverFrameId</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_find_elements' class='method'><code>fn <a href='#method.handle_find_elements' class='fnname'>handle_find_elements</a>(&amp;self, parameters: &amp;<a class='struct' href='../webdriver/command/struct.LocatorParameters.html' title='webdriver::command::LocatorParameters'>LocatorParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_element_rect' class='method'><code>fn <a href='#method.handle_element_rect' class='fnname'>handle_element_rect</a>(&amp;self, element: &amp;<a class='struct' href='../webdriver/common/struct.WebElement.html' title='webdriver::common::WebElement'>WebElement</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_element_text' class='method'><code>fn <a href='#method.handle_element_text' class='fnname'>handle_element_text</a>(&amp;self, element: &amp;<a class='struct' href='../webdriver/common/struct.WebElement.html' title='webdriver::common::WebElement'>WebElement</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_active_element' class='method'><code>fn <a href='#method.handle_active_element' class='fnname'>handle_active_element</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_element_tag_name' class='method'><code>fn <a href='#method.handle_element_tag_name' class='fnname'>handle_element_tag_name</a>(&amp;self, element: &amp;<a class='struct' href='../webdriver/common/struct.WebElement.html' title='webdriver::common::WebElement'>WebElement</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_element_attribute' class='method'><code>fn <a href='#method.handle_element_attribute' class='fnname'>handle_element_attribute</a>(&amp;self, element: &amp;<a class='struct' href='../webdriver/common/struct.WebElement.html' title='webdriver::common::WebElement'>WebElement</a>, name: &amp;<a class='primitive' href='../std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_element_css' class='method'><code>fn <a href='#method.handle_element_css' class='fnname'>handle_element_css</a>(&amp;self, element: &amp;<a class='struct' href='../webdriver/common/struct.WebElement.html' title='webdriver::common::WebElement'>WebElement</a>, name: &amp;<a class='primitive' href='../std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_set_timeouts' class='method'><code>fn <a href='#method.handle_set_timeouts' class='fnname'>handle_set_timeouts</a>(&amp;mut self, parameters: &amp;<a class='struct' href='../webdriver/command/struct.TimeoutsParameters.html' title='webdriver::command::TimeoutsParameters'>TimeoutsParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_execute_script' class='method'><code>fn <a href='#method.handle_execute_script' class='fnname'>handle_execute_script</a>(&amp;self, parameters: &amp;<a class='struct' href='../webdriver/command/struct.JavascriptCommandParameters.html' title='webdriver::command::JavascriptCommandParameters'>JavascriptCommandParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_execute_async_script' class='method'><code>fn <a href='#method.handle_execute_async_script' class='fnname'>handle_execute_async_script</a>(&amp;self, parameters: &amp;<a class='struct' href='../webdriver/command/struct.JavascriptCommandParameters.html' title='webdriver::command::JavascriptCommandParameters'>JavascriptCommandParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.execute_script' class='method'><code>fn <a href='#method.execute_script' class='fnname'>execute_script</a>(&amp;self, command: <a class='enum' href='../msg/webdriver_msg/enum.WebDriverScriptCommand.html' title='msg::webdriver_msg::WebDriverScriptCommand'>WebDriverScriptCommand</a>, receiver: <a class='struct' href='../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='type' href='../msg/webdriver_msg/type.WebDriverJSResult.html' title='msg::webdriver_msg::WebDriverJSResult'>WebDriverJSResult</a>&gt;) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_element_send_keys' class='method'><code>fn <a href='#method.handle_element_send_keys' class='fnname'>handle_element_send_keys</a>(&amp;self, element: &amp;<a class='struct' href='../webdriver/common/struct.WebElement.html' title='webdriver::common::WebElement'>WebElement</a>, keys: &amp;<a class='struct' href='../webdriver/command/struct.SendKeysParameters.html' title='webdriver::command::SendKeysParameters'>SendKeysParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_take_screenshot' class='method'><code>fn <a href='#method.handle_take_screenshot' class='fnname'>handle_take_screenshot</a>(&amp;self) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_get_prefs' class='method'><code>fn <a href='#method.handle_get_prefs' class='fnname'>handle_get_prefs</a>(&amp;self, parameters: &amp;<a class='struct' href='../webdriver_server/struct.GetPrefsParameters.html' title='webdriver_server::GetPrefsParameters'>GetPrefsParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_set_prefs' class='method'><code>fn <a href='#method.handle_set_prefs' class='fnname'>handle_set_prefs</a>(&amp;self, parameters: &amp;<a class='struct' href='../webdriver_server/struct.SetPrefsParameters.html' title='webdriver_server::SetPrefsParameters'>SetPrefsParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.handle_reset_prefs' class='method'><code>fn <a href='#method.handle_reset_prefs' class='fnname'>handle_reset_prefs</a>(&amp;self, parameters: &amp;<a class='struct' href='../webdriver_server/struct.GetPrefsParameters.html' title='webdriver_server::GetPrefsParameters'>GetPrefsParameters</a>) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../webdriver/server/trait.WebDriverHandler.html' title='webdriver::server::WebDriverHandler'>WebDriverHandler</a>&lt;<a class='enum' href='../webdriver_server/enum.ServoExtensionRoute.html' title='webdriver_server::ServoExtensionRoute'>ServoExtensionRoute</a>&gt; for <a class='struct' href='../webdriver_server/struct.Handler.html' title='webdriver_server::Handler'>Handler</a></code></h3><div class='impl-items'><h4 id='method.handle_command' class='method'><code>fn <a href='../webdriver/server/trait.WebDriverHandler.html#tymethod.handle_command' class='fnname'>handle_command</a>(&amp;mut self, _session: &amp;<a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../webdriver/server/struct.Session.html' title='webdriver::server::Session'>Session</a>&gt;, msg: &amp;<a class='struct' href='../webdriver/command/struct.WebDriverMessage.html' title='webdriver::command::WebDriverMessage'>WebDriverMessage</a>&lt;<a class='enum' href='../webdriver_server/enum.ServoExtensionRoute.html' title='webdriver_server::ServoExtensionRoute'>ServoExtensionRoute</a>&gt;) -&gt; <a class='type' href='../webdriver/error/type.WebDriverResult.html' title='webdriver::error::WebDriverResult'>WebDriverResult</a>&lt;<a class='enum' href='../webdriver/response/enum.WebDriverResponse.html' title='webdriver::response::WebDriverResponse'>WebDriverResponse</a>&gt;</code></h4>
+<h4 id='method.delete_session' class='method'><code>fn <a href='../webdriver/server/trait.WebDriverHandler.html#tymethod.delete_session' class='fnname'>delete_session</a>(&amp;mut self, _session: &amp;<a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../webdriver/server/struct.Session.html' title='webdriver::server::Session'>Session</a>&gt;)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "webdriver_server";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

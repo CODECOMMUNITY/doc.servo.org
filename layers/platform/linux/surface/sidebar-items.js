@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["NativeDisplay",""]],"struct":[["EGLDisplayInfo",""],["GLXDisplayInfo","The display, visual info, and framebuffer configuration. This is needed in order to bind to a texture on the compositor side. This holds only a *weak* reference to the display and does not close it."],["PixmapNativeSurface",""]]});

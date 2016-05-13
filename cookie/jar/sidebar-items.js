@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Flavor",""]],"fn":[["prepare_key",""]],"mod":[["secure",""]],"struct":[["Child",""],["CookieJar","A jar of cookies for managing a session"],["Iter","Iterator over the cookies in a cookie jar"],["Root",""]],"type":[["Read",""],["SigningKey",""],["Write",""]]});

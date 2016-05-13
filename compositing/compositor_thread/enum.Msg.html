@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Msg` enum in crate `compositing`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Msg">
+
+    <title>compositing::compositor_thread::Msg - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>compositing</a>::<wbr><a href='index.html'>compositor_thread</a></p><script>window.sidebarCurrent = {name: 'Msg', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>compositing</a>::<wbr><a href='index.html'>compositor_thread</a>::<wbr><a class='enum' href=''>Msg</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1702' class='srclink' href='../../src/compositing/compositor_thread.rs.html#170-246' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Msg {
+    Exit(<a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;),
+    ShutdownComplete,
+    GetNativeDisplay(<a class='struct' href='../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../layers/platform/linux/surface/enum.NativeDisplay.html' title='layers::platform::linux::surface::NativeDisplay'>NativeDisplay</a>&gt;&gt;),
+    InitializeLayersForPipeline(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>, <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>&gt;),
+    ScrollFragmentPoint(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, <a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, <a class='primitive' href='../../std/primitive.bool.html'>bool</a>),
+    AssignPaintedBuffers(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>, <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, <a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../layers/layers/struct.LayerBufferSet.html' title='layers::layers::LayerBufferSet'>LayerBufferSet</a>&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;, <a class='struct' href='../../gfx_traits/struct.FrameTreeId.html' title='gfx_traits::FrameTreeId'>FrameTreeId</a>),
+    ChangePageTitle(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;),
+    ChangePageUrl(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>),
+    ChangeRunningAnimationsState(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='enum' href='../../script_traits/enum.AnimationState.html' title='script_traits::AnimationState'>AnimationState</a>),
+    SetFrameTree(<a class='struct' href='../../compositing/constellation/struct.SendableFrameTree.html' title='compositing::constellation::SendableFrameTree'>SendableFrameTree</a>, <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;, <a class='struct' href='../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../../compositing/enum.CompositorMsg.html' title='compositing::CompositorMsg'>ConstellationMsg</a>&gt;),
+    LoadStart(<a class='primitive' href='../../std/primitive.bool.html'>bool</a>, <a class='primitive' href='../../std/primitive.bool.html'>bool</a>),
+    LoadComplete(<a class='primitive' href='../../std/primitive.bool.html'>bool</a>, <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, <a class='primitive' href='../../std/primitive.bool.html'>bool</a>),
+    DelayedCompositionTimeout(<a class='primitive' href='../../std/primitive.u64.html'>u64</a>),
+    Recomposite(<a class='enum' href='../../compositing/compositor/enum.CompositingReason.html' title='compositing::compositor::CompositingReason'>CompositingReason</a>),
+    KeyEvent(<a class='enum' href='../../msg/constellation_msg/enum.Key.html' title='msg::constellation_msg::Key'>Key</a>, <a class='enum' href='../../msg/constellation_msg/enum.KeyState.html' title='msg::constellation_msg::KeyState'>KeyState</a>, <a class='struct' href='../../msg/constellation_msg/struct.KeyModifiers.html' title='msg::constellation_msg::KeyModifiers'>KeyModifiers</a>),
+    TouchEventProcessed(<a class='enum' href='../../script_traits/enum.EventResult.html' title='script_traits::EventResult'>EventResult</a>),
+    SetCursor(<a class='enum' href='../../style_traits/cursor/enum.Cursor.html' title='style_traits::cursor::Cursor'>Cursor</a>),
+    CreatePng(<a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../msg/constellation_msg/struct.Image.html' title='msg::constellation_msg::Image'>Image</a>&gt;&gt;),
+    PaintThreadExited(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
+    ViewportConstrained(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../style_traits/viewport/struct.ViewportConstraints.html' title='style_traits::viewport::ViewportConstraints'>ViewportConstraints</a>),
+    IsReadyToSaveImageReply(<a class='primitive' href='../../std/primitive.bool.html'>bool</a>),
+    NewFavicon(<a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>),
+    HeadParsed,
+    ReturnUnusedNativeSurfaces(<a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../layers/platform/surface/enum.NativeSurface.html' title='layers::platform::surface::NativeSurface'>NativeSurface</a>&gt;),
+    CollectMemoryReports(<a class='struct' href='../../profile_traits/mem/struct.ReportsChan.html' title='profile_traits::mem::ReportsChan'>ReportsChan</a>),
+    Status(<a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;),
+    GetClientWindow(<a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;, <a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.i32.html'>i32</a>&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;),
+    MoveTo(<a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.i32.html'>i32</a>&gt;),
+    ResizeTo(<a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;),
+    GetScrollOffset(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;&gt;),
+    PipelineExited(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;),
+}</pre><div class='docblock'><p>Messages from the painting thread and the constellation thread to the compositor thread.</p>
+</div><h2 class='variants'>Variants</h2>
+<table class='variants_table'><tr><td id='variant.Exit'><code>Exit</code></td><td><div class='docblock'><p>Requests that the compositor shut down.</p>
+</div></td><td></td></tr><tr><td id='variant.ShutdownComplete'><code>ShutdownComplete</code></td><td><div class='docblock'><p>Informs the compositor that the constellation has completed shutdown.
+Required because the constellation can have pending calls to make
+(e.g. SetFrameTree) at the time that we send it an ExitMsg.</p>
+</div></td><td></td></tr><tr><td id='variant.GetNativeDisplay'><code>GetNativeDisplay</code></td><td><div class='docblock'><p>Requests the compositor&#39;s graphics metadata. Graphics metadata is what the painter needs
+to create surfaces that the compositor can see. On Linux this is the X display; on Mac this
+is the pixel format.</p>
+</div></td><td></td></tr><tr><td id='variant.InitializeLayersForPipeline'><code>InitializeLayersForPipeline</code></td><td><div class='docblock'><p>Tells the compositor to create or update the layers for a pipeline if necessary
+(i.e. if no layer with that ID exists).</p>
+</div></td><td></td></tr><tr><td id='variant.ScrollFragmentPoint'><code>ScrollFragmentPoint</code></td><td><div class='docblock'><p>Scroll a page in a window</p>
+</div></td><td></td></tr><tr><td id='variant.AssignPaintedBuffers'><code>AssignPaintedBuffers</code></td><td><div class='docblock'><p>Requests that the compositor assign the painted buffers to the given layers.</p>
+</div></td><td></td></tr><tr><td id='variant.ChangePageTitle'><code>ChangePageTitle</code></td><td><div class='docblock'><p>Alerts the compositor that the current page has changed its title.</p>
+</div></td><td></td></tr><tr><td id='variant.ChangePageUrl'><code>ChangePageUrl</code></td><td><div class='docblock'><p>Alerts the compositor that the current page has changed its URL.</p>
+</div></td><td></td></tr><tr><td id='variant.ChangeRunningAnimationsState'><code>ChangeRunningAnimationsState</code></td><td><div class='docblock'><p>Alerts the compositor that the given pipeline has changed whether it is running animations.</p>
+</div></td><td></td></tr><tr><td id='variant.SetFrameTree'><code>SetFrameTree</code></td><td><div class='docblock'><p>Replaces the current frame tree, typically called during main frame navigation.</p>
+</div></td><td></td></tr><tr><td id='variant.LoadStart'><code>LoadStart</code></td><td><div class='docblock'><p>The load of a page has begun: (can go back, can go forward).</p>
+</div></td><td></td></tr><tr><td id='variant.LoadComplete'><code>LoadComplete</code></td><td><div class='docblock'><p>The load of a page has completed: (can go back, can go forward, is root frame).</p>
+</div></td><td></td></tr><tr><td id='variant.DelayedCompositionTimeout'><code>DelayedCompositionTimeout</code></td><td><div class='docblock'><p>We hit the delayed composition timeout. (See <code>delayed_composition.rs</code>.)</p>
+</div></td><td></td></tr><tr><td id='variant.Recomposite'><code>Recomposite</code></td><td><div class='docblock'><p>Composite.</p>
+</div></td><td></td></tr><tr><td id='variant.KeyEvent'><code>KeyEvent</code></td><td><div class='docblock'><p>Sends an unconsumed key event back to the compositor.</p>
+</div></td><td></td></tr><tr><td id='variant.TouchEventProcessed'><code>TouchEventProcessed</code></td><td><div class='docblock'><p>Script has handled a touch event, and either prevented or allowed default actions.</p>
+</div></td><td></td></tr><tr><td id='variant.SetCursor'><code>SetCursor</code></td><td><div class='docblock'><p>Changes the cursor.</p>
+</div></td><td></td></tr><tr><td id='variant.CreatePng'><code>CreatePng</code></td><td><div class='docblock'><p>Composite to a PNG file and return the Image over a passed channel.</p>
+</div></td><td></td></tr><tr><td id='variant.PaintThreadExited'><code>PaintThreadExited</code></td><td><div class='docblock'><p>Informs the compositor that the paint thread for the given pipeline has exited.</p>
+</div></td><td></td></tr><tr><td id='variant.ViewportConstrained'><code>ViewportConstrained</code></td><td><div class='docblock'><p>Alerts the compositor that the viewport has been constrained in some manner</p>
+</div></td><td></td></tr><tr><td id='variant.IsReadyToSaveImageReply'><code>IsReadyToSaveImageReply</code></td><td><div class='docblock'><p>A reply to the compositor asking if the output image is stable.</p>
+</div></td><td></td></tr><tr><td id='variant.NewFavicon'><code>NewFavicon</code></td><td><div class='docblock'><p>A favicon was detected</p>
+</div></td><td></td></tr><tr><td id='variant.HeadParsed'><code>HeadParsed</code></td><td><div class='docblock'><p><head> tag finished parsing</p>
+</div></td><td></td></tr><tr><td id='variant.ReturnUnusedNativeSurfaces'><code>ReturnUnusedNativeSurfaces</code></td><td><div class='docblock'><p>Signal that the paint thread ignored the paint requests that carried
+these native surfaces, so that they can be re-added to the surface cache.</p>
+</div></td><td></td></tr><tr><td id='variant.CollectMemoryReports'><code>CollectMemoryReports</code></td><td><div class='docblock'><p>Collect memory reports and send them back to the given mem::ReportsChan.</p>
+</div></td><td></td></tr><tr><td id='variant.Status'><code>Status</code></td><td><div class='docblock'><p>A status message to be displayed by the browser chrome.</p>
+</div></td><td></td></tr><tr><td id='variant.GetClientWindow'><code>GetClientWindow</code></td><td><div class='docblock'><p>Get Window Informations size and position</p>
+</div></td><td></td></tr><tr><td id='variant.MoveTo'><code>MoveTo</code></td><td><div class='docblock'><p>Move the window to a point</p>
+</div></td><td></td></tr><tr><td id='variant.ResizeTo'><code>ResizeTo</code></td><td><div class='docblock'><p>Resize the window to size</p>
+</div></td><td></td></tr><tr><td id='variant.GetScrollOffset'><code>GetScrollOffset</code></td><td><div class='docblock'><p>Get scroll offset of a layer</p>
+</div></td><td></td></tr><tr><td id='variant.PipelineExited'><code>PipelineExited</code></td><td><div class='docblock'><p>A pipeline was shut down.</p>
+</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../../compositing/compositor_thread/enum.Msg.html' title='compositing::compositor_thread::Msg'>Msg</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, <a class='struct' href='../../core/fmt/struct.Error.html' title='core::fmt::Error'>Error</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "compositing";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

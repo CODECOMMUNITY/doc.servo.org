@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["create_offscreen_pixmap_backed_context",""],["get_visual_and_depth",""]],"struct":[["ScopedXFree",""]]});

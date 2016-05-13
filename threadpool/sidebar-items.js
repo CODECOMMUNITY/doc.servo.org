@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["spawn_in_pool",""]],"struct":[["Sentinel",""],["ThreadPool","A thread pool used to execute functions in parallel."]],"trait":[["FnBox",""]],"type":[["Thunk",""]]});

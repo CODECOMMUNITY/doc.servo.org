@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SerializeError","An error that can be produced during encoding."]],"fn":[["wrap_io",""]],"struct":[["Serializer","An Serializer that encodes values directly into a Writer."],["SizeChecker",""]],"type":[["SerializeResult",""]]});

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `CompositorLayer` trait in crate `compositing`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, CompositorLayer">
+
+    <title>compositing::compositor_layer::CompositorLayer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>compositing</a>::<wbr><a href='index.html'>compositor_layer</a></p><script>window.sidebarCurrent = {name: 'CompositorLayer', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>compositing</a>::<wbr><a href='index.html'>compositor_layer</a>::<wbr><a class='trait' href=''>CompositorLayer</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1346' class='srclink' href='../../src/compositing/compositor_layer.rs.html#79-163' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait CompositorLayer {
+    fn <a href='#tymethod.update_layer_except_bounds' class='fnname'>update_layer_except_bounds</a>(&amp;self, layer_properties: <a class='struct' href='../../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>);
+    fn <a href='#tymethod.update_layer' class='fnname'>update_layer</a>(&amp;self, layer_properties: <a class='struct' href='../../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>);
+    fn <a href='#tymethod.add_buffers' class='fnname'>add_buffers</a>&lt;Window&gt;(&amp;self, compositor: &amp;mut <a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, new_buffers: <a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../layers/layers/struct.LayerBufferSet.html' title='layers::layers::LayerBufferSet'>LayerBufferSet</a>&gt;, epoch: <a class='struct' href='../../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span>;
+    fn <a href='#tymethod.clear' class='fnname'>clear</a>&lt;Window&gt;(&amp;self, compositor: &amp;mut <a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span>;
+    fn <a href='#tymethod.clear_all_tiles' class='fnname'>clear_all_tiles</a>&lt;Window&gt;(&amp;self, compositor: &amp;mut <a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span>;
+    fn <a href='#tymethod.remove_root_layer_with_pipeline_id' class='fnname'>remove_root_layer_with_pipeline_id</a>&lt;Window&gt;(&amp;self, compositor: &amp;mut <a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span>;
+    fn <a href='#tymethod.forget_all_tiles' class='fnname'>forget_all_tiles</a>(&amp;self);
+    fn <a href='#tymethod.handle_scroll_event' class='fnname'>handle_scroll_event</a>(&amp;self, delta: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, cursor: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='enum' href='../../compositing/compositor_layer/enum.ScrollEventResult.html' title='compositing::compositor_layer::ScrollEventResult'>ScrollEventResult</a>;
+    fn <a href='#tymethod.send_mouse_event' class='fnname'>send_mouse_event</a>&lt;Window&gt;(&amp;self, compositor: &amp;<a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, event: <a class='enum' href='../../compositing/windowing/enum.MouseWindowEvent.html' title='compositing::windowing::MouseWindowEvent'>MouseWindowEvent</a>, cursor: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span>;
+    fn <a href='#tymethod.send_mouse_move_event' class='fnname'>send_mouse_move_event</a>&lt;Window&gt;(&amp;self, compositor: &amp;<a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, cursor: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span>;
+    fn <a href='#tymethod.send_event' class='fnname'>send_event</a>&lt;Window&gt;(&amp;self, compositor: &amp;<a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, event: <a class='enum' href='../../script_traits/enum.CompositorEvent.html' title='script_traits::CompositorEvent'>CompositorEvent</a>) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span>;
+    fn <a href='#tymethod.send_touchpad_pressure_event' class='fnname'>send_touchpad_pressure_event</a>&lt;Window&gt;(&amp;self, compositor: &amp;<a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, cursor: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, pressure: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, phase: <a class='enum' href='../../script_traits/enum.TouchpadPressurePhase.html' title='script_traits::TouchpadPressurePhase'>TouchpadPressurePhase</a>) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span>;
+    fn <a href='#tymethod.clamp_scroll_offset_and_scroll_layer' class='fnname'>clamp_scroll_offset_and_scroll_layer</a>(&amp;self, new_offset: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='enum' href='../../compositing/compositor_layer/enum.ScrollEventResult.html' title='compositing::compositor_layer::ScrollEventResult'>ScrollEventResult</a>;
+    fn <a href='#tymethod.scroll_layer_and_all_child_layers' class='fnname'>scroll_layer_and_all_child_layers</a>(&amp;self, new_offset: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.wants_scroll_events' class='fnname'>wants_scroll_events</a>(&amp;self) -&gt; <a class='enum' href='../../compositing/compositor_layer/enum.WantsScrollEventsFlag.html' title='compositing::compositor_layer::WantsScrollEventsFlag'>WantsScrollEventsFlag</a>;
+    fn <a href='#tymethod.pipeline_id' class='fnname'>pipeline_id</a>(&amp;self) -&gt; <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>;
+}</pre>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.update_layer_except_bounds' class='method stab '><code>fn <a href='#tymethod.update_layer_except_bounds' class='fnname'>update_layer_except_bounds</a>(&amp;self, layer_properties: <a class='struct' href='../../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>)</code></h3><h3 id='tymethod.update_layer' class='method stab '><code>fn <a href='#tymethod.update_layer' class='fnname'>update_layer</a>(&amp;self, layer_properties: <a class='struct' href='../../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>)</code></h3><h3 id='tymethod.add_buffers' class='method stab '><code>fn <a href='#tymethod.add_buffers' class='fnname'>add_buffers</a>&lt;Window&gt;(&amp;self, compositor: &amp;mut <a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, new_buffers: <a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../layers/layers/struct.LayerBufferSet.html' title='layers::layers::LayerBufferSet'>LayerBufferSet</a>&gt;, epoch: <a class='struct' href='../../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span></code></h3><h3 id='tymethod.clear' class='method stab '><code>fn <a href='#tymethod.clear' class='fnname'>clear</a>&lt;Window&gt;(&amp;self, compositor: &amp;mut <a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span></code></h3><div class='docblock'><p>Destroys all layer tiles, sending the buffers back to the painter to be destroyed or
+reused.</p>
+</div><h3 id='tymethod.clear_all_tiles' class='method stab '><code>fn <a href='#tymethod.clear_all_tiles' class='fnname'>clear_all_tiles</a>&lt;Window&gt;(&amp;self, compositor: &amp;mut <a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span></code></h3><div class='docblock'><p>Destroys tiles for this layer and all descendent layers, sending the buffers back to the
+painter to be destroyed or reused.</p>
+</div><h3 id='tymethod.remove_root_layer_with_pipeline_id' class='method stab '><code>fn <a href='#tymethod.remove_root_layer_with_pipeline_id' class='fnname'>remove_root_layer_with_pipeline_id</a>&lt;Window&gt;(&amp;self, compositor: &amp;mut <a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, pipeline_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span></code></h3><div class='docblock'><p>Removes the root layer (and any children) for a given pipeline from the
+compositor. Buffers that the compositor is holding are returned to the
+owning paint thread.</p>
+</div><h3 id='tymethod.forget_all_tiles' class='method stab '><code>fn <a href='#tymethod.forget_all_tiles' class='fnname'>forget_all_tiles</a>(&amp;self)</code></h3><div class='docblock'><p>Destroys all tiles of all layers, including children, <em>without</em> sending them back to the
+painter. You must call this only when the paint thread is destined to be going down;
+otherwise, you will leak tiles.</p>
+
+<p>This is used during shutdown, when we know the paint thread is going away.</p>
+</div><h3 id='tymethod.handle_scroll_event' class='method stab '><code>fn <a href='#tymethod.handle_scroll_event' class='fnname'>handle_scroll_event</a>(&amp;self, delta: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, cursor: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='enum' href='../../compositing/compositor_layer/enum.ScrollEventResult.html' title='compositing::compositor_layer::ScrollEventResult'>ScrollEventResult</a></code></h3><div class='docblock'><p>Move the layer&#39;s descendants that don&#39;t want scroll events and scroll by a relative
+specified amount in page coordinates. This also takes in a cursor position to see if the
+mouse is over child layers first. If a layer successfully scrolled returns either
+ScrollPositionUnchanged or ScrollPositionChanged. If no layer was targeted by the event
+returns ScrollEventUnhandled.</p>
+</div><h3 id='tymethod.send_mouse_event' class='method stab '><code>fn <a href='#tymethod.send_mouse_event' class='fnname'>send_mouse_event</a>&lt;Window&gt;(&amp;self, compositor: &amp;<a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, event: <a class='enum' href='../../compositing/windowing/enum.MouseWindowEvent.html' title='compositing::windowing::MouseWindowEvent'>MouseWindowEvent</a>, cursor: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span></code></h3><h3 id='tymethod.send_mouse_move_event' class='method stab '><code>fn <a href='#tymethod.send_mouse_move_event' class='fnname'>send_mouse_move_event</a>&lt;Window&gt;(&amp;self, compositor: &amp;<a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, cursor: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span></code></h3><h3 id='tymethod.send_event' class='method stab '><code>fn <a href='#tymethod.send_event' class='fnname'>send_event</a>&lt;Window&gt;(&amp;self, compositor: &amp;<a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, event: <a class='enum' href='../../script_traits/enum.CompositorEvent.html' title='script_traits::CompositorEvent'>CompositorEvent</a>) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span></code></h3><h3 id='tymethod.send_touchpad_pressure_event' class='method stab '><code>fn <a href='#tymethod.send_touchpad_pressure_event' class='fnname'>send_touchpad_pressure_event</a>&lt;Window&gt;(&amp;self, compositor: &amp;<a class='struct' href='../../compositing/compositor/struct.IOCompositor.html' title='compositing::compositor::IOCompositor'>IOCompositor</a>&lt;Window&gt;, cursor: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, pressure: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, phase: <a class='enum' href='../../script_traits/enum.TouchpadPressurePhase.html' title='script_traits::TouchpadPressurePhase'>TouchpadPressurePhase</a>) <span class='where'>where Window: <a class='trait' href='../../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a></span></code></h3><h3 id='tymethod.clamp_scroll_offset_and_scroll_layer' class='method stab '><code>fn <a href='#tymethod.clamp_scroll_offset_and_scroll_layer' class='fnname'>clamp_scroll_offset_and_scroll_layer</a>(&amp;self, new_offset: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='enum' href='../../compositing/compositor_layer/enum.ScrollEventResult.html' title='compositing::compositor_layer::ScrollEventResult'>ScrollEventResult</a></code></h3><h3 id='tymethod.scroll_layer_and_all_child_layers' class='method stab '><code>fn <a href='#tymethod.scroll_layer_and_all_child_layers' class='fnname'>scroll_layer_and_all_child_layers</a>(&amp;self, new_offset: <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><h3 id='tymethod.wants_scroll_events' class='method stab '><code>fn <a href='#tymethod.wants_scroll_events' class='fnname'>wants_scroll_events</a>(&amp;self) -&gt; <a class='enum' href='../../compositing/compositor_layer/enum.WantsScrollEventsFlag.html' title='compositing::compositor_layer::WantsScrollEventsFlag'>WantsScrollEventsFlag</a></code></h3><div class='docblock'><p>Return a flag describing how this layer deals with scroll events.</p>
+</div><h3 id='tymethod.pipeline_id' class='method stab '><code>fn <a href='#tymethod.pipeline_id' class='fnname'>pipeline_id</a>(&amp;self) -&gt; <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a></code></h3><div class='docblock'><p>Return the pipeline id associated with this layer.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl CompositorLayer for <a class='struct' href='../../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;</code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/compositing/compositor_layer/trait.CompositorLayer.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "compositing";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

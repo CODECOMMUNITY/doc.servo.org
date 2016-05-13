@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["PR_SET_DUMPABLE",""],["RLIMIT_FSIZE",""]],"fn":[["activate",""],["clearenv",""],["setrlimit",""],["umask",""]],"struct":[["rlimit",""]],"type":[["rlim_t",""]]});

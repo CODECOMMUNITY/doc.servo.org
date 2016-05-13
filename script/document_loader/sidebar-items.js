@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["LoadType",""]],"struct":[["DocumentLoader",""],["LoadBlocker","Canary value ensuring that manually added blocking loads (ie. ones that weren't created via DocumentLoader::prepare_async_load) are always removed by the time that the owner is destroyed."]]});

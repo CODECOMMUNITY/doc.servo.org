@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["Background",""],["Border",""],["Box",""],["Color",""],["Column",""],["Counters",""],["Effects",""],["Font",""],["InheritedBox",""],["InheritedTable",""],["InheritedText",""],["List",""],["Margin",""],["Outline",""],["Padding",""],["Pointing",""],["Position",""],["Table",""],["Text",""]]});

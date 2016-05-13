@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `TableWrapperFlow` struct in crate `layout`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TableWrapperFlow">
+
+    <title>layout::table_wrapper::TableWrapperFlow - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>layout</a>::<wbr><a href='index.html'>table_wrapper</a></p><script>window.sidebarCurrent = {name: 'TableWrapperFlow', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>layout</a>::<wbr><a href='index.html'>table_wrapper</a>::<wbr><a class='struct' href=''>TableWrapperFlow</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-11710' class='srclink' href='../../src/layout/table_wrapper.rs.html#48-56' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct TableWrapperFlow {
+    pub block_flow: <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a>,
+    pub column_intrinsic_inline_sizes: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/table/struct.ColumnIntrinsicInlineSize.html' title='layout::table::ColumnIntrinsicInlineSize'>ColumnIntrinsicInlineSize</a>&gt;,
+    pub table_layout: <a class='enum' href='../../layout/table_wrapper/enum.TableLayout.html' title='layout::table_wrapper::TableLayout'>TableLayout</a>,
+}</pre><div class='docblock'><p>A table wrapper flow based on a block formatting context.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.block_flow'><code>block_flow</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.column_intrinsic_inline_sizes'><code>column_intrinsic_inline_sizes</code></td><td><div class='docblock'><p>Intrinsic column inline sizes according to INTRINSIC § 4.1</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.table_layout'><code>table_layout</code></td><td><div class='docblock'><p>Table-layout property</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h3><div class='impl-items'><h4 id='method.from_fragment' class='method'><code>fn <a href='#method.from_fragment' class='fnname'>from_fragment</a>(fragment: <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, float_kind: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../layout/floats/enum.FloatKind.html' title='layout::floats::FloatKind'>FloatKind</a>&gt;) -&gt; <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h4>
+<h4 id='method.border_padding_and_spacing' class='method'><code>fn <a href='#method.border_padding_and_spacing' class='fnname'>border_padding_and_spacing</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<h4 id='method.calculate_table_column_sizes_for_automatic_layout' class='method'><code>fn <a href='#method.calculate_table_column_sizes_for_automatic_layout' class='fnname'>calculate_table_column_sizes_for_automatic_layout</a>(&amp;mut self, intermediate_column_inline_sizes: <a class='primitive' href='../../std/primitive.slice.html'>&amp;mut [</a><a class='struct' href='../../layout/table_wrapper/struct.IntermediateColumnInlineSize.html' title='layout::table_wrapper::IntermediateColumnInlineSize'>IntermediateColumnInlineSize</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>)</code></h4>
+<div class='docblock'><p>Calculates table column sizes for automatic layout per INTRINSIC § 4.3.</p>
+</div><h4 id='method.compute_used_inline_size' class='method'><code>fn <a href='#method.compute_used_inline_size' class='fnname'>compute_used_inline_size</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, parent_flow_inline_size: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, intermediate_column_inline_sizes: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../layout/table_wrapper/struct.IntermediateColumnInlineSize.html' title='layout::table_wrapper::IntermediateColumnInlineSize'>IntermediateColumnInlineSize</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>)</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a> for <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h3><div class='impl-items'><h4 id='method.class' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.class' class='fnname'>class</a>(&amp;self) -&gt; <a class='enum' href='../../layout/flow/enum.FlowClass.html' title='layout::flow::FlowClass'>FlowClass</a></code></h4>
+<h4 id='method.as_mut_table_wrapper' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_wrapper' class='fnname'>as_mut_table_wrapper</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h4>
+<h4 id='method.as_table_wrapper' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table_wrapper' class='fnname'>as_table_wrapper</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h4>
+<h4 id='method.as_mut_block' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_block' class='fnname'>as_mut_block</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h4>
+<h4 id='method.as_block' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_block' class='fnname'>as_block</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h4>
+<h4 id='method.mark_as_root' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.mark_as_root' class='fnname'>mark_as_root</a>(&amp;mut self)</code></h4>
+<h4 id='method.bubble_inline_sizes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.bubble_inline_sizes' class='fnname'>bubble_inline_sizes</a>(&amp;mut self)</code></h4>
+<h4 id='method.assign_inline_sizes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.assign_inline_sizes' class='fnname'>assign_inline_sizes</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<h4 id='method.assign_block_size' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.assign_block_size' class='fnname'>assign_block_size</a>&lt;'a&gt;(&amp;mut self, layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;)</code></h4>
+<h4 id='method.compute_absolute_position' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.compute_absolute_position' class='fnname'>compute_absolute_position</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<h4 id='method.place_float_if_applicable' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.place_float_if_applicable' class='fnname'>place_float_if_applicable</a>&lt;'a&gt;(&amp;mut self, layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;)</code></h4>
+<h4 id='method.assign_block_size_for_inorder_child_if_necessary' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.assign_block_size_for_inorder_child_if_necessary' class='fnname'>assign_block_size_for_inorder_child_if_necessary</a>&lt;'a&gt;(&amp;mut self, layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;, parent_thread_id: <a class='primitive' href='../../std/primitive.u8.html'>u8</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.update_late_computed_inline_position_if_necessary' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.update_late_computed_inline_position_if_necessary' class='fnname'>update_late_computed_inline_position_if_necessary</a>(&amp;mut self, inline_position: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>)</code></h4>
+<h4 id='method.update_late_computed_block_position_if_necessary' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.update_late_computed_block_position_if_necessary' class='fnname'>update_late_computed_block_position_if_necessary</a>(&amp;mut self, block_position: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>)</code></h4>
+<h4 id='method.generated_containing_block_size' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.generated_containing_block_size' class='fnname'>generated_containing_block_size</a>(&amp;self, flow: <a class='struct' href='../../layout/flow/struct.OpaqueFlow.html' title='layout::flow::OpaqueFlow'>OpaqueFlow</a>) -&gt; <a class='struct' href='../../style/logical_geometry/struct.LogicalSize.html' title='style::logical_geometry::LogicalSize'>LogicalSize</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></h4>
+<h4 id='method.build_display_list' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.build_display_list' class='fnname'>build_display_list</a>(&amp;mut self, state: &amp;mut <a class='struct' href='../../layout/display_list_builder/struct.DisplayListBuildState.html' title='layout::display_list_builder::DisplayListBuildState'>DisplayListBuildState</a>)</code></h4>
+<h4 id='method.collect_stacking_contexts' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.collect_stacking_contexts' class='fnname'>collect_stacking_contexts</a>(&amp;mut self, parent_id: <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a>, contexts: &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../gfx/display_list/struct.StackingContext.html' title='gfx::display_list::StackingContext'>StackingContext</a>&gt;&gt;) -&gt; <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a></code></h4>
+<h4 id='method.repair_style' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.repair_style' class='fnname'>repair_style</a>(&amp;mut self, new_style: &amp;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;)</code></h4>
+<h4 id='method.compute_overflow' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.compute_overflow' class='fnname'>compute_overflow</a>(&amp;self) -&gt; <a class='struct' href='../../layout/fragment/struct.Overflow.html' title='layout::fragment::Overflow'>Overflow</a></code></h4>
+<h4 id='method.iterate_through_fragment_border_boxes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.iterate_through_fragment_border_boxes' class='fnname'>iterate_through_fragment_border_boxes</a>(&amp;self, iterator: &amp;mut <a class='trait' href='../../layout/fragment/trait.FragmentBorderBoxIterator.html' title='layout::fragment::FragmentBorderBoxIterator'>FragmentBorderBoxIterator</a>, level: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, stacking_context_position: &amp;<a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;)</code></h4>
+<h4 id='method.mutate_fragments' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.mutate_fragments' class='fnname'>mutate_fragments</a>(&amp;mut self, mutator: &amp;mut <a class='trait' href='../../core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(&amp;mut <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>))</code></h4>
+<h4 id='method.print_extra_flow_children' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.print_extra_flow_children' class='fnname'>print_extra_flow_children</a>(&amp;self, print_tree: &amp;mut <a class='struct' href='../../util/print_tree/struct.PrintTree.html' title='util::print_tree::PrintTree'>PrintTree</a>)</code></h4>
+<h4 id='method.as_inline' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_inline' class='fnname'>as_inline</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></h4>
+<h4 id='method.as_mut_inline' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_inline' class='fnname'>as_mut_inline</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></h4>
+<h4 id='method.as_mut_table' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table' class='fnname'>as_mut_table</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table/struct.TableFlow.html' title='layout::table::TableFlow'>TableFlow</a></code></h4>
+<h4 id='method.as_table' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table' class='fnname'>as_table</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table/struct.TableFlow.html' title='layout::table::TableFlow'>TableFlow</a></code></h4>
+<h4 id='method.as_mut_table_colgroup' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_colgroup' class='fnname'>as_mut_table_colgroup</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_colgroup/struct.TableColGroupFlow.html' title='layout::table_colgroup::TableColGroupFlow'>TableColGroupFlow</a></code></h4>
+<h4 id='method.as_mut_table_rowgroup' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_rowgroup' class='fnname'>as_mut_table_rowgroup</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_rowgroup/struct.TableRowGroupFlow.html' title='layout::table_rowgroup::TableRowGroupFlow'>TableRowGroupFlow</a></code></h4>
+<h4 id='method.as_table_rowgroup' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table_rowgroup' class='fnname'>as_table_rowgroup</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_rowgroup/struct.TableRowGroupFlow.html' title='layout::table_rowgroup::TableRowGroupFlow'>TableRowGroupFlow</a></code></h4>
+<h4 id='method.as_mut_table_row' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_row' class='fnname'>as_mut_table_row</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_row/struct.TableRowFlow.html' title='layout::table_row::TableRowFlow'>TableRowFlow</a></code></h4>
+<h4 id='method.as_table_row' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table_row' class='fnname'>as_table_row</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_row/struct.TableRowFlow.html' title='layout::table_row::TableRowFlow'>TableRowFlow</a></code></h4>
+<h4 id='method.as_mut_table_caption' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_caption' class='fnname'>as_mut_table_caption</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_caption/struct.TableCaptionFlow.html' title='layout::table_caption::TableCaptionFlow'>TableCaptionFlow</a></code></h4>
+<h4 id='method.as_mut_table_cell' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_cell' class='fnname'>as_mut_table_cell</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_cell/struct.TableCellFlow.html' title='layout::table_cell::TableCellFlow'>TableCellFlow</a></code></h4>
+<h4 id='method.as_mut_multicol' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_multicol' class='fnname'>as_mut_multicol</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/multicol/struct.MulticolFlow.html' title='layout::multicol::MulticolFlow'>MulticolFlow</a></code></h4>
+<h4 id='method.as_table_cell' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table_cell' class='fnname'>as_table_cell</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_cell/struct.TableCellFlow.html' title='layout::table_cell::TableCellFlow'>TableCellFlow</a></code></h4>
+<h4 id='method.column_intrinsic_inline_sizes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.column_intrinsic_inline_sizes' class='fnname'>column_intrinsic_inline_sizes</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/table/struct.ColumnIntrinsicInlineSize.html' title='layout::table::ColumnIntrinsicInlineSize'>ColumnIntrinsicInlineSize</a>&gt;</code></h4>
+<h4 id='method.column_computed_inline_sizes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.column_computed_inline_sizes' class='fnname'>column_computed_inline_sizes</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/table/struct.ColumnComputedInlineSize.html' title='layout::table::ColumnComputedInlineSize'>ColumnComputedInlineSize</a>&gt;</code></h4>
+<h4 id='method.fragment' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.fragment' class='fnname'>fragment</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, _fragmentation_context: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../layout/flow/struct.FragmentationContext.html' title='layout::flow::FragmentationContext'>FragmentationContext</a>&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;</code></h4>
+<h4 id='method.store_overflow' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.store_overflow' class='fnname'>store_overflow</a>(&amp;mut self, _: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<h4 id='method.compute_collapsible_block_start_margin' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.compute_collapsible_block_start_margin' class='fnname'>compute_collapsible_block_start_margin</a>(&amp;mut self, _layout_context: &amp;mut <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, _margin_collapse_info: &amp;mut <a class='struct' href='../../layout/model/struct.MarginCollapseInfo.html' title='layout::model::MarginCollapseInfo'>MarginCollapseInfo</a>)</code></h4>
+<h4 id='method.is_root' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.is_root' class='fnname'>is_root</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.positioning' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.positioning' class='fnname'>positioning</a>(&amp;self) -&gt; <a class='enum' href='../../style/properties/longhands/position/computed_value/enum.T.html' title='style::properties::longhands::position::computed_value::T'>T</a></code></h4>
+<h4 id='method.is_fixed' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.is_fixed' class='fnname'>is_fixed</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.contains_positioned_fragments' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.contains_positioned_fragments' class='fnname'>contains_positioned_fragments</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.contains_relatively_positioned_fragments' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.contains_relatively_positioned_fragments' class='fnname'>contains_relatively_positioned_fragments</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.is_absolute_containing_block' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.is_absolute_containing_block' class='fnname'>is_absolute_containing_block</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.layer_id' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.layer_id' class='fnname'>layer_id</a>(&amp;self) -&gt; <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a></code></h4>
+<h4 id='method.layer_id_for_overflow_scroll' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.layer_id_for_overflow_scroll' class='fnname'>layer_id_for_overflow_scroll</a>(&amp;self) -&gt; <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h3><div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;__S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, __S::Error&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "layout";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

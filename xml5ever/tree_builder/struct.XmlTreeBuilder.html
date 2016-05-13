@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `XmlTreeBuilder` struct in crate `xml5ever`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, XmlTreeBuilder">
+
+    <title>xml5ever::tree_builder::XmlTreeBuilder - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>xml5ever</a>::<wbr><a href='index.html'>tree_builder</a></p><script>window.sidebarCurrent = {name: 'XmlTreeBuilder', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>xml5ever</a>::<wbr><a href='index.html'>tree_builder</a>::<wbr><a class='struct' href=''>XmlTreeBuilder</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2049' class='srclink' href='../../src/xml5ever/tree_builder/mod.rs.html#153-180' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct XmlTreeBuilder&lt;Handle, Sink&gt; {
+    sink: Sink,
+    doc_handle: Handle,
+    next_tokenizer_state: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../xml5ever/tokenizer/states/enum.XmlState.html' title='xml5ever::tokenizer::states::XmlState'>XmlState</a>&gt;,
+    open_elems: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;Handle&gt;,
+    curr_elem: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Handle&gt;,
+    namespace_stack: <a class='struct' href='../../xml5ever/tree_builder/struct.NamespaceStack.html' title='xml5ever::tree_builder::NamespaceStack'>NamespaceStack</a>,
+    current_namespace: <a class='struct' href='../../xml5ever/tree_builder/struct.Namespace.html' title='xml5ever::tree_builder::Namespace'>Namespace</a>,
+    present_attrs: <a class='struct' href='../../std/collections/hash/set/struct.HashSet.html' title='std::collections::hash::set::HashSet'>HashSet</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>, <a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;,
+    phase: <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlPhase.html' title='xml5ever::tree_builder::types::XmlPhase'>XmlPhase</a>,
+}</pre><div class='docblock'><p>The XML tree builder.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.sink'><code>sink</code></td><td><div class='docblock'><p>Consumer of tree modifications.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.doc_handle'><code>doc_handle</code></td><td><div class='docblock'><p>The document node, which is created by the sink.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.next_tokenizer_state'><code>next_tokenizer_state</code></td><td><div class='docblock'><p>Next state change for the tokenizer, if any.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.open_elems'><code>open_elems</code></td><td><div class='docblock'><p>Stack of open elements, most recently added at end.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.curr_elem'><code>curr_elem</code></td><td><div class='docblock'><p>Current element pointer.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.namespace_stack'><code>namespace_stack</code></td><td><div class='docblock'><p>Stack of namespace identifiers and namespaces.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.current_namespace'><code>current_namespace</code></td><td><div class='docblock'><p>Current namespace identifier</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.present_attrs'><code>present_attrs</code></td><td><div class='docblock'><p>List of already present namespace local name attribute pairs.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.phase'><code>phase</code></td><td><div class='docblock'><p>Current tree builder phase.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;Handle, Sink&gt; <a class='struct' href='../../xml5ever/tree_builder/struct.XmlTreeBuilder.html' title='xml5ever::tree_builder::XmlTreeBuilder'>XmlTreeBuilder</a>&lt;Handle, Sink&gt; <span class='where'>where Handle: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Sink: <a class='trait' href='../../xml5ever/tree_builder/interface/trait.TreeSink.html' title='xml5ever::tree_builder::interface::TreeSink'>TreeSink</a>&lt;Handle=Handle&gt;</span></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(sink: Sink) -&gt; <a class='struct' href='../../xml5ever/tree_builder/struct.XmlTreeBuilder.html' title='xml5ever::tree_builder::XmlTreeBuilder'>XmlTreeBuilder</a>&lt;Handle, Sink&gt;</code></h4>
+<div class='docblock'><p>Create a new tree builder which sends tree modifications to a particular <code>TreeSink</code>.</p>
+
+<p>The tree builder is also a <code>TokenSink</code>.</p>
+</div><h4 id='method.unwrap' class='method'><code>fn <a href='#method.unwrap' class='fnname'>unwrap</a>(self) -&gt; Sink</code></h4>
+<div class='docblock'><p>Returns consumer of tree modifications.</p>
+</div><h4 id='method.sink' class='method'><code>fn <a href='#method.sink' class='fnname'>sink</a>&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a Sink</code></h4>
+<div class='docblock'><p>Immutably borrows consumer of tree modifications.</p>
+</div><h4 id='method.sink_mut' class='method'><code>fn <a href='#method.sink_mut' class='fnname'>sink_mut</a>&lt;'a&gt;(&amp;'a mut self) -&gt; &amp;'a mut Sink</code></h4>
+<div class='docblock'><p>Mutably borrows consumer of tree modifications.</p>
+</div><h4 id='method.trace_handles' class='method'><code>fn <a href='#method.trace_handles' class='fnname'>trace_handles</a>(&amp;self, tracer: &amp;<a class='trait' href='../../xml5ever/tree_builder/interface/trait.Tracer.html' title='xml5ever::tree_builder::interface::Tracer'>Tracer</a>&lt;Handle=Handle&gt;)</code></h4>
+<div class='docblock'><p>Call the <code>Tracer</code>&#39;s <code>trace_handle</code> method on every <code>Handle</code> in the tree builder&#39;s
+internal state.  This is intended to support garbage-collected DOMs.</p>
+</div><h4 id='method.dump_state' class='method'><code>fn <a href='#method.dump_state' class='fnname'>dump_state</a>(&amp;self, label: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>)</code></h4>
+<h4 id='method.debug_step' class='method'><code>fn <a href='#method.debug_step' class='fnname'>debug_step</a>(&amp;self, mode: <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlPhase.html' title='xml5ever::tree_builder::types::XmlPhase'>XmlPhase</a>, token: &amp;<a class='enum' href='../../xml5ever/tree_builder/types/enum.Token.html' title='xml5ever::tree_builder::types::Token'>Token</a>)</code></h4>
+<h4 id='method.declare_ns' class='method'><code>fn <a href='#method.declare_ns' class='fnname'>declare_ns</a>(&amp;mut self, attr: &amp;mut <a class='struct' href='../../xml5ever/tokenizer/struct.Attribute.html' title='xml5ever::tokenizer::Attribute'>Attribute</a>)</code></h4>
+<h4 id='method.find_uri' class='method'><code>fn <a href='#method.find_uri' class='fnname'>find_uri</a>(&amp;self, prefix: &amp;<a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>&gt;, <a class='enum' href='../../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'static, <a class='primitive' href='../../std/primitive.str.html'>str</a>&gt;&gt;</code></h4>
+<h4 id='method.bind_qname' class='method'><code>fn <a href='#method.bind_qname' class='fnname'>bind_qname</a>(&amp;mut self, name: &amp;mut <a class='struct' href='../../xml5ever/tokenizer/struct.QName.html' title='xml5ever::tokenizer::QName'>QName</a>)</code></h4>
+<h4 id='method.bind_attr_qname' class='method'><code>fn <a href='#method.bind_attr_qname' class='fnname'>bind_attr_qname</a>(&amp;mut self, name: &amp;mut <a class='struct' href='../../xml5ever/tokenizer/struct.QName.html' title='xml5ever::tokenizer::QName'>QName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.check_duplicate_attr' class='method'><code>fn <a href='#method.check_duplicate_attr' class='fnname'>check_duplicate_attr</a>(&amp;mut self, name: &amp;<a class='struct' href='../../xml5ever/tokenizer/struct.QName.html' title='xml5ever::tokenizer::QName'>QName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.process_namespaces' class='method'><code>fn <a href='#method.process_namespaces' class='fnname'>process_namespaces</a>(&amp;mut self, tag: &amp;mut <a class='struct' href='../../xml5ever/tokenizer/struct.Tag.html' title='xml5ever::tokenizer::Tag'>Tag</a>)</code></h4>
+<h4 id='method.process_to_completion' class='method'><code>fn <a href='#method.process_to_completion' class='fnname'>process_to_completion</a>(&amp;mut self, token: <a class='enum' href='../../xml5ever/tree_builder/types/enum.Token.html' title='xml5ever::tree_builder::types::Token'>Token</a>)</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;Handle, Sink&gt; <a class='trait' href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html' title='xml5ever::tree_builder::actions::XmlTreeBuilderActions'>XmlTreeBuilderActions</a>&lt;Handle&gt; for <a class='struct' href='../../xml5ever/tree_builder/struct.XmlTreeBuilder.html' title='xml5ever::tree_builder::XmlTreeBuilder'>XmlTreeBuilder</a>&lt;Handle, Sink&gt; <span class='where'>where Handle: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Sink: <a class='trait' href='../../xml5ever/tree_builder/interface/trait.TreeSink.html' title='xml5ever::tree_builder::interface::TreeSink'>TreeSink</a>&lt;Handle=Handle&gt;</span></code></h3><div class='impl-items'><h4 id='method.current_node' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.current_node' class='fnname'>current_node</a>(&amp;self) -&gt; Handle</code></h4>
+<h4 id='method.insert_appropriately' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.insert_appropriately' class='fnname'>insert_appropriately</a>(&amp;mut self, child: <a class='enum' href='../../xml5ever/tree_builder/interface/enum.NodeOrText.html' title='xml5ever::tree_builder::interface::NodeOrText'>NodeOrText</a>&lt;Handle&gt;)</code></h4>
+<h4 id='method.insert_tag' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.insert_tag' class='fnname'>insert_tag</a>(&amp;mut self, tag: <a class='struct' href='../../xml5ever/tokenizer/struct.Tag.html' title='xml5ever::tokenizer::Tag'>Tag</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.append_tag' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.append_tag' class='fnname'>append_tag</a>(&amp;mut self, tag: <a class='struct' href='../../xml5ever/tokenizer/struct.Tag.html' title='xml5ever::tokenizer::Tag'>Tag</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.append_tag_to_doc' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.append_tag_to_doc' class='fnname'>append_tag_to_doc</a>(&amp;mut self, tag: <a class='struct' href='../../xml5ever/tokenizer/struct.Tag.html' title='xml5ever::tokenizer::Tag'>Tag</a>) -&gt; Handle</code></h4>
+<h4 id='method.add_to_open_elems' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.add_to_open_elems' class='fnname'>add_to_open_elems</a>(&amp;mut self, el: Handle) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.append_comment_to_doc' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.append_comment_to_doc' class='fnname'>append_comment_to_doc</a>(&amp;mut self, text: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.append_comment_to_tag' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.append_comment_to_tag' class='fnname'>append_comment_to_tag</a>(&amp;mut self, text: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.append_doctype_to_doc' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.append_doctype_to_doc' class='fnname'>append_doctype_to_doc</a>(&amp;mut self, doctype: <a class='struct' href='../../xml5ever/tokenizer/struct.Doctype.html' title='xml5ever::tokenizer::Doctype'>Doctype</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.append_pi_to_doc' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.append_pi_to_doc' class='fnname'>append_pi_to_doc</a>(&amp;mut self, pi: <a class='struct' href='../../xml5ever/tokenizer/struct.Pi.html' title='xml5ever::tokenizer::Pi'>Pi</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.append_pi_to_tag' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.append_pi_to_tag' class='fnname'>append_pi_to_tag</a>(&amp;mut self, pi: <a class='struct' href='../../xml5ever/tokenizer/struct.Pi.html' title='xml5ever::tokenizer::Pi'>Pi</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.append_text' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.append_text' class='fnname'>append_text</a>(&amp;mut self, chars: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.tag_in_open_elems' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.tag_in_open_elems' class='fnname'>tag_in_open_elems</a>(&amp;self, tag: &amp;<a class='struct' href='../../xml5ever/tokenizer/struct.Tag.html' title='xml5ever::tokenizer::Tag'>Tag</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.pop_until' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.pop_until' class='fnname'>pop_until</a>&lt;P&gt;(&amp;mut self, pred: P) <span class='where'>where P: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(<a class='struct' href='../../xml5ever/tokenizer/struct.QName.html' title='xml5ever::tokenizer::QName'>QName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.current_node_in' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.current_node_in' class='fnname'>current_node_in</a>&lt;TagSet&gt;(&amp;self, set: TagSet) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> <span class='where'>where TagSet: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(<a class='struct' href='../../xml5ever/tokenizer/struct.QName.html' title='xml5ever::tokenizer::QName'>QName</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.close_tag' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.close_tag' class='fnname'>close_tag</a>(&amp;mut self, tag: <a class='struct' href='../../xml5ever/tokenizer/struct.Tag.html' title='xml5ever::tokenizer::Tag'>Tag</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.no_open_elems' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.no_open_elems' class='fnname'>no_open_elems</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.pop' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.pop' class='fnname'>pop</a>(&amp;mut self) -&gt; Handle</code></h4>
+<h4 id='method.stop_parsing' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.stop_parsing' class='fnname'>stop_parsing</a>(&amp;mut self) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+<h4 id='method.complete_script' class='method'><code>fn <a href='../../xml5ever/tree_builder/actions/trait.XmlTreeBuilderActions.html#tymethod.complete_script' class='fnname'>complete_script</a>(&amp;mut self)</code></h4>
+</div><h3 class='impl'><code>impl&lt;Handle, Sink&gt; <a class='trait' href='../../xml5ever/tree_builder/rules/trait.XmlTreeBuilderStep.html' title='xml5ever::tree_builder::rules::XmlTreeBuilderStep'>XmlTreeBuilderStep</a> for <a class='struct' href='../../xml5ever/tree_builder/struct.XmlTreeBuilder.html' title='xml5ever::tree_builder::XmlTreeBuilder'>XmlTreeBuilder</a>&lt;Handle, Sink&gt; <span class='where'>where Handle: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Sink: <a class='trait' href='../../xml5ever/tree_builder/interface/trait.TreeSink.html' title='xml5ever::tree_builder::interface::TreeSink'>TreeSink</a>&lt;Handle=Handle&gt;</span></code></h3><div class='impl-items'><h4 id='method.step' class='method'><code>fn <a href='../../xml5ever/tree_builder/rules/trait.XmlTreeBuilderStep.html#tymethod.step' class='fnname'>step</a>(&amp;mut self, mode: <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlPhase.html' title='xml5ever::tree_builder::types::XmlPhase'>XmlPhase</a>, token: <a class='enum' href='../../xml5ever/tree_builder/types/enum.Token.html' title='xml5ever::tree_builder::types::Token'>Token</a>) -&gt; <a class='enum' href='../../xml5ever/tree_builder/types/enum.XmlProcessResult.html' title='xml5ever::tree_builder::types::XmlProcessResult'>XmlProcessResult</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;Handle, Sink&gt; <a class='trait' href='../../xml5ever/tokenizer/interface/trait.TokenSink.html' title='xml5ever::tokenizer::interface::TokenSink'>TokenSink</a> for <a class='struct' href='../../xml5ever/tree_builder/struct.XmlTreeBuilder.html' title='xml5ever::tree_builder::XmlTreeBuilder'>XmlTreeBuilder</a>&lt;Handle, Sink&gt; <span class='where'>where Handle: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Sink: <a class='trait' href='../../xml5ever/tree_builder/interface/trait.TreeSink.html' title='xml5ever::tree_builder::interface::TreeSink'>TreeSink</a>&lt;Handle=Handle&gt;</span></code></h3><div class='impl-items'><h4 id='method.process_token' class='method'><code>fn <a href='../../xml5ever/tokenizer/interface/trait.TokenSink.html#tymethod.process_token' class='fnname'>process_token</a>(&amp;mut self, token: <a class='enum' href='../../xml5ever/tokenizer/enum.Token.html' title='xml5ever::tokenizer::Token'>Token</a>)</code></h4>
+<h4 id='method.query_state_change' class='method'><code>fn <a href='../../xml5ever/tokenizer/interface/trait.TokenSink.html#method.query_state_change' class='fnname'>query_state_change</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../xml5ever/tokenizer/states/enum.XmlState.html' title='xml5ever::tokenizer::states::XmlState'>XmlState</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "xml5ever";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

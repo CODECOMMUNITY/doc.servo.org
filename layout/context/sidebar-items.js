@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["create_or_get_local_context",""],["heap_size_of_local_context",""]],"static":[["LOCAL_CONTEXT_KEY",""]],"struct":[["LayoutContext",""],["LocalLayoutContext",""],["SharedLayoutContext","Layout information shared among all workers. This must be thread-safe."]]});

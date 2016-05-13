@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `VP8Decoder` struct in crate `image`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, VP8Decoder">
+
+    <title>image::webp::vp8::VP8Decoder - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>image</a>::<wbr><a href='../index.html'>webp</a>::<wbr><a href='index.html'>vp8</a></p><script>window.sidebarCurrent = {name: 'VP8Decoder', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>image</a>::<wbr><a href='../index.html'>webp</a>::<wbr><a href='index.html'>vp8</a>::<wbr><a class='struct' href=''>VP8Decoder</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-972' class='srclink' href='../../../src/image/webp/vp8.rs.html#802-832' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct VP8Decoder&lt;R&gt; {
+    r: R,
+    b: <a class='struct' href='../../../image/webp/vp8/struct.BoolReader.html' title='image::webp::vp8::BoolReader'>BoolReader</a>,
+    mbwidth: <a class='primitive' href='../../../std/primitive.u16.html'>u16</a>,
+    mbheight: <a class='primitive' href='../../../std/primitive.u16.html'>u16</a>,
+    frame: <a class='struct' href='../../../image/webp/vp8/struct.Frame.html' title='image::webp::vp8::Frame'>Frame</a>,
+    segments_enabled: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>,
+    segments_update_map: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>,
+    segment: <a class='primitive' href='../../../std/primitive.array.html'>[</a><a class='struct' href='../../../image/webp/vp8/struct.Segment.html' title='image::webp::vp8::Segment'>Segment</a><a class='primitive' href='../../../std/primitive.array.html'>; MAX_SEGMENTS]</a>,
+    partitions: <a class='primitive' href='../../../std/primitive.array.html'>[</a><a class='struct' href='../../../image/webp/vp8/struct.BoolReader.html' title='image::webp::vp8::BoolReader'>BoolReader</a><a class='primitive' href='../../../std/primitive.array.html'>; 8]</a>,
+    num_partitions: <a class='primitive' href='../../../std/primitive.u8.html'>u8</a>,
+    segment_tree_probs: <a class='primitive' href='../../../std/primitive.array.html'>[</a><a class='type' href='../../../image/webp/vp8/type.Prob.html' title='image::webp::vp8::Prob'>Prob</a><a class='primitive' href='../../../std/primitive.array.html'>; 3]</a>,
+    token_probs: <a class='struct' href='../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='type' href='../../../image/webp/vp8/type.TokenProbTables.html' title='image::webp::vp8::TokenProbTables'>TokenProbTables</a>&gt;,
+    prob_intra: <a class='type' href='../../../image/webp/vp8/type.Prob.html' title='image::webp::vp8::Prob'>Prob</a>,
+    prob_skip_false: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../../image/webp/vp8/type.Prob.html' title='image::webp::vp8::Prob'>Prob</a>&gt;,
+    top: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../image/webp/vp8/struct.MacroBlock.html' title='image::webp::vp8::MacroBlock'>MacroBlock</a>&gt;,
+    left: <a class='struct' href='../../../image/webp/vp8/struct.MacroBlock.html' title='image::webp::vp8::MacroBlock'>MacroBlock</a>,
+    top_border: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../../std/primitive.u8.html'>u8</a>&gt;,
+    left_border: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../../std/primitive.u8.html'>u8</a>&gt;,
+}</pre><div class='docblock'><p>VP8 Decoder</p>
+
+<p>Only decodes keyframes</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.r'><code>r</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.b'><code>b</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.mbwidth'><code>mbwidth</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.mbheight'><code>mbheight</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.frame'><code>frame</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.segments_enabled'><code>segments_enabled</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.segments_update_map'><code>segments_update_map</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.segment'><code>segment</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.partitions'><code>partitions</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.num_partitions'><code>num_partitions</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.segment_tree_probs'><code>segment_tree_probs</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.token_probs'><code>token_probs</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.prob_intra'><code>prob_intra</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.prob_skip_false'><code>prob_skip_false</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.top'><code>top</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.left'><code>left</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.top_border'><code>top_border</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.left_border'><code>left_border</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;R: <a class='trait' href='../../../std/io/trait.Read.html' title='std::io::Read'>Read</a>&gt; <a class='struct' href='../../../image/webp/vp8/struct.VP8Decoder.html' title='image::webp::vp8::VP8Decoder'>VP8Decoder</a>&lt;R&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(r: R) -&gt; <a class='struct' href='../../../image/webp/vp8/struct.VP8Decoder.html' title='image::webp::vp8::VP8Decoder'>VP8Decoder</a>&lt;R&gt;</code></h4>
+<div class='docblock'><p>Create a new decoder.
+The reader must present a raw vp8 bitstream to the decoder</p>
+</div><h4 id='method.update_token_probabilities' class='method'><code>fn <a href='#method.update_token_probabilities' class='fnname'>update_token_probabilities</a>(&amp;mut self)</code></h4>
+<h4 id='method.init_partitions' class='method'><code>fn <a href='#method.init_partitions' class='fnname'>init_partitions</a>(&amp;mut self, n: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>) -&gt; <a class='type' href='../../../std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='primitive' href='../../../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<h4 id='method.read_quantization_indices' class='method'><code>fn <a href='#method.read_quantization_indices' class='fnname'>read_quantization_indices</a>(&amp;mut self)</code></h4>
+<h4 id='method.read_loop_filter_adjustments' class='method'><code>fn <a href='#method.read_loop_filter_adjustments' class='fnname'>read_loop_filter_adjustments</a>(&amp;mut self)</code></h4>
+<h4 id='method.read_segment_updates' class='method'><code>fn <a href='#method.read_segment_updates' class='fnname'>read_segment_updates</a>(&amp;mut self)</code></h4>
+<h4 id='method.read_frame_header' class='method'><code>fn <a href='#method.read_frame_header' class='fnname'>read_frame_header</a>(&amp;mut self) -&gt; <a class='type' href='../../../std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='primitive' href='../../../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<h4 id='method.read_macroblock_header' class='method'><code>fn <a href='#method.read_macroblock_header' class='fnname'>read_macroblock_header</a>(&amp;mut self, mbx: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../../std/primitive.bool.html'>bool</a>, <a class='struct' href='../../../image/webp/vp8/struct.MacroBlock.html' title='image::webp::vp8::MacroBlock'>MacroBlock</a><a class='primitive' href='../../../std/primitive.tuple.html'>)</a></code></h4>
+<h4 id='method.intra_predict' class='method'><code>fn <a href='#method.intra_predict' class='fnname'>intra_predict</a>(&amp;mut self, mbx: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>, mby: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>, mb: &amp;<a class='struct' href='../../../image/webp/vp8/struct.MacroBlock.html' title='image::webp::vp8::MacroBlock'>MacroBlock</a>, resdata: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../../std/primitive.i32.html'>i32</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>)</code></h4>
+<h4 id='method.read_coefficients' class='method'><code>fn <a href='#method.read_coefficients' class='fnname'>read_coefficients</a>(&amp;mut self, block: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='../../../std/primitive.i32.html'>i32</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>, p: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>, plane: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>, complexity: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>, dcq: <a class='primitive' href='../../../std/primitive.i16.html'>i16</a>, acq: <a class='primitive' href='../../../std/primitive.i16.html'>i16</a>) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.read_residual_data' class='method'><code>fn <a href='#method.read_residual_data' class='fnname'>read_residual_data</a>(&amp;mut self, mb: &amp;<a class='struct' href='../../../image/webp/vp8/struct.MacroBlock.html' title='image::webp::vp8::MacroBlock'>MacroBlock</a>, mbx: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>, p: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../../std/primitive.array.html'>[</a><a class='primitive' href='../../../std/primitive.i32.html'>i32</a><a class='primitive' href='../../../std/primitive.array.html'>; 384]</a></code></h4>
+<h4 id='method.decode_frame' class='method'><code>fn <a href='#method.decode_frame' class='fnname'>decode_frame</a>(&amp;mut self) -&gt; <a class='type' href='../../../std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;&amp;<a class='struct' href='../../../image/webp/vp8/struct.Frame.html' title='image::webp::vp8::Frame'>Frame</a>&gt;</code></h4>
+<div class='docblock'><p>Decodes the current frame and returns a reference to it</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "image";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

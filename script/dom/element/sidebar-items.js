@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["AttributeMutation",""],["ElementCreator",""],["StylePriority",""]],"fn":[["fragment_affecting_attributes",""],["get_attr_for_layout",""]],"struct":[["AtomicElementFlags","Thread-safe wrapper for ElementFlags set during selector matching"],["Element",""]],"trait":[["LayoutElementHelpers",""],["RawLayoutElementHelpers",""]]});

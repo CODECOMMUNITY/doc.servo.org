@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ReflowReason","Extra information concerning the reason for reflowing."],["WindowState","Current state of the window object"]],"fn":[["base64_atob",""],["base64_btoa",""],["debug_reflow_events",""],["display_alert_dialog",""],["should_move_clip_rect",""]],"struct":[["Window",""]],"trait":[["ScriptHelpers",""]],"type":[["ScrollPoint",""]]});

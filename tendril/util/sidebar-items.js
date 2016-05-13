@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["copy_and_advance",""],["copy_lifetime",""],["copy_lifetime_mut",""],["is_post_drop",""],["unsafe_slice",""],["unsafe_slice_mut",""]],"struct":[["NonZero","A wrapper type for raw pointers and integers that will never be NULL or 0 that might allow certain optimizations."]]});

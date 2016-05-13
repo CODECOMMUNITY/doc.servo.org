@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["SurfaceKey","A key with which to store surfaces. It is based on the size of the surface."],["SurfaceMap","This is a struct used to store surfaces when they are not in use. The paint thread can quickly query for a particular size of surface when it needs it."],["SurfaceValue","A helper struct to keep track of surfaces in the HashMap"]]});

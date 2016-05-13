@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_Size2D",""],["_IMPL_SERIALIZE_FOR_Size2D",""]],"struct":[["Size2D",""]],"type":[["TypedSize2D",""]]});

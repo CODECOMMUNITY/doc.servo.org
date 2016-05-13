@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Decompressor` struct in crate `brotli`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Decompressor">
+
+    <title>brotli::Decompressor - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>brotli</a></p><script>window.sidebarCurrent = {name: 'Decompressor', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>brotli</a>::<wbr><a class='struct' href=''>Decompressor</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1251' class='srclink' href='../src/brotli/lib.rs.html#378-394' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Decompressor&lt;R: <a class='trait' href='../std/io/trait.Read.html' title='std::io::Read'>Read</a>&gt; {
+    in_stream: <a class='struct' href='../brotli/bitreader/struct.BitReader.html' title='brotli::bitreader::BitReader'>BitReader</a>&lt;R&gt;,
+    header: <a class='struct' href='../brotli/struct.Header.html' title='brotli::Header'>Header</a>,
+    buf: <a class='struct' href='../collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a class='type' href='../brotli/type.Literal.html' title='brotli::Literal'>Literal</a>&gt;,
+    output_window: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../brotli/ringbuffer/struct.RingBuffer.html' title='brotli::ringbuffer::RingBuffer'>RingBuffer</a>&lt;<a class='type' href='../brotli/type.Literal.html' title='brotli::Literal'>Literal</a>&gt;&gt;,
+    state: <a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>,
+    meta_block: <a class='struct' href='../brotli/struct.MetaBlock.html' title='brotli::MetaBlock'>MetaBlock</a>,
+    count_output: <a class='primitive' href='../std/primitive.usize.html'>usize</a>,
+    literal_buf: <a class='struct' href='../brotli/ringbuffer/struct.RingBuffer.html' title='brotli::ringbuffer::RingBuffer'>RingBuffer</a>&lt;<a class='type' href='../brotli/type.Literal.html' title='brotli::Literal'>Literal</a>&gt;,
+    distance_buf: <a class='struct' href='../brotli/ringbuffer/struct.RingBuffer.html' title='brotli::ringbuffer::RingBuffer'>RingBuffer</a>&lt;<a class='type' href='../brotli/type.Distance.html' title='brotli::Distance'>Distance</a>&gt;,
+}</pre><div class='docblock'><p>Wraps an input stream and provides methods for decompressing.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{ <span class='ident'>Read</span>, <span class='ident'>stdout</span>, <span class='ident'>Write</span> };
+<span class='kw'>use</span> <span class='ident'>brotli</span>::<span class='ident'>Decompressor</span>;
+
+<span class='kw'>let</span> <span class='ident'>brotli_stream</span> <span class='op'>=</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='string'>&quot;data/64x.compressed&quot;</span>).<span class='ident'>unwrap</span>();
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>decompressed</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>Decompressor</span>::<span class='ident'>new</span>(<span class='ident'>brotli_stream</span>).<span class='ident'>read_to_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>decompressed</span>);
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>expected</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='string'>&quot;data/64x&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>read_to_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>expected</span>);
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>expected</span>, <span class='ident'>decompressed</span>);
+
+<span class='ident'>stdout</span>().<span class='ident'>write_all</span>(<span class='ident'>decompressed</span>).<span class='ident'>ok</span>();</pre>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.in_stream'><code>in_stream</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.header'><code>header</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.buf'><code>buf</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.output_window'><code>output_window</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.state'><code>state</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.meta_block'><code>meta_block</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.count_output'><code>count_output</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.literal_buf'><code>literal_buf</code></td><td><div class='docblock'><p>ring buffer for last 2 literals, gets set
+at the beginning of the stream, and then
+lives until the end</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.distance_buf'><code>distance_buf</code></td><td><div class='docblock'><p>ring buffer for last 4 distances, gets set
+at the beginning of the stream, and then
+lives until the end</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;R: <a class='trait' href='../std/io/trait.Read.html' title='std::io::Read'>Read</a>&gt; <a class='struct' href='../brotli/struct.Decompressor.html' title='brotli::Decompressor'>Decompressor</a>&lt;R&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(r: R) -&gt; <a class='struct' href='../brotli/struct.Decompressor.html' title='brotli::Decompressor'>Decompressor</a>&lt;R&gt;</code></h4>
+<div class='docblock'><p>Creates Decompressor from Read.</p>
+</div><h4 id='method.parse_wbits' class='method'><code>fn <a href='#method.parse_wbits' class='fnname'>parse_wbits</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_is_last' class='method'><code>fn <a href='#method.parse_is_last' class='fnname'>parse_is_last</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_is_last_empty' class='method'><code>fn <a href='#method.parse_is_last_empty' class='fnname'>parse_is_last_empty</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_m_nibbles' class='method'><code>fn <a href='#method.parse_m_nibbles' class='fnname'>parse_m_nibbles</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_m_skip_bytes' class='method'><code>fn <a href='#method.parse_m_skip_bytes' class='fnname'>parse_m_skip_bytes</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_m_skip_len' class='method'><code>fn <a href='#method.parse_m_skip_len' class='fnname'>parse_m_skip_len</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_m_len' class='method'><code>fn <a href='#method.parse_m_len' class='fnname'>parse_m_len</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_is_uncompressed' class='method'><code>fn <a href='#method.parse_is_uncompressed' class='fnname'>parse_is_uncompressed</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_mlen_literals' class='method'><code>fn <a href='#method.parse_mlen_literals' class='fnname'>parse_mlen_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_n_bltypes' class='method'><code>fn <a href='#method.parse_n_bltypes' class='fnname'>parse_n_bltypes</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.NBltypes.html' title='brotli::NBltypes'>NBltypes</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_n_bltypes_l' class='method'><code>fn <a href='#method.parse_n_bltypes_l' class='fnname'>parse_n_bltypes_l</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_n_bltypes_i' class='method'><code>fn <a href='#method.parse_n_bltypes_i' class='fnname'>parse_n_bltypes_i</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_n_bltypes_d' class='method'><code>fn <a href='#method.parse_n_bltypes_d' class='fnname'>parse_n_bltypes_d</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_n_postfix' class='method'><code>fn <a href='#method.parse_n_postfix' class='fnname'>parse_n_postfix</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_n_direct' class='method'><code>fn <a href='#method.parse_n_direct' class='fnname'>parse_n_direct</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_context_modes_literals' class='method'><code>fn <a href='#method.parse_context_modes_literals' class='fnname'>parse_context_modes_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_n_trees_l' class='method'><code>fn <a href='#method.parse_n_trees_l' class='fnname'>parse_n_trees_l</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_n_trees_d' class='method'><code>fn <a href='#method.parse_n_trees_d' class='fnname'>parse_n_trees_d</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_code_kind' class='method'><code>fn <a href='#method.parse_prefix_code_kind' class='fnname'>parse_prefix_code_kind</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.PrefixCodeKind.html' title='brotli::PrefixCodeKind'>PrefixCodeKind</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_simple_prefix_code' class='method'><code>fn <a href='#method.parse_simple_prefix_code' class='fnname'>parse_simple_prefix_code</a>(&amp;mut self, alphabet_size: <a class='primitive' href='../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_complex_prefix_code' class='method'><code>fn <a href='#method.parse_complex_prefix_code' class='fnname'>parse_complex_prefix_code</a>(&amp;mut self, h_skip: <a class='primitive' href='../std/primitive.u8.html'>u8</a>, alphabet_size: <a class='primitive' href='../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_code' class='method'><code>fn <a href='#method.parse_prefix_code' class='fnname'>parse_prefix_code</a>(&amp;mut self, alphabet_size: <a class='primitive' href='../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_code_block_types_literals' class='method'><code>fn <a href='#method.parse_prefix_code_block_types_literals' class='fnname'>parse_prefix_code_block_types_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_code_block_counts_literals' class='method'><code>fn <a href='#method.parse_prefix_code_block_counts_literals' class='fnname'>parse_prefix_code_block_counts_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_code_block_types_insert_and_copy_lengths' class='method'><code>fn <a href='#method.parse_prefix_code_block_types_insert_and_copy_lengths' class='fnname'>parse_prefix_code_block_types_insert_and_copy_lengths</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_code_block_counts_insert_and_copy_lengths' class='method'><code>fn <a href='#method.parse_prefix_code_block_counts_insert_and_copy_lengths' class='fnname'>parse_prefix_code_block_counts_insert_and_copy_lengths</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_code_block_types_distances' class='method'><code>fn <a href='#method.parse_prefix_code_block_types_distances' class='fnname'>parse_prefix_code_block_types_distances</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_code_block_counts_distances' class='method'><code>fn <a href='#method.parse_prefix_code_block_counts_distances' class='fnname'>parse_prefix_code_block_counts_distances</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_block_count' class='method'><code>fn <a href='#method.parse_block_count' class='fnname'>parse_block_count</a>(&amp;mut self, prefix_code: &amp;<a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.BLen.html' title='brotli::BLen'>BLen</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_first_block_count_literals' class='method'><code>fn <a href='#method.parse_first_block_count_literals' class='fnname'>parse_first_block_count_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_first_block_count_insert_and_copy_lengths' class='method'><code>fn <a href='#method.parse_first_block_count_insert_and_copy_lengths' class='fnname'>parse_first_block_count_insert_and_copy_lengths</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_first_block_count_distances' class='method'><code>fn <a href='#method.parse_first_block_count_distances' class='fnname'>parse_first_block_count_distances</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_codes_literals' class='method'><code>fn <a href='#method.parse_prefix_codes_literals' class='fnname'>parse_prefix_codes_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_codes_insert_and_copy_lengths' class='method'><code>fn <a href='#method.parse_prefix_codes_insert_and_copy_lengths' class='fnname'>parse_prefix_codes_insert_and_copy_lengths</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_prefix_codes_distances' class='method'><code>fn <a href='#method.parse_prefix_codes_distances' class='fnname'>parse_prefix_codes_distances</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_context_map' class='method'><code>fn <a href='#method.parse_context_map' class='fnname'>parse_context_map</a>(&amp;mut self, n_trees: <a class='type' href='../brotli/type.NTrees.html' title='brotli::NTrees'>NTrees</a>, len: <a class='primitive' href='../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.ContextMap.html' title='brotli::ContextMap'>ContextMap</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_context_map_literals' class='method'><code>fn <a href='#method.parse_context_map_literals' class='fnname'>parse_context_map_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_context_map_distances' class='method'><code>fn <a href='#method.parse_context_map_distances' class='fnname'>parse_context_map_distances</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.inverse_move_to_front_transform' class='method'><code>fn <a href='#method.inverse_move_to_front_transform' class='fnname'>inverse_move_to_front_transform</a>(v: <a class='primitive' href='../std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='../std/primitive.u8.html'>u8</a><a class='primitive' href='../std/primitive.slice.html'>]</a>)</code></h4>
+<h4 id='method.parse_insert_and_copy_length' class='method'><code>fn <a href='#method.parse_insert_and_copy_length' class='fnname'>parse_insert_and_copy_length</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.decode_insert_and_copy_length' class='method'><code>fn <a href='#method.decode_insert_and_copy_length' class='fnname'>decode_insert_and_copy_length</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_block_switch_command' class='method'><code>fn <a href='#method.parse_block_switch_command' class='fnname'>parse_block_switch_command</a>(&amp;mut self, prefix_tree_types: <a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>, btype: <a class='type' href='../brotli/type.NBltypes.html' title='brotli::NBltypes'>NBltypes</a>, btype_prev: <a class='type' href='../brotli/type.NBltypes.html' title='brotli::NBltypes'>NBltypes</a>, n_bltypes: <a class='type' href='../brotli/type.NBltypes.html' title='brotli::NBltypes'>NBltypes</a>, prefix_tree_counts: <a class='type' href='../brotli/type.HuffmanCodes.html' title='brotli::HuffmanCodes'>HuffmanCodes</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.BlockSwitch.html' title='brotli::BlockSwitch'>BlockSwitch</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_block_switch_command_literals' class='method'><code>fn <a href='#method.parse_block_switch_command_literals' class='fnname'>parse_block_switch_command_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.BlockSwitch.html' title='brotli::BlockSwitch'>BlockSwitch</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_block_switch_command_insert_and_copy_lengths' class='method'><code>fn <a href='#method.parse_block_switch_command_insert_and_copy_lengths' class='fnname'>parse_block_switch_command_insert_and_copy_lengths</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.BlockSwitch.html' title='brotli::BlockSwitch'>BlockSwitch</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_block_switch_command_distances' class='method'><code>fn <a href='#method.parse_block_switch_command_distances' class='fnname'>parse_block_switch_command_distances</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='type' href='../brotli/type.BlockSwitch.html' title='brotli::BlockSwitch'>BlockSwitch</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_insert_literals' class='method'><code>fn <a href='#method.parse_insert_literals' class='fnname'>parse_insert_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.parse_distance_code' class='method'><code>fn <a href='#method.parse_distance_code' class='fnname'>parse_distance_code</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.decode_distance' class='method'><code>fn <a href='#method.decode_distance' class='fnname'>decode_distance</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.copy_literals' class='method'><code>fn <a href='#method.copy_literals' class='fnname'>copy_literals</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../brotli/enum.State.html' title='brotli::State'>State</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+<h4 id='method.decompress' class='method'><code>fn <a href='#method.decompress' class='fnname'>decompress</a>(&amp;mut self, buf: <a class='primitive' href='../std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='../std/primitive.u8.html'>u8</a><a class='primitive' href='../std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../std/primitive.usize.html'>usize</a>, <a class='enum' href='../brotli/enum.DecompressorError.html' title='brotli::DecompressorError'>DecompressorError</a>&gt;</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;R: <a class='trait' href='../std/io/trait.Read.html' title='std::io::Read'>Read</a>&gt; <a class='trait' href='../std/io/trait.Read.html' title='std::io::Read'>Read</a> for <a class='struct' href='../brotli/struct.Decompressor.html' title='brotli::Decompressor'>Decompressor</a>&lt;R&gt;</code></h3><div class='impl-items'><h4 id='method.read' class='method'><code>fn <a href='../std/io/trait.Read.html#tymethod.read' class='fnname'>read</a>(&amp;mut self, buf: <a class='primitive' href='../std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='../std/primitive.u8.html'>u8</a><a class='primitive' href='../std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='../std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='primitive' href='../std/primitive.usize.html'>usize</a>&gt;</code></h4>
+<h4 id='method.read_to_end' class='method'><code>fn <a href='../std/io/trait.Read.html#method.read_to_end' class='fnname'>read_to_end</a>(&amp;mut self, buf: &amp;mut <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../std/primitive.u8.html'>u8</a>&gt;) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../std/primitive.usize.html'>usize</a>, <a class='struct' href='../std/io/error/struct.Error.html' title='std::io::error::Error'>Error</a>&gt;</code><span class="since">1.0.0</span></h4>
+<h4 id='method.read_to_string' class='method'><code>fn <a href='../std/io/trait.Read.html#method.read_to_string' class='fnname'>read_to_string</a>(&amp;mut self, buf: &amp;mut <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../std/primitive.usize.html'>usize</a>, <a class='struct' href='../std/io/error/struct.Error.html' title='std::io::error::Error'>Error</a>&gt;</code><span class="since">1.0.0</span></h4>
+<h4 id='method.read_exact' class='method'><code>fn <a href='../std/io/trait.Read.html#method.read_exact' class='fnname'>read_exact</a>(&amp;mut self, buf: <a class='primitive' href='../std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='../std/primitive.u8.html'>u8</a><a class='primitive' href='../std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>, <a class='struct' href='../std/io/error/struct.Error.html' title='std::io::error::Error'>Error</a>&gt;</code><span class="since">1.6.0</span></h4>
+<h4 id='method.by_ref' class='method'><code>fn <a href='../std/io/trait.Read.html#method.by_ref' class='fnname'>by_ref</a>(&amp;mut self) -&gt; &amp;mut Self</code><span class="since">1.0.0</span></h4>
+<h4 id='method.bytes' class='method'><code>fn <a href='../std/io/trait.Read.html#method.bytes' class='fnname'>bytes</a>(self) -&gt; <a class='struct' href='../std/io/struct.Bytes.html' title='std::io::Bytes'>Bytes</a>&lt;Self&gt;</code><span class="since">1.0.0</span></h4>
+<h4 id='method.chars' class='method'><code>fn <a href='../std/io/trait.Read.html#method.chars' class='fnname'>chars</a>(self) -&gt; <a class='struct' href='../std/io/struct.Chars.html' title='std::io::Chars'>Chars</a>&lt;Self&gt;</code></h4>
+<h4 id='method.chain' class='method'><code>fn <a href='../std/io/trait.Read.html#method.chain' class='fnname'>chain</a>&lt;R&gt;(self, next: R) -&gt; <a class='struct' href='../std/io/struct.Chain.html' title='std::io::Chain'>Chain</a>&lt;Self, R&gt; <span class='where'>where R: <a class='trait' href='../std/io/trait.Read.html' title='std::io::Read'>Read</a></span></code><span class="since">1.0.0</span></h4>
+<h4 id='method.take' class='method'><code>fn <a href='../std/io/trait.Read.html#method.take' class='fnname'>take</a>(self, limit: <a class='primitive' href='../std/primitive.u64.html'>u64</a>) -&gt; <a class='struct' href='../std/io/struct.Take.html' title='std::io::Take'>Take</a>&lt;Self&gt;</code><span class="since">1.0.0</span></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl&lt;R: <a class='trait' href='../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='../std/io/trait.Read.html' title='std::io::Read'>Read</a>&gt; <a class='trait' href='../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../brotli/struct.Decompressor.html' title='brotli::Decompressor'>Decompressor</a>&lt;R&gt;</code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "brotli";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `NewLayoutInfo` struct in crate `script_traits`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, NewLayoutInfo">
+
+    <title>script_traits::NewLayoutInfo - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>script_traits</a></p><script>window.sidebarCurrent = {name: 'NewLayoutInfo', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>script_traits</a>::<wbr><a class='struct' href=''>NewLayoutInfo</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1031' class='srclink' href='../src/script_traits/lib.rs.html#84-104' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct NewLayoutInfo {
+    pub containing_pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
+    pub new_pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
+    pub subpage_id: <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>,
+    pub load_data: <a class='struct' href='../msg/constellation_msg/struct.LoadData.html' title='msg::constellation_msg::LoadData'>LoadData</a>,
+    pub paint_chan: <a class='enum' href='../util/ipc/enum.OptionalOpaqueIpcSender.html' title='util::ipc::OptionalOpaqueIpcSender'>OptionalOpaqueIpcSender</a>,
+    pub pipeline_port: <a class='struct' href='../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='enum' href='../script_traits/enum.LayoutControlMsg.html' title='script_traits::LayoutControlMsg'>LayoutControlMsg</a>&gt;,
+    pub panic_chan: <a class='struct' href='../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='type' href='../msg/constellation_msg/type.PanicMsg.html' title='msg::constellation_msg::PanicMsg'>PanicMsg</a>&gt;,
+    pub layout_shutdown_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;,
+    pub content_process_shutdown_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;,
+}</pre><div class='docblock'><p>The initial data associated with a newly-created framed pipeline.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.containing_pipeline_id'><code>containing_pipeline_id</code></td><td><div class='docblock'><p>Id of the parent of this new pipeline.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.new_pipeline_id'><code>new_pipeline_id</code></td><td><div class='docblock'><p>Id of the newly-created pipeline.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.subpage_id'><code>subpage_id</code></td><td><div class='docblock'><p>Id of the new frame associated with this pipeline.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.load_data'><code>load_data</code></td><td><div class='docblock'><p>Network request data which will be initiated by the script thread.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.paint_chan'><code>paint_chan</code></td><td><div class='docblock'><p>The paint channel, cast to <code>OptionalOpaqueIpcSender</code>. This is really an
+<code>Sender&lt;LayoutToPaintMsg&gt;</code>.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.pipeline_port'><code>pipeline_port</code></td><td><div class='docblock'><p>A port on which layout can receive messages from the pipeline.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.panic_chan'><code>panic_chan</code></td><td><div class='docblock'><p>A channel for sending panics on</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.layout_shutdown_chan'><code>layout_shutdown_chan</code></td><td><div class='docblock'><p>A shutdown channel so that layout can notify others when it&#39;s done.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.content_process_shutdown_chan'><code>content_process_shutdown_chan</code></td><td><div class='docblock'><p>A shutdown channel so that layout can tell the content process to shut down when it&#39;s done.</p>
+</div></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "script_traits";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SpecifiedOperation",""],["TranslateKind",""]],"fn":[["cascade_property",""],["get_initial_value",""],["parse",""],["parse_declared",""],["parse_specified",""],["parse_two_angles",""],["parse_two_floats",""],["parse_two_lengths_or_percentages",""]],"mod":[["computed_value",""]],"struct":[["SpecifiedValue",""]]});

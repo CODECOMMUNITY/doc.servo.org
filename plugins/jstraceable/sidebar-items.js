@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["expand_dom_struct",""],["expand_jstraceable","Provides the hook to expand `#[derive(JSTraceable)]` into an implementation of `JSTraceable`"],["jstraceable_substructure","Defines how the implementation for `trace()` is to be generated"]]});

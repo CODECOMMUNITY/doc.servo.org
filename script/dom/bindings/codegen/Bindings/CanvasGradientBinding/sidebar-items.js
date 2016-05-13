@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["addColorStop_methodinfo",""],["sMethods",""],["sMethods_specs",""]],"fn":[["CreateInterfaceObjects",""],["DefineDOMInterface",""],["GetProtoObject",""],["Wrap",""],["_finalize",""],["_trace",""],["addColorStop",""]],"static":[["Class",""],["InterfaceObjectClass",""],["PrototypeClass",""]],"trait":[["CanvasGradientMethods",""]]});

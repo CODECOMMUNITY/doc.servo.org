@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["expand_heap_size",""],["heap_size_substructure","Defines how the implementation for `heap_size_of_children()` is to be generated."]]});

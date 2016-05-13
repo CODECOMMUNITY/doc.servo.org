@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["heap_size_of_raw_self_and_children","Used by codegen to include the pointer to the `HeapSizeOf` implementation of each IDL interface. This way we don't have to find the most-derived interface of DOM objects by hand in code."],["heap_size_of_self_and_children",""]]});

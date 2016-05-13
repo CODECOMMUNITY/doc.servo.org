@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `script_thread` mod in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, script_thread">
+
+    <title>script::script_thread - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>script</a></p><script>window.sidebarCurrent = {name: 'script_thread', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>script</a>::<wbr><a class='mod' href=''>script_thread</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-108666' class='srclink' href='../../src/script/script_thread.rs.html#5-2025' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>The script thread is the thread that owns the DOM in memory, runs JavaScript, and spawns parsing
+and layout threads. It&#39;s in charge of processing events for all same-origin pages in a frame
+tree, and manages the entire lifetime of pages in the frame tree from initial request to
+teardown.</p>
+
+<p>Page loads follow a two-step process. When a request for a new page load is received, the
+network request is initiated and the relevant data pertaining to the new page is stashed.
+While the non-blocking request is ongoing, the script thread is free to process further events,
+noting when they pertain to ongoing loads (such as resizes/viewport adjustments). When the
+initial response is received for an ongoing load, the second phase starts - the frame tree
+entry is created, along with the Window and Document objects, and the appropriate parser
+takes over the response body. Once parsing is complete, the document lifecycle for loading
+a page runs its course and the script thread returns to processing events in the main event
+loop.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.CancellableRunnable.html'
+                                  title='script::script_thread::CancellableRunnable'>CancellableRunnable</a></td>
+                           <td class='docblock short'>
+                                <p>A runnable that can be discarded by toggling a shared flag.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.InProgressLoad.html'
+                                  title='script::script_thread::InProgressLoad'>InProgressLoad</a></td>
+                           <td class='docblock short'>
+                                <p>A document load that is in the process of fetching the requested resource. Contains
+data that will need to be present when the document and frame tree entry are created,
+but is only easily available at initiation of the load and on a push basis (so some
+data will be updated according to future resize events, viewport changes, etc.)</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.MainThreadScriptChan.html'
+                                  title='script::script_thread::MainThreadScriptChan'>MainThreadScriptChan</a></td>
+                           <td class='docblock short'>
+                                <p>Encapsulates internal communication of main thread messages within the script thread.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.RunnableWrapper.html'
+                                  title='script::script_thread::RunnableWrapper'>RunnableWrapper</a></td>
+                           <td class='docblock short'>
+                                <p>Encapsulated state required to create cancellable runnables from non-script threads.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ScriptMemoryFailsafe.html'
+                                  title='script::script_thread::ScriptMemoryFailsafe'>ScriptMemoryFailsafe</a></td>
+                           <td class='docblock short'>
+                                <p>In the event of thread panic, all data on the stack runs its destructor. However, there
+are no reachable, owning pointers to the DOM memory, so it never gets freed by default
+when the script thread fails. The ScriptMemoryFailsafe uses the destructor bomb pattern
+to forcibly tear down the JS compartments for pages associated with the failing ScriptThread.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ScriptThread.html'
+                                  title='script::script_thread::ScriptThread'>ScriptThread</a></td>
+                           <td class='docblock short'>
+                                <p>Information for an entire page. Pages are top-level browsing contexts and can contain multiple
+frames.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.SendableMainThreadScriptChan.html'
+                                  title='script::script_thread::SendableMainThreadScriptChan'>SendableMainThreadScriptChan</a></td>
+                           <td class='docblock short'>
+                                <p>Encapsulates internal communication of shared messages within the script thread.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.MainThreadScriptMsg.html'
+                                  title='script::script_thread::MainThreadScriptMsg'>MainThreadScriptMsg</a></td>
+                           <td class='docblock short'>
+                                <p>Messages used to control the script event loop</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.MixedMessage.html'
+                                  title='script::script_thread::MixedMessage'>MixedMessage</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='statics' class='section-header'><a href="#statics">Statics</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='static' href='static.SCRIPT_THREAD_ROOT.html'
+                                  title='script::script_thread::SCRIPT_THREAD_ROOT'>SCRIPT_THREAD_ROOT</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='static' href='static.STACK_ROOTS.html'
+                                  title='script::script_thread::STACK_ROOTS'>STACK_ROOTS</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.MainThreadRunnable.html'
+                                  title='script::script_thread::MainThreadRunnable'>MainThreadRunnable</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.Runnable.html'
+                                  title='script::script_thread::Runnable'>Runnable</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.dom_last_modified.html'
+                                  title='script::script_thread::dom_last_modified'>dom_last_modified</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.get_browsing_context.html'
+                                  title='script::script_thread::get_browsing_context'>get_browsing_context</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.shadow_check_callback.html'
+                                  title='script::script_thread::shadow_check_callback'>shadow_check_callback</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.shut_down_layout.html'
+                                  title='script::script_thread::shut_down_layout'>shut_down_layout</a></td>
+                           <td class='docblock short'>
+                                <p>Shuts down layout for the given browsing context tree.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.trace_thread.html'
+                                  title='script::script_thread::trace_thread'>trace_thread</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

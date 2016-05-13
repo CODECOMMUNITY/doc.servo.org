@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `UnprivilegedPipelineContent` struct in crate `compositing`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, UnprivilegedPipelineContent">
+
+    <title>compositing::pipeline::UnprivilegedPipelineContent - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>compositing</a>::<wbr><a href='index.html'>pipeline</a></p><script>window.sidebarCurrent = {name: 'UnprivilegedPipelineContent', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>compositing</a>::<wbr><a href='index.html'>pipeline</a>::<wbr><a class='struct' href=''>UnprivilegedPipelineContent</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3464' class='srclink' href='../../src/compositing/pipeline.rs.html#389-421' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct UnprivilegedPipelineContent {
+    id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
+    parent_info: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;,
+    constellation_chan: <a class='struct' href='../../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='enum' href='../../script_traits/script_msg/enum.ScriptMsg.html' title='script_traits::script_msg::ScriptMsg'>ScriptMsg</a>&gt;,
+    layout_to_constellation_chan: <a class='struct' href='../../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='enum' href='../../script_traits/script_msg/enum.LayoutMsg.html' title='script_traits::script_msg::LayoutMsg'>LayoutMsg</a>&gt;,
+    scheduler_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../../script_traits/struct.TimerEventRequest.html' title='script_traits::TimerEventRequest'>TimerEventRequest</a>&gt;,
+    devtools_chan: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../devtools_traits/enum.ScriptToDevtoolsControlMsg.html' title='devtools_traits::ScriptToDevtoolsControlMsg'>ScriptToDevtoolsControlMsg</a>&gt;&gt;,
+    script_to_compositor_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../script_traits/enum.ScriptToCompositorMsg.html' title='script_traits::ScriptToCompositorMsg'>ScriptToCompositorMsg</a>&gt;,
+    bluetooth_thread: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../net_traits/bluetooth_thread/enum.BluetoothMethodMsg.html' title='net_traits::bluetooth_thread::BluetoothMethodMsg'>BluetoothMethodMsg</a>&gt;,
+    image_cache_thread: <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a>,
+    font_cache_thread: <a class='struct' href='../../gfx/font_cache_thread/struct.FontCacheThread.html' title='gfx::font_cache_thread::FontCacheThread'>FontCacheThread</a>,
+    resource_thread: <a class='type' href='../../net_traits/type.ResourceThread.html' title='net_traits::ResourceThread'>ResourceThread</a>,
+    storage_thread: <a class='type' href='../../net_traits/storage_thread/type.StorageThread.html' title='net_traits::storage_thread::StorageThread'>StorageThread</a>,
+    time_profiler_chan: <a class='struct' href='../../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a>,
+    mem_profiler_chan: <a class='struct' href='../../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a>,
+    window_size: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../msg/constellation_msg/struct.WindowSizeData.html' title='msg::constellation_msg::WindowSizeData'>WindowSizeData</a>&gt;,
+    script_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;,
+    load_data: <a class='struct' href='../../msg/constellation_msg/struct.LoadData.html' title='msg::constellation_msg::LoadData'>LoadData</a>,
+    panic_chan: <a class='struct' href='../../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='type' href='../../msg/constellation_msg/type.PanicMsg.html' title='msg::constellation_msg::PanicMsg'>PanicMsg</a>&gt;,
+    script_port: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='enum' href='../../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;&gt;,
+    layout_to_paint_chan: <a class='enum' href='../../util/ipc/enum.OptionalIpcSender.html' title='util::ipc::OptionalIpcSender'>OptionalIpcSender</a>&lt;<a class='enum' href='../../gfx/paint_thread/enum.LayoutToPaintMsg.html' title='gfx::paint_thread::LayoutToPaintMsg'>LayoutToPaintMsg</a>&gt;,
+    opts: <a class='struct' href='../../util/opts/struct.Opts.html' title='util::opts::Opts'>Opts</a>,
+    prefs: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='enum' href='../../util/prefs/enum.Pref.html' title='util::prefs::Pref'>Pref</a>&gt;,
+    paint_shutdown_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;,
+    pipeline_port: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='enum' href='../../script_traits/enum.LayoutControlMsg.html' title='script_traits::LayoutControlMsg'>LayoutControlMsg</a>&gt;&gt;,
+    pipeline_namespace_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineNamespaceId.html' title='msg::constellation_msg::PipelineNamespaceId'>PipelineNamespaceId</a>,
+    layout_shutdown_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;,
+    layout_content_process_shutdown_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;,
+    layout_content_process_shutdown_port: <a class='struct' href='../../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;,
+    script_content_process_shutdown_chan: <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;,
+    script_content_process_shutdown_port: <a class='struct' href='../../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;,
+    webrender_api_sender: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender_traits/api/struct.RenderApiSender.html' title='webrender_traits::api::RenderApiSender'>RenderApiSender</a>&gt;,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.id'><code>id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.parent_info'><code>parent_info</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.constellation_chan'><code>constellation_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.layout_to_constellation_chan'><code>layout_to_constellation_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.scheduler_chan'><code>scheduler_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.devtools_chan'><code>devtools_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.script_to_compositor_chan'><code>script_to_compositor_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.bluetooth_thread'><code>bluetooth_thread</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.image_cache_thread'><code>image_cache_thread</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.font_cache_thread'><code>font_cache_thread</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.resource_thread'><code>resource_thread</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.storage_thread'><code>storage_thread</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.time_profiler_chan'><code>time_profiler_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.mem_profiler_chan'><code>mem_profiler_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.window_size'><code>window_size</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.script_chan'><code>script_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.load_data'><code>load_data</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.panic_chan'><code>panic_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.script_port'><code>script_port</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.layout_to_paint_chan'><code>layout_to_paint_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.opts'><code>opts</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.prefs'><code>prefs</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.paint_shutdown_chan'><code>paint_shutdown_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.pipeline_port'><code>pipeline_port</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.pipeline_namespace_id'><code>pipeline_namespace_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.layout_shutdown_chan'><code>layout_shutdown_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.layout_content_process_shutdown_chan'><code>layout_content_process_shutdown_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.layout_content_process_shutdown_port'><code>layout_content_process_shutdown_port</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.script_content_process_shutdown_chan'><code>script_content_process_shutdown_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.script_content_process_shutdown_port'><code>script_content_process_shutdown_port</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.webrender_api_sender'><code>webrender_api_sender</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../compositing/pipeline/struct.UnprivilegedPipelineContent.html' title='compositing::pipeline::UnprivilegedPipelineContent'>UnprivilegedPipelineContent</a></code></h3><div class='impl-items'><h4 id='method.start_all' class='method'><code>fn <a href='#method.start_all' class='fnname'>start_all</a>&lt;LTF, STF&gt;(self, wait_for_completion: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) <span class='where'>where LTF: <a class='trait' href='../../layout_traits/trait.LayoutThreadFactory.html' title='layout_traits::LayoutThreadFactory'>LayoutThreadFactory</a>, STF: <a class='trait' href='../../script_traits/trait.ScriptThreadFactory.html' title='script_traits::ScriptThreadFactory'>ScriptThreadFactory</a></span></code></h4>
+<h4 id='method.opts' class='method'><code>fn <a href='#method.opts' class='fnname'>opts</a>(&amp;self) -&gt; <a class='struct' href='../../util/opts/struct.Opts.html' title='util::opts::Opts'>Opts</a></code></h4>
+<h4 id='method.prefs' class='method'><code>fn <a href='#method.prefs' class='fnname'>prefs</a>(&amp;self) -&gt; <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='enum' href='../../util/prefs/enum.Pref.html' title='util::prefs::Pref'>Pref</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "compositing";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

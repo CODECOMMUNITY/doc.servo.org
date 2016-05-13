@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Runtime` struct in crate `js`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Runtime">
+
+    <title>js::rust::Runtime - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>js</a>::<wbr><a href='index.html'>rust</a></p><script>window.sidebarCurrent = {name: 'Runtime', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>js</a>::<wbr><a href='index.html'>rust</a>::<wbr><a class='struct' href=''>Runtime</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-12465' class='srclink' href='../../src/js/rust.rs.html#107-110' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Runtime {
+    rt: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSRuntime.html' title='js::jsapi::JSRuntime'>JSRuntime</a>,
+    cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>,
+}</pre><div class='docblock'><p>A wrapper for the <code>JSRuntime</code> and <code>JSContext</code> structures in SpiderMonkey.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.rt'><code>rt</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.cx'><code>cx</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../js/rust/struct.Runtime.html' title='js::rust::Runtime'>Runtime</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>unsafe fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../js/rust/struct.Runtime.html' title='js::rust::Runtime'>Runtime</a></code></h4>
+<div class='docblock'><p>Creates a new <code>JSRuntime</code> and <code>JSContext</code>.</p>
+
+<h1 id='safety' class='section-header'><a href='#safety'>Safety</a></h1>
+<p>Calling this function concurrently can cause segfaults inside
+SpiderMonkey</p>
+</div><h4 id='method.rt' class='method'><code>fn <a href='#method.rt' class='fnname'>rt</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSRuntime.html' title='js::jsapi::JSRuntime'>JSRuntime</a></code></h4>
+<div class='docblock'><p>Returns the <code>JSRuntime</code> object.</p>
+</div><h4 id='method.cx' class='method'><code>fn <a href='#method.cx' class='fnname'>cx</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a></code></h4>
+<div class='docblock'><p>Returns the <code>JSContext</code> object.</p>
+</div><h4 id='method.evaluate_script' class='method'><code>fn <a href='#method.evaluate_script' class='fnname'>evaluate_script</a>(&amp;self, glob: <a class='type' href='../../js/jsapi/type.HandleObject.html' title='js::jsapi::HandleObject'>HandleObject</a>, script: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, filename: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, line_num: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, rval: <a class='type' href='../../js/jsapi/type.MutableHandleValue.html' title='js::jsapi::MutableHandleValue'>MutableHandleValue</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, <a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../js/rust/struct.Runtime.html' title='js::rust::Runtime'>Runtime</a></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='../../core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "js";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

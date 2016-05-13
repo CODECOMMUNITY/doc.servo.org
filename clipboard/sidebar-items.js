@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["close_display_or_panic",""]],"mod":[["util",""],["x11_clipboard",""]],"struct":[["ClipboardContext",""],["ClipboardContextGetter",""],["ClipboardContextSetter",""]]});

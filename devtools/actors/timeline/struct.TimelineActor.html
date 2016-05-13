@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `TimelineActor` struct in crate `devtools`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TimelineActor">
+
+    <title>devtools::actors::timeline::TimelineActor - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>devtools</a>::<wbr><a href='../index.html'>actors</a>::<wbr><a href='index.html'>timeline</a></p><script>window.sidebarCurrent = {name: 'TimelineActor', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>devtools</a>::<wbr><a href='../index.html'>actors</a>::<wbr><a href='index.html'>timeline</a>::<wbr><a class='struct' href=''>TimelineActor</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2743' class='srclink' href='../../../src/devtools/actors/timeline.rs.html#24-34' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct TimelineActor {
+    name: <a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a>,
+    script_sender: <a class='struct' href='../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>&gt;,
+    marker_types: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../../devtools_traits/enum.TimelineMarkerType.html' title='devtools_traits::TimelineMarkerType'>TimelineMarkerType</a>&gt;,
+    pipeline: <a class='struct' href='../../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
+    is_recording: <a class='struct' href='../../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;&gt;,
+    stream: <a class='struct' href='../../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;<a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../std/net/tcp/struct.TcpStream.html' title='std::net::tcp::TcpStream'>TcpStream</a>&gt;&gt;,
+    framerate_actor: <a class='struct' href='../../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;<a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;,
+    memory_actor: <a class='struct' href='../../../core/cell/struct.RefCell.html' title='core::cell::RefCell'>RefCell</a>&lt;<a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.name'><code>name</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.script_sender'><code>script_sender</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.marker_types'><code>marker_types</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.pipeline'><code>pipeline</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.is_recording'><code>is_recording</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.stream'><code>stream</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.framerate_actor'><code>framerate_actor</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.memory_actor'><code>memory_actor</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../devtools/actors/timeline/struct.TimelineActor.html' title='devtools::actors::timeline::TimelineActor'>TimelineActor</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(name: <a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a>, pipeline: <a class='struct' href='../../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, script_sender: <a class='struct' href='../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>&gt;) -&gt; <a class='struct' href='../../../devtools/actors/timeline/struct.TimelineActor.html' title='devtools::actors::timeline::TimelineActor'>TimelineActor</a></code></h4>
+<h4 id='method.pull_timeline_data' class='method'><code>fn <a href='#method.pull_timeline_data' class='fnname'>pull_timeline_data</a>(&amp;self, receiver: <a class='struct' href='../../../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='struct' href='../../../devtools_traits/struct.TimelineMarker.html' title='devtools_traits::TimelineMarker'>TimelineMarker</a>&gt;, emitter: <a class='struct' href='../../../devtools/actors/timeline/struct.Emitter.html' title='devtools::actors::timeline::Emitter'>Emitter</a>)</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../devtools/actor/trait.Actor.html' title='devtools::actor::Actor'>Actor</a> for <a class='struct' href='../../../devtools/actors/timeline/struct.TimelineActor.html' title='devtools::actors::timeline::TimelineActor'>TimelineActor</a></code></h3><div class='impl-items'><h4 id='method.name' class='method'><code>fn <a href='../../../devtools/actor/trait.Actor.html#tymethod.name' class='fnname'>name</a>(&amp;self) -&gt; <a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a></code></h4>
+<h4 id='method.handle_message' class='method'><code>fn <a href='../../../devtools/actor/trait.Actor.html#tymethod.handle_message' class='fnname'>handle_message</a>(&amp;self, registry: &amp;<a class='struct' href='../../../devtools/actor/struct.ActorRegistry.html' title='devtools::actor::ActorRegistry'>ActorRegistry</a>, msg_type: &amp;<a class='primitive' href='../../../std/primitive.str.html'>str</a>, msg: &amp;<a class='struct' href='../../../collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='struct' href='../../../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='enum' href='../../../serde_json/value/enum.Value.html' title='serde_json::value::Value'>Value</a>&gt;, stream: &amp;mut <a class='struct' href='../../../std/net/tcp/struct.TcpStream.html' title='std::net::tcp::TcpStream'>TcpStream</a>) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../../../devtools/actor/enum.ActorMessageStatus.html' title='devtools::actor::ActorMessageStatus'>ActorMessageStatus</a>, <a class='primitive' href='../../../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "devtools";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

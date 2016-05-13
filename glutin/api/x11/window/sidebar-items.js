@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Context",""]],"fn":[["with_c_str",""]],"static":[["GLOBAL_XOPENIM_LOCK",""]],"struct":[["GLOBAL_XOPENIM_LOCK",""],["GenericEventCookie",""],["PollEventsIterator",""],["WaitEventsIterator",""],["Window",""],["WindowProxy",""],["WindowProxyData",""],["XWindow",""]]});

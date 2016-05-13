@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["is_unrooted_ty","Checks if a type is unrooted or contains any owned unrooted types"]],"static":[["UNROOTED_MUST_ROOT",""]],"struct":[["FnDefVisitor",""],["UnrootedPass","Lint for ensuring safe usage of unrooted pointers"]]});

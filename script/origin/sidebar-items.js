@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Origin","A representation of an origin."]]});

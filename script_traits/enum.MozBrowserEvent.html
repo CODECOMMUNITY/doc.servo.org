@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `MozBrowserEvent` enum in crate `script_traits`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, MozBrowserEvent">
+
+    <title>script_traits::MozBrowserEvent - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>script_traits</a></p><script>window.sidebarCurrent = {name: 'MozBrowserEvent', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>script_traits</a>::<wbr><a class='enum' href=''>MozBrowserEvent</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-4014' class='srclink' href='../src/script_traits/lib.rs.html#429-461' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum MozBrowserEvent {
+    AsyncScroll,
+    Close,
+    ContextMenu,
+    Error(<a class='enum' href='../script_traits/enum.MozBrowserErrorType.html' title='script_traits::MozBrowserErrorType'>MozBrowserErrorType</a>, <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;, <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;),
+    IconChange(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>),
+    Connected,
+    LoadEnd,
+    LoadStart,
+    LocationChange(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='primitive' href='../std/primitive.bool.html'>bool</a>, <a class='primitive' href='../std/primitive.bool.html'>bool</a>),
+    OpenWindow,
+    SecurityChange(<a class='enum' href='../net_traits/response/enum.HttpsState.html' title='net_traits::response::HttpsState'>HttpsState</a>),
+    ShowModalPrompt(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>),
+    TitleChange(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>),
+    UsernameAndPasswordRequired,
+    OpenSearch,
+}</pre><div class='docblock'><p>The events fired in a Browser API context (<code>&lt;iframe mozbrowser&gt;</code>)</p>
+</div><h2 class='variants'>Variants</h2>
+<table class='variants_table'><tr><td id='variant.AsyncScroll'><code>AsyncScroll</code></td><td><div class='docblock'><p>Sent when the scroll position within a browser <code>&lt;iframe&gt;</code> changes.</p>
+</div></td><td></td></tr><tr><td id='variant.Close'><code>Close</code></td><td><div class='docblock'><p>Sent when window.close() is called within a browser <code>&lt;iframe&gt;</code>.</p>
+</div></td><td></td></tr><tr><td id='variant.ContextMenu'><code>ContextMenu</code></td><td><div class='docblock'><p>Sent when a browser <code>&lt;iframe&gt;</code> tries to open a context menu. This allows
+handling <code>&lt;menuitem&gt;</code> element available within the browser <code>&lt;iframe&gt;</code>&#39;s content.</p>
+</div></td><td></td></tr><tr><td id='variant.Error'><code>Error</code></td><td><div class='docblock'><p>Sent when an error occurred while trying to load content within a browser <code>&lt;iframe&gt;</code>.</p>
+</div></td><td></td></tr><tr><td id='variant.IconChange'><code>IconChange</code></td><td><div class='docblock'><p>Sent when the favicon of a browser <code>&lt;iframe&gt;</code> changes.</p>
+</div></td><td></td></tr><tr><td id='variant.Connected'><code>Connected</code></td><td><div class='docblock'><p>Sent when the browser <code>&lt;iframe&gt;</code> has reached the server.</p>
+</div></td><td></td></tr><tr><td id='variant.LoadEnd'><code>LoadEnd</code></td><td><div class='docblock'><p>Sent when the browser <code>&lt;iframe&gt;</code> has finished loading all its assets.</p>
+</div></td><td></td></tr><tr><td id='variant.LoadStart'><code>LoadStart</code></td><td><div class='docblock'><p>Sent when the browser <code>&lt;iframe&gt;</code> starts to load a new page.</p>
+</div></td><td></td></tr><tr><td id='variant.LocationChange'><code>LocationChange</code></td><td><div class='docblock'><p>Sent when a browser <code>&lt;iframe&gt;</code>&#39;s location changes.</p>
+</div></td><td></td></tr><tr><td id='variant.OpenWindow'><code>OpenWindow</code></td><td><div class='docblock'><p>Sent when window.open() is called within a browser <code>&lt;iframe&gt;</code>.</p>
+</div></td><td></td></tr><tr><td id='variant.SecurityChange'><code>SecurityChange</code></td><td><div class='docblock'><p>Sent when the SSL state changes within a browser <code>&lt;iframe&gt;</code>.</p>
+</div></td><td></td></tr><tr><td id='variant.ShowModalPrompt'><code>ShowModalPrompt</code></td><td><div class='docblock'><p>Sent when alert(), confirm(), or prompt() is called within a browser <code>&lt;iframe&gt;</code>.</p>
+</div></td><td></td></tr><tr><td id='variant.TitleChange'><code>TitleChange</code></td><td><div class='docblock'><p>Sent when the document.title changes within a browser <code>&lt;iframe&gt;</code>.</p>
+</div></td><td></td></tr><tr><td id='variant.UsernameAndPasswordRequired'><code>UsernameAndPasswordRequired</code></td><td><div class='docblock'><p>Sent when an HTTP authentification is requested.</p>
+</div></td><td></td></tr><tr><td id='variant.OpenSearch'><code>OpenSearch</code></td><td><div class='docblock'><p>Sent when a link to a search engine is found.</p>
+</div></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='enum' href='../script_traits/enum.MozBrowserEvent.html' title='script_traits::MozBrowserEvent'>MozBrowserEvent</a></code></h3><div class='impl-items'><h4 id='method.name' class='method'><code>fn <a href='#method.name' class='fnname'>name</a>(&amp;self) -&gt; &amp;'static <a class='primitive' href='../std/primitive.str.html'>str</a></code></h4>
+<div class='docblock'><p>Get the name of the event as a <code>&amp; str</code></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "script_traits";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ReduceConsumer` struct in crate `rayon`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ReduceConsumer">
+
+    <title>rayon::par_iter::reduce::ReduceConsumer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>rayon</a>::<wbr><a href='../index.html'>par_iter</a>::<wbr><a href='index.html'>reduce</a></p><script>window.sidebarCurrent = {name: 'ReduceConsumer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>rayon</a>::<wbr><a href='../index.html'>par_iter</a>::<wbr><a href='index.html'>reduce</a>::<wbr><a class='struct' href=''>ReduceConsumer</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-901' class='srclink' href='../../../src/rayon/par_iter/reduce.rs.html#44-46' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>struct ReduceConsumer&lt;'r, REDUCE_OP: 'r&gt; {
+    reduce_op: &amp;'r REDUCE_OP,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.reduce_op'><code>reduce_op</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'r, REDUCE_OP&gt; <a class='trait' href='../../../core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../../rayon/par_iter/reduce/struct.ReduceConsumer.html' title='rayon::par_iter::reduce::ReduceConsumer'>ReduceConsumer</a>&lt;'r, REDUCE_OP&gt;</code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;'r, REDUCE_OP&gt; <a class='trait' href='../../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../../rayon/par_iter/reduce/struct.ReduceConsumer.html' title='rayon::par_iter::reduce::ReduceConsumer'>ReduceConsumer</a>&lt;'r, REDUCE_OP&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; Self</code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl&lt;'r, REDUCE_OP, ITEM&gt; <a class='trait' href='../../../rayon/par_iter/internal/trait.Consumer.html' title='rayon::par_iter::internal::Consumer'>Consumer</a>&lt;ITEM&gt; for <a class='struct' href='../../../rayon/par_iter/reduce/struct.ReduceConsumer.html' title='rayon::par_iter::reduce::ReduceConsumer'>ReduceConsumer</a>&lt;'r, REDUCE_OP&gt; <span class='where'>where REDUCE_OP: <a class='trait' href='../../../rayon/par_iter/reduce/trait.ReduceOp.html' title='rayon::par_iter::reduce::ReduceOp'>ReduceOp</a>&lt;ITEM&gt;, ITEM: <a class='trait' href='../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a></span></code></h3><div class='impl-items'><h4 id='associatedtype.Folder' class='type'><code>type <a href='../../../rayon/par_iter/internal/trait.Consumer.html#associatedtype.Folder' class='type'>Folder</a> = <a class='struct' href='../../../rayon/par_iter/reduce/struct.ReduceFolder.html' title='rayon::par_iter::reduce::ReduceFolder'>ReduceFolder</a>&lt;'r, REDUCE_OP, ITEM&gt;</code></h4>
+<h4 id='associatedtype.Reducer' class='type'><code>type <a href='../../../rayon/par_iter/internal/trait.Consumer.html#associatedtype.Reducer' class='type'>Reducer</a> = Self</code></h4>
+<h4 id='associatedtype.Result' class='type'><code>type <a href='../../../rayon/par_iter/internal/trait.Consumer.html#associatedtype.Result' class='type'>Result</a> = ITEM</code></h4>
+<h4 id='method.cost' class='method'><code>fn <a href='../../../rayon/par_iter/internal/trait.Consumer.html#tymethod.cost' class='fnname'>cost</a>(&amp;mut self, cost: <a class='primitive' href='../../../std/primitive.f64.html'>f64</a>) -&gt; <a class='primitive' href='../../../std/primitive.f64.html'>f64</a></code></h4>
+<h4 id='method.split_at' class='method'><code>fn <a href='../../../rayon/par_iter/internal/trait.Consumer.html#tymethod.split_at' class='fnname'>split_at</a>(self, _index: <a class='primitive' href='../../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../../std/primitive.tuple.html'>(</a>Self, Self, Self<a class='primitive' href='../../../std/primitive.tuple.html'>)</a></code></h4>
+<h4 id='method.into_folder' class='method'><code>fn <a href='../../../rayon/par_iter/internal/trait.Consumer.html#tymethod.into_folder' class='fnname'>into_folder</a>(self) -&gt; <a class='struct' href='../../../rayon/par_iter/reduce/struct.ReduceFolder.html' title='rayon::par_iter::reduce::ReduceFolder'>ReduceFolder</a>&lt;'r, REDUCE_OP, ITEM&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;'r, REDUCE_OP, ITEM&gt; <a class='trait' href='../../../rayon/par_iter/internal/trait.UnindexedConsumer.html' title='rayon::par_iter::internal::UnindexedConsumer'>UnindexedConsumer</a>&lt;ITEM&gt; for <a class='struct' href='../../../rayon/par_iter/reduce/struct.ReduceConsumer.html' title='rayon::par_iter::reduce::ReduceConsumer'>ReduceConsumer</a>&lt;'r, REDUCE_OP&gt; <span class='where'>where REDUCE_OP: <a class='trait' href='../../../rayon/par_iter/reduce/trait.ReduceOp.html' title='rayon::par_iter::reduce::ReduceOp'>ReduceOp</a>&lt;ITEM&gt;, ITEM: <a class='trait' href='../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a></span></code></h3><div class='impl-items'><h4 id='method.split_off' class='method'><code>fn <a href='../../../rayon/par_iter/internal/trait.UnindexedConsumer.html#tymethod.split_off' class='fnname'>split_off</a>(&amp;self) -&gt; Self</code></h4>
+<h4 id='method.to_reducer' class='method'><code>fn <a href='../../../rayon/par_iter/internal/trait.UnindexedConsumer.html#tymethod.to_reducer' class='fnname'>to_reducer</a>(&amp;self) -&gt; Self::<a class='trait' href='../../../rayon/par_iter/internal/trait.UnindexedConsumer.html' title='rayon::par_iter::internal::UnindexedConsumer'>Reducer</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'r, REDUCE_OP, ITEM&gt; <a class='trait' href='../../../rayon/par_iter/internal/trait.Reducer.html' title='rayon::par_iter::internal::Reducer'>Reducer</a>&lt;ITEM&gt; for <a class='struct' href='../../../rayon/par_iter/reduce/struct.ReduceConsumer.html' title='rayon::par_iter::reduce::ReduceConsumer'>ReduceConsumer</a>&lt;'r, REDUCE_OP&gt; <span class='where'>where REDUCE_OP: <a class='trait' href='../../../rayon/par_iter/reduce/trait.ReduceOp.html' title='rayon::par_iter::reduce::ReduceOp'>ReduceOp</a>&lt;ITEM&gt;</span></code></h3><div class='impl-items'><h4 id='method.reduce' class='method'><code>fn <a href='../../../rayon/par_iter/internal/trait.Reducer.html#tymethod.reduce' class='fnname'>reduce</a>(self, left: ITEM, right: ITEM) -&gt; ITEM</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "rayon";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

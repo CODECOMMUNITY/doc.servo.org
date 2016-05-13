@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `WindowEvent` enum in crate `compositing`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, WindowEvent">
+
+    <title>compositing::windowing::WindowEvent - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>compositing</a>::<wbr><a href='index.html'>windowing</a></p><script>window.sidebarCurrent = {name: 'WindowEvent', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>compositing</a>::<wbr><a href='index.html'>windowing</a>::<wbr><a class='enum' href=''>WindowEvent</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-4651' class='srclink' href='../../src/compositing/windowing.rs.html#37-80' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum WindowEvent {
+    Idle,
+    Refresh,
+    InitializeCompositing,
+    Resize(<a class='type' href='../../euclid/size/type.TypedSize2D.html' title='euclid::size::TypedSize2D'>TypedSize2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;),
+    TouchpadPressure(<a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, <a class='enum' href='../../script_traits/enum.TouchpadPressurePhase.html' title='script_traits::TouchpadPressurePhase'>TouchpadPressurePhase</a>),
+    Viewport(<a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;, <a class='type' href='../../euclid/size/type.TypedSize2D.html' title='euclid::size::TypedSize2D'>TypedSize2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;),
+    LoadUrl(<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>),
+    MouseWindowEventClass(<a class='enum' href='../../compositing/windowing/enum.MouseWindowEvent.html' title='compositing::windowing::MouseWindowEvent'>MouseWindowEvent</a>),
+    MouseWindowMoveEventClass(<a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;),
+    Touch(<a class='enum' href='../../script_traits/enum.TouchEventType.html' title='script_traits::TouchEventType'>TouchEventType</a>, <a class='struct' href='../../script_traits/struct.TouchId.html' title='script_traits::TouchId'>TouchId</a>, <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;),
+    Scroll(<a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, <a class='type' href='../../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../../std/primitive.i32.html'>i32</a>&gt;, <a class='enum' href='../../script_traits/enum.TouchEventType.html' title='script_traits::TouchEventType'>TouchEventType</a>),
+    Zoom(<a class='primitive' href='../../std/primitive.f32.html'>f32</a>),
+    PinchZoom(<a class='primitive' href='../../std/primitive.f32.html'>f32</a>),
+    ResetZoom,
+    Navigation(<a class='enum' href='../../compositing/windowing/enum.WindowNavigateMsg.html' title='compositing::windowing::WindowNavigateMsg'>WindowNavigateMsg</a>),
+    Quit,
+    KeyEvent(<a class='enum' href='../../msg/constellation_msg/enum.Key.html' title='msg::constellation_msg::Key'>Key</a>, <a class='enum' href='../../msg/constellation_msg/enum.KeyState.html' title='msg::constellation_msg::KeyState'>KeyState</a>, <a class='struct' href='../../msg/constellation_msg/struct.KeyModifiers.html' title='msg::constellation_msg::KeyModifiers'>KeyModifiers</a>),
+}</pre><div class='docblock'><p>Events that the windowing system sends to Servo.</p>
+</div><h2 class='variants'>Variants</h2>
+<table class='variants_table'><tr><td id='variant.Idle'><code>Idle</code></td><td><div class='docblock'><p>Sent when no message has arrived, but the event loop was kicked for some reason (perhaps
+by another Servo subsystem).</p>
+
+<p>FIXME(pcwalton): This is kind of ugly and may not work well with multiprocess Servo.
+It&#39;s possible that this should be something like
+<code>CompositorMessageWindowEvent(compositor_thread::Msg)</code> instead.</p>
+</div></td><td></td></tr><tr><td id='variant.Refresh'><code>Refresh</code></td><td><div class='docblock'><p>Sent when part of the window is marked dirty and needs to be redrawn. Before sending this
+message, the window must make the same GL context as in <code>PrepareRenderingEvent</code> current.</p>
+</div></td><td></td></tr><tr><td id='variant.InitializeCompositing'><code>InitializeCompositing</code></td><td><div class='docblock'><p>Sent to initialize the GL context. The windowing system must have a valid, current GL
+context when this message is sent.</p>
+</div></td><td></td></tr><tr><td id='variant.Resize'><code>Resize</code></td><td><div class='docblock'><p>Sent when the window is resized.</p>
+</div></td><td></td></tr><tr><td id='variant.TouchpadPressure'><code>TouchpadPressure</code></td><td><div class='docblock'><p>Touchpad Pressure</p>
+</div></td><td></td></tr><tr><td id='variant.Viewport'><code>Viewport</code></td><td><div class='docblock'><p>Sent when you want to override the viewport.</p>
+</div></td><td></td></tr><tr><td id='variant.LoadUrl'><code>LoadUrl</code></td><td><div class='docblock'><p>Sent when a new URL is to be loaded.</p>
+</div></td><td></td></tr><tr><td id='variant.MouseWindowEventClass'><code>MouseWindowEventClass</code></td><td><div class='docblock'><p>Sent when a mouse hit test is to be performed.</p>
+</div></td><td></td></tr><tr><td id='variant.MouseWindowMoveEventClass'><code>MouseWindowMoveEventClass</code></td><td><div class='docblock'><p>Sent when a mouse move.</p>
+</div></td><td></td></tr><tr><td id='variant.Touch'><code>Touch</code></td><td><div class='docblock'><p>Touch event: type, identifier, point</p>
+</div></td><td></td></tr><tr><td id='variant.Scroll'><code>Scroll</code></td><td><div class='docblock'><p>Sent when the user scrolls. The first point is the delta and the second point is the
+origin.</p>
+</div></td><td></td></tr><tr><td id='variant.Zoom'><code>Zoom</code></td><td><div class='docblock'><p>Sent when the user zooms.</p>
+</div></td><td></td></tr><tr><td id='variant.PinchZoom'><code>PinchZoom</code></td><td><div class='docblock'><p>Simulated &quot;pinch zoom&quot; gesture for non-touch platforms (e.g. ctrl-scrollwheel).</p>
+</div></td><td></td></tr><tr><td id='variant.ResetZoom'><code>ResetZoom</code></td><td><div class='docblock'><p>Sent when the user resets zoom to default.</p>
+</div></td><td></td></tr><tr><td id='variant.Navigation'><code>Navigation</code></td><td><div class='docblock'><p>Sent when the user uses chrome navigation (i.e. backspace or shift-backspace).</p>
+</div></td><td></td></tr><tr><td id='variant.Quit'><code>Quit</code></td><td><div class='docblock'><p>Sent when the user quits the application</p>
+</div></td><td></td></tr><tr><td id='variant.KeyEvent'><code>KeyEvent</code></td><td><div class='docblock'><p>Sent when a key input state changes</p>
+</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../../compositing/windowing/enum.WindowEvent.html' title='compositing::windowing::WindowEvent'>WindowEvent</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, <a class='struct' href='../../core/fmt/struct.Error.html' title='core::fmt::Error'>Error</a>&gt;</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../../compositing/windowing/enum.WindowEvent.html' title='compositing::windowing::WindowEvent'>WindowEvent</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../../compositing/windowing/enum.WindowEvent.html' title='compositing::windowing::WindowEvent'>WindowEvent</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "compositing";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

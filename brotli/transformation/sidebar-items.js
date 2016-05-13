@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["transformation",""],["uppercase_all",""],["uppercase_first",""]]});

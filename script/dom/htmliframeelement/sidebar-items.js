@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SandboxAllowance",""]],"fn":[["Navigate",""],["mozbrowser_enabled",""]],"struct":[["HTMLIFrameElement",""]],"trait":[["HTMLIFrameElementLayoutMethods",""],["MozBrowserEventDetailBuilder",""]]});

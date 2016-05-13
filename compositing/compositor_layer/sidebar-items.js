@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ScrollEventResult",""],["WantsScrollEventsFlag",""]],"fn":[["calculate_content_size_for_layer",""],["to_layers_color",""]],"struct":[["CompositorData",""]],"trait":[["Clampable",""],["CompositorLayer",""],["RcCompositorLayer",""]]});

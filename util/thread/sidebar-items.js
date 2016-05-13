@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["spawn_named",""],["spawn_named_with_send_on_panic","Arrange to send a particular message to a channel if the thread fails."]]});

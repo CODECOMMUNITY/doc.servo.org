@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ToDelayedCompositionTimerMsg",""]],"static":[["TIMEOUT","The amount of time in nanoseconds that we give to the painting thread to paint. When this expires, we give up and composite anyway."]],"struct":[["DelayedCompositionTimer",""],["DelayedCompositionTimerProxy",""]]});

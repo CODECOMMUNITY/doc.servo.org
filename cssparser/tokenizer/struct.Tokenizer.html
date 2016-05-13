@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Tokenizer` struct in crate `cssparser`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Tokenizer">
+
+    <title>cssparser::tokenizer::Tokenizer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>cssparser</a>::<wbr><a href='index.html'>tokenizer</a></p><script>window.sidebarCurrent = {name: 'Tokenizer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>cssparser</a>::<wbr><a href='index.html'>tokenizer</a>::<wbr><a class='struct' href=''>Tokenizer</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-498' class='srclink' href='../../src/cssparser/tokenizer.rs.html#208-216' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Tokenizer&lt;'a&gt; {
+    input: &amp;'a <a class='primitive' href='../../std/primitive.str.html'>str</a>,
+    position: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    last_known_source_location: <a class='struct' href='../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../cssparser/tokenizer/struct.SourcePosition.html' title='cssparser::tokenizer::SourcePosition'>SourcePosition</a>, <a class='struct' href='../../cssparser/struct.SourceLocation.html' title='cssparser::SourceLocation'>SourceLocation</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;,
+    var_functions: <a class='enum' href='../../cssparser/tokenizer/enum.SeenStatus.html' title='cssparser::tokenizer::SeenStatus'>SeenStatus</a>,
+    viewport_percentages: <a class='enum' href='../../cssparser/tokenizer/enum.SeenStatus.html' title='cssparser::tokenizer::SeenStatus'>SeenStatus</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.input'><code>input</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.position'><code>position</code></td><td><div class='docblock'><p>Counted in bytes, not code points. From 0.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.last_known_source_location'><code>last_known_source_location</code></td><td><div class='docblock'><p>Cache for <code>source_location()</code></p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.var_functions'><code>var_functions</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.viewport_percentages'><code>viewport_percentages</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'a&gt; <a class='struct' href='../../cssparser/tokenizer/struct.Tokenizer.html' title='cssparser::tokenizer::Tokenizer'>Tokenizer</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(input: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../../cssparser/tokenizer/struct.Tokenizer.html' title='cssparser::tokenizer::Tokenizer'>Tokenizer</a></code></h4>
+<h4 id='method.look_for_var_functions' class='method'><code>fn <a href='#method.look_for_var_functions' class='fnname'>look_for_var_functions</a>(&amp;mut self)</code></h4>
+<h4 id='method.seen_var_functions' class='method'><code>fn <a href='#method.seen_var_functions' class='fnname'>seen_var_functions</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.look_for_viewport_percentages' class='method'><code>fn <a href='#method.look_for_viewport_percentages' class='fnname'>look_for_viewport_percentages</a>(&amp;mut self)</code></h4>
+<h4 id='method.seen_viewport_percentages' class='method'><code>fn <a href='#method.seen_viewport_percentages' class='fnname'>seen_viewport_percentages</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.next' class='method'><code>fn <a href='#method.next' class='fnname'>next</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../../cssparser/enum.Token.html' title='cssparser::Token'>Token</a>&lt;'a&gt;, <a class='primitive' href='../../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<h4 id='method.position' class='method'><code>fn <a href='#method.position' class='fnname'>position</a>(&amp;self) -&gt; <a class='struct' href='../../cssparser/tokenizer/struct.SourcePosition.html' title='cssparser::tokenizer::SourcePosition'>SourcePosition</a></code></h4>
+<h4 id='method.reset' class='method'><code>fn <a href='#method.reset' class='fnname'>reset</a>(&amp;mut self, new_position: <a class='struct' href='../../cssparser/tokenizer/struct.SourcePosition.html' title='cssparser::tokenizer::SourcePosition'>SourcePosition</a>)</code></h4>
+<h4 id='method.slice_from' class='method'><code>fn <a href='#method.slice_from' class='fnname'>slice_from</a>(&amp;self, start_pos: <a class='struct' href='../../cssparser/tokenizer/struct.SourcePosition.html' title='cssparser::tokenizer::SourcePosition'>SourcePosition</a>) -&gt; &amp;'a <a class='primitive' href='../../std/primitive.str.html'>str</a></code></h4>
+<h4 id='method.slice' class='method'><code>fn <a href='#method.slice' class='fnname'>slice</a>(&amp;self, range: <a class='struct' href='../../core/ops/struct.Range.html' title='core::ops::Range'>Range</a>&lt;<a class='struct' href='../../cssparser/tokenizer/struct.SourcePosition.html' title='cssparser::tokenizer::SourcePosition'>SourcePosition</a>&gt;) -&gt; &amp;'a <a class='primitive' href='../../std/primitive.str.html'>str</a></code></h4>
+<h4 id='method.current_source_location' class='method'><code>fn <a href='#method.current_source_location' class='fnname'>current_source_location</a>(&amp;self) -&gt; <a class='struct' href='../../cssparser/struct.SourceLocation.html' title='cssparser::SourceLocation'>SourceLocation</a></code></h4>
+<h4 id='method.source_location' class='method'><code>fn <a href='#method.source_location' class='fnname'>source_location</a>(&amp;self, position: <a class='struct' href='../../cssparser/tokenizer/struct.SourcePosition.html' title='cssparser::tokenizer::SourcePosition'>SourcePosition</a>) -&gt; <a class='struct' href='../../cssparser/struct.SourceLocation.html' title='cssparser::SourceLocation'>SourceLocation</a></code></h4>
+<h4 id='method.next_byte' class='method'><code>fn <a href='#method.next_byte' class='fnname'>next_byte</a>(&amp;self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;</code></h4>
+<h4 id='method.is_eof' class='method'><code>fn <a href='#method.is_eof' class='fnname'>is_eof</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.has_at_least' class='method'><code>fn <a href='#method.has_at_least' class='fnname'>has_at_least</a>(&amp;self, n: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.advance' class='method'><code>fn <a href='#method.advance' class='fnname'>advance</a>(&amp;mut self, n: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>)</code></h4>
+<h4 id='method.next_char' class='method'><code>fn <a href='#method.next_char' class='fnname'>next_char</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.char.html'>char</a></code></h4>
+<h4 id='method.char_at' class='method'><code>fn <a href='#method.char_at' class='fnname'>char_at</a>(&amp;self, offset: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.char.html'>char</a></code></h4>
+<h4 id='method.has_newline_at' class='method'><code>fn <a href='#method.has_newline_at' class='fnname'>has_newline_at</a>(&amp;self, offset: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.consume_char' class='method'><code>fn <a href='#method.consume_char' class='fnname'>consume_char</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.char.html'>char</a></code></h4>
+<h4 id='method.starts_with' class='method'><code>fn <a href='#method.starts_with' class='fnname'>starts_with</a>(&amp;self, needle: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../cssparser/tokenizer/struct.Tokenizer.html' title='cssparser::tokenizer::Tokenizer'>Tokenizer</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../cssparser/tokenizer/struct.Tokenizer.html' title='cssparser::tokenizer::Tokenizer'>Tokenizer</a>&lt;'a&gt;</code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "cssparser";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

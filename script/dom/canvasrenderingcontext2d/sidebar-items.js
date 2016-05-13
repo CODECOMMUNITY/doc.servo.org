@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CanvasFillOrStrokeStyle",""]],"fn":[["is_rect_valid",""],["parse_color",""],["serialize",""]],"struct":[["CanvasContextState",""],["CanvasRenderingContext2D",""]],"trait":[["LayoutCanvasRenderingContext2DHelpers",""]]});

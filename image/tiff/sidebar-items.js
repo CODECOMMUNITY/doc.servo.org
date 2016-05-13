@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["decoder",""]],"struct":[["TIFFDecoder","The representation of a TIFF decoder"]]});

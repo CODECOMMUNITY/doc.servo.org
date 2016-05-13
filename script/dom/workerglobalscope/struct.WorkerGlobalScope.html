@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `WorkerGlobalScope` struct in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, WorkerGlobalScope">
+
+    <title>script::dom::workerglobalscope::WorkerGlobalScope - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>script</a>::<wbr><a href='../index.html'>dom</a>::<wbr><a href='index.html'>workerglobalscope</a></p><script>window.sidebarCurrent = {name: 'WorkerGlobalScope', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>script</a>::<wbr><a href='../index.html'>dom</a>::<wbr><a href='index.html'>workerglobalscope</a>::<wbr><a class='struct' href=''>WorkerGlobalScope</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-106321' class='srclink' href='../../../src/script/dom/workerglobalscope.rs.html#58-97' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct WorkerGlobalScope {
+    eventtarget: <a class='struct' href='../../../script/dom/eventtarget/struct.EventTarget.html' title='script::dom::eventtarget::EventTarget'>EventTarget</a>,
+    worker_id: <a class='struct' href='../../../devtools_traits/struct.WorkerId.html' title='devtools_traits::WorkerId'>WorkerId</a>,
+    worker_url: <a class='struct' href='../../../url/struct.Url.html' title='url::Url'>Url</a>,
+    closing: <a class='struct' href='../../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../../core/sync/atomic/struct.AtomicBool.html' title='core::sync::atomic::AtomicBool'>AtomicBool</a>&gt;,
+    runtime: <a class='struct' href='../../../js/rust/struct.Runtime.html' title='js::rust::Runtime'>Runtime</a>,
+    next_worker_id: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='struct' href='../../../devtools_traits/struct.WorkerId.html' title='devtools_traits::WorkerId'>WorkerId</a>&gt;,
+    resource_thread: <a class='type' href='../../../net_traits/type.ResourceThread.html' title='net_traits::ResourceThread'>ResourceThread</a>,
+    location: <a class='struct' href='../../../script/dom/bindings/js/struct.MutNullableHeap.html' title='script::dom::bindings::js::MutNullableHeap'>MutNullableHeap</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;<a class='struct' href='../../../script/dom/workerlocation/struct.WorkerLocation.html' title='script::dom::workerlocation::WorkerLocation'>WorkerLocation</a>&gt;&gt;,
+    navigator: <a class='struct' href='../../../script/dom/bindings/js/struct.MutNullableHeap.html' title='script::dom::bindings::js::MutNullableHeap'>MutNullableHeap</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;<a class='struct' href='../../../script/dom/workernavigator/struct.WorkerNavigator.html' title='script::dom::workernavigator::WorkerNavigator'>WorkerNavigator</a>&gt;&gt;,
+    console: <a class='struct' href='../../../script/dom/bindings/js/struct.MutNullableHeap.html' title='script::dom::bindings::js::MutNullableHeap'>MutNullableHeap</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;<a class='struct' href='../../../script/dom/console/struct.Console.html' title='script::dom::console::Console'>Console</a>&gt;&gt;,
+    crypto: <a class='struct' href='../../../script/dom/bindings/js/struct.MutNullableHeap.html' title='script::dom::bindings::js::MutNullableHeap'>MutNullableHeap</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;<a class='struct' href='../../../script/dom/crypto/struct.Crypto.html' title='script::dom::crypto::Crypto'>Crypto</a>&gt;&gt;,
+    timers: <a class='struct' href='../../../script/timers/struct.OneshotTimers.html' title='script::timers::OneshotTimers'>OneshotTimers</a>,
+    mem_profiler_chan: <a class='struct' href='../../../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a>,
+    to_devtools_sender: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../../devtools_traits/enum.ScriptToDevtoolsControlMsg.html' title='devtools_traits::ScriptToDevtoolsControlMsg'>ScriptToDevtoolsControlMsg</a>&gt;&gt;,
+    from_devtools_sender: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>&gt;&gt;,
+    from_devtools_receiver: <a class='struct' href='../../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>&gt;,
+    devtools_wants_updates: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;,
+    constellation_chan: <a class='struct' href='../../../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='enum' href='../../../script_traits/script_msg/enum.ScriptMsg.html' title='script_traits::script_msg::ScriptMsg'>ConstellationMsg</a>&gt;,
+    scheduler_chan: <a class='struct' href='../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../../../script_traits/struct.TimerEventRequest.html' title='script_traits::TimerEventRequest'>TimerEventRequest</a>&gt;,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.eventtarget'><code>eventtarget</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.worker_id'><code>worker_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.worker_url'><code>worker_url</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.closing'><code>closing</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.runtime'><code>runtime</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.next_worker_id'><code>next_worker_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.resource_thread'><code>resource_thread</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.location'><code>location</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.navigator'><code>navigator</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.console'><code>console</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.crypto'><code>crypto</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.timers'><code>timers</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.mem_profiler_chan'><code>mem_profiler_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.to_devtools_sender'><code>to_devtools_sender</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.from_devtools_sender'><code>from_devtools_sender</code></td><td><div class='docblock'><p>Optional <code>IpcSender</code> for sending the <code>DevtoolScriptControlMsg</code>
+to the server from within the worker</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.from_devtools_receiver'><code>from_devtools_receiver</code></td><td><div class='docblock'><p>This <code>Receiver</code> will be ignored later if the corresponding
+<code>IpcSender</code> doesn&#39;t exist</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.devtools_wants_updates'><code>devtools_wants_updates</code></td><td><div class='docblock'><p>A flag to indicate whether the developer tools has requested live updates
+from the worker</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.constellation_chan'><code>constellation_chan</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.scheduler_chan'><code>scheduler_chan</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.new_inherited' class='method'><code>fn <a href='#method.new_inherited' class='fnname'>new_inherited</a>(init: <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScopeInit.html' title='script::dom::workerglobalscope::WorkerGlobalScopeInit'>WorkerGlobalScopeInit</a>, worker_url: <a class='struct' href='../../../url/struct.Url.html' title='url::Url'>Url</a>, runtime: <a class='struct' href='../../../js/rust/struct.Runtime.html' title='js::rust::Runtime'>Runtime</a>, from_devtools_receiver: <a class='struct' href='../../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>&gt;, timer_event_chan: <a class='struct' href='../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../../../script_traits/struct.TimerEvent.html' title='script_traits::TimerEvent'>TimerEvent</a>&gt;) -&gt; <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h4>
+<h4 id='method.mem_profiler_chan' class='method'><code>fn <a href='#method.mem_profiler_chan' class='fnname'>mem_profiler_chan</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a></code></h4>
+<h4 id='method.devtools_chan' class='method'><code>fn <a href='#method.devtools_chan' class='fnname'>devtools_chan</a>(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../../devtools_traits/enum.ScriptToDevtoolsControlMsg.html' title='devtools_traits::ScriptToDevtoolsControlMsg'>ScriptToDevtoolsControlMsg</a>&gt;&gt;</code></h4>
+<h4 id='method.from_devtools_sender' class='method'><code>fn <a href='#method.from_devtools_sender' class='fnname'>from_devtools_sender</a>(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>&gt;&gt;</code></h4>
+<h4 id='method.from_devtools_receiver' class='method'><code>fn <a href='#method.from_devtools_receiver' class='fnname'>from_devtools_receiver</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../../devtools_traits/enum.DevtoolScriptControlMsg.html' title='devtools_traits::DevtoolScriptControlMsg'>DevtoolScriptControlMsg</a>&gt;</code></h4>
+<h4 id='method.constellation_chan' class='method'><code>fn <a href='#method.constellation_chan' class='fnname'>constellation_chan</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='enum' href='../../../script_traits/script_msg/enum.ScriptMsg.html' title='script_traits::script_msg::ScriptMsg'>ConstellationMsg</a>&gt;</code></h4>
+<h4 id='method.scheduler_chan' class='method'><code>fn <a href='#method.scheduler_chan' class='fnname'>scheduler_chan</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../../../script_traits/struct.TimerEventRequest.html' title='script_traits::TimerEventRequest'>TimerEventRequest</a>&gt;</code></h4>
+<h4 id='method.schedule_callback' class='method'><code>fn <a href='#method.schedule_callback' class='fnname'>schedule_callback</a>(&amp;self, callback: <a class='enum' href='../../../script/timers/enum.OneshotTimerCallback.html' title='script::timers::OneshotTimerCallback'>OneshotTimerCallback</a>, duration: <a class='type' href='../../../script_traits/type.MsDuration.html' title='script_traits::MsDuration'>MsDuration</a>) -&gt; <a class='struct' href='../../../script/timers/struct.OneshotTimerHandle.html' title='script::timers::OneshotTimerHandle'>OneshotTimerHandle</a></code></h4>
+<h4 id='method.unschedule_callback' class='method'><code>fn <a href='#method.unschedule_callback' class='fnname'>unschedule_callback</a>(&amp;self, handle: <a class='struct' href='../../../script/timers/struct.OneshotTimerHandle.html' title='script::timers::OneshotTimerHandle'>OneshotTimerHandle</a>)</code></h4>
+<h4 id='method.runtime' class='method'><code>fn <a href='#method.runtime' class='fnname'>runtime</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSRuntime.html' title='js::jsapi::JSRuntime'>JSRuntime</a></code></h4>
+<h4 id='method.get_cx' class='method'><code>fn <a href='#method.get_cx' class='fnname'>get_cx</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a></code></h4>
+<h4 id='method.is_closing' class='method'><code>fn <a href='#method.is_closing' class='fnname'>is_closing</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.resource_thread' class='method'><code>fn <a href='#method.resource_thread' class='fnname'>resource_thread</a>(&amp;self) -&gt; &amp;<a class='type' href='../../../net_traits/type.ResourceThread.html' title='net_traits::ResourceThread'>ResourceThread</a></code></h4>
+<h4 id='method.get_url' class='method'><code>fn <a href='#method.get_url' class='fnname'>get_url</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../url/struct.Url.html' title='url::Url'>Url</a></code></h4>
+<h4 id='method.get_worker_id' class='method'><code>fn <a href='#method.get_worker_id' class='fnname'>get_worker_id</a>(&amp;self) -&gt; <a class='struct' href='../../../devtools_traits/struct.WorkerId.html' title='devtools_traits::WorkerId'>WorkerId</a></code></h4>
+<h4 id='method.get_next_worker_id' class='method'><code>fn <a href='#method.get_next_worker_id' class='fnname'>get_next_worker_id</a>(&amp;self) -&gt; <a class='struct' href='../../../devtools_traits/struct.WorkerId.html' title='devtools_traits::WorkerId'>WorkerId</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.execute_script' class='method'><code>fn <a href='#method.execute_script' class='fnname'>execute_script</a>(&amp;self, source: <a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>)</code></h4>
+<h4 id='method.script_chan' class='method'><code>fn <a href='#method.script_chan' class='fnname'>script_chan</a>(&amp;self) -&gt; <a class='struct' href='../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../script/script_runtime/trait.ScriptChan.html' title='script::script_runtime::ScriptChan'>ScriptChan</a> + <a class='trait' href='../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;</code></h4>
+<h4 id='method.pipeline' class='method'><code>fn <a href='#method.pipeline' class='fnname'>pipeline</a>(&amp;self) -&gt; <a class='struct' href='../../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a></code></h4>
+<h4 id='method.new_script_pair' class='method'><code>fn <a href='#method.new_script_pair' class='fnname'>new_script_pair</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.tuple.html'>(</a><a class='struct' href='../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../script/script_runtime/trait.ScriptChan.html' title='script::script_runtime::ScriptChan'>ScriptChan</a> + <a class='trait' href='../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;, <a class='struct' href='../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../script/script_runtime/trait.ScriptPort.html' title='script::script_runtime::ScriptPort'>ScriptPort</a> + <a class='trait' href='../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;<a class='primitive' href='../../../std/primitive.tuple.html'>)</a></code></h4>
+<h4 id='method.process_event' class='method'><code>fn <a href='#method.process_event' class='fnname'>process_event</a>(&amp;self, msg: <a class='enum' href='../../../script/script_runtime/enum.CommonScriptMsg.html' title='script::script_runtime::CommonScriptMsg'>CommonScriptMsg</a>)</code></h4>
+<h4 id='method.handle_fire_timer' class='method'><code>fn <a href='#method.handle_fire_timer' class='fnname'>handle_fire_timer</a>(&amp;self, timer_id: <a class='struct' href='../../../script_traits/struct.TimerEventId.html' title='script_traits::TimerEventId'>TimerEventId</a>)</code></h4>
+<h4 id='method.set_devtools_wants_updates' class='method'><code>fn <a href='#method.set_devtools_wants_updates' class='fnname'>set_devtools_wants_updates</a>(&amp;self, value: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>)</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/conversions/trait.IDLInterface.html' title='script::dom::bindings::conversions::IDLInterface'>IDLInterface</a> for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.derives' class='method'><code>fn <a href='../../../script/dom/bindings/conversions/trait.IDLInterface.html#tymethod.derives' class='fnname'>derives</a>(class: &amp;'static <a class='struct' href='../../../script/dom/bindings/utils/struct.DOMClass.html' title='script::dom::bindings::utils::DOMClass'>DOMClass</a>) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../../../core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a>) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='../../../core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/inheritance/trait.Castable.html' title='script::dom::bindings::inheritance::Castable'>Castable</a> for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.is' class='method'><code>fn <a href='../../../script/dom/bindings/inheritance/trait.Castable.html#method.is' class='fnname'>is</a>&lt;T&gt;(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a> <span class='where'>where T: <a class='trait' href='../../../script/dom/bindings/conversions/trait.DerivedFrom.html' title='script::dom::bindings::conversions::DerivedFrom'>DerivedFrom</a>&lt;Self&gt;</span></code></h4>
+<h4 id='method.upcast' class='method'><code>fn <a href='../../../script/dom/bindings/inheritance/trait.Castable.html#method.upcast' class='fnname'>upcast</a>&lt;T&gt;(&amp;self) -&gt; &amp;T <span class='where'>where T: <a class='trait' href='../../../script/dom/bindings/inheritance/trait.Castable.html' title='script::dom::bindings::inheritance::Castable'>Castable</a>, Self: <a class='trait' href='../../../script/dom/bindings/conversions/trait.DerivedFrom.html' title='script::dom::bindings::conversions::DerivedFrom'>DerivedFrom</a>&lt;T&gt;</span></code></h4>
+<h4 id='method.downcast' class='method'><code>fn <a href='../../../script/dom/bindings/inheritance/trait.Castable.html#method.downcast' class='fnname'>downcast</a>&lt;T&gt;(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;T&gt; <span class='where'>where T: <a class='trait' href='../../../script/dom/bindings/conversions/trait.DerivedFrom.html' title='script::dom::bindings::conversions::DerivedFrom'>DerivedFrom</a>&lt;Self&gt;</span></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/conversions/trait.DerivedFrom.html' title='script::dom::bindings::conversions::DerivedFrom'>DerivedFrom</a>&lt;<a class='struct' href='../../../script/dom/eventtarget/struct.EventTarget.html' title='script::dom::eventtarget::EventTarget'>EventTarget</a>&gt; for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/conversions/trait.DerivedFrom.html' title='script::dom::bindings::conversions::DerivedFrom'>DerivedFrom</a>&lt;<a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a>&gt; for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/reflector/trait.Reflectable.html' title='script::dom::bindings::reflector::Reflectable'>Reflectable</a> for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.reflector' class='method'><code>fn <a href='../../../script/dom/bindings/reflector/trait.Reflectable.html#tymethod.reflector' class='fnname'>reflector</a>&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a <a class='struct' href='../../../script/dom/bindings/reflector/struct.Reflector.html' title='script::dom::bindings::reflector::Reflector'>Reflector</a></code></h4>
+<h4 id='method.init_reflector' class='method'><code>fn <a href='../../../script/dom/bindings/reflector/trait.Reflectable.html#tymethod.init_reflector' class='fnname'>init_reflector</a>(&amp;mut self, obj: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSObject.html' title='js::jsapi::JSObject'>JSObject</a>)</code></h4>
+<h4 id='method.global' class='method'><code>fn <a href='../../../script/dom/bindings/reflector/trait.Reflectable.html#method.global' class='fnname'>global</a>(&amp;self) -&gt; <a class='enum' href='../../../script/dom/bindings/global/enum.GlobalRoot.html' title='script::dom::bindings::global::GlobalRoot'>GlobalRoot</a> <span class='where'>where Self: <a class='trait' href='../../../core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/conversions/trait.ToJSValConvertible.html' title='script::dom::bindings::conversions::ToJSValConvertible'>ToJSValConvertible</a> for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.to_jsval' class='method'><code>unsafe fn <a href='../../../script/dom/bindings/conversions/trait.ToJSValConvertible.html#tymethod.to_jsval' class='fnname'>to_jsval</a>(&amp;self, cx: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, rval: <a class='type' href='../../../js/jsapi/type.MutableHandleValue.html' title='js::jsapi::MutableHandleValue'>MutableHandleValue</a>)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html' title='script::dom::bindings::codegen::Bindings::WorkerGlobalScopeBinding::WorkerGlobalScopeMethods'>WorkerGlobalScopeMethods</a> for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.Self_' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.Self_' class='fnname'>Self_</a>(&amp;self) -&gt; <a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a>&gt;</code></h4>
+<h4 id='method.Location' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.Location' class='fnname'>Location</a>(&amp;self) -&gt; <a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/workerlocation/struct.WorkerLocation.html' title='script::dom::workerlocation::WorkerLocation'>WorkerLocation</a>&gt;</code></h4>
+<h4 id='method.ImportScripts' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.ImportScripts' class='fnname'>ImportScripts</a>(&amp;self, url_strings: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>&gt;) -&gt; <a class='type' href='../../../script/dom/bindings/error/type.ErrorResult.html' title='script::dom::bindings::error::ErrorResult'>ErrorResult</a></code></h4>
+<h4 id='method.Navigator' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.Navigator' class='fnname'>Navigator</a>(&amp;self) -&gt; <a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/workernavigator/struct.WorkerNavigator.html' title='script::dom::workernavigator::WorkerNavigator'>WorkerNavigator</a>&gt;</code></h4>
+<h4 id='method.Console' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.Console' class='fnname'>Console</a>(&amp;self) -&gt; <a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/console/struct.Console.html' title='script::dom::console::Console'>Console</a>&gt;</code></h4>
+<h4 id='method.Crypto' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.Crypto' class='fnname'>Crypto</a>(&amp;self) -&gt; <a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/crypto/struct.Crypto.html' title='script::dom::crypto::Crypto'>Crypto</a>&gt;</code></h4>
+<h4 id='method.Btoa' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.Btoa' class='fnname'>Btoa</a>(&amp;self, btoa: <a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>) -&gt; <a class='type' href='../../../script/dom/bindings/error/type.Fallible.html' title='script::dom::bindings::error::Fallible'>Fallible</a>&lt;<a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>&gt;</code></h4>
+<h4 id='method.Atob' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.Atob' class='fnname'>Atob</a>(&amp;self, atob: <a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>) -&gt; <a class='type' href='../../../script/dom/bindings/error/type.Fallible.html' title='script::dom::bindings::error::Fallible'>Fallible</a>&lt;<a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>&gt;</code></h4>
+<h4 id='method.SetTimeout' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.SetTimeout' class='fnname'>SetTimeout</a>(&amp;self, _cx: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, callback: <a class='struct' href='../../../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../../../script/dom/bindings/codegen/Bindings/FunctionBinding/struct.Function.html' title='script::dom::bindings::codegen::Bindings::FunctionBinding::Function'>Function</a>&gt;, timeout: <a class='primitive' href='../../../std/primitive.i32.html'>i32</a>, args: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>&gt;) -&gt; <a class='primitive' href='../../../std/primitive.i32.html'>i32</a></code></h4>
+<h4 id='method.SetTimeout_' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.SetTimeout_' class='fnname'>SetTimeout_</a>(&amp;self, _cx: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, callback: <a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>, timeout: <a class='primitive' href='../../../std/primitive.i32.html'>i32</a>, args: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>&gt;) -&gt; <a class='primitive' href='../../../std/primitive.i32.html'>i32</a></code></h4>
+<h4 id='method.ClearTimeout' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.ClearTimeout' class='fnname'>ClearTimeout</a>(&amp;self, handle: <a class='primitive' href='../../../std/primitive.i32.html'>i32</a>)</code></h4>
+<h4 id='method.SetInterval' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.SetInterval' class='fnname'>SetInterval</a>(&amp;self, _cx: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, callback: <a class='struct' href='../../../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../../../script/dom/bindings/codegen/Bindings/FunctionBinding/struct.Function.html' title='script::dom::bindings::codegen::Bindings::FunctionBinding::Function'>Function</a>&gt;, timeout: <a class='primitive' href='../../../std/primitive.i32.html'>i32</a>, args: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>&gt;) -&gt; <a class='primitive' href='../../../std/primitive.i32.html'>i32</a></code></h4>
+<h4 id='method.SetInterval_' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.SetInterval_' class='fnname'>SetInterval_</a>(&amp;self, _cx: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, callback: <a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>, timeout: <a class='primitive' href='../../../std/primitive.i32.html'>i32</a>, args: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>&gt;) -&gt; <a class='primitive' href='../../../std/primitive.i32.html'>i32</a></code></h4>
+<h4 id='method.ClearInterval' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/WorkerGlobalScopeBinding/trait.WorkerGlobalScopeMethods.html#tymethod.ClearInterval' class='fnname'>ClearInterval</a>(&amp;self, handle: <a class='primitive' href='../../../std/primitive.i32.html'>i32</a>)</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a> for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.trace' class='method'><code>fn <a href='../../../script/dom/bindings/trace/trait.JSTraceable.html#tymethod.trace' class='fnname'>trace</a>(&amp;self, __arg_0: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../../js/jsapi/struct.JSTracer.html' title='js::jsapi::JSTracer'>JSTracer</a>)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../heapsize/trait.HeapSizeOf.html' title='heapsize::HeapSizeOf'>HeapSizeOf</a> for <a class='struct' href='../../../script/dom/workerglobalscope/struct.WorkerGlobalScope.html' title='script::dom::workerglobalscope::WorkerGlobalScope'>WorkerGlobalScope</a></code></h3><div class='impl-items'><h4 id='method.heap_size_of_children' class='method'><code>fn <a href='../../../heapsize/trait.HeapSizeOf.html#tymethod.heap_size_of_children' class='fnname'>heap_size_of_children</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.usize.html'>usize</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

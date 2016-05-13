@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `BlockFlow` struct in crate `layout`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, BlockFlow">
+
+    <title>layout::block::BlockFlow - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>layout</a>::<wbr><a href='index.html'>block</a></p><script>window.sidebarCurrent = {name: 'BlockFlow', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>layout</a>::<wbr><a href='index.html'>block</a>::<wbr><a class='struct' href=''>BlockFlow</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-443' class='srclink' href='../../src/layout/block.rs.html#505-525' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct BlockFlow {
+    pub base: <a class='struct' href='../../layout/flow/struct.BaseFlow.html' title='layout::flow::BaseFlow'>BaseFlow</a>,
+    pub fragment: <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>,
+    inline_size_of_preceding_left_floats: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>,
+    inline_size_of_preceding_right_floats: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>,
+    pub float: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../layout/block/struct.FloatedBlockInfo.html' title='layout::block::FloatedBlockInfo'>FloatedBlockInfo</a>&gt;&gt;,
+    flags: <a class='struct' href='../../layout/block/struct.BlockFlowFlags.html' title='layout::block::BlockFlowFlags'>BlockFlowFlags</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.base'><code>base</code></td><td><div class='docblock'><p>Data common to all flows.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.fragment'><code>fragment</code></td><td><div class='docblock'><p>The associated fragment.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.inline_size_of_preceding_left_floats'><code>inline_size_of_preceding_left_floats</code></td><td><div class='docblock'><p>The sum of the inline-sizes of all logically left floats that precede this block. This is
+used to speculatively lay out block formatting contexts.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.inline_size_of_preceding_right_floats'><code>inline_size_of_preceding_right_floats</code></td><td><div class='docblock'><p>The sum of the inline-sizes of all logically right floats that precede this block. This is
+used to speculatively lay out block formatting contexts.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.float'><code>float</code></td><td><div class='docblock'><p>Additional floating flow members.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.flags'><code>flags</code></td><td><div class='docblock'><p>Various flags.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h3><div class='impl-items'><h4 id='method.from_fragment' class='method'><code>fn <a href='#method.from_fragment' class='fnname'>from_fragment</a>(fragment: <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>, float_kind: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../layout/floats/enum.FloatKind.html' title='layout::floats::FloatKind'>FloatKind</a>&gt;) -&gt; <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h4>
+<h4 id='method.block_type' class='method'><code>fn <a href='#method.block_type' class='fnname'>block_type</a>(&amp;self) -&gt; <a class='enum' href='../../layout/block/enum.BlockType.html' title='layout::block::BlockType'>BlockType</a></code></h4>
+<div class='docblock'><p>Return the type of this block.</p>
+
+<p>This determines the algorithm used to calculate inline-size, block-size, and the
+relevant margins for this Block.</p>
+</div><h4 id='method.compute_used_inline_size' class='method'><code>fn <a href='#method.compute_used_inline_size' class='fnname'>compute_used_inline_size</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, containing_block_inline_size: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>)</code></h4>
+<div class='docblock'><p>Compute the actual inline size and position for this block.</p>
+</div><h4 id='method.fragment' class='method'><code>fn <a href='#method.fragment' class='fnname'>fragment</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a></code></h4>
+<div class='docblock'><p>Return this flow&#39;s fragment.</p>
+</div><h4 id='method.containing_block_size' class='method'><code>fn <a href='#method.containing_block_size' class='fnname'>containing_block_size</a>(&amp;self, viewport_size: &amp;<a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;, descendant: <a class='struct' href='../../layout/flow/struct.OpaqueFlow.html' title='layout::flow::OpaqueFlow'>OpaqueFlow</a>) -&gt; <a class='struct' href='../../style/logical_geometry/struct.LogicalSize.html' title='style::logical_geometry::LogicalSize'>LogicalSize</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></h4>
+<div class='docblock'><p>Return the size of the containing block for the given immediate absolute descendant of this
+flow.</p>
+
+<p>Right now, this only gets the containing block size for absolutely positioned elements.
+Note: We assume this is called in a top-down traversal, so it is ok to reference the CB.</p>
+</div><h4 id='method.is_replaced_content' class='method'><code>fn <a href='#method.is_replaced_content' class='fnname'>is_replaced_content</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Return true if this has a replaced fragment.</p>
+
+<p>Text, Images, Inline Block and Canvas
+(<a href="https://html.spec.whatwg.org/multipage/#replaced-elements">https://html.spec.whatwg.org/multipage/#replaced-elements</a>) fragments are considered as
+replaced fragments.</p>
+</div><h4 id='method.get_shrink_to_fit_inline_size' class='method'><code>fn <a href='#method.get_shrink_to_fit_inline_size' class='fnname'>get_shrink_to_fit_inline_size</a>(&amp;self, available_inline_size: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>) -&gt; <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a></code></h4>
+<div class='docblock'><p>Return shrink-to-fit inline-size.</p>
+
+<p>This is where we use the preferred inline-sizes and minimum inline-sizes
+calculated in the bubble-inline-sizes traversal.</p>
+</div><h4 id='method.adjust_fragments_for_collapsed_margins_if_root' class='method'><code>fn <a href='#method.adjust_fragments_for_collapsed_margins_if_root' class='fnname'>adjust_fragments_for_collapsed_margins_if_root</a>&lt;'a&gt;(&amp;mut self, layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;)</code></h4>
+<div class='docblock'><p>If this is the root flow, shifts all kids down and adjusts our size to account for
+root flow margins, which should never be collapsed according to CSS § 8.3.1.</p>
+
+<p>TODO(#2017, pcwalton): This is somewhat inefficient (traverses kids twice); can we do
+better?</p>
+</div><h4 id='method.clone_with_children' class='method'><code>fn <a href='#method.clone_with_children' class='fnname'>clone_with_children</a>(&amp;self, new_children: <a class='struct' href='../../layout/flow_list/struct.FlowList.html' title='layout::flow_list::FlowList'>FlowList</a>) -&gt; <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h4>
+<h4 id='method.assign_block_size_block_base' class='method'><code>fn <a href='#method.assign_block_size_block_base' class='fnname'>assign_block_size_block_base</a>&lt;'a&gt;(&amp;mut self, layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;, fragmentation_context: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../layout/flow/struct.FragmentationContext.html' title='layout::flow::FragmentationContext'>FragmentationContext</a>&gt;, margins_may_collapse: <a class='enum' href='../../layout/block/enum.MarginsMayCollapseFlag.html' title='layout::block::MarginsMayCollapseFlag'>MarginsMayCollapseFlag</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;</code></h4>
+<div class='docblock'><p>Assign block-size for current flow.</p>
+
+<ul>
+<li>Collapse margins for flow&#39;s children and set in-flow child flows&#39; block offsets now that
+we know their block-sizes.</li>
+<li>Calculate and set the block-size of the current flow.</li>
+<li>Calculate block-size, vertical margins, and block offset for the flow&#39;s box using CSS §
+10.6.7.</li>
+</ul>
+
+<p>For absolute flows, we store the calculated content block-size for the flow. We defer the
+calculation of the other values until a later traversal.</p>
+
+<p>When <code>fragmentation_context</code> is given (not <code>None</code>), this should fit as much of the content
+as possible within the available block size.
+If there is more content (that doesn’t fit), this flow is <em>fragmented</em>
+with the extra content moved to another fragment (a flow like this one) which is returrned.
+See <code>Flow::fragment</code>.</p>
+
+<p>The return value is always <code>None</code> when <code>fragmentation_context</code> is <code>None</code>.</p>
+
+<p><code>inline(always)</code> because this is only ever called by in-order or non-in-order top-level
+methods.</p>
+</div><h4 id='method.place_float' class='method'><code>fn <a href='#method.place_float' class='fnname'>place_float</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Add placement information about current float flow for use by the parent.</p>
+
+<p>Also, use information given by parent about other floats to find out our relative position.</p>
+
+<p>This does not give any information about any float descendants because they do not affect
+elements outside of the subtree rooted at this float.</p>
+
+<p>This function is called on a kid flow by a parent. Therefore, <code>assign_block_size_float</code> was
+already called on this kid flow by the traversal function. So, the values used are
+well-defined.</p>
+</div><h4 id='method.explicit_block_containing_size' class='method'><code>fn <a href='#method.explicit_block_containing_size' class='fnname'>explicit_block_containing_size</a>(&amp;self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></h4>
+<h4 id='method.explicit_block_size' class='method'><code>fn <a href='#method.explicit_block_size' class='fnname'>explicit_block_size</a>(&amp;self, containing_block_size: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></h4>
+<h4 id='method.calculate_absolute_block_size_and_margins' class='method'><code>fn <a href='#method.calculate_absolute_block_size_and_margins' class='fnname'>calculate_absolute_block_size_and_margins</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<h4 id='method.propagate_and_compute_used_inline_size' class='method'><code>fn <a href='#method.propagate_and_compute_used_inline_size' class='fnname'>propagate_and_compute_used_inline_size</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<div class='docblock'><p>Compute inline size based using the <code>block_container_inline_size</code> set by the parent flow.</p>
+
+<p>This is run in the <code>AssignISizes</code> traversal.</p>
+</div><h4 id='method.propagate_assigned_inline_size_to_children' class='method'><code>fn <a href='#method.propagate_assigned_inline_size_to_children' class='fnname'>propagate_assigned_inline_size_to_children</a>&lt;F&gt;(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, inline_start_content_edge: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, inline_end_content_edge: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, content_inline_size: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, callback: F) <span class='where'>where F: <a class='trait' href='../../core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(&amp;mut <a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a>, <a class='primitive' href='../../std/primitive.usize.html'>usize</a>, <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, <a class='struct' href='../../style/logical_geometry/struct.WritingMode.html' title='style::logical_geometry::WritingMode'>WritingMode</a>, &amp;mut <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, &amp;mut <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>)</span></code></h4>
+<div class='docblock'><p>Assigns the computed inline-start content edge and inline-size to all the children of this
+block flow. The given <code>callback</code>, if supplied, will be called once per child; it is
+currently used to push down column sizes for tables.</p>
+
+<p><code>#[inline(always)]</code> because this is called only from block or table inline-size assignment
+and the code for block layout is significantly simpler.</p>
+</div><h4 id='method.formatting_context_type' class='method'><code>fn <a href='#method.formatting_context_type' class='fnname'>formatting_context_type</a>(&amp;self) -&gt; <a class='enum' href='../../layout/block/enum.FormattingContextType.html' title='layout::block::FormattingContextType'>FormattingContextType</a></code></h4>
+<div class='docblock'><p>Determines the type of formatting context this is. See the definition of
+<code>FormattingContextType</code>.</p>
+</div><h4 id='method.assign_inline_position_for_formatting_context' class='method'><code>fn <a href='#method.assign_inline_position_for_formatting_context' class='fnname'>assign_inline_position_for_formatting_context</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Per CSS 2.1 § 9.5, block formatting contexts&#39; inline widths and positions are affected by
+the presence of floats. This is the part of the assign-heights traversal that computes
+the final inline position and width for such flows.</p>
+
+<p>Note that this is part of the assign-block-sizes traversal, not the assign-inline-sizes
+traversal as one might expect. That is because, in general, float placement cannot occur
+until heights are assigned. To work around this unfortunate circular dependency, by the
+time we get here we have already estimated the width of the block formatting context based
+on the floats we could see at the time of inline-size assignment. The job of this function,
+therefore, is not only to assign the final size but also to perform the layout again for
+this block formatting context if our speculation was wrong.</p>
+
+<p>FIXME(pcwalton): This code is not incremental-reflow-safe (i.e. not idempotent).</p>
+</div><h4 id='method.is_inline_block' class='method'><code>fn <a href='#method.is_inline_block' class='fnname'>is_inline_block</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.content_intrinsic_inline_sizes' class='method'><code>fn <a href='#method.content_intrinsic_inline_sizes' class='fnname'>content_intrinsic_inline_sizes</a>(&amp;self) -&gt; <a class='struct' href='../../layout/model/struct.IntrinsicISizes.html' title='layout::model::IntrinsicISizes'>IntrinsicISizes</a></code></h4>
+<div class='docblock'><p>Computes the content portion (only) of the intrinsic inline sizes of this flow. This is
+used for calculating shrink-to-fit width. Assumes that intrinsic sizes have already been
+computed for this flow.</p>
+</div><h4 id='method.bubble_inline_sizes_for_block' class='method'><code>fn <a href='#method.bubble_inline_sizes_for_block' class='fnname'>bubble_inline_sizes_for_block</a>(&amp;mut self, consult_children: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>)</code></h4>
+<div class='docblock'><p>Computes intrinsic inline sizes for a block.</p>
+</div><h4 id='method.determine_if_layer_needed' class='method'><code>fn <a href='#method.determine_if_layer_needed' class='fnname'>determine_if_layer_needed</a>(&amp;mut self)</code></h4>
+<h4 id='method.block_stacking_context_type' class='method'><code>fn <a href='#method.block_stacking_context_type' class='fnname'>block_stacking_context_type</a>(&amp;self) -&gt; <a class='enum' href='../../layout/block/enum.BlockStackingContextType.html' title='layout::block::BlockStackingContextType'>BlockStackingContextType</a></code></h4>
+<h4 id='method.has_scrolling_overflow' class='method'><code>fn <a href='#method.has_scrolling_overflow' class='fnname'>has_scrolling_overflow</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.compute_inline_sizes' class='method'><code>fn <a href='#method.compute_inline_sizes' class='fnname'>compute_inline_sizes</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<h4 id='method.definitely_has_zero_block_size' class='method'><code>fn <a href='#method.definitely_has_zero_block_size' class='fnname'>definitely_has_zero_block_size</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a> for <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h3><div class='impl-items'><h4 id='method.class' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.class' class='fnname'>class</a>(&amp;self) -&gt; <a class='enum' href='../../layout/flow/enum.FlowClass.html' title='layout::flow::FlowClass'>FlowClass</a></code></h4>
+<h4 id='method.as_mut_block' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_block' class='fnname'>as_mut_block</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h4>
+<h4 id='method.as_block' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_block' class='fnname'>as_block</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h4>
+<h4 id='method.bubble_inline_sizes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.bubble_inline_sizes' class='fnname'>bubble_inline_sizes</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Pass 1 of reflow: computes minimum and preferred inline-sizes.</p>
+
+<p>Recursively (bottom-up) determine the flow&#39;s minimum and preferred inline-sizes. When
+called on this flow, all child flows have had their minimum and preferred inline-sizes set.
+This function must decide minimum/preferred inline-sizes based on its children&#39;s
+inline-sizes and the dimensions of any fragments it is responsible for flowing.</p>
+</div><h4 id='method.assign_inline_sizes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.assign_inline_sizes' class='fnname'>assign_inline_sizes</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<div class='docblock'><p>Recursively (top-down) determines the actual inline-size of child contexts and fragments.
+When called on this context, the context has had its inline-size set by the parent context.</p>
+
+<p>Dual fragments consume some inline-size first, and the remainder is assigned to all child
+(block) contexts.</p>
+</div><h4 id='method.place_float_if_applicable' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.place_float_if_applicable' class='fnname'>place_float_if_applicable</a>&lt;'a&gt;(&amp;mut self, _: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;)</code></h4>
+<h4 id='method.assign_block_size_for_inorder_child_if_necessary' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.assign_block_size_for_inorder_child_if_necessary' class='fnname'>assign_block_size_for_inorder_child_if_necessary</a>&lt;'a&gt;(&amp;mut self, layout_context: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;, parent_thread_id: <a class='primitive' href='../../std/primitive.u8.html'>u8</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.assign_block_size' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.assign_block_size' class='fnname'>assign_block_size</a>&lt;'a&gt;(&amp;mut self, ctx: &amp;'a <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>&lt;'a&gt;)</code></h4>
+<h4 id='method.fragment-1' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.fragment' class='fnname'>fragment</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, fragmentation_context: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../layout/flow/struct.FragmentationContext.html' title='layout::flow::FragmentationContext'>FragmentationContext</a>&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;</code></h4>
+<h4 id='method.compute_absolute_position' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.compute_absolute_position' class='fnname'>compute_absolute_position</a>(&amp;mut self, layout_context: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<h4 id='method.mark_as_root' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.mark_as_root' class='fnname'>mark_as_root</a>(&amp;mut self)</code></h4>
+<h4 id='method.is_root' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.is_root' class='fnname'>is_root</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.positioning' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.positioning' class='fnname'>positioning</a>(&amp;self) -&gt; <a class='enum' href='../../style/properties/longhands/position/computed_value/enum.T.html' title='style::properties::longhands::position::computed_value::T'>T</a></code></h4>
+<div class='docblock'><p>The &#39;position&#39; property of this flow.</p>
+</div><h4 id='method.generated_containing_block_size' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.generated_containing_block_size' class='fnname'>generated_containing_block_size</a>(&amp;self, _: <a class='struct' href='../../layout/flow/struct.OpaqueFlow.html' title='layout::flow::OpaqueFlow'>OpaqueFlow</a>) -&gt; <a class='struct' href='../../style/logical_geometry/struct.LogicalSize.html' title='style::logical_geometry::LogicalSize'>LogicalSize</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></h4>
+<div class='docblock'><p>Return the dimensions of the containing block generated by this flow for absolutely-
+positioned descendants. For block flows, this is the padding box.</p>
+</div><h4 id='method.layer_id' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.layer_id' class='fnname'>layer_id</a>(&amp;self) -&gt; <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a></code></h4>
+<h4 id='method.layer_id_for_overflow_scroll' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.layer_id_for_overflow_scroll' class='fnname'>layer_id_for_overflow_scroll</a>(&amp;self) -&gt; <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a></code></h4>
+<h4 id='method.is_absolute_containing_block' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.is_absolute_containing_block' class='fnname'>is_absolute_containing_block</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.update_late_computed_inline_position_if_necessary' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.update_late_computed_inline_position_if_necessary' class='fnname'>update_late_computed_inline_position_if_necessary</a>(&amp;mut self, inline_position: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>)</code></h4>
+<h4 id='method.update_late_computed_block_position_if_necessary' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.update_late_computed_block_position_if_necessary' class='fnname'>update_late_computed_block_position_if_necessary</a>(&amp;mut self, block_position: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>)</code></h4>
+<h4 id='method.collect_stacking_contexts' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.collect_stacking_contexts' class='fnname'>collect_stacking_contexts</a>(&amp;mut self, parent_id: <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a>, contexts: &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../gfx/display_list/struct.StackingContext.html' title='gfx::display_list::StackingContext'>StackingContext</a>&gt;&gt;) -&gt; <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a></code></h4>
+<h4 id='method.build_display_list' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.build_display_list' class='fnname'>build_display_list</a>(&amp;mut self, state: &amp;mut <a class='struct' href='../../layout/display_list_builder/struct.DisplayListBuildState.html' title='layout::display_list_builder::DisplayListBuildState'>DisplayListBuildState</a>)</code></h4>
+<h4 id='method.repair_style' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.repair_style' class='fnname'>repair_style</a>(&amp;mut self, new_style: &amp;<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;)</code></h4>
+<h4 id='method.compute_overflow' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.compute_overflow' class='fnname'>compute_overflow</a>(&amp;self) -&gt; <a class='struct' href='../../layout/fragment/struct.Overflow.html' title='layout::fragment::Overflow'>Overflow</a></code></h4>
+<h4 id='method.iterate_through_fragment_border_boxes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.iterate_through_fragment_border_boxes' class='fnname'>iterate_through_fragment_border_boxes</a>(&amp;self, iterator: &amp;mut <a class='trait' href='../../layout/fragment/trait.FragmentBorderBoxIterator.html' title='layout::fragment::FragmentBorderBoxIterator'>FragmentBorderBoxIterator</a>, level: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>, stacking_context_position: &amp;<a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;)</code></h4>
+<h4 id='method.mutate_fragments' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#tymethod.mutate_fragments' class='fnname'>mutate_fragments</a>(&amp;mut self, mutator: &amp;mut <a class='trait' href='../../core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(&amp;mut <a class='struct' href='../../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a>))</code></h4>
+<h4 id='method.print_extra_flow_children' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.print_extra_flow_children' class='fnname'>print_extra_flow_children</a>(&amp;self, print_tree: &amp;mut <a class='struct' href='../../util/print_tree/struct.PrintTree.html' title='util::print_tree::PrintTree'>PrintTree</a>)</code></h4>
+<h4 id='method.as_inline' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_inline' class='fnname'>as_inline</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></h4>
+<h4 id='method.as_mut_inline' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_inline' class='fnname'>as_mut_inline</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></h4>
+<h4 id='method.as_mut_table_wrapper' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_wrapper' class='fnname'>as_mut_table_wrapper</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h4>
+<h4 id='method.as_table_wrapper' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table_wrapper' class='fnname'>as_table_wrapper</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_wrapper/struct.TableWrapperFlow.html' title='layout::table_wrapper::TableWrapperFlow'>TableWrapperFlow</a></code></h4>
+<h4 id='method.as_mut_table' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table' class='fnname'>as_mut_table</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table/struct.TableFlow.html' title='layout::table::TableFlow'>TableFlow</a></code></h4>
+<h4 id='method.as_table' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table' class='fnname'>as_table</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table/struct.TableFlow.html' title='layout::table::TableFlow'>TableFlow</a></code></h4>
+<h4 id='method.as_mut_table_colgroup' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_colgroup' class='fnname'>as_mut_table_colgroup</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_colgroup/struct.TableColGroupFlow.html' title='layout::table_colgroup::TableColGroupFlow'>TableColGroupFlow</a></code></h4>
+<h4 id='method.as_mut_table_rowgroup' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_rowgroup' class='fnname'>as_mut_table_rowgroup</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_rowgroup/struct.TableRowGroupFlow.html' title='layout::table_rowgroup::TableRowGroupFlow'>TableRowGroupFlow</a></code></h4>
+<h4 id='method.as_table_rowgroup' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table_rowgroup' class='fnname'>as_table_rowgroup</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_rowgroup/struct.TableRowGroupFlow.html' title='layout::table_rowgroup::TableRowGroupFlow'>TableRowGroupFlow</a></code></h4>
+<h4 id='method.as_mut_table_row' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_row' class='fnname'>as_mut_table_row</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_row/struct.TableRowFlow.html' title='layout::table_row::TableRowFlow'>TableRowFlow</a></code></h4>
+<h4 id='method.as_table_row' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table_row' class='fnname'>as_table_row</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_row/struct.TableRowFlow.html' title='layout::table_row::TableRowFlow'>TableRowFlow</a></code></h4>
+<h4 id='method.as_mut_table_caption' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_caption' class='fnname'>as_mut_table_caption</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_caption/struct.TableCaptionFlow.html' title='layout::table_caption::TableCaptionFlow'>TableCaptionFlow</a></code></h4>
+<h4 id='method.as_mut_table_cell' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_table_cell' class='fnname'>as_mut_table_cell</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/table_cell/struct.TableCellFlow.html' title='layout::table_cell::TableCellFlow'>TableCellFlow</a></code></h4>
+<h4 id='method.as_mut_multicol' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_mut_multicol' class='fnname'>as_mut_multicol</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../layout/multicol/struct.MulticolFlow.html' title='layout::multicol::MulticolFlow'>MulticolFlow</a></code></h4>
+<h4 id='method.as_table_cell' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.as_table_cell' class='fnname'>as_table_cell</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../layout/table_cell/struct.TableCellFlow.html' title='layout::table_cell::TableCellFlow'>TableCellFlow</a></code></h4>
+<h4 id='method.column_intrinsic_inline_sizes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.column_intrinsic_inline_sizes' class='fnname'>column_intrinsic_inline_sizes</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/table/struct.ColumnIntrinsicInlineSize.html' title='layout::table::ColumnIntrinsicInlineSize'>ColumnIntrinsicInlineSize</a>&gt;</code></h4>
+<h4 id='method.column_computed_inline_sizes' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.column_computed_inline_sizes' class='fnname'>column_computed_inline_sizes</a>(&amp;mut self) -&gt; &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/table/struct.ColumnComputedInlineSize.html' title='layout::table::ColumnComputedInlineSize'>ColumnComputedInlineSize</a>&gt;</code></h4>
+<h4 id='method.store_overflow' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.store_overflow' class='fnname'>store_overflow</a>(&amp;mut self, _: &amp;<a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>)</code></h4>
+<h4 id='method.compute_collapsible_block_start_margin' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.compute_collapsible_block_start_margin' class='fnname'>compute_collapsible_block_start_margin</a>(&amp;mut self, _layout_context: &amp;mut <a class='struct' href='../../layout/context/struct.LayoutContext.html' title='layout::context::LayoutContext'>LayoutContext</a>, _margin_collapse_info: &amp;mut <a class='struct' href='../../layout/model/struct.MarginCollapseInfo.html' title='layout::model::MarginCollapseInfo'>MarginCollapseInfo</a>)</code></h4>
+<h4 id='method.is_fixed' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.is_fixed' class='fnname'>is_fixed</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.contains_positioned_fragments' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.contains_positioned_fragments' class='fnname'>contains_positioned_fragments</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.contains_relatively_positioned_fragments' class='method'><code>fn <a href='../../layout/flow/trait.Flow.html#method.contains_relatively_positioned_fragments' class='fnname'>contains_relatively_positioned_fragments</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../layout/display_list_builder/trait.BlockFlowDisplayListBuilding.html' title='layout::display_list_builder::BlockFlowDisplayListBuilding'>BlockFlowDisplayListBuilding</a> for <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h3><div class='impl-items'><h4 id='method.collect_stacking_contexts_for_block' class='method'><code>fn <a href='../../layout/display_list_builder/trait.BlockFlowDisplayListBuilding.html#tymethod.collect_stacking_contexts_for_block' class='fnname'>collect_stacking_contexts_for_block</a>(&amp;mut self, parent_id: <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a>, contexts: &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../gfx/display_list/struct.StackingContext.html' title='gfx::display_list::StackingContext'>StackingContext</a>&gt;&gt;) -&gt; <a class='struct' href='../../gfx/display_list/struct.StackingContextId.html' title='gfx::display_list::StackingContextId'>StackingContextId</a></code></h4>
+<h4 id='method.build_display_list_for_block' class='method'><code>fn <a href='../../layout/display_list_builder/trait.BlockFlowDisplayListBuilding.html#tymethod.build_display_list_for_block' class='fnname'>build_display_list_for_block</a>(&amp;mut self, state: &amp;mut <a class='struct' href='../../layout/display_list_builder/struct.DisplayListBuildState.html' title='layout::display_list_builder::DisplayListBuildState'>DisplayListBuildState</a>, border_painting_mode: <a class='enum' href='../../layout/display_list_builder/enum.BorderPaintingMode.html' title='layout::display_list_builder::BorderPaintingMode'>BorderPaintingMode</a>)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../layout/table/trait.TableLikeFlow.html' title='layout::table::TableLikeFlow'>TableLikeFlow</a> for <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h3><div class='impl-items'><h4 id='method.assign_block_size_for_table_like_flow' class='method'><code>fn <a href='../../layout/table/trait.TableLikeFlow.html#tymethod.assign_block_size_for_table_like_flow' class='fnname'>assign_block_size_for_table_like_flow</a>(&amp;mut self, block_direction_spacing: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>)</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../layout/block/struct.BlockFlow.html' title='layout::block::BlockFlow'>BlockFlow</a></code></h3><div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;__S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, __S::Error&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "layout";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

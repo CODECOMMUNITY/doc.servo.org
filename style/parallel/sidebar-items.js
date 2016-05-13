@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["CHUNK_SIZE",""]],"fn":[["bottom_up_dom","Process current node and potentially traverse its ancestors."],["run_queue_with_custom_work_data_type",""],["static_assertion",""],["top_down_dom","A parallel top-down DOM traversal."],["traverse_dom",""]],"struct":[["WorkQueueData",""]],"type":[["UnsafeNodeList",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["DAMPING","The default damping factor."],["EPSILON","Some arbitrarily small positive number used as threshold value."],["STIFFNESS","The default stiffness factor."]],"fn":[["is_resting","Given numbers, calcluate if a spring is at rest."],["next","Given numbers, calculate the next position for a spring."]],"struct":[["Spring",""]]});

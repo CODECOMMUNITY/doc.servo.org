@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ClientService` struct in crate `solicit`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ClientService">
+
+    <title>solicit::client::async::ClientService - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>solicit</a>::<wbr><a href='../index.html'>client</a>::<wbr><a href='index.html'>async</a></p><script>window.sidebarCurrent = {name: 'ClientService', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>solicit</a>::<wbr><a href='../index.html'>client</a>::<wbr><a href='index.html'>async</a>::<wbr><a class='struct' href=''>ClientService</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1791' class='srclink' href='../../../src/solicit/client/async.rs.html#241-266' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>struct ClientService {
+    next_stream_id: <a class='type' href='../../../solicit/http/type.StreamId.html' title='solicit::http::StreamId'>StreamId</a>,
+    outstanding_reqs: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a>,
+    limit: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a>,
+    conn: <a class='struct' href='../../../solicit/http/client/struct.ClientConnection.html' title='solicit::http::client::ClientConnection'>ClientConnection</a>&lt;<a class='struct' href='../../../solicit/client/async/struct.ChannelFrameSenderHandle.html' title='solicit::client::async::ChannelFrameSenderHandle'>ChannelFrameSenderHandle</a>, <a class='struct' href='../../../solicit/client/async/struct.ChannelFrameReceiverHandle.html' title='solicit::client::async::ChannelFrameReceiverHandle'>ChannelFrameReceiverHandle</a>&gt;,
+    chans: <a class='struct' href='../../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='type' href='../../../solicit/http/type.StreamId.html' title='solicit::http::StreamId'>StreamId</a>, <a class='struct' href='../../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='struct' href='../../../solicit/http/struct.Response.html' title='solicit::http::Response'>Response</a>&gt;&gt;,
+    work_queue: <a class='struct' href='../../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../../solicit/client/async/enum.WorkItem.html' title='solicit::client::async::WorkItem'>WorkItem</a>&gt;,
+    request_queue: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../solicit/client/async/struct.AsyncRequest.html' title='solicit::client::async::AsyncRequest'>AsyncRequest</a>&gt;,
+    client_count: <a class='primitive' href='../../../std/primitive.i32.html'>i32</a>,
+    host: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../../std/primitive.u8.html'>u8</a>&gt;,
+    initialized: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>,
+}</pre><div class='docblock'><p>An internal struct encapsulating a service that lets multiple clients
+issue concurrent requests to the same HTTP/2 connection.</p>
+
+<p>The service maintains an internal queue of <code>WorkItem</code>s that indicate what the operations that
+it should perform. The next operation from the queue is performed on each <code>run_once</code> method
+call.</p>
+
+<p>It handles issuing new requests (corresponding to <code>WorkItem::Request</code> work item), handling the
+next received frame (when indicated by the <code>WorkItem::HandleFrame</code>), and tracks the number of
+connected clients (<code>run_once</code> returns an error once there are no more clients connected to the
+service).</p>
+
+<p>If there is no work in the queue, the <code>run_once</code> method blocks.</p>
+
+<p>Essentially, this represents a simplified event loop that handles events queued on the work
+queue (blocking to wait for new work when none is available; does not spin). Therefore, the
+user of the <code>ClientService</code> needs to provide a dedicated thread in which to run the <code>run_once</code>
+event loop handler.</p>
+
+<p>Additionally, the client needs to make sure to perform the actual socket IO (which is fully
+blocking, without even timeout support currently in Rust) in threads dedicated for that, by
+calling the <code>send_next</code> or <code>read_next</code> methods of the <code>ChannelFrameSender</code> or
+<code>ChannelFrameReceiver</code>, which are returned from the <code>ClientService</code> constructor.</p>
+
+<p>TODO: Technically, the <code>run_once</code> method could take a <code>WorkItem</code>, so a single event loop could
+      dispatch work items to a corresponding service, removing the need for the
+      thread-per-service requirement. However, at that point we&#39;re nearing a reimplementation
+      of a real event loop, which is slightly out of scope of the <code>solicit</code> library, as
+      imagined; the async client is (for now) supposed to be a proof-of-concept
+      implementation of a high-level async/concurrent HTTP/2 client.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.next_stream_id'><code>next_stream_id</code></td><td><div class='docblock'><p>The ID that will be assigned to the next client-initiated stream.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.outstanding_reqs'><code>outstanding_reqs</code></td><td><div class='docblock'><p>The number of requests that have been sent, but are yet unanswered.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.limit'><code>limit</code></td><td><div class='docblock'><p>The limit to the number of requests that can be pending (unanswered,
+but sent).</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.conn'><code>conn</code></td><td><div class='docblock'><p>The connection that is used for underlying HTTP/2 communication.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.chans'><code>chans</code></td><td><div class='docblock'><p>A mapping of stream IDs to the sender side of a channel that is
+expecting a response to the request that is to arrive on that stream.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.work_queue'><code>work_queue</code></td><td><div class='docblock'><p>The receiver end of a channel to which work items for the service are
+queued. Work items include the variants of the <code>WorkItem</code> enum.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.request_queue'><code>request_queue</code></td><td><div class='docblock'><p>The queue of <code>AsyncRequest</code>s that haven&#39;t yet been sent to the server.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.client_count'><code>client_count</code></td><td><div class='docblock'><p>Tracks the number of currently connected clients -- once it reaches 0, the <code>run_once</code>
+method returns an error.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.host'><code>host</code></td><td><div class='docblock'><p>The name of the host the connection is established to.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.initialized'><code>initialized</code></td><td><div class='docblock'><p>Whether the connection has already been initialized.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../solicit/client/async/struct.ClientService.html' title='solicit::client::async::ClientService'>ClientService</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;S&gt;(client_stream: <a class='struct' href='../../../solicit/http/client/struct.ClientStream.html' title='solicit::http::client::ClientStream'>ClientStream</a>&lt;S&gt;) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../solicit/client/async/struct.Service.html' title='solicit::client::async::Service'>Service</a>&lt;S&gt;&gt; <span class='where'>where S: <a class='trait' href='../../../solicit/http/transport/trait.TransportStream.html' title='solicit::http::transport::TransportStream'>TransportStream</a></span></code></h4>
+<div class='docblock'><p>Creates a new <code>ClientService</code> that will use the provided <code>ClientStream</code> for its underlying
+network communication. A handle is returned for both the read, as well as the write end of
+the socket that allows the client that creates the <code>ClientService</code> to perform the blocking
+IO without influencing the <code>ClientService</code> (i.e. without having its <code>run_once</code> method
+block).</p>
+
+<h1 id='returns' class='section-header'><a href='#returns'>Returns</a></h1>
+<p>Returns all the relevant components of the newly created <code>ClientService</code>:</p>
+
+<ul>
+<li>The <code>ClientService</code> itself -- processes events (<code>WorkItem</code>s) on each <code>run_once</code> call.</li>
+<li>The sender-side of the work queue -- allows <code>WorkItem</code>s to be queued into the
+<code>ClientService</code>&#39;s simplified event loop.</li>
+<li>The <code>ChannelFrameReceiver</code> -- the instance that wraps the actual socket that performs
+the blocking read IO. Allows the caller to block on the IO in a customized manner (e.g.
+in a separate dedicated thread).</li>
+<li>The <code>ChannelFrameSender</code> -- the instance that wraps the actual socket that performs the
+blocking write IO. Allows the caller to block on the IO in a customized manner (e.g. in
+a separate thread).</li>
+</ul>
+
+<p>If no HTTP/2 connection can be established to the given host on the
+given port, returns <code>None</code>.</p>
+</div><h4 id='method.run_once' class='method'><code>fn <a href='#method.run_once' class='fnname'>run_once</a>(&amp;mut self) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../std/primitive.tuple.html'>()</a>, <a class='enum' href='../../../solicit/client/async/enum.ClientServiceErr.html' title='solicit::client::async::ClientServiceErr'>ClientServiceErr</a>&gt;</code></h4>
+<div class='docblock'><p>Performs one iteration of the service.</p>
+
+<p>One iteration corresponds to running the next <code>WorkItem</code> that the service
+has queued in its <code>work_queue</code>. Essentially, this is a poor-man&#39;s event
+loop implementation. If there is no work queued for the service, it will
+<em>block</em>, until there is. As such, embedding calls to this method into a
+real event loop should not be done.</p>
+
+<p>For <code>WorkItem::Request</code> work items, the service will queue the received
+<code>AsyncRequest</code> for sending. It will also attempt to queue it for
+transmission to the server, unless the concurrent requests limit has been
+exceeded, in which case the request is kept in an internal FIFO queue and
+will be sent when its time comes.</p>
+
+<p>For <code>WorkItem::HandleFrame</code> work items, the service will perform a single
+<code>handle_next_frame</code> call on its underlying <code>ClientConnection</code> instance.
+Since the item is queued only when the connection actually has frames to
+process, this call will never block. If a response got finalized by the
+handling of the frame, it is shipped to the channel that expects it and
+a new request from the request queue sent.</p>
+
+<h1 id='returns-1' class='section-header'><a href='#returns-1'>Returns</a></h1>
+<p>On a successful pass, the function returns an <code>Ok(())</code>.</p>
+
+<p>The <code>Err</code> response is returned when there are no more responses to be
+received and there are no more clients connected to the service (and
+thus no more requests could ever be issued by the instance). This
+corresponds to the <code>ClientServiceErr::Done</code> variant.</p>
+
+<p>Any HTTP/2 error is propagated (wrapped into a ClientServiceErr::Http
+variant).</p>
+</div><h4 id='method.handle_frame' class='method'><code>fn <a href='#method.handle_frame' class='fnname'>handle_frame</a>(&amp;mut self) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../std/primitive.tuple.html'>()</a>, <a class='enum' href='../../../solicit/client/async/enum.ClientServiceErr.html' title='solicit::client::async::ClientServiceErr'>ClientServiceErr</a>&gt;</code></h4>
+<div class='docblock'><p>A private convenience method that performs the handling of the next received frame.</p>
+
+<p>It calls the underlying connection&#39;s <code>handle_next_frame</code> method and then inspects the
+changes made to the session, notifying clients of completed requests or queueing new ones,
+if available.</p>
+</div><h4 id='method.send_request' class='method'><code>fn <a href='#method.send_request' class='fnname'>send_request</a>(&amp;mut self, async_req: <a class='struct' href='../../../solicit/client/async/struct.AsyncRequest.html' title='solicit::client::async::AsyncRequest'>AsyncRequest</a>)</code></h4>
+<div class='docblock'><p>Internal helper method. Sends a request to the server based on the
+parameters given in the <code>AsyncRequest</code>. It blocks until the request is
+fully transmitted to the server.</p>
+</div><h4 id='method.create_request' class='method'><code>fn <a href='#method.create_request' class='fnname'>create_request</a>(&amp;mut self, async_req: <a class='struct' href='../../../solicit/client/async/struct.AsyncRequest.html' title='solicit::client::async::AsyncRequest'>AsyncRequest</a>) -&gt; <a class='primitive' href='../../../std/primitive.tuple.html'>(</a><a class='struct' href='../../../solicit/http/client/struct.RequestStream.html' title='solicit::http::client::RequestStream'>RequestStream</a>&lt;<a class='struct' href='../../../solicit/http/session/struct.DefaultStream.html' title='solicit::http::session::DefaultStream'>DefaultStream</a>&gt;, <a class='struct' href='../../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='struct' href='../../../solicit/http/struct.Response.html' title='solicit::http::Response'>Response</a>&gt;<a class='primitive' href='../../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Internal helper method. Creates a new <code>RequestStream</code> instance based on the
+given parameters. Such a <code>RequestStream</code> instance is ready to be passed to
+the connection for transmission to the server (i.e. <code>start_request</code>).
+Also returns the sender end of the channel to which the response is to be transmitted,
+once received.</p>
+</div><h4 id='method.send_response' class='method'><code>fn <a href='#method.send_response' class='fnname'>send_response</a>(&amp;mut self, stream: <a class='struct' href='../../../solicit/http/session/struct.DefaultStream.html' title='solicit::http::session::DefaultStream'>DefaultStream</a>)</code></h4>
+<div class='docblock'><p>Internal helper method. Sends a response assembled from the given
+stream to the corresponding channel that is waiting for the response.</p>
+
+<p>The given <code>stream</code> instance is consumed by this method.</p>
+</div><h4 id='method.handle_closed' class='method'><code>fn <a href='#method.handle_closed' class='fnname'>handle_closed</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Internal helper method. Handles all closed streams by sending appropriate
+notifications to waiting channels.</p>
+
+<p>For now, the channels are all given a <code>Response</code>, even though the
+stream might end up being closed by the server with an error.</p>
+</div><h4 id='method.queue_next_request' class='method'><code>fn <a href='#method.queue_next_request' class='fnname'>queue_next_request</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Internal helper method. If there are yet unsent requests queued by a
+client to the service and the service has not exceeded the limit of
+concurrent requests that it is allowed to issue, it sends a single
+new request to the server. Blocks until this request is sent.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "solicit";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

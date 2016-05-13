@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["CreateInterfaceObjects",""],["DefineDOMInterface",""],["GetProtoObject",""],["Wrap",""],["_finalize",""],["_trace",""]],"static":[["Class",""],["InterfaceObjectClass",""],["PrototypeClass",""]]});

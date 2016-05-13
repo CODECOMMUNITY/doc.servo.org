@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ConstellationControlMsg` enum in crate `script_traits`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ConstellationControlMsg">
+
+    <title>script_traits::ConstellationControlMsg - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>script_traits</a></p><script>window.sidebarCurrent = {name: 'ConstellationControlMsg', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>script_traits</a>::<wbr><a class='enum' href=''>ConstellationControlMsg</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1297' class='srclink' href='../src/script_traits/lib.rs.html#108-153' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum ConstellationControlMsg {
+    AttachLayout(<a class='struct' href='../script_traits/struct.NewLayoutInfo.html' title='script_traits::NewLayoutInfo'>NewLayoutInfo</a>),
+    Resize(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../msg/constellation_msg/struct.WindowSizeData.html' title='msg::constellation_msg::WindowSizeData'>WindowSizeData</a>, <a class='enum' href='../msg/constellation_msg/enum.WindowSizeType.html' title='msg::constellation_msg::WindowSizeType'>WindowSizeType</a>),
+    ResizeInactive(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../msg/constellation_msg/struct.WindowSizeData.html' title='msg::constellation_msg::WindowSizeData'>WindowSizeData</a>),
+    ExitPipeline(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
+    SendEvent(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='enum' href='../script_traits/enum.CompositorEvent.html' title='script_traits::CompositorEvent'>CompositorEvent</a>),
+    Viewport(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;),
+    GetTitle(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
+    Freeze(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
+    Thaw(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
+    Navigate(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>, <a class='struct' href='../msg/constellation_msg/struct.LoadData.html' title='msg::constellation_msg::LoadData'>LoadData</a>),
+    MozBrowserEvent(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>, <a class='enum' href='../script_traits/enum.MozBrowserEvent.html' title='script_traits::MozBrowserEvent'>MozBrowserEvent</a>),
+    UpdateSubpageId(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>, <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>, <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
+    FocusIFrame(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>),
+    WebDriverScriptCommand(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='enum' href='../msg/webdriver_msg/enum.WebDriverScriptCommand.html' title='msg::webdriver_msg::WebDriverScriptCommand'>WebDriverScriptCommand</a>),
+    TickAllAnimations(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
+    WebFontLoaded(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
+    DispatchFrameLoadEvent {
+        target: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
+        parent: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
+    },
+    FramedContentChanged(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>),
+    ReportCSSError(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='primitive' href='../std/primitive.usize.html'>usize</a>, <a class='primitive' href='../std/primitive.usize.html'>usize</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>),
+}</pre><div class='docblock'><p>Messages sent from the constellation or layout to the script thread.</p>
+</div><h2 class='variants'>Variants</h2>
+<table class='variants_table'><tr><td id='variant.AttachLayout'><code>AttachLayout</code></td><td><div class='docblock'><p>Gives a channel and ID to a layout thread, as well as the ID of that layout&#39;s parent</p>
+</div></td><td></td></tr><tr><td id='variant.Resize'><code>Resize</code></td><td><div class='docblock'><p>Window resized.  Sends a DOM event eventually, but first we combine events.</p>
+</div></td><td></td></tr><tr><td id='variant.ResizeInactive'><code>ResizeInactive</code></td><td><div class='docblock'><p>Notifies script that window has been resized but to not take immediate action.</p>
+</div></td><td></td></tr><tr><td id='variant.ExitPipeline'><code>ExitPipeline</code></td><td><div class='docblock'><p>Notifies the script that a pipeline should be closed.</p>
+</div></td><td></td></tr><tr><td id='variant.SendEvent'><code>SendEvent</code></td><td><div class='docblock'><p>Sends a DOM event.</p>
+</div></td><td></td></tr><tr><td id='variant.Viewport'><code>Viewport</code></td><td><div class='docblock'><p>Notifies script of the viewport.</p>
+</div></td><td></td></tr><tr><td id='variant.GetTitle'><code>GetTitle</code></td><td><div class='docblock'><p>Requests that the script thread immediately send the constellation the title of a pipeline.</p>
+</div></td><td></td></tr><tr><td id='variant.Freeze'><code>Freeze</code></td><td><div class='docblock'><p>Notifies script thread to suspend all its timers</p>
+</div></td><td></td></tr><tr><td id='variant.Thaw'><code>Thaw</code></td><td><div class='docblock'><p>Notifies script thread to resume all its timers</p>
+</div></td><td></td></tr><tr><td id='variant.Navigate'><code>Navigate</code></td><td><div class='docblock'><p>Notifies script thread that a url should be loaded in this iframe.</p>
+</div></td><td></td></tr><tr><td id='variant.MozBrowserEvent'><code>MozBrowserEvent</code></td><td><div class='docblock'><p>Requests the script thread forward a mozbrowser event to an iframe it owns</p>
+</div></td><td></td></tr><tr><td id='variant.UpdateSubpageId'><code>UpdateSubpageId</code></td><td><div class='docblock'><p>Updates the current subpage and pipeline IDs of a given iframe</p>
+</div></td><td></td></tr><tr><td id='variant.FocusIFrame'><code>FocusIFrame</code></td><td><div class='docblock'><p>Set an iframe to be focused. Used when an element in an iframe gains focus.</p>
+</div></td><td></td></tr><tr><td id='variant.WebDriverScriptCommand'><code>WebDriverScriptCommand</code></td><td><div class='docblock'><p>Passes a webdriver command to the script thread for execution</p>
+</div></td><td></td></tr><tr><td id='variant.TickAllAnimations'><code>TickAllAnimations</code></td><td><div class='docblock'><p>Notifies script thread that all animations are done</p>
+</div></td><td></td></tr><tr><td id='variant.WebFontLoaded'><code>WebFontLoaded</code></td><td><div class='docblock'><p>Notifies the script thread that a new Web font has been loaded, and thus the page should be
+reflowed.</p>
+</div></td><td></td></tr><tr><td id='variant.DispatchFrameLoadEvent'><code>DispatchFrameLoadEvent</code></td><td><div class='docblock'><p>Cause a <code>load</code> event to be dispatched at the appropriate frame element.</p>
+</div><h3 class='fields'>Fields</h3>
+
+                           <table><tr><td id='variant.DispatchFrameLoadEvent.field.target'><code>target</code></td><td><div class='docblock'><p>The pipeline that has been marked as loaded.</p>
+</div></td></tr><tr><td id='variant.DispatchFrameLoadEvent.field.parent'><code>parent</code></td><td><div class='docblock'><p>The pipeline that contains a frame loading the target pipeline.</p>
+</div></td></tr></table></td><td></td></tr><tr><td id='variant.FramedContentChanged'><code>FramedContentChanged</code></td><td><div class='docblock'><p>Notifies a parent frame that one of its child frames is now active.</p>
+</div></td><td></td></tr><tr><td id='variant.ReportCSSError'><code>ReportCSSError</code></td><td><div class='docblock'><p>Report an error from a CSS parser for the given pipeline</p>
+</div></td><td></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "script_traits";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

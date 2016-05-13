@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `LibCaca` struct in crate `glutin`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, LibCaca">
+
+    <title>glutin::api::caca::ffi::LibCaca - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../../index.html'>glutin</a>::<wbr><a href='../../index.html'>api</a>::<wbr><a href='../index.html'>caca</a>::<wbr><a href='index.html'>ffi</a></p><script>window.sidebarCurrent = {name: 'LibCaca', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../../index.html'>glutin</a>::<wbr><a href='../../index.html'>api</a>::<wbr><a href='../index.html'>caca</a>::<wbr><a href='index.html'>ffi</a>::<wbr><a class='struct' href=''>LibCaca</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span></span></h1>
+<pre class='rust struct'>pub struct LibCaca {
+    _library_guard: <a class='struct' href='../../../../shared_library/dynamic_library/struct.DynamicLibrary.html' title='shared_library::dynamic_library::DynamicLibrary'>DynamicLibrary</a>,
+    pub caca_create_display: unsafe extern fn(cv: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_canvas_t.html' title='glutin::api::caca::ffi::caca_canvas_t'>caca_canvas_t</a>) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_display_t.html' title='glutin::api::caca::ffi::caca_display_t'>caca_display_t</a>,
+    pub caca_free_display: unsafe extern fn(dp: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_display_t.html' title='glutin::api::caca::ffi::caca_display_t'>caca_display_t</a>) -&gt; <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>,
+    pub caca_get_canvas: unsafe extern fn(dp: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_display_t.html' title='glutin::api::caca::ffi::caca_display_t'>caca_display_t</a>) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_canvas_t.html' title='glutin::api::caca::ffi::caca_canvas_t'>caca_canvas_t</a>,
+    pub caca_refresh_display: unsafe extern fn(dp: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_display_t.html' title='glutin::api::caca::ffi::caca_display_t'>caca_display_t</a>) -&gt; <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>,
+    pub caca_dither_bitmap: unsafe extern fn(cv: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_canvas_t.html' title='glutin::api::caca::ffi::caca_canvas_t'>caca_canvas_t</a>, x: <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>, y: <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>, w: <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>, h: <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>, d: <a class='primitive' href='../../../../std/primitive.pointer.html'>*const </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_dither_t.html' title='glutin::api::caca::ffi::caca_dither_t'>caca_dither_t</a>, pixels: <a class='primitive' href='../../../../std/primitive.pointer.html'>*const </a><a class='enum' href='../../../../libc/enum.c_void.html' title='libc::c_void'>c_void</a>) -&gt; <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>,
+    pub caca_free_dither: unsafe extern fn(d: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_dither_t.html' title='glutin::api::caca::ffi::caca_dither_t'>caca_dither_t</a>) -&gt; <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>,
+    pub caca_create_dither: unsafe extern fn(bpp: <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>, w: <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>, h: <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>, pitch: <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>, rmask: <a class='type' href='../../../../libc/type.uint32_t.html' title='libc::uint32_t'>uint32_t</a>, gmask: <a class='type' href='../../../../libc/type.uint32_t.html' title='libc::uint32_t'>uint32_t</a>, bmask: <a class='type' href='../../../../libc/type.uint32_t.html' title='libc::uint32_t'>uint32_t</a>, amask: <a class='type' href='../../../../libc/type.uint32_t.html' title='libc::uint32_t'>uint32_t</a>) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_dither_t.html' title='glutin::api::caca::ffi::caca_dither_t'>caca_dither_t</a>,
+    pub caca_get_canvas_width: unsafe extern fn(cv: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_canvas_t.html' title='glutin::api::caca::ffi::caca_canvas_t'>caca_canvas_t</a>) -&gt; <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>,
+    pub caca_get_canvas_height: unsafe extern fn(cv: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../../../glutin/api/caca/ffi/type.caca_canvas_t.html' title='glutin::api::caca::ffi::caca_canvas_t'>caca_canvas_t</a>) -&gt; <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>,
+}</pre><div class='docblock'><p>Symbols loaded from a shared library.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield._library_guard'><code>_library_guard</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.caca_create_display'><code>caca_create_display</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.caca_free_display'><code>caca_free_display</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.caca_get_canvas'><code>caca_get_canvas</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.caca_refresh_display'><code>caca_refresh_display</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.caca_dither_bitmap'><code>caca_dither_bitmap</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.caca_free_dither'><code>caca_free_dither</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.caca_create_dither'><code>caca_create_dither</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.caca_get_canvas_width'><code>caca_get_canvas_width</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.caca_get_canvas_height'><code>caca_get_canvas_height</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../../glutin/api/caca/ffi/struct.LibCaca.html' title='glutin::api::caca::ffi::LibCaca'>LibCaca</a></code></h3><div class='impl-items'><h4 id='method.open' class='method'><code>fn <a href='#method.open' class='fnname'>open</a>(path: &amp;<a class='struct' href='../../../../std/path/struct.Path.html' title='std::path::Path'>Path</a>) -&gt; <a class='enum' href='../../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../../../glutin/api/caca/ffi/struct.LibCaca.html' title='glutin::api::caca::ffi::LibCaca'>LibCaca</a>, <a class='enum' href='../../../../shared_library/enum.LoadingError.html' title='shared_library::LoadingError'>LoadingError</a>&gt;</code></h4>
+<div class='docblock'><p>Tries to open the dynamic library.</p>
+</div></div><h3 class='impl'><code>impl <a class='struct' href='../../../../glutin/api/caca/ffi/struct.LibCaca.html' title='glutin::api::caca::ffi::LibCaca'>LibCaca</a></code></h3><div class='impl-items'><h4 id='method.get_static_ref' class='method'><code>fn <a href='#method.get_static_ref' class='fnname'>get_static_ref</a>() -&gt; &amp;'static <a class='struct' href='../../../../glutin/api/caca/ffi/struct.LibCaca.html' title='glutin::api::caca::ffi::LibCaca'>LibCaca</a></code></h4>
+<div class='docblock'><p>This function is used by the regular functions.</p>
+</div><h4 id='method.try_loading' class='method'><code>fn <a href='#method.try_loading' class='fnname'>try_loading</a>() -&gt; <a class='enum' href='../../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;&amp;'static <a class='struct' href='../../../../glutin/api/caca/ffi/struct.LibCaca.html' title='glutin::api::caca::ffi::LibCaca'>LibCaca</a>, <a class='enum' href='../../../../shared_library/enum.LoadingError.html' title='shared_library::LoadingError'>LoadingError</a>&gt;</code></h4>
+<div class='docblock'><p>Try loading the static symbols linked to this library.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "glutin";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script defer src="../../../../search-index.js"></script>
+</body>
+</html>

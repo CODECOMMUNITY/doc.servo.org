@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `DisplayListBuilder` struct in crate `webrender_traits`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, DisplayListBuilder">
+
+    <title>webrender_traits::display_list::DisplayListBuilder - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>webrender_traits</a>::<wbr><a href='index.html'>display_list</a></p><script>window.sidebarCurrent = {name: 'DisplayListBuilder', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>webrender_traits</a>::<wbr><a href='index.html'>display_list</a>::<wbr><a class='struct' href=''>DisplayListBuilder</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3629' class='srclink' href='../../src/webrender_traits/display_list.rs.html#103-111' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct DisplayListBuilder {
+    pub mode: <a class='enum' href='../../webrender_traits/enum.DisplayListMode.html' title='webrender_traits::DisplayListMode'>DisplayListMode</a>,
+    pub has_stacking_contexts: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    pub work_list: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender_traits/struct.DisplayItem.html' title='webrender_traits::DisplayItem'>DisplayItem</a>&gt;,
+    pub display_list_items: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender_traits/struct.DisplayListItem.html' title='webrender_traits::DisplayListItem'>DisplayListItem</a>&gt;,
+    pub display_items: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender_traits/struct.DisplayItem.html' title='webrender_traits::DisplayItem'>DisplayItem</a>&gt;,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.mode'><code>mode</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.has_stacking_contexts'><code>has_stacking_contexts</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.work_list'><code>work_list</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.display_list_items'><code>display_list_items</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.display_items'><code>display_items</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../webrender_traits/struct.DisplayListBuilder.html' title='webrender_traits::DisplayListBuilder'>DisplayListBuilder</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../webrender_traits/struct.DisplayListBuilder.html' title='webrender_traits::DisplayListBuilder'>DisplayListBuilder</a></code></h4>
+<h4 id='method.push_rect' class='method'><code>fn <a href='#method.push_rect' class='fnname'>push_rect</a>(&amp;mut self, rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, clip: <a class='struct' href='../../webrender_traits/struct.ClipRegion.html' title='webrender_traits::ClipRegion'>ClipRegion</a>, color: <a class='struct' href='../../webrender_traits/struct.ColorF.html' title='webrender_traits::ColorF'>ColorF</a>)</code></h4>
+<h4 id='method.push_image' class='method'><code>fn <a href='#method.push_image' class='fnname'>push_image</a>(&amp;mut self, rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, clip: <a class='struct' href='../../webrender_traits/struct.ClipRegion.html' title='webrender_traits::ClipRegion'>ClipRegion</a>, stretch_size: <a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, image_rendering: <a class='enum' href='../../webrender_traits/enum.ImageRendering.html' title='webrender_traits::ImageRendering'>ImageRendering</a>, key: <a class='struct' href='../../webrender_traits/struct.ImageKey.html' title='webrender_traits::ImageKey'>ImageKey</a>)</code></h4>
+<h4 id='method.push_webgl_canvas' class='method'><code>fn <a href='#method.push_webgl_canvas' class='fnname'>push_webgl_canvas</a>(&amp;mut self, rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, clip: <a class='struct' href='../../webrender_traits/struct.ClipRegion.html' title='webrender_traits::ClipRegion'>ClipRegion</a>, context_id: <a class='struct' href='../../webrender_traits/struct.WebGLContextId.html' title='webrender_traits::WebGLContextId'>WebGLContextId</a>)</code></h4>
+<h4 id='method.push_text' class='method'><code>fn <a href='#method.push_text' class='fnname'>push_text</a>(&amp;mut self, rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, clip: <a class='struct' href='../../webrender_traits/struct.ClipRegion.html' title='webrender_traits::ClipRegion'>ClipRegion</a>, glyphs: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender_traits/struct.GlyphInstance.html' title='webrender_traits::GlyphInstance'>GlyphInstance</a>&gt;, font_key: <a class='struct' href='../../webrender_traits/struct.FontKey.html' title='webrender_traits::FontKey'>FontKey</a>, color: <a class='struct' href='../../webrender_traits/struct.ColorF.html' title='webrender_traits::ColorF'>ColorF</a>, size: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, blur_radius: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, auxiliary_lists_builder: &amp;mut <a class='struct' href='../../webrender_traits/struct.AuxiliaryListsBuilder.html' title='webrender_traits::AuxiliaryListsBuilder'>AuxiliaryListsBuilder</a>)</code></h4>
+<h4 id='method.push_border' class='method'><code>fn <a href='#method.push_border' class='fnname'>push_border</a>(&amp;mut self, rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, clip: <a class='struct' href='../../webrender_traits/struct.ClipRegion.html' title='webrender_traits::ClipRegion'>ClipRegion</a>, left: <a class='struct' href='../../webrender_traits/struct.BorderSide.html' title='webrender_traits::BorderSide'>BorderSide</a>, top: <a class='struct' href='../../webrender_traits/struct.BorderSide.html' title='webrender_traits::BorderSide'>BorderSide</a>, right: <a class='struct' href='../../webrender_traits/struct.BorderSide.html' title='webrender_traits::BorderSide'>BorderSide</a>, bottom: <a class='struct' href='../../webrender_traits/struct.BorderSide.html' title='webrender_traits::BorderSide'>BorderSide</a>, radius: <a class='struct' href='../../webrender_traits/struct.BorderRadius.html' title='webrender_traits::BorderRadius'>BorderRadius</a>)</code></h4>
+<h4 id='method.push_box_shadow' class='method'><code>fn <a href='#method.push_box_shadow' class='fnname'>push_box_shadow</a>(&amp;mut self, rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, clip: <a class='struct' href='../../webrender_traits/struct.ClipRegion.html' title='webrender_traits::ClipRegion'>ClipRegion</a>, box_bounds: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, offset: <a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, color: <a class='struct' href='../../webrender_traits/struct.ColorF.html' title='webrender_traits::ColorF'>ColorF</a>, blur_radius: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, spread_radius: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, border_radius: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, clip_mode: <a class='enum' href='../../webrender_traits/enum.BoxShadowClipMode.html' title='webrender_traits::BoxShadowClipMode'>BoxShadowClipMode</a>)</code></h4>
+<h4 id='method.push_stacking_context' class='method'><code>fn <a href='#method.push_stacking_context' class='fnname'>push_stacking_context</a>(&amp;mut self, stacking_context_id: <a class='struct' href='../../webrender_traits/struct.StackingContextId.html' title='webrender_traits::StackingContextId'>StackingContextId</a>)</code></h4>
+<h4 id='method.push_gradient' class='method'><code>fn <a href='#method.push_gradient' class='fnname'>push_gradient</a>(&amp;mut self, rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, clip: <a class='struct' href='../../webrender_traits/struct.ClipRegion.html' title='webrender_traits::ClipRegion'>ClipRegion</a>, start_point: <a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, end_point: <a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, stops: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender_traits/struct.GradientStop.html' title='webrender_traits::GradientStop'>GradientStop</a>&gt;, auxiliary_lists_builder: &amp;mut <a class='struct' href='../../webrender_traits/struct.AuxiliaryListsBuilder.html' title='webrender_traits::AuxiliaryListsBuilder'>AuxiliaryListsBuilder</a>)</code></h4>
+<h4 id='method.push_iframe' class='method'><code>fn <a href='#method.push_iframe' class='fnname'>push_iframe</a>(&amp;mut self, rect: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;, clip: <a class='struct' href='../../webrender_traits/struct.ClipRegion.html' title='webrender_traits::ClipRegion'>ClipRegion</a>, iframe: <a class='struct' href='../../webrender_traits/struct.PipelineId.html' title='webrender_traits::PipelineId'>PipelineId</a>)</code></h4>
+<h4 id='method.push_item' class='method'><code>fn <a href='#method.push_item' class='fnname'>push_item</a>(&amp;mut self, item: <a class='struct' href='../../webrender_traits/struct.DisplayItem.html' title='webrender_traits::DisplayItem'>DisplayItem</a>)</code></h4>
+<h4 id='method.flush' class='method'><code>fn <a href='#method.flush' class='fnname'>flush</a>(&amp;mut self)</code></h4>
+<h4 id='method.finalize' class='method'><code>fn <a href='#method.finalize' class='fnname'>finalize</a>(self) -&gt; <a class='struct' href='../../webrender_traits/struct.BuiltDisplayList.html' title='webrender_traits::BuiltDisplayList'>BuiltDisplayList</a></code></h4>
+<h4 id='method.display_items' class='method'><code>fn <a href='#method.display_items' class='fnname'>display_items</a>&lt;'a&gt;(&amp;'a self, range: &amp;<a class='struct' href='../../webrender_traits/struct.ItemRange.html' title='webrender_traits::ItemRange'>ItemRange</a>) -&gt; <a class='primitive' href='../../std/primitive.slice.html'>&amp;'a [</a><a class='struct' href='../../webrender_traits/struct.DisplayItem.html' title='webrender_traits::DisplayItem'>DisplayItem</a><a class='primitive' href='../../std/primitive.slice.html'>]</a></code></h4>
+<h4 id='method.display_items_mut' class='method'><code>fn <a href='#method.display_items_mut' class='fnname'>display_items_mut</a>&lt;'a&gt;(&amp;'a mut self, range: &amp;<a class='struct' href='../../webrender_traits/struct.ItemRange.html' title='webrender_traits::ItemRange'>ItemRange</a>) -&gt; <a class='primitive' href='../../std/primitive.slice.html'>&amp;'a mut [</a><a class='struct' href='../../webrender_traits/struct.DisplayItem.html' title='webrender_traits::DisplayItem'>DisplayItem</a><a class='primitive' href='../../std/primitive.slice.html'>]</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "webrender_traits";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

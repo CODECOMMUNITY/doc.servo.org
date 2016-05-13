@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["BASE",""],["BITS",""],["LO_MASK",""]],"fn":[["from_doublebigdigit","Split one `DoubleBigDigit` into two `BigDigit`s."],["get_hi",""],["get_lo",""],["to_doublebigdigit","Join two `BigDigit`s into one `DoubleBigDigit`"]]});

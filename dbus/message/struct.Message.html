@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Message` struct in crate `dbus`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Message">
+
+    <title>dbus::message::Message - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>dbus</a>::<wbr><a href='index.html'>message</a></p><script>window.sidebarCurrent = {name: 'Message', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>dbus</a>::<wbr><a href='index.html'>message</a>::<wbr><a class='struct' href=''>Message</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1287' class='srclink' href='../../src/dbus/message.rs.html#511-513' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Message {
+    msg: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='type' href='../../dbus/ffi/type.DBusMessage.html' title='dbus::ffi::DBusMessage'>DBusMessage</a>,
+}</pre><div class='docblock'><p>A D-Bus message. A message contains some headers (e g sender and destination address)
+and a list of MessageItems.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.msg'><code>msg</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a></code></h3><div class='impl-items'><h4 id='method.new_method_call' class='method'><code>fn <a href='#method.new_method_call' class='fnname'>new_method_call</a>&lt;'d, 'p, 'i, 'm, D, P, I, M&gt;(destination: D, path: P, iface: I, method: M) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a>, <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt; <span class='where'>where D: <a class='trait' href='../../core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='../../dbus/struct.BusName.html' title='dbus::BusName'>BusName</a>&lt;'d&gt;&gt;, P: <a class='trait' href='../../core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='../../dbus/struct.Path.html' title='dbus::Path'>Path</a>&lt;'p&gt;&gt;, I: <a class='trait' href='../../core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='../../dbus/struct.Interface.html' title='dbus::Interface'>Interface</a>&lt;'i&gt;&gt;, M: <a class='trait' href='../../core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='../../dbus/struct.Member.html' title='dbus::Member'>Member</a>&lt;'m&gt;&gt;</span></code></h4>
+<div class='docblock'><p>Creates a new method call message.</p>
+</div><h4 id='method.method_call' class='method'><code>fn <a href='#method.method_call' class='fnname'>method_call</a>(destination: &amp;<a class='struct' href='../../dbus/struct.BusName.html' title='dbus::BusName'>BusName</a>, path: &amp;<a class='struct' href='../../dbus/struct.Path.html' title='dbus::Path'>Path</a>, iface: &amp;<a class='struct' href='../../dbus/struct.Interface.html' title='dbus::Interface'>Interface</a>, name: &amp;<a class='struct' href='../../dbus/struct.Member.html' title='dbus::Member'>Member</a>) -&gt; <a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a></code></h4>
+<div class='docblock'><p>Creates a new method call message.</p>
+</div><h4 id='method.new_signal' class='method'><code>fn <a href='#method.new_signal' class='fnname'>new_signal</a>&lt;P, I, M&gt;(path: P, iface: I, name: M) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a>, <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt; <span class='where'>where P: <a class='trait' href='../../core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;&gt;, I: <a class='trait' href='../../core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;&gt;, M: <a class='trait' href='../../core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;&gt;</span></code></h4>
+<div class='docblock'><p>Creates a new signal message.</p>
+</div><h4 id='method.signal' class='method'><code>fn <a href='#method.signal' class='fnname'>signal</a>(path: &amp;<a class='struct' href='../../dbus/struct.Path.html' title='dbus::Path'>Path</a>, iface: &amp;<a class='struct' href='../../dbus/struct.Interface.html' title='dbus::Interface'>Interface</a>, name: &amp;<a class='struct' href='../../dbus/struct.Member.html' title='dbus::Member'>Member</a>) -&gt; <a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a></code></h4>
+<div class='docblock'><p>Creates a new signal message.</p>
+</div><h4 id='method.new_method_return' class='method'><code>fn <a href='#method.new_method_return' class='fnname'>new_method_return</a>(m: &amp;<a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a>&gt;</code></h4>
+<div class='docblock'><p>Creates a method reply for this method call.</p>
+</div><h4 id='method.method_return' class='method'><code>fn <a href='#method.method_return' class='fnname'>method_return</a>(&amp;self) -&gt; <a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a></code></h4>
+<div class='docblock'><p>Creates a method return (reply) for this method call.</p>
+</div><h4 id='method.new_error' class='method'><code>fn <a href='#method.new_error' class='fnname'>new_error</a>(m: &amp;<a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a>, error_name: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, error_message: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a>&gt;</code></h4>
+<div class='docblock'><p>The old way to create a new error reply</p>
+</div><h4 id='method.error' class='method'><code>fn <a href='#method.error' class='fnname'>error</a>(&amp;self, error_name: &amp;<a class='struct' href='../../dbus/struct.ErrorName.html' title='dbus::ErrorName'>ErrorName</a>, error_message: &amp;<a class='struct' href='../../std/ffi/c_str/struct.CStr.html' title='std::ffi::c_str::CStr'>CStr</a>) -&gt; <a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a></code></h4>
+<div class='docblock'><p>Creates a new error reply</p>
+</div><h4 id='method.get_items' class='method'><code>fn <a href='#method.get_items' class='fnname'>get_items</a>(&amp;self) -&gt; <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../dbus/enum.MessageItem.html' title='dbus::MessageItem'>MessageItem</a>&gt;</code></h4>
+<div class='docblock'><p>Get the MessageItems that make up the message.</p>
+
+<p>Note: use <code>iter_init</code> or <code>get1</code>/<code>get2</code>/etc instead for faster access to the arguments.
+This method is provided for backwards compatibility.</p>
+</div><h4 id='method.get_serial' class='method'><code>fn <a href='#method.get_serial' class='fnname'>get_serial</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.u32.html'>u32</a></code></h4>
+<div class='docblock'><p>Get the D-Bus serial of a message, if one was specified.</p>
+</div><h4 id='method.get_reply_serial' class='method'><code>fn <a href='#method.get_reply_serial' class='fnname'>get_reply_serial</a>(&amp;self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;</code></h4>
+<div class='docblock'><p>Get the serial of the message this message is a reply to, if present.</p>
+</div><h4 id='method.append_items' class='method'><code>fn <a href='#method.append_items' class='fnname'>append_items</a>(&amp;mut self, v: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='enum' href='../../dbus/enum.MessageItem.html' title='dbus::MessageItem'>MessageItem</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>)</code></h4>
+<div class='docblock'><p>Add one or more MessageItems to this Message.</p>
+
+<p>Note: using <code>append1</code>, <code>append2</code> or <code>append3</code> might be faster, especially for large arrays.
+This method is provided for backwards compatibility.</p>
+</div><h4 id='method.append' class='method'><code>fn <a href='#method.append' class='fnname'>append</a>&lt;I: <a class='trait' href='../../core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='enum' href='../../dbus/enum.MessageItem.html' title='dbus::MessageItem'>MessageItem</a>&gt;&gt;(self, v: I) -&gt; Self</code></h4>
+<div class='docblock'><p>Appends one MessageItem to a message.
+Use in builder style: e g <code>m.method_return().append(7i32)</code></p>
+
+<p>Note: using <code>append1</code>, <code>append2</code> or <code>append3</code> might be faster, especially for large arrays.
+This method is provided for backwards compatibility.</p>
+</div><h4 id='method.append1' class='method'><code>fn <a href='#method.append1' class='fnname'>append1</a>&lt;A: <a class='trait' href='../../dbus/msgarg/trait.Append.html' title='dbus::msgarg::Append'>Append</a>&gt;(self, a: A) -&gt; Self</code></h4>
+<div class='docblock'><p>Appends one argument to this message.
+Use in builder style: e g <code>m.method_return().append1(7i32)</code></p>
+</div><h4 id='method.append2' class='method'><code>fn <a href='#method.append2' class='fnname'>append2</a>&lt;A1: <a class='trait' href='../../dbus/msgarg/trait.Append.html' title='dbus::msgarg::Append'>Append</a>, A2: <a class='trait' href='../../dbus/msgarg/trait.Append.html' title='dbus::msgarg::Append'>Append</a>&gt;(self, a1: A1, a2: A2) -&gt; Self</code></h4>
+<div class='docblock'><p>Appends two arguments to this message.
+Use in builder style: e g <code>m.method_return().append2(7i32, 6u8)</code></p>
+</div><h4 id='method.append3' class='method'><code>fn <a href='#method.append3' class='fnname'>append3</a>&lt;A1: <a class='trait' href='../../dbus/msgarg/trait.Append.html' title='dbus::msgarg::Append'>Append</a>, A2: <a class='trait' href='../../dbus/msgarg/trait.Append.html' title='dbus::msgarg::Append'>Append</a>, A3: <a class='trait' href='../../dbus/msgarg/trait.Append.html' title='dbus::msgarg::Append'>Append</a>&gt;(self, a1: A1, a2: A2, a3: A3) -&gt; Self</code></h4>
+<div class='docblock'><p>Appends three arguments to this message.
+Use in builder style: e g <code>m.method_return().append3(7i32, 6u8, true)</code></p>
+</div><h4 id='method.get1' class='method'><code>fn <a href='#method.get1' class='fnname'>get1</a>&lt;'a, G1: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;&gt;(&amp;'a self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G1&gt;</code></h4>
+<div class='docblock'><p>Gets the first argument from the message, if that argument is of type G1.
+Returns None if there are not enough arguments, or if types don&#39;t match.</p>
+</div><h4 id='method.get2' class='method'><code>fn <a href='#method.get2' class='fnname'>get2</a>&lt;'a, G1: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G2: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;&gt;(&amp;'a self) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G1&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G2&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Gets the first two arguments from the message, if those arguments are of type G1 and G2.
+Returns None if there are not enough arguments, or if types don&#39;t match.</p>
+</div><h4 id='method.get3' class='method'><code>fn <a href='#method.get3' class='fnname'>get3</a>&lt;'a, G1: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G2: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G3: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;&gt;(&amp;'a self) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G1&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G2&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G3&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Gets the first three arguments from the message, if those arguments are of type G1, G2 and G3.
+Returns None if there are not enough arguments, or if types don&#39;t match.</p>
+</div><h4 id='method.get4' class='method'><code>fn <a href='#method.get4' class='fnname'>get4</a>&lt;'a, G1: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G2: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G3: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G4: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;&gt;(&amp;'a self) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G1&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G2&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G3&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G4&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Gets the first four arguments from the message, if those arguments are of type G1, G2, G3 and G4.
+Returns None if there are not enough arguments, or if types don&#39;t match.</p>
+</div><h4 id='method.get5' class='method'><code>fn <a href='#method.get5' class='fnname'>get5</a>&lt;'a, G1: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G2: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G3: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G4: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;, G5: <a class='trait' href='../../dbus/msgarg/trait.Get.html' title='dbus::msgarg::Get'>Get</a>&lt;'a&gt;&gt;(&amp;'a self) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G1&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G2&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G3&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G4&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;G5&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Gets the first five arguments from the message, if those arguments are of type G1, G2, G3 and G4.
+Returns None if there are not enough arguments, or if types don&#39;t match.
+Note: If you need more than five arguments, use <code>iter_init</code> instead.</p>
+</div><h4 id='method.iter_init' class='method'><code>fn <a href='#method.iter_init' class='fnname'>iter_init</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='struct' href='../../dbus/msgarg/struct.Iter.html' title='dbus::msgarg::Iter'>Iter</a>&lt;'a&gt;</code></h4>
+<div class='docblock'><p>Returns a struct for retreiving the arguments from a message. Supersedes get_items().</p>
+</div><h4 id='method.msg_type' class='method'><code>fn <a href='#method.msg_type' class='fnname'>msg_type</a>(&amp;self) -&gt; <a class='enum' href='../../dbus/enum.MessageType.html' title='dbus::MessageType'>MessageType</a></code></h4>
+<div class='docblock'><p>Gets the MessageType of the Message.</p>
+</div><h4 id='method.msg_internal_str' class='method'><code>fn <a href='#method.msg_internal_str' class='fnname'>msg_internal_str</a>&lt;'a&gt;(&amp;'a self, c: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='type' href='../../libc/unix/notbsd/linux/other/b64/x86_64/type.c_char.html' title='libc::unix::notbsd::linux::other::b64::x86_64::c_char'>c_char</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.slice.html'>&amp;'a [</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>&gt;</code></h4>
+<h4 id='method.sender' class='method'><code>fn <a href='#method.sender' class='fnname'>sender</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../dbus/struct.BusName.html' title='dbus::BusName'>BusName</a>&lt;'a&gt;&gt;</code></h4>
+<div class='docblock'><p>Gets the name of the connection that originated this message.</p>
+</div><h4 id='method.headers' class='method'><code>fn <a href='#method.headers' class='fnname'>headers</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='enum' href='../../dbus/enum.MessageType.html' title='dbus::MessageType'>MessageType</a>, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;<a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<div class='docblock'><p>Returns a tuple of (Message type, Path, Interface, Member) of the current message.</p>
+</div><h4 id='method.path' class='method'><code>fn <a href='#method.path' class='fnname'>path</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../dbus/struct.Path.html' title='dbus::Path'>Path</a>&lt;'a&gt;&gt;</code></h4>
+<div class='docblock'><p>Gets the object path this Message is being sent to.</p>
+</div><h4 id='method.interface' class='method'><code>fn <a href='#method.interface' class='fnname'>interface</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../dbus/struct.Interface.html' title='dbus::Interface'>Interface</a>&lt;'a&gt;&gt;</code></h4>
+<div class='docblock'><p>Gets the interface this Message is being sent to.</p>
+</div><h4 id='method.member' class='method'><code>fn <a href='#method.member' class='fnname'>member</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../dbus/struct.Member.html' title='dbus::Member'>Member</a>&lt;'a&gt;&gt;</code></h4>
+<div class='docblock'><p>Gets the interface member being called.</p>
+</div><h4 id='method.as_result' class='method'><code>fn <a href='#method.as_result' class='fnname'>as_result</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;&amp;mut <a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a>, <a class='struct' href='../../dbus/struct.Error.html' title='dbus::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>When the remote end returns an error, the message itself is
+correct but its contents is an error. This method will
+transform such an error to a D-Bus Error or otherwise return
+the original message.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a> for <a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../../core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='../../core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../dbus/struct.Message.html' title='dbus::Message'>Message</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, <a class='struct' href='../../core/fmt/struct.Error.html' title='core::fmt::Error'>Error</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "dbus";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

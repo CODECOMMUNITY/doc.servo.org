@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ChildrenMutation` enum in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ChildrenMutation">
+
+    <title>script::dom::node::ChildrenMutation - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>script</a>::<wbr><a href='../index.html'>dom</a>::<wbr><a href='index.html'>node</a></p><script>window.sidebarCurrent = {name: 'ChildrenMutation', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>script</a>::<wbr><a href='../index.html'>dom</a>::<wbr><a href='index.html'>node</a>::<wbr><a class='enum' href=''>ChildrenMutation</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-97689' class='srclink' href='../../../src/script/dom/node.rs.html#2424-2435' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum ChildrenMutation&lt;'a&gt; {
+    Append {
+        prev: &amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>,
+        added: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>,
+    },
+    Insert {
+        prev: &amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>,
+        added: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>,
+        next: &amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>,
+    },
+    Prepend {
+        added: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>,
+        next: &amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>,
+    },
+    Replace {
+        prev: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>&gt;,
+        removed: &amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>,
+        added: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>,
+        next: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>&gt;,
+    },
+    ReplaceAll {
+        removed: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>,
+        added: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>,
+    },
+}</pre><h2 class='variants'>Variants</h2>
+<table class='variants_table'><tr><td id='variant.Append'><code>Append</code></td><td><h3 class='fields'>Fields</h3>
+
+                           <table><tr><td id='variant.Append.field.prev'><code>prev</code></td><td></td></tr><tr><td id='variant.Append.field.added'><code>added</code></td><td></td></tr></table></td><td></td></tr><tr><td id='variant.Insert'><code>Insert</code></td><td><h3 class='fields'>Fields</h3>
+
+                           <table><tr><td id='variant.Insert.field.prev'><code>prev</code></td><td></td></tr><tr><td id='variant.Insert.field.added'><code>added</code></td><td></td></tr><tr><td id='variant.Insert.field.next'><code>next</code></td><td></td></tr></table></td><td></td></tr><tr><td id='variant.Prepend'><code>Prepend</code></td><td><h3 class='fields'>Fields</h3>
+
+                           <table><tr><td id='variant.Prepend.field.added'><code>added</code></td><td></td></tr><tr><td id='variant.Prepend.field.next'><code>next</code></td><td></td></tr></table></td><td></td></tr><tr><td id='variant.Replace'><code>Replace</code></td><td><h3 class='fields'>Fields</h3>
+
+                           <table><tr><td id='variant.Replace.field.prev'><code>prev</code></td><td></td></tr><tr><td id='variant.Replace.field.removed'><code>removed</code></td><td></td></tr><tr><td id='variant.Replace.field.added'><code>added</code></td><td></td></tr><tr><td id='variant.Replace.field.next'><code>next</code></td><td></td></tr></table></td><td></td></tr><tr><td id='variant.ReplaceAll'><code>ReplaceAll</code></td><td><h3 class='fields'>Fields</h3>
+
+                           <table><tr><td id='variant.ReplaceAll.field.removed'><code>removed</code></td><td></td></tr><tr><td id='variant.ReplaceAll.field.added'><code>added</code></td><td></td></tr></table></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'a&gt; <a class='enum' href='../../../script/dom/node/enum.ChildrenMutation.html' title='script::dom::node::ChildrenMutation'>ChildrenMutation</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.insert' class='method'><code>fn <a href='#method.insert' class='fnname'>insert</a>(prev: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>&gt;, added: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>, next: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>&gt;) -&gt; <a class='enum' href='../../../script/dom/node/enum.ChildrenMutation.html' title='script::dom::node::ChildrenMutation'>ChildrenMutation</a>&lt;'a&gt;</code></h4>
+<h4 id='method.replace' class='method'><code>fn <a href='#method.replace' class='fnname'>replace</a>(prev: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>&gt;, removed: &amp;'a <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>&gt;, added: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>, next: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>&gt;) -&gt; <a class='enum' href='../../../script/dom/node/enum.ChildrenMutation.html' title='script::dom::node::ChildrenMutation'>ChildrenMutation</a>&lt;'a&gt;</code></h4>
+<h4 id='method.replace_all' class='method'><code>fn <a href='#method.replace_all' class='fnname'>replace_all</a>(removed: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>, added: <a class='primitive' href='../../../std/primitive.slice.html'>&amp;'a [</a>&amp;'a <a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a><a class='primitive' href='../../../std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../../../script/dom/node/enum.ChildrenMutation.html' title='script::dom::node::ChildrenMutation'>ChildrenMutation</a>&lt;'a&gt;</code></h4>
+<h4 id='method.next_child' class='method'><code>fn <a href='#method.next_child' class='fnname'>next_child</a>(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>&gt;</code></h4>
+<div class='docblock'><p>Get the child that follows the added or removed children.</p>
+</div><h4 id='method.modified_edge_element' class='method'><code>fn <a href='#method.modified_edge_element' class='fnname'>modified_edge_element</a>(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a>&gt;&gt;</code></h4>
+<div class='docblock'><p>If nodes were added or removed at the start or end of a container, return any
+previously-existing child whose &quot;:first-child&quot; or &quot;:last-child&quot; status <em>may</em> have changed.</p>
+
+<p>NOTE: This does not check whether the inserted/removed nodes were elements, so in some
+cases it will return a false positive.  This doesn&#39;t matter for correctness, because at
+worst the returned element will be restyled unnecessarily.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

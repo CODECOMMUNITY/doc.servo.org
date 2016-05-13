@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["GetSubframeWindow",""],["defineProperty",""],["finalize",""],["get",""],["getOwnPropertyDescriptor",""],["has",""],["new_window_proxy_handler",""],["set",""],["trace",""]],"static":[["PROXY_HANDLER",""]],"struct":[["BrowsingContext",""],["ContextIterator",""],["SessionHistoryEntry",""]],"trait":[["IterableContext",""]]});

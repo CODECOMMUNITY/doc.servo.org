@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Window` struct in crate `glutin`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Window">
+
+    <title>glutin::api::x11::window::Window - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../../index.html'>glutin</a>::<wbr><a href='../../index.html'>api</a>::<wbr><a href='../index.html'>x11</a>::<wbr><a href='index.html'>window</a></p><script>window.sidebarCurrent = {name: 'Window', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../../index.html'>glutin</a>::<wbr><a href='../../index.html'>api</a>::<wbr><a href='../index.html'>x11</a>::<wbr><a href='index.html'>window</a>::<wbr><a class='struct' href=''>Window</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3838' class='srclink' href='../../../../src/glutin/api/x11/window.rs.html#297-306' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Window {
+    pub x: <a class='struct' href='../../../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../../../glutin/api/x11/struct.XWindow.html' title='glutin::api::x11::XWindow'>XWindow</a>&gt;,
+    is_closed: <a class='struct' href='../../../../core/sync/atomic/struct.AtomicBool.html' title='core::sync::atomic::AtomicBool'>AtomicBool</a>,
+    wm_delete_window: <a class='type' href='../../../../x11_dl/xlib/type.Atom.html' title='x11_dl::xlib::Atom'>Atom</a>,
+    current_size: <a class='struct' href='../../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../../std/primitive.tuple.html'>(</a><a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a>, <a class='type' href='../../../../libc/type.c_int.html' title='libc::c_int'>c_int</a><a class='primitive' href='../../../../std/primitive.tuple.html'>)</a>&gt;,
+    pending_events: <a class='struct' href='../../../../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='struct' href='../../../../collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a class='enum' href='../../../../glutin/enum.Event.html' title='glutin::Event'>Event</a>&gt;&gt;,
+    cursor_state: <a class='struct' href='../../../../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='enum' href='../../../../glutin/enum.CursorState.html' title='glutin::CursorState'>CursorState</a>&gt;,
+    input_handler: <a class='struct' href='../../../../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='struct' href='../../../../glutin/api/x11/input/struct.XInputEventHandler.html' title='glutin::api::x11::input::XInputEventHandler'>XInputEventHandler</a>&gt;,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.x'><code>x</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.is_closed'><code>is_closed</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.wm_delete_window'><code>wm_delete_window</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.current_size'><code>current_size</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.pending_events'><code>pending_events</code></td><td><div class='docblock'><p>Events that have been retreived with XLib but not dispatched with iterators yet</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.cursor_state'><code>cursor_state</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.input_handler'><code>input_handler</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../../glutin/api/x11/struct.Window.html' title='glutin::api::x11::Window'>Window</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(display: &amp;<a class='struct' href='../../../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../../../glutin/api/x11/struct.XConnection.html' title='glutin::api::x11::XConnection'>XConnection</a>&gt;, window_attrs: &amp;<a class='struct' href='../../../../glutin/struct.WindowAttributes.html' title='glutin::WindowAttributes'>WindowAttributes</a>, pf_reqs: &amp;<a class='struct' href='../../../../glutin/struct.PixelFormatRequirements.html' title='glutin::PixelFormatRequirements'>PixelFormatRequirements</a>, opengl: &amp;<a class='struct' href='../../../../glutin/struct.GlAttributes.html' title='glutin::GlAttributes'>GlAttributes</a>&lt;&amp;<a class='struct' href='../../../../glutin/api/x11/struct.Window.html' title='glutin::api::x11::Window'>Window</a>&gt;) -&gt; <a class='enum' href='../../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../../../glutin/api/x11/struct.Window.html' title='glutin::api::x11::Window'>Window</a>, <a class='enum' href='../../../../glutin/enum.CreationError.html' title='glutin::CreationError'>CreationError</a>&gt;</code></h4>
+<h4 id='method.set_title' class='method'><code>fn <a href='#method.set_title' class='fnname'>set_title</a>(&amp;self, title: &amp;<a class='primitive' href='../../../../std/primitive.str.html'>str</a>)</code></h4>
+<h4 id='method.show' class='method'><code>fn <a href='#method.show' class='fnname'>show</a>(&amp;self)</code></h4>
+<h4 id='method.hide' class='method'><code>fn <a href='#method.hide' class='fnname'>hide</a>(&amp;self)</code></h4>
+<h4 id='method.get_geometry' class='method'><code>fn <a href='#method.get_geometry' class='fnname'>get_geometry</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../../../std/primitive.i32.html'>i32</a>, <a class='primitive' href='../../../../std/primitive.i32.html'>i32</a>, <a class='primitive' href='../../../../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../../../../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../../../../std/primitive.u32.html'>u32</a><a class='primitive' href='../../../../std/primitive.tuple.html'>)</a>&gt;</code></h4>
+<h4 id='method.get_position' class='method'><code>fn <a href='#method.get_position' class='fnname'>get_position</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../../../std/primitive.i32.html'>i32</a>, <a class='primitive' href='../../../../std/primitive.i32.html'>i32</a><a class='primitive' href='../../../../std/primitive.tuple.html'>)</a>&gt;</code></h4>
+<h4 id='method.set_position' class='method'><code>fn <a href='#method.set_position' class='fnname'>set_position</a>(&amp;self, x: <a class='primitive' href='../../../../std/primitive.i32.html'>i32</a>, y: <a class='primitive' href='../../../../std/primitive.i32.html'>i32</a>)</code></h4>
+<h4 id='method.get_inner_size' class='method'><code>fn <a href='#method.get_inner_size' class='fnname'>get_inner_size</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../../../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../../../../std/primitive.u32.html'>u32</a><a class='primitive' href='../../../../std/primitive.tuple.html'>)</a>&gt;</code></h4>
+<h4 id='method.get_outer_size' class='method'><code>fn <a href='#method.get_outer_size' class='fnname'>get_outer_size</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../../../std/primitive.tuple.html'>(</a><a class='primitive' href='../../../../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../../../../std/primitive.u32.html'>u32</a><a class='primitive' href='../../../../std/primitive.tuple.html'>)</a>&gt;</code></h4>
+<h4 id='method.set_inner_size' class='method'><code>fn <a href='#method.set_inner_size' class='fnname'>set_inner_size</a>(&amp;self, x: <a class='primitive' href='../../../../std/primitive.u32.html'>u32</a>, y: <a class='primitive' href='../../../../std/primitive.u32.html'>u32</a>)</code></h4>
+<h4 id='method.create_window_proxy' class='method'><code>fn <a href='#method.create_window_proxy' class='fnname'>create_window_proxy</a>(&amp;self) -&gt; <a class='struct' href='../../../../glutin/api/x11/struct.WindowProxy.html' title='glutin::api::x11::WindowProxy'>WindowProxy</a></code></h4>
+<h4 id='method.poll_events' class='method'><code>fn <a href='#method.poll_events' class='fnname'>poll_events</a>(&amp;self) -&gt; <a class='struct' href='../../../../glutin/api/x11/struct.PollEventsIterator.html' title='glutin::api::x11::PollEventsIterator'>PollEventsIterator</a></code></h4>
+<h4 id='method.wait_events' class='method'><code>fn <a href='#method.wait_events' class='fnname'>wait_events</a>(&amp;self) -&gt; <a class='struct' href='../../../../glutin/api/x11/struct.WaitEventsIterator.html' title='glutin::api::x11::WaitEventsIterator'>WaitEventsIterator</a></code></h4>
+<h4 id='method.get_xlib_display' class='method'><code>fn <a href='#method.get_xlib_display' class='fnname'>get_xlib_display</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../libc/enum.c_void.html' title='libc::c_void'>c_void</a></code></h4>
+<h4 id='method.platform_display' class='method'><code>fn <a href='#method.platform_display' class='fnname'>platform_display</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../libc/enum.c_void.html' title='libc::c_void'>c_void</a></code></h4>
+<h4 id='method.get_xlib_window' class='method'><code>fn <a href='#method.get_xlib_window' class='fnname'>get_xlib_window</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../libc/enum.c_void.html' title='libc::c_void'>c_void</a></code></h4>
+<h4 id='method.platform_window' class='method'><code>fn <a href='#method.platform_window' class='fnname'>platform_window</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../libc/enum.c_void.html' title='libc::c_void'>c_void</a></code></h4>
+<h4 id='method.set_window_resize_callback' class='method'><code>fn <a href='#method.set_window_resize_callback' class='fnname'>set_window_resize_callback</a>(&amp;mut self, _: <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;fn(<a class='primitive' href='../../../../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../../../../std/primitive.u32.html'>u32</a>)&gt;)</code></h4>
+<h4 id='method.set_cursor' class='method'><code>fn <a href='#method.set_cursor' class='fnname'>set_cursor</a>(&amp;self, cursor: <a class='enum' href='../../../../glutin/enum.MouseCursor.html' title='glutin::MouseCursor'>MouseCursor</a>)</code></h4>
+<h4 id='method.load_cursor' class='method'><code>fn <a href='#method.load_cursor' class='fnname'>load_cursor</a>(&amp;self, name: &amp;<a class='primitive' href='../../../../std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../../../../x11_dl/xlib/type.Cursor.html' title='x11_dl::xlib::Cursor'>Cursor</a></code></h4>
+<h4 id='method.load_first_existing_cursor' class='method'><code>fn <a href='#method.load_first_existing_cursor' class='fnname'>load_first_existing_cursor</a>(&amp;self, names: <a class='primitive' href='../../../../std/primitive.slice.html'>&amp;[</a>&amp;<a class='primitive' href='../../../../std/primitive.str.html'>str</a><a class='primitive' href='../../../../std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='../../../../x11_dl/xlib/type.Cursor.html' title='x11_dl::xlib::Cursor'>Cursor</a></code></h4>
+<h4 id='method.create_empty_cursor' class='method'><code>fn <a href='#method.create_empty_cursor' class='fnname'>create_empty_cursor</a>(&amp;self) -&gt; <a class='type' href='../../../../x11_dl/xlib/type.Cursor.html' title='x11_dl::xlib::Cursor'>Cursor</a></code></h4>
+<h4 id='method.set_cursor_state' class='method'><code>fn <a href='#method.set_cursor_state' class='fnname'>set_cursor_state</a>(&amp;self, state: <a class='enum' href='../../../../glutin/enum.CursorState.html' title='glutin::CursorState'>CursorState</a>) -&gt; <a class='enum' href='../../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../../std/primitive.tuple.html'>()</a>, <a class='struct' href='../../../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></h4>
+<h4 id='method.hidpi_factor' class='method'><code>fn <a href='#method.hidpi_factor' class='fnname'>hidpi_factor</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.f32.html'>f32</a></code></h4>
+<h4 id='method.set_cursor_position' class='method'><code>fn <a href='#method.set_cursor_position' class='fnname'>set_cursor_position</a>(&amp;self, x: <a class='primitive' href='../../../../std/primitive.i32.html'>i32</a>, y: <a class='primitive' href='../../../../std/primitive.i32.html'>i32</a>) -&gt; <a class='enum' href='../../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../../std/primitive.tuple.html'>()</a>, <a class='primitive' href='../../../../std/primitive.tuple.html'>()</a>&gt;</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../../glutin/api/x11/ffi/glx_extra/__gl_imports/trait.Send.html' title='glutin::api::x11::ffi::glx_extra::__gl_imports::Send'>Send</a> for <a class='struct' href='../../../../glutin/api/x11/struct.Window.html' title='glutin::api::x11::Window'>Window</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../../../../core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> for <a class='struct' href='../../../../glutin/api/x11/struct.Window.html' title='glutin::api::x11::Window'>Window</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../../../../glutin/trait.GlContext.html' title='glutin::GlContext'>GlContext</a> for <a class='struct' href='../../../../glutin/api/x11/struct.Window.html' title='glutin::api::x11::Window'>Window</a></code></h3><div class='impl-items'><h4 id='method.make_current' class='method'><code>unsafe fn <a href='../../../../glutin/trait.GlContext.html#tymethod.make_current' class='fnname'>make_current</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../../std/primitive.tuple.html'>()</a>, <a class='enum' href='../../../../glutin/enum.ContextError.html' title='glutin::ContextError'>ContextError</a>&gt;</code></h4>
+<h4 id='method.is_current' class='method'><code>fn <a href='../../../../glutin/trait.GlContext.html#tymethod.is_current' class='fnname'>is_current</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.get_proc_address' class='method'><code>fn <a href='../../../../glutin/trait.GlContext.html#tymethod.get_proc_address' class='fnname'>get_proc_address</a>(&amp;self, addr: &amp;<a class='primitive' href='../../../../std/primitive.str.html'>str</a>) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*const </a><a class='primitive' href='../../../../std/primitive.tuple.html'>()</a></code></h4>
+<h4 id='method.swap_buffers' class='method'><code>fn <a href='../../../../glutin/trait.GlContext.html#tymethod.swap_buffers' class='fnname'>swap_buffers</a>(&amp;self) -&gt; <a class='enum' href='../../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../../std/primitive.tuple.html'>()</a>, <a class='enum' href='../../../../glutin/enum.ContextError.html' title='glutin::ContextError'>ContextError</a>&gt;</code></h4>
+<h4 id='method.get_api' class='method'><code>fn <a href='../../../../glutin/trait.GlContext.html#tymethod.get_api' class='fnname'>get_api</a>(&amp;self) -&gt; <a class='enum' href='../../../../glutin/enum.Api.html' title='glutin::Api'>Api</a></code></h4>
+<h4 id='method.get_pixel_format' class='method'><code>fn <a href='../../../../glutin/trait.GlContext.html#tymethod.get_pixel_format' class='fnname'>get_pixel_format</a>(&amp;self) -&gt; <a class='struct' href='../../../../glutin/struct.PixelFormat.html' title='glutin::PixelFormat'>PixelFormat</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "glutin";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script defer src="../../../../search-index.js"></script>
+</body>
+</html>

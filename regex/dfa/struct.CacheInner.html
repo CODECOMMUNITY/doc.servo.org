@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `CacheInner` struct in crate `regex`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, CacheInner">
+
+    <title>regex::dfa::CacheInner - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../regex/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <p class='location'><a href='../index.html'>regex</a>::<wbr><a href='index.html'>dfa</a></p><script>window.sidebarCurrent = {name: 'CacheInner', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>regex</a>::<wbr><a href='index.html'>dfa</a>::<wbr><a class='struct' href=''>CacheInner</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-930' class='srclink' href='../../src/regex/dfa.rs.html#108-152' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>struct CacheInner {
+    compiled: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../regex/dfa/struct.StateKey.html' title='regex::dfa::StateKey'>StateKey</a>, <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;,
+    trans: <a class='struct' href='../../regex/dfa/struct.Transitions.html' title='regex::dfa::Transitions'>Transitions</a>,
+    states: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../regex/dfa/struct.State.html' title='regex::dfa::State'>State</a>&gt;,
+    start_states: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;,
+    stack: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../regex/dfa/type.InstPtr.html' title='regex::dfa::InstPtr'>InstPtr</a>&gt;,
+    flush_count: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>,
+}</pre><div class='docblock'><p>CacheInner is logically just a part of Cache, but groups together fields
+that aren&#39;t passed as function parameters throughout search. (This split
+is mostly an artifact of the borrow checker. It is happily paid.)</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.compiled'><code>compiled</code></td><td><div class='docblock'><p>A cache of pre-compiled DFA states, keyed by the set of NFA states
+and the set of empty-width flags set at the byte in the input when the
+state was observed.</p>
+
+<p>A StatePtr is effectively a <code>*State</code>, but to avoid various inconvenient
+things, we just pass indexes around manually. The performance impact of
+this is probably an instruction or two in the inner loop. However, on
+64 bit, each StatePtr is half the size of a *State.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.trans'><code>trans</code></td><td><div class='docblock'><p>The transition table.</p>
+
+<p>The transition table is laid out in row-major order, where states are
+rows and the transitions for each state are columns. At a high level,
+given state <code>s</code> and byte <code>b</code>, the next state can be found at index
+<code>s * 256 + b</code>.</p>
+
+<p>This is, of course, a lie. A StatePtr is actually a pointer to the
+<em>start</em> of a row in this table. When indexing in the DFA&#39;s inner loop,
+this removes the need to multiply the StatePtr by the stride. Yes, it
+matters. This reduces the number of states we can store, but: the
+stride is rarely 256 since we define transitions in terms of
+<em>equivalence classes</em> of bytes. Each class corresponds to a set of
+bytes that never discriminate a distinct path through the DFA from each
+other.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.states'><code>states</code></td><td><div class='docblock'><p>Our set of states. Note that <code>StatePtr / num_byte_classes</code> indexes
+this Vec rather than just a <code>StatePtr</code>.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.start_states'><code>start_states</code></td><td><div class='docblock'><p>A set of cached start states, which are limited to the number of
+permutations of flags set just before the initial byte of input. (The
+index into this vec is a <code>EmptyFlags</code>.)</p>
+
+<p>N.B. A start state can be &quot;dead&quot; (i.e., no possible match), so we
+represent it with a StatePtr.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.stack'><code>stack</code></td><td><div class='docblock'><p>Stack scratch space used to follow epsilon transitions in the NFA.
+(This permits us to avoid recursion.)</p>
+
+<p>The maximum stack size is the number of NFA states.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.flush_count'><code>flush_count</code></td><td><div class='docblock'><p>The total number of times this cache has been flushed by the DFA
+because of space constraints.</p>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "regex";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

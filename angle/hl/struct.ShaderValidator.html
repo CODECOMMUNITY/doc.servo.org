@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ShaderValidator` struct in crate `angle`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ShaderValidator">
+
+    <title>angle::hl::ShaderValidator - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>angle</a>::<wbr><a href='index.html'>hl</a></p><script>window.sidebarCurrent = {name: 'ShaderValidator', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>angle</a>::<wbr><a href='index.html'>hl</a>::<wbr><a class='struct' href=''>ShaderValidator</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-160' class='srclink' href='../../src/angle/hl.rs.html#109-111' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ShaderValidator {
+    handle: <a class='type' href='../../angle/ffi/type.ShHandle.html' title='angle::ffi::ShHandle'>ShHandle</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.handle'><code>handle</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../angle/hl/struct.ShaderValidator.html' title='angle::hl::ShaderValidator'>ShaderValidator</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(shader_type: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, spec: <a class='enum' href='../../angle/hl/enum.ShaderSpec.html' title='angle::hl::ShaderSpec'>ShaderSpec</a>, output: <a class='enum' href='../../angle/hl/enum.Output.html' title='angle::hl::Output'>Output</a>, resources: &amp;<a class='type' href='../../angle/hl/type.BuiltInResources.html' title='angle::hl::BuiltInResources'>BuiltInResources</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../angle/hl/struct.ShaderValidator.html' title='angle::hl::ShaderValidator'>ShaderValidator</a>&gt;</code></h4>
+<div class='docblock'><p>Create a new ShaderValidator instance
+NB: To call this you should have called first
+initialize()</p>
+</div><h4 id='method.for_webgl' class='method'><code>fn <a href='#method.for_webgl' class='fnname'>for_webgl</a>(shader_type: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, output: <a class='enum' href='../../angle/hl/enum.Output.html' title='angle::hl::Output'>Output</a>, resources: &amp;<a class='type' href='../../angle/hl/type.BuiltInResources.html' title='angle::hl::BuiltInResources'>BuiltInResources</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../angle/hl/struct.ShaderValidator.html' title='angle::hl::ShaderValidator'>ShaderValidator</a>&gt;</code></h4>
+<h4 id='method.compile' class='method'><code>fn <a href='#method.compile' class='fnname'>compile</a>(&amp;self, strings: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a>&amp;<a class='primitive' href='../../std/primitive.str.html'>str</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, options: <a class='primitive' href='../../std/primitive.i32.html'>i32</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, &amp;'static <a class='primitive' href='../../std/primitive.str.html'>str</a>&gt;</code></h4>
+<h4 id='method.object_code' class='method'><code>fn <a href='#method.object_code' class='fnname'>object_code</a>(&amp;self) -&gt; <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a></code></h4>
+<h4 id='method.info_log' class='method'><code>fn <a href='#method.info_log' class='fnname'>info_log</a>(&amp;self) -&gt; <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a></code></h4>
+<h4 id='method.compile_and_translate' class='method'><code>fn <a href='#method.compile_and_translate' class='fnname'>compile_and_translate</a>(&amp;self, strings: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a>&amp;<a class='primitive' href='../../std/primitive.str.html'>str</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>, &amp;'static <a class='primitive' href='../../std/primitive.str.html'>str</a>&gt;</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../angle/hl/struct.ShaderValidator.html' title='angle::hl::ShaderValidator'>ShaderValidator</a></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='../../core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "angle";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

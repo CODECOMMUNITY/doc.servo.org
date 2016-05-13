@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `script_traits` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, script_traits">
+
+    <title>script_traits - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'script_traits', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>script_traits</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-0' class='srclink' href='../src/script_traits/lib.rs.html#5-502' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>This module contains traits in script used generically in the rest of Servo.
+The traits are here instead of in script so that these modules won&#39;t have
+to depend on script.</p>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='script_msg/index.html'
+                                  title='script_traits::script_msg'>script_msg</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.IFrameLoadInfo.html'
+                                  title='script_traits::IFrameLoadInfo'>IFrameLoadInfo</a></td>
+                           <td class='docblock short'>
+                                <p>Specifies the information required to load a URL in an iframe.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.InitialScriptState.html'
+                                  title='script_traits::InitialScriptState'>InitialScriptState</a></td>
+                           <td class='docblock short'>
+                                <p>Data needed to construct a script thread.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.NewLayoutInfo.html'
+                                  title='script_traits::NewLayoutInfo'>NewLayoutInfo</a></td>
+                           <td class='docblock short'>
+                                <p>The initial data associated with a newly-created framed pipeline.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.OpaqueScriptLayoutChannel.html'
+                                  title='script_traits::OpaqueScriptLayoutChannel'>OpaqueScriptLayoutChannel</a></td>
+                           <td class='docblock short'>
+                                <p>An opaque wrapper around script&lt;-&gt;layout channels to avoid leaking message types into
+crates that don&#39;t need to know about them.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ScriptControlChan.html'
+                                  title='script_traits::ScriptControlChan'>ScriptControlChan</a></td>
+                           <td class='docblock short'>
+                                <p>Encapsulates external communication with the script thread.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.TimerEvent.html'
+                                  title='script_traits::TimerEvent'>TimerEvent</a></td>
+                           <td class='docblock short'>
+                                <p>Notifies the script thread to fire due timers.
+TimerSource must be FromWindow when dispatched to ScriptThread and
+must be FromWorker when dispatched to a DedicatedGlobalWorkerScope</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.TimerEventId.html'
+                                  title='script_traits::TimerEventId'>TimerEventId</a></td>
+                           <td class='docblock short'>
+                                <p>The id to be used for a TimerEvent is defined by the corresponding TimerEventRequest.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.TimerEventRequest.html'
+                                  title='script_traits::TimerEventRequest'>TimerEventRequest</a></td>
+                           <td class='docblock short'>
+                                <p>Requests a TimerEvent-Message be sent after the given duration.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.TouchId.html'
+                                  title='script_traits::TouchId'>TouchId</a></td>
+                           <td class='docblock short'>
+                                <p>An opaque identifier for a touch point.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.UntrustedNodeAddress.html'
+                                  title='script_traits::UntrustedNodeAddress'>UntrustedNodeAddress</a></td>
+                           <td class='docblock short'>
+                                <p>The address of a node. Layout sends these back. They must be validated via
+<code>from_untrusted_node_address</code> before they can be used, because we do not trust layout.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.AnimationState.html'
+                                  title='script_traits::AnimationState'>AnimationState</a></td>
+                           <td class='docblock short'>
+                                <p>For a given pipeline, whether any animations are currently running
+and any animation callbacks are queued</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.CompositorEvent.html'
+                                  title='script_traits::CompositorEvent'>CompositorEvent</a></td>
+                           <td class='docblock short'>
+                                <p>Events from the compositor that the script thread needs to know about</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ConstellationControlMsg.html'
+                                  title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a></td>
+                           <td class='docblock short'>
+                                <p>Messages sent from the constellation or layout to the script thread.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.DocumentState.html'
+                                  title='script_traits::DocumentState'>DocumentState</a></td>
+                           <td class='docblock short'>
+                                <p>Used to determine if a script has any pending asynchronous activity.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.EventResult.html'
+                                  title='script_traits::EventResult'>EventResult</a></td>
+                           <td class='docblock short'>
+                                <p>Whether a DOM event was prevented by web content</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.IFrameSandboxState.html'
+                                  title='script_traits::IFrameSandboxState'>IFrameSandboxState</a></td>
+                           <td class='docblock short'>
+                                <p>Whether the sandbox attribute is present for an iframe element</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.LayoutControlMsg.html'
+                                  title='script_traits::LayoutControlMsg'>LayoutControlMsg</a></td>
+                           <td class='docblock short'>
+                                <p>Messages sent to the layout thread from the constellation and/or compositor.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.LayoutMsg.html'
+                                  title='script_traits::LayoutMsg'>LayoutMsg</a></td>
+                           <td class='docblock short'>
+                                <p>Messages from the layout to the constellation.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.Milliseconds.html'
+                                  title='script_traits::Milliseconds'>Milliseconds</a></td>
+                           <td class='docblock short'>
+                                <p>Unit of measurement.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.MouseButton.html'
+                                  title='script_traits::MouseButton'>MouseButton</a></td>
+                           <td class='docblock short'>
+                                <p>The mouse button involved in the event.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.MouseEventType.html'
+                                  title='script_traits::MouseEventType'>MouseEventType</a></td>
+                           <td class='docblock short'>
+                                <p>The types of mouse events</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.MozBrowserErrorType.html'
+                                  title='script_traits::MozBrowserErrorType'>MozBrowserErrorType</a></td>
+                           <td class='docblock short'>
+                                <p>The different types of Browser error events</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.MozBrowserEvent.html'
+                                  title='script_traits::MozBrowserEvent'>MozBrowserEvent</a></td>
+                           <td class='docblock short'>
+                                <p>The events fired in a Browser API context (<code>&lt;iframe mozbrowser&gt;</code>)</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.Nanoseconds.html'
+                                  title='script_traits::Nanoseconds'>Nanoseconds</a></td>
+                           <td class='docblock short'>
+                                <p>Unit of measurement.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ScriptMsg.html'
+                                  title='script_traits::ScriptMsg'>ScriptMsg</a></td>
+                           <td class='docblock short'>
+                                <p>Messages from the script to the constellation.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ScriptToCompositorMsg.html'
+                                  title='script_traits::ScriptToCompositorMsg'>ScriptToCompositorMsg</a></td>
+                           <td class='docblock short'>
+                                <p>Messages sent from the script thread to the compositor</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.TimerSource.html'
+                                  title='script_traits::TimerSource'>TimerSource</a></td>
+                           <td class='docblock short'>
+                                <p>Describes the thread that requested the TimerEvent.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.TouchEventType.html'
+                                  title='script_traits::TouchEventType'>TouchEventType</a></td>
+                           <td class='docblock short'>
+                                <p>The type of input represented by a multi-touch event.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.TouchpadPressurePhase.html'
+                                  title='script_traits::TouchpadPressurePhase'>TouchpadPressurePhase</a></td>
+                           <td class='docblock short'>
+                                <p>Touchpad pressure phase for TouchpadPressureEvent.</p>
+                           </td>
+                       </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_AnimationState.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_AnimationState'>_IMPL_DESERIALIZE_FOR_AnimationState</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_CompositorEvent.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_CompositorEvent'>_IMPL_DESERIALIZE_FOR_CompositorEvent</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ConstellationControlMsg.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_ConstellationControlMsg'>_IMPL_DESERIALIZE_FOR_ConstellationControlMsg</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_DocumentState.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_DocumentState'>_IMPL_DESERIALIZE_FOR_DocumentState</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_EventResult.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_EventResult'>_IMPL_DESERIALIZE_FOR_EventResult</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_IFrameLoadInfo.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_IFrameLoadInfo'>_IMPL_DESERIALIZE_FOR_IFrameLoadInfo</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_IFrameSandboxState.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_IFrameSandboxState'>_IMPL_DESERIALIZE_FOR_IFrameSandboxState</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_LayoutControlMsg.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_LayoutControlMsg'>_IMPL_DESERIALIZE_FOR_LayoutControlMsg</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_MouseButton.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_MouseButton'>_IMPL_DESERIALIZE_FOR_MouseButton</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_MouseEventType.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_MouseEventType'>_IMPL_DESERIALIZE_FOR_MouseEventType</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_MozBrowserErrorType.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_MozBrowserErrorType'>_IMPL_DESERIALIZE_FOR_MozBrowserErrorType</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_MozBrowserEvent.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_MozBrowserEvent'>_IMPL_DESERIALIZE_FOR_MozBrowserEvent</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_NewLayoutInfo.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_NewLayoutInfo'>_IMPL_DESERIALIZE_FOR_NewLayoutInfo</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ScriptControlChan.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_ScriptControlChan'>_IMPL_DESERIALIZE_FOR_ScriptControlChan</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_ScriptToCompositorMsg.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_ScriptToCompositorMsg'>_IMPL_DESERIALIZE_FOR_ScriptToCompositorMsg</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_TimerEvent.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_TimerEvent'>_IMPL_DESERIALIZE_FOR_TimerEvent</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_TimerEventId.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_TimerEventId'>_IMPL_DESERIALIZE_FOR_TimerEventId</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_TimerEventRequest.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_TimerEventRequest'>_IMPL_DESERIALIZE_FOR_TimerEventRequest</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_TimerSource.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_TimerSource'>_IMPL_DESERIALIZE_FOR_TimerSource</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_TouchEventType.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_TouchEventType'>_IMPL_DESERIALIZE_FOR_TouchEventType</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_TouchId.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_TouchId'>_IMPL_DESERIALIZE_FOR_TouchId</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_DESERIALIZE_FOR_TouchpadPressurePhase.html'
+                                  title='script_traits::_IMPL_DESERIALIZE_FOR_TouchpadPressurePhase'>_IMPL_DESERIALIZE_FOR_TouchpadPressurePhase</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_AnimationState.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_AnimationState'>_IMPL_SERIALIZE_FOR_AnimationState</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_CompositorEvent.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_CompositorEvent'>_IMPL_SERIALIZE_FOR_CompositorEvent</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ConstellationControlMsg.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_ConstellationControlMsg'>_IMPL_SERIALIZE_FOR_ConstellationControlMsg</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_DocumentState.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_DocumentState'>_IMPL_SERIALIZE_FOR_DocumentState</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_EventResult.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_EventResult'>_IMPL_SERIALIZE_FOR_EventResult</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_IFrameLoadInfo.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_IFrameLoadInfo'>_IMPL_SERIALIZE_FOR_IFrameLoadInfo</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_IFrameSandboxState.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_IFrameSandboxState'>_IMPL_SERIALIZE_FOR_IFrameSandboxState</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_LayoutControlMsg.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_LayoutControlMsg'>_IMPL_SERIALIZE_FOR_LayoutControlMsg</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_MouseButton.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_MouseButton'>_IMPL_SERIALIZE_FOR_MouseButton</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_MouseEventType.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_MouseEventType'>_IMPL_SERIALIZE_FOR_MouseEventType</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_MozBrowserErrorType.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_MozBrowserErrorType'>_IMPL_SERIALIZE_FOR_MozBrowserErrorType</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_MozBrowserEvent.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_MozBrowserEvent'>_IMPL_SERIALIZE_FOR_MozBrowserEvent</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_NewLayoutInfo.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_NewLayoutInfo'>_IMPL_SERIALIZE_FOR_NewLayoutInfo</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ScriptControlChan.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_ScriptControlChan'>_IMPL_SERIALIZE_FOR_ScriptControlChan</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_ScriptToCompositorMsg.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_ScriptToCompositorMsg'>_IMPL_SERIALIZE_FOR_ScriptToCompositorMsg</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_TimerEvent.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_TimerEvent'>_IMPL_SERIALIZE_FOR_TimerEvent</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_TimerEventId.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_TimerEventId'>_IMPL_SERIALIZE_FOR_TimerEventId</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_TimerEventRequest.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_TimerEventRequest'>_IMPL_SERIALIZE_FOR_TimerEventRequest</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_TimerSource.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_TimerSource'>_IMPL_SERIALIZE_FOR_TimerSource</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_TouchEventType.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_TouchEventType'>_IMPL_SERIALIZE_FOR_TouchEventType</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_TouchId.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_TouchId'>_IMPL_SERIALIZE_FOR_TouchId</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant._IMPL_SERIALIZE_FOR_TouchpadPressurePhase.html'
+                                  title='script_traits::_IMPL_SERIALIZE_FOR_TouchpadPressurePhase'>_IMPL_SERIALIZE_FOR_TouchpadPressurePhase</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.ScriptThreadFactory.html'
+                                  title='script_traits::ScriptThreadFactory'>ScriptThreadFactory</a></td>
+                           <td class='docblock short'>
+                                <p>This trait allows creating a <code>ScriptThread</code> without depending on the <code>script</code>
+crate.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.precise_time_ms.html'
+                                  title='script_traits::precise_time_ms'>precise_time_ms</a></td>
+                           <td class='docblock short'>
+                                <p>Returns the duration since an unspecified epoch measured in ms.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.precise_time_ns.html'
+                                  title='script_traits::precise_time_ns'>precise_time_ns</a></td>
+                           <td class='docblock short'>
+                                <p>Returns the duration since an unspecified epoch measured in ns.</p>
+                           </td>
+                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.MsDuration.html'
+                                  title='script_traits::MsDuration'>MsDuration</a></td>
+                           <td class='docblock short'>
+                                <p>Amount of milliseconds.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.NsDuration.html'
+                                  title='script_traits::NsDuration'>NsDuration</a></td>
+                           <td class='docblock short'>
+                                <p>Amount of nanoseconds.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "script_traits";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

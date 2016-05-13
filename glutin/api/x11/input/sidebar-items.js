@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["AxisType",""]],"fn":[["calc_scroll_deltas","Given an input motion event for an axis and the previous state of the axes, return the horizontal/vertical scroll deltas"],["read_input_axis_info",""]],"struct":[["Axis",""],["AxisValue",""],["InputState",""],["XInputEventHandler",""]]});

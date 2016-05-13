@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["PaintListener","The interface used by the painter to acquire draw targets for each paint frame and submit them to be drawn to the display."]]});

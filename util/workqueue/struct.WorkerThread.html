@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `WorkerThread` struct in crate `util`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, WorkerThread">
+
+    <title>util::workqueue::WorkerThread - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>util</a>::<wbr><a href='index.html'>workqueue</a></p><script>window.sidebarCurrent = {name: 'WorkerThread', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>util</a>::<wbr><a href='index.html'>workqueue</a>::<wbr><a class='struct' href=''>WorkerThread</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3512' class='srclink' href='../../src/util/workqueue.rs.html#69-80' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>struct WorkerThread&lt;QueueData: 'static, WorkData: 'static + <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt; {
+    index: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    port: <a class='struct' href='../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../util/workqueue/enum.WorkerMsg.html' title='util::workqueue::WorkerMsg'>WorkerMsg</a>&lt;QueueData, WorkData&gt;&gt;,
+    chan: <a class='struct' href='../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../../util/workqueue/enum.SupervisorMsg.html' title='util::workqueue::SupervisorMsg'>SupervisorMsg</a>&lt;QueueData, WorkData&gt;&gt;,
+    other_deques: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../deque/struct.Stealer.html' title='deque::Stealer'>Stealer</a>&lt;<a class='struct' href='../../util/workqueue/struct.WorkUnit.html' title='util::workqueue::WorkUnit'>WorkUnit</a>&lt;QueueData, WorkData&gt;&gt;&gt;,
+    rng: <a class='struct' href='../../rand/struct.XorShiftRng.html' title='rand::XorShiftRng'>XorShiftRng</a>,
+}</pre><div class='docblock'><p>Information specific to each worker thread that the thread keeps.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.index'><code>index</code></td><td><div class='docblock'><p>The index of this worker.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.port'><code>port</code></td><td><div class='docblock'><p>The communication port from the supervisor.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.chan'><code>chan</code></td><td><div class='docblock'><p>The communication channel on which messages are sent to the supervisor.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.other_deques'><code>other_deques</code></td><td><div class='docblock'><p>The thief end of the work-stealing deque for all other workers.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.rng'><code>rng</code></td><td><div class='docblock'><p>The random number generator for this worker.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;QueueData: <a class='trait' href='../../core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a>, WorkData: <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt; <a class='struct' href='../../util/workqueue/struct.WorkerThread.html' title='util::workqueue::WorkerThread'>WorkerThread</a>&lt;QueueData, WorkData&gt;</code></h3><div class='impl-items'><h4 id='method.start' class='method'><code>fn <a href='#method.start' class='fnname'>start</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>The main logic. This function starts up the worker and listens for
+messages.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;QueueData: 'static, WorkData: 'static + <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt; <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a> for <a class='struct' href='../../util/workqueue/struct.WorkerThread.html' title='util::workqueue::WorkerThread'>WorkerThread</a>&lt;QueueData, WorkData&gt;</code></h3><div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "util";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

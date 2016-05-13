@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ResourceCache` struct in crate `webrender`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ResourceCache">
+
+    <title>webrender::resource_cache::ResourceCache - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>webrender</a>::<wbr><a href='index.html'>resource_cache</a></p><script>window.sidebarCurrent = {name: 'ResourceCache', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>webrender</a>::<wbr><a href='index.html'>resource_cache</a>::<wbr><a class='struct' href=''>ResourceCache</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-5210' class='srclink' href='../../src/webrender/resource_cache.rs.html#115-135' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ResourceCache {
+    cached_glyphs: <a class='struct' href='../../webrender/resource_cache/struct.ResourceClassCache.html' title='webrender::resource_cache::ResourceClassCache'>ResourceClassCache</a>&lt;<a class='struct' href='../../webrender/internal_types/struct.GlyphKey.html' title='webrender::internal_types::GlyphKey'>GlyphKey</a>, <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../webrender/texture_cache/type.TextureCacheItemId.html' title='webrender::texture_cache::TextureCacheItemId'>TextureCacheItemId</a>&gt;&gt;,
+    cached_rasters: <a class='struct' href='../../webrender/resource_cache/struct.ResourceClassCache.html' title='webrender::resource_cache::ResourceClassCache'>ResourceClassCache</a>&lt;<a class='enum' href='../../webrender/internal_types/enum.RasterItem.html' title='webrender::internal_types::RasterItem'>RasterItem</a>, <a class='type' href='../../webrender/texture_cache/type.TextureCacheItemId.html' title='webrender::texture_cache::TextureCacheItemId'>TextureCacheItemId</a>&gt;,
+    cached_images: <a class='struct' href='../../webrender/resource_cache/struct.ResourceClassCache.html' title='webrender::resource_cache::ResourceClassCache'>ResourceClassCache</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../webrender_traits/types/struct.ImageKey.html' title='webrender_traits::types::ImageKey'>ImageKey</a>, <a class='enum' href='../../webrender_traits/types/enum.ImageRendering.html' title='webrender_traits::types::ImageRendering'>ImageRendering</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>, <a class='struct' href='../../webrender/resource_cache/struct.CachedImageInfo.html' title='webrender::resource_cache::CachedImageInfo'>CachedImageInfo</a>&gt;,
+    webgl_textures: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender_traits/webgl/struct.WebGLContextId.html' title='webrender_traits::webgl::WebGLContextId'>WebGLContextId</a>, <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    draw_lists: <a class='struct' href='../../webrender/freelist/struct.FreeList.html' title='webrender::freelist::FreeList'>FreeList</a>&lt;<a class='struct' href='../../webrender/internal_types/struct.DrawList.html' title='webrender::internal_types::DrawList'>DrawList</a>&gt;,
+    font_templates: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender_traits/types/struct.FontKey.html' title='webrender_traits::types::FontKey'>FontKey</a>, <a class='enum' href='../../webrender/internal_types/enum.FontTemplate.html' title='webrender::internal_types::FontTemplate'>FontTemplate</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    image_templates: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender_traits/types/struct.ImageKey.html' title='webrender_traits::types::ImageKey'>ImageKey</a>, <a class='struct' href='../../webrender/resource_cache/struct.ImageResource.html' title='webrender::resource_cache::ImageResource'>ImageResource</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    device_pixel_ratio: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>,
+    enable_aa: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    texture_cache: <a class='struct' href='../../webrender/texture_cache/struct.TextureCache.html' title='webrender::texture_cache::TextureCache'>TextureCache</a>,
+    pending_raster_jobs: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender/resource_cache/struct.GlyphRasterJob.html' title='webrender::resource_cache::GlyphRasterJob'>GlyphRasterJob</a>&gt;,
+    white_image_id: <a class='type' href='../../webrender/texture_cache/type.TextureCacheItemId.html' title='webrender::texture_cache::TextureCacheItemId'>TextureCacheItemId</a>,
+    dummy_mask_image_id: <a class='type' href='../../webrender/texture_cache/type.TextureCacheItemId.html' title='webrender::texture_cache::TextureCacheItemId'>TextureCacheItemId</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.cached_glyphs'><code>cached_glyphs</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.cached_rasters'><code>cached_rasters</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.cached_images'><code>cached_images</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.webgl_textures'><code>webgl_textures</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.draw_lists'><code>draw_lists</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.font_templates'><code>font_templates</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.image_templates'><code>image_templates</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.device_pixel_ratio'><code>device_pixel_ratio</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.enable_aa'><code>enable_aa</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.texture_cache'><code>texture_cache</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.pending_raster_jobs'><code>pending_raster_jobs</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.white_image_id'><code>white_image_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.dummy_mask_image_id'><code>dummy_mask_image_id</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../webrender/resource_cache/struct.ResourceCache.html' title='webrender::resource_cache::ResourceCache'>ResourceCache</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(thread_pool: &amp;mut <a class='struct' href='../../scoped_threadpool/struct.Pool.html' title='scoped_threadpool::Pool'>Pool</a>, texture_cache: <a class='struct' href='../../webrender/texture_cache/struct.TextureCache.html' title='webrender::texture_cache::TextureCache'>TextureCache</a>, white_image_id: <a class='type' href='../../webrender/texture_cache/type.TextureCacheItemId.html' title='webrender::texture_cache::TextureCacheItemId'>TextureCacheItemId</a>, dummy_mask_image_id: <a class='type' href='../../webrender/texture_cache/type.TextureCacheItemId.html' title='webrender::texture_cache::TextureCacheItemId'>TextureCacheItemId</a>, device_pixel_ratio: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>, enable_aa: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../../webrender/resource_cache/struct.ResourceCache.html' title='webrender::resource_cache::ResourceCache'>ResourceCache</a></code></h4>
+<h4 id='method.add_font_template' class='method'><code>fn <a href='#method.add_font_template' class='fnname'>add_font_template</a>(&amp;mut self, font_key: <a class='struct' href='../../webrender_traits/types/struct.FontKey.html' title='webrender_traits::types::FontKey'>FontKey</a>, template: <a class='enum' href='../../webrender/internal_types/enum.FontTemplate.html' title='webrender::internal_types::FontTemplate'>FontTemplate</a>)</code></h4>
+<h4 id='method.add_image_template' class='method'><code>fn <a href='#method.add_image_template' class='fnname'>add_image_template</a>(&amp;mut self, image_key: <a class='struct' href='../../webrender_traits/types/struct.ImageKey.html' title='webrender_traits::types::ImageKey'>ImageKey</a>, width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, format: <a class='enum' href='../../webrender_traits/types/enum.ImageFormat.html' title='webrender_traits::types::ImageFormat'>ImageFormat</a>, bytes: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;)</code></h4>
+<h4 id='method.update_image_template' class='method'><code>fn <a href='#method.update_image_template' class='fnname'>update_image_template</a>(&amp;mut self, image_key: <a class='struct' href='../../webrender_traits/types/struct.ImageKey.html' title='webrender_traits::types::ImageKey'>ImageKey</a>, width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, format: <a class='enum' href='../../webrender_traits/types/enum.ImageFormat.html' title='webrender_traits::types::ImageFormat'>ImageFormat</a>, bytes: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;)</code></h4>
+<h4 id='method.add_webgl_texture' class='method'><code>fn <a href='#method.add_webgl_texture' class='fnname'>add_webgl_texture</a>(&amp;mut self, id: <a class='struct' href='../../webrender_traits/webgl/struct.WebGLContextId.html' title='webrender_traits::webgl::WebGLContextId'>WebGLContextId</a>, texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, size: <a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.i32.html'>i32</a>&gt;)</code></h4>
+<h4 id='method.add_resource_list' class='method'><code>fn <a href='#method.add_resource_list' class='fnname'>add_resource_list</a>(&amp;mut self, resource_list: &amp;<a class='struct' href='../../webrender/resource_list/struct.ResourceList.html' title='webrender::resource_list::ResourceList'>ResourceList</a>, frame_id: <a class='struct' href='../../webrender/frame/struct.FrameId.html' title='webrender::frame::FrameId'>FrameId</a>)</code></h4>
+<h4 id='method.raster_pending_glyphs' class='method'><code>fn <a href='#method.raster_pending_glyphs' class='fnname'>raster_pending_glyphs</a>(&amp;mut self, thread_pool: &amp;mut <a class='struct' href='../../scoped_threadpool/struct.Pool.html' title='scoped_threadpool::Pool'>Pool</a>, frame_id: <a class='struct' href='../../webrender/frame/struct.FrameId.html' title='webrender::frame::FrameId'>FrameId</a>)</code></h4>
+<h4 id='method.add_draw_list' class='method'><code>fn <a href='#method.add_draw_list' class='fnname'>add_draw_list</a>(&amp;mut self, items: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender_traits/display_item/struct.DisplayItem.html' title='webrender_traits::display_item::DisplayItem'>DisplayItem</a>&gt;, pipeline_id: <a class='struct' href='../../webrender_traits/types/struct.PipelineId.html' title='webrender_traits::types::PipelineId'>PipelineId</a>) -&gt; <a class='type' href='../../webrender/internal_types/type.DrawListId.html' title='webrender::internal_types::DrawListId'>DrawListId</a></code></h4>
+<h4 id='method.get_draw_list' class='method'><code>fn <a href='#method.get_draw_list' class='fnname'>get_draw_list</a>(&amp;self, draw_list_id: <a class='type' href='../../webrender/internal_types/type.DrawListId.html' title='webrender::internal_types::DrawListId'>DrawListId</a>) -&gt; &amp;<a class='struct' href='../../webrender/internal_types/struct.DrawList.html' title='webrender::internal_types::DrawList'>DrawList</a></code></h4>
+<h4 id='method.get_draw_list_mut' class='method'><code>fn <a href='#method.get_draw_list_mut' class='fnname'>get_draw_list_mut</a>(&amp;mut self, draw_list_id: <a class='type' href='../../webrender/internal_types/type.DrawListId.html' title='webrender::internal_types::DrawListId'>DrawListId</a>) -&gt; &amp;mut <a class='struct' href='../../webrender/internal_types/struct.DrawList.html' title='webrender::internal_types::DrawList'>DrawList</a></code></h4>
+<h4 id='method.remove_draw_list' class='method'><code>fn <a href='#method.remove_draw_list' class='fnname'>remove_draw_list</a>(&amp;mut self, draw_list_id: <a class='type' href='../../webrender/internal_types/type.DrawListId.html' title='webrender::internal_types::DrawListId'>DrawListId</a>)</code></h4>
+<h4 id='method.allocate_render_target' class='method'><code>fn <a href='#method.allocate_render_target' class='fnname'>allocate_render_target</a>(&amp;mut self, width: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, height: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, format: <a class='enum' href='../../webrender_traits/types/enum.ImageFormat.html' title='webrender_traits::types::ImageFormat'>ImageFormat</a>, frame_id: <a class='struct' href='../../webrender/frame/struct.FrameId.html' title='webrender::frame::FrameId'>FrameId</a>) -&gt; <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a></code></h4>
+<h4 id='method.free_old_render_targets' class='method'><code>fn <a href='#method.free_old_render_targets' class='fnname'>free_old_render_targets</a>(&amp;mut self)</code></h4>
+<h4 id='method.pending_updates' class='method'><code>fn <a href='#method.pending_updates' class='fnname'>pending_updates</a>(&amp;mut self) -&gt; <a class='struct' href='../../webrender/internal_types/struct.TextureUpdateList.html' title='webrender::internal_types::TextureUpdateList'>TextureUpdateList</a></code></h4>
+<h4 id='method.get_dummy_mask_image' class='method'><code>fn <a href='#method.get_dummy_mask_image' class='fnname'>get_dummy_mask_image</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../webrender/texture_cache/struct.TextureCacheItem.html' title='webrender::texture_cache::TextureCacheItem'>TextureCacheItem</a></code></h4>
+<h4 id='method.get_dummy_color_image' class='method'><code>fn <a href='#method.get_dummy_color_image' class='fnname'>get_dummy_color_image</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../webrender/texture_cache/struct.TextureCacheItem.html' title='webrender::texture_cache::TextureCacheItem'>TextureCacheItem</a></code></h4>
+<h4 id='method.get_glyph' class='method'><code>fn <a href='#method.get_glyph' class='fnname'>get_glyph</a>(&amp;self, glyph_key: &amp;<a class='struct' href='../../webrender/internal_types/struct.GlyphKey.html' title='webrender::internal_types::GlyphKey'>GlyphKey</a>, frame_id: <a class='struct' href='../../webrender/frame/struct.FrameId.html' title='webrender::frame::FrameId'>FrameId</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../webrender/texture_cache/struct.TextureCacheItem.html' title='webrender::texture_cache::TextureCacheItem'>TextureCacheItem</a>&gt;</code></h4>
+<h4 id='method.get_image' class='method'><code>fn <a href='#method.get_image' class='fnname'>get_image</a>(&amp;self, image_key: <a class='struct' href='../../webrender_traits/types/struct.ImageKey.html' title='webrender_traits::types::ImageKey'>ImageKey</a>, image_rendering: <a class='enum' href='../../webrender_traits/types/enum.ImageRendering.html' title='webrender_traits::types::ImageRendering'>ImageRendering</a>, frame_id: <a class='struct' href='../../webrender/frame/struct.FrameId.html' title='webrender::frame::FrameId'>FrameId</a>) -&gt; &amp;<a class='struct' href='../../webrender/texture_cache/struct.TextureCacheItem.html' title='webrender::texture_cache::TextureCacheItem'>TextureCacheItem</a></code></h4>
+<h4 id='method.get_raster' class='method'><code>fn <a href='#method.get_raster' class='fnname'>get_raster</a>(&amp;self, raster_item: &amp;<a class='enum' href='../../webrender/internal_types/enum.RasterItem.html' title='webrender::internal_types::RasterItem'>RasterItem</a>, frame_id: <a class='struct' href='../../webrender/frame/struct.FrameId.html' title='webrender::frame::FrameId'>FrameId</a>) -&gt; &amp;<a class='struct' href='../../webrender/texture_cache/struct.TextureCacheItem.html' title='webrender::texture_cache::TextureCacheItem'>TextureCacheItem</a></code></h4>
+<h4 id='method.get_webgl_texture' class='method'><code>fn <a href='#method.get_webgl_texture' class='fnname'>get_webgl_texture</a>(&amp;self, context_id: &amp;<a class='struct' href='../../webrender_traits/webgl/struct.WebGLContextId.html' title='webrender_traits::webgl::WebGLContextId'>WebGLContextId</a>) -&gt; <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a></code></h4>
+<h4 id='method.device_pixel_ratio' class='method'><code>fn <a href='#method.device_pixel_ratio' class='fnname'>device_pixel_ratio</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.f32.html'>f32</a></code></h4>
+<h4 id='method.expire_old_resources' class='method'><code>fn <a href='#method.expire_old_resources' class='fnname'>expire_old_resources</a>(&amp;mut self, frame_id: <a class='struct' href='../../webrender/frame/struct.FrameId.html' title='webrender::frame::FrameId'>FrameId</a>)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "webrender";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_available_monitors",""],["get_primary_monitor",""]],"mod":[["ffi",""]],"struct":[["MonitorId",""],["PollEventsIterator",""],["WaitEventsIterator",""],["Window",""],["WindowProxy",""]]});

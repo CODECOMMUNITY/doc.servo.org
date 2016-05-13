@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Event` struct in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Event">
+
+    <title>script::dom::event::Event - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>script</a>::<wbr><a href='../index.html'>dom</a>::<wbr><a href='index.html'>event</a></p><script>window.sidebarCurrent = {name: 'Event', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>script</a>::<wbr><a href='../index.html'>dom</a>::<wbr><a href='index.html'>event</a>::<wbr><a class='struct' href=''>Event</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-84606' class='srclink' href='../../../src/script/dom/event.rs.html#78-93' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Event {
+    reflector_: <a class='struct' href='../../../script/dom/bindings/reflector/struct.Reflector.html' title='script::dom::bindings::reflector::Reflector'>Reflector</a>,
+    current_target: <a class='struct' href='../../../script/dom/bindings/js/struct.MutNullableHeap.html' title='script::dom::bindings::js::MutNullableHeap'>MutNullableHeap</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;<a class='struct' href='../../../script/dom/eventtarget/struct.EventTarget.html' title='script::dom::eventtarget::EventTarget'>EventTarget</a>&gt;&gt;,
+    target: <a class='struct' href='../../../script/dom/bindings/js/struct.MutNullableHeap.html' title='script::dom::bindings::js::MutNullableHeap'>MutNullableHeap</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.JS.html' title='script::dom::bindings::js::JS'>JS</a>&lt;<a class='struct' href='../../../script/dom/eventtarget/struct.EventTarget.html' title='script::dom::eventtarget::EventTarget'>EventTarget</a>&gt;&gt;,
+    type_: <a class='struct' href='../../../script/dom/bindings/cell/struct.DOMRefCell.html' title='script::dom::bindings::cell::DOMRefCell'>DOMRefCell</a>&lt;<a class='struct' href='../../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>&gt;,
+    phase: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='enum' href='../../../script/dom/event/enum.EventPhase.html' title='script::dom::event::EventPhase'>EventPhase</a>&gt;,
+    canceled: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;,
+    stop_propagation: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;,
+    stop_immediate: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;,
+    cancelable: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;,
+    bubbles: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;,
+    trusted: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;,
+    dispatching: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;,
+    initialized: <a class='struct' href='../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../std/primitive.bool.html'>bool</a>&gt;,
+    timestamp: <a class='primitive' href='../../../std/primitive.u64.html'>u64</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.reflector_'><code>reflector_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.current_target'><code>current_target</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.target'><code>target</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.type_'><code>type_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.phase'><code>phase</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.canceled'><code>canceled</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.stop_propagation'><code>stop_propagation</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.stop_immediate'><code>stop_immediate</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.cancelable'><code>cancelable</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.bubbles'><code>bubbles</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.trusted'><code>trusted</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.dispatching'><code>dispatching</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.initialized'><code>initialized</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.timestamp'><code>timestamp</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.type_id' class='method'><code>fn <a href='#method.type_id' class='fnname'>type_id</a>(&amp;self) -&gt; &amp;'static <a class='enum' href='../../../script/dom/bindings/codegen/InheritTypes/enum.EventTypeId.html' title='script::dom::bindings::codegen::InheritTypes::EventTypeId'>EventTypeId</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.new_inherited' class='method'><code>fn <a href='#method.new_inherited' class='fnname'>new_inherited</a>() -&gt; <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h4>
+<h4 id='method.new_uninitialized' class='method'><code>fn <a href='#method.new_uninitialized' class='fnname'>new_uninitialized</a>(global: <a class='enum' href='../../../script/dom/bindings/global/enum.GlobalRef.html' title='script::dom::bindings::global::GlobalRef'>GlobalRef</a>) -&gt; <a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a>&gt;</code></h4>
+<h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(global: <a class='enum' href='../../../script/dom/bindings/global/enum.GlobalRef.html' title='script::dom::bindings::global::GlobalRef'>GlobalRef</a>, type_: <a class='struct' href='../../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>, bubbles: <a class='enum' href='../../../script/dom/event/enum.EventBubbles.html' title='script::dom::event::EventBubbles'>EventBubbles</a>, cancelable: <a class='enum' href='../../../script/dom/event/enum.EventCancelable.html' title='script::dom::event::EventCancelable'>EventCancelable</a>) -&gt; <a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a>&gt;</code></h4>
+<h4 id='method.Constructor' class='method'><code>fn <a href='#method.Constructor' class='fnname'>Constructor</a>(global: <a class='enum' href='../../../script/dom/bindings/global/enum.GlobalRef.html' title='script::dom::bindings::global::GlobalRef'>GlobalRef</a>, type_: <a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>, init: &amp;<a class='struct' href='../../../script/dom/bindings/codegen/Bindings/EventBinding/struct.EventInit.html' title='script::dom::bindings::codegen::Bindings::EventBinding::EventInit'>EventInit</a>) -&gt; <a class='type' href='../../../script/dom/bindings/error/type.Fallible.html' title='script::dom::bindings::error::Fallible'>Fallible</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a>&gt;&gt;</code></h4>
+<h4 id='method.init_event' class='method'><code>fn <a href='#method.init_event' class='fnname'>init_event</a>(&amp;self, type_: <a class='struct' href='../../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>, bubbles: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>, cancelable: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>)</code></h4>
+<h4 id='method.clear_current_target' class='method'><code>fn <a href='#method.clear_current_target' class='fnname'>clear_current_target</a>(&amp;self)</code></h4>
+<h4 id='method.set_current_target' class='method'><code>fn <a href='#method.set_current_target' class='fnname'>set_current_target</a>(&amp;self, val: &amp;<a class='struct' href='../../../script/dom/eventtarget/struct.EventTarget.html' title='script::dom::eventtarget::EventTarget'>EventTarget</a>)</code></h4>
+<h4 id='method.set_target' class='method'><code>fn <a href='#method.set_target' class='fnname'>set_target</a>(&amp;self, val: &amp;<a class='struct' href='../../../script/dom/eventtarget/struct.EventTarget.html' title='script::dom::eventtarget::EventTarget'>EventTarget</a>)</code></h4>
+<h4 id='method.phase' class='method'><code>fn <a href='#method.phase' class='fnname'>phase</a>(&amp;self) -&gt; <a class='enum' href='../../../script/dom/event/enum.EventPhase.html' title='script::dom::event::EventPhase'>EventPhase</a></code></h4>
+<h4 id='method.set_phase' class='method'><code>fn <a href='#method.set_phase' class='fnname'>set_phase</a>(&amp;self, val: <a class='enum' href='../../../script/dom/event/enum.EventPhase.html' title='script::dom::event::EventPhase'>EventPhase</a>)</code></h4>
+<h4 id='method.stop_propagation' class='method'><code>fn <a href='#method.stop_propagation' class='fnname'>stop_propagation</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.stop_immediate' class='method'><code>fn <a href='#method.stop_immediate' class='fnname'>stop_immediate</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.bubbles' class='method'><code>fn <a href='#method.bubbles' class='fnname'>bubbles</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.dispatching' class='method'><code>fn <a href='#method.dispatching' class='fnname'>dispatching</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.set_dispatching' class='method'><code>fn <a href='#method.set_dispatching' class='fnname'>set_dispatching</a>(&amp;self, val: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>)</code></h4>
+<h4 id='method.initialized' class='method'><code>fn <a href='#method.initialized' class='fnname'>initialized</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.type_' class='method'><code>fn <a href='#method.type_' class='fnname'>type_</a>(&amp;self) -&gt; <a class='struct' href='../../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.set_trusted' class='method'><code>fn <a href='#method.set_trusted' class='fnname'>set_trusted</a>(&amp;self, trusted: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>)</code></h4>
+<h4 id='method.fire' class='method'><code>fn <a href='#method.fire' class='fnname'>fire</a>(&amp;self, target: &amp;<a class='struct' href='../../../script/dom/eventtarget/struct.EventTarget.html' title='script::dom::eventtarget::EventTarget'>EventTarget</a>) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/conversions/trait.IDLInterface.html' title='script::dom::bindings::conversions::IDLInterface'>IDLInterface</a> for <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.derives' class='method'><code>fn <a href='../../../script/dom/bindings/conversions/trait.IDLInterface.html#tymethod.derives' class='fnname'>derives</a>(class: &amp;'static <a class='struct' href='../../../script/dom/bindings/utils/struct.DOMClass.html' title='script::dom::bindings::utils::DOMClass'>DOMClass</a>) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../../../core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a>) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='../../../core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/inheritance/trait.Castable.html' title='script::dom::bindings::inheritance::Castable'>Castable</a> for <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.is' class='method'><code>fn <a href='../../../script/dom/bindings/inheritance/trait.Castable.html#method.is' class='fnname'>is</a>&lt;T&gt;(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a> <span class='where'>where T: <a class='trait' href='../../../script/dom/bindings/conversions/trait.DerivedFrom.html' title='script::dom::bindings::conversions::DerivedFrom'>DerivedFrom</a>&lt;Self&gt;</span></code></h4>
+<h4 id='method.upcast' class='method'><code>fn <a href='../../../script/dom/bindings/inheritance/trait.Castable.html#method.upcast' class='fnname'>upcast</a>&lt;T&gt;(&amp;self) -&gt; &amp;T <span class='where'>where T: <a class='trait' href='../../../script/dom/bindings/inheritance/trait.Castable.html' title='script::dom::bindings::inheritance::Castable'>Castable</a>, Self: <a class='trait' href='../../../script/dom/bindings/conversions/trait.DerivedFrom.html' title='script::dom::bindings::conversions::DerivedFrom'>DerivedFrom</a>&lt;T&gt;</span></code></h4>
+<h4 id='method.downcast' class='method'><code>fn <a href='../../../script/dom/bindings/inheritance/trait.Castable.html#method.downcast' class='fnname'>downcast</a>&lt;T&gt;(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;T&gt; <span class='where'>where T: <a class='trait' href='../../../script/dom/bindings/conversions/trait.DerivedFrom.html' title='script::dom::bindings::conversions::DerivedFrom'>DerivedFrom</a>&lt;Self&gt;</span></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/conversions/trait.DerivedFrom.html' title='script::dom::bindings::conversions::DerivedFrom'>DerivedFrom</a>&lt;<a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a>&gt; for <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/reflector/trait.Reflectable.html' title='script::dom::bindings::reflector::Reflectable'>Reflectable</a> for <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.reflector' class='method'><code>fn <a href='../../../script/dom/bindings/reflector/trait.Reflectable.html#tymethod.reflector' class='fnname'>reflector</a>&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a <a class='struct' href='../../../script/dom/bindings/reflector/struct.Reflector.html' title='script::dom::bindings::reflector::Reflector'>Reflector</a></code></h4>
+<h4 id='method.init_reflector' class='method'><code>fn <a href='../../../script/dom/bindings/reflector/trait.Reflectable.html#tymethod.init_reflector' class='fnname'>init_reflector</a>(&amp;mut self, obj: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSObject.html' title='js::jsapi::JSObject'>JSObject</a>)</code></h4>
+<h4 id='method.global' class='method'><code>fn <a href='../../../script/dom/bindings/reflector/trait.Reflectable.html#method.global' class='fnname'>global</a>(&amp;self) -&gt; <a class='enum' href='../../../script/dom/bindings/global/enum.GlobalRoot.html' title='script::dom::bindings::global::GlobalRoot'>GlobalRoot</a> <span class='where'>where Self: <a class='trait' href='../../../core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a></span></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/conversions/trait.ToJSValConvertible.html' title='script::dom::bindings::conversions::ToJSValConvertible'>ToJSValConvertible</a> for <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.to_jsval' class='method'><code>unsafe fn <a href='../../../script/dom/bindings/conversions/trait.ToJSValConvertible.html#tymethod.to_jsval' class='fnname'>to_jsval</a>(&amp;self, cx: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, rval: <a class='type' href='../../../js/jsapi/type.MutableHandleValue.html' title='js::jsapi::MutableHandleValue'>MutableHandleValue</a>)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html' title='script::dom::bindings::codegen::Bindings::EventBinding::EventMethods'>EventMethods</a> for <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.EventPhase' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.EventPhase' class='fnname'>EventPhase</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.u16.html'>u16</a></code></h4>
+<h4 id='method.Type' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.Type' class='fnname'>Type</a>(&amp;self) -&gt; <a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a></code></h4>
+<h4 id='method.GetTarget' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.GetTarget' class='fnname'>GetTarget</a>(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/eventtarget/struct.EventTarget.html' title='script::dom::eventtarget::EventTarget'>EventTarget</a>&gt;&gt;</code></h4>
+<h4 id='method.GetCurrentTarget' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.GetCurrentTarget' class='fnname'>GetCurrentTarget</a>(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../script/dom/bindings/js/struct.Root.html' title='script::dom::bindings::js::Root'>Root</a>&lt;<a class='struct' href='../../../script/dom/eventtarget/struct.EventTarget.html' title='script::dom::eventtarget::EventTarget'>EventTarget</a>&gt;&gt;</code></h4>
+<h4 id='method.DefaultPrevented' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.DefaultPrevented' class='fnname'>DefaultPrevented</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.PreventDefault' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.PreventDefault' class='fnname'>PreventDefault</a>(&amp;self)</code></h4>
+<h4 id='method.StopPropagation' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.StopPropagation' class='fnname'>StopPropagation</a>(&amp;self)</code></h4>
+<h4 id='method.StopImmediatePropagation' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.StopImmediatePropagation' class='fnname'>StopImmediatePropagation</a>(&amp;self)</code></h4>
+<h4 id='method.Bubbles' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.Bubbles' class='fnname'>Bubbles</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.Cancelable' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.Cancelable' class='fnname'>Cancelable</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.TimeStamp' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.TimeStamp' class='fnname'>TimeStamp</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.u64.html'>u64</a></code></h4>
+<h4 id='method.InitEvent' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.InitEvent' class='fnname'>InitEvent</a>(&amp;self, type_: <a class='struct' href='../../../util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>, bubbles: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>, cancelable: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a>)</code></h4>
+<h4 id='method.IsTrusted' class='method'><code>fn <a href='../../../script/dom/bindings/codegen/Bindings/EventBinding/trait.EventMethods.html#tymethod.IsTrusted' class='fnname'>IsTrusted</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a> for <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.trace' class='method'><code>fn <a href='../../../script/dom/bindings/trace/trait.JSTraceable.html#tymethod.trace' class='fnname'>trace</a>(&amp;self, __arg_0: <a class='primitive' href='../../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../../js/jsapi/struct.JSTracer.html' title='js::jsapi::JSTracer'>JSTracer</a>)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../heapsize/trait.HeapSizeOf.html' title='heapsize::HeapSizeOf'>HeapSizeOf</a> for <a class='struct' href='../../../script/dom/event/struct.Event.html' title='script::dom::event::Event'>Event</a></code></h3><div class='impl-items'><h4 id='method.heap_size_of_children' class='method'><code>fn <a href='../../../heapsize/trait.HeapSizeOf.html#tymethod.heap_size_of_children' class='fnname'>heap_size_of_children</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.usize.html'>usize</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

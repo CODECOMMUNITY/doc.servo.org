@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `seccomp` mod in crate `gaol`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, seccomp">
+
+    <title>gaol::platform::linux::seccomp - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../../index.html'>gaol</a>::<wbr><a href='../../index.html'>platform</a>::<wbr><a href='../index.html'>linux</a></p><script>window.sidebarCurrent = {name: 'seccomp', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../../../index.html'>gaol</a>::<wbr><a href='../../index.html'>platform</a>::<wbr><a href='../index.html'>linux</a>::<wbr><a class='mod' href=''>seccomp</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-375' class='srclink' href='../../../../src/gaol/platform/linux/seccomp.rs.html#11-453' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p><code>seccomp-bpf</code> support on recent Linux kernels.</p>
+
+<p>This works in tandem with <code>namespace</code> in order to implement sandbox profiles. It is generally
+the weaker of the two approaches, because BPF is limited, but it&#39;s useful for reducing kernel
+attack surface area and implementing coarse-grained policies.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Filter.html'
+                                  title='gaol::platform::linux::seccomp::Filter'>Filter</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.sock_filter.html'
+                                  title='gaol::platform::linux::seccomp::sock_filter'>sock_filter</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.sock_fprog.html'
+                                  title='gaol::platform::linux::seccomp::sock_fprog'>sock_fprog</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.ABS.html'
+                                  title='gaol::platform::linux::seccomp::ABS'>ABS</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.AF_NETLINK.html'
+                                  title='gaol::platform::linux::seccomp::AF_NETLINK'>AF_NETLINK</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.ALLOW_SYSCALL.html'
+                                  title='gaol::platform::linux::seccomp::ALLOW_SYSCALL'>ALLOW_SYSCALL</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.ARCH_NR.html'
+                                  title='gaol::platform::linux::seccomp::ARCH_NR'>ARCH_NR</a></td>
+                           <td class='docblock short'>
+                                <p>The architecture number for x86-64.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.ARCH_NR_OFFSET.html'
+                                  title='gaol::platform::linux::seccomp::ARCH_NR_OFFSET'>ARCH_NR_OFFSET</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.ARG_0_OFFSET.html'
+                                  title='gaol::platform::linux::seccomp::ARG_0_OFFSET'>ARG_0_OFFSET</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.ARG_1_OFFSET.html'
+                                  title='gaol::platform::linux::seccomp::ARG_1_OFFSET'>ARG_1_OFFSET</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.ARG_2_OFFSET.html'
+                                  title='gaol::platform::linux::seccomp::ARG_2_OFFSET'>ARG_2_OFFSET</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.AUDIT_ARCH_AARCH64.html'
+                                  title='gaol::platform::linux::seccomp::AUDIT_ARCH_AARCH64'>AUDIT_ARCH_AARCH64</a></td>
+                           <td class='docblock short'>
+                                <p>The architecture number for ARM 64-bit.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.AUDIT_ARCH_ARM.html'
+                                  title='gaol::platform::linux::seccomp::AUDIT_ARCH_ARM'>AUDIT_ARCH_ARM</a></td>
+                           <td class='docblock short'>
+                                <p>The architecture number for ARM.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.AUDIT_ARCH_X86.html'
+                                  title='gaol::platform::linux::seccomp::AUDIT_ARCH_X86'>AUDIT_ARCH_X86</a></td>
+                           <td class='docblock short'>
+                                <p>The architecture number for x86.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.AUDIT_ARCH_X86_64.html'
+                                  title='gaol::platform::linux::seccomp::AUDIT_ARCH_X86_64'>AUDIT_ARCH_X86_64</a></td>
+                           <td class='docblock short'>
+                                <p>The architecture number for x86-64.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.EM_386.html'
+                                  title='gaol::platform::linux::seccomp::EM_386'>EM_386</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.EM_AARCH64.html'
+                                  title='gaol::platform::linux::seccomp::EM_AARCH64'>EM_AARCH64</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.EM_ARM.html'
+                                  title='gaol::platform::linux::seccomp::EM_ARM'>EM_ARM</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.EM_X86_64.html'
+                                  title='gaol::platform::linux::seccomp::EM_X86_64'>EM_X86_64</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.EXAMINE_ARG_0.html'
+                                  title='gaol::platform::linux::seccomp::EXAMINE_ARG_0'>EXAMINE_ARG_0</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.EXAMINE_ARG_1.html'
+                                  title='gaol::platform::linux::seccomp::EXAMINE_ARG_1'>EXAMINE_ARG_1</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.EXAMINE_ARG_2.html'
+                                  title='gaol::platform::linux::seccomp::EXAMINE_ARG_2'>EXAMINE_ARG_2</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.EXAMINE_SYSCALL.html'
+                                  title='gaol::platform::linux::seccomp::EXAMINE_SYSCALL'>EXAMINE_SYSCALL</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.FIOCLEX.html'
+                                  title='gaol::platform::linux::seccomp::FIOCLEX'>FIOCLEX</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.FIONREAD.html'
+                                  title='gaol::platform::linux::seccomp::FIONREAD'>FIONREAD</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.JEQ.html'
+                                  title='gaol::platform::linux::seccomp::JEQ'>JEQ</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.JMP.html'
+                                  title='gaol::platform::linux::seccomp::JMP'>JMP</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.JSET.html'
+                                  title='gaol::platform::linux::seccomp::JSET'>JSET</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.K.html'
+                                  title='gaol::platform::linux::seccomp::K'>K</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.KILL_PROCESS.html'
+                                  title='gaol::platform::linux::seccomp::KILL_PROCESS'>KILL_PROCESS</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.LD.html'
+                                  title='gaol::platform::linux::seccomp::LD'>LD</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.MADV_DONTNEED.html'
+                                  title='gaol::platform::linux::seccomp::MADV_DONTNEED'>MADV_DONTNEED</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.MADV_NORMAL.html'
+                                  title='gaol::platform::linux::seccomp::MADV_NORMAL'>MADV_NORMAL</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.MADV_RANDOM.html'
+                                  title='gaol::platform::linux::seccomp::MADV_RANDOM'>MADV_RANDOM</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.MADV_SEQUENTIAL.html'
+                                  title='gaol::platform::linux::seccomp::MADV_SEQUENTIAL'>MADV_SEQUENTIAL</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.MADV_WILLNEED.html'
+                                  title='gaol::platform::linux::seccomp::MADV_WILLNEED'>MADV_WILLNEED</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NETLINK_ROUTE.html'
+                                  title='gaol::platform::linux::seccomp::NETLINK_ROUTE'>NETLINK_ROUTE</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_access.html'
+                                  title='gaol::platform::linux::seccomp::NR_access'>NR_access</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_bind.html'
+                                  title='gaol::platform::linux::seccomp::NR_bind'>NR_bind</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_brk.html'
+                                  title='gaol::platform::linux::seccomp::NR_brk'>NR_brk</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_clone.html'
+                                  title='gaol::platform::linux::seccomp::NR_clone'>NR_clone</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_close.html'
+                                  title='gaol::platform::linux::seccomp::NR_close'>NR_close</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_connect.html'
+                                  title='gaol::platform::linux::seccomp::NR_connect'>NR_connect</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_exit.html'
+                                  title='gaol::platform::linux::seccomp::NR_exit'>NR_exit</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_exit_group.html'
+                                  title='gaol::platform::linux::seccomp::NR_exit_group'>NR_exit_group</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_fstat.html'
+                                  title='gaol::platform::linux::seccomp::NR_fstat'>NR_fstat</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_futex.html'
+                                  title='gaol::platform::linux::seccomp::NR_futex'>NR_futex</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_getrandom.html'
+                                  title='gaol::platform::linux::seccomp::NR_getrandom'>NR_getrandom</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_getsockname.html'
+                                  title='gaol::platform::linux::seccomp::NR_getsockname'>NR_getsockname</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_getuid.html'
+                                  title='gaol::platform::linux::seccomp::NR_getuid'>NR_getuid</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_ioctl.html'
+                                  title='gaol::platform::linux::seccomp::NR_ioctl'>NR_ioctl</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_lseek.html'
+                                  title='gaol::platform::linux::seccomp::NR_lseek'>NR_lseek</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_madvise.html'
+                                  title='gaol::platform::linux::seccomp::NR_madvise'>NR_madvise</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_mmap.html'
+                                  title='gaol::platform::linux::seccomp::NR_mmap'>NR_mmap</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_mprotect.html'
+                                  title='gaol::platform::linux::seccomp::NR_mprotect'>NR_mprotect</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_munmap.html'
+                                  title='gaol::platform::linux::seccomp::NR_munmap'>NR_munmap</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_open.html'
+                                  title='gaol::platform::linux::seccomp::NR_open'>NR_open</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_poll.html'
+                                  title='gaol::platform::linux::seccomp::NR_poll'>NR_poll</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_read.html'
+                                  title='gaol::platform::linux::seccomp::NR_read'>NR_read</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_readlink.html'
+                                  title='gaol::platform::linux::seccomp::NR_readlink'>NR_readlink</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_recvfrom.html'
+                                  title='gaol::platform::linux::seccomp::NR_recvfrom'>NR_recvfrom</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_recvmsg.html'
+                                  title='gaol::platform::linux::seccomp::NR_recvmsg'>NR_recvmsg</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_rt_sigreturn.html'
+                                  title='gaol::platform::linux::seccomp::NR_rt_sigreturn'>NR_rt_sigreturn</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_sched_getaffinity.html'
+                                  title='gaol::platform::linux::seccomp::NR_sched_getaffinity'>NR_sched_getaffinity</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_sendmmsg.html'
+                                  title='gaol::platform::linux::seccomp::NR_sendmmsg'>NR_sendmmsg</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_sendto.html'
+                                  title='gaol::platform::linux::seccomp::NR_sendto'>NR_sendto</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_set_robust_list.html'
+                                  title='gaol::platform::linux::seccomp::NR_set_robust_list'>NR_set_robust_list</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_sigaltstack.html'
+                                  title='gaol::platform::linux::seccomp::NR_sigaltstack'>NR_sigaltstack</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_socket.html'
+                                  title='gaol::platform::linux::seccomp::NR_socket'>NR_socket</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_stat.html'
+                                  title='gaol::platform::linux::seccomp::NR_stat'>NR_stat</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.NR_write.html'
+                                  title='gaol::platform::linux::seccomp::NR_write'>NR_write</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.O_CLOEXEC.html'
+                                  title='gaol::platform::linux::seccomp::O_CLOEXEC'>O_CLOEXEC</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.O_NOCTTY.html'
+                                  title='gaol::platform::linux::seccomp::O_NOCTTY'>O_NOCTTY</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.PR_SET_NO_NEW_PRIVS.html'
+                                  title='gaol::platform::linux::seccomp::PR_SET_NO_NEW_PRIVS'>PR_SET_NO_NEW_PRIVS</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.PR_SET_SECCOMP.html'
+                                  title='gaol::platform::linux::seccomp::PR_SET_SECCOMP'>PR_SET_SECCOMP</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.RET.html'
+                                  title='gaol::platform::linux::seccomp::RET'>RET</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.SECCOMP_MODE_FILTER.html'
+                                  title='gaol::platform::linux::seccomp::SECCOMP_MODE_FILTER'>SECCOMP_MODE_FILTER</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.SECCOMP_RET_ALLOW.html'
+                                  title='gaol::platform::linux::seccomp::SECCOMP_RET_ALLOW'>SECCOMP_RET_ALLOW</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.SECCOMP_RET_KILL.html'
+                                  title='gaol::platform::linux::seccomp::SECCOMP_RET_KILL'>SECCOMP_RET_KILL</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.SYSCALL_NR_OFFSET.html'
+                                  title='gaol::platform::linux::seccomp::SYSCALL_NR_OFFSET'>SYSCALL_NR_OFFSET</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.VALIDATE_ARCHITECTURE_0.html'
+                                  title='gaol::platform::linux::seccomp::VALIDATE_ARCHITECTURE_0'>VALIDATE_ARCHITECTURE_0</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.VALIDATE_ARCHITECTURE_1.html'
+                                  title='gaol::platform::linux::seccomp::VALIDATE_ARCHITECTURE_1'>VALIDATE_ARCHITECTURE_1</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.VALIDATE_ARCHITECTURE_2.html'
+                                  title='gaol::platform::linux::seccomp::VALIDATE_ARCHITECTURE_2'>VALIDATE_ARCHITECTURE_2</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.W.html'
+                                  title='gaol::platform::linux::seccomp::W'>W</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.__AUDIT_ARCH_64BIT.html'
+                                  title='gaol::platform::linux::seccomp::__AUDIT_ARCH_64BIT'>__AUDIT_ARCH_64BIT</a></td>
+                           <td class='docblock short'>
+                                <p>A flag set in the architecture number for all 64-bit architectures.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.__AUDIT_ARCH_LE.html'
+                                  title='gaol::platform::linux::seccomp::__AUDIT_ARCH_LE'>__AUDIT_ARCH_LE</a></td>
+                           <td class='docblock short'>
+                                <p>A flag set in the architecture number for all little-endian architectures.</p>
+                           </td>
+                       </tr></table><h2 id='statics' class='section-header'><a href="#statics">Statics</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='static' href='static.ALLOWED_SYSCALLS.html'
+                                  title='gaol::platform::linux::seccomp::ALLOWED_SYSCALLS'>ALLOWED_SYSCALLS</a></td>
+                           <td class='docblock short'>
+                                <p>Syscalls that are always allowed.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='static' href='static.ALLOWED_SYSCALLS_FOR_FILE_READ.html'
+                                  title='gaol::platform::linux::seccomp::ALLOWED_SYSCALLS_FOR_FILE_READ'>ALLOWED_SYSCALLS_FOR_FILE_READ</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='static' href='static.ALLOWED_SYSCALLS_FOR_NETWORK_OUTBOUND.html'
+                                  title='gaol::platform::linux::seccomp::ALLOWED_SYSCALLS_FOR_NETWORK_OUTBOUND'>ALLOWED_SYSCALLS_FOR_NETWORK_OUTBOUND</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='static' href='static.FILTER_EPILOGUE.html'
+                                  title='gaol::platform::linux::seccomp::FILTER_EPILOGUE'>FILTER_EPILOGUE</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='static' href='static.FILTER_PROLOGUE.html'
+                                  title='gaol::platform::linux::seccomp::FILTER_PROLOGUE'>FILTER_PROLOGUE</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.mkstemp.html'
+                                  title='gaol::platform::linux::seccomp::mkstemp'>mkstemp</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.prctl.html'
+                                  title='gaol::platform::linux::seccomp::prctl'>prctl</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "gaol";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script defer src="../../../../search-index.js"></script>
+</body>
+</html>

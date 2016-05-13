@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ShellWindow",""]],"struct":[["PollEventsIterator",""],["WaitEventsIterator",""],["Window",""],["WindowProxy",""]]});

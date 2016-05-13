@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["create_constellation",""],["create_sandbox",""],["run_content_process","Content process entry point."],["webdriver",""]],"mod":[["gl",""]],"struct":[["Browser","The in-process interface to Servo."]]});

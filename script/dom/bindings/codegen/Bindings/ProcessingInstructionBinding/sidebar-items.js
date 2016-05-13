@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["sAttributes",""],["sAttributes_specs",""],["target_getterinfo",""]],"fn":[["CreateInterfaceObjects",""],["DefineDOMInterface",""],["GetProtoObject",""],["Wrap",""],["_finalize",""],["_trace",""],["get_target",""]],"static":[["Class",""],["InterfaceObjectClass",""],["PrototypeClass",""]],"trait":[["ProcessingInstructionMethods",""]]});

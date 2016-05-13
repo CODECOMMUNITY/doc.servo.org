@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Renderer` struct in crate `webrender`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Renderer">
+
+    <title>webrender::renderer::Renderer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>webrender</a>::<wbr><a href='index.html'>renderer</a></p><script>window.sidebarCurrent = {name: 'Renderer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>webrender</a>::<wbr><a href='index.html'>renderer</a>::<wbr><a class='struct' href=''>Renderer</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-6620' class='srclink' href='../../src/webrender/renderer.rs.html#99-154' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Renderer {
+    result_rx: <a class='struct' href='../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../webrender/internal_types/enum.ResultMsg.html' title='webrender::internal_types::ResultMsg'>ResultMsg</a>&gt;,
+    device: <a class='struct' href='../../webrender/device/struct.Device.html' title='webrender::device::Device'>Device</a>,
+    pending_texture_updates: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender/internal_types/struct.TextureUpdateList.html' title='webrender::internal_types::TextureUpdateList'>TextureUpdateList</a>&gt;,
+    pending_batch_updates: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender/internal_types/struct.BatchUpdateList.html' title='webrender::internal_types::BatchUpdateList'>BatchUpdateList</a>&gt;,
+    pending_shader_updates: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>&gt;,
+    current_frame: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/internal_types/struct.RendererFrame.html' title='webrender::internal_types::RendererFrame'>RendererFrame</a>&gt;,
+    device_pixel_ratio: <a class='primitive' href='../../std/primitive.f32.html'>f32</a>,
+    vertex_buffers: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../webrender/batch/struct.VertexBufferId.html' title='webrender::batch::VertexBufferId'>VertexBufferId</a>, <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender/renderer/struct.VertexBufferAndOffset.html' title='webrender::renderer::VertexBufferAndOffset'>VertexBufferAndOffset</a>&gt;, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;,
+    raster_batches: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender/batch/struct.RasterBatch.html' title='webrender::batch::RasterBatch'>RasterBatch</a>&gt;,
+    quad_vertex_buffer: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/device/struct.VBOId.html' title='webrender::device::VBOId'>VBOId</a>&gt;,
+    cached_quad_vaos: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>&gt;,
+    simple_triangles_vao: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>&gt;,
+    raster_op_vao: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a>&gt;,
+    quad_program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>,
+    u_quad_transform_array: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>,
+    u_quad_offset_array: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>,
+    u_tile_params: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>,
+    u_clip_rects: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>,
+    u_atlas_params: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>,
+    blit_program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>,
+    border_program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>,
+    blend_program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>,
+    u_blend_params: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>,
+    filter_program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>,
+    u_filter_params: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>,
+    box_shadow_program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>,
+    blur_program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>,
+    u_direction: <a class='struct' href='../../webrender/device/struct.UniformLocation.html' title='webrender::device::UniformLocation'>UniformLocation</a>,
+    mask_program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>,
+    notifier: <a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../webrender_traits/types/trait.RenderNotifier.html' title='webrender_traits::types::RenderNotifier'>RenderNotifier</a>&gt;&gt;&gt;&gt;,
+    enable_profiler: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    enable_msaa: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
+    debug: <a class='struct' href='../../webrender/debug_render/struct.DebugRenderer.html' title='webrender::debug_render::DebugRenderer'>DebugRenderer</a>,
+    backend_profile_counters: <a class='struct' href='../../webrender/profiler/struct.BackendProfileCounters.html' title='webrender::profiler::BackendProfileCounters'>BackendProfileCounters</a>,
+    profile_counters: <a class='struct' href='../../webrender/profiler/struct.RendererProfileCounters.html' title='webrender::profiler::RendererProfileCounters'>RendererProfileCounters</a>,
+    profiler: <a class='struct' href='../../webrender/profiler/struct.Profiler.html' title='webrender::profiler::Profiler'>Profiler</a>,
+    last_time: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>,
+    max_raster_op_size: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>,
+    raster_op_target_a8: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>,
+    raster_op_target_rgba8: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>,
+    temporary_fb_texture: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>,
+    gpu_profile: <a class='struct' href='../../webrender/device/struct.GpuProfile.html' title='webrender::device::GpuProfile'>GpuProfile</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.result_rx'><code>result_rx</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.device'><code>device</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.pending_texture_updates'><code>pending_texture_updates</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.pending_batch_updates'><code>pending_batch_updates</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.pending_shader_updates'><code>pending_shader_updates</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.current_frame'><code>current_frame</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.device_pixel_ratio'><code>device_pixel_ratio</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.vertex_buffers'><code>vertex_buffers</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.raster_batches'><code>raster_batches</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.quad_vertex_buffer'><code>quad_vertex_buffer</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.cached_quad_vaos'><code>cached_quad_vaos</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.simple_triangles_vao'><code>simple_triangles_vao</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.raster_op_vao'><code>raster_op_vao</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.quad_program_id'><code>quad_program_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.u_quad_transform_array'><code>u_quad_transform_array</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.u_quad_offset_array'><code>u_quad_offset_array</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.u_tile_params'><code>u_tile_params</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.u_clip_rects'><code>u_clip_rects</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.u_atlas_params'><code>u_atlas_params</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.blit_program_id'><code>blit_program_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.border_program_id'><code>border_program_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.blend_program_id'><code>blend_program_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.u_blend_params'><code>u_blend_params</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.filter_program_id'><code>filter_program_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.u_filter_params'><code>u_filter_params</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.box_shadow_program_id'><code>box_shadow_program_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.blur_program_id'><code>blur_program_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.u_direction'><code>u_direction</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.mask_program_id'><code>mask_program_id</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.notifier'><code>notifier</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.enable_profiler'><code>enable_profiler</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.enable_msaa'><code>enable_msaa</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.debug'><code>debug</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.backend_profile_counters'><code>backend_profile_counters</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.profile_counters'><code>profile_counters</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.profiler'><code>profiler</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.last_time'><code>last_time</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.max_raster_op_size'><code>max_raster_op_size</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.raster_op_target_a8'><code>raster_op_target_a8</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.raster_op_target_rgba8'><code>raster_op_target_rgba8</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.temporary_fb_texture'><code>temporary_fb_texture</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.gpu_profile'><code>gpu_profile</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../webrender/renderer/struct.Renderer.html' title='webrender::renderer::Renderer'>Renderer</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(options: <a class='struct' href='../../webrender/renderer/struct.RendererOptions.html' title='webrender::renderer::RendererOptions'>RendererOptions</a>) -&gt; <a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../webrender/renderer/struct.Renderer.html' title='webrender::renderer::Renderer'>Renderer</a>, <a class='struct' href='../../webrender_traits/api/struct.RenderApiSender.html' title='webrender_traits::api::RenderApiSender'>RenderApiSender</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a></code></h4>
+<h4 id='method.enable_msaa' class='method'><code>fn <a href='#method.enable_msaa' class='fnname'>enable_msaa</a>(&amp;self, enable_msaa: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>)</code></h4>
+<h4 id='method.update_uniform_locations' class='method'><code>fn <a href='#method.update_uniform_locations' class='fnname'>update_uniform_locations</a>(&amp;mut self)</code></h4>
+<h4 id='method.set_render_notifier' class='method'><code>fn <a href='#method.set_render_notifier' class='fnname'>set_render_notifier</a>(&amp;self, notifier: <a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../webrender_traits/types/trait.RenderNotifier.html' title='webrender_traits::types::RenderNotifier'>RenderNotifier</a>&gt;)</code></h4>
+<h4 id='method.current_epoch' class='method'><code>fn <a href='#method.current_epoch' class='fnname'>current_epoch</a>(&amp;self, pipeline_id: <a class='struct' href='../../webrender_traits/types/struct.PipelineId.html' title='webrender_traits::types::PipelineId'>PipelineId</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender_traits/types/struct.Epoch.html' title='webrender_traits::types::Epoch'>Epoch</a>&gt;</code></h4>
+<h4 id='method.update' class='method'><code>fn <a href='#method.update' class='fnname'>update</a>(&amp;mut self)</code></h4>
+<h4 id='method.render' class='method'><code>fn <a href='#method.render' class='fnname'>render</a>(&amp;mut self, framebuffer_size: <a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;)</code></h4>
+<h4 id='method.layers_are_bouncing_back' class='method'><code>fn <a href='#method.layers_are_bouncing_back' class='fnname'>layers_are_bouncing_back</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.update_batches' class='method'><code>fn <a href='#method.update_batches' class='fnname'>update_batches</a>(&amp;mut self)</code></h4>
+<h4 id='method.update_shaders' class='method'><code>fn <a href='#method.update_shaders' class='fnname'>update_shaders</a>(&amp;mut self)</code></h4>
+<h4 id='method.update_texture_cache' class='method'><code>fn <a href='#method.update_texture_cache' class='fnname'>update_texture_cache</a>(&amp;mut self)</code></h4>
+<h4 id='method.update_texture_cache_for_box_shadow' class='method'><code>fn <a href='#method.update_texture_cache_for_box_shadow' class='fnname'>update_texture_cache_for_box_shadow</a>(&amp;mut self, update_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, texture_rect: &amp;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;, box_rect: &amp;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='struct' href='../../webrender/internal_types/struct.DevicePixel.html' title='webrender::internal_types::DevicePixel'>DevicePixel</a>&gt;, blur_radius: <a class='struct' href='../../webrender/internal_types/struct.DevicePixel.html' title='webrender::internal_types::DevicePixel'>DevicePixel</a>, border_radius: <a class='struct' href='../../webrender/internal_types/struct.DevicePixel.html' title='webrender::internal_types::DevicePixel'>DevicePixel</a>, inverted: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, border_type: <a class='enum' href='../../webrender/texture_cache/enum.BorderType.html' title='webrender::texture_cache::BorderType'>BorderType</a>)</code></h4>
+<h4 id='method.add_rect_to_raster_batch' class='method'><code>fn <a href='#method.add_rect_to_raster_batch' class='fnname'>add_rect_to_raster_batch</a>&lt;F&gt;(&amp;mut self, dest_texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, color_texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>, blur_direction: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../webrender/internal_types/enum.AxisDirection.html' title='webrender::internal_types::AxisDirection'>AxisDirection</a>&gt;, dest_rect: &amp;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;, border_type: <a class='enum' href='../../webrender/texture_cache/enum.BorderType.html' title='webrender::texture_cache::BorderType'>BorderType</a>, f: F) <span class='where'>where F: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(&amp;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='primitive' href='../../std/primitive.array.html'>[</a><a class='struct' href='../../webrender/internal_types/struct.PackedVertexForTextureCacheUpdate.html' title='webrender::internal_types::PackedVertexForTextureCacheUpdate'>PackedVertexForTextureCacheUpdate</a><a class='primitive' href='../../std/primitive.array.html'>; 4]</a></span></code></h4>
+<h4 id='method.flush_raster_batches' class='method'><code>fn <a href='#method.flush_raster_batches' class='fnname'>flush_raster_batches</a>(&amp;mut self)</code></h4>
+<h4 id='method.set_up_gl_state_for_texture_cache_update' class='method'><code>fn <a href='#method.set_up_gl_state_for_texture_cache_update' class='fnname'>set_up_gl_state_for_texture_cache_update</a>(&amp;mut self, target_texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, color_texture_id: <a class='struct' href='../../webrender/device/struct.TextureId.html' title='webrender::device::TextureId'>TextureId</a>, program_id: <a class='struct' href='../../webrender/device/struct.ProgramId.html' title='webrender::device::ProgramId'>ProgramId</a>, blur_direction: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../webrender/internal_types/enum.AxisDirection.html' title='webrender::internal_types::AxisDirection'>AxisDirection</a>&gt;, projection: &amp;<a class='struct' href='../../euclid/matrix4d/struct.Matrix4D.html' title='euclid::matrix4d::Matrix4D'>Matrix4D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.perform_gl_texture_cache_update' class='method'><code>fn <a href='#method.perform_gl_texture_cache_update' class='fnname'>perform_gl_texture_cache_update</a>(&amp;mut self, batch: <a class='struct' href='../../webrender/batch/struct.RasterBatch.html' title='webrender::batch::RasterBatch'>RasterBatch</a>)</code></h4>
+<h4 id='method.draw_layer' class='method'><code>fn <a href='#method.draw_layer' class='fnname'>draw_layer</a>(&amp;mut self, layer: &amp;<a class='struct' href='../../webrender/internal_types/struct.DrawLayer.html' title='webrender::internal_types::DrawLayer'>DrawLayer</a>, render_context: &amp;<a class='struct' href='../../webrender/renderer/struct.RenderContext.html' title='webrender::renderer::RenderContext'>RenderContext</a>)</code></h4>
+<h4 id='method.draw_frame' class='method'><code>fn <a href='#method.draw_frame' class='fnname'>draw_frame</a>(&amp;mut self, framebuffer_size: <a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;)</code></h4>
+<h4 id='method.get_or_create_similar_vao_with_offset' class='method'><code>fn <a href='#method.get_or_create_similar_vao_with_offset' class='fnname'>get_or_create_similar_vao_with_offset</a>(&amp;mut self, source_vertex_buffer_id: <a class='struct' href='../../webrender/batch/struct.VertexBufferId.html' title='webrender::batch::VertexBufferId'>VertexBufferId</a>, format: <a class='enum' href='../../webrender/device/enum.VertexFormat.html' title='webrender::device::VertexFormat'>VertexFormat</a>, offset: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>) -&gt; <a class='struct' href='../../webrender/device/struct.VAOId.html' title='webrender::device::VAOId'>VAOId</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "webrender";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

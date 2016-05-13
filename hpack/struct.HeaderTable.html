@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `HeaderTable` struct in crate `hpack`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, HeaderTable">
+
+    <title>hpack::HeaderTable - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>hpack</a></p><script>window.sidebarCurrent = {name: 'HeaderTable', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>hpack</a>::<wbr><a class='struct' href=''>HeaderTable</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-448' class='srclink' href='../src/hpack/lib.rs.html#253-256' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>struct HeaderTable&lt;'a&gt; {
+    static_table: <a class='type' href='../hpack/type.StaticTable.html' title='hpack::StaticTable'>StaticTable</a>&lt;'a&gt;,
+    dynamic_table: <a class='struct' href='../hpack/struct.DynamicTable.html' title='hpack::DynamicTable'>DynamicTable</a>,
+}</pre><div class='docblock'><p>The struct represents the header table obtained by merging the static and
+dynamic tables into a single index address space, as described in section
+<code>2.3.3.</code> of the HPACK spec.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.static_table'><code>static_table</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.dynamic_table'><code>dynamic_table</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'a&gt; <a class='struct' href='../hpack/struct.HeaderTable.html' title='hpack::HeaderTable'>HeaderTable</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.with_static_table' class='method'><code>fn <a href='#method.with_static_table' class='fnname'>with_static_table</a>(static_table: <a class='type' href='../hpack/type.StaticTable.html' title='hpack::StaticTable'>StaticTable</a>&lt;'a&gt;) -&gt; <a class='struct' href='../hpack/struct.HeaderTable.html' title='hpack::HeaderTable'>HeaderTable</a>&lt;'a&gt;</code></h4>
+<div class='docblock'><p>Creates a new header table where the static part is initialized with
+the given static table.</p>
+</div><h4 id='method.iter' class='method'><code>fn <a href='#method.iter' class='fnname'>iter</a>(&amp;'a self) -&gt; <a class='struct' href='../hpack/struct.HeaderTableIter.html' title='hpack::HeaderTableIter'>HeaderTableIter</a>&lt;'a&gt;</code></h4>
+<div class='docblock'><p>Returns an iterator through <em>all</em> headers stored in the header table,
+i.e. it includes both the ones found in the static table and the
+dynamic table, in the order of their indices in the single address
+space (first the headers in the static table, followed by headers in
+the dynamic table).</p>
+
+<p>The type yielded by the iterator is <code>(&amp;[u8], &amp;[u8])</code>, where the tuple
+corresponds to the header name, value pairs in the described order.</p>
+</div><h4 id='method.add_header' class='method'><code>fn <a href='#method.add_header' class='fnname'>add_header</a>(&amp;mut self, name: <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../std/primitive.u8.html'>u8</a>&gt;, value: <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../std/primitive.u8.html'>u8</a>&gt;)</code></h4>
+<div class='docblock'><p>Adds the given header to the table. Of course, this means that the new
+header is added to the dynamic part of the table.</p>
+
+<p>If the size of the new header is larger than the current maximum table
+size of the dynamic table, the effect will be that the dynamic table
+gets emptied and the new header does <em>not</em> get inserted into it.</p>
+</div><h4 id='method.get_from_table' class='method'><code>fn <a href='#method.get_from_table' class='fnname'>get_from_table</a>(&amp;self, index: <a class='primitive' href='../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='primitive' href='../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../std/primitive.u8.html'>u8</a><a class='primitive' href='../std/primitive.slice.html'>]</a>, <a class='primitive' href='../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../std/primitive.u8.html'>u8</a><a class='primitive' href='../std/primitive.slice.html'>]</a><a class='primitive' href='../std/primitive.tuple.html'>)</a>&gt;</code></h4>
+<div class='docblock'><p>Returns a reference to the header (a <code>(name, value)</code> pair) with the
+given index in the table.</p>
+
+<p>The table is 1-indexed and constructed in such a way that the first
+entries belong to the static table, followed by entries in the dynamic
+table. They are merged into a single index address space, though.</p>
+
+<p>This is according to the <a href="http://http2.github.io/http2-spec/compression.html#index.address.space">HPACK spec, section 2.3.3.</a></p>
+</div><h4 id='method.find_header' class='method'><code>fn <a href='#method.find_header' class='fnname'>find_header</a>(&amp;self, header: <a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='primitive' href='../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../std/primitive.u8.html'>u8</a><a class='primitive' href='../std/primitive.slice.html'>]</a>, <a class='primitive' href='../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../std/primitive.u8.html'>u8</a><a class='primitive' href='../std/primitive.slice.html'>]</a><a class='primitive' href='../std/primitive.tuple.html'>)</a>) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='primitive' href='../std/primitive.usize.html'>usize</a>, <a class='primitive' href='../std/primitive.bool.html'>bool</a><a class='primitive' href='../std/primitive.tuple.html'>)</a>&gt;</code></h4>
+<div class='docblock'><p>Finds the given header in the header table. Tries to match both the
+header name and value to one of the headers in the table. If no such
+header exists, then falls back to returning one that matched only the
+name.</p>
+
+<h1 id='returns' class='section-header'><a href='#returns'>Returns</a></h1>
+<p>An <code>Option</code>, where <code>Some</code> corresponds to a tuple representing the index
+of the header in the header tables (the 1-based index that HPACK uses)
+and a <code>bool</code> indicating whether the value of the header also matched.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "hpack";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["byte_swap",""]],"struct":[["ForgetfulSink","A `VecLike` that only tracks whether or not something was ever pushed to it."]]});

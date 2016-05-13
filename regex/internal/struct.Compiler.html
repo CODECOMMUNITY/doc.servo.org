@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Compiler` struct in crate `regex`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Compiler">
+
+    <title>regex::internal::Compiler - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../regex/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <p class='location'><a href='../index.html'>regex</a>::<wbr><a href='index.html'>internal</a></p><script>window.sidebarCurrent = {name: 'Compiler', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>regex</a>::<wbr><a href='index.html'>internal</a>::<wbr><a class='struct' href=''>Compiler</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-235' class='srclink' href='../../src/regex/compile.rs.html#41-50' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Compiler {
+    insts: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../regex/compile/enum.MaybeInst.html' title='regex::compile::MaybeInst'>MaybeInst</a>&gt;,
+    compiled: <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>,
+    capture_name_idx: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;,
+    num_exprs: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    size_limit: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    suffix_cache: <a class='struct' href='../../regex/compile/struct.SuffixCache.html' title='regex::compile::SuffixCache'>SuffixCache</a>,
+    utf8_seqs: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../utf8_ranges/struct.Utf8Sequences.html' title='utf8_ranges::Utf8Sequences'>Utf8Sequences</a>&gt;,
+    byte_classes: <a class='struct' href='../../regex/compile/struct.ByteClassSet.html' title='regex::compile::ByteClassSet'>ByteClassSet</a>,
+}</pre><div class='docblock'><p>A compiler translates a regular expression AST to a sequence of
+instructions. The sequence of instructions represents an NFA.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.insts'><code>insts</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.compiled'><code>compiled</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.capture_name_idx'><code>capture_name_idx</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.num_exprs'><code>num_exprs</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.size_limit'><code>size_limit</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.suffix_cache'><code>suffix_cache</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.utf8_seqs'><code>utf8_seqs</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.byte_classes'><code>byte_classes</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../regex/compile/struct.Compiler.html' title='regex::compile::Compiler'>Compiler</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; Self</code></h4>
+<div class='docblock'><p>Create a new regular expression compiler.</p>
+
+<p>Various options can be set before calling <code>compile</code> on an expression.</p>
+</div><h4 id='method.size_limit' class='method'><code>fn <a href='#method.size_limit' class='fnname'>size_limit</a>(self, size_limit: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; Self</code></h4>
+<div class='docblock'><p>The size of the resulting program is limited by size_limit. If
+the program approximately exceeds the given size (in bytes), then
+compilation will stop and return an error.</p>
+</div><h4 id='method.bytes' class='method'><code>fn <a href='#method.bytes' class='fnname'>bytes</a>(self, yes: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; Self</code></h4>
+<div class='docblock'><p>If bytes is true, then the program is compiled as a byte based
+automaton, which incorporates UTF-8 decoding into the machine. If it&#39;s
+false, then the automaton is Unicode scalar value based, e.g., an
+engine utilizing such an automaton is resposible for UTF-8 decoding.</p>
+
+<p>The specific invariant is that when returning a byte based machine,
+the neither the <code>Char</code> nor <code>Ranges</code> instructions are produced.
+Conversely, when producing a Unicode scalar value machine, the <code>Bytes</code>
+instruction is never produced.</p>
+
+<p>Note that <code>dfa(true)</code> implies <code>bytes(true)</code>.</p>
+</div><h4 id='method.only_utf8' class='method'><code>fn <a href='#method.only_utf8' class='fnname'>only_utf8</a>(self, yes: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; Self</code></h4>
+<div class='docblock'><p>When disabled, the program compiled may match arbitrary bytes.</p>
+
+<p>When enabled (the default), all compiled programs exclusively match
+valid UTF-8 bytes.</p>
+</div><h4 id='method.dfa' class='method'><code>fn <a href='#method.dfa' class='fnname'>dfa</a>(self, yes: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; Self</code></h4>
+<div class='docblock'><p>When set, the machine returned is suitable for use in the DFA matching
+engine.</p>
+
+<p>In particular, this ensures that if the regex is not anchored in the
+beginning, then a preceding <code>.*?</code> is included in the program. (The NFA
+based engines handle the preceding <code>.*?</code> explicitly, which is difficult
+or impossible in the DFA engine.)</p>
+</div><h4 id='method.reverse' class='method'><code>fn <a href='#method.reverse' class='fnname'>reverse</a>(self, yes: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; Self</code></h4>
+<div class='docblock'><p>When set, the machine returned is suitable for matching text in
+reverse. In particular, all concatenations are flipped.</p>
+</div><h4 id='method.compile' class='method'><code>fn <a href='#method.compile' class='fnname'>compile</a>(self, exprs: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, <a class='enum' href='../../regex/enum.Error.html' title='regex::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Compile a regular expression given its AST.</p>
+
+<p>The compiler is guaranteed to succeed unless the program exceeds the
+specified size limit. If the size limit is exceeded, then compilation
+stops and returns an error.</p>
+</div><h4 id='method.compile_one' class='method'><code>fn <a href='#method.compile_one' class='fnname'>compile_one</a>(self, expr: &amp;<a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, <a class='enum' href='../../regex/enum.Error.html' title='regex::Error'>Error</a>&gt;</code></h4>
+<h4 id='method.compile_many' class='method'><code>fn <a href='#method.compile_many' class='fnname'>compile_many</a>(self, exprs: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, <a class='enum' href='../../regex/enum.Error.html' title='regex::Error'>Error</a>&gt;</code></h4>
+<h4 id='method.compile_finish' class='method'><code>fn <a href='#method.compile_finish' class='fnname'>compile_finish</a>(self) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, <a class='enum' href='../../regex/enum.Error.html' title='regex::Error'>Error</a>&gt;</code></h4>
+<h4 id='method.c' class='method'><code>fn <a href='#method.c' class='fnname'>c</a>(&amp;mut self, expr: &amp;<a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_capture' class='method'><code>fn <a href='#method.c_capture' class='fnname'>c_capture</a>(&amp;mut self, first_slot: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>, expr: &amp;<a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_dotstar' class='method'><code>fn <a href='#method.c_dotstar' class='fnname'>c_dotstar</a>(&amp;mut self) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_literal' class='method'><code>fn <a href='#method.c_literal' class='fnname'>c_literal</a>(&amp;mut self, chars: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.char.html'>char</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, casei: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_char' class='method'><code>fn <a href='#method.c_char' class='fnname'>c_char</a>(&amp;mut self, c: <a class='primitive' href='../../std/primitive.char.html'>char</a>, casei: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_class' class='method'><code>fn <a href='#method.c_class' class='fnname'>c_class</a>(&amp;mut self, ranges: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../regex_syntax/struct.ClassRange.html' title='regex_syntax::ClassRange'>ClassRange</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_bytes' class='method'><code>fn <a href='#method.c_bytes' class='fnname'>c_bytes</a>(&amp;mut self, bytes: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, casei: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_byte' class='method'><code>fn <a href='#method.c_byte' class='fnname'>c_byte</a>(&amp;mut self, b: <a class='primitive' href='../../std/primitive.u8.html'>u8</a>, casei: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_class_bytes' class='method'><code>fn <a href='#method.c_class_bytes' class='fnname'>c_class_bytes</a>(&amp;mut self, ranges: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../regex_syntax/struct.ByteRange.html' title='regex_syntax::ByteRange'>ByteRange</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_empty_look' class='method'><code>fn <a href='#method.c_empty_look' class='fnname'>c_empty_look</a>(&amp;mut self, look: <a class='enum' href='../../regex/prog/enum.EmptyLook.html' title='regex::prog::EmptyLook'>EmptyLook</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_concat' class='method'><code>fn <a href='#method.c_concat' class='fnname'>c_concat</a>&lt;'a, I&gt;(&amp;mut self, exprs: I) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a> <span class='where'>where I: <a class='trait' href='../../core/iter/traits/trait.IntoIterator.html' title='core::iter::traits::IntoIterator'>IntoIterator</a>&lt;Item=&amp;'a <a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>&gt;</span></code></h4>
+<h4 id='method.c_alternate' class='method'><code>fn <a href='#method.c_alternate' class='fnname'>c_alternate</a>(&amp;mut self, exprs: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_repeat' class='method'><code>fn <a href='#method.c_repeat' class='fnname'>c_repeat</a>(&amp;mut self, expr: &amp;<a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>, kind: <a class='enum' href='../../regex_syntax/enum.Repeater.html' title='regex_syntax::Repeater'>Repeater</a>, greedy: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_repeat_zero_or_one' class='method'><code>fn <a href='#method.c_repeat_zero_or_one' class='fnname'>c_repeat_zero_or_one</a>(&amp;mut self, expr: &amp;<a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>, greedy: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_repeat_zero_or_more' class='method'><code>fn <a href='#method.c_repeat_zero_or_more' class='fnname'>c_repeat_zero_or_more</a>(&amp;mut self, expr: &amp;<a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>, greedy: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_repeat_one_or_more' class='method'><code>fn <a href='#method.c_repeat_one_or_more' class='fnname'>c_repeat_one_or_more</a>(&amp;mut self, expr: &amp;<a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>, greedy: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_repeat_range_min_or_more' class='method'><code>fn <a href='#method.c_repeat_range_min_or_more' class='fnname'>c_repeat_range_min_or_more</a>(&amp;mut self, expr: &amp;<a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>, greedy: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, min: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.c_repeat_range' class='method'><code>fn <a href='#method.c_repeat_range' class='fnname'>c_repeat_range</a>(&amp;mut self, expr: &amp;<a class='enum' href='../../regex_syntax/enum.Expr.html' title='regex_syntax::Expr'>Expr</a>, greedy: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, min: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, max: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>) -&gt; <a class='type' href='../../regex/compile/type.Result.html' title='regex::compile::Result'>Result</a></code></h4>
+<h4 id='method.fill' class='method'><code>fn <a href='#method.fill' class='fnname'>fill</a>(&amp;mut self, hole: <a class='enum' href='../../regex/compile/enum.Hole.html' title='regex::compile::Hole'>Hole</a>, goto: <a class='type' href='../../regex/prog/type.InstPtr.html' title='regex::prog::InstPtr'>InstPtr</a>)</code></h4>
+<h4 id='method.fill_to_next' class='method'><code>fn <a href='#method.fill_to_next' class='fnname'>fill_to_next</a>(&amp;mut self, hole: <a class='enum' href='../../regex/compile/enum.Hole.html' title='regex::compile::Hole'>Hole</a>)</code></h4>
+<h4 id='method.fill_split' class='method'><code>fn <a href='#method.fill_split' class='fnname'>fill_split</a>(&amp;mut self, hole: <a class='enum' href='../../regex/compile/enum.Hole.html' title='regex::compile::Hole'>Hole</a>, goto1: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../regex/prog/type.InstPtr.html' title='regex::prog::InstPtr'>InstPtr</a>&gt;, goto2: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../regex/prog/type.InstPtr.html' title='regex::prog::InstPtr'>InstPtr</a>&gt;) -&gt; <a class='enum' href='../../regex/compile/enum.Hole.html' title='regex::compile::Hole'>Hole</a></code></h4>
+<h4 id='method.push_compiled' class='method'><code>fn <a href='#method.push_compiled' class='fnname'>push_compiled</a>(&amp;mut self, inst: <a class='enum' href='../../regex/prog/enum.Inst.html' title='regex::prog::Inst'>Inst</a>)</code></h4>
+<h4 id='method.push_hole' class='method'><code>fn <a href='#method.push_hole' class='fnname'>push_hole</a>(&amp;mut self, inst: <a class='enum' href='../../regex/compile/enum.InstHole.html' title='regex::compile::InstHole'>InstHole</a>) -&gt; <a class='enum' href='../../regex/compile/enum.Hole.html' title='regex::compile::Hole'>Hole</a></code></h4>
+<h4 id='method.push_split_hole' class='method'><code>fn <a href='#method.push_split_hole' class='fnname'>push_split_hole</a>(&amp;mut self) -&gt; <a class='enum' href='../../regex/compile/enum.Hole.html' title='regex::compile::Hole'>Hole</a></code></h4>
+<h4 id='method.check_size' class='method'><code>fn <a href='#method.check_size' class='fnname'>check_size</a>(&amp;self) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, <a class='enum' href='../../regex/enum.Error.html' title='regex::Error'>Error</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "regex";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

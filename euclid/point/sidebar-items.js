@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_Point2D",""],["_IMPL_SERIALIZE_FOR_Point2D",""]],"struct":[["Point2D",""],["Point3D",""],["Point4D",""]],"type":[["TypedPoint2D",""]]});

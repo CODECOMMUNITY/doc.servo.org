@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Scheme",""]],"fn":[["key",""]],"struct":[["Config","Config options for the `Pool`."],["Pool","The `NetworkConnector` that behaves as a connection pool used by hyper's `Client`."],["PoolImpl",""],["PooledStream","A Stream that will try to be returned to the Pool when dropped."],["PooledStreamInner",""]],"type":[["Key",""]]});

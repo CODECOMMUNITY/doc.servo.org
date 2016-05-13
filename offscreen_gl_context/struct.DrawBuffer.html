@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `DrawBuffer` struct in crate `offscreen_gl_context`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, DrawBuffer">
+
+    <title>offscreen_gl_context::DrawBuffer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>offscreen_gl_context</a></p><script>window.sidebarCurrent = {name: 'DrawBuffer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>offscreen_gl_context</a>::<wbr><a class='struct' href=''>DrawBuffer</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-363' class='srclink' href='../src/offscreen_gl_context/draw_buffer.rs.html#56-63' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct DrawBuffer {
+    size: <a class='struct' href='../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../std/primitive.i32.html'>i32</a>&gt;,
+    framebuffer: <a class='type' href='../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>,
+    stencil_renderbuffer: <a class='type' href='../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>,
+    depth_renderbuffer: <a class='type' href='../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>,
+    color_attachment: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../offscreen_gl_context/draw_buffer/enum.ColorAttachment.html' title='offscreen_gl_context::draw_buffer::ColorAttachment'>ColorAttachment</a>&gt;,
+}</pre><div class='docblock'><p>This structure represents an offscreen context
+draw buffer. It has a framebuffer, with at least
+color renderbuffer (alpha or not). It may also have
+a depth or stencil buffer, depending on context
+requirements.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.size'><code>size</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.framebuffer'><code>framebuffer</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.stencil_renderbuffer'><code>stencil_renderbuffer</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.depth_renderbuffer'><code>depth_renderbuffer</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.color_attachment'><code>color_attachment</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../offscreen_gl_context/struct.DrawBuffer.html' title='offscreen_gl_context::DrawBuffer'>DrawBuffer</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;T: <a class='trait' href='../offscreen_gl_context/platform/trait.NativeGLContextMethods.html' title='offscreen_gl_context::platform::NativeGLContextMethods'>NativeGLContextMethods</a>&gt;(context: &amp;<a class='struct' href='../offscreen_gl_context/struct.GLContext.html' title='offscreen_gl_context::GLContext'>GLContext</a>&lt;T&gt;, size: <a class='struct' href='../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../std/primitive.i32.html'>i32</a>&gt;, color_attachment_type: <a class='enum' href='../offscreen_gl_context/enum.ColorAttachmentType.html' title='offscreen_gl_context::ColorAttachmentType'>ColorAttachmentType</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../offscreen_gl_context/struct.DrawBuffer.html' title='offscreen_gl_context::DrawBuffer'>DrawBuffer</a>, &amp;'static <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;</code></h4>
+<h4 id='method.get_framebuffer' class='method'><code>fn <a href='#method.get_framebuffer' class='fnname'>get_framebuffer</a>(&amp;self) -&gt; <a class='type' href='../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a></code></h4>
+<h4 id='method.size' class='method'><code>fn <a href='#method.size' class='fnname'>size</a>(&amp;self) -&gt; <a class='struct' href='../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../std/primitive.i32.html'>i32</a>&gt;</code></h4>
+<h4 id='method.color_attachment_type' class='method'><code>fn <a href='#method.color_attachment_type' class='fnname'>color_attachment_type</a>(&amp;self) -&gt; <a class='enum' href='../offscreen_gl_context/enum.ColorAttachmentType.html' title='offscreen_gl_context::ColorAttachmentType'>ColorAttachmentType</a></code></h4>
+<h4 id='method.get_bound_color_renderbuffer_id' class='method'><code>fn <a href='#method.get_bound_color_renderbuffer_id' class='fnname'>get_bound_color_renderbuffer_id</a>(&amp;self) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>&gt;</code></h4>
+<h4 id='method.get_bound_texture_id' class='method'><code>fn <a href='#method.get_bound_texture_id' class='fnname'>get_bound_texture_id</a>(&amp;self) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../gleam/ffi/types/type.GLuint.html' title='gleam::ffi::types::GLuint'>GLuint</a>&gt;</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../offscreen_gl_context/struct.DrawBuffer.html' title='offscreen_gl_context::DrawBuffer'>DrawBuffer</a></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='../core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../offscreen_gl_context/draw_buffer/trait.DrawBufferHelpers.html' title='offscreen_gl_context::draw_buffer::DrawBufferHelpers'>DrawBufferHelpers</a> for <a class='struct' href='../offscreen_gl_context/struct.DrawBuffer.html' title='offscreen_gl_context::DrawBuffer'>DrawBuffer</a></code></h3><div class='impl-items'><h4 id='method.init' class='method'><code>fn <a href='../offscreen_gl_context/draw_buffer/trait.DrawBufferHelpers.html#tymethod.init' class='fnname'>init</a>&lt;T: <a class='trait' href='../offscreen_gl_context/platform/trait.NativeGLContextMethods.html' title='offscreen_gl_context::platform::NativeGLContextMethods'>NativeGLContextMethods</a>&gt;(&amp;mut self, context: &amp;<a class='struct' href='../offscreen_gl_context/struct.GLContext.html' title='offscreen_gl_context::GLContext'>GLContext</a>&lt;T&gt;, color_attachment_type: <a class='enum' href='../offscreen_gl_context/enum.ColorAttachmentType.html' title='offscreen_gl_context::ColorAttachmentType'>ColorAttachmentType</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>, &amp;'static <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;</code></h4>
+<h4 id='method.attach_to_framebuffer' class='method'><code>fn <a href='../offscreen_gl_context/draw_buffer/trait.DrawBufferHelpers.html#tymethod.attach_to_framebuffer' class='fnname'>attach_to_framebuffer</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>, &amp;'static <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "offscreen_gl_context";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

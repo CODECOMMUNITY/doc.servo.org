@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `JSAutoStructuredCloneBuffer` struct in crate `js`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, JSAutoStructuredCloneBuffer">
+
+    <title>js::jsapi::JSAutoStructuredCloneBuffer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>js</a>::<wbr><a href='index.html'>jsapi</a></p><script>window.sidebarCurrent = {name: 'JSAutoStructuredCloneBuffer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>js</a>::<wbr><a href='index.html'>jsapi</a>::<wbr><a class='struct' href=''>JSAutoStructuredCloneBuffer</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-3418' class='srclink' href='../../src/js/jsapi_linux_64.rs.html#3311-3318' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct JSAutoStructuredCloneBuffer {
+    pub data_: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.u64.html'>u64</a>,
+    pub nbytes_: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
+    pub version_: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>,
+    pub ownTransferables_: <a class='enum' href='../../js/jsapi/enum.JSAutoStructuredCloneBuffer_StructuredClone_h_unnamed_8.html' title='js::jsapi::JSAutoStructuredCloneBuffer_StructuredClone_h_unnamed_8'>JSAutoStructuredCloneBuffer_StructuredClone_h_unnamed_8</a>,
+    pub callbacks_: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.JSStructuredCloneCallbacks.html' title='js::jsapi::JSStructuredCloneCallbacks'>JSStructuredCloneCallbacks</a>,
+    pub closure_: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../std/os/raw/enum.c_void.html' title='std::os::raw::c_void'>c_void</a>,
+}</pre><div class='docblock'><p>RAII sugar for JS_WriteStructuredClone.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.data_'><code>data_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.nbytes_'><code>nbytes_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.version_'><code>version_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.ownTransferables_'><code>ownTransferables_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.callbacks_'><code>callbacks_</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.closure_'><code>closure_</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../js/jsapi/struct.JSAutoStructuredCloneBuffer.html' title='js::jsapi::JSAutoStructuredCloneBuffer'>JSAutoStructuredCloneBuffer</a></code></h3><div class='impl-items'><h4 id='method.data' class='method'><code>unsafe fn <a href='#method.data' class='fnname'>data</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.u64.html'>u64</a></code></h4>
+<h4 id='method.nbytes' class='method'><code>unsafe fn <a href='#method.nbytes' class='fnname'>nbytes</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
+<h4 id='method.clear' class='method'><code>unsafe fn <a href='#method.clear' class='fnname'>clear</a>(&amp;mut self, optionalCallbacks: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.JSStructuredCloneCallbacks.html' title='js::jsapi::JSStructuredCloneCallbacks'>JSStructuredCloneCallbacks</a>, closure: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../std/os/raw/enum.c_void.html' title='std::os::raw::c_void'>c_void</a>)</code></h4>
+<h4 id='method.copy' class='method'><code>unsafe fn <a href='#method.copy' class='fnname'>copy</a>(&amp;mut self, data: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='primitive' href='../../std/primitive.u64.html'>u64</a>, nbytes: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>, version: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, callbacks: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.JSStructuredCloneCallbacks.html' title='js::jsapi::JSStructuredCloneCallbacks'>JSStructuredCloneCallbacks</a>, closure: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../std/os/raw/enum.c_void.html' title='std::os::raw::c_void'>c_void</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Copy some memory. It will be automatically freed by the destructor.</p>
+</div><h4 id='method.adopt' class='method'><code>unsafe fn <a href='#method.adopt' class='fnname'>adopt</a>(&amp;mut self, data: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.u64.html'>u64</a>, nbytes: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>, version: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>, callbacks: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.JSStructuredCloneCallbacks.html' title='js::jsapi::JSStructuredCloneCallbacks'>JSStructuredCloneCallbacks</a>, closure: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../std/os/raw/enum.c_void.html' title='std::os::raw::c_void'>c_void</a>)</code></h4>
+<div class='docblock'><p>Adopt some memory. It will be automatically freed by the destructor.
+data must have been allocated by the JS engine (e.g., extracted via
+JSAutoStructuredCloneBuffer::steal).</p>
+</div><h4 id='method.steal' class='method'><code>unsafe fn <a href='#method.steal' class='fnname'>steal</a>(&amp;mut self, datap: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.u64.html'>u64</a>, nbytesp: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.usize.html'>usize</a>, versionp: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.u32.html'>u32</a>, callbacks: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.JSStructuredCloneCallbacks.html' title='js::jsapi::JSStructuredCloneCallbacks'>JSStructuredCloneCallbacks</a>, closure: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../std/os/raw/enum.c_void.html' title='std::os::raw::c_void'>c_void</a>)</code></h4>
+<div class='docblock'><p>Release the buffer and transfer ownership to the caller. The caller is
+responsible for calling JS_ClearStructuredClone or feeding the memory
+back to JSAutoStructuredCloneBuffer::adopt.</p>
+</div><h4 id='method.abandon' class='method'><code>unsafe fn <a href='#method.abandon' class='fnname'>abandon</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Abandon ownership of any transferable objects stored in the buffer,
+without freeing the buffer itself. Useful when copying the data out into
+an external container, though note that you will need to use adopt() or
+JS_ClearStructuredClone to properly release that data eventually.</p>
+</div><h4 id='method.read' class='method'><code>unsafe fn <a href='#method.read' class='fnname'>read</a>(&amp;mut self, cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, vp: <a class='type' href='../../js/jsapi/type.MutableHandleValue.html' title='js::jsapi::MutableHandleValue'>MutableHandleValue</a>, optionalCallbacks: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.JSStructuredCloneCallbacks.html' title='js::jsapi::JSStructuredCloneCallbacks'>JSStructuredCloneCallbacks</a>, closure: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../std/os/raw/enum.c_void.html' title='std::os::raw::c_void'>c_void</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.write' class='method'><code>unsafe fn <a href='#method.write' class='fnname'>write</a>(&amp;mut self, cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, v: <a class='type' href='../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>, optionalCallbacks: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.JSStructuredCloneCallbacks.html' title='js::jsapi::JSStructuredCloneCallbacks'>JSStructuredCloneCallbacks</a>, closure: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../std/os/raw/enum.c_void.html' title='std::os::raw::c_void'>c_void</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.write1' class='method'><code>unsafe fn <a href='#method.write1' class='fnname'>write1</a>(&amp;mut self, cx: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a>, v: <a class='type' href='../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>, transferable: <a class='type' href='../../js/jsapi/type.HandleValue.html' title='js::jsapi::HandleValue'>HandleValue</a>, optionalCallbacks: <a class='primitive' href='../../std/primitive.pointer.html'>*const </a><a class='struct' href='../../js/jsapi/struct.JSStructuredCloneCallbacks.html' title='js::jsapi::JSStructuredCloneCallbacks'>JSStructuredCloneCallbacks</a>, closure: <a class='primitive' href='../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../std/os/raw/enum.c_void.html' title='std::os::raw::c_void'>c_void</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../js/jsapi/struct.JSAutoStructuredCloneBuffer.html' title='js::jsapi::JSAutoStructuredCloneBuffer'>JSAutoStructuredCloneBuffer</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "js";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
