@@ -48,7 +48,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-1874' class='srclink' href='../../../../core/num/flt2dec/fn.to_exact_exp_str.html?gotosrc=1874' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn to_exact_exp_str&lt;T, F&gt;(format_exact: F, v: T, sign: Sign, ndigits: usize, upper: bool, buf: &amp;'a mut [u8], parts: &amp;'a mut [Part&lt;'a&gt;]) -&gt; Formatted&lt;'a&gt; <span class='where'>where T: DecodableFloat, F: <a class='trait' href='../../../../bitflags/__core/ops/trait.FnMut.html' title='bitflags::__core::ops::FnMut'>FnMut</a>(&amp;Decoded, &amp;mut [u8], i16) -&gt; (usize, i16)</span></pre><div class='stability'><em class='stab unstable'>Unstable (<code>flt2dec</code>)<p>: internal routines only exposed for testing</p>
+<pre class='rust fn'>pub fn to_exact_exp_str&lt;T, F&gt;(format_exact: F, v: T, sign: Sign, ndigits: usize, upper: bool, buf: &amp;'a mut [u8], parts: &amp;'a mut [Part&lt;'a&gt;]) -&gt; Formatted&lt;'a&gt; <span class='where'>where F: <a class='trait' href='../../../../bitflags/__core/ops/trait.FnMut.html' title='bitflags::__core::ops::FnMut'>FnMut</a>(&amp;Decoded, &amp;mut [u8], i16) -&gt; (usize, i16), T: DecodableFloat</span></pre><div class='stability'><em class='stab unstable'>Unstable (<code>flt2dec</code>)<p>: internal routines only exposed for testing</p>
 </em></div><div class='docblock'><p>Formats given floating point number into the exponential form with
 exactly given number of significant digits. The result is stored to
 the supplied parts array while utilizing given byte buffer as a scratch.

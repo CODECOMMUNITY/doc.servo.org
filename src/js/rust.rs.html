@@ -973,22 +973,6 @@
 <span id="929">929</span>
 <span id="930">930</span>
 <span id="931">931</span>
-<span id="932">932</span>
-<span id="933">933</span>
-<span id="934">934</span>
-<span id="935">935</span>
-<span id="936">936</span>
-<span id="937">937</span>
-<span id="938">938</span>
-<span id="939">939</span>
-<span id="940">940</span>
-<span id="941">941</span>
-<span id="942">942</span>
-<span id="943">943</span>
-<span id="944">944</span>
-<span id="945">945</span>
-<span id="946">946</span>
-<span id="947">947</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -1023,7 +1007,7 @@
 <span class='kw'>use</span> <span class='ident'>jsapi</span>::<span class='ident'>AutoObjectVector</span>;
 <span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>ToBooleanSlow</span>, <span class='ident'>ToNumberSlow</span>, <span class='ident'>ToStringSlow</span>};
 <span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>ToInt32Slow</span>, <span class='ident'>ToUint32Slow</span>, <span class='ident'>ToUint16Slow</span>, <span class='ident'>ToInt64Slow</span>, <span class='ident'>ToUint64Slow</span>};
-<span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>JSAutoRequest</span>, <span class='ident'>JS_BeginRequest</span>, <span class='ident'>JS_EndRequest</span>};
+<span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>JS_BeginRequest</span>, <span class='ident'>JS_EndRequest</span>};
 <span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>JS_EnterCompartment</span>, <span class='ident'>JS_LeaveCompartment</span>};
 <span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>JSJitMethodCallArgs</span>, <span class='ident'>JSJitGetterCallArgs</span>, <span class='ident'>JSJitSetterCallArgs</span>, <span class='ident'>CallArgs</span>};
 <span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>NullHandleValue</span>, <span class='ident'>UndefinedHandleValue</span>, <span class='ident'>JSID_VOID</span>};
@@ -1138,6 +1122,8 @@
         (<span class='op'>*</span><span class='ident'>contextopts</span>).<span class='ident'>set_autoJSAPIOwnsErrorReporting_</span>(<span class='boolval'>true</span>);
         <span class='ident'>JS_SetErrorReporter</span>(<span class='ident'>js_runtime</span>, <span class='prelude-val'>Some</span>(<span class='ident'>reportError</span>));
 
+        <span class='ident'>JS_BeginRequest</span>(<span class='ident'>js_context</span>);
+
         <span class='ident'>Runtime</span> {
             <span class='ident'>rt</span>: <span class='ident'>js_runtime</span>,
             <span class='ident'>cx</span>: <span class='ident'>js_context</span>,
@@ -1168,7 +1154,6 @@
             (<span class='ident'>script_utf16</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>script_utf16</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>c_uint</span>)
         };
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>ptr</span>.<span class='ident'>is_null</span>());
-        <span class='kw'>let</span> <span class='ident'>_ar</span> <span class='op'>=</span> <span class='ident'>JSAutoRequest</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>cx</span>());
         <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>cx</span>(), <span class='ident'>glob</span>.<span class='ident'>get</span>());
         <span class='kw'>let</span> <span class='ident'>options</span> <span class='op'>=</span> <span class='ident'>CompileOptionsWrapper</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>cx</span>(), <span class='ident'>filename_cstr</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>line_num</span>);
 
@@ -1189,6 +1174,7 @@
 <span class='kw'>impl</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Runtime</span> {
     <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>unsafe</span> {
+            <span class='ident'>JS_EndRequest</span>(<span class='self'>self</span>.<span class='ident'>cx</span>);
             <span class='ident'>JS_DestroyContext</span>(<span class='self'>self</span>.<span class='ident'>cx</span>);
             <span class='ident'>JS_DestroyRuntime</span>(<span class='self'>self</span>.<span class='ident'>rt</span>);
         }
@@ -1550,24 +1536,6 @@
 
 <span class='comment'>// ___________________________________________________________________________</span>
 <span class='comment'>// Implementations for various things in jsapi.rs</span>
-
-<span class='kw'>impl</span> <span class='ident'>JSAutoRequest</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>) <span class='op'>-&gt;</span> <span class='ident'>JSAutoRequest</span> {
-        <span class='kw'>unsafe</span> { <span class='ident'>JS_BeginRequest</span>(<span class='ident'>cx</span>); }
-        <span class='ident'>JSAutoRequest</span> {
-            <span class='ident'>mContext</span>: <span class='ident'>cx</span>
-        }
-    }
-}
-
-<span class='kw'>impl</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>JSAutoRequest</span> {
-    <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>mContext</span> <span class='kw'>as</span> <span class='ident'>usize</span> <span class='op'>==</span> <span class='ident'>mem</span>::<span class='ident'>POST_DROP_USIZE</span> {
-            <span class='kw'>return</span>;
-        }
-        <span class='kw'>unsafe</span> { <span class='ident'>JS_EndRequest</span>(<span class='self'>self</span>.<span class='ident'>mContext</span>); }
-    }
-}
 
 <span class='kw'>impl</span> <span class='ident'>JSAutoCompartment</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>target</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) <span class='op'>-&gt;</span> <span class='ident'>JSAutoCompartment</span> {

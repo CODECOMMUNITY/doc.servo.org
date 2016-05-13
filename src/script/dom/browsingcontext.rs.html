@@ -454,7 +454,6 @@
 <span id="410">410</span>
 <span id="411">411</span>
 <span id="412">412</span>
-<span id="413">413</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -475,7 +474,7 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>JSCLASS_IS_GLOBAL</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>glue</span>::{<span class='ident'>CreateWrapperProxyHandler</span>, <span class='ident'>ProxyTraps</span>, <span class='ident'>NewWindowProxy</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>glue</span>::{<span class='ident'>GetProxyPrivate</span>, <span class='ident'>SetProxyExtra</span>, <span class='ident'>GetProxyExtra</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>Handle</span>, <span class='ident'>HandleId</span>, <span class='ident'>HandleObject</span>, <span class='ident'>HandleValue</span>, <span class='ident'>JSAutoCompartment</span>, <span class='ident'>JSAutoRequest</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>Handle</span>, <span class='ident'>HandleId</span>, <span class='ident'>HandleObject</span>, <span class='ident'>HandleValue</span>, <span class='ident'>JSAutoCompartment</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSContext</span>, <span class='ident'>JSPROP_READONLY</span>, <span class='ident'>JSErrNum</span>, <span class='ident'>JSObject</span>, <span class='ident'>PropertyDescriptor</span>, <span class='ident'>JS_DefinePropertyById</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_ForwardGetPropertyTo</span>, <span class='ident'>JS_ForwardSetPropertyTo</span>, <span class='ident'>JS_GetClass</span>, <span class='ident'>JSTracer</span>, <span class='ident'>FreeOp</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_GetOwnPropertyDescriptorById</span>, <span class='ident'>JS_HasPropertyById</span>, <span class='ident'>MutableHandle</span>};
@@ -528,7 +527,6 @@
             <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>handler</span>.<span class='ident'>is_null</span>());
 
             <span class='kw'>let</span> <span class='ident'>cx</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>get_cx</span>();
-            <span class='kw'>let</span> <span class='ident'>_ar</span> <span class='op'>=</span> <span class='ident'>JSAutoRequest</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>);
             <span class='kw'>let</span> <span class='ident'>parent</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>();
             <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>parent</span>.<span class='ident'>get</span>().<span class='ident'>is_null</span>());
             <span class='macro'>assert</span><span class='macro'>!</span>(((<span class='op'>*</span><span class='ident'>JS_GetClass</span>(<span class='ident'>parent</span>.<span class='ident'>get</span>())).<span class='ident'>flags</span> <span class='kw-2'>&amp;</span> <span class='ident'>JSCLASS_IS_GLOBAL</span>) <span class='op'>!=</span> <span class='number'>0</span>);

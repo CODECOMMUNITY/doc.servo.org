@@ -605,8 +605,6 @@
 <span id="561">561</span>
 <span id="562">562</span>
 <span id="563">563</span>
-<span id="564">564</span>
-<span id="565">565</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -635,8 +633,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>window</span>::<span class='ident'>Window</span>;
 <span class='kw'>use</span> <span class='ident'>fnv</span>::<span class='ident'>FnvHasher</span>;
 <span class='kw'>use</span> <span class='ident'>heapsize</span>::<span class='ident'>HeapSizeOf</span>;
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>CompileFunction</span>, <span class='ident'>JS_GetFunctionObject</span>, <span class='ident'>RootedValue</span>, <span class='ident'>RootedFunction</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>JSAutoRequest</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>CompileFunction</span>, <span class='ident'>JS_GetFunctionObject</span>, <span class='ident'>RootedValue</span>, <span class='ident'>RootedFunction</span>, <span class='ident'>JSAutoCompartment</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::{<span class='ident'>AutoObjectVectorWrapper</span>, <span class='ident'>CompileOptionsWrapper</span>};
 <span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>c_char</span>, <span class='ident'>size_t</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
@@ -1032,7 +1029,6 @@
 
         <span class='kw'>let</span> <span class='ident'>scopechain</span> <span class='op'>=</span> <span class='ident'>AutoObjectVectorWrapper</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>);
 
-        <span class='kw'>let</span> <span class='ident'>_ar</span> <span class='op'>=</span> <span class='ident'>JSAutoRequest</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>);
         <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>window</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>().<span class='ident'>get</span>());
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>RootedFunction</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>());
         <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='kw'>unsafe</span> {

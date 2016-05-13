@@ -663,7 +663,6 @@
 <span id="619">619</span>
 <span id="620">620</span>
 <span id="621">621</span>
-<span id="622">622</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -692,7 +691,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>messageevent</span>::<span class='ident'>MessageEvent</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>urlhelper</span>::<span class='ident'>UrlHelper</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>JSAutoRequest</span>, <span class='ident'>RootedValue</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>RootedValue</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_GetArrayBufferData</span>, <span class='ident'>JS_NewArrayBuffer</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::<span class='ident'>UndefinedValue</span>;
 <span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>uint32_t</span>, <span class='ident'>uint8_t</span>};
@@ -1258,7 +1257,6 @@
         <span class='comment'>// global.get_cx() returns a valid `JSContext` pointer, so this is safe.</span>
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>cx</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>r</span>().<span class='ident'>get_cx</span>();
-            <span class='kw'>let</span> <span class='ident'>_ar</span> <span class='op'>=</span> <span class='ident'>JSAutoRequest</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>);
             <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>ws</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>().<span class='ident'>get</span>());
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>UndefinedValue</span>());
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>message</span> {

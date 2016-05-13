@@ -651,7 +651,6 @@
 <span id="607">607</span>
 <span id="608">608</span>
 <span id="609">609</span>
-<span id="610">610</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -685,7 +684,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>virtualmethods</span>::<span class='ident'>VirtualMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>window</span>::{<span class='ident'>ReflowReason</span>, <span class='ident'>Window</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>;
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>JSAutoRequest</span>, <span class='ident'>RootedValue</span>, <span class='ident'>JSContext</span>, <span class='ident'>MutableHandleValue</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>RootedValue</span>, <span class='ident'>JSContext</span>, <span class='ident'>MutableHandleValue</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::{<span class='ident'>UndefinedValue</span>, <span class='ident'>NullValue</span>};
 <span class='kw'>use</span> <span class='ident'>layout_interface</span>::<span class='ident'>ReflowQueryType</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>ConstellationChan</span>, <span class='ident'>LoadData</span>};
@@ -817,7 +816,6 @@
             <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>);
             <span class='kw'>let</span> <span class='ident'>custom_event</span> <span class='op'>=</span> <span class='kw'>unsafe</span> {
                 <span class='kw'>let</span> <span class='ident'>cx</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>get_cx</span>();
-                <span class='kw'>let</span> <span class='ident'>_ar</span> <span class='op'>=</span> <span class='ident'>JSAutoRequest</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>);
                 <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>window</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>().<span class='ident'>get</span>());
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>detail</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>UndefinedValue</span>());
                 <span class='kw'>let</span> <span class='ident'>event_name</span> <span class='op'>=</span> <span class='ident'>Atom</span>::<span class='ident'>from</span>(<span class='ident'>event</span>.<span class='ident'>name</span>());
