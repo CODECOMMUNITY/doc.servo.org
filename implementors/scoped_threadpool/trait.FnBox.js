@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['scoped_threadpool'] = [];
+implementors["scoped_threadpool"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

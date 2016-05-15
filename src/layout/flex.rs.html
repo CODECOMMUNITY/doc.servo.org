@@ -693,10 +693,10 @@
                          <span class='op'>-&gt;</span> <span class='ident'>FlexFlow</span> {
 
         <span class='kw'>let</span> (<span class='ident'>main_mode</span>, <span class='ident'>is_reverse</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>fragment</span>.<span class='ident'>style</span>.<span class='ident'>get_position</span>().<span class='ident'>flex_direction</span> {
-            <span class='ident'>flex_direction</span>::<span class='ident'>T</span>::<span class='ident'>row</span>            <span class='op'>=&gt;</span> (<span class='ident'>Mode</span>::<span class='ident'>Inline</span>, <span class='boolval'>false</span>),
-            <span class='ident'>flex_direction</span>::<span class='ident'>T</span>::<span class='ident'>row_reverse</span>    <span class='op'>=&gt;</span> (<span class='ident'>Mode</span>::<span class='ident'>Inline</span>, <span class='boolval'>true</span>),
-            <span class='ident'>flex_direction</span>::<span class='ident'>T</span>::<span class='ident'>column</span>         <span class='op'>=&gt;</span> (<span class='ident'>Mode</span>::<span class='ident'>Block</span>, <span class='boolval'>false</span>),
-            <span class='ident'>flex_direction</span>::<span class='ident'>T</span>::<span class='ident'>column_reverse</span> <span class='op'>=&gt;</span> (<span class='ident'>Mode</span>::<span class='ident'>Block</span>, <span class='boolval'>true</span>),
+            <span class='ident'>flex_direction</span>::<span class='ident'>T</span>::<span class='ident'>row</span>            <span class='op'>=&gt;</span> (<span class='ident'>Mode</span>::<span class='ident'>Inline</span>, <span class='boolvalue'>false</span>),
+            <span class='ident'>flex_direction</span>::<span class='ident'>T</span>::<span class='ident'>row_reverse</span>    <span class='op'>=&gt;</span> (<span class='ident'>Mode</span>::<span class='ident'>Inline</span>, <span class='boolvalue'>true</span>),
+            <span class='ident'>flex_direction</span>::<span class='ident'>T</span>::<span class='ident'>column</span>         <span class='op'>=&gt;</span> (<span class='ident'>Mode</span>::<span class='ident'>Block</span>, <span class='boolvalue'>false</span>),
+            <span class='ident'>flex_direction</span>::<span class='ident'>T</span>::<span class='ident'>column_reverse</span> <span class='op'>=&gt;</span> (<span class='ident'>Mode</span>::<span class='ident'>Block</span>, <span class='boolvalue'>true</span>),
         };
 
         <span class='ident'>FlexFlow</span> {
@@ -714,8 +714,8 @@
     <span class='comment'>// stripped out, and max replaced with union_nonbreaking_inline.</span>
     <span class='kw'>fn</span> <span class='ident'>inline_mode_bubble_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>let</span> <span class='ident'>fixed_width</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>style</span>().<span class='ident'>get_position</span>().<span class='ident'>width</span> {
-            <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Length</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Length</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         };
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>computation</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>compute_intrinsic_inline_sizes</span>();
@@ -740,8 +740,8 @@
     <span class='comment'>// stripped out.</span>
     <span class='kw'>fn</span> <span class='ident'>block_mode_bubble_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>let</span> <span class='ident'>fixed_width</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>style</span>().<span class='ident'>get_position</span>().<span class='ident'>width</span> {
-            <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Length</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Length</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         };
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>computation</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>compute_intrinsic_inline_sizes</span>();

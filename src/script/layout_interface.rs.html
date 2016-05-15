@@ -551,7 +551,7 @@
 <span class='doccomment'>/// A trait to manage opaque references to script&lt;-&gt;layout channels without needing</span>
 <span class='doccomment'>/// to expose the message type to crates that don&#39;t need to know about them.</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>ScriptLayoutChan</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>sender</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span>, <span class='ident'>receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>sender</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span>, <span class='ident'>receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
     <span class='kw'>fn</span> <span class='ident'>sender</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>receiver</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span>;
 }

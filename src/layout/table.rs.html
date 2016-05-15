@@ -1127,7 +1127,7 @@
                         <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Percentage</span>(<span class='ident'>percentage</span>) <span class='op'>=&gt;</span> <span class='ident'>percentage</span>,
                     },
                     <span class='ident'>preferred</span>: <span class='ident'>Au</span>(<span class='number'>0</span>),
-                    <span class='ident'>constrained</span>: <span class='boolval'>false</span>,
+                    <span class='ident'>constrained</span>: <span class='boolvalue'>false</span>,
                 })
             }
         }
@@ -1156,7 +1156,7 @@
             <span class='ident'>PreviousBlockCollapsedBorders</span>::<span class='ident'>FromTable</span>(<span class='ident'>CollapsedBorder</span>::<span class='ident'>block_start</span>(
                     <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>style</span>,
                     <span class='ident'>CollapsedBorderProvenance</span>::<span class='ident'>FromTable</span>));
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>first_row</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>first_row</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
 
         {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iterator</span> <span class='op'>=</span> <span class='ident'>TableRowIterator</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>base</span>).<span class='ident'>peekable</span>();
@@ -1192,7 +1192,7 @@
                         <span class='ident'>PreviousBlockCollapsedBorders</span>::<span class='ident'>FromPreviousRow</span>(
                             <span class='ident'>row</span>.<span class='ident'>final_collapsed_borders</span>.<span class='ident'>block_end</span>.<span class='ident'>clone</span>())
                 }
-                <span class='ident'>first_row</span> <span class='op'>=</span> <span class='boolval'>false</span>
+                <span class='ident'>first_row</span> <span class='op'>=</span> <span class='boolvalue'>false</span>
             }
         }
 
@@ -1450,7 +1450,7 @@
             <span class='ident'>preferred</span>: <span class='ident'>Au</span>(<span class='number'>0</span>),
             <span class='ident'>minimum_length</span>: <span class='ident'>Au</span>(<span class='number'>0</span>),
             <span class='ident'>percentage</span>: <span class='number'>0.0</span>,
-            <span class='ident'>constrained</span>: <span class='boolval'>false</span>,
+            <span class='ident'>constrained</span>: <span class='boolvalue'>false</span>,
         }
     }
 
@@ -1581,14 +1581,14 @@
             <span class='comment'>// Our current border-box position.</span>
             <span class='kw'>let</span> <span class='ident'>block_start_border_padding</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>border_padding</span>.<span class='ident'>block_start</span>;
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>current_block_offset</span> <span class='op'>=</span> <span class='ident'>block_start_border_padding</span>;
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>has_rows</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>has_rows</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
 
             <span class='comment'>// At this point, `current_block_offset` is at the content edge of our box. Now iterate</span>
             <span class='comment'>// over children.</span>
             <span class='kw'>for</span> <span class='ident'>kid</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>child_iter_mut</span>() {
                 <span class='comment'>// Account for spacing or collapsed borders.</span>
                 <span class='kw'>if</span> <span class='ident'>kid</span>.<span class='ident'>is_table_row</span>() {
-                    <span class='ident'>has_rows</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                    <span class='ident'>has_rows</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                     <span class='kw'>let</span> <span class='ident'>child_table_row</span> <span class='op'>=</span> <span class='ident'>kid</span>.<span class='ident'>as_table_row</span>();
                     <span class='ident'>current_block_offset</span> <span class='op'>=</span> <span class='ident'>current_block_offset</span> <span class='op'>+</span>
                         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>style</span>.<span class='ident'>get_inheritedtable</span>().<span class='ident'>border_collapse</span> {
@@ -1680,7 +1680,7 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>TableRowIterator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>base</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>BaseFlow</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>base</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>BaseFlow</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>TableRowIterator</span> {
             <span class='ident'>kids</span>: <span class='ident'>base</span>.<span class='ident'>child_iter_mut</span>(),
             <span class='ident'>grandkids</span>: <span class='prelude-val'>None</span>,
@@ -1691,7 +1691,7 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>TableRowIterator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>TableRowFlow</span>;
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
         <span class='comment'>// If we&#39;re inside a rowgroup, iterate through the rowgroup&#39;s children.</span>
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>grandkids</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>grandkids</span> {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>grandkid</span>) <span class='op'>=</span> <span class='ident'>grandkids</span>.<span class='ident'>next</span>() {

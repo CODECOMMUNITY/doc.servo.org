@@ -321,7 +321,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>MethodSigBuilder</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>MethodSigBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>Identity</span>)
     }
 }
@@ -329,7 +329,7 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>MethodSigBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MethodSig</span><span class='op'>&gt;</span>,
 {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>MethodSigBuilder</span> {
             <span class='ident'>callback</span>: <span class='ident'>callback</span>,
             <span class='ident'>span</span>: <span class='ident'>DUMMY_SP</span>,
@@ -342,42 +342,42 @@
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>span</span> <span class='op'>=</span> <span class='ident'>span</span>;
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unsafe_</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unsafe_</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>unsafety</span> <span class='op'>=</span> <span class='ident'>ast</span>::<span class='ident'>Unsafety</span>::<span class='ident'>Normal</span>;
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>const_</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>const_</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>constness</span> <span class='op'>=</span> <span class='ident'>ast</span>::<span class='ident'>Constness</span>::<span class='ident'>Const</span>;
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>abi</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>abi</span>: <span class='ident'>Abi</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>abi</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>abi</span>: <span class='ident'>Abi</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>abi</span> <span class='op'>=</span> <span class='ident'>abi</span>;
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_generics</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>generics</span>: <span class='ident'>ast</span>::<span class='ident'>Generics</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_generics</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>generics</span>: <span class='ident'>ast</span>::<span class='ident'>Generics</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>generics</span> <span class='op'>=</span> <span class='ident'>generics</span>;
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>generics</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>GenericsBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>generics</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>GenericsBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>GenericsBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_self</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>mutable</span>: <span class='ident'>ast</span>::<span class='ident'>Mutability</span>, <span class='ident'>explicit_self</span>: <span class='ident'>ast</span>::<span class='ident'>ExplicitSelf</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_self</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>mutable</span>: <span class='ident'>ast</span>::<span class='ident'>Mutability</span>, <span class='ident'>explicit_self</span>: <span class='ident'>ast</span>::<span class='ident'>ExplicitSelf</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>self_mutable</span> <span class='op'>=</span> <span class='ident'>mutable</span>;
         <span class='self'>self</span>.<span class='ident'>explicit_self</span> <span class='op'>=</span> <span class='ident'>explicit_self</span>;
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>self_</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>SelfBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>self_</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>SelfBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>SelfBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
@@ -406,7 +406,7 @@
         })
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fn_decl</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>FnDeclBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fn_decl</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>FnDeclBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>FnDeclBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 }
@@ -414,9 +414,9 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Generics</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>MethodSigBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MethodSig</span><span class='op'>&gt;</span>,
 {
-    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='kw'>Self</span>;
+    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='self'>Self</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>generics</span>: <span class='ident'>ast</span>::<span class='ident'>Generics</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>generics</span>: <span class='ident'>ast</span>::<span class='ident'>Generics</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>with_generics</span>(<span class='ident'>generics</span>)
     }
 }
@@ -424,9 +424,9 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>Invoke</span><span class='op'>&lt;</span>(<span class='ident'>ast</span>::<span class='ident'>Mutability</span>, <span class='ident'>ast</span>::<span class='ident'>ExplicitSelf</span>)<span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>MethodSigBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MethodSig</span><span class='op'>&gt;</span>,
 {
-    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='kw'>Self</span>;
+    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='self'>Self</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, (<span class='ident'>mutable</span>, <span class='ident'>explicit_self</span>): (<span class='ident'>ast</span>::<span class='ident'>Mutability</span>, <span class='ident'>ast</span>::<span class='ident'>ExplicitSelf</span>)) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, (<span class='ident'>mutable</span>, <span class='ident'>explicit_self</span>): (<span class='ident'>ast</span>::<span class='ident'>Mutability</span>, <span class='ident'>ast</span>::<span class='ident'>ExplicitSelf</span>)) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>with_self</span>(<span class='ident'>mutable</span>, <span class='ident'>explicit_self</span>)
     }
 }
@@ -436,7 +436,7 @@
 {
     <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>fn_decl</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>FnDecl</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='prelude-ty'>Result</span> {
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>fn_decl</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>FnDecl</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='prelude-ty'>Result</span> {
         <span class='self'>self</span>.<span class='ident'>build_fn_decl</span>(<span class='ident'>fn_decl</span>)
     }
 }
@@ -450,7 +450,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>SelfBuilder</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>SelfBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>Identity</span>)
     }
 }
@@ -458,7 +458,7 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>SelfBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span>(<span class='ident'>ast</span>::<span class='ident'>Mutability</span>, <span class='ident'>ast</span>::<span class='ident'>ExplicitSelf</span>)<span class='op'>&gt;</span>,
 {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>SelfBuilder</span> {
             <span class='ident'>callback</span>: <span class='ident'>callback</span>,
             <span class='ident'>span</span>: <span class='ident'>DUMMY_SP</span>,
@@ -470,7 +470,7 @@
         <span class='self'>self</span>.<span class='ident'>callback</span>.<span class='ident'>invoke</span>((<span class='self'>self</span>.<span class='ident'>mutable</span>, <span class='ident'>self_</span>))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>span</span> <span class='op'>=</span> <span class='ident'>span</span>;
         <span class='self'>self</span>
     }
@@ -480,7 +480,7 @@
         <span class='self'>self</span>.<span class='ident'>build</span>(<span class='ident'>self_</span>)
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>mut_</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>mut_</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>mutable</span> <span class='op'>=</span> <span class='ident'>ast</span>::<span class='ident'>Mutability</span>::<span class='ident'>Mutable</span>;
         <span class='self'>self</span>
     }
@@ -533,7 +533,7 @@
         ))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ty</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>TyBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ty</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>TyBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>TyBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 }

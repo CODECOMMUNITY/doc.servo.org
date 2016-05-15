@@ -499,7 +499,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>PatBuilder</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>PatBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>Identity</span>)
     }
 }
@@ -507,14 +507,14 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>PatBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span>,
 {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>PatBuilder</span> {
             <span class='ident'>callback</span>: <span class='ident'>callback</span>,
             <span class='ident'>span</span>: <span class='ident'>DUMMY_SP</span>,
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>span</span> <span class='op'>=</span> <span class='ident'>span</span>;
         <span class='self'>self</span>
     }
@@ -592,11 +592,11 @@
         <span class='self'>self</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>QPath</span>(<span class='ident'>qself</span>, <span class='ident'>path</span>))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>path</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PathBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>path</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PathBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>PathBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>qpath</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>QPathBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>qpath</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>QPathBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>QPathBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
@@ -645,7 +645,7 @@
 {
     <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='ident'>ExprBuilder</span><span class='op'>&lt;</span><span class='ident'>PatRangeExprBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;&gt;</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>lhs</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Expr</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='prelude-ty'>Result</span> {
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>lhs</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Expr</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='prelude-ty'>Result</span> {
         <span class='ident'>ExprBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>PatRangeExprBuilder</span> {
             <span class='ident'>builder</span>: <span class='self'>self</span>.<span class='number'>0</span>,
             <span class='ident'>lhs</span>: <span class='ident'>lhs</span>,
@@ -665,7 +665,7 @@
 {
     <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Expr</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='prelude-ty'>Result</span> {
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Expr</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='prelude-ty'>Result</span> {
         <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_range</span>(<span class='self'>self</span>.<span class='ident'>lhs</span>, <span class='ident'>rhs</span>)
     }
 }
@@ -697,18 +697,18 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>PatEnumPathBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span>,
 {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_pats</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_pats</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span>,
     {
         <span class='self'>self</span>.<span class='ident'>pats</span>.<span class='ident'>extend</span>(<span class='ident'>iter</span>);
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pat</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PatBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pat</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PatBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>PatBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_ids</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_ids</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>T</span><span class='op'>&gt;</span>,
               <span class='ident'>T</span>: <span class='ident'>ToIdent</span>,
     {
@@ -718,7 +718,7 @@
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>ToIdent</span>
     {
         <span class='self'>self</span>.<span class='ident'>pat</span>().<span class='ident'>id</span>(<span class='ident'>id</span>)
@@ -732,9 +732,9 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>PatEnumPathBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span>,
 {
-    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='kw'>Self</span>;
+    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='self'>Self</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pat</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pat</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>pats</span>.<span class='ident'>push</span>(<span class='ident'>pat</span>);
         <span class='self'>self</span>
     }
@@ -767,12 +767,12 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>PatStructPathBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span>,
 {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_field_pat</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pat</span>: <span class='ident'>ast</span>::<span class='ident'>FieldPat</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_field_pat</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pat</span>: <span class='ident'>ast</span>::<span class='ident'>FieldPat</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>pats</span>.<span class='ident'>push</span>(<span class='ident'>respan</span>(<span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>span</span>, <span class='ident'>pat</span>));
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_pats</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_pats</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span>(<span class='ident'>T</span>, <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>,
               <span class='ident'>T</span>: <span class='ident'>ToIdent</span>,
     {
@@ -791,7 +791,7 @@
         })
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_ids</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_ids</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>T</span><span class='op'>&gt;</span>,
               <span class='ident'>T</span>: <span class='ident'>ToIdent</span>,
     {
@@ -801,7 +801,7 @@
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>mut_id</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>mut_id</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>ToIdent</span>,
     {
         <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='ident'>id</span>.<span class='ident'>to_ident</span>();
@@ -811,11 +811,11 @@
         <span class='self'>self</span>.<span class='ident'>with_field_pat</span>(<span class='ident'>ast</span>::<span class='ident'>FieldPat</span> {
             <span class='ident'>ident</span>: <span class='ident'>id</span>,
             <span class='ident'>pat</span>: <span class='ident'>pat</span>,
-            <span class='ident'>is_shorthand</span>: <span class='boolval'>true</span>,
+            <span class='ident'>is_shorthand</span>: <span class='boolvalue'>true</span>,
         })
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>ToIdent</span>,
     {
         <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='ident'>id</span>.<span class='ident'>to_ident</span>();
@@ -825,16 +825,16 @@
         <span class='self'>self</span>.<span class='ident'>with_field_pat</span>(<span class='ident'>ast</span>::<span class='ident'>FieldPat</span> {
             <span class='ident'>ident</span>: <span class='ident'>id</span>,
             <span class='ident'>pat</span>: <span class='ident'>pat</span>,
-            <span class='ident'>is_shorthand</span>: <span class='boolval'>true</span>,
+            <span class='ident'>is_shorthand</span>: <span class='boolvalue'>true</span>,
         })
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>etc</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span> {
-        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Struct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='self'>self</span>.<span class='ident'>pats</span>, <span class='boolval'>true</span>))
+        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Struct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='self'>self</span>.<span class='ident'>pats</span>, <span class='boolvalue'>true</span>))
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span> {
-        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Struct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='self'>self</span>.<span class='ident'>pats</span>, <span class='boolval'>false</span>))
+        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Struct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='self'>self</span>.<span class='ident'>pats</span>, <span class='boolvalue'>false</span>))
     }
 }
 
@@ -854,7 +854,7 @@
         <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>with_field_pat</span>(<span class='ident'>ast</span>::<span class='ident'>FieldPat</span> {
             <span class='ident'>ident</span>: <span class='self'>self</span>.<span class='ident'>id</span>,
             <span class='ident'>pat</span>: <span class='ident'>pat</span>,
-            <span class='ident'>is_shorthand</span>: <span class='boolval'>false</span>,
+            <span class='ident'>is_shorthand</span>: <span class='boolvalue'>false</span>,
         })
     }
 }
@@ -883,19 +883,19 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> <span class='ident'>PatTupleBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span>
 {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_pats</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_pats</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span>,
     {
         <span class='self'>self</span>.<span class='ident'>pats</span>.<span class='ident'>extend</span>(<span class='ident'>iter</span>);
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_pat</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pat</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_pat</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pat</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>pats</span>.<span class='ident'>push</span>(<span class='ident'>pat</span>);
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pat</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PatBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pat</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PatBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>PatBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
@@ -909,7 +909,7 @@
 {
     <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='ident'>PatTupleBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>pat</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>pat</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>with_pat</span>(<span class='ident'>pat</span>)
     }
 }

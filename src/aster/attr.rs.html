@@ -353,7 +353,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>AttrBuilder</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>AttrBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>Identity</span>)
     }
 }
@@ -361,21 +361,21 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>AttrBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Attribute</span><span class='op'>&gt;</span>,
 {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>AttrBuilder</span> {
             <span class='ident'>callback</span>: <span class='ident'>callback</span>,
             <span class='ident'>span</span>: <span class='ident'>DUMMY_SP</span>,
             <span class='ident'>style</span>: <span class='ident'>ast</span>::<span class='ident'>AttrStyle</span>::<span class='ident'>Outer</span>,
-            <span class='ident'>is_sugared_doc</span>: <span class='boolval'>false</span>,
+            <span class='ident'>is_sugared_doc</span>: <span class='boolvalue'>false</span>,
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>span</span> <span class='op'>=</span> <span class='ident'>span</span>;
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>inner</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>inner</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>style</span> <span class='op'>=</span> <span class='ident'>ast</span>::<span class='ident'>AttrStyle</span>::<span class='ident'>Inner</span>;
         <span class='self'>self</span>
     }
@@ -401,13 +401,13 @@
         <span class='self'>self</span>.<span class='ident'>build_meta_item_</span>(<span class='ident'>ast</span>::<span class='ident'>MetaItemKind</span>::<span class='ident'>Word</span>(<span class='ident'>word</span>.<span class='ident'>to_interned_string</span>()))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>list</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>word</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>AttrListBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>list</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>word</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>AttrListBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>ToInternedString</span>
     {
         <span class='ident'>AttrListBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>word</span>, <span class='self'>self</span>)
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_value</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>LitBuilder</span><span class='op'>&lt;</span><span class='ident'>AttrNameValueBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;&gt;</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_value</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>LitBuilder</span><span class='op'>&lt;</span><span class='ident'>AttrNameValueBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;&gt;</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>ToInternedString</span>,
     {
         <span class='ident'>LitBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>AttrNameValueBuilder</span> {
@@ -471,7 +471,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>doc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>doc</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>ToInternedString</span>,
     {
-        <span class='self'>self</span>.<span class='ident'>is_sugared_doc</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+        <span class='self'>self</span>.<span class='ident'>is_sugared_doc</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
         <span class='self'>self</span>.<span class='ident'>name_value</span>(<span class='string'>&quot;doc&quot;</span>).<span class='ident'>str</span>(<span class='ident'>doc</span>)
     }
 }
@@ -508,7 +508,7 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>AttrListBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItem</span><span class='op'>&gt;&gt;</span>,
 {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>name</span>: <span class='ident'>T</span>, <span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>name</span>: <span class='ident'>T</span>, <span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>ToInternedString</span>,
     {
         <span class='ident'>AttrListBuilder</span> {
@@ -519,19 +519,19 @@
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>span</span> <span class='op'>=</span> <span class='ident'>span</span>;
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_meta_items</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_meta_items</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItem</span><span class='op'>&gt;&gt;</span>,
     {
         <span class='self'>self</span>.<span class='ident'>items</span>.<span class='ident'>extend</span>(<span class='ident'>iter</span>);
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_meta_items_</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_meta_items_</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>ast</span>::<span class='ident'>MetaItemKind</span><span class='op'>&gt;</span>,
     {
         <span class='kw'>let</span> <span class='ident'>iter</span> <span class='op'>=</span> <span class='ident'>iter</span>.<span class='ident'>into_iter</span>();
@@ -539,17 +539,17 @@
         <span class='self'>self</span>.<span class='ident'>with_meta_items</span>(<span class='ident'>iter</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>item</span><span class='op'>|</span> <span class='ident'>P</span>(<span class='ident'>respan</span>(<span class='ident'>span</span>, <span class='ident'>item</span>))))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_meta_item</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>item</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItem</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_meta_item</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>item</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItem</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>items</span>.<span class='ident'>push</span>(<span class='ident'>item</span>);
         <span class='self'>self</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_meta_item_kind</span>(<span class='self'>self</span>, <span class='ident'>item</span>: <span class='ident'>ast</span>::<span class='ident'>MetaItemKind</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_meta_item_kind</span>(<span class='self'>self</span>, <span class='ident'>item</span>: <span class='ident'>ast</span>::<span class='ident'>MetaItemKind</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>let</span> <span class='ident'>span</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>span</span>;
         <span class='self'>self</span>.<span class='ident'>with_meta_item</span>(<span class='ident'>P</span>(<span class='ident'>respan</span>(<span class='ident'>span</span>, <span class='ident'>item</span>)))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>words</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>words</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>T</span><span class='op'>&gt;</span>,
               <span class='ident'>T</span>: <span class='ident'>ToInternedString</span>,
     {
@@ -557,19 +557,19 @@
         <span class='self'>self</span>.<span class='ident'>with_meta_items_</span>(<span class='ident'>iter</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>word</span><span class='op'>|</span> <span class='ident'>ast</span>::<span class='ident'>MetaItemKind</span>::<span class='ident'>Word</span>(<span class='ident'>word</span>.<span class='ident'>to_interned_string</span>())))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>word</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>word</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>word</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>word</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>ToInternedString</span>,
     {
         <span class='self'>self</span>.<span class='ident'>with_meta_item_kind</span>(<span class='ident'>ast</span>::<span class='ident'>MetaItemKind</span>::<span class='ident'>Word</span>(<span class='ident'>word</span>.<span class='ident'>to_interned_string</span>()))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>list</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>AttrListBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>list</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>AttrListBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>ToInternedString</span>,
     {
         <span class='ident'>AttrListBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>name</span>, <span class='self'>self</span>)
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_value</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>LitBuilder</span><span class='op'>&lt;</span><span class='ident'>AttrNameValueBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;&gt;</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_value</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>LitBuilder</span><span class='op'>&lt;</span><span class='ident'>AttrNameValueBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;&gt;</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>ToInternedString</span>,
     {
         <span class='ident'>LitBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>AttrNameValueBuilder</span> {
@@ -587,9 +587,9 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItem</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>AttrListBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItem</span><span class='op'>&gt;&gt;</span>,
 {
-    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='kw'>Self</span>;
+    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='self'>Self</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>item</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItem</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>item</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItem</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>with_meta_item</span>(<span class='ident'>item</span>)
     }
 }
@@ -597,9 +597,9 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItemKind</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>AttrListBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>MetaItem</span><span class='op'>&gt;&gt;</span>,
 {
-    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='kw'>Self</span>;
+    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='self'>Self</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>item</span>: <span class='ident'>ast</span>::<span class='ident'>MetaItemKind</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>item</span>: <span class='ident'>ast</span>::<span class='ident'>MetaItemKind</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>with_meta_item_kind</span>(<span class='ident'>item</span>)
     }
 }

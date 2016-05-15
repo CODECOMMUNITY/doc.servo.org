@@ -1223,12 +1223,12 @@
                 <span class='self'>self</span>.<span class='ident'>event_queue</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>WindowEvent</span>::<span class='ident'>Refresh</span>);
             }
             <span class='ident'>Event</span>::<span class='ident'>Closed</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>return</span> <span class='boolval'>true</span>
+                <span class='kw'>return</span> <span class='boolvalue'>true</span>
             }
             _ <span class='op'>=&gt;</span> {}
         }
 
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>toggle_modifier</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>modifier</span>: <span class='ident'>KeyModifiers</span>) {
@@ -1294,7 +1294,7 @@
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>close</span> {
             <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>event</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>poll_events</span>().<span class='ident'>next</span>() {
                 <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>handle_window_event</span>(<span class='ident'>event</span>) {
-                    <span class='ident'>close</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                    <span class='ident'>close</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                     <span class='kw'>break</span>
                 }
             }
@@ -1316,7 +1316,7 @@
             <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>close</span> {
                 <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>event</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>poll_events</span>().<span class='ident'>next</span>() {
                     <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>handle_window_event</span>(<span class='ident'>event</span>) {
-                        <span class='ident'>close</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                        <span class='ident'>close</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                         <span class='kw'>break</span>
                     }
                 }
@@ -1348,7 +1348,7 @@
                 }
                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
                     <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>16</span>));
-                    <span class='boolval'>false</span>
+                    <span class='boolvalue'>false</span>
                 }
             }
         }
@@ -1358,7 +1358,7 @@
         <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>events</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>event_queue</span>.<span class='ident'>borrow_mut</span>(), <span class='ident'>Vec</span>::<span class='ident'>new</span>());
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>close_event</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>close_event</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
 
         <span class='comment'>// When writing to a file then exiting, use event</span>
         <span class='comment'>// polling so that we don&#39;t block on a GUI event</span>
@@ -1659,7 +1659,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>prepare_for_composite</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_width</span>: <span class='ident'>usize</span>, <span class='ident'>_height</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     }
 
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>)]</span>
@@ -1760,7 +1760,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>supports_clipboard</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     }
 }
 

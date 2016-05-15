@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['profile'] = [];
+implementors["profile"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

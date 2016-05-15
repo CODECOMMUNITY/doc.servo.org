@@ -1282,7 +1282,7 @@
         <span class='comment'>// TODO: create a fetch record and append it to request&#39;s client&#39;s fetch group list</span>
     }
     <span class='comment'>// Step 7</span>
-    <span class='ident'>main_fetch</span>(<span class='ident'>request</span>, <span class='ident'>cache</span>, <span class='boolval'>false</span>, <span class='boolval'>false</span>)
+    <span class='ident'>main_fetch</span>(<span class='ident'>request</span>, <span class='ident'>cache</span>, <span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>)
 }
 
 <span class='doccomment'>/// [Main fetch](https://fetch.spec.whatwg.org/#concept-main-fetch)</span>
@@ -1328,7 +1328,7 @@
             <span class='kw'>let</span> <span class='ident'>same_origin</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>Origin</span>::<span class='ident'>Origin</span>(<span class='kw-2'>ref</span> <span class='ident'>origin</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>request</span>.<span class='ident'>origin</span>.<span class='ident'>borrow</span>() {
                 <span class='op'>*</span><span class='ident'>origin</span> <span class='op'>==</span> <span class='ident'>current_url</span>.<span class='ident'>origin</span>()
             } <span class='kw'>else</span> {
-                <span class='boolval'>false</span>
+                <span class='boolvalue'>false</span>
             };
 
             <span class='kw'>if</span> (<span class='ident'>same_origin</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>cors_flag</span> ) <span class='op'>||</span>
@@ -1356,7 +1356,7 @@
 
                 <span class='ident'>request</span>.<span class='ident'>response_tainting</span>.<span class='ident'>set</span>(<span class='ident'>ResponseTainting</span>::<span class='ident'>CORSTainting</span>);
                 <span class='ident'>request</span>.<span class='ident'>redirect_mode</span>.<span class='ident'>set</span>(<span class='ident'>RedirectMode</span>::<span class='ident'>Error</span>);
-                <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>http_fetch</span>(<span class='ident'>request</span>.<span class='ident'>clone</span>(), <span class='ident'>cache</span>, <span class='boolval'>true</span>, <span class='boolval'>true</span>, <span class='boolval'>false</span>);
+                <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>http_fetch</span>(<span class='ident'>request</span>.<span class='ident'>clone</span>(), <span class='ident'>cache</span>, <span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>);
                 <span class='kw'>if</span> <span class='ident'>response</span>.<span class='ident'>is_network_error</span>() {
                     <span class='comment'>// TODO clear cache entries using request</span>
                 }
@@ -1364,7 +1364,7 @@
 
             } <span class='kw'>else</span> {
                 <span class='ident'>request</span>.<span class='ident'>response_tainting</span>.<span class='ident'>set</span>(<span class='ident'>ResponseTainting</span>::<span class='ident'>CORSTainting</span>);
-                <span class='ident'>http_fetch</span>(<span class='ident'>request</span>.<span class='ident'>clone</span>(), <span class='ident'>cache</span>, <span class='boolval'>true</span>, <span class='boolval'>false</span>, <span class='boolval'>false</span>)
+                <span class='ident'>http_fetch</span>(<span class='ident'>request</span>.<span class='ident'>clone</span>(), <span class='ident'>cache</span>, <span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>)
             }
         }
     };
@@ -1402,8 +1402,8 @@
         <span class='comment'>// Step 14</span>
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>response</span>.<span class='ident'>is_network_error</span>() <span class='op'>&amp;&amp;</span> (<span class='ident'>is_null_body_status</span>(<span class='kw-2'>&amp;</span><span class='ident'>internal_response</span>.<span class='ident'>status</span>) <span class='op'>||</span>
             <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>request</span>.<span class='ident'>method</span>.<span class='ident'>borrow</span>() {
-                <span class='ident'>Method</span>::<span class='ident'>Head</span> <span class='op'>|</span> <span class='ident'>Method</span>::<span class='ident'>Connect</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-                _ <span class='op'>=&gt;</span> <span class='boolval'>false</span> })
+                <span class='ident'>Method</span>::<span class='ident'>Head</span> <span class='op'>|</span> <span class='ident'>Method</span>::<span class='ident'>Connect</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span> })
             {
             <span class='comment'>// when Fetch is used only asynchronously, we will need to make sure</span>
             <span class='comment'>// that nothing tries to write to the body at this point</span>
@@ -1475,7 +1475,7 @@
         },
 
         <span class='string'>&quot;http&quot;</span> <span class='op'>|</span> <span class='string'>&quot;https&quot;</span> <span class='op'>=&gt;</span> {
-            <span class='ident'>http_fetch</span>(<span class='ident'>request</span>.<span class='ident'>clone</span>(), <span class='ident'>cache</span>, <span class='boolval'>false</span>, <span class='boolval'>false</span>, <span class='boolval'>false</span>)
+            <span class='ident'>http_fetch</span>(<span class='ident'>request</span>.<span class='ident'>clone</span>(), <span class='ident'>cache</span>, <span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>)
         },
 
         <span class='string'>&quot;data&quot;</span> <span class='op'>=&gt;</span> {
@@ -1596,14 +1596,14 @@
         }
 
         <span class='comment'>// Substep 2</span>
-        <span class='ident'>request</span>.<span class='ident'>skip_service_worker</span>.<span class='ident'>set</span>(<span class='boolval'>true</span>);
+        <span class='ident'>request</span>.<span class='ident'>skip_service_worker</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
 
         <span class='comment'>// Substep 3</span>
         <span class='kw'>let</span> <span class='ident'>credentials</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>request</span>.<span class='ident'>credentials_mode</span> {
-            <span class='ident'>CredentialsMode</span>::<span class='ident'>Include</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+            <span class='ident'>CredentialsMode</span>::<span class='ident'>Include</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
             <span class='ident'>CredentialsMode</span>::<span class='ident'>CredentialsSameOrigin</span> <span class='kw'>if</span> <span class='ident'>request</span>.<span class='ident'>response_tainting</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>ResponseTainting</span>::<span class='ident'>Basic</span>
-                <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+                <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
         };
 
         <span class='comment'>// Substep 4</span>
@@ -1614,7 +1614,7 @@
             <span class='kw'>return</span> <span class='ident'>Response</span>::<span class='ident'>network_error</span>();
         }
 
-        <span class='ident'>fetch_result</span>.<span class='ident'>return_internal</span>.<span class='ident'>set</span>(<span class='boolval'>false</span>);
+        <span class='ident'>fetch_result</span>.<span class='ident'>return_internal</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
         <span class='ident'>response</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>fetch_result</span>);
     }
 
@@ -1635,7 +1635,7 @@
                 },
                 <span class='ident'>RedirectMode</span>::<span class='ident'>Follow</span> <span class='op'>=&gt;</span> {
                     <span class='comment'>// set back to default</span>
-                    <span class='ident'>response</span>.<span class='ident'>return_internal</span>.<span class='ident'>set</span>(<span class='boolval'>true</span>);
+                    <span class='ident'>response</span>.<span class='ident'>return_internal</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
                     <span class='ident'>http_redirect_fetch</span>(<span class='ident'>request</span>, <span class='ident'>cache</span>, <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>response</span>), <span class='ident'>cors_flag</span>)
                 }
             }
@@ -1659,7 +1659,7 @@
             }
 
             <span class='comment'>// Step 4</span>
-            <span class='kw'>return</span> <span class='ident'>http_fetch</span>(<span class='ident'>request</span>, <span class='ident'>cache</span>, <span class='ident'>cors_flag</span>, <span class='ident'>cors_preflight_flag</span>, <span class='boolval'>true</span>);
+            <span class='kw'>return</span> <span class='ident'>http_fetch</span>(<span class='ident'>request</span>, <span class='ident'>cache</span>, <span class='ident'>cors_flag</span>, <span class='ident'>cors_preflight_flag</span>, <span class='boolvalue'>true</span>);
         }
 
         <span class='comment'>// Code 407</span>
@@ -1689,7 +1689,7 @@
     }
 
     <span class='comment'>// set back to default</span>
-    <span class='ident'>response</span>.<span class='ident'>return_internal</span>.<span class='ident'>set</span>(<span class='boolval'>true</span>);
+    <span class='ident'>response</span>.<span class='ident'>return_internal</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
     <span class='comment'>// Step 7</span>
     <span class='ident'>response</span>
 }
@@ -1701,7 +1701,7 @@
                        <span class='ident'>cors_flag</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Response</span> {
 
     <span class='comment'>// Step 1</span>
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>response</span>.<span class='ident'>return_internal</span>.<span class='ident'>get</span>(), <span class='boolval'>true</span>);
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>response</span>.<span class='ident'>return_internal</span>.<span class='ident'>get</span>(), <span class='boolvalue'>true</span>);
 
     <span class='comment'>// Step 3</span>
     <span class='comment'>// this step is done early, because querying if Location exists says</span>
@@ -1736,12 +1736,12 @@
     <span class='ident'>request</span>.<span class='ident'>redirect_count</span>.<span class='ident'>set</span>(<span class='ident'>request</span>.<span class='ident'>redirect_count</span>.<span class='ident'>get</span>() <span class='op'>+</span> <span class='number'>1</span>);
 
     <span class='comment'>// Step 9</span>
-    <span class='ident'>request</span>.<span class='ident'>same_origin_data</span>.<span class='ident'>set</span>(<span class='boolval'>false</span>);
+    <span class='ident'>request</span>.<span class='ident'>same_origin_data</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
 
     <span class='kw'>let</span> <span class='ident'>same_origin</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>Origin</span>::<span class='ident'>Origin</span>(<span class='kw-2'>ref</span> <span class='ident'>origin</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>request</span>.<span class='ident'>origin</span>.<span class='ident'>borrow</span>() {
         <span class='op'>*</span><span class='ident'>origin</span> <span class='op'>==</span> <span class='ident'>request</span>.<span class='ident'>current_url</span>().<span class='ident'>origin</span>()
     } <span class='kw'>else</span> {
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     };
     <span class='kw'>let</span> <span class='ident'>has_credentials</span> <span class='op'>=</span> <span class='ident'>has_credentials</span>(<span class='kw-2'>&amp;</span><span class='ident'>location_url</span>);
 
@@ -1774,7 +1774,7 @@
     <span class='ident'>request</span>.<span class='ident'>url_list</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>location_url</span>);
 
     <span class='comment'>// Step 15</span>
-    <span class='ident'>main_fetch</span>(<span class='ident'>request</span>, <span class='ident'>cache</span>, <span class='ident'>cors_flag</span>, <span class='boolval'>true</span>)
+    <span class='ident'>main_fetch</span>(<span class='ident'>request</span>, <span class='ident'>cache</span>, <span class='ident'>cors_flag</span>, <span class='boolvalue'>true</span>)
 }
 
 <span class='doccomment'>/// [HTTP network or cache fetch](https://fetch.spec.whatwg.org#http-network-or-cache-fetch)</span>
@@ -1783,7 +1783,7 @@
                                <span class='ident'>authentication_fetch_flag</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Response</span> {
 
     <span class='comment'>// TODO: Implement Window enum for Request</span>
-    <span class='kw'>let</span> <span class='ident'>request_has_no_window</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+    <span class='kw'>let</span> <span class='ident'>request_has_no_window</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
 
     <span class='comment'>// Step 1</span>
     <span class='kw'>let</span> <span class='ident'>http_request</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>request_has_no_window</span> <span class='op'>&amp;&amp;</span>
@@ -1824,7 +1824,7 @@
     };
 
     <span class='comment'>// Step 7</span>
-    <span class='kw'>if</span> <span class='ident'>http_request</span>.<span class='ident'>omit_origin_header</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='boolval'>false</span> {
+    <span class='kw'>if</span> <span class='ident'>http_request</span>.<span class='ident'>omit_origin_header</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='boolvalue'>false</span> {
         <span class='comment'>// TODO update this when https://github.com/hyperium/hyper/pull/691 is finished</span>
         <span class='comment'>// http_request.headers.borrow_mut().set_raw(&quot;origin&quot;, origin);</span>
     }
@@ -1924,7 +1924,7 @@
 
         <span class='kw'>let</span> <span class='ident'>revalidation_needed</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>response</span> {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>response</span>) <span class='op'>=&gt;</span> <span class='ident'>response_needs_revalidation</span>(<span class='kw-2'>&amp;</span><span class='ident'>response</span>),
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
         };
 
         <span class='comment'>// Substep 2</span>
@@ -2104,7 +2104,7 @@
 <span class='doccomment'>/// [CORS preflight fetch](https://fetch.spec.whatwg.org#cors-preflight-fetch)</span>
 <span class='kw'>fn</span> <span class='ident'>cors_preflight_fetch</span>(<span class='ident'>request</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Request</span><span class='op'>&gt;</span>, <span class='ident'>cache</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>CORSCache</span>) <span class='op'>-&gt;</span> <span class='ident'>Response</span> {
     <span class='comment'>// Step 1</span>
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>preflight</span> <span class='op'>=</span> <span class='ident'>Request</span>::<span class='ident'>new</span>(<span class='ident'>request</span>.<span class='ident'>current_url</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>request</span>.<span class='ident'>origin</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>()), <span class='boolval'>false</span>);
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>preflight</span> <span class='op'>=</span> <span class='ident'>Request</span>::<span class='ident'>new</span>(<span class='ident'>request</span>.<span class='ident'>current_url</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>request</span>.<span class='ident'>origin</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>()), <span class='boolvalue'>false</span>);
     <span class='op'>*</span><span class='ident'>preflight</span>.<span class='ident'>method</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='ident'>Method</span>::<span class='ident'>Options</span>;
     <span class='ident'>preflight</span>.<span class='ident'>initiator</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>initiator</span>.<span class='ident'>clone</span>();
     <span class='ident'>preflight</span>.<span class='ident'>type_</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>type_</span>.<span class='ident'>clone</span>();
@@ -2130,11 +2130,11 @@
 
     <span class='comment'>// Step 6</span>
     <span class='kw'>let</span> <span class='ident'>preflight</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>preflight</span>);
-    <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>http_network_or_cache_fetch</span>(<span class='ident'>preflight</span>.<span class='ident'>clone</span>(), <span class='boolval'>false</span>, <span class='boolval'>false</span>);
+    <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>http_network_or_cache_fetch</span>(<span class='ident'>preflight</span>.<span class='ident'>clone</span>(), <span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>);
 
     <span class='comment'>// Step 7</span>
     <span class='kw'>if</span> <span class='ident'>cors_check</span>(<span class='ident'>request</span>.<span class='ident'>clone</span>(), <span class='kw-2'>&amp;</span><span class='ident'>response</span>).<span class='ident'>is_ok</span>() <span class='op'>&amp;&amp;</span>
-       <span class='ident'>response</span>.<span class='ident'>status</span>.<span class='ident'>map_or</span>(<span class='boolval'>false</span>, <span class='op'>|</span><span class='ident'>status</span><span class='op'>|</span> <span class='ident'>status</span>.<span class='ident'>is_success</span>()) {
+       <span class='ident'>response</span>.<span class='ident'>status</span>.<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>status</span><span class='op'>|</span> <span class='ident'>status</span>.<span class='ident'>is_success</span>()) {
         <span class='comment'>// Substep 1</span>
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>methods</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>response</span>.<span class='ident'>headers</span>.<span class='ident'>has</span>::<span class='op'>&lt;</span><span class='ident'>AccessControlAllowMethods</span><span class='op'>&gt;</span>() {
             <span class='kw'>match</span> <span class='ident'>response</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>AccessControlAllowMethods</span><span class='op'>&gt;</span>() {
@@ -2263,8 +2263,8 @@
         <span class='kw'>match</span> <span class='ident'>h</span>.<span class='ident'>value</span>() {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>ContentType</span>(<span class='ident'>Mime</span>(<span class='ident'>TopLevel</span>::<span class='ident'>Text</span>, <span class='ident'>SubLevel</span>::<span class='ident'>Plain</span>, _))) <span class='op'>|</span>
             <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>ContentType</span>(<span class='ident'>Mime</span>(<span class='ident'>TopLevel</span>::<span class='ident'>Application</span>, <span class='ident'>SubLevel</span>::<span class='ident'>WwwFormUrlEncoded</span>, _))) <span class='op'>|</span>
-            <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>ContentType</span>(<span class='ident'>Mime</span>(<span class='ident'>TopLevel</span>::<span class='ident'>Multipart</span>, <span class='ident'>SubLevel</span>::<span class='ident'>FormData</span>, _))) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+            <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>ContentType</span>(<span class='ident'>Mime</span>(<span class='ident'>TopLevel</span>::<span class='ident'>Multipart</span>, <span class='ident'>SubLevel</span>::<span class='ident'>FormData</span>, _))) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
 
         }
     } <span class='kw'>else</span> {
@@ -2274,14 +2274,14 @@
 
 <span class='kw'>fn</span> <span class='ident'>is_simple_method</span>(<span class='ident'>m</span>: <span class='kw-2'>&amp;</span><span class='ident'>Method</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>m</span> {
-        <span class='ident'>Method</span>::<span class='ident'>Get</span> <span class='op'>|</span> <span class='ident'>Method</span>::<span class='ident'>Head</span> <span class='op'>|</span> <span class='ident'>Method</span>::<span class='ident'>Post</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-        _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+        <span class='ident'>Method</span>::<span class='ident'>Get</span> <span class='op'>|</span> <span class='ident'>Method</span>::<span class='ident'>Head</span> <span class='op'>|</span> <span class='ident'>Method</span>::<span class='ident'>Post</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+        _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
     }
 }
 
 <span class='kw'>fn</span> <span class='ident'>response_needs_revalidation</span>(<span class='ident'>_response</span>: <span class='kw-2'>&amp;</span><span class='ident'>Response</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='comment'>// TODO this function</span>
-    <span class='boolval'>false</span>
+    <span class='boolvalue'>false</span>
 }
 
 <span class='comment'>// fn modify_request_headers(headers: &amp;mut Headers) -&gt; {</span>
@@ -2293,10 +2293,10 @@
     <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>status</span> {
         <span class='prelude-val'>Some</span>(<span class='ident'>status</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>status</span> {
             <span class='ident'>StatusCode</span>::<span class='ident'>SwitchingProtocols</span> <span class='op'>|</span> <span class='ident'>StatusCode</span>::<span class='ident'>NoContent</span> <span class='op'>|</span>
-                <span class='ident'>StatusCode</span>::<span class='ident'>ResetContent</span> <span class='op'>|</span> <span class='ident'>StatusCode</span>::<span class='ident'>NotModified</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+                <span class='ident'>StatusCode</span>::<span class='ident'>ResetContent</span> <span class='op'>|</span> <span class='ident'>StatusCode</span>::<span class='ident'>NotModified</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
         },
-        _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+        _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
     }
 }
 </pre>

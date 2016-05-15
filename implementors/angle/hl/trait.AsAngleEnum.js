@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['angle'] = [];
+implementors["angle"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

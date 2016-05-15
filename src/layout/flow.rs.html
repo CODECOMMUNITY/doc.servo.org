@@ -1997,7 +1997,7 @@
     <span class='comment'>// the Immutable / Mutable Flow Utils traits without additional casts.</span>
 
     <span class='kw'>fn</span> <span class='ident'>is_root</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 
     <span class='doccomment'>/// The &#39;position&#39; property of this flow.</span>
@@ -2021,7 +2021,7 @@
 
     <span class='doccomment'>/// Returns true if this is an absolute containing block.</span>
     <span class='kw'>fn</span> <span class='ident'>is_absolute_containing_block</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 
     <span class='doccomment'>/// Updates the inline position of a child flow during the assign-height traversal. At present,</span>
@@ -2228,8 +2228,8 @@
         <span class='kw'>match</span> <span class='self'>self</span> {
             <span class='ident'>FlowClass</span>::<span class='ident'>Block</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>ListItem</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>Table</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableRowGroup</span> <span class='op'>|</span>
             <span class='ident'>FlowClass</span>::<span class='ident'>TableRow</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableCaption</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableCell</span> <span class='op'>|</span>
-            <span class='ident'>FlowClass</span>::<span class='ident'>TableWrapper</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>FlowClass</span>::<span class='ident'>TableWrapper</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 }
@@ -2243,7 +2243,7 @@
     <span class='doccomment'>/// we skip the operation for this node, but continue processing the descendants.</span>
     <span class='doccomment'>/// This is called *after* parent nodes are visited.</span>
     <span class='kw'>fn</span> <span class='ident'>should_process</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_flow</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Flow</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     }
 }
 
@@ -2256,7 +2256,7 @@
     <span class='doccomment'>/// operation for this node, but continue processing the ancestors. This is called *after*</span>
     <span class='doccomment'>/// child nodes are visited.</span>
     <span class='kw'>fn</span> <span class='ident'>should_process</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_flow</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Flow</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     }
 }
 
@@ -2387,7 +2387,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>given_descendant</span>: <span class='ident'>FlowRef</span>) {
         <span class='self'>self</span>.<span class='ident'>descendant_links</span>.<span class='ident'>push</span>(<span class='ident'>AbsoluteDescendantInfo</span> {
             <span class='ident'>flow</span>: <span class='ident'>given_descendant</span>,
-            <span class='ident'>has_reached_containing_block</span>: <span class='boolval'>false</span>,
+            <span class='ident'>has_reached_containing_block</span>: <span class='boolvalue'>false</span>,
         });
     }
 
@@ -2410,7 +2410,7 @@
     <span class='doccomment'>/// Mark these descendants as having reached their containing block.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>mark_as_having_reached_containing_block</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>for</span> <span class='ident'>descendant_info</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>descendant_links</span>.<span class='ident'>iter_mut</span>() {
-            <span class='ident'>descendant_info</span>.<span class='ident'>has_reached_containing_block</span> <span class='op'>=</span> <span class='boolval'>true</span>
+            <span class='ident'>descendant_info</span>.<span class='ident'>has_reached_containing_block</span> <span class='op'>=</span> <span class='boolvalue'>true</span>
         }
     }
 }
@@ -2831,56 +2831,56 @@
     <span class='kw'>fn</span> <span class='ident'>is_proper_table_child</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
             <span class='ident'>FlowClass</span>::<span class='ident'>TableRow</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableRowGroup</span> <span class='op'>|</span>
-                <span class='ident'>FlowClass</span>::<span class='ident'>TableColGroup</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableCaption</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                <span class='ident'>FlowClass</span>::<span class='ident'>TableColGroup</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableCaption</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
     <span class='doccomment'>/// Returns true if this flow is a table row flow.</span>
     <span class='kw'>fn</span> <span class='ident'>is_table_row</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
-            <span class='ident'>FlowClass</span>::<span class='ident'>TableRow</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>FlowClass</span>::<span class='ident'>TableRow</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
     <span class='doccomment'>/// Returns true if this flow is a table cell flow.</span>
     <span class='kw'>fn</span> <span class='ident'>is_table_cell</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
-            <span class='ident'>FlowClass</span>::<span class='ident'>TableCell</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>FlowClass</span>::<span class='ident'>TableCell</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
     <span class='doccomment'>/// Returns true if this flow is a table colgroup flow.</span>
     <span class='kw'>fn</span> <span class='ident'>is_table_colgroup</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
-            <span class='ident'>FlowClass</span>::<span class='ident'>TableColGroup</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>FlowClass</span>::<span class='ident'>TableColGroup</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
     <span class='doccomment'>/// Returns true if this flow is a table flow.</span>
     <span class='kw'>fn</span> <span class='ident'>is_table</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
-            <span class='ident'>FlowClass</span>::<span class='ident'>Table</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>FlowClass</span>::<span class='ident'>Table</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
     <span class='doccomment'>/// Returns true if this flow is a table caption flow.</span>
     <span class='kw'>fn</span> <span class='ident'>is_table_caption</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
-            <span class='ident'>FlowClass</span>::<span class='ident'>TableCaption</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>FlowClass</span>::<span class='ident'>TableCaption</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
     <span class='doccomment'>/// Returns true if this flow is a table rowgroup flow.</span>
     <span class='kw'>fn</span> <span class='ident'>is_table_rowgroup</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
-            <span class='ident'>FlowClass</span>::<span class='ident'>TableRowGroup</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>FlowClass</span>::<span class='ident'>TableRowGroup</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -2889,8 +2889,8 @@
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
             <span class='ident'>FlowClass</span>::<span class='ident'>TableWrapper</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>Table</span> <span class='op'>|</span>
                 <span class='ident'>FlowClass</span>::<span class='ident'>TableColGroup</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableRowGroup</span> <span class='op'>|</span>
-                <span class='ident'>FlowClass</span>::<span class='ident'>TableRow</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableCaption</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableCell</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                <span class='ident'>FlowClass</span>::<span class='ident'>TableRow</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableCaption</span> <span class='op'>|</span> <span class='ident'>FlowClass</span>::<span class='ident'>TableCell</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -2903,7 +2903,7 @@
             <span class='ident'>FlowClass</span>::<span class='ident'>TableRow</span> <span class='op'>=&gt;</span> <span class='op'>!</span><span class='ident'>child</span>.<span class='ident'>is_table_cell</span>(),
             <span class='comment'>// FIXME(zentner): According to spec, anonymous flex items are only needed for text.</span>
             <span class='ident'>FlowClass</span>::<span class='ident'>Flex</span> <span class='op'>=&gt;</span> <span class='ident'>child</span>.<span class='ident'>is_inline_flow</span>(),
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
         }
     }
 
@@ -2987,23 +2987,23 @@
                 <span class='comment'>// FIXME: Actually check the type of the node</span>
                 <span class='self'>self</span>.<span class='ident'>child_count</span>() <span class='op'>!=</span> <span class='number'>0</span>
             }
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
     <span class='doccomment'>/// Returns true if this flow is a block flow.</span>
     <span class='kw'>fn</span> <span class='ident'>is_block_flow</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
-            <span class='ident'>FlowClass</span>::<span class='ident'>Block</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>FlowClass</span>::<span class='ident'>Block</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
     <span class='doccomment'>/// Returns true if this flow is an inline flow.</span>
     <span class='kw'>fn</span> <span class='ident'>is_inline_flow</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>class</span>() {
-            <span class='ident'>FlowClass</span>::<span class='ident'>Inline</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>FlowClass</span>::<span class='ident'>Inline</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -3025,13 +3025,13 @@
 
     <span class='kw'>fn</span> <span class='ident'>floats_might_flow_through</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>base</span>(<span class='self'>self</span>).<span class='ident'>might_have_floats_in</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>base</span>(<span class='self'>self</span>).<span class='ident'>might_have_floats_out</span>() {
-            <span class='kw'>return</span> <span class='boolval'>false</span>
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>
         }
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_root</span>() {
-            <span class='kw'>return</span> <span class='boolval'>false</span>
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>
         }
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>is_block_like</span>() {
-            <span class='kw'>return</span> <span class='boolval'>true</span>
+            <span class='kw'>return</span> <span class='boolvalue'>true</span>
         }
         <span class='self'>self</span>.<span class='ident'>as_block</span>().<span class='ident'>formatting_context_type</span>() <span class='op'>==</span> <span class='ident'>FormattingContextType</span>::<span class='prelude-val'>None</span>
     }

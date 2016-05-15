@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['style'] = [];
+implementors["style"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

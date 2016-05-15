@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['layers'] = [];
+implementors["layers"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

@@ -241,7 +241,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>RawEncoder</span> <span class='kw'>for</span> <span class='ident'>ASCIIEncoder</span> {
     <span class='kw'>fn</span> <span class='ident'>from_self</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>RawEncoder</span><span class='op'>&gt;</span> { <span class='ident'>ASCIIEncoder</span>::<span class='ident'>new</span>() }
-    <span class='kw'>fn</span> <span class='ident'>is_ascii_compatible</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='boolval'>true</span> }
+    <span class='kw'>fn</span> <span class='ident'>is_ascii_compatible</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='boolvalue'>true</span> }
 
     <span class='kw'>fn</span> <span class='ident'>raw_feed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ByteWriter</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CodecError</span><span class='op'>&gt;</span>) {
         <span class='ident'>output</span>.<span class='ident'>writer_hint</span>(<span class='ident'>input</span>.<span class='ident'>len</span>());
@@ -276,7 +276,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>RawDecoder</span> <span class='kw'>for</span> <span class='ident'>ASCIIDecoder</span> {
     <span class='kw'>fn</span> <span class='ident'>from_self</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>RawDecoder</span><span class='op'>&gt;</span> { <span class='ident'>ASCIIDecoder</span>::<span class='ident'>new</span>() }
-    <span class='kw'>fn</span> <span class='ident'>is_ascii_compatible</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='boolval'>true</span> }
+    <span class='kw'>fn</span> <span class='ident'>is_ascii_compatible</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='boolvalue'>true</span> }
 
     <span class='kw'>fn</span> <span class='ident'>raw_feed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>StringWriter</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CodecError</span><span class='op'>&gt;</span>) {
         <span class='ident'>output</span>.<span class='ident'>writer_hint</span>(<span class='ident'>input</span>.<span class='ident'>len</span>());

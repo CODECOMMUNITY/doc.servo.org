@@ -350,9 +350,9 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>allowed_operations</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Operation</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Profile</span>,()<span class='op'>&gt;</span> {
         <span class='kw'>if</span> <span class='ident'>allowed_operations</span>.<span class='ident'>iter</span>().<span class='ident'>all</span>(<span class='op'>|</span><span class='ident'>operation</span><span class='op'>|</span> {
             <span class='kw'>match</span> <span class='ident'>operation</span>.<span class='ident'>support</span>() {
-                <span class='ident'>OperationSupportLevel</span>::<span class='ident'>NeverAllowed</span> <span class='op'>|</span> <span class='ident'>OperationSupportLevel</span>::<span class='ident'>CanBeAllowed</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+                <span class='ident'>OperationSupportLevel</span>::<span class='ident'>NeverAllowed</span> <span class='op'>|</span> <span class='ident'>OperationSupportLevel</span>::<span class='ident'>CanBeAllowed</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
                 <span class='ident'>OperationSupportLevel</span>::<span class='ident'>CannotBeAllowedPrecisely</span> <span class='op'>|</span>
-                <span class='ident'>OperationSupportLevel</span>::<span class='ident'>AlwaysAllowed</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                <span class='ident'>OperationSupportLevel</span>::<span class='ident'>AlwaysAllowed</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
             }
         }) {
             <span class='prelude-val'>Ok</span>(<span class='ident'>Profile</span> {

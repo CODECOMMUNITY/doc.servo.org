@@ -512,7 +512,7 @@
         <span class='ident'>BrowsingContext</span> {
             <span class='ident'>reflector</span>: <span class='ident'>Reflector</span>::<span class='ident'>new</span>(),
             <span class='ident'>id</span>: <span class='ident'>id</span>,
-            <span class='ident'>needs_reflow</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>true</span>),
+            <span class='ident'>needs_reflow</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>true</span>),
             <span class='ident'>history</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[]),
             <span class='ident'>active_index</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>children</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[]),
@@ -695,7 +695,7 @@
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>index</span>) <span class='op'>=</span> <span class='ident'>index</span> {
         <span class='kw'>let</span> <span class='ident'>target</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>GetProxyPrivate</span>(<span class='op'>*</span><span class='ident'>proxy</span>.<span class='ident'>ptr</span>).<span class='ident'>to_object</span>());
         <span class='kw'>let</span> <span class='ident'>win</span> <span class='op'>=</span> <span class='ident'>root_from_handleobject</span>::<span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>(<span class='ident'>target</span>.<span class='ident'>handle</span>()).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
         <span class='kw'>return</span> <span class='ident'>win</span>.<span class='ident'>IndexedGetter</span>(<span class='ident'>index</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>found</span>);
     }
 
@@ -714,12 +714,12 @@
         <span class='ident'>window</span>.<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>val</span>.<span class='ident'>handle_mut</span>());
         (<span class='op'>*</span><span class='ident'>desc</span>.<span class='ident'>ptr</span>).<span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>val</span>.<span class='ident'>ptr</span>;
         <span class='ident'>fill_property_descriptor</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>desc</span>.<span class='ident'>ptr</span>, <span class='op'>*</span><span class='ident'>proxy</span>.<span class='ident'>ptr</span>, <span class='ident'>JSPROP_READONLY</span>);
-        <span class='kw'>return</span> <span class='boolval'>true</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>true</span>;
     }
 
     <span class='kw'>let</span> <span class='ident'>target</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>GetProxyPrivate</span>(<span class='op'>*</span><span class='ident'>proxy</span>.<span class='ident'>ptr</span>).<span class='ident'>to_object</span>());
     <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>JS_GetOwnPropertyDescriptorById</span>(<span class='ident'>cx</span>, <span class='ident'>target</span>.<span class='ident'>handle</span>(), <span class='ident'>id</span>, <span class='ident'>desc</span>) {
-        <span class='kw'>return</span> <span class='boolval'>false</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
     }
 
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>desc</span>.<span class='ident'>get</span>().<span class='ident'>obj</span>.<span class='ident'>is_null</span>() <span class='op'>||</span> <span class='ident'>desc</span>.<span class='ident'>get</span>().<span class='ident'>obj</span> <span class='op'>==</span> <span class='ident'>target</span>.<span class='ident'>ptr</span>);
@@ -727,7 +727,7 @@
         <span class='ident'>desc</span>.<span class='ident'>get</span>().<span class='ident'>obj</span> <span class='op'>=</span> <span class='op'>*</span><span class='ident'>proxy</span>.<span class='ident'>ptr</span>;
     }
 
-    <span class='boolval'>true</span>
+    <span class='boolvalue'>true</span>
 }
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
@@ -743,7 +743,7 @@
         <span class='comment'>// throwing in strict mode (FIXME: Bug 828137), doing nothing in</span>
         <span class='comment'>// non-strict mode.</span>
         (<span class='op'>*</span><span class='ident'>res</span>).<span class='ident'>code_</span> <span class='op'>=</span> <span class='ident'>JSErrNum</span>::<span class='ident'>JSMSG_CANT_DEFINE_WINDOW_ELEMENT</span> <span class='kw'>as</span> ::<span class='ident'>libc</span>::<span class='ident'>uintptr_t</span>;
-        <span class='kw'>return</span> <span class='boolval'>true</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>true</span>;
     }
 
     <span class='kw'>let</span> <span class='ident'>target</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>GetProxyPrivate</span>(<span class='op'>*</span><span class='ident'>proxy</span>.<span class='ident'>ptr</span>).<span class='ident'>to_object</span>());
@@ -758,18 +758,18 @@
                          <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>GetSubframeWindow</span>(<span class='ident'>cx</span>, <span class='ident'>proxy</span>, <span class='ident'>id</span>);
     <span class='kw'>if</span> <span class='ident'>window</span>.<span class='ident'>is_some</span>() {
-        <span class='op'>*</span><span class='ident'>bp</span> <span class='op'>=</span> <span class='boolval'>true</span>;
-        <span class='kw'>return</span> <span class='boolval'>true</span>;
+        <span class='op'>*</span><span class='ident'>bp</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>true</span>;
     }
 
     <span class='kw'>let</span> <span class='ident'>target</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>GetProxyPrivate</span>(<span class='op'>*</span><span class='ident'>proxy</span>.<span class='ident'>ptr</span>).<span class='ident'>to_object</span>());
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
     <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>JS_HasPropertyById</span>(<span class='ident'>cx</span>, <span class='ident'>target</span>.<span class='ident'>handle</span>(), <span class='ident'>id</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>found</span>) {
-        <span class='kw'>return</span> <span class='boolval'>false</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
     }
 
     <span class='op'>*</span><span class='ident'>bp</span> <span class='op'>=</span> <span class='ident'>found</span>;
-    <span class='boolval'>true</span>
+    <span class='boolvalue'>true</span>
 }
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
@@ -782,7 +782,7 @@
     <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>GetSubframeWindow</span>(<span class='ident'>cx</span>, <span class='ident'>proxy</span>, <span class='ident'>id</span>);
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>window</span>) <span class='op'>=</span> <span class='ident'>window</span> {
         <span class='ident'>window</span>.<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>vp</span>);
-        <span class='kw'>return</span> <span class='boolval'>true</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>true</span>;
     }
 
     <span class='kw'>let</span> <span class='ident'>target</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>GetProxyPrivate</span>(<span class='op'>*</span><span class='ident'>proxy</span>.<span class='ident'>ptr</span>).<span class='ident'>to_object</span>());
@@ -800,7 +800,7 @@
     <span class='kw'>if</span> <span class='ident'>get_array_index_from_id</span>(<span class='ident'>cx</span>, <span class='ident'>id</span>).<span class='ident'>is_some</span>() {
         <span class='comment'>// Reject (which means throw if and only if strict) the set.</span>
         (<span class='op'>*</span><span class='ident'>res</span>).<span class='ident'>code_</span> <span class='op'>=</span> <span class='ident'>JSErrNum</span>::<span class='ident'>JSMSG_READ_ONLY</span> <span class='kw'>as</span> ::<span class='ident'>libc</span>::<span class='ident'>uintptr_t</span>;
-        <span class='kw'>return</span> <span class='boolval'>true</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>true</span>;
     }
 
     <span class='kw'>let</span> <span class='ident'>target</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>GetProxyPrivate</span>(<span class='op'>*</span><span class='ident'>proxy</span>.<span class='ident'>ptr</span>).<span class='ident'>to_object</span>());

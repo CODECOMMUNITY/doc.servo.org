@@ -2740,14 +2740,14 @@
 	<span class='kw'>fn</span> <span class='ident'>parse_n_bltypes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>NBltypes</span>, <span class='ident'>DecompressorError</span><span class='op'>&gt;</span> {
 
 		<span class='kw'>let</span> (<span class='ident'>value</span>, <span class='ident'>extra_bits</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>header</span>.<span class='ident'>bltype_codes</span>.<span class='ident'>lookup_symbol</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>in_stream</span>) {
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span> <span class='number'>1</span>...<span class='number'>2</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>0</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>     <span class='number'>3</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>1</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>     <span class='number'>5</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>2</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>     <span class='number'>9</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>3</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>    <span class='number'>17</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>4</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>    <span class='number'>33</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>5</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>    <span class='number'>65</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>6</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>   <span class='number'>129</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>7</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @ <span class='number'>1</span>...<span class='number'>2</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>0</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @     <span class='number'>3</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>1</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @     <span class='number'>5</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>2</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @     <span class='number'>9</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>3</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @    <span class='number'>17</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>4</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @    <span class='number'>33</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>5</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @    <span class='number'>65</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>6</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @   <span class='number'>129</span>)) <span class='op'>=&gt;</span> (<span class='ident'>symbol</span>, <span class='number'>7</span>),
 			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(_)) <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(), <span class='comment'>// confirmed unreachable, the possible symbols are defined in code</span>
 			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>UnexpectedEOF</span>),
 			<span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>UnexpectedEOF</span>),
@@ -2886,11 +2886,11 @@
 				<span class='ident'>symbols</span>[<span class='number'>1</span>..<span class='number'>3</span>].<span class='ident'>sort</span>();
 				<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>2</span>]
 			},
-			(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='boolval'>false</span>)) <span class='op'>=&gt;</span> {
+			(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>)) <span class='op'>=&gt;</span> {
 				<span class='ident'>symbols</span>.<span class='ident'>sort</span>();
 				<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>2</span>, <span class='number'>2</span>, <span class='number'>2</span>, <span class='number'>2</span>]
 			},
-			(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='boolval'>true</span>)) <span class='op'>=&gt;</span> {
+			(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>)) <span class='op'>=&gt;</span> {
 				<span class='ident'>symbols</span>[<span class='number'>2</span>..<span class='number'>4</span>].<span class='ident'>sort</span>();
 				<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>3</span>]
 			},
@@ -2986,7 +2986,7 @@
 			<span class='comment'>// println!(&quot;global bit pos = {:?}&quot;, self.in_stream.global_bit_pos);</span>
 
 			<span class='kw'>match</span> <span class='ident'>code_length_code</span> {
-				<span class='prelude-val'>Some</span>(<span class='ident'>new_code_length</span> <span class='kw-2'>@</span> <span class='number'>0</span>...<span class='number'>15</span>) <span class='op'>=&gt;</span> {
+				<span class='prelude-val'>Some</span>(<span class='ident'>new_code_length</span> @ <span class='number'>0</span>...<span class='number'>15</span>) <span class='op'>=&gt;</span> {
 					<span class='ident'>actual_code_lengths</span>[<span class='ident'>i</span>] <span class='op'>=</span> <span class='ident'>new_code_length</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
 					<span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
 					<span class='ident'>last_symbol</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>new_code_length</span>);
@@ -3199,11 +3199,11 @@
 		<span class='comment'>// debug(&amp;format!(&quot;block count symbol = {:?}&quot;, symbol));</span>
 
 		<span class='kw'>let</span> (<span class='ident'>base_length</span>, <span class='ident'>extra_bits</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>symbol</span> {
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>  <span class='number'>0</span>... <span class='number'>3</span>)) <span class='op'>=&gt;</span> (    <span class='number'>1</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span>)      <span class='op'>&lt;&lt;</span>  <span class='number'>2</span>),  <span class='number'>2usize</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>  <span class='number'>4</span>... <span class='number'>7</span>)) <span class='op'>=&gt;</span> (   <span class='number'>17</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span> <span class='op'>-</span>  <span class='number'>4</span>) <span class='op'>&lt;&lt;</span>  <span class='number'>3</span>),  <span class='number'>3</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span>  <span class='number'>8</span>...<span class='number'>11</span>)) <span class='op'>=&gt;</span> (   <span class='number'>49</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span> <span class='op'>-</span>  <span class='number'>8</span>) <span class='op'>&lt;&lt;</span>  <span class='number'>4</span>),  <span class='number'>4</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span> <span class='number'>12</span>...<span class='number'>15</span>)) <span class='op'>=&gt;</span> (  <span class='number'>113</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span> <span class='op'>-</span> <span class='number'>12</span>) <span class='op'>&lt;&lt;</span>  <span class='number'>5</span>),  <span class='number'>5</span>),
-			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> <span class='kw-2'>@</span> <span class='number'>16</span>...<span class='number'>17</span>)) <span class='op'>=&gt;</span> (  <span class='number'>241</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span> <span class='op'>-</span> <span class='number'>16</span>) <span class='op'>&lt;&lt;</span>  <span class='number'>6</span>),  <span class='number'>6</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @  <span class='number'>0</span>... <span class='number'>3</span>)) <span class='op'>=&gt;</span> (    <span class='number'>1</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span>)      <span class='op'>&lt;&lt;</span>  <span class='number'>2</span>),  <span class='number'>2usize</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @  <span class='number'>4</span>... <span class='number'>7</span>)) <span class='op'>=&gt;</span> (   <span class='number'>17</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span> <span class='op'>-</span>  <span class='number'>4</span>) <span class='op'>&lt;&lt;</span>  <span class='number'>3</span>),  <span class='number'>3</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @  <span class='number'>8</span>...<span class='number'>11</span>)) <span class='op'>=&gt;</span> (   <span class='number'>49</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span> <span class='op'>-</span>  <span class='number'>8</span>) <span class='op'>&lt;&lt;</span>  <span class='number'>4</span>),  <span class='number'>4</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @ <span class='number'>12</span>...<span class='number'>15</span>)) <span class='op'>=&gt;</span> (  <span class='number'>113</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span> <span class='op'>-</span> <span class='number'>12</span>) <span class='op'>&lt;&lt;</span>  <span class='number'>5</span>),  <span class='number'>5</span>),
+			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>symbol</span> @ <span class='number'>16</span>...<span class='number'>17</span>)) <span class='op'>=&gt;</span> (  <span class='number'>241</span> <span class='op'>+</span> ((<span class='ident'>symbol</span> <span class='kw'>as</span> <span class='ident'>BLen</span> <span class='op'>-</span> <span class='number'>16</span>) <span class='op'>&lt;&lt;</span>  <span class='number'>6</span>),  <span class='number'>6</span>),
 			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='number'>18</span>)) <span class='op'>=&gt;</span> (  <span class='number'>369</span>,  <span class='number'>7</span>),
 			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='number'>19</span>)) <span class='op'>=&gt;</span> (  <span class='number'>497</span>,  <span class='number'>8</span>),
 			<span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='number'>20</span>)) <span class='op'>=&gt;</span> (  <span class='number'>753</span>,  <span class='number'>9</span>),
@@ -3308,8 +3308,8 @@
 
 	<span class='kw'>fn</span> <span class='ident'>parse_context_map</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>n_trees</span>: <span class='ident'>NTrees</span>, <span class='ident'>len</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ContextMap</span>, <span class='ident'>DecompressorError</span><span class='op'>&gt;</span> {
 		<span class='kw'>let</span> <span class='ident'>rlemax</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>in_stream</span>.<span class='ident'>read_bit</span>() {
-			<span class='prelude-val'>Ok</span>(<span class='boolval'>false</span>) <span class='op'>=&gt;</span> <span class='number'>0u16</span>,
-			<span class='prelude-val'>Ok</span>(<span class='boolval'>true</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>in_stream</span>.<span class='ident'>read_u16_from_n_bits</span>(<span class='number'>4</span>) {
+			<span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> <span class='number'>0u16</span>,
+			<span class='prelude-val'>Ok</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>in_stream</span>.<span class='ident'>read_u16_from_n_bits</span>(<span class='number'>4</span>) {
 				<span class='prelude-val'>Ok</span>(<span class='ident'>my_u16</span>) <span class='op'>=&gt;</span> <span class='ident'>my_u16</span> <span class='op'>+</span> <span class='number'>1</span>,
 				<span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>UnexpectedEOF</span>),
 			},
@@ -3376,7 +3376,7 @@
 
 		<span class='kw'>if</span> <span class='ident'>imtf_bit</span> {
 
-			<span class='kw'>Self</span>::<span class='ident'>inverse_move_to_front_transform</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>c_map</span>);
+			<span class='self'>Self</span>::<span class='ident'>inverse_move_to_front_transform</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>c_map</span>);
 		}
 
 		<span class='prelude-val'>Ok</span>(<span class='ident'>c_map</span>)
@@ -3629,7 +3629,7 @@
 
 		<span class='kw'>let</span> <span class='ident'>cid</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>copy_length</span> {
 			<span class='prelude-val'>Some</span>(<span class='number'>0</span>...<span class='number'>1</span>) <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(), <span class='comment'>// confirmed unreachable, copy_length will always be &gt;= 2</span>
-			<span class='prelude-val'>Some</span>(<span class='ident'>c</span> <span class='kw-2'>@</span> <span class='number'>2</span>...<span class='number'>4</span>) <span class='op'>=&gt;</span> <span class='ident'>c</span> <span class='op'>-</span> <span class='number'>2</span>,
+			<span class='prelude-val'>Some</span>(<span class='ident'>c</span> @ <span class='number'>2</span>...<span class='number'>4</span>) <span class='op'>=&gt;</span> <span class='ident'>c</span> <span class='op'>-</span> <span class='number'>2</span>,
 			<span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='number'>3</span>,
 			_ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(), <span class='comment'>// confirmed unreachable, copy_length will always be set to Some(_) at this point</span>
 		};
@@ -3650,11 +3650,11 @@
 
 	<span class='kw'>fn</span> <span class='ident'>decode_distance</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>State</span>, <span class='ident'>DecompressorError</span><span class='op'>&gt;</span> {
 		<span class='kw'>let</span> <span class='ident'>distance</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>distance_code</span> {
-			<span class='prelude-val'>Some</span>(<span class='ident'>d</span> <span class='kw-2'>@</span> <span class='number'>0</span>...<span class='number'>3</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>distance_buf</span>.<span class='ident'>nth</span>(<span class='ident'>d</span> <span class='kw'>as</span> <span class='ident'>usize</span>) {
+			<span class='prelude-val'>Some</span>(<span class='ident'>d</span> @ <span class='number'>0</span>...<span class='number'>3</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>distance_buf</span>.<span class='ident'>nth</span>(<span class='ident'>d</span> <span class='kw'>as</span> <span class='ident'>usize</span>) {
 				<span class='prelude-val'>Ok</span>(<span class='ident'>distance</span>) <span class='op'>=&gt;</span> <span class='op'>*</span><span class='ident'>distance</span>,
 				<span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>RingBufferError</span>),
 			},
-			<span class='prelude-val'>Some</span>(<span class='ident'>d</span> <span class='kw-2'>@</span> <span class='number'>4</span>...<span class='number'>9</span>) <span class='op'>=&gt;</span> {
+			<span class='prelude-val'>Some</span>(<span class='ident'>d</span> @ <span class='number'>4</span>...<span class='number'>9</span>) <span class='op'>=&gt;</span> {
 				<span class='kw'>match</span> (<span class='self'>self</span>.<span class='ident'>distance_buf</span>.<span class='ident'>nth</span>(<span class='number'>0</span>), <span class='number'>2</span> <span class='op'>*</span> (<span class='ident'>d</span> <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>%</span> <span class='number'>2</span>) <span class='op'>-</span> <span class='number'>1</span>, (<span class='ident'>d</span> <span class='op'>-</span> <span class='number'>2</span>) <span class='op'>&gt;&gt;</span> <span class='number'>1</span>) {
 					(<span class='prelude-val'>Ok</span>(<span class='ident'>distance</span>), <span class='ident'>sign</span>, <span class='ident'>d</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>distance</span> <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>+</span> (<span class='ident'>sign</span> <span class='op'>*</span> <span class='ident'>d</span> <span class='kw'>as</span> <span class='ident'>i64</span>) {
 						<span class='ident'>distance</span> <span class='kw'>if</span> <span class='ident'>distance</span> <span class='op'>&lt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>InvalidNonPositiveDistance</span>),
@@ -3664,7 +3664,7 @@
 				}
 			},
 			<span class='comment'>// reference distance_buf here, to get the decoded distance</span>
-			<span class='prelude-val'>Some</span>(<span class='ident'>d</span> <span class='kw-2'>@</span> <span class='number'>10</span>...<span class='number'>15</span>) <span class='op'>=&gt;</span> {
+			<span class='prelude-val'>Some</span>(<span class='ident'>d</span> @ <span class='number'>10</span>...<span class='number'>15</span>) <span class='op'>=&gt;</span> {
 				<span class='kw'>match</span> (<span class='self'>self</span>.<span class='ident'>distance_buf</span>.<span class='ident'>nth</span>(<span class='number'>1</span>), <span class='number'>2</span> <span class='op'>*</span> (<span class='ident'>d</span> <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>%</span> <span class='number'>2</span>) <span class='op'>-</span> <span class='number'>1</span>, (<span class='ident'>d</span> <span class='op'>-</span> <span class='number'>8</span>) <span class='op'>&gt;&gt;</span> <span class='number'>1</span>) {
 					(<span class='prelude-val'>Ok</span>(<span class='ident'>distance</span>), <span class='ident'>sign</span>, <span class='ident'>d</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>distance</span> <span class='kw'>as</span> <span class='ident'>i64</span> <span class='op'>+</span> (<span class='ident'>sign</span> <span class='op'>*</span> <span class='ident'>d</span> <span class='kw'>as</span> <span class='ident'>i64</span>) {
 						<span class='ident'>distance</span> <span class='kw'>if</span> <span class='ident'>distance</span> <span class='op'>&lt;=</span> <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>InvalidNonPositiveDistance</span>),
@@ -3815,8 +3815,8 @@
 						<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>),
 					};
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsLast</span>(<span class='boolval'>true</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolval'>true</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsLast</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>);
 
 					<span class='comment'>// debug(&amp;format!(&quot;ISLAST = true&quot;));</span>
 
@@ -3825,8 +3825,8 @@
 						<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>),
 					};
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsLast</span>(<span class='boolval'>false</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolval'>false</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsLast</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>);
 
 					<span class='comment'>// println!(&quot;ISLAST = false&quot;);</span>
 
@@ -3835,16 +3835,16 @@
 						<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>),
 					};
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsLastEmpty</span>(<span class='boolval'>true</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last_empty</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolval'>true</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsLastEmpty</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last_empty</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>);
 
 					<span class='comment'>// debug(&amp;format!(&quot;ISLASTEMPTY = true&quot;));</span>
 
 
 					<span class='self'>self</span>.<span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>State</span>::<span class='ident'>StreamEnd</span>;
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsLastEmpty</span>(<span class='boolval'>false</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last_empty</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolval'>false</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsLastEmpty</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last_empty</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>);
 
 					<span class='comment'>// debug(&amp;format!(&quot;ISLASTEMPTY = false&quot;));</span>
 
@@ -3855,8 +3855,8 @@
 				},
 				<span class='ident'>State</span>::<span class='ident'>MNibbles</span>(<span class='number'>0</span>) <span class='op'>=&gt;</span> {
 					<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>in_stream</span>.<span class='ident'>read_bit</span>() {
-						<span class='prelude-val'>Ok</span>(<span class='boolval'>true</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>NonZeroReservedBit</span>),
-						<span class='prelude-val'>Ok</span>(<span class='boolval'>false</span>) <span class='op'>=&gt;</span> {},
+						<span class='prelude-val'>Ok</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>NonZeroReservedBit</span>),
+						<span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {},
 						<span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>UnexpectedEOF</span>),
 					}
 
@@ -3937,8 +3937,8 @@
 						}
 					};
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsUncompressed</span>(<span class='boolval'>true</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_uncompressed</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolval'>true</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsUncompressed</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_uncompressed</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>);
 
 					<span class='comment'>// println!(&quot;UNCOMPRESSED = true&quot;);</span>
 
@@ -3971,8 +3971,8 @@
 						<span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>buf_pos</span>);
 					}
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsUncompressed</span>(<span class='boolval'>false</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_uncompressed</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolval'>false</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsUncompressed</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_uncompressed</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>);
 
 					<span class='comment'>// println!(&quot;UNCOMPRESSED = false&quot;);</span>
 

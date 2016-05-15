@@ -1848,11 +1848,11 @@
             <span class='ident'>CompositionOp</span>::<span class='ident'>MixBlend</span>(<span class='ident'>MixBlendMode</span>::<span class='ident'>Hue</span>) <span class='op'>|</span>
             <span class='ident'>CompositionOp</span>::<span class='ident'>MixBlend</span>(<span class='ident'>MixBlendMode</span>::<span class='ident'>Saturation</span>) <span class='op'>|</span>
             <span class='ident'>CompositionOp</span>::<span class='ident'>MixBlend</span>(<span class='ident'>MixBlendMode</span>::<span class='ident'>Color</span>) <span class='op'>|</span>
-            <span class='ident'>CompositionOp</span>::<span class='ident'>MixBlend</span>(<span class='ident'>MixBlendMode</span>::<span class='ident'>Luminosity</span>) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+            <span class='ident'>CompositionOp</span>::<span class='ident'>MixBlend</span>(<span class='ident'>MixBlendMode</span>::<span class='ident'>Luminosity</span>) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
             <span class='ident'>CompositionOp</span>::<span class='ident'>Filter</span>(_) <span class='op'>|</span>
             <span class='ident'>CompositionOp</span>::<span class='ident'>MixBlend</span>(<span class='ident'>MixBlendMode</span>::<span class='ident'>Multiply</span>) <span class='op'>|</span>
             <span class='ident'>CompositionOp</span>::<span class='ident'>MixBlend</span>(<span class='ident'>MixBlendMode</span>::<span class='ident'>Darken</span>) <span class='op'>|</span>
-            <span class='ident'>CompositionOp</span>::<span class='ident'>MixBlend</span>(<span class='ident'>MixBlendMode</span>::<span class='ident'>Lighten</span>) <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>CompositionOp</span>::<span class='ident'>MixBlend</span>(<span class='ident'>MixBlendMode</span>::<span class='ident'>Lighten</span>) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 }
@@ -2195,7 +2195,7 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>layers_are_bouncing_back</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>current_frame</span> {
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
             <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>current_frame</span>) <span class='op'>=&gt;</span> <span class='op'>!</span><span class='ident'>current_frame</span>.<span class='ident'>layers_bouncing_back</span>.<span class='ident'>is_empty</span>(),
         }
     }
@@ -2721,7 +2721,7 @@
             <span class='ident'>gl</span>::<span class='ident'>disable</span>(<span class='ident'>gl</span>::<span class='ident'>SCISSOR_TEST</span>);
 
             <span class='comment'>// Disable MSAA here for raster ops</span>
-            <span class='self'>self</span>.<span class='ident'>enable_msaa</span>(<span class='boolval'>false</span>);
+            <span class='self'>self</span>.<span class='ident'>enable_msaa</span>(<span class='boolvalue'>false</span>);
 
             <span class='kw'>let</span> <span class='ident'>projection</span> <span class='op'>=</span> <span class='ident'>Matrix4D</span>::<span class='ident'>ortho</span>(<span class='number'>0.0</span>,
                                              <span class='self'>self</span>.<span class='ident'>max_raster_op_size</span> <span class='kw'>as</span> <span class='ident'>f32</span>,
@@ -2970,7 +2970,7 @@
                 <span class='kw-2'>&amp;</span><span class='ident'>DrawCommand</span>::<span class='ident'>Batch</span>(<span class='kw-2'>ref</span> <span class='ident'>info</span>) <span class='op'>=&gt;</span> {
                     <span class='comment'>// TODO: probably worth sorting front to back to minimize overdraw (if profiling shows fragment / rop bound)</span>
 
-                    <span class='self'>self</span>.<span class='ident'>enable_msaa</span>(<span class='boolval'>true</span>);
+                    <span class='self'>self</span>.<span class='ident'>enable_msaa</span>(<span class='boolvalue'>true</span>);
 
                     <span class='kw'>if</span> <span class='ident'>layer</span>.<span class='ident'>texture_id</span>.<span class='ident'>is_some</span>() {
                         <span class='ident'>gl</span>::<span class='ident'>disable</span>(<span class='ident'>gl</span>::<span class='ident'>BLEND</span>);
@@ -3018,8 +3018,8 @@
                             <span class='kw'>if</span> <span class='ident'>valid_mask_count</span> <span class='op'>==</span> <span class='number'>0</span> {
                                 <span class='ident'>gl</span>::<span class='ident'>clear</span>(<span class='ident'>gl</span>::<span class='ident'>STENCIL_BUFFER_BIT</span>);
                                 <span class='ident'>gl</span>::<span class='ident'>enable</span>(<span class='ident'>gl</span>::<span class='ident'>STENCIL_TEST</span>);
-                                <span class='ident'>gl</span>::<span class='ident'>color_mask</span>(<span class='boolval'>false</span>, <span class='boolval'>false</span>, <span class='boolval'>false</span>, <span class='boolval'>false</span>);
-                                <span class='ident'>gl</span>::<span class='ident'>depth_mask</span>(<span class='boolval'>false</span>);
+                                <span class='ident'>gl</span>::<span class='ident'>color_mask</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>);
+                                <span class='ident'>gl</span>::<span class='ident'>depth_mask</span>(<span class='boolvalue'>false</span>);
                                 <span class='ident'>gl</span>::<span class='ident'>stencil_mask</span>(<span class='number'>0xff</span>);
                                 <span class='ident'>gl</span>::<span class='ident'>stencil_func</span>(<span class='ident'>gl</span>::<span class='ident'>ALWAYS</span>, <span class='number'>1</span>, <span class='number'>0xff</span>);
                                 <span class='ident'>gl</span>::<span class='ident'>stencil_op</span>(<span class='ident'>gl</span>::<span class='ident'>KEEP</span>, <span class='ident'>gl</span>::<span class='ident'>INCR</span>, <span class='ident'>gl</span>::<span class='ident'>INCR</span>)
@@ -3083,8 +3083,8 @@
                         <span class='kw'>if</span> <span class='ident'>valid_mask_count</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
                             <span class='ident'>gl</span>::<span class='ident'>stencil_op</span>(<span class='ident'>gl</span>::<span class='ident'>KEEP</span>, <span class='ident'>gl</span>::<span class='ident'>KEEP</span>, <span class='ident'>gl</span>::<span class='ident'>KEEP</span>);
                             <span class='ident'>gl</span>::<span class='ident'>stencil_func</span>(<span class='ident'>gl</span>::<span class='ident'>EQUAL</span>, <span class='ident'>valid_mask_count</span>, <span class='number'>0xff</span>);
-                            <span class='ident'>gl</span>::<span class='ident'>color_mask</span>(<span class='boolval'>true</span>, <span class='boolval'>true</span>, <span class='boolval'>true</span>, <span class='boolval'>true</span>);
-                            <span class='ident'>gl</span>::<span class='ident'>depth_mask</span>(<span class='boolval'>true</span>);
+                            <span class='ident'>gl</span>::<span class='ident'>color_mask</span>(<span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>);
+                            <span class='ident'>gl</span>::<span class='ident'>depth_mask</span>(<span class='boolvalue'>true</span>);
                             <span class='self'>self</span>.<span class='ident'>device</span>.<span class='ident'>bind_program</span>(<span class='self'>self</span>.<span class='ident'>quad_program_id</span>,
                                                      <span class='kw-2'>&amp;</span><span class='ident'>projection</span>);
                         }

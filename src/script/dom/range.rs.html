@@ -1356,8 +1356,8 @@
     <span class='kw'>fn</span> <span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='kw-2'>&amp;</span><span class='ident'>Node</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> (<span class='ident'>bp_position</span>(<span class='ident'>node</span>, <span class='number'>0</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>StartContainer</span>(), <span class='self'>self</span>.<span class='ident'>StartOffset</span>()),
                <span class='ident'>bp_position</span>(<span class='ident'>node</span>, <span class='ident'>node</span>.<span class='ident'>len</span>(), <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>EndContainer</span>(), <span class='self'>self</span>.<span class='ident'>EndOffset</span>())) {
-            (<span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Greater</span>), <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Less</span>)) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+            (<span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Greater</span>), <span class='prelude-val'>Some</span>(<span class='ident'>Ordering</span>::<span class='ident'>Less</span>)) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
         }
     }
 
@@ -1653,12 +1653,12 @@
     <span class='comment'>// https://dom.spec.whatwg.org/#dom-range-ispointinrange</span>
     <span class='kw'>fn</span> <span class='ident'>IsPointInRange</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='kw-2'>&amp;</span><span class='ident'>Node</span>, <span class='ident'>offset</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>compare_point</span>(<span class='ident'>node</span>, <span class='ident'>offset</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>Ordering</span>::<span class='ident'>Less</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='boolval'>false</span>),
-            <span class='prelude-val'>Ok</span>(<span class='ident'>Ordering</span>::<span class='ident'>Equal</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='boolval'>true</span>),
-            <span class='prelude-val'>Ok</span>(<span class='ident'>Ordering</span>::<span class='ident'>Greater</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='boolval'>false</span>),
+            <span class='prelude-val'>Ok</span>(<span class='ident'>Ordering</span>::<span class='ident'>Less</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>),
+            <span class='prelude-val'>Ok</span>(<span class='ident'>Ordering</span>::<span class='ident'>Equal</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='boolvalue'>true</span>),
+            <span class='prelude-val'>Ok</span>(<span class='ident'>Ordering</span>::<span class='ident'>Greater</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>),
             <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>WrongDocument</span>) <span class='op'>=&gt;</span> {
                 <span class='comment'>// Step 2.</span>
-                <span class='prelude-val'>Ok</span>(<span class='boolval'>false</span>)
+                <span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>)
             }
             <span class='prelude-val'>Err</span>(<span class='ident'>error</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>error</span>),
         }
@@ -1682,13 +1682,13 @@
         <span class='kw'>let</span> <span class='ident'>node_root</span> <span class='op'>=</span> <span class='ident'>node</span>.<span class='ident'>inclusive_ancestors</span>().<span class='ident'>last</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>if</span> <span class='ident'>start_node_root</span> <span class='op'>!=</span> <span class='ident'>node_root</span> {
             <span class='comment'>// Step 1.</span>
-            <span class='kw'>return</span> <span class='boolval'>false</span>;
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         }
         <span class='kw'>let</span> <span class='ident'>parent</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>node</span>.<span class='ident'>GetParentNode</span>() {
             <span class='prelude-val'>Some</span>(<span class='ident'>parent</span>) <span class='op'>=&gt;</span> <span class='ident'>parent</span>,
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
                 <span class='comment'>// Step 3.</span>
-                <span class='kw'>return</span> <span class='boolval'>true</span>;
+                <span class='kw'>return</span> <span class='boolvalue'>true</span>;
             },
         };
         <span class='comment'>// Step 4.</span>
@@ -1744,7 +1744,7 @@
                 <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fragment</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>().<span class='ident'>AppendChild</span>(<span class='kw-2'>&amp;</span><span class='ident'>clone</span>));
             } <span class='kw'>else</span> {
                 <span class='comment'>// Step 14.1.</span>
-                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolval'>false</span>);
+                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolvalue'>false</span>);
                 <span class='comment'>// Step 14.2.</span>
                 <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fragment</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>().<span class='ident'>AppendChild</span>(<span class='kw-2'>&amp;</span><span class='ident'>clone</span>));
                 <span class='comment'>// Step 14.3.</span>
@@ -1763,7 +1763,7 @@
         <span class='comment'>// Step 15.</span>
         <span class='kw'>for</span> <span class='ident'>child</span> <span class='kw'>in</span> <span class='ident'>contained_children</span> {
             <span class='comment'>// Step 15.1.</span>
-            <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolval'>true</span>);
+            <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolvalue'>true</span>);
             <span class='comment'>// Step 15.2.</span>
             <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fragment</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>().<span class='ident'>AppendChild</span>(<span class='kw-2'>&amp;</span><span class='ident'>clone</span>));
         }
@@ -1779,7 +1779,7 @@
                 <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fragment</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>().<span class='ident'>AppendChild</span>(<span class='kw-2'>&amp;</span><span class='ident'>clone</span>));
             } <span class='kw'>else</span> {
                 <span class='comment'>// Step 17.1.</span>
-                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolval'>false</span>);
+                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolvalue'>false</span>);
                 <span class='comment'>// Step 17.2.</span>
                 <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fragment</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>().<span class='ident'>AppendChild</span>(<span class='kw-2'>&amp;</span><span class='ident'>clone</span>));
                 <span class='comment'>// Step 17.3.</span>
@@ -1819,7 +1819,7 @@
         <span class='kw'>if</span> <span class='ident'>end_node</span> <span class='op'>==</span> <span class='ident'>start_node</span> {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>end_data</span>) <span class='op'>=</span> <span class='ident'>end_node</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>CharacterData</span><span class='op'>&gt;</span>() {
                 <span class='comment'>// Step 4.1.</span>
-                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>end_node</span>.<span class='ident'>CloneNode</span>(<span class='boolval'>true</span>);
+                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>end_node</span>.<span class='ident'>CloneNode</span>(<span class='boolvalue'>true</span>);
                 <span class='comment'>// Step 4.2.</span>
                 <span class='kw'>let</span> <span class='ident'>text</span> <span class='op'>=</span> <span class='ident'>end_data</span>.<span class='ident'>SubstringData</span>(<span class='ident'>start_offset</span>, <span class='ident'>end_offset</span> <span class='op'>-</span> <span class='ident'>start_offset</span>);
                 <span class='ident'>clone</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>CharacterData</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>().<span class='ident'>SetData</span>(<span class='ident'>text</span>.<span class='ident'>unwrap</span>());
@@ -1855,7 +1855,7 @@
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>start_data</span>) <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>CharacterData</span><span class='op'>&gt;</span>() {
                 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>child</span> <span class='op'>==</span> <span class='ident'>start_node</span>);
                 <span class='comment'>// Step 15.1.</span>
-                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>start_node</span>.<span class='ident'>CloneNode</span>(<span class='boolval'>true</span>);
+                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>start_node</span>.<span class='ident'>CloneNode</span>(<span class='boolvalue'>true</span>);
                 <span class='comment'>// Step 15.2.</span>
                 <span class='kw'>let</span> <span class='ident'>text</span> <span class='op'>=</span> <span class='ident'>start_data</span>.<span class='ident'>SubstringData</span>(<span class='ident'>start_offset</span>,
                                                     <span class='ident'>start_node</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='ident'>start_offset</span>);
@@ -1868,7 +1868,7 @@
                                             <span class='ident'>DOMString</span>::<span class='ident'>new</span>()));
             } <span class='kw'>else</span> {
                 <span class='comment'>// Step 16.1.</span>
-                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolval'>false</span>);
+                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolvalue'>false</span>);
                 <span class='comment'>// Step 16.2.</span>
                 <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fragment</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>().<span class='ident'>AppendChild</span>(<span class='kw-2'>&amp;</span><span class='ident'>clone</span>));
                 <span class='comment'>// Step 16.3.</span>
@@ -1893,7 +1893,7 @@
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>end_data</span>) <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>CharacterData</span><span class='op'>&gt;</span>() {
                 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>child</span> <span class='op'>==</span> <span class='ident'>end_node</span>);
                 <span class='comment'>// Step 18.1.</span>
-                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>end_node</span>.<span class='ident'>CloneNode</span>(<span class='boolval'>true</span>);
+                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>end_node</span>.<span class='ident'>CloneNode</span>(<span class='boolvalue'>true</span>);
                 <span class='comment'>// Step 18.2.</span>
                 <span class='kw'>let</span> <span class='ident'>text</span> <span class='op'>=</span> <span class='ident'>end_data</span>.<span class='ident'>SubstringData</span>(<span class='number'>0</span>, <span class='ident'>end_offset</span>);
                 <span class='ident'>clone</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>CharacterData</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>().<span class='ident'>SetData</span>(<span class='ident'>text</span>.<span class='ident'>unwrap</span>());
@@ -1903,7 +1903,7 @@
                 <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>end_data</span>.<span class='ident'>ReplaceData</span>(<span class='number'>0</span>, <span class='ident'>end_offset</span>, <span class='ident'>DOMString</span>::<span class='ident'>new</span>()));
             } <span class='kw'>else</span> {
                 <span class='comment'>// Step 19.1.</span>
-                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolval'>false</span>);
+                <span class='kw'>let</span> <span class='ident'>clone</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>CloneNode</span>(<span class='boolvalue'>false</span>);
                 <span class='comment'>// Step 19.2.</span>
                 <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fragment</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>().<span class='ident'>AppendChild</span>(<span class='kw-2'>&amp;</span><span class='ident'>clone</span>));
                 <span class='comment'>// Step 19.3.</span>
@@ -2206,7 +2206,7 @@
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unrooted_must_root</span>)]</span>
 <span class='kw'>impl</span> <span class='ident'>PartialOrd</span> <span class='kw'>for</span> <span class='ident'>BoundaryPoint</span> {
-    <span class='kw'>fn</span> <span class='ident'>partial_cmp</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Ordering</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>partial_cmp</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Ordering</span><span class='op'>&gt;</span> {
         <span class='ident'>bp_position</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>node</span>.<span class='ident'>get</span>(), <span class='self'>self</span>.<span class='ident'>offset</span>.<span class='ident'>get</span>(),
                     <span class='kw-2'>&amp;</span><span class='ident'>other</span>.<span class='ident'>node</span>.<span class='ident'>get</span>(), <span class='ident'>other</span>.<span class='ident'>offset</span>.<span class='ident'>get</span>())
     }
@@ -2214,7 +2214,7 @@
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unrooted_must_root</span>)]</span>
 <span class='kw'>impl</span> <span class='ident'>PartialEq</span> <span class='kw'>for</span> <span class='ident'>BoundaryPoint</span> {
-    <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='self'>self</span>.<span class='ident'>node</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>other</span>.<span class='ident'>node</span>.<span class='ident'>get</span>() <span class='op'>&amp;&amp;</span>
         <span class='self'>self</span>.<span class='ident'>offset</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>other</span>.<span class='ident'>offset</span>.<span class='ident'>get</span>()
     }
@@ -2265,7 +2265,7 @@
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
 <span class='kw'>impl</span> <span class='ident'>WeakRangeVec</span> {
     <span class='doccomment'>/// Create a new vector of weak references.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>WeakRangeVec</span> { <span class='ident'>cell</span>: <span class='ident'>UnsafeCell</span>::<span class='ident'>new</span>(<span class='ident'>WeakRefVec</span>::<span class='ident'>new</span>()) }
     }
 

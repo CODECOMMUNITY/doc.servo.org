@@ -310,8 +310,8 @@
 	<span class='doccomment'>/// Does not check if the response was valid. Use `validate()` to ensure that the response constitutes a successful handshake.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>begin</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Client</span><span class='op'>&lt;</span><span class='ident'>DataFrame</span>, <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span> {
 		<span class='kw'>let</span> (<span class='ident'>reader</span>, <span class='ident'>writer</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>into_inner</span>();
-		<span class='kw'>let</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>Sender</span>::<span class='ident'>new</span>(<span class='ident'>writer</span>, <span class='boolval'>true</span>);
-		<span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>Receiver</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>, <span class='boolval'>false</span>);
+		<span class='kw'>let</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>Sender</span>::<span class='ident'>new</span>(<span class='ident'>writer</span>, <span class='boolvalue'>true</span>);
+		<span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>Receiver</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>, <span class='boolvalue'>false</span>);
 		<span class='ident'>Client</span>::<span class='ident'>new</span>(<span class='ident'>sender</span>, <span class='ident'>receiver</span>)
 	}
 }

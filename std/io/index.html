@@ -43,11 +43,11 @@
     </nav>
 
     <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>std</a>::<wbr><a class='mod' href=''>io</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>std</a>::<wbr><a class='mod' href=''>io</a></span><span class='out-of-band'><span class='since'>1.0.0</span><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3943' class='srclink' href='../../src/std/up/src/libstd/io/mod.rs.html#11-1920' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3947' class='srclink' href='../../src/std/up/src/libstd/io/mod.rs.html#11-1920' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Traits, helpers, and type definitions for core I/O functionality.</p>
 
 <p>The <code>std::io</code> module contains a number of common things you&#39;ll need
@@ -64,19 +64,19 @@ example, <code>Read</code> adds a <code>read()</code> method, which we can use o
 
 <span class='rusttest'>fn main() {
     use std::io;
-    use std::io::prelude::*;
-    use std::fs::File;
-    
-    fn foo() -&gt; io::Result&lt;()&gt; {
-    let mut f = try!(File::open(&quot;foo.txt&quot;));
-    let mut buffer = [0; 10];
-    
-    // read up to 10 bytes
-    try!(f.read(&amp;mut buffer));
-    
-    println!(&quot;The bytes: {:?}&quot;, buffer);
-    Ok(())
-    }
+use std::io::prelude::*;
+use std::fs::File;
+
+fn foo() -&gt; io::Result&lt;()&gt; {
+let mut f = try!(File::open(&quot;foo.txt&quot;));
+let mut buffer = [0; 10];
+
+// read up to 10 bytes
+try!(f.read(&amp;mut buffer));
+
+println!(&quot;The bytes: {:?}&quot;, buffer);
+Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -102,23 +102,23 @@ coming from:</p>
 
 <span class='rusttest'>fn main() {
     use std::io;
-    use std::io::prelude::*;
-    use std::io::SeekFrom;
-    use std::fs::File;
-    
-    fn foo() -&gt; io::Result&lt;()&gt; {
-    let mut f = try!(File::open(&quot;foo.txt&quot;));
-    let mut buffer = [0; 10];
-    
-    // skip to the last 10 bytes of the file
-    try!(f.seek(SeekFrom::End(-10)));
-    
-    // read up to 10 bytes
-    try!(f.read(&amp;mut buffer));
-    
-    println!(&quot;The bytes: {:?}&quot;, buffer);
-    Ok(())
-    }
+use std::io::prelude::*;
+use std::io::SeekFrom;
+use std::fs::File;
+
+fn foo() -&gt; io::Result&lt;()&gt; {
+let mut f = try!(File::open(&quot;foo.txt&quot;));
+let mut buffer = [0; 10];
+
+// skip to the last 10 bytes of the file
+try!(f.seek(SeekFrom::End(-10)));
+
+// read up to 10 bytes
+try!(f.read(&amp;mut buffer));
+
+println!(&quot;The bytes: {:?}&quot;, buffer);
+Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -151,21 +151,21 @@ methods to any reader:</p>
 
 <span class='rusttest'>fn main() {
     use std::io;
-    use std::io::prelude::*;
-    use std::io::BufReader;
-    use std::fs::File;
-    
-    fn foo() -&gt; io::Result&lt;()&gt; {
-    let f = try!(File::open(&quot;foo.txt&quot;));
-    let mut reader = BufReader::new(f);
-    let mut buffer = String::new();
-    
-    // read a line into buffer
-    try!(reader.read_line(&amp;mut buffer));
-    
-    println!(&quot;{}&quot;, buffer);
-    Ok(())
-    }
+use std::io::prelude::*;
+use std::io::BufReader;
+use std::fs::File;
+
+fn foo() -&gt; io::Result&lt;()&gt; {
+let f = try!(File::open(&quot;foo.txt&quot;));
+let mut reader = BufReader::new(f);
+let mut buffer = String::new();
+
+// read a line into buffer
+try!(reader.read_line(&amp;mut buffer));
+
+println!(&quot;{}&quot;, buffer);
+Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -186,22 +186,22 @@ to <a href="trait.Write.html#tymethod.write"><code>write()</code></a>:</p>
 
 <span class='rusttest'>fn main() {
     use std::io;
-    use std::io::prelude::*;
-    use std::io::BufWriter;
-    use std::fs::File;
-    
-    fn foo() -&gt; io::Result&lt;()&gt; {
-    let f = try!(File::create(&quot;foo.txt&quot;));
-    {
-        let mut writer = BufWriter::new(f);
-    
-        // write a byte to the buffer
-        try!(writer.write(&amp;[42]));
-    
-    } // the buffer is flushed once writer goes out of scope
-    
-    Ok(())
-    }
+use std::io::prelude::*;
+use std::io::BufWriter;
+use std::fs::File;
+
+fn foo() -&gt; io::Result&lt;()&gt; {
+let f = try!(File::create(&quot;foo.txt&quot;));
+{
+    let mut writer = BufWriter::new(f);
+
+    // write a byte to the buffer
+    try!(writer.write(&amp;[42]));
+
+} // the buffer is flushed once writer goes out of scope
+
+Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -223,15 +223,15 @@ to <a href="trait.Write.html#tymethod.write"><code>write()</code></a>:</p>
 
 <span class='rusttest'>fn main() {
     use std::io;
-    
-    fn foo() -&gt; io::Result&lt;()&gt; {
-    let mut input = String::new();
-    
-    try!(io::stdin().read_line(&amp;mut input));
-    
-    println!(&quot;You typed: {}&quot;, input.trim());
-    Ok(())
-    }
+
+fn foo() -&gt; io::Result&lt;()&gt; {
+let mut input = String::new();
+
+try!(io::stdin().read_line(&amp;mut input));
+
+println!(&quot;You typed: {}&quot;, input.trim());
+Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 
@@ -245,12 +245,12 @@ to <a href="trait.Write.html#tymethod.write"><code>write()</code></a>:</p>
 
 <span class='rusttest'>fn main() {
     use std::io;
-    use std::io::prelude::*;
-    
-    fn foo() -&gt; io::Result&lt;()&gt; {
-    try!(io::stdout().write(&amp;[42]));
-    Ok(())
-    }
+use std::io::prelude::*;
+
+fn foo() -&gt; io::Result&lt;()&gt; {
+try!(io::stdout().write(&amp;[42]));
+Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -267,20 +267,20 @@ lines:</p>
 
 <span class='rusttest'>fn main() {
     use std::io;
-    use std::io::prelude::*;
-    use std::io::BufReader;
-    use std::fs::File;
-    
-    fn foo() -&gt; io::Result&lt;()&gt; {
-    let f = try!(File::open(&quot;foo.txt&quot;));
-    let reader = BufReader::new(f);
-    
-    for line in reader.lines() {
-        println!(&quot;{}&quot;, try!(line));
-    }
-    
-    Ok(())
-    }
+use std::io::prelude::*;
+use std::io::BufReader;
+use std::fs::File;
+
+fn foo() -&gt; io::Result&lt;()&gt; {
+let f = try!(File::open(&quot;foo.txt&quot;));
+let reader = BufReader::new(f);
+
+for line in reader.lines() {
+    println!(&quot;{}&quot;, try!(line));
+}
+
+Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -302,11 +302,11 @@ from standard input to standard output:</p>
 
 <span class='rusttest'>fn main() {
     use std::io;
-    
-    fn foo() -&gt; io::Result&lt;()&gt; {
-    try!(io::copy(&amp;mut io::stdin(), &amp;mut io::stdout()));
-    Ok(())
-    }
+
+fn foo() -&gt; io::Result&lt;()&gt; {
+try!(io::copy(&amp;mut io::stdin(), &amp;mut io::stdout()));
+Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 
@@ -320,16 +320,16 @@ module use the <a href="../macro.try!.html"><code>try!</code></a> macro:</p>
 
 <span class='rusttest'>fn main() {
     use std::io;
-    
-    fn read_input() -&gt; io::Result&lt;()&gt; {
-        let mut input = String::new();
-    
-        try!(io::stdin().read_line(&amp;mut input));
-    
-        println!(&quot;You typed: {}&quot;, input.trim());
-    
-        Ok(())
-    }
+
+fn read_input() -&gt; io::Result&lt;()&gt; {
+    let mut input = String::new();
+
+    try!(io::stdin().read_line(&amp;mut input));
+
+    println!(&quot;You typed: {}&quot;, input.trim());
+
+    Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 

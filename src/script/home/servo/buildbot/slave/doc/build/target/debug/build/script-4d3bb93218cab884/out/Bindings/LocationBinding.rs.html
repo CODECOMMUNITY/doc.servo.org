@@ -1204,18 +1204,18 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Href</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>set_href</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Location</span>, <span class='ident'>args</span>: <span class='ident'>JSJitSetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>SetHref</span>(<span class='ident'>arg0</span>);
 
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1228,12 +1228,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Getter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1247,12 +1247,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Setter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1262,7 +1262,7 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Origin</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1275,12 +1275,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Getter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1290,18 +1290,18 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Protocol</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>set_protocol</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Location</span>, <span class='ident'>args</span>: <span class='ident'>JSJitSetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>SetProtocol</span>(<span class='ident'>arg0</span>);
 
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1314,12 +1314,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Getter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1333,12 +1333,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Setter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1348,18 +1348,18 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Host</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>set_host</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Location</span>, <span class='ident'>args</span>: <span class='ident'>JSJitSetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>SetHost</span>(<span class='ident'>arg0</span>);
 
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1372,12 +1372,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Getter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1391,12 +1391,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Setter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1406,18 +1406,18 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Hostname</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>set_hostname</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Location</span>, <span class='ident'>args</span>: <span class='ident'>JSJitSetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>SetHostname</span>(<span class='ident'>arg0</span>);
 
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1430,12 +1430,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Getter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1449,12 +1449,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Setter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1464,18 +1464,18 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Port</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>set_port</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Location</span>, <span class='ident'>args</span>: <span class='ident'>JSJitSetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>SetPort</span>(<span class='ident'>arg0</span>);
 
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1488,12 +1488,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Getter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1507,12 +1507,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Setter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1522,18 +1522,18 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Pathname</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>set_pathname</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Location</span>, <span class='ident'>args</span>: <span class='ident'>JSJitSetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>SetPathname</span>(<span class='ident'>arg0</span>);
 
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1546,12 +1546,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Getter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1565,12 +1565,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Setter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1580,18 +1580,18 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Search</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>set_search</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Location</span>, <span class='ident'>args</span>: <span class='ident'>JSJitSetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>SetSearch</span>(<span class='ident'>arg0</span>);
 
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1604,12 +1604,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Getter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1623,12 +1623,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Setter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1638,18 +1638,18 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Hash</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>set_hash</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Location</span>, <span class='ident'>args</span>: <span class='ident'>JSJitSetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>SetHash</span>(<span class='ident'>arg0</span>);
 
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1662,12 +1662,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Getter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1681,12 +1681,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Setter</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1698,16 +1698,16 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;Location.assign\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolval'>false</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Assign</span>(<span class='ident'>arg0</span>);
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1720,12 +1720,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1737,7 +1737,7 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Reload</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1750,12 +1750,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1767,7 +1767,7 @@
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>DOMString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Stringifier</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 
@@ -1780,12 +1780,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_STRING</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolval'>true</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>true</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1868,7 +1868,7 @@
 
 ];
 <span class='kw'>const</span> <span class='ident'>sUnforgeableMethods</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSFunctionSpec</span><span class='op'>&gt;</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[
-    <span class='ident'>Prefable</span> { <span class='ident'>pref</span>: <span class='prelude-val'>None</span>, <span class='ident'>specs</span>: <span class='ident'>sUnforgeableMethods_specs</span>[<span class='number'>0</span>], <span class='ident'>terminator</span>: <span class='boolval'>true</span> }
+    <span class='ident'>Prefable</span> { <span class='ident'>pref</span>: <span class='prelude-val'>None</span>, <span class='ident'>specs</span>: <span class='ident'>sUnforgeableMethods_specs</span>[<span class='number'>0</span>], <span class='ident'>terminator</span>: <span class='boolvalue'>true</span> }
 ];
 <span class='kw'>const</span> <span class='ident'>sUnforgeableAttributes_specs</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span>[<span class='ident'>JSPropertySpec</span>]] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[
 <span class='kw-2'>&amp;</span>[
@@ -1935,7 +1935,7 @@
 
 ];
 <span class='kw'>const</span> <span class='ident'>sUnforgeableAttributes</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSPropertySpec</span><span class='op'>&gt;</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[
-    <span class='ident'>Prefable</span> { <span class='ident'>pref</span>: <span class='prelude-val'>None</span>, <span class='ident'>specs</span>: <span class='ident'>sUnforgeableAttributes_specs</span>[<span class='number'>0</span>], <span class='ident'>terminator</span>: <span class='boolval'>true</span> }
+    <span class='ident'>Prefable</span> { <span class='ident'>pref</span>: <span class='prelude-val'>None</span>, <span class='ident'>specs</span>: <span class='ident'>sUnforgeableAttributes_specs</span>[<span class='number'>0</span>], <span class='ident'>terminator</span>: <span class='boolvalue'>true</span> }
 ];
 
 <span class='kw'>fn</span> <span class='ident'>CreateInterfaceObjects</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>global</span>: <span class='ident'>HandleObject</span>, <span class='ident'>cache</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>ProtoOrIfaceArray</span>) {
@@ -2028,7 +2028,7 @@
         },
 
         <span class='ident'>ext</span>: <span class='ident'>js</span>::<span class='ident'>jsapi</span>::<span class='ident'>ClassExtension</span> {
-            <span class='ident'>isWrappedNative</span>: <span class='boolval'>false</span>,
+            <span class='ident'>isWrappedNative</span>: <span class='boolvalue'>false</span>,
             <span class='ident'>weakmapKeyDelegateOp</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>objectMovedOp</span>: <span class='prelude-val'>None</span>,
         },

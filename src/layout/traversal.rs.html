@@ -311,7 +311,7 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;lc</span>, <span class='lifetime'>&#39;ln</span><span class='op'>&gt;</span> <span class='ident'>DomTraversalContext</span><span class='op'>&lt;</span><span class='ident'>ServoLayoutNode</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ln</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>RecalcStyleAndConstructFlows</span><span class='op'>&lt;</span><span class='lifetime'>&#39;lc</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>SharedContext</span> <span class='op'>=</span> <span class='ident'>SharedLayoutContext</span>;
     <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>shared</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw'>Self</span>::<span class='ident'>SharedContext</span>, <span class='ident'>root</span>: <span class='ident'>OpaqueNode</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>shared</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>Self</span>::<span class='ident'>SharedContext</span>, <span class='ident'>root</span>: <span class='ident'>OpaqueNode</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='comment'>// FIXME(bholley): This transmutation from &amp;&#39;a to &amp;&#39;lc is very unfortunate, but I haven&#39;t</span>
         <span class='comment'>// found a way to avoid it despite spending several days on it (and consulting Manishearth,</span>
         <span class='comment'>// brson, and nmatsakis).</span>
@@ -384,9 +384,9 @@
     }
 
     <span class='kw'>unsafe</span> {
-        <span class='ident'>node</span>.<span class='ident'>set_changed</span>(<span class='boolval'>false</span>);
-        <span class='ident'>node</span>.<span class='ident'>set_dirty</span>(<span class='boolval'>false</span>);
-        <span class='ident'>node</span>.<span class='ident'>set_dirty_descendants</span>(<span class='boolval'>false</span>);
+        <span class='ident'>node</span>.<span class='ident'>set_changed</span>(<span class='boolvalue'>false</span>);
+        <span class='ident'>node</span>.<span class='ident'>set_dirty</span>(<span class='boolvalue'>false</span>);
+        <span class='ident'>node</span>.<span class='ident'>set_dirty_descendants</span>(<span class='boolvalue'>false</span>);
     }
 
     <span class='kw'>let</span> <span class='ident'>unsafe_layout_node</span> <span class='op'>=</span> <span class='ident'>node</span>.<span class='ident'>to_unsafe</span>();
@@ -516,7 +516,7 @@
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>should_process</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     }
 }
 </pre>

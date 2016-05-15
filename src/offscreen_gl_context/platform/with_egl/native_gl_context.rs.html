@@ -246,7 +246,7 @@
             <span class='ident'>native_display</span>: <span class='ident'>display</span>,
             <span class='ident'>native_surface</span>: <span class='ident'>surface</span>,
             <span class='ident'>native_context</span>: <span class='ident'>ctx</span>,
-            <span class='ident'>weak</span>: <span class='boolval'>false</span>,
+            <span class='ident'>weak</span>: <span class='boolvalue'>false</span>,
         })
     }
 }
@@ -283,11 +283,11 @@
         <span class='ident'>create_pixel_buffer_backed_offscreen_context</span>(<span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='number'>16</span>, <span class='number'>16</span>), <span class='prelude-val'>None</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>create_shared</span>(<span class='ident'>with</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw'>Self</span>::<span class='ident'>Handle</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>NativeGLContext</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>create_shared</span>(<span class='ident'>with</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Handle</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>NativeGLContext</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span> {
         <span class='ident'>create_pixel_buffer_backed_offscreen_context</span>(<span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='number'>16</span>, <span class='number'>16</span>), <span class='ident'>with</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>current_handle</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Handle</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>current_handle</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Handle</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>native_context</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>egl</span>::<span class='ident'>GetCurrentContext</span>() };
         <span class='kw'>let</span> <span class='ident'>native_display</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>egl</span>::<span class='ident'>GetCurrentDisplay</span>() };
 
@@ -299,8 +299,8 @@
     }
 
 
-    <span class='kw'>fn</span> <span class='ident'>current</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>handle</span>) <span class='op'>=</span> <span class='kw'>Self</span>::<span class='ident'>current_handle</span>() {
+    <span class='kw'>fn</span> <span class='ident'>current</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>handle</span>) <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>current_handle</span>() {
             <span class='kw'>let</span> <span class='ident'>surface</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>egl</span>::<span class='ident'>GetCurrentSurface</span>(<span class='ident'>egl</span>::<span class='ident'>DRAW</span> <span class='kw'>as</span> <span class='ident'>EGLint</span>) };
 
             <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='ident'>surface</span> <span class='op'>!=</span> <span class='ident'>egl</span>::<span class='ident'>NO_SURFACE</span>);
@@ -309,7 +309,7 @@
                 <span class='ident'>native_context</span>: <span class='ident'>handle</span>.<span class='number'>0</span>,
                 <span class='ident'>native_display</span>: <span class='ident'>handle</span>.<span class='number'>1</span>,
                 <span class='ident'>native_surface</span>: <span class='ident'>surface</span>,
-                <span class='ident'>weak</span>: <span class='boolval'>true</span>,
+                <span class='ident'>weak</span>: <span class='boolvalue'>true</span>,
             })
         } <span class='kw'>else</span> {
             <span class='prelude-val'>None</span>
@@ -337,7 +337,7 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>handle</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='ident'>Handle</span> {
+    <span class='kw'>fn</span> <span class='ident'>handle</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Handle</span> {
         <span class='ident'>NativeGLContextHandle</span>(<span class='self'>self</span>.<span class='ident'>native_context</span>, <span class='self'>self</span>.<span class='ident'>native_display</span>)
     }
 

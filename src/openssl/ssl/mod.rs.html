@@ -1953,12 +1953,12 @@
 
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;dtlsv1&quot;</span>))]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_dtlsv1</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;dtlsv1_2&quot;</span>))]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_dtlsv1_2</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 }
 
@@ -2283,7 +2283,7 @@
 <span class='kw'>unsafe</span> <span class='kw'>impl</span> <span class='ident'>Sync</span> <span class='kw'>for</span> <span class='ident'>SslContext</span> {}
 
 <span class='kw'>impl</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>SslContext</span> {
-    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>SslContext</span>::<span class='ident'>new_ref</span>(<span class='self'>self</span>.<span class='ident'>ctx</span>) }
     }
 }
@@ -2794,7 +2794,7 @@
             <span class='kw'>if</span> <span class='ident'>ptr</span>.<span class='ident'>is_null</span>() {
                 <span class='prelude-val'>None</span>
             } <span class='kw'>else</span> {
-                <span class='prelude-val'>Some</span>(<span class='ident'>X509</span>::<span class='ident'>new</span>(<span class='ident'>ptr</span>, <span class='boolval'>true</span>))
+                <span class='prelude-val'>Some</span>(<span class='ident'>X509</span>::<span class='ident'>new</span>(<span class='ident'>ptr</span>, <span class='boolvalue'>true</span>))
             }
         }
     }
@@ -2999,7 +2999,7 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Write</span><span class='op'>&gt;</span> <span class='ident'>SslStream</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>new_base</span>(<span class='ident'>ssl</span>: <span class='ident'>Ssl</span>, <span class='ident'>stream</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>new_base</span>(<span class='ident'>ssl</span>: <span class='ident'>Ssl</span>, <span class='ident'>stream</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> (<span class='ident'>bio</span>, <span class='ident'>method</span>) <span class='op'>=</span> <span class='ident'>bio</span>::<span class='ident'>new</span>(<span class='ident'>stream</span>).<span class='ident'>unwrap</span>();
             <span class='ident'>ffi</span>::<span class='ident'>SSL_set_bio</span>(<span class='ident'>ssl</span>.<span class='ident'>ssl</span>, <span class='ident'>bio</span>, <span class='ident'>bio</span>);
@@ -3013,9 +3013,9 @@
     }
 
     <span class='doccomment'>/// Creates an SSL/TLS client operating over the provided stream.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>connect</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>IntoSsl</span><span class='op'>&gt;</span>(<span class='ident'>ssl</span>: <span class='ident'>T</span>, <span class='ident'>stream</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>, <span class='ident'>SslError</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>connect</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>IntoSsl</span><span class='op'>&gt;</span>(<span class='ident'>ssl</span>: <span class='ident'>T</span>, <span class='ident'>stream</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>SslError</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>ssl</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>ssl</span>.<span class='ident'>into_ssl</span>());
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stream</span> <span class='op'>=</span> <span class='kw'>Self</span>::<span class='ident'>new_base</span>(<span class='ident'>ssl</span>, <span class='ident'>stream</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stream</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>new_base</span>(<span class='ident'>ssl</span>, <span class='ident'>stream</span>);
         <span class='kw'>let</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>stream</span>.<span class='ident'>ssl</span>.<span class='ident'>connect</span>();
         <span class='kw'>if</span> <span class='ident'>ret</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
             <span class='prelude-val'>Ok</span>(<span class='ident'>stream</span>)
@@ -3028,9 +3028,9 @@
     }
 
     <span class='doccomment'>/// Creates an SSL/TLS server operating over the provided stream.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>accept</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>IntoSsl</span><span class='op'>&gt;</span>(<span class='ident'>ssl</span>: <span class='ident'>T</span>, <span class='ident'>stream</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>, <span class='ident'>SslError</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>accept</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>IntoSsl</span><span class='op'>&gt;</span>(<span class='ident'>ssl</span>: <span class='ident'>T</span>, <span class='ident'>stream</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>SslError</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>ssl</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>ssl</span>.<span class='ident'>into_ssl</span>());
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stream</span> <span class='op'>=</span> <span class='kw'>Self</span>::<span class='ident'>new_base</span>(<span class='ident'>ssl</span>, <span class='ident'>stream</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stream</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>new_base</span>(<span class='ident'>ssl</span>, <span class='ident'>stream</span>);
         <span class='kw'>let</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>stream</span>.<span class='ident'>ssl</span>.<span class='ident'>accept</span>();
         <span class='kw'>if</span> <span class='ident'>ret</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
             <span class='prelude-val'>Ok</span>(<span class='ident'>stream</span>)
@@ -3046,14 +3046,14 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Use `connect`.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>connect_generic</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>IntoSsl</span><span class='op'>&gt;</span>(<span class='ident'>ssl</span>: <span class='ident'>T</span>, <span class='ident'>stream</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>SslStream</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>, <span class='ident'>SslError</span><span class='op'>&gt;</span> {
-        <span class='kw'>Self</span>::<span class='ident'>connect</span>(<span class='ident'>ssl</span>, <span class='ident'>stream</span>)
+        <span class='self'>Self</span>::<span class='ident'>connect</span>(<span class='ident'>ssl</span>, <span class='ident'>stream</span>)
     }
 
     <span class='doccomment'>/// ### Deprecated</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Use `accept`.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>accept_generic</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>IntoSsl</span><span class='op'>&gt;</span>(<span class='ident'>ssl</span>: <span class='ident'>T</span>, <span class='ident'>stream</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>SslStream</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>, <span class='ident'>SslError</span><span class='op'>&gt;</span> {
-        <span class='kw'>Self</span>::<span class='ident'>accept</span>(<span class='ident'>ssl</span>, <span class='ident'>stream</span>)
+        <span class='self'>Self</span>::<span class='ident'>accept</span>(<span class='ident'>ssl</span>, <span class='ident'>stream</span>)
     }
 
     <span class='doccomment'>/// Like `read`, but returns an `ssl::Error` rather than an `io::Error`.</span>
@@ -3329,7 +3329,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>NonblockingSslStream</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>SslStream</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>);
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Read</span> <span class='op'>+</span> <span class='ident'>Write</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>NonblockingSslStream</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>NonblockingSslStream</span>(<span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>clone</span>())
     }
 }

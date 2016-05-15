@@ -306,14 +306,14 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>iter_cmp</span>)]</span>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span> <span class='ident'>PartialOrd</span> <span class='kw'>for</span> <span class='ident'>UniCase</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>partial_cmp</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Ordering</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>partial_cmp</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Ordering</span><span class='op'>&gt;</span> {
         <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>cmp</span>(<span class='ident'>other</span>))
     }
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>iter_cmp</span>)]</span>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span> <span class='ident'>Ord</span> <span class='kw'>for</span> <span class='ident'>UniCase</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Ordering</span> {
+    <span class='kw'>fn</span> <span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Ordering</span> {
         <span class='kw'>let</span> <span class='ident'>self_chars</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>as_ref</span>().<span class='ident'>chars</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>to_ascii_lowercase</span>());
         <span class='kw'>let</span> <span class='ident'>other_chars</span> <span class='op'>=</span> <span class='ident'>other</span>.<span class='ident'>as_ref</span>().<span class='ident'>chars</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>to_ascii_lowercase</span>());
         <span class='ident'>self_chars</span>.<span class='ident'>cmp</span>(<span class='ident'>other_chars</span>)
@@ -364,7 +364,7 @@
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>from_impl</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>from</span>:<span class='ident'>ty</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>to</span>:<span class='ident'>ty</span>; <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>by</span>:<span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
         <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>from</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>UniCase</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>to</span><span class='op'>&gt;</span> {
-            <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>s</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>from</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+            <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>s</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>from</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
                 <span class='ident'>UniCase</span>(<span class='ident'>s</span>.<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>by</span>())
             }
         }

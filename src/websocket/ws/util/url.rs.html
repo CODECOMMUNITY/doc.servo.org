@@ -436,14 +436,14 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>ToWebSocketUrlComponents</span> <span class='kw'>for</span> (<span class='ident'>Host</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) {
 	<span class='doccomment'>/// Convert a Host and resource name to WebSocket URL components, assuming an insecure connection.</span>
 	<span class='kw'>fn</span> <span class='ident'>to_components</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span>(<span class='ident'>Host</span>, <span class='ident'>String</span>, <span class='ident'>bool</span>)<span class='op'>&gt;</span> {
-		(<span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>to_owned</span>(), <span class='boolval'>false</span>).<span class='ident'>to_components</span>()
+		(<span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>to_owned</span>(), <span class='boolvalue'>false</span>).<span class='ident'>to_components</span>()
 	}
 }
 
 <span class='kw'>impl</span> <span class='ident'>ToWebSocketUrlComponents</span> <span class='kw'>for</span> (<span class='ident'>Host</span>, <span class='ident'>String</span>) {
 	<span class='doccomment'>/// Convert a Host and resource name to WebSocket URL components, assuming an insecure connection.</span>
 	<span class='kw'>fn</span> <span class='ident'>to_components</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span>(<span class='ident'>Host</span>, <span class='ident'>String</span>, <span class='ident'>bool</span>)<span class='op'>&gt;</span> {
-		(<span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>clone</span>(), <span class='boolval'>false</span>).<span class='ident'>to_components</span>()
+		(<span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>clone</span>(), <span class='boolvalue'>false</span>).<span class='ident'>to_components</span>()
 	}
 }
 
@@ -492,8 +492,8 @@
 
     <span class='kw'>let</span> <span class='ident'>secure</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>url</span>.<span class='ident'>scheme</span>() {
         <span class='comment'>// step 5</span>
-        <span class='string'>&quot;ws&quot;</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
-        <span class='string'>&quot;wss&quot;</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+        <span class='string'>&quot;ws&quot;</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+        <span class='string'>&quot;wss&quot;</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
         <span class='comment'>// step 3</span>
         _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>From</span>::<span class='ident'>from</span>(<span class='ident'>WSUrlErrorKind</span>::<span class='ident'>InvalidScheme</span>)),
     };

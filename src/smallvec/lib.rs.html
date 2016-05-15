@@ -744,7 +744,7 @@
     <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>unsafe</span> {
             <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-                <span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>inline</span> <span class='kw-2'>@</span> <span class='ident'>Inline</span> { .. } <span class='op'>=&gt;</span> {
+                <span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>inline</span> @ <span class='ident'>Inline</span> { .. } <span class='op'>=&gt;</span> {
                     <span class='comment'>// Inhibit the array destructor.</span>
                     <span class='ident'>ptr</span>::<span class='ident'>write</span>(<span class='ident'>inline</span>, <span class='ident'>Heap</span> {
                         <span class='ident'>ptr</span>: <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>(),
@@ -786,8 +786,8 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>spilled</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>data</span> {
-            <span class='ident'>Inline</span> { .. } <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
-            <span class='ident'>Heap</span> { .. } <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+            <span class='ident'>Inline</span> { .. } <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+            <span class='ident'>Heap</span> { .. } <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
         }
     }
 
@@ -1102,8 +1102,8 @@
 <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>trait</span> <span class='ident'>Array</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span>;
     <span class='kw'>fn</span> <span class='ident'>size</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span>;
-    <span class='kw'>fn</span> <span class='ident'>ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='kw'>Self</span>::<span class='ident'>Item</span>;
-    <span class='kw'>fn</span> <span class='ident'>ptr_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='kw'>Self</span>::<span class='ident'>Item</span>;
+    <span class='kw'>fn</span> <span class='ident'>ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='self'>Self</span>::<span class='ident'>Item</span>;
+    <span class='kw'>fn</span> <span class='ident'>ptr_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='self'>Self</span>::<span class='ident'>Item</span>;
 }
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>impl_array</span>(

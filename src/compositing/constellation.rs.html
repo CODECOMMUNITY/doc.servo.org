@@ -2512,7 +2512,7 @@
                 <span class='ident'>child_processes</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
                 <span class='ident'>document_states</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
                 <span class='ident'>webrender_api_sender</span>: <span class='ident'>state</span>.<span class='ident'>webrender_api_sender</span>,
-                <span class='ident'>handled_panic</span>: <span class='boolval'>false</span>,
+                <span class='ident'>handled_panic</span>: <span class='boolvalue'>false</span>,
                 <span class='ident'>random_pipeline_closure</span>: <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>random_pipeline_closure_probability</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>prob</span><span class='op'>|</span> {
                     <span class='kw'>let</span> <span class='ident'>seed</span> <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>random_pipeline_closure_seed</span>.<span class='ident'>unwrap_or_else</span>(<span class='ident'>random</span>);
                     <span class='kw'>let</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>StdRng</span>::<span class='ident'>from_seed</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>seed</span>]);
@@ -2590,7 +2590,7 @@
             <span class='kw'>if</span> <span class='ident'>opts</span>::<span class='ident'>multiprocess</span>() {
                 <span class='self'>self</span>.<span class='ident'>spawn_multiprocess</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>unprivileged_pipeline_content</span>);
             } <span class='kw'>else</span> {
-                <span class='ident'>unprivileged_pipeline_content</span>.<span class='ident'>start_all</span>::<span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='boolval'>false</span>);
+                <span class='ident'>unprivileged_pipeline_content</span>.<span class='ident'>start_all</span>::<span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='boolvalue'>false</span>);
             }
         }
 
@@ -2656,7 +2656,7 @@
         <span class='self'>self</span>.<span class='ident'>pending_frames</span>.<span class='ident'>push</span>(<span class='ident'>FrameChange</span> {
             <span class='ident'>old_pipeline_id</span>: <span class='ident'>old_pipeline_id</span>,
             <span class='ident'>new_pipeline_id</span>: <span class='ident'>new_pipeline_id</span>,
-            <span class='ident'>document_ready</span>: <span class='boolval'>false</span>,
+            <span class='ident'>document_ready</span>: <span class='boolvalue'>false</span>,
         });
     }
 
@@ -2733,7 +2733,7 @@
             <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>Exit</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation exiting&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_exit</span>();
-                <span class='kw'>return</span> <span class='boolval'>false</span>;
+                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
             }
             <span class='comment'>// The compositor discovered the size of a subframe. This needs to be reflected by all</span>
             <span class='comment'>// frame trees in the navigation context containing the subframe.</span>
@@ -2865,7 +2865,7 @@
                 <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>CompositorEvent</span>::<span class='ident'>MouseButtonEvent</span>(<span class='ident'>event_type</span>, <span class='ident'>button</span>, <span class='ident'>point</span>);
                 <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>SendEvent</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>event</span>);
                 <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got mouse button event after closure.&quot;</span>, <span class='ident'>pipeline_id</span>); <span class='kw'>return</span> <span class='boolval'>true</span>; }
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got mouse button event after closure.&quot;</span>, <span class='ident'>pipeline_id</span>); <span class='kw'>return</span> <span class='boolvalue'>true</span>; }
                     <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=&gt;</span> <span class='ident'>pipeline</span>.<span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>),
                 };
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>result</span> {
@@ -2876,7 +2876,7 @@
                 <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>CompositorEvent</span>::<span class='ident'>MouseMoveEvent</span>(<span class='prelude-val'>Some</span>(<span class='ident'>point</span>));
                 <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>SendEvent</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>event</span>);
                <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got mouse move event after closure.&quot;</span>, <span class='ident'>pipeline_id</span>); <span class='kw'>return</span> <span class='boolval'>true</span>; }
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got mouse move event after closure.&quot;</span>, <span class='ident'>pipeline_id</span>); <span class='kw'>return</span> <span class='boolvalue'>true</span>; }
                     <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=&gt;</span> <span class='ident'>pipeline</span>.<span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>),
                 };
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>result</span> {
@@ -2965,7 +2965,7 @@
                 <span class='self'>self</span>.<span class='ident'>handle_panic</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>panic_reason</span>, <span class='ident'>backtrace</span>);
             }
         }
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_exit</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
@@ -3046,7 +3046,7 @@
 
         }
 
-        <span class='self'>self</span>.<span class='ident'>handled_panic</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+        <span class='self'>self</span>.<span class='ident'>handled_panic</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_init_load</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>url</span>: <span class='ident'>Url</span>) {
@@ -3218,7 +3218,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_alert</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>message</span>: <span class='ident'>String</span>, <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>display_alert_dialog</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mozbrowser.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolval'>false</span>) {
+        <span class='kw'>let</span> <span class='ident'>display_alert_dialog</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mozbrowser.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) {
             <span class='kw'>let</span> <span class='ident'>parent_pipeline_info</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>source</span><span class='op'>|</span> <span class='ident'>source</span>.<span class='ident'>parent_info</span>);
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(_) <span class='op'>=</span> <span class='ident'>parent_pipeline_info</span> {
                 <span class='kw'>let</span> <span class='ident'>root_pipeline_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>root_frame_id</span>
@@ -3241,12 +3241,12 @@
                         <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;A non-current frame is trying to show an alert.&quot;</span>)
                     }
                 }
-                <span class='boolval'>false</span>
+                <span class='boolvalue'>false</span>
             } <span class='kw'>else</span> {
-                <span class='boolval'>true</span>
+                <span class='boolvalue'>true</span>
             }
         } <span class='kw'>else</span> {
-            <span class='boolval'>true</span>
+            <span class='boolvalue'>true</span>
         };
 
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='ident'>display_alert_dialog</span>);
@@ -3342,12 +3342,12 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_dom_load</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>webdriver_reset</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>webdriver_reset</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>expected_pipeline_id</span>, <span class='kw-2'>ref</span> <span class='ident'>reply_chan</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>webdriver</span>.<span class='ident'>load_channel</span> {
             <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Sending load to WebDriver&quot;</span>);
             <span class='kw'>if</span> <span class='ident'>expected_pipeline_id</span> <span class='op'>==</span> <span class='ident'>pipeline_id</span> {
                 <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>reply_chan</span>.<span class='ident'>send</span>(<span class='ident'>webdriver_msg</span>::<span class='ident'>LoadStatus</span>::<span class='ident'>LoadComplete</span>);
-                <span class='ident'>webdriver_reset</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                <span class='ident'>webdriver_reset</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
             }
         }
         <span class='kw'>if</span> <span class='ident'>webdriver_reset</span> {
@@ -3510,7 +3510,7 @@
                                    <span class='ident'>containing_pipeline_id</span>: <span class='ident'>PipelineId</span>,
                                    <span class='ident'>subpage_id</span>: <span class='ident'>SubpageId</span>,
                                    <span class='ident'>event</span>: <span class='ident'>MozBrowserEvent</span>) {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mozbrowser.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolval'>false</span>));
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mozbrowser.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>));
 
         <span class='comment'>// Find the script channel for the given parent pipeline,</span>
         <span class='comment'>// and pass the event to that script thread.</span>
@@ -3528,7 +3528,7 @@
             .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>frame_id</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame_id</span>))
             .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>frame</span><span class='op'>|</span> <span class='ident'>frame</span>.<span class='ident'>current</span>);
         <span class='kw'>let</span> <span class='ident'>current_pipeline_id_loaded</span> <span class='op'>=</span> <span class='ident'>current_pipeline_id</span>
-            .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>id</span><span class='op'>|</span> (<span class='ident'>id</span>, <span class='boolval'>true</span>));
+            .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>id</span><span class='op'>|</span> (<span class='ident'>id</span>, <span class='boolvalue'>true</span>));
         <span class='kw'>let</span> <span class='ident'>pipeline_id_loaded</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pending_frames</span>.<span class='ident'>iter</span>().<span class='ident'>rev</span>()
             .<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>old_pipeline_id</span> <span class='op'>==</span> <span class='ident'>current_pipeline_id</span>)
             .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> (<span class='ident'>x</span>.<span class='ident'>new_pipeline_id</span>, <span class='ident'>x</span>.<span class='ident'>document_ready</span>))
@@ -3764,7 +3764,7 @@
             <span class='ident'>frame_change</span>.<span class='ident'>new_pipeline_id</span> <span class='op'>==</span> <span class='ident'>pipeline_id</span>
         });
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pending_index</span>) <span class='op'>=</span> <span class='ident'>pending_index</span> {
-            <span class='self'>self</span>.<span class='ident'>pending_frames</span>[<span class='ident'>pending_index</span>].<span class='ident'>document_ready</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='self'>self</span>.<span class='ident'>pending_frames</span>[<span class='ident'>pending_index</span>].<span class='ident'>document_ready</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
         }
 
         <span class='comment'>// This is a bit complex. We need to loop through pending frames and find</span>
@@ -3777,7 +3777,7 @@
         <span class='comment'>// frames, we can safely exit the loop, knowing that we will need to wait on</span>
         <span class='comment'>// a dependent pipeline to be ready to paint.</span>
         <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>valid_frame_change</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pending_frames</span>.<span class='ident'>iter</span>().<span class='ident'>rposition</span>(<span class='op'>|</span><span class='ident'>frame_change</span><span class='op'>|</span> {
-            <span class='kw'>let</span> <span class='ident'>waiting_on_dependency</span> <span class='op'>=</span> <span class='ident'>frame_change</span>.<span class='ident'>old_pipeline_id</span>.<span class='ident'>map_or</span>(<span class='boolval'>false</span>, <span class='op'>|</span><span class='ident'>old_pipeline_id</span><span class='op'>|</span> {
+            <span class='kw'>let</span> <span class='ident'>waiting_on_dependency</span> <span class='op'>=</span> <span class='ident'>frame_change</span>.<span class='ident'>old_pipeline_id</span>.<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>old_pipeline_id</span><span class='op'>|</span> {
                 <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_pipeline_id</span>).<span class='ident'>is_none</span>()
             });
             <span class='ident'>frame_change</span>.<span class='ident'>document_ready</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>waiting_on_dependency</span>
@@ -3899,7 +3899,7 @@
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>pipeline</span>.<span class='ident'>layout_chan</span>.<span class='number'>0</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>) {
                 <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Get web font failed ({})&quot;</span>, <span class='ident'>e</span>);
             }
-            <span class='kw'>if</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap_or</span>(<span class='boolval'>true</span>) {
+            <span class='kw'>if</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>true</span>) {
                 <span class='kw'>return</span> <span class='ident'>ReadyToSave</span>::<span class='ident'>WebFontNotLoaded</span>;
             }
 
@@ -3962,11 +3962,11 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pipeline_id</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline_id</span>);
         <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=</span> <span class='ident'>pipeline_id</span>.<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>id</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>id</span>)) {
             <span class='kw'>if</span> <span class='ident'>pipeline</span>.<span class='ident'>is_private</span> {
-                <span class='kw'>return</span> <span class='boolval'>true</span>;
+                <span class='kw'>return</span> <span class='boolvalue'>true</span>;
             }
             <span class='ident'>pipeline_id</span> <span class='op'>=</span> <span class='ident'>pipeline</span>.<span class='ident'>parent_info</span>.<span class='ident'>map</span>(<span class='op'>|</span>(<span class='ident'>parent_pipeline_id</span>, _)<span class='op'>|</span> <span class='ident'>parent_pipeline_id</span>);
         }
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 
     <span class='comment'>// Close a frame (and all children)</span>
@@ -4160,7 +4160,7 @@
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/Events/mozbrowserlocationchange</span>
     <span class='comment'>// Note that this is a no-op if the pipeline is not an immediate child iframe of the root</span>
     <span class='kw'>fn</span> <span class='ident'>trigger_mozbrowserlocationchange</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>) {
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mozbrowser.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolval'>false</span>) { <span class='kw'>return</span>; }
+        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mozbrowser.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) { <span class='kw'>return</span>; }
 
         <span class='kw'>let</span> <span class='ident'>event_info</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> {
             <span class='ident'>pipeline</span>.<span class='ident'>parent_info</span>.<span class='ident'>map</span>(<span class='op'>|</span>(<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>)<span class='op'>|</span> {
@@ -4186,7 +4186,7 @@
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/Events/mozbrowsererror</span>
     <span class='comment'>// Note that this does not require the pipeline to be an immediate child of the root</span>
     <span class='kw'>fn</span> <span class='ident'>trigger_mozbrowsererror</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>reason</span>: <span class='ident'>String</span>, <span class='ident'>backtrace</span>: <span class='ident'>String</span>) {
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mozbrowser.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolval'>false</span>) { <span class='kw'>return</span>; }
+        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mozbrowser.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) { <span class='kw'>return</span>; }
 
         <span class='kw'>let</span> <span class='ident'>ancestor_info</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_root_pipeline_and_containing_parent</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>);
 
@@ -4202,7 +4202,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>focused_pipeline_in_tree</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>frame_id</span>: <span class='ident'>FrameId</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>focus_pipeline_id</span>.<span class='ident'>map_or</span>(<span class='boolval'>false</span>, <span class='op'>|</span><span class='ident'>pipeline_id</span><span class='op'>|</span> {
+        <span class='self'>self</span>.<span class='ident'>focus_pipeline_id</span>.<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>pipeline_id</span><span class='op'>|</span> {
             <span class='self'>self</span>.<span class='ident'>pipeline_exists_in_tree</span>(<span class='ident'>pipeline_id</span>, <span class='prelude-val'>Some</span>(<span class='ident'>frame_id</span>))
         })
     }

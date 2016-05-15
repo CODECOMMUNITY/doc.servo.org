@@ -620,7 +620,7 @@
 }
 
 <span class='kw'>trait</span> <span class='ident'>FnBox</span> {
-    <span class='kw'>fn</span> <span class='ident'>call_box</span>(<span class='self'>self</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span>);
+    <span class='kw'>fn</span> <span class='ident'>call_box</span>(<span class='self'>self</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>);
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span>: <span class='ident'>FnOnce</span>()<span class='op'>&gt;</span> <span class='ident'>FnBox</span> <span class='kw'>for</span> <span class='ident'>F</span> {
@@ -782,10 +782,10 @@
 
         <span class='comment'>// This loop will block on every thread until it</span>
         <span class='comment'>// received and reacted to its Join message.</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>worker_panic</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>worker_panic</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
         <span class='kw'>for</span> <span class='ident'>thread_data</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>pool</span>.<span class='ident'>threads</span> {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>RecvError</span>) <span class='op'>=</span> <span class='ident'>thread_data</span>.<span class='ident'>pool_sync_rx</span>.<span class='ident'>recv</span>() {
-                <span class='ident'>worker_panic</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                <span class='ident'>worker_panic</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
             }
         }
         <span class='kw'>if</span> <span class='ident'>worker_panic</span> {

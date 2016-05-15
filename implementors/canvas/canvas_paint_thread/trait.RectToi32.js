@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['canvas'] = [];
+implementors["canvas"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

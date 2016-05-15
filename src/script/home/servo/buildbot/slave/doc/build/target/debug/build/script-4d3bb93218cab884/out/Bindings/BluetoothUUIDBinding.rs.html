@@ -664,23 +664,23 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;BluetoothUUID.getService\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolval'>false</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>UnionTypes</span>::<span class='ident'>StringOrUnsignedLong</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=&gt;</span> <span class='ident'>value</span>,
-        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>DOMString</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>BluetoothUUID</span>::<span class='ident'>GetService</span>(<span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>arg0</span>);
     <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>result</span> {
         <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> <span class='ident'>result</span>,
         <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
             <span class='ident'>throw_dom_exception</span>(<span class='ident'>cx</span>, <span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>e</span>);
-            <span class='kw'>return</span> <span class='boolval'>false</span>;
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         },
     };
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>getCharacteristic</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>argc</span>: <span class='ident'>libc</span>::<span class='ident'>c_uint</span>, <span class='ident'>vp</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSVal</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -689,23 +689,23 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;BluetoothUUID.getCharacteristic\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolval'>false</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>UnionTypes</span>::<span class='ident'>StringOrUnsignedLong</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=&gt;</span> <span class='ident'>value</span>,
-        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>DOMString</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>BluetoothUUID</span>::<span class='ident'>GetCharacteristic</span>(<span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>arg0</span>);
     <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>result</span> {
         <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> <span class='ident'>result</span>,
         <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
             <span class='ident'>throw_dom_exception</span>(<span class='ident'>cx</span>, <span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>e</span>);
-            <span class='kw'>return</span> <span class='boolval'>false</span>;
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         },
     };
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>getDescriptor</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>argc</span>: <span class='ident'>libc</span>::<span class='ident'>c_uint</span>, <span class='ident'>vp</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSVal</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -714,23 +714,23 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;BluetoothUUID.getDescriptor\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolval'>false</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>UnionTypes</span>::<span class='ident'>StringOrUnsignedLong</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=&gt;</span> <span class='ident'>value</span>,
-        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; },
+        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>DOMString</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>BluetoothUUID</span>::<span class='ident'>GetDescriptor</span>(<span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>arg0</span>);
     <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>result</span> {
         <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> <span class='ident'>result</span>,
         <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
             <span class='ident'>throw_dom_exception</span>(<span class='ident'>cx</span>, <span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>e</span>);
-            <span class='kw'>return</span> <span class='boolval'>false</span>;
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         },
     };
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>canonicalUUID</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>argc</span>: <span class='ident'>libc</span>::<span class='ident'>c_uint</span>, <span class='ident'>vp</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSVal</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -739,16 +739,16 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;BluetoothUUID.canonicalUUID\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolval'>false</span>;
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), <span class='ident'>ConversionBehavior</span>::<span class='ident'>EnforceRange</span>) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>v</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; }
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; }
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>DOMString</span> <span class='op'>=</span> <span class='ident'>BluetoothUUID</span>::<span class='ident'>CanonicalUUID</span>(<span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>arg0</span>);
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolval'>true</span>;
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>_finalize</span>(<span class='ident'>_fop</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>FreeOp</span>, <span class='ident'>obj</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) {
@@ -836,7 +836,7 @@
 
 ];
 <span class='kw'>const</span> <span class='ident'>sStaticMethods</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSFunctionSpec</span><span class='op'>&gt;</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[
-    <span class='ident'>Prefable</span> { <span class='ident'>pref</span>: <span class='prelude-val'>None</span>, <span class='ident'>specs</span>: <span class='ident'>sStaticMethods_specs</span>[<span class='number'>0</span>], <span class='ident'>terminator</span>: <span class='boolval'>true</span> }
+    <span class='ident'>Prefable</span> { <span class='ident'>pref</span>: <span class='prelude-val'>None</span>, <span class='ident'>specs</span>: <span class='ident'>sStaticMethods_specs</span>[<span class='number'>0</span>], <span class='ident'>terminator</span>: <span class='boolvalue'>true</span> }
 ];
 
 <span class='kw'>fn</span> <span class='ident'>CreateInterfaceObjects</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>global</span>: <span class='ident'>HandleObject</span>, <span class='ident'>cache</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>ProtoOrIfaceArray</span>) {
@@ -889,7 +889,7 @@
 }
 
 <span class='kw'>fn</span> <span class='ident'>ConstructorEnabled</span>(<span class='ident'>aCx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>aObj</span>: <span class='ident'>HandleObject</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>return</span> <span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.bluetooth.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolval'>false</span>);
+    <span class='kw'>return</span> <span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.bluetooth.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>);
 
 }
 
@@ -924,7 +924,7 @@
         },
 
         <span class='ident'>ext</span>: <span class='ident'>js</span>::<span class='ident'>jsapi</span>::<span class='ident'>ClassExtension</span> {
-            <span class='ident'>isWrappedNative</span>: <span class='boolval'>false</span>,
+            <span class='ident'>isWrappedNative</span>: <span class='boolvalue'>false</span>,
             <span class='ident'>weakmapKeyDelegateOp</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>objectMovedOp</span>: <span class='prelude-val'>None</span>,
         },

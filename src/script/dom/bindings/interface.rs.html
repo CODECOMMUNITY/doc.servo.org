@@ -633,7 +633,7 @@
                     <span class='ident'>flags</span>: <span class='number'>0</span>,
                 },
                 <span class='ident'>ext</span>: <span class='ident'>ClassExtension</span> {
-                    <span class='ident'>isWrappedNative</span>: <span class='boolval'>false</span>,
+                    <span class='ident'>isWrappedNative</span>: <span class='boolvalue'>false</span>,
                     <span class='ident'>weakmapKeyDelegateOp</span>: <span class='prelude-val'>None</span>,
                     <span class='ident'>objectMovedOp</span>: <span class='prelude-val'>None</span>,
                 },
@@ -789,9 +789,9 @@
     <span class='kw'>match</span> <span class='ident'>has_instance</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>, <span class='ident'>value</span>.<span class='ident'>handle</span>()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> {
             <span class='op'>*</span><span class='ident'>rval</span> <span class='op'>=</span> <span class='ident'>result</span>;
-            <span class='boolval'>true</span>
+            <span class='boolvalue'>true</span>
         }
-        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
     }
 }
 
@@ -804,7 +804,7 @@
         <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>bool</span>, ()<span class='op'>&gt;</span> {
     <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>value</span>.<span class='ident'>is_object</span>() {
         <span class='comment'>// Step 1.</span>
-        <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='boolval'>false</span>);
+        <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>);
     }
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>value</span>.<span class='ident'>to_object</span>());
 
@@ -814,7 +814,7 @@
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>dom_class</span>) <span class='op'>=</span> <span class='ident'>get_dom_class</span>(<span class='ident'>UncheckedUnwrapObject</span>(<span class='ident'>value</span>.<span class='ident'>ptr</span>, <span class='comment'>/* stopAtWindowProxy = */</span> <span class='number'>0</span>)) {
         <span class='kw'>if</span> <span class='ident'>dom_class</span>.<span class='ident'>interface_chain</span>[<span class='ident'>object_class</span>.<span class='ident'>proto_depth</span> <span class='kw'>as</span> <span class='ident'>usize</span>] <span class='op'>==</span> <span class='ident'>object_class</span>.<span class='ident'>proto_id</span> {
             <span class='comment'>// Step 4.</span>
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='boolval'>true</span>);
+            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='boolvalue'>true</span>);
         }
     }
 
@@ -829,10 +829,10 @@
     <span class='kw'>while</span> <span class='ident'>JS_GetPrototype</span>(<span class='ident'>cx</span>, <span class='ident'>value</span>.<span class='ident'>handle</span>(), <span class='ident'>value</span>.<span class='ident'>handle_mut</span>()) {
         <span class='kw'>if</span> <span class='ident'>value</span>.<span class='ident'>ptr</span>.<span class='ident'>is_null</span>() {
             <span class='comment'>// Step 5.2.</span>
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='boolval'>false</span>);
+            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>);
         } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>value</span>.<span class='ident'>ptr</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='op'>==</span> <span class='ident'>prototype</span>.<span class='ident'>ptr</span> {
             <span class='comment'>// Step 5.3.</span>
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='boolval'>true</span>);
+            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='boolvalue'>true</span>);
         }
     }
     <span class='comment'>// JS_GetPrototype threw an exception.</span>
@@ -920,7 +920,7 @@
         <span class='ident'>_vp</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSVal</span>)
         <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Illegal constructor.&quot;</span>);
-    <span class='boolval'>false</span>
+    <span class='boolvalue'>false</span>
 }
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span> <span class='ident'>non_new_constructor</span>(
@@ -929,7 +929,7 @@
         <span class='ident'>_vp</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSVal</span>)
         <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;This constructor needs to be called with `new`.&quot;</span>);
-    <span class='boolval'>false</span>
+    <span class='boolvalue'>false</span>
 }
 </pre>
 </section>

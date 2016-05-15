@@ -558,7 +558,7 @@
                                                       <span class='ident'>localName</span>, <span class='ident'>prefix</span>, <span class='ident'>document</span>),
             <span class='ident'>textinput</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>TextInput</span>::<span class='ident'>new</span>(
                     <span class='ident'>Lines</span>::<span class='ident'>Multiple</span>, <span class='ident'>DOMString</span>::<span class='ident'>new</span>(), <span class='ident'>chan</span>, <span class='prelude-val'>None</span>, <span class='ident'>SelectionDirection</span>::<span class='prelude-val'>None</span>)),
-            <span class='ident'>value_changed</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>),
+            <span class='ident'>value_changed</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
         }
     }
 
@@ -658,7 +658,7 @@
     <span class='kw'>fn</span> <span class='ident'>SetValue</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>DOMString</span>) {
         <span class='comment'>// TODO move the cursor to the end of the field</span>
         <span class='self'>self</span>.<span class='ident'>textinput</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>set_content</span>(<span class='ident'>value</span>);
-        <span class='self'>self</span>.<span class='ident'>value_changed</span>.<span class='ident'>set</span>(<span class='boolval'>true</span>);
+        <span class='self'>self</span>.<span class='ident'>value_changed</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
 
         <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>().<span class='ident'>dirty</span>(<span class='ident'>NodeDamage</span>::<span class='ident'>OtherNodeDamage</span>);
     }
@@ -727,7 +727,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>reset</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='comment'>// https://html.spec.whatwg.org/multipage/#the-textarea-element:concept-form-reset-control</span>
         <span class='self'>self</span>.<span class='ident'>SetValue</span>(<span class='self'>self</span>.<span class='ident'>DefaultValue</span>());
-        <span class='self'>self</span>.<span class='ident'>value_changed</span>.<span class='ident'>set</span>(<span class='boolval'>false</span>);
+        <span class='self'>self</span>.<span class='ident'>value_changed</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
     }
 }
 
@@ -744,18 +744,18 @@
                 <span class='kw'>let</span> <span class='ident'>el</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
                 <span class='kw'>match</span> <span class='ident'>mutation</span> {
                     <span class='ident'>AttributeMutation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> {
-                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolval'>true</span>);
-                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolval'>false</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolvalue'>true</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolvalue'>false</span>);
 
-                        <span class='ident'>el</span>.<span class='ident'>set_read_write_state</span>(<span class='boolval'>false</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_read_write_state</span>(<span class='boolvalue'>false</span>);
                     },
                     <span class='ident'>AttributeMutation</span>::<span class='ident'>Removed</span> <span class='op'>=&gt;</span> {
-                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolval'>false</span>);
-                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolval'>true</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolvalue'>false</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolvalue'>true</span>);
                         <span class='ident'>el</span>.<span class='ident'>check_ancestors_disabled_state_for_form_control</span>();
 
                         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>el</span>.<span class='ident'>disabled_state</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>el</span>.<span class='ident'>read_write_state</span>() {
-                            <span class='ident'>el</span>.<span class='ident'>set_read_write_state</span>(<span class='boolval'>true</span>);
+                            <span class='ident'>el</span>.<span class='ident'>set_read_write_state</span>(<span class='boolvalue'>true</span>);
                         }
                     }
                 }
@@ -764,7 +764,7 @@
                 <span class='kw'>let</span> <span class='ident'>el</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
                 <span class='kw'>match</span> <span class='ident'>mutation</span> {
                     <span class='ident'>AttributeMutation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> {
-                        <span class='ident'>el</span>.<span class='ident'>set_read_write_state</span>(<span class='boolval'>false</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_read_write_state</span>(<span class='boolvalue'>false</span>);
                     },
                     <span class='ident'>AttributeMutation</span>::<span class='ident'>Removed</span> <span class='op'>=&gt;</span> {
                         <span class='ident'>el</span>.<span class='ident'>set_read_write_state</span>(<span class='op'>!</span><span class='ident'>el</span>.<span class='ident'>disabled_state</span>());
@@ -827,7 +827,7 @@
                 <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>textinput</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>handle_keydown</span>(<span class='ident'>kevent</span>) {
                     <span class='ident'>KeyReaction</span>::<span class='ident'>TriggerDefaultAction</span> <span class='op'>=&gt;</span> (),
                     <span class='ident'>KeyReaction</span>::<span class='ident'>DispatchInput</span> <span class='op'>=&gt;</span> {
-                        <span class='self'>self</span>.<span class='ident'>value_changed</span>.<span class='ident'>set</span>(<span class='boolval'>true</span>);
+                        <span class='self'>self</span>.<span class='ident'>value_changed</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
 
                         <span class='kw'>if</span> <span class='ident'>event</span>.<span class='ident'>IsTrusted</span>() {
                             <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>);

@@ -1529,7 +1529,7 @@
         <span class='ident'>CanvasContextState</span> {
             <span class='ident'>global_alpha</span>: <span class='number'>1.0</span>,
             <span class='ident'>global_composition</span>: <span class='ident'>CompositionOrBlending</span>::<span class='ident'>default</span>(),
-            <span class='ident'>image_smoothing_enabled</span>: <span class='boolval'>true</span>,
+            <span class='ident'>image_smoothing_enabled</span>: <span class='boolvalue'>true</span>,
             <span class='ident'>fill_style</span>: <span class='ident'>CanvasFillOrStrokeStyle</span>::<span class='ident'>Color</span>(<span class='ident'>black</span>),
             <span class='ident'>stroke_style</span>: <span class='ident'>CanvasFillOrStrokeStyle</span>::<span class='ident'>Color</span>(<span class='ident'>black</span>),
             <span class='ident'>line_width</span>: <span class='number'>1.0</span>,
@@ -1560,7 +1560,7 @@
             <span class='ident'>canvas</span>: <span class='ident'>JS</span>::<span class='ident'>from_ref</span>(<span class='ident'>canvas</span>),
             <span class='ident'>state</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>CanvasContextState</span>::<span class='ident'>new</span>()),
             <span class='ident'>saved_states</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>Vec</span>::<span class='ident'>new</span>()),
-            <span class='ident'>origin_clean</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>true</span>),
+            <span class='ident'>origin_clean</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>true</span>),
         }
     }
 
@@ -1664,7 +1664,7 @@
                 <span class='ident'>image</span>.<span class='ident'>r</span>().<span class='ident'>origin_is_clean</span>(),
             <span class='ident'>HTMLImageElementOrHTMLCanvasElementOrCanvasRenderingContext2D</span>::<span class='ident'>HTMLImageElement</span>(<span class='ident'>image</span>) <span class='op'>=&gt;</span>
                 <span class='kw'>match</span> <span class='ident'>image</span>.<span class='ident'>get_url</span>() {
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
                     <span class='prelude-val'>Some</span>(<span class='ident'>url</span>) <span class='op'>=&gt;</span> {
                         <span class='comment'>// TODO(zbarsky): we should check the origin of the image against</span>
                         <span class='comment'>// the entry settings object, but for now check it against the canvas&#39; doc.</span>
@@ -1955,7 +1955,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>set_origin_unclean</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='self'>self</span>.<span class='ident'>origin_clean</span>.<span class='ident'>set</span>(<span class='boolval'>false</span>)
+        <span class='self'>self</span>.<span class='ident'>origin_clean</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>)
     }
 }
 

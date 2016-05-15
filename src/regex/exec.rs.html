@@ -1217,8 +1217,8 @@
     <span class='doccomment'>/// This uses default settings for everything except the regex itself,</span>
     <span class='doccomment'>/// which must be provided. Further knobs can be set by calling methods,</span>
     <span class='doccomment'>/// and then finally, `build` to actually create the executor.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>re</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='kw'>Self</span>::<span class='ident'>new_many</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>re</span>])
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>re</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='self'>Self</span>::<span class='ident'>new_many</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>re</span>])
     }
 
     <span class='doccomment'>/// Like new, but compiles the union of the given regular expressions.</span>
@@ -1226,20 +1226,20 @@
     <span class='doccomment'>/// Note that when compiling 2 or more regular expressions, capture groups</span>
     <span class='doccomment'>/// are completely unsupported. (This means both `find` and `captures`</span>
     <span class='doccomment'>/// wont work.)</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_many</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>res</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_many</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>res</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
             <span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>, <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>S</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>opts</span> <span class='op'>=</span> <span class='ident'>RegexOptions</span>::<span class='ident'>default</span>();
         <span class='ident'>opts</span>.<span class='ident'>pats</span> <span class='op'>=</span> <span class='ident'>res</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>as_ref</span>().<span class='ident'>to_owned</span>()).<span class='ident'>collect</span>();
-        <span class='kw'>Self</span>::<span class='ident'>new_options</span>(<span class='ident'>opts</span>)
+        <span class='self'>Self</span>::<span class='ident'>new_options</span>(<span class='ident'>opts</span>)
     }
 
     <span class='doccomment'>/// Create a regex execution builder.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_options</span>(<span class='ident'>opts</span>: <span class='ident'>RegexOptions</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_options</span>(<span class='ident'>opts</span>: <span class='ident'>RegexOptions</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>ExecBuilder</span> {
             <span class='ident'>options</span>: <span class='ident'>opts</span>,
             <span class='ident'>match_type</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>bytes</span>: <span class='boolval'>false</span>,
-            <span class='ident'>only_utf8</span>: <span class='boolval'>true</span>,
+            <span class='ident'>bytes</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>only_utf8</span>: <span class='boolvalue'>true</span>,
         }
     }
 
@@ -1250,7 +1250,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This overrides whatever was previously set via the `nfa` or</span>
     <span class='doccomment'>/// `bounded_backtracking` methods.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>automatic</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>automatic</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>match_type</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
         <span class='self'>self</span>
     }
@@ -1260,7 +1260,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This overrides whatever was previously set via the `automatic` or</span>
     <span class='doccomment'>/// `bounded_backtracking` methods.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>nfa</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>nfa</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>match_type</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>MatchType</span>::<span class='ident'>Nfa</span>(<span class='ident'>MatchNfaType</span>::<span class='ident'>PikeVM</span>));
         <span class='self'>self</span>
     }
@@ -1273,7 +1273,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This overrides whatever was previously set via the `automatic` or</span>
     <span class='doccomment'>/// `nfa` methods.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bounded_backtracking</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bounded_backtracking</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>match_type</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>MatchType</span>::<span class='ident'>Nfa</span>(<span class='ident'>MatchNfaType</span>::<span class='ident'>Backtrack</span>));
         <span class='self'>self</span>
     }
@@ -1287,7 +1287,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Note that this does not impact DFA matching engines, which always</span>
     <span class='doccomment'>/// execute on bytes.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bytes</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>yes</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bytes</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>yes</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>bytes</span> <span class='op'>=</span> <span class='ident'>yes</span>;
         <span class='self'>self</span>
     }
@@ -1296,13 +1296,13 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// When enabled (the default), all compiled programs exclusively match</span>
     <span class='doccomment'>/// valid UTF-8 bytes.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>only_utf8</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>yes</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>only_utf8</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>yes</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>only_utf8</span> <span class='op'>=</span> <span class='ident'>yes</span>;
         <span class='self'>self</span>
     }
 
     <span class='doccomment'>/// Set the Unicode flag.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unicode</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>yes</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unicode</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>yes</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>options</span>.<span class='ident'>unicode</span> <span class='op'>=</span> <span class='ident'>yes</span>;
         <span class='self'>self</span>
     }
@@ -1371,15 +1371,15 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dfa</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(
             <span class='ident'>Compiler</span>::<span class='ident'>new</span>()
                      .<span class='ident'>size_limit</span>(<span class='self'>self</span>.<span class='ident'>options</span>.<span class='ident'>size_limit</span>)
-                     .<span class='ident'>dfa</span>(<span class='boolval'>true</span>)
+                     .<span class='ident'>dfa</span>(<span class='boolvalue'>true</span>)
                      .<span class='ident'>only_utf8</span>(<span class='self'>self</span>.<span class='ident'>only_utf8</span>)
                      .<span class='ident'>compile</span>(<span class='kw-2'>&amp;</span><span class='ident'>parsed</span>.<span class='ident'>exprs</span>));
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dfa_reverse</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(
             <span class='ident'>Compiler</span>::<span class='ident'>new</span>()
                      .<span class='ident'>size_limit</span>(<span class='self'>self</span>.<span class='ident'>options</span>.<span class='ident'>size_limit</span>)
-                     .<span class='ident'>dfa</span>(<span class='boolval'>true</span>)
+                     .<span class='ident'>dfa</span>(<span class='boolvalue'>true</span>)
                      .<span class='ident'>only_utf8</span>(<span class='self'>self</span>.<span class='ident'>only_utf8</span>)
-                     .<span class='ident'>reverse</span>(<span class='boolval'>true</span>)
+                     .<span class='ident'>reverse</span>(<span class='boolvalue'>true</span>)
                      .<span class='ident'>compile</span>(<span class='kw-2'>&amp;</span><span class='ident'>parsed</span>.<span class='ident'>exprs</span>));
 
         <span class='kw'>let</span> <span class='ident'>prefixes</span> <span class='op'>=</span> <span class='ident'>parsed</span>.<span class='ident'>prefixes</span>.<span class='ident'>unambiguous_prefixes</span>();
@@ -1469,7 +1469,7 @@
                 <span class='kw'>match</span> <span class='ident'>dfa</span>::<span class='ident'>Fsm</span>::<span class='ident'>forward</span>(
                     <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>dfa</span>,
                     <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>cache</span>,
-                    <span class='boolval'>true</span>,
+                    <span class='boolvalue'>true</span>,
                     <span class='ident'>text</span>,
                     <span class='ident'>start</span>,
                 ) {
@@ -1485,7 +1485,7 @@
                 <span class='kw'>match</span> <span class='ident'>dfa</span>::<span class='ident'>Fsm</span>::<span class='ident'>reverse</span>(
                     <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>dfa_reverse</span>,
                     <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>cache</span>,
-                    <span class='boolval'>true</span>,
+                    <span class='boolvalue'>true</span>,
                     <span class='kw-2'>&amp;</span><span class='ident'>text</span>[<span class='ident'>start</span>..],
                     <span class='ident'>text</span>.<span class='ident'>len</span>(),
                 ) {
@@ -1509,7 +1509,7 @@
     <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span> <span class='comment'>// reduces constant overhead</span>
     <span class='kw'>fn</span> <span class='ident'>is_match_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>start</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>is_anchor_end_match</span>(<span class='ident'>text</span>) {
-            <span class='kw'>return</span> <span class='boolval'>false</span>;
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         }
         <span class='comment'>// We need to do this dance because shortest_match relies on the NFA</span>
         <span class='comment'>// filling in captures[1], but a RegexSet has no captures. In other</span>
@@ -1522,18 +1522,18 @@
                 <span class='kw'>match</span> <span class='ident'>dfa</span>::<span class='ident'>Fsm</span>::<span class='ident'>forward</span>(
                     <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>dfa</span>,
                     <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>cache</span>,
-                    <span class='boolval'>true</span>,
+                    <span class='boolvalue'>true</span>,
                     <span class='ident'>text</span>,
                     <span class='ident'>start</span>,
                 ) {
-                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>Match</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>NoMatch</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>Match</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>NoMatch</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
                     <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>Quit</span> <span class='op'>=&gt;</span> {
                         <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(
                             <span class='ident'>MatchNfaType</span>::<span class='ident'>Auto</span>,
-                            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolval'>false</span>],
+                            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolvalue'>false</span>],
                             <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [],
-                            <span class='boolval'>true</span>,
+                            <span class='boolvalue'>true</span>,
                             <span class='ident'>text</span>,
                             <span class='ident'>start</span>,
                         );
@@ -1544,18 +1544,18 @@
                 <span class='kw'>match</span> <span class='ident'>dfa</span>::<span class='ident'>Fsm</span>::<span class='ident'>reverse</span>(
                     <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>dfa_reverse</span>,
                     <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>cache</span>,
-                    <span class='boolval'>true</span>,
+                    <span class='boolvalue'>true</span>,
                     <span class='kw-2'>&amp;</span><span class='ident'>text</span>[<span class='ident'>start</span>..],
                     <span class='ident'>text</span>.<span class='ident'>len</span>(),
                 ) {
-                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>Match</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>NoMatch</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>Match</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>NoMatch</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
                     <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>Quit</span> <span class='op'>=&gt;</span> {
                         <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(
                             <span class='ident'>MatchNfaType</span>::<span class='ident'>Auto</span>,
-                            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolval'>false</span>],
+                            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolvalue'>false</span>],
                             <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [],
-                            <span class='boolval'>true</span>,
+                            <span class='boolvalue'>true</span>,
                             <span class='ident'>text</span>,
                             <span class='ident'>start</span>,
                         );
@@ -1563,9 +1563,9 @@
                 }
             }
             <span class='ident'>MatchType</span>::<span class='ident'>Nfa</span>(<span class='ident'>ty</span>) <span class='op'>=&gt;</span> {
-                <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolval'>false</span>], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [], <span class='boolval'>true</span>, <span class='ident'>text</span>, <span class='ident'>start</span>)
+                <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolvalue'>false</span>], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [], <span class='boolvalue'>true</span>, <span class='ident'>text</span>, <span class='ident'>start</span>)
             }
-            <span class='ident'>MatchType</span>::<span class='ident'>Nothing</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>MatchType</span>::<span class='ident'>Nothing</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -1699,7 +1699,7 @@
     ) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>MatchType</span>::<span class='op'>*</span>;
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>is_anchor_end_match</span>(<span class='ident'>text</span>) {
-            <span class='kw'>return</span> <span class='boolval'>false</span>;
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         }
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>match_type</span> {
             <span class='ident'>Literal</span>(<span class='ident'>ty</span>) <span class='op'>=&gt;</span> {
@@ -1715,21 +1715,21 @@
                     <span class='ident'>text</span>,
                     <span class='ident'>start</span>,
                 ) {
-                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>Match</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>NoMatch</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>Match</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                    <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>NoMatch</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
                     <span class='ident'>dfa</span>::<span class='prelude-ty'>Result</span>::<span class='ident'>Quit</span> <span class='op'>=&gt;</span> {
                         <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(
                             <span class='ident'>MatchNfaType</span>::<span class='ident'>Auto</span>,
                             <span class='ident'>matches</span>,
                             <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [],
-                            <span class='boolval'>false</span>,
+                            <span class='boolvalue'>false</span>,
                             <span class='ident'>text</span>,
                             <span class='ident'>start</span>)
                     }
                 }
             }
-            <span class='ident'>Nfa</span>(<span class='ident'>ty</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='ident'>matches</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [], <span class='boolval'>false</span>, <span class='ident'>text</span>, <span class='ident'>start</span>),
-            <span class='ident'>Nothing</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>Nfa</span>(<span class='ident'>ty</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='ident'>matches</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [], <span class='boolvalue'>false</span>, <span class='ident'>text</span>, <span class='ident'>start</span>),
+            <span class='ident'>Nothing</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -1741,7 +1741,7 @@
         <span class='ident'>start</span>: <span class='ident'>usize</span>,
     ) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>slots</span> <span class='op'>=</span> [<span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>];
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolval'>false</span>], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>slots</span>, <span class='boolval'>true</span>, <span class='ident'>text</span>, <span class='ident'>start</span>) {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolvalue'>false</span>], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>slots</span>, <span class='boolvalue'>true</span>, <span class='ident'>text</span>, <span class='ident'>start</span>) {
             <span class='ident'>slots</span>[<span class='number'>1</span>]
         } <span class='kw'>else</span> {
             <span class='prelude-val'>None</span>
@@ -1762,7 +1762,7 @@
         <span class='kw'>let</span> <span class='ident'>end</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>dfa</span>::<span class='ident'>Fsm</span>::<span class='ident'>forward</span>(
             <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>dfa</span>,
             <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>cache</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='ident'>text</span>,
             <span class='ident'>start</span>,
         ) {
@@ -1775,7 +1775,7 @@
         <span class='kw'>match</span> <span class='ident'>dfa</span>::<span class='ident'>Fsm</span>::<span class='ident'>reverse</span>(
             <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>dfa_reverse</span>,
             <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>cache</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='kw-2'>&amp;</span><span class='ident'>text</span>[<span class='ident'>start</span>..],
             <span class='ident'>end</span> <span class='op'>-</span> <span class='ident'>start</span>,
         ) {
@@ -1801,7 +1801,7 @@
         <span class='kw'>match</span> <span class='ident'>dfa</span>::<span class='ident'>Fsm</span>::<span class='ident'>reverse</span>(
             <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>dfa_reverse</span>,
             <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>cache</span>,
-            <span class='boolval'>false</span>,
+            <span class='boolvalue'>false</span>,
             <span class='kw-2'>&amp;</span><span class='ident'>text</span>[<span class='ident'>start</span>..],
             <span class='ident'>text</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='ident'>start</span>,
         ) {
@@ -1819,7 +1819,7 @@
         <span class='ident'>start</span>: <span class='ident'>usize</span>,
     ) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>usize</span>)<span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>slots</span> <span class='op'>=</span> [<span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>];
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolval'>false</span>], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>slots</span>, <span class='boolval'>false</span>, <span class='ident'>text</span>, <span class='ident'>start</span>) {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolvalue'>false</span>], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>slots</span>, <span class='boolvalue'>false</span>, <span class='ident'>text</span>, <span class='ident'>start</span>) {
             <span class='kw'>match</span> (<span class='ident'>slots</span>[<span class='number'>0</span>], <span class='ident'>slots</span>[<span class='number'>1</span>]) {
                 (<span class='prelude-val'>Some</span>(<span class='ident'>s</span>), <span class='prelude-val'>Some</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>((<span class='ident'>s</span>, <span class='ident'>e</span>)),
                 _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
@@ -1839,7 +1839,7 @@
         <span class='ident'>text</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
         <span class='ident'>start</span>: <span class='ident'>usize</span>,
     ) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>usize</span>)<span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolval'>false</span>], <span class='ident'>slots</span>, <span class='boolval'>false</span>, <span class='ident'>text</span>, <span class='ident'>start</span>) {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>exec_nfa</span>(<span class='ident'>ty</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='boolvalue'>false</span>], <span class='ident'>slots</span>, <span class='boolvalue'>false</span>, <span class='ident'>text</span>, <span class='ident'>start</span>) {
             <span class='kw'>match</span> (<span class='ident'>slots</span>[<span class='number'>0</span>], <span class='ident'>slots</span>[<span class='number'>1</span>]) {
                 (<span class='prelude-val'>Some</span>(<span class='ident'>s</span>), <span class='prelude-val'>Some</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>((<span class='ident'>s</span>, <span class='ident'>e</span>)),
                 _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
@@ -1962,10 +1962,10 @@
         <span class='kw'>if</span> <span class='ident'>text</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> (<span class='number'>1</span><span class='op'>&lt;&lt;</span><span class='number'>20</span>) <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>nfa</span>.<span class='ident'>is_anchored_end</span> {
             <span class='kw'>let</span> <span class='ident'>lcs</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>ro</span>.<span class='ident'>suffixes</span>.<span class='ident'>lcs</span>();
             <span class='kw'>if</span> <span class='ident'>lcs</span>.<span class='ident'>len</span>() <span class='op'>&gt;=</span> <span class='number'>1</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>lcs</span>.<span class='ident'>is_suffix</span>(<span class='ident'>text</span>) {
-                <span class='kw'>return</span> <span class='boolval'>false</span>;
+                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
             }
         }
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>capture_name_idx</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>usize</span><span class='op'>&gt;&gt;</span> {
@@ -2152,7 +2152,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>ProgramCacheInner</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>ro</span>: <span class='kw-2'>&amp;</span><span class='ident'>ExecReadOnly</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>ro</span>: <span class='kw-2'>&amp;</span><span class='ident'>ExecReadOnly</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>ProgramCacheInner</span> {
             <span class='ident'>pikevm</span>: <span class='ident'>pikevm</span>::<span class='ident'>Cache</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>ro</span>.<span class='ident'>nfa</span>),
             <span class='ident'>backtrack</span>: <span class='ident'>backtrack</span>::<span class='ident'>Cache</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>ro</span>.<span class='ident'>nfa</span>),

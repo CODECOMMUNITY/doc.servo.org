@@ -753,12 +753,12 @@
             <span class='ident'>MarginCollapseState</span>::<span class='ident'>AccumulatingCollapsibleTopMargin</span> <span class='op'>=&gt;</span> {
                 <span class='ident'>may_collapse_through</span> <span class='op'>=</span> <span class='ident'>may_collapse_through</span> <span class='op'>&amp;&amp;</span>
                     <span class='kw'>match</span> <span class='ident'>fragment</span>.<span class='ident'>style</span>().<span class='ident'>content_block_size</span>() {
-                        <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Auto</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-                        <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Length</span>(<span class='ident'>Au</span>(<span class='number'>0</span>)) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-                        <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Percentage</span>(<span class='number'>0.</span>) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+                        <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Auto</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                        <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Length</span>(<span class='ident'>Au</span>(<span class='number'>0</span>)) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                        <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Percentage</span>(<span class='number'>0.</span>) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
                         <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Percentage</span>(_) <span class='kw'>if</span>
-                            <span class='ident'>containing_block_size</span>.<span class='ident'>is_none</span>() <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-                        _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                            <span class='ident'>containing_block_size</span>.<span class='ident'>is_none</span>() <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                        _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
                     };
 
                 <span class='kw'>if</span> <span class='ident'>may_collapse_through</span> {

@@ -224,7 +224,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>QPathBuilder</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>QPathBuilder</span>::<span class='ident'>with_callback</span>(<span class='ident'>Identity</span>)
     }
 }
@@ -234,7 +234,7 @@
 {
     <span class='doccomment'>/// Construct a `QPathBuilder` that will call the `callback` with a constructed `ast::QSelf`</span>
     <span class='doccomment'>/// and `ast::Path`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_callback</span>(<span class='ident'>callback</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>QPathBuilder</span> {
             <span class='ident'>callback</span>: <span class='ident'>callback</span>,
             <span class='ident'>span</span>: <span class='ident'>DUMMY_SP</span>,
@@ -242,7 +242,7 @@
     }
 
     <span class='doccomment'>/// Update the span to start from this location.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>span</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>span</span>: <span class='ident'>Span</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>span</span> <span class='op'>=</span> <span class='ident'>span</span>;
         <span class='self'>self</span>
     }
@@ -256,7 +256,7 @@
     }
 
     <span class='doccomment'>/// Build a qualified path first by starting with a type builder.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ty</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>TyBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ty</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>TyBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>TyBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
@@ -287,7 +287,7 @@
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span>(<span class='ident'>ast</span>::<span class='ident'>QSelf</span>, <span class='ident'>ast</span>::<span class='ident'>Path</span>)<span class='op'>&gt;</span>,
 {
     <span class='doccomment'>/// Build a qualified path with a path builder.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PathBuilder</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PathBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
         <span class='ident'>PathBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
@@ -296,7 +296,7 @@
     {
         <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>ast</span>::<span class='ident'>Path</span> {
             <span class='ident'>span</span>: <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>span</span>,
-            <span class='ident'>global</span>: <span class='boolval'>false</span>,
+            <span class='ident'>global</span>: <span class='boolvalue'>false</span>,
             <span class='ident'>segments</span>: <span class='macro'>vec</span><span class='macro'>!</span>[],
         };
         <span class='self'>self</span>.<span class='ident'>as_</span>().<span class='ident'>build</span>(<span class='ident'>path</span>).<span class='ident'>id</span>(<span class='ident'>id</span>)
@@ -307,7 +307,7 @@
     {
         <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>ast</span>::<span class='ident'>Path</span> {
             <span class='ident'>span</span>: <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>span</span>,
-            <span class='ident'>global</span>: <span class='boolval'>false</span>,
+            <span class='ident'>global</span>: <span class='boolvalue'>false</span>,
             <span class='ident'>segments</span>: <span class='macro'>vec</span><span class='macro'>!</span>[],
         };
         <span class='self'>self</span>.<span class='ident'>as_</span>().<span class='ident'>build</span>(<span class='ident'>path</span>).<span class='ident'>segment</span>(<span class='ident'>id</span>)

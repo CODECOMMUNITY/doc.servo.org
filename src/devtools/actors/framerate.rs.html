@@ -194,7 +194,7 @@
             <span class='ident'>pipeline</span>: <span class='ident'>pipeline_id</span>,
             <span class='ident'>script_sender</span>: <span class='ident'>script_sender</span>,
             <span class='ident'>start_time</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>is_recording</span>: <span class='boolval'>false</span>,
+            <span class='ident'>is_recording</span>: <span class='boolvalue'>false</span>,
             <span class='ident'>ticks</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
         };
 
@@ -223,7 +223,7 @@
         }
 
         <span class='self'>self</span>.<span class='ident'>start_time</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>precise_time_ns</span>());
-        <span class='self'>self</span>.<span class='ident'>is_recording</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+        <span class='self'>self</span>.<span class='ident'>is_recording</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
 
         <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>DevtoolScriptControlMsg</span>::<span class='ident'>RequestAnimationFrame</span>(<span class='self'>self</span>.<span class='ident'>pipeline</span>,
                                                                  <span class='self'>self</span>.<span class='ident'>name</span>());
@@ -234,7 +234,7 @@
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>is_recording</span> {
             <span class='kw'>return</span>;
         }
-        <span class='self'>self</span>.<span class='ident'>is_recording</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+        <span class='self'>self</span>.<span class='ident'>is_recording</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
         <span class='self'>self</span>.<span class='ident'>start_time</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
     }
 

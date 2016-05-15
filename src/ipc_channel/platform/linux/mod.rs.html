@@ -1226,7 +1226,7 @@
             <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>sendmsg</span>(<span class='self'>self</span>.<span class='ident'>fd</span>, <span class='kw-2'>&amp;</span><span class='ident'>msghdr</span>, <span class='number'>0</span>);
             <span class='ident'>libc</span>::<span class='ident'>free</span>(<span class='ident'>msghdr</span>.<span class='ident'>msg_control</span>);
 
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>downsize</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>downsize</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
 
             <span class='kw'>if</span> <span class='ident'>result</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
                 <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(())
@@ -1241,7 +1241,7 @@
                     <span class='comment'>//</span>
                     <span class='comment'>// The flag indicates that packets need to be smaller</span>
                     <span class='comment'>// than the ordinary maximum send size.</span>
-                    <span class='ident'>downsize</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                    <span class='ident'>downsize</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                 } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>error</span>.<span class='number'>0</span> <span class='op'>!=</span> <span class='ident'>libc</span>::<span class='ident'>EMSGSIZE</span> {
                     <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>error</span>)
                 }
@@ -1269,7 +1269,7 @@
                 <span class='kw'>if</span> <span class='ident'>downsize</span> {
                     <span class='comment'>// We got ENOBUFS. Retry send with half the packet size.</span>
                     <span class='ident'>bytes_per_fragment</span> <span class='op'>/=</span> <span class='number'>2</span>;
-                    <span class='ident'>downsize</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+                    <span class='ident'>downsize</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
                 }
 
                 <span class='kw'>let</span> <span class='ident'>end_byte_position</span> <span class='op'>=</span> <span class='ident'>cmp</span>::<span class='ident'>min</span>(<span class='ident'>data</span>.<span class='ident'>len</span>(), <span class='ident'>byte_position</span> <span class='op'>+</span> <span class='ident'>bytes_per_fragment</span>);
@@ -1315,7 +1315,7 @@
                         <span class='comment'>// if means something else must have gone wrong;</span>
                         <span class='comment'>// so there is no point in further downsizing,</span>
                         <span class='comment'>// and we error out instead.)</span>
-                        <span class='ident'>downsize</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                        <span class='ident'>downsize</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                         <span class='kw'>continue</span>
                     } <span class='kw'>else</span> {
                         <span class='ident'>libc</span>::<span class='ident'>free</span>(<span class='ident'>msghdr</span>.<span class='ident'>msg_control</span>);
@@ -1923,7 +1923,7 @@
     <span class='kw'>unsafe</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>uninitialized</span>();
         <span class='kw'>if</span> <span class='ident'>libc</span>::<span class='ident'>fstat</span>(<span class='ident'>fd</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>st</span>) <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='kw'>return</span> <span class='boolval'>false</span>
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>
         }
         <span class='ident'>S_ISSOCK</span>(<span class='ident'>st</span>.<span class='ident'>st_mode</span> <span class='kw'>as</span> <span class='ident'>mode_t</span>)
     }

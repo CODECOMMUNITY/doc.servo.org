@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['devtools'] = [];
+implementors["devtools"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

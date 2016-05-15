@@ -4284,7 +4284,7 @@
         <span class='kw'>let</span> <span class='ident'>tmpdir</span> <span class='op'>=</span> <span class='ident'>tmpdir</span>();
         <span class='kw'>let</span> <span class='ident'>dir</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>tmpdir</span>.<span class='ident'>join</span>(<span class='string'>&quot;mkdir_error_twice&quot;</span>);
         <span class='macro'>check</span><span class='macro'>!</span>(<span class='ident'>fs</span>::<span class='ident'>create_dir</span>(<span class='ident'>dir</span>));
-        <span class='kw'>let</span> <span class='ident'>e</span> <span class='op'>=</span> <span class='ident'>fs</span>::<span class='ident'>create_dir</span>(<span class='ident'>dir</span>).<span class='ident'>err</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>e</span> <span class='op'>=</span> <span class='ident'>fs</span>::<span class='ident'>create_dir</span>(<span class='ident'>dir</span>).<span class='ident'>unwrap_err</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>e</span>.<span class='ident'>kind</span>(), <span class='ident'>ErrorKind</span>::<span class='ident'>AlreadyExists</span>);
     }
 

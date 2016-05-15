@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['immeta'] = [];
+implementors["immeta"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

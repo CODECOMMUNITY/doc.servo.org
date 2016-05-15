@@ -545,7 +545,7 @@
     <span class='doccomment'>/// If `!important` can be used in a given context,</span>
     <span class='doccomment'>/// `input.try(parse_important).is_ok()` should be used at the end</span>
     <span class='doccomment'>/// of the implementation of this method and the result should be part of the return value.</span>
-    <span class='kw'>fn</span> <span class='ident'>parse_value</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Declaration</span>, ()<span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>parse_value</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Declaration</span>, ()<span class='op'>&gt;</span>;
 }
 
 
@@ -583,7 +583,7 @@
     <span class='doccomment'>/// that ends wherever the prelude should end.</span>
     <span class='doccomment'>/// (Before the next semicolon, the next `{`, or the end of the current block.)</span>
     <span class='kw'>fn</span> <span class='ident'>parse_prelude</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>)
-                     <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>AtRuleType</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Prelude</span>, <span class='kw'>Self</span>::<span class='ident'>AtRule</span><span class='op'>&gt;</span>, ()<span class='op'>&gt;</span> {
+                     <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>AtRuleType</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Prelude</span>, <span class='self'>Self</span>::<span class='ident'>AtRule</span><span class='op'>&gt;</span>, ()<span class='op'>&gt;</span> {
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>name</span>;
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>input</span>;
         <span class='prelude-val'>Err</span>(())
@@ -597,8 +597,8 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This is only called when `parse_prelude` returned `WithBlock` or `OptionalBlock`,</span>
     <span class='doccomment'>/// and a block was indeed found following the prelude.</span>
-    <span class='kw'>fn</span> <span class='ident'>parse_block</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>prelude</span>: <span class='kw'>Self</span>::<span class='ident'>Prelude</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>)
-                   <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>AtRule</span>, ()<span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>parse_block</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>prelude</span>: <span class='self'>Self</span>::<span class='ident'>Prelude</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>)
+                   <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>AtRule</span>, ()<span class='op'>&gt;</span> {
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>prelude</span>;
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>input</span>;
         <span class='prelude-val'>Err</span>(())
@@ -608,7 +608,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Convert the prelude into the finished representation of the at-rule</span>
     <span class='doccomment'>/// as returned by `RuleListParser::next` or `DeclarationListParser::next`.</span>
-    <span class='kw'>fn</span> <span class='ident'>rule_without_block</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>prelude</span>: <span class='kw'>Self</span>::<span class='ident'>Prelude</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='ident'>AtRule</span> {
+    <span class='kw'>fn</span> <span class='ident'>rule_without_block</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>prelude</span>: <span class='self'>Self</span>::<span class='ident'>Prelude</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>AtRule</span> {
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>prelude</span>;
         <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;The `AtRuleParser::rule_without_block` method must be overriden \
                 if `AtRuleParser::parse_prelude` ever returns `AtRuleType::OptionalBlock`.&quot;</span>)
@@ -642,7 +642,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// The given `input` is a &quot;delimited&quot; parser</span>
     <span class='doccomment'>/// that ends where the prelude should end (before the next `{`).</span>
-    <span class='kw'>fn</span> <span class='ident'>parse_prelude</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Prelude</span>, ()<span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>parse_prelude</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Prelude</span>, ()<span class='op'>&gt;</span> {
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>input</span>;
         <span class='prelude-val'>Err</span>(())
     }
@@ -652,8 +652,8 @@
     <span class='doccomment'>/// Return the finished representation of the qualified rule</span>
     <span class='doccomment'>/// as returned by `RuleListParser::next`,</span>
     <span class='doccomment'>/// or `Err(())` to ignore the entire at-rule as invalid.</span>
-    <span class='kw'>fn</span> <span class='ident'>parse_block</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>prelude</span>: <span class='kw'>Self</span>::<span class='ident'>Prelude</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>)
-                   <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>QualifiedRule</span>, ()<span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>parse_block</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>prelude</span>: <span class='self'>Self</span>::<span class='ident'>Prelude</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>)
+                   <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>QualifiedRule</span>, ()<span class='op'>&gt;</span> {
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>prelude</span>;
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>input</span>;
         <span class='prelude-val'>Err</span>(())
@@ -761,7 +761,7 @@
         <span class='ident'>RuleListParser</span> {
             <span class='ident'>input</span>: <span class='ident'>input</span>,
             <span class='ident'>parser</span>: <span class='ident'>parser</span>,
-            <span class='ident'>is_stylesheet</span>: <span class='boolval'>true</span>,
+            <span class='ident'>is_stylesheet</span>: <span class='boolvalue'>true</span>,
         }
     }
 
@@ -776,7 +776,7 @@
         <span class='ident'>RuleListParser</span> {
             <span class='ident'>input</span>: <span class='ident'>input</span>,
             <span class='ident'>parser</span>: <span class='ident'>parser</span>,
-            <span class='ident'>is_stylesheet</span>: <span class='boolval'>false</span>,
+            <span class='ident'>is_stylesheet</span>: <span class='boolvalue'>false</span>,
         }
     }
 }

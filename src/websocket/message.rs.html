@@ -282,7 +282,7 @@
 <span class='kw'>use</span> <span class='ident'>ws</span>::<span class='ident'>util</span>::<span class='ident'>bytes_to_string</span>;
 <span class='kw'>use</span> <span class='ident'>ws</span>;
 
-<span class='kw'>const</span> <span class='ident'>FALSE_RESERVED_BITS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>bool</span>; <span class='number'>3</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='boolval'>false</span>; <span class='number'>3</span>];
+<span class='kw'>const</span> <span class='ident'>FALSE_RESERVED_BITS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>bool</span>; <span class='number'>3</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='boolvalue'>false</span>; <span class='number'>3</span>];
 
 <span class='doccomment'>/// Valid types of messages (in the default implementation)</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Clone</span>, <span class='ident'>Copy</span>)]</span>
@@ -319,7 +319,7 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Message</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-	<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>code</span>: <span class='ident'>Type</span>, <span class='ident'>status</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u16</span><span class='op'>&gt;</span>, <span class='ident'>payload</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, [<span class='ident'>u8</span>]<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+	<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>code</span>: <span class='ident'>Type</span>, <span class='ident'>status</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u16</span><span class='op'>&gt;</span>, <span class='ident'>payload</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, [<span class='ident'>u8</span>]<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
 		<span class='ident'>Message</span> {
 			<span class='ident'>opcode</span>: <span class='ident'>code</span>,
 			<span class='ident'>cd_status_code</span>: <span class='ident'>status</span>,
@@ -328,7 +328,7 @@
 	}
 
     <span class='doccomment'>/// Create a new WebSocket message with text data</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>text</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>text</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
 	<span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>str</span><span class='op'>&gt;&gt;</span> {
 		<span class='ident'>Message</span>::<span class='ident'>new</span>(<span class='ident'>Type</span>::<span class='ident'>Text</span>, <span class='prelude-val'>None</span>, <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>into</span>() {
 			<span class='ident'>Cow</span>::<span class='ident'>Owned</span>(<span class='ident'>msg</span>) <span class='op'>=&gt;</span> <span class='ident'>Cow</span>::<span class='ident'>Owned</span>(<span class='ident'>msg</span>.<span class='ident'>into_bytes</span>()),
@@ -337,21 +337,21 @@
 	}
 
     <span class='doccomment'>/// Create a new WebSocket message with binary data</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>binary</span><span class='op'>&lt;</span><span class='ident'>B</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='ident'>B</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>binary</span><span class='op'>&lt;</span><span class='ident'>B</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='ident'>B</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
 	<span class='kw'>where</span> <span class='ident'>B</span>: <span class='ident'>IntoCowBytes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
 		<span class='ident'>Message</span>::<span class='ident'>new</span>(<span class='ident'>Type</span>::<span class='ident'>Binary</span>, <span class='prelude-val'>None</span>, <span class='ident'>data</span>.<span class='ident'>into</span>())
 	}
 
     <span class='doccomment'>/// Create a new WebSocket message that signals the end of a WebSocket</span>
     <span class='doccomment'>/// connection, although messages can still be sent after sending this</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>close</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>close</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
 		<span class='ident'>Message</span>::<span class='ident'>new</span>(<span class='ident'>Type</span>::<span class='ident'>Close</span>, <span class='prelude-val'>None</span>, <span class='ident'>Cow</span>::<span class='ident'>Borrowed</span>(<span class='kw-2'>&amp;</span>[<span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u8</span>; <span class='number'>0</span>]))
 	}
 
     <span class='doccomment'>/// Create a new WebSocket message that signals the end of a WebSocket</span>
     <span class='doccomment'>/// connection and provide a text reason and a status code for why.</span>
     <span class='doccomment'>/// Messages can still be sent after sending this message.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>close_because</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>code</span>: <span class='ident'>u16</span>, <span class='ident'>reason</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>close_because</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>(<span class='ident'>code</span>: <span class='ident'>u16</span>, <span class='ident'>reason</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
 	<span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>str</span><span class='op'>&gt;&gt;</span> {
 		<span class='ident'>Message</span>::<span class='ident'>new</span>(<span class='ident'>Type</span>::<span class='ident'>Close</span>, <span class='prelude-val'>Some</span>(<span class='ident'>code</span>), <span class='kw'>match</span> <span class='ident'>reason</span>.<span class='ident'>into</span>() {
 			<span class='ident'>Cow</span>::<span class='ident'>Owned</span>(<span class='ident'>msg</span>) <span class='op'>=&gt;</span> <span class='ident'>Cow</span>::<span class='ident'>Owned</span>(<span class='ident'>msg</span>.<span class='ident'>into_bytes</span>()),
@@ -361,14 +361,14 @@
 
     <span class='doccomment'>/// Create a ping WebSocket message, a pong is usually sent back</span>
     <span class='doccomment'>/// after sending this with the same data</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ping</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ping</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
 	<span class='kw'>where</span> <span class='ident'>P</span>: <span class='ident'>IntoCowBytes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
 		<span class='ident'>Message</span>::<span class='ident'>new</span>(<span class='ident'>Type</span>::<span class='ident'>Ping</span>, <span class='prelude-val'>None</span>, <span class='ident'>data</span>.<span class='ident'>into</span>())
 	}
 
     <span class='doccomment'>/// Create a pong WebSocket message, usually a response to a</span>
     <span class='doccomment'>/// ping message</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pong</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pong</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
 	<span class='kw'>where</span> <span class='ident'>P</span>: <span class='ident'>IntoCowBytes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
 		<span class='ident'>Message</span>::<span class='ident'>new</span>(<span class='ident'>Type</span>::<span class='ident'>Pong</span>, <span class='prelude-val'>None</span>, <span class='ident'>data</span>.<span class='ident'>into</span>())
 	}
@@ -388,7 +388,7 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>ws</span>::<span class='ident'>dataframe</span>::<span class='ident'>DataFrame</span> <span class='kw'>for</span> <span class='ident'>Message</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
 	<span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>is_last</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     }
 
 	<span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
@@ -429,12 +429,12 @@
 
 	<span class='kw'>type</span> <span class='ident'>DataFrameIterator</span> <span class='op'>=</span> <span class='ident'>Take</span><span class='op'>&lt;</span><span class='ident'>Repeat</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>Message</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>;
 
-	<span class='kw'>fn</span> <span class='ident'>dataframes</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='ident'>DataFrameIterator</span> {
+	<span class='kw'>fn</span> <span class='ident'>dataframes</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>DataFrameIterator</span> {
 		<span class='ident'>repeat</span>(<span class='self'>self</span>).<span class='ident'>take</span>(<span class='number'>1</span>)
     }
 
 	<span class='doccomment'>/// Attempt to form a message from a series of data frames</span>
-	<span class='kw'>fn</span> <span class='ident'>from_dataframes</span><span class='op'>&lt;</span><span class='ident'>D</span><span class='op'>&gt;</span>(<span class='ident'>frames</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>D</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span>
+	<span class='kw'>fn</span> <span class='ident'>from_dataframes</span><span class='op'>&lt;</span><span class='ident'>D</span><span class='op'>&gt;</span>(<span class='ident'>frames</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>D</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>D</span>: <span class='ident'>ws</span>::<span class='ident'>dataframe</span>::<span class='ident'>DataFrame</span> {
 		<span class='kw'>let</span> <span class='ident'>opcode</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>frames</span>.<span class='ident'>first</span>().<span class='ident'>ok_or</span>(<span class='ident'>WebSocketError</span>::<span class='ident'>ProtocolError</span>(
 			<span class='string'>&quot;No dataframes provided&quot;</span>
@@ -448,7 +448,7 @@
 					<span class='string'>&quot;Unexpected non-continuation data frame&quot;</span>
 				));
 			}
-			<span class='kw'>if</span> <span class='op'>*</span><span class='ident'>dataframe</span>.<span class='ident'>reserved</span>() <span class='op'>!=</span> [<span class='boolval'>false</span>; <span class='number'>3</span>] {
+			<span class='kw'>if</span> <span class='op'>*</span><span class='ident'>dataframe</span>.<span class='ident'>reserved</span>() <span class='op'>!=</span> [<span class='boolvalue'>false</span>; <span class='number'>3</span>] {
 				<span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>WebSocketError</span>::<span class='ident'>ProtocolError</span>(
 					<span class='string'>&quot;Unsupported reserved bits received&quot;</span>
 				));

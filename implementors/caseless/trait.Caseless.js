@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['caseless'] = [];
+implementors["caseless"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

@@ -43,14 +43,14 @@
     </nav>
 
     <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>std</a>::<wbr><a href='../index.html'>collections</a>::<wbr><a href='index.html'>linked_list</a>::<wbr><a class='struct' href=''>LinkedList</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>std</a>::<wbr><a href='../index.html'>collections</a>::<wbr><a href='index.html'>linked_list</a>::<wbr><a class='struct' href=''>LinkedList</a></span><span class='out-of-band'><span class='since'>1.0.0</span><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-2525' class='srclink' href='../../../collections/linked_list/struct.LinkedList.html?gotosrc=2525' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-2528' class='srclink' href='../../../collections/linked_list/struct.LinkedList.html?gotosrc=2528' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct LinkedList&lt;T&gt; {
     // some fields omitted
-}</pre><span class="since">1.0.0</span><div class='docblock'><p>A doubly-linked list.</p>
+}</pre><div class='docblock'><p>A doubly-linked list.</p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class='struct' href='../../../std/collections/linked_list/struct.LinkedList.html' title='std::collections::linked_list::LinkedList'>LinkedList</a>&lt;T&gt;</code></span><span class='out-of-band'></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../../std/collections/linked_list/struct.LinkedList.html' title='std::collections::linked_list::LinkedList'>LinkedList</a>&lt;T&gt;</code></h4>
 <div class='docblock'><p>Creates an empty <code>LinkedList</code>.</p>
@@ -65,20 +65,20 @@ this operation, <code>other</code> becomes empty.</p>
 <h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut a = LinkedList::new();
-    let mut b = LinkedList::new();
-    a.push_back(1);
-    a.push_back(2);
-    b.push_back(3);
-    b.push_back(4);
-    
-    a.append(&amp;mut b);
-    
-    for e in &amp;a {
-        println!(&quot;{}&quot;, e); // prints 1, then 2, then 3, then 4
-    }
-    println!(&quot;{}&quot;, b.len()); // prints 0
+
+let mut a = LinkedList::new();
+let mut b = LinkedList::new();
+a.push_back(1);
+a.push_back(2);
+b.push_back(3);
+b.push_back(4);
+
+a.append(&amp;mut b);
+
+for e in &amp;a {
+    println!(&quot;{}&quot;, e); // prints 1, then 2, then 3, then 4
+}
+println!(&quot;{}&quot;, b.len()); // prints 0
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -107,12 +107,12 @@ this operation, <code>other</code> becomes empty.</p>
 <h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut dl = LinkedList::new();
-    assert!(dl.is_empty());
-    
-    dl.push_front(&quot;foo&quot;);
-    assert!(!dl.is_empty());
+
+let mut dl = LinkedList::new();
+assert!(dl.is_empty());
+
+dl.push_front(&quot;foo&quot;);
+assert!(!dl.is_empty());
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -129,17 +129,17 @@ this operation, <code>other</code> becomes empty.</p>
 <h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut dl = LinkedList::new();
-    
-    dl.push_front(2);
-    assert_eq!(dl.len(), 1);
-    
-    dl.push_front(1);
-    assert_eq!(dl.len(), 2);
-    
-    dl.push_back(3);
-    assert_eq!(dl.len(), 3);
+
+let mut dl = LinkedList::new();
+
+dl.push_front(2);
+assert_eq!(dl.len(), 1);
+
+dl.push_front(1);
+assert_eq!(dl.len(), 2);
+
+dl.push_back(3);
+assert_eq!(dl.len(), 3);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -162,17 +162,17 @@ this operation, <code>other</code> becomes empty.</p>
 <h1 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut dl = LinkedList::new();
-    
-    dl.push_front(2);
-    dl.push_front(1);
-    assert_eq!(dl.len(), 2);
-    assert_eq!(dl.front(), Some(&amp;1));
-    
-    dl.clear();
-    assert_eq!(dl.len(), 0);
-    assert_eq!(dl.front(), None);
+
+let mut dl = LinkedList::new();
+
+dl.push_front(2);
+dl.push_front(1);
+assert_eq!(dl.len(), 2);
+assert_eq!(dl.front(), Some(&amp;1));
+
+dl.clear();
+assert_eq!(dl.len(), 0);
+assert_eq!(dl.front(), None);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -198,12 +198,12 @@ empty.</p>
 <h1 id='examples-4' class='section-header'><a href='#examples-4'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut dl = LinkedList::new();
-    assert_eq!(dl.front(), None);
-    
-    dl.push_front(1);
-    assert_eq!(dl.front(), Some(&amp;1));
+
+let mut dl = LinkedList::new();
+assert_eq!(dl.front(), None);
+
+dl.push_front(1);
+assert_eq!(dl.front(), Some(&amp;1));
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -220,18 +220,18 @@ is empty.</p>
 <h1 id='examples-5' class='section-header'><a href='#examples-5'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut dl = LinkedList::new();
-    assert_eq!(dl.front(), None);
-    
-    dl.push_front(1);
-    assert_eq!(dl.front(), Some(&amp;1));
-    
-    match dl.front_mut() {
-        None =&gt; {},
-        Some(x) =&gt; *x = 5,
-    }
-    assert_eq!(dl.front(), Some(&amp;5));
+
+let mut dl = LinkedList::new();
+assert_eq!(dl.front(), None);
+
+dl.push_front(1);
+assert_eq!(dl.front(), Some(&amp;1));
+
+match dl.front_mut() {
+    None =&gt; {},
+    Some(x) =&gt; *x = 5,
+}
+assert_eq!(dl.front(), Some(&amp;5));
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -254,12 +254,12 @@ empty.</p>
 <h1 id='examples-6' class='section-header'><a href='#examples-6'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut dl = LinkedList::new();
-    assert_eq!(dl.back(), None);
-    
-    dl.push_back(1);
-    assert_eq!(dl.back(), Some(&amp;1));
+
+let mut dl = LinkedList::new();
+assert_eq!(dl.back(), None);
+
+dl.push_back(1);
+assert_eq!(dl.back(), Some(&amp;1));
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -276,18 +276,18 @@ is empty.</p>
 <h1 id='examples-7' class='section-header'><a href='#examples-7'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut dl = LinkedList::new();
-    assert_eq!(dl.back(), None);
-    
-    dl.push_back(1);
-    assert_eq!(dl.back(), Some(&amp;1));
-    
-    match dl.back_mut() {
-        None =&gt; {},
-        Some(x) =&gt; *x = 5,
-    }
-    assert_eq!(dl.back(), Some(&amp;5));
+
+let mut dl = LinkedList::new();
+assert_eq!(dl.back(), None);
+
+dl.push_back(1);
+assert_eq!(dl.back(), Some(&amp;1));
+
+match dl.back_mut() {
+    None =&gt; {},
+    Some(x) =&gt; *x = 5,
+}
+assert_eq!(dl.back(), Some(&amp;5));
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -311,14 +311,14 @@ is empty.</p>
 <h1 id='examples-8' class='section-header'><a href='#examples-8'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut dl = LinkedList::new();
-    
-    dl.push_front(2);
-    assert_eq!(dl.front().unwrap(), &amp;2);
-    
-    dl.push_front(1);
-    assert_eq!(dl.front().unwrap(), &amp;1);
+
+let mut dl = LinkedList::new();
+
+dl.push_front(2);
+assert_eq!(dl.front().unwrap(), &amp;2);
+
+dl.push_front(1);
+assert_eq!(dl.front().unwrap(), &amp;1);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -339,15 +339,15 @@ empty.</p>
 <h1 id='examples-9' class='section-header'><a href='#examples-9'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut d = LinkedList::new();
-    assert_eq!(d.pop_front(), None);
-    
-    d.push_front(1);
-    d.push_front(3);
-    assert_eq!(d.pop_front(), Some(3));
-    assert_eq!(d.pop_front(), Some(1));
-    assert_eq!(d.pop_front(), None);
+
+let mut d = LinkedList::new();
+assert_eq!(d.pop_front(), None);
+
+d.push_front(1);
+d.push_front(3);
+assert_eq!(d.pop_front(), Some(3));
+assert_eq!(d.pop_front(), Some(1));
+assert_eq!(d.pop_front(), None);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -366,11 +366,11 @@ empty.</p>
 <h1 id='examples-10' class='section-header'><a href='#examples-10'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut d = LinkedList::new();
-    d.push_back(1);
-    d.push_back(3);
-    assert_eq!(3, *d.back().unwrap());
+
+let mut d = LinkedList::new();
+d.push_back(1);
+d.push_back(3);
+assert_eq!(3, *d.back().unwrap());
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -385,12 +385,12 @@ it is empty.</p>
 <h1 id='examples-11' class='section-header'><a href='#examples-11'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut d = LinkedList::new();
-    assert_eq!(d.pop_back(), None);
-    d.push_back(1);
-    d.push_back(3);
-    assert_eq!(d.pop_back(), Some(3));
+
+let mut d = LinkedList::new();
+assert_eq!(d.pop_back(), None);
+d.push_back(1);
+d.push_back(3);
+assert_eq!(d.pop_back(), Some(3));
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -411,17 +411,17 @@ including the index.</p>
 <h1 id='examples-12' class='section-header'><a href='#examples-12'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     use std::collections::LinkedList;
-    
-    let mut d = LinkedList::new();
-    
-    d.push_front(1);
-    d.push_front(2);
-    d.push_front(3);
-    
-    let mut splitted = d.split_off(2);
-    
-    assert_eq!(splitted.pop_front(), Some(1));
-    assert_eq!(splitted.pop_front(), None);
+
+let mut d = LinkedList::new();
+
+d.push_front(1);
+d.push_front(2);
+d.push_front(3);
+
+let mut splitted = d.split_off(2);
+
+assert_eq!(splitted.pop_front(), Some(1));
+assert_eq!(splitted.pop_front(), None);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
 
@@ -447,11 +447,11 @@ including the index.</p>
 
 fn main() {
     use std::collections::LinkedList;
-    
-    let mut list = LinkedList::new();
-    list.front_place() &lt;- 2;
-    list.front_place() &lt;- 4;
-    assert!(list.iter().eq(&amp;[4, 2]));
+
+let mut list = LinkedList::new();
+list.front_place() &lt;- 2;
+list.front_place() &lt;- 4;
+assert!(list.iter().eq(&amp;[4, 2]));
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>collection_placement</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>placement_in_syntax</span>)]</span>
@@ -475,11 +475,11 @@ but may be more efficient.</p>
 
 fn main() {
     use std::collections::LinkedList;
-    
-    let mut list = LinkedList::new();
-    list.back_place() &lt;- 2;
-    list.back_place() &lt;- 4;
-    assert!(list.iter().eq(&amp;[2, 4]));
+
+let mut list = LinkedList::new();
+list.back_place() &lt;- 2;
+list.back_place() &lt;- 4;
+assert!(list.iter().eq(&amp;[2, 4]));
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>collection_placement</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>placement_in_syntax</span>)]</span>
@@ -511,7 +511,7 @@ fn main() {
 <h4 id='method.into_iter-2' class='method'><code>fn <a href='../../../std/iter/trait.IntoIterator.html#tymethod.into_iter' class='fnname'>into_iter</a>(self) -&gt; <a class='struct' href='../../../std/collections/linked_list/struct.IterMut.html' title='std::collections::linked_list::IterMut'>IterMut</a>&lt;'a, T&gt;</code></h4>
 </div><h3 class='impl'><span class='in-band'><code>impl&lt;A&gt; <a class='trait' href='../../../std/iter/trait.Extend.html' title='std::iter::Extend'>Extend</a>&lt;A&gt; for <a class='struct' href='../../../std/collections/linked_list/struct.LinkedList.html' title='std::collections::linked_list::LinkedList'>LinkedList</a>&lt;A&gt;</code></span><span class='out-of-band'></span></h3>
 <div class='impl-items'><h4 id='method.extend' class='method'><code>fn <a href='../../../std/iter/trait.Extend.html#tymethod.extend' class='fnname'>extend</a>&lt;T&gt;(&amp;mut self, iter: T) <span class='where'>where T: <a class='trait' href='../../../std/iter/trait.IntoIterator.html' title='std::iter::IntoIterator'>IntoIterator</a>&lt;Item=A&gt;</span></code></h4>
-</div><h3 class='impl'><span class='in-band'><code>impl&lt;'a, T&gt; <a class='trait' href='../../../std/iter/trait.Extend.html' title='std::iter::Extend'>Extend</a>&lt;&amp;'a T&gt; for <a class='struct' href='../../../std/collections/linked_list/struct.LinkedList.html' title='std::collections::linked_list::LinkedList'>LinkedList</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='../../../std/marker/trait.Copy.html' title='std::marker::Copy'>Copy</a> + 'a</span></code><span class="since">1.2.0</span></span><span class='out-of-band'></span></h3>
+</div><h3 class='impl'><span class='in-band'><code>impl&lt;'a, T&gt; <a class='trait' href='../../../std/iter/trait.Extend.html' title='std::iter::Extend'>Extend</a>&lt;&amp;'a T&gt; for <a class='struct' href='../../../std/collections/linked_list/struct.LinkedList.html' title='std::collections::linked_list::LinkedList'>LinkedList</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='../../../std/marker/trait.Copy.html' title='std::marker::Copy'>Copy</a> + 'a</span></code></span><span class='out-of-band'><div class="since">1.2.0</div></span></h3>
 <div class='impl-items'><h4 id='method.extend-1' class='method'><code>fn <a href='../../../std/iter/trait.Extend.html#tymethod.extend' class='fnname'>extend</a>&lt;I&gt;(&amp;mut self, iter: I) <span class='where'>where I: <a class='trait' href='../../../std/iter/trait.IntoIterator.html' title='std::iter::IntoIterator'>IntoIterator</a>&lt;Item=&amp;'a T&gt;</span></code></h4>
 </div><h3 class='impl'><span class='in-band'><code>impl&lt;A&gt; <a class='trait' href='../../../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='struct' href='../../../std/collections/linked_list/struct.LinkedList.html' title='std::collections::linked_list::LinkedList'>LinkedList</a>&lt;A&gt;&gt; for <a class='struct' href='../../../std/collections/linked_list/struct.LinkedList.html' title='std::collections::linked_list::LinkedList'>LinkedList</a>&lt;A&gt; <span class='where'>where A: <a class='trait' href='../../../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;A&gt;</span></code></span><span class='out-of-band'></span></h3>
 <div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../../../std/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='struct' href='../../../std/collections/linked_list/struct.LinkedList.html' title='std::collections::linked_list::LinkedList'>LinkedList</a>&lt;A&gt;) -&gt; <a class='primitive' href='../../primitive.bool.html'>bool</a></code></h4>
@@ -532,7 +532,7 @@ fn main() {
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../../std/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../../std/fmt/struct.Formatter.html' title='std::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='../../primitive.tuple.html'>()</a>, <a class='struct' href='../../../std/fmt/struct.Error.html' title='std::fmt::Error'>Error</a>&gt;</code></h4>
 </div><h3 class='impl'><span class='in-band'><code>impl&lt;A&gt; <a class='trait' href='../../../std/hash/trait.Hash.html' title='std::hash::Hash'>Hash</a> for <a class='struct' href='../../../std/collections/linked_list/struct.LinkedList.html' title='std::collections::linked_list::LinkedList'>LinkedList</a>&lt;A&gt; <span class='where'>where A: <a class='trait' href='../../../std/hash/trait.Hash.html' title='std::hash::Hash'>Hash</a></span></code></span><span class='out-of-band'></span></h3>
 <div class='impl-items'><h4 id='method.hash' class='method'><code>fn <a href='../../../std/hash/trait.Hash.html#tymethod.hash' class='fnname'>hash</a>&lt;H&gt;(&amp;self, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../../../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code></h4>
-<h4 id='method.hash_slice' class='method'><code>fn <a href='../../../std/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class='primitive' href='../../primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../../../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code><span class="since">1.3.0</span></h4>
+<h4 id='method.hash_slice' class='method'><code>fn <a href='../../../std/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class='primitive' href='../../primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../../../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code><div class="since">1.3.0</div></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

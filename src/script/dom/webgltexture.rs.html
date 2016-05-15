@@ -481,7 +481,7 @@
             <span class='ident'>webgl_object</span>: <span class='ident'>WebGLObject</span>::<span class='ident'>new_inherited</span>(),
             <span class='ident'>id</span>: <span class='ident'>id</span>,
             <span class='ident'>target</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
-            <span class='ident'>is_deleted</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>),
+            <span class='ident'>is_deleted</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
             <span class='ident'>face_count</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>base_mipmap_level</span>: <span class='number'>0</span>,
             <span class='ident'>image_info_array</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>([<span class='ident'>ImageInfo</span>::<span class='ident'>new</span>(); <span class='ident'>MAX_LEVEL_COUNT</span> <span class='op'>*</span> <span class='ident'>MAX_FACE_COUNT</span>]),
@@ -547,7 +547,7 @@
             <span class='ident'>height</span>: <span class='ident'>height</span>,
             <span class='ident'>depth</span>: <span class='ident'>depth</span>,
             <span class='ident'>internal_format</span>: <span class='prelude-val'>Some</span>(<span class='ident'>internal_format</span>),
-            <span class='ident'>is_initialized</span>: <span class='boolval'>true</span>,
+            <span class='ident'>is_initialized</span>: <span class='boolvalue'>true</span>,
         };
 
         <span class='kw'>let</span> <span class='ident'>face</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>target</span> {
@@ -603,7 +603,7 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>delete</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>get</span>() {
-            <span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>set</span>(<span class='boolval'>true</span>);
+            <span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
             <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>CanvasMsg</span>::<span class='ident'>WebGL</span>(<span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteTexture</span>(<span class='self'>self</span>.<span class='ident'>id</span>)));
         }
     }
@@ -718,7 +718,7 @@
 
         <span class='kw'>let</span> <span class='ident'>image_info</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>base_image_info</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>image_info</span>.<span class='ident'>is_defined</span>() {
-            <span class='kw'>return</span> <span class='boolval'>false</span>;
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         }
 
         <span class='kw'>let</span> <span class='ident'>ref_width</span> <span class='op'>=</span> <span class='ident'>image_info</span>.<span class='ident'>width</span>;
@@ -727,18 +727,18 @@
         <span class='kw'>for</span> <span class='ident'>face</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='self'>self</span>.<span class='ident'>face_count</span>.<span class='ident'>get</span>() {
             <span class='kw'>let</span> <span class='ident'>current_image_info</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>image_info_at_face</span>(<span class='ident'>face</span>, <span class='self'>self</span>.<span class='ident'>base_mipmap_level</span>);
             <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>current_image_info</span>.<span class='ident'>is_defined</span>() {
-                <span class='kw'>return</span> <span class='boolval'>false</span>;
+                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
             }
 
             <span class='comment'>// Compares height with width to enforce square dimensions</span>
             <span class='kw'>if</span> <span class='ident'>current_image_info</span>.<span class='ident'>internal_format</span> <span class='op'>!=</span> <span class='ident'>ref_format</span> <span class='op'>||</span>
                <span class='ident'>current_image_info</span>.<span class='ident'>width</span> <span class='op'>!=</span> <span class='ident'>ref_width</span> <span class='op'>||</span>
                <span class='ident'>current_image_info</span>.<span class='ident'>height</span> <span class='op'>!=</span> <span class='ident'>ref_width</span> {
-                <span class='kw'>return</span> <span class='boolval'>false</span>;
+                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
             }
         }
 
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>image_info_at_face</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>face</span>: <span class='ident'>u8</span>, <span class='ident'>level</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageInfo</span> {
@@ -787,7 +787,7 @@
             <span class='ident'>height</span>: <span class='number'>0</span>,
             <span class='ident'>depth</span>: <span class='number'>0</span>,
             <span class='ident'>internal_format</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>is_initialized</span>: <span class='boolval'>false</span>,
+            <span class='ident'>is_initialized</span>: <span class='boolvalue'>false</span>,
         }
     }
 
@@ -814,7 +814,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>is_compressed_format</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='comment'>// TODO: Once Servo supports compressed formats, check for them here</span>
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 }
 </pre>

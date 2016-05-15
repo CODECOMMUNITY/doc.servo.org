@@ -1134,7 +1134,7 @@
             <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>rsa</span>.<span class='ident'>is_null</span>() {
                 <span class='ident'>ffi</span>::<span class='ident'>EVP_PKEY_set1_RSA</span>(<span class='self'>self</span>.<span class='ident'>evp</span>, <span class='ident'>rsa</span>) <span class='op'>==</span> <span class='number'>1</span>
             } <span class='kw'>else</span> {
-                <span class='boolval'>false</span>
+                <span class='boolvalue'>false</span>
             }
         }
     }
@@ -1261,26 +1261,26 @@
         <span class='kw'>match</span> <span class='ident'>r</span> {
             <span class='ident'>Role</span>::<span class='ident'>Encrypt</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>parts</span> {
-                    <span class='ident'>Parts</span>::<span class='ident'>Neither</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
-                    _ <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+                    <span class='ident'>Parts</span>::<span class='ident'>Neither</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+                    _ <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
                 }
             }
             <span class='ident'>Role</span>::<span class='ident'>Verify</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>parts</span> {
-                    <span class='ident'>Parts</span>::<span class='ident'>Neither</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
-                    _ <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+                    <span class='ident'>Parts</span>::<span class='ident'>Neither</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+                    _ <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
                 }
             }
             <span class='ident'>Role</span>::<span class='ident'>Decrypt</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>parts</span> {
-                    <span class='ident'>Parts</span>::<span class='ident'>Both</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-                    _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                    <span class='ident'>Parts</span>::<span class='ident'>Both</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                    _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
                 }
             }
             <span class='ident'>Role</span>::<span class='ident'>Sign</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>parts</span> {
-                    <span class='ident'>Parts</span>::<span class='ident'>Both</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-                    _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                    <span class='ident'>Parts</span>::<span class='ident'>Both</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                    _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
                 }
             }
         }
@@ -1560,7 +1560,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>PKey</span> {
-    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pkey</span> <span class='op'>=</span> <span class='ident'>PKey</span>::<span class='ident'>from_handle</span>(<span class='kw'>unsafe</span> { <span class='ident'>ffi</span>::<span class='ident'>EVP_PKEY_new</span>() }, <span class='self'>self</span>.<span class='ident'>parts</span>);
         <span class='comment'>//  copy by encoding to DER and back</span>
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>parts</span> {
@@ -1707,7 +1707,7 @@
         <span class='ident'>k1</span>.<span class='ident'>load_pub</span>(<span class='kw-2'>&amp;</span><span class='ident'>k0</span>.<span class='ident'>save_pub</span>());
         <span class='kw'>let</span> <span class='ident'>sig</span> <span class='op'>=</span> <span class='ident'>k0</span>.<span class='ident'>sign</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>);
         <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='ident'>k1</span>.<span class='ident'>verify</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>, <span class='kw-2'>&amp;</span><span class='ident'>sig</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>rv</span> <span class='op'>==</span> <span class='boolval'>true</span>);
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>rv</span> <span class='op'>==</span> <span class='boolvalue'>true</span>);
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -1788,7 +1788,7 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>k1</span>.<span class='ident'>can</span>(<span class='kw'>super</span>::<span class='ident'>Role</span>::<span class='ident'>Sign</span>));
 
         <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='ident'>k1</span>.<span class='ident'>verify</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>, <span class='kw-2'>&amp;</span><span class='ident'>sig</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>rv</span> <span class='op'>==</span> <span class='boolval'>true</span>);
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>rv</span> <span class='op'>==</span> <span class='boolvalue'>true</span>);
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>

@@ -43,16 +43,16 @@
     </nav>
 
     <section id='main' class="content macro">
-<h1 class='fqn'><span class='in-band'><a href='index.html'>core</a>::<wbr><a class='macro' href=''>debug_assert!</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'><a href='index.html'>core</a>::<wbr><a class='macro' href=''>debug_assert!</a></span><span class='out-of-band'><span class='since'>1.0.0</span><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-37349' class='srclink' href='../src/core/up/src/libcore/macros.rs.html#134-136' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-39767' class='srclink' href='../src/core/up/src/libcore/macros.rs.html#134-136' title='goto source code'>[src]</a></span></h1>
 <pre class='rust macro'>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>debug_assert</span> {
     ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>arg</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> { ... };
 }</pre>
-<span class="since">1.0.0</span><div class='docblock'><p>Ensure that a boolean expression is <code>true</code> at runtime.</p>
+<div class="since">1.0.0</div><div class='docblock'><p>Ensure that a boolean expression is <code>true</code> at runtime.</p>
 
 <p>This will invoke the <code>panic!</code> macro if the provided expression cannot be
 evaluated to <code>true</code> at runtime.</p>
@@ -70,18 +70,18 @@ development.</p>
 <h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
 <span class='rusttest'>fn main() {
     // the panic message for these assertions is the stringified value of the
-    // expression given.
-    debug_assert!(true);
-    
-    fn some_expensive_computation() -&gt; bool { true } // a very simple function
-    debug_assert!(some_expensive_computation());
-    
-    // assert with a custom message
-    let x = true;
-    debug_assert!(x, &quot;x wasn&#39;t true!&quot;);
-    
-    let a = 3; let b = 27;
-    debug_assert!(a + b == 30, &quot;a = {}, b = {}&quot;, a, b);
+// expression given.
+debug_assert!(true);
+
+fn some_expensive_computation() -&gt; bool { true } // a very simple function
+debug_assert!(some_expensive_computation());
+
+// assert with a custom message
+let x = true;
+debug_assert!(x, &quot;x wasn&#39;t true!&quot;);
+
+let a = 3; let b = 27;
+debug_assert!(a + b == 30, &quot;a = {}, b = {}&quot;, a, b);
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// the panic message for these assertions is the stringified value of the</span>
 <span class='comment'>// expression given.</span>

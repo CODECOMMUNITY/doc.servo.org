@@ -314,8 +314,8 @@
             <span class='ident'>htmlelement</span>:
                 <span class='ident'>HTMLElement</span>::<span class='ident'>new_inherited_with_state</span>(<span class='ident'>IN_ENABLED_STATE</span>,
                                                       <span class='ident'>localName</span>, <span class='ident'>prefix</span>, <span class='ident'>document</span>),
-            <span class='ident'>selectedness</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>),
-            <span class='ident'>dirtiness</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>),
+            <span class='ident'>selectedness</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>dirtiness</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
         }
     }
 
@@ -421,7 +421,7 @@
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-option-selected</span>
     <span class='kw'>fn</span> <span class='ident'>SetSelected</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>selected</span>: <span class='ident'>bool</span>) {
-        <span class='self'>self</span>.<span class='ident'>dirtiness</span>.<span class='ident'>set</span>(<span class='boolval'>true</span>);
+        <span class='self'>self</span>.<span class='ident'>dirtiness</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
         <span class='self'>self</span>.<span class='ident'>selectedness</span>.<span class='ident'>set</span>(<span class='ident'>selected</span>);
         <span class='self'>self</span>.<span class='ident'>pick_if_selected_and_reset</span>();
     }
@@ -439,12 +439,12 @@
                 <span class='kw'>let</span> <span class='ident'>el</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
                 <span class='kw'>match</span> <span class='ident'>mutation</span> {
                     <span class='ident'>AttributeMutation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> {
-                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolval'>true</span>);
-                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolval'>false</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolvalue'>true</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolvalue'>false</span>);
                     },
                     <span class='ident'>AttributeMutation</span>::<span class='ident'>Removed</span> <span class='op'>=&gt;</span> {
-                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolval'>false</span>);
-                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolval'>true</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolvalue'>false</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolvalue'>true</span>);
                         <span class='ident'>el</span>.<span class='ident'>check_parent_disabled_state_for_option</span>();
                     }
                 }
@@ -454,13 +454,13 @@
                     <span class='ident'>AttributeMutation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> {
                         <span class='comment'>// https://html.spec.whatwg.org/multipage/#concept-option-selectedness</span>
                         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>dirtiness</span>.<span class='ident'>get</span>() {
-                            <span class='self'>self</span>.<span class='ident'>selectedness</span>.<span class='ident'>set</span>(<span class='boolval'>true</span>);
+                            <span class='self'>self</span>.<span class='ident'>selectedness</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
                         }
                     },
                     <span class='ident'>AttributeMutation</span>::<span class='ident'>Removed</span> <span class='op'>=&gt;</span> {
                         <span class='comment'>// https://html.spec.whatwg.org/multipage/#concept-option-selectedness</span>
                         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>dirtiness</span>.<span class='ident'>get</span>() {
-                            <span class='self'>self</span>.<span class='ident'>selectedness</span>.<span class='ident'>set</span>(<span class='boolval'>false</span>);
+                            <span class='self'>self</span>.<span class='ident'>selectedness</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
                         }
                     },
                 }

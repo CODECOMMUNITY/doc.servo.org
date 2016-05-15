@@ -533,9 +533,9 @@
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Sse2F64x2</span> {
     <span class='kw'>fn</span> <span class='ident'>move_mask</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span>;
-    <span class='kw'>fn</span> <span class='ident'>sqrt</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>sqrt</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 <span class='kw'>impl</span> <span class='ident'>Sse2F64x2</span> <span class='kw'>for</span> <span class='ident'>f64x2</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -544,16 +544,16 @@
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>sqrt</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>sqrt</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_sqrt_pd</span>(<span class='self'>self</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_max_pd</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_min_pd</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 }
@@ -582,21 +582,21 @@
 <span class='comment'>// 32 bit ints</span>
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Sse2U32x4</span> {
-    <span class='kw'>fn</span> <span class='ident'>low_mul</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64x2</span>;
+    <span class='kw'>fn</span> <span class='ident'>low_mul</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64x2</span>;
 }
 <span class='kw'>impl</span> <span class='ident'>Sse2U32x4</span> <span class='kw'>for</span> <span class='ident'>u32x4</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>low_mul</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64x2</span> {
+    <span class='kw'>fn</span> <span class='ident'>low_mul</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64x2</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_mul_epu32</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Sse2I32x4</span> {
-    <span class='kw'>fn</span> <span class='ident'>packs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i16x8</span>;
+    <span class='kw'>fn</span> <span class='ident'>packs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i16x8</span>;
 }
 <span class='kw'>impl</span> <span class='ident'>Sse2I32x4</span> <span class='kw'>for</span> <span class='ident'>i32x4</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>packs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i16x8</span> {
+    <span class='kw'>fn</span> <span class='ident'>packs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i16x8</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_packs_epi32</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 }
@@ -607,77 +607,77 @@
 <span class='comment'>// 16 bit ints</span>
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Sse2U16x8</span> {
-    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>avg</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>mulhi</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>avg</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>mulhi</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 <span class='kw'>impl</span> <span class='ident'>Sse2U16x8</span> <span class='kw'>for</span> <span class='ident'>u16x8</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_adds_epu16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_subs_epu16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>avg</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>avg</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_avg_epu16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>mulhi</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>mulhi</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_mulhi_epu16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Sse2I16x8</span> {
-    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>madd</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32x4</span>;
-    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>mulhi</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>packs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i8x16</span>;
-    <span class='kw'>fn</span> <span class='ident'>packus</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u8x16</span>;
+    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>madd</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32x4</span>;
+    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>mulhi</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>packs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i8x16</span>;
+    <span class='kw'>fn</span> <span class='ident'>packus</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u8x16</span>;
 }
 <span class='kw'>impl</span> <span class='ident'>Sse2I16x8</span> <span class='kw'>for</span> <span class='ident'>i16x8</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_adds_epi16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_subs_epi16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>madd</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32x4</span> {
+    <span class='kw'>fn</span> <span class='ident'>madd</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32x4</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_madd_epi16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_max_epi16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_min_epi16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>mulhi</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>mulhi</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_mulhi_epi16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>packs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i8x16</span> {
+    <span class='kw'>fn</span> <span class='ident'>packs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>i8x16</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_packs_epi16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>packus</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u8x16</span> {
+    <span class='kw'>fn</span> <span class='ident'>packus</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u8x16</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_packus_epi16</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 }
@@ -689,12 +689,12 @@
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Sse2U8x16</span> {
     <span class='kw'>fn</span> <span class='ident'>move_mask</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span>;
-    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>avg</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>sad</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64x2</span>;
+    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>avg</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>sad</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64x2</span>;
 }
 <span class='kw'>impl</span> <span class='ident'>Sse2U8x16</span> <span class='kw'>for</span> <span class='ident'>u8x16</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -703,38 +703,38 @@
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_adds_epu8</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_subs_epu8</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>avg</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>avg</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_avg_epu8</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_max_epu8</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>min</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_min_epu8</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>sad</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64x2</span> {
+    <span class='kw'>fn</span> <span class='ident'>sad</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64x2</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_sad_epu8</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Sse2I8x16</span> {
     <span class='kw'>fn</span> <span class='ident'>move_mask</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span>;
-    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 <span class='kw'>impl</span> <span class='ident'>Sse2I8x16</span> <span class='kw'>for</span> <span class='ident'>i8x16</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -743,11 +743,11 @@
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>adds</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_adds_epi8</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>subs</span>(<span class='self'>self</span>, <span class='ident'>other</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>x86_mm_subs_epi8</span>(<span class='self'>self</span>, <span class='ident'>other</span>) }
     }
 }

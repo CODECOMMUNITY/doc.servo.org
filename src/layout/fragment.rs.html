@@ -3738,7 +3738,7 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>contains_node</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node_address</span>: <span class='ident'>OpaqueNode</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='ident'>node_address</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>node</span> <span class='op'>||</span>
-        <span class='self'>self</span>.<span class='ident'>inline_context</span>.<span class='ident'>as_ref</span>().<span class='ident'>map_or</span>(<span class='boolval'>false</span>, <span class='op'>|</span><span class='ident'>ctx</span><span class='op'>|</span> {
+        <span class='self'>self</span>.<span class='ident'>inline_context</span>.<span class='ident'>as_ref</span>().<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>ctx</span><span class='op'>|</span> {
             <span class='ident'>ctx</span>.<span class='ident'>contains_node</span>(<span class='ident'>node_address</span>)
         })
     }
@@ -4163,17 +4163,17 @@
     <span class='doccomment'>/// Returns true if and only if this fragment is a generated content fragment.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_unscanned_generated_content</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>specific</span> {
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>GeneratedContent</span>(<span class='kw'>box</span> <span class='ident'>GeneratedContentInfo</span>::<span class='ident'>Empty</span>) <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>GeneratedContent</span>(..) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>GeneratedContent</span>(<span class='kw'>box</span> <span class='ident'>GeneratedContentInfo</span>::<span class='ident'>Empty</span>) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>GeneratedContent</span>(..) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
     <span class='doccomment'>/// Returns true if and only if this is a scanned text fragment.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_scanned_text_fragment</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>specific</span> {
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>ScannedText</span>(..) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>ScannedText</span>(..) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -4447,7 +4447,7 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>remaining_inline_size</span> <span class='op'>=</span> <span class='ident'>max_inline_size</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inline_start_range</span> <span class='op'>=</span> <span class='ident'>Range</span>::<span class='ident'>new</span>(<span class='ident'>text_fragment_info</span>.<span class='ident'>range</span>.<span class='ident'>begin</span>(), <span class='ident'>ByteIndex</span>(<span class='number'>0</span>));
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inline_end_range</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>overflowing</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>overflowing</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
 
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;calculate_split_position_using_breaking_strategy: splitting text fragment \
                 (strlen={}, range={:?}, max_inline_size={:?})&quot;</span>,
@@ -4483,7 +4483,7 @@
                     <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>requires_line_break_afterward_if_wrapping_on_newlines</span>();
             <span class='kw'>if</span> <span class='ident'>split_is_empty</span> {
                 <span class='comment'>// We&#39;re going to overflow the line.</span>
-                <span class='ident'>overflowing</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                <span class='ident'>overflowing</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                 <span class='ident'>inline_start_range</span> <span class='op'>=</span> <span class='ident'>slice</span>.<span class='ident'>text_run_range</span>();
                 <span class='ident'>remaining_range</span> <span class='op'>=</span> <span class='ident'>Range</span>::<span class='ident'>new</span>(<span class='ident'>slice</span>.<span class='ident'>text_run_range</span>().<span class='ident'>end</span>(), <span class='ident'>ByteIndex</span>(<span class='number'>0</span>));
                 <span class='ident'>remaining_range</span>.<span class='ident'>extend_to</span>(<span class='ident'>text_fragment_info</span>.<span class='ident'>range</span>.<span class='ident'>end</span>());
@@ -4843,8 +4843,8 @@
     <span class='doccomment'>/// Returns true if this fragment is a hypothetical box. See CSS 2.1 § 10.3.7.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_hypothetical</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>specific</span> {
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>InlineAbsoluteHypothetical</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>InlineAbsoluteHypothetical</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -4858,11 +4858,11 @@
                 <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>style</span>().<span class='ident'>get_font</span>() <span class='op'>!=</span> <span class='ident'>other</span>.<span class='ident'>style</span>().<span class='ident'>get_font</span>() <span class='op'>||</span>
                         <span class='self'>self</span>.<span class='ident'>text_decoration</span>() <span class='op'>!=</span> <span class='ident'>other</span>.<span class='ident'>text_decoration</span>() <span class='op'>||</span>
                         <span class='self'>self</span>.<span class='ident'>white_space</span>() <span class='op'>!=</span> <span class='ident'>other</span>.<span class='ident'>white_space</span>() {
-                    <span class='kw'>return</span> <span class='boolval'>false</span>
+                    <span class='kw'>return</span> <span class='boolvalue'>false</span>
                 }
 
                 <span class='kw'>if</span> <span class='ident'>first_unscanned_text</span>.<span class='ident'>text</span>.<span class='ident'>ends_with</span>(<span class='string'>&#39;\n&#39;</span>) {
-                    <span class='kw'>return</span> <span class='boolval'>false</span>
+                    <span class='kw'>return</span> <span class='boolvalue'>false</span>
                 }
 
                 <span class='comment'>// If this node has any styles that have border/padding/margins on the following</span>
@@ -4874,14 +4874,14 @@
                         }
                         <span class='kw'>if</span> <span class='ident'>inline_context_node</span>.<span class='ident'>style</span>.<span class='ident'>logical_margin</span>().<span class='ident'>inline_end</span> <span class='op'>!=</span>
                                 <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Length</span>(<span class='ident'>Au</span>(<span class='number'>0</span>)) {
-                            <span class='kw'>return</span> <span class='boolval'>false</span>
+                            <span class='kw'>return</span> <span class='boolvalue'>false</span>
                         }
                         <span class='kw'>if</span> <span class='ident'>inline_context_node</span>.<span class='ident'>style</span>.<span class='ident'>logical_padding</span>().<span class='ident'>inline_end</span> <span class='op'>!=</span>
                                 <span class='ident'>LengthOrPercentage</span>::<span class='ident'>Length</span>(<span class='ident'>Au</span>(<span class='number'>0</span>)) {
-                            <span class='kw'>return</span> <span class='boolval'>false</span>
+                            <span class='kw'>return</span> <span class='boolvalue'>false</span>
                         }
                         <span class='kw'>if</span> <span class='ident'>inline_context_node</span>.<span class='ident'>style</span>.<span class='ident'>logical_border_width</span>().<span class='ident'>inline_end</span> <span class='op'>!=</span> <span class='ident'>Au</span>(<span class='number'>0</span>) {
-                            <span class='kw'>return</span> <span class='boolval'>false</span>
+                            <span class='kw'>return</span> <span class='boolvalue'>false</span>
                         }
                     }
                 }
@@ -4895,21 +4895,21 @@
                         }
                         <span class='kw'>if</span> <span class='ident'>inline_context_node</span>.<span class='ident'>style</span>.<span class='ident'>logical_margin</span>().<span class='ident'>inline_start</span> <span class='op'>!=</span>
                                 <span class='ident'>LengthOrPercentageOrAuto</span>::<span class='ident'>Length</span>(<span class='ident'>Au</span>(<span class='number'>0</span>)) {
-                            <span class='kw'>return</span> <span class='boolval'>false</span>
+                            <span class='kw'>return</span> <span class='boolvalue'>false</span>
                         }
                         <span class='kw'>if</span> <span class='ident'>inline_context_node</span>.<span class='ident'>style</span>.<span class='ident'>logical_padding</span>().<span class='ident'>inline_start</span> <span class='op'>!=</span>
                                 <span class='ident'>LengthOrPercentage</span>::<span class='ident'>Length</span>(<span class='ident'>Au</span>(<span class='number'>0</span>)) {
-                            <span class='kw'>return</span> <span class='boolval'>false</span>
+                            <span class='kw'>return</span> <span class='boolvalue'>false</span>
                         }
                         <span class='kw'>if</span> <span class='ident'>inline_context_node</span>.<span class='ident'>style</span>.<span class='ident'>logical_border_width</span>().<span class='ident'>inline_start</span> <span class='op'>!=</span> <span class='ident'>Au</span>(<span class='number'>0</span>) {
-                            <span class='kw'>return</span> <span class='boolval'>false</span>
+                            <span class='kw'>return</span> <span class='boolvalue'>false</span>
                         }
                     }
                 }
 
-                <span class='boolval'>true</span>
+                <span class='boolvalue'>true</span>
             }
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -4928,7 +4928,7 @@
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>InlineAbsoluteHypothetical</span>(_) <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>InlineAbsolute</span>(_) <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>MulticolColumn</span> <span class='op'>|</span>
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>TableWrapper</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>TableWrapper</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>Canvas</span>(_) <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>Generic</span> <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>GeneratedContent</span>(_) <span class='op'>|</span>
@@ -4940,7 +4940,7 @@
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>TableColumn</span>(_) <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>TableRow</span> <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>Multicol</span> <span class='op'>|</span>
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>UnscannedText</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>UnscannedText</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
         }
     }
 
@@ -5025,23 +5025,23 @@
     <span class='doccomment'>/// Returns true if this fragment establishes a new stacking context and false otherwise.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>establishes_stacking_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>flags</span>.<span class='ident'>contains</span>(<span class='ident'>HAS_LAYER</span>) {
-            <span class='kw'>return</span> <span class='boolval'>true</span>
+            <span class='kw'>return</span> <span class='boolvalue'>true</span>
         }
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>style</span>().<span class='ident'>get_effects</span>().<span class='ident'>opacity</span> <span class='op'>!=</span> <span class='number'>1.0</span> {
-            <span class='kw'>return</span> <span class='boolval'>true</span>
+            <span class='kw'>return</span> <span class='boolvalue'>true</span>
         }
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>style</span>().<span class='ident'>get_effects</span>().<span class='ident'>filter</span>.<span class='ident'>is_empty</span>() {
-            <span class='kw'>return</span> <span class='boolval'>true</span>
+            <span class='kw'>return</span> <span class='boolvalue'>true</span>
         }
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>style</span>().<span class='ident'>get_effects</span>().<span class='ident'>mix_blend_mode</span> <span class='op'>!=</span> <span class='ident'>mix_blend_mode</span>::<span class='ident'>T</span>::<span class='ident'>normal</span> {
-            <span class='kw'>return</span> <span class='boolval'>true</span>
+            <span class='kw'>return</span> <span class='boolvalue'>true</span>
         }
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>style</span>().<span class='ident'>get_effects</span>().<span class='ident'>transform</span>.<span class='number'>0</span>.<span class='ident'>is_some</span>() {
-            <span class='kw'>return</span> <span class='boolval'>true</span>
+            <span class='kw'>return</span> <span class='boolvalue'>true</span>
         }
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>style</span>().<span class='ident'>get_used_transform_style</span>() {
             <span class='ident'>transform_style</span>::<span class='ident'>T</span>::<span class='ident'>flat</span> <span class='op'>|</span> <span class='ident'>transform_style</span>::<span class='ident'>T</span>::<span class='ident'>preserve_3d</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>return</span> <span class='boolval'>true</span>
+                <span class='kw'>return</span> <span class='boolvalue'>true</span>
             }
             <span class='ident'>transform_style</span>::<span class='ident'>T</span>::<span class='ident'>auto</span> <span class='op'>=&gt;</span> {}
         }
@@ -5063,15 +5063,15 @@
             (<span class='ident'>position</span>::<span class='ident'>T</span>::<span class='ident'>relative</span>,
              <span class='ident'>z_index</span>::<span class='ident'>T</span>::<span class='ident'>Auto</span>,
              <span class='ident'>overflow_x</span>::<span class='ident'>T</span>::<span class='ident'>visible</span>,
-             <span class='ident'>overflow_x</span>::<span class='ident'>T</span>::<span class='ident'>visible</span>) <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+             <span class='ident'>overflow_x</span>::<span class='ident'>T</span>::<span class='ident'>visible</span>) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
             (<span class='ident'>position</span>::<span class='ident'>T</span>::<span class='ident'>absolute</span>, _, _, _) <span class='op'>|</span>
             (<span class='ident'>position</span>::<span class='ident'>T</span>::<span class='ident'>fixed</span>, _, _, _) <span class='op'>|</span>
             (<span class='ident'>position</span>::<span class='ident'>T</span>::<span class='ident'>relative</span>, _, _, _) <span class='op'>|</span>
             (_, _, <span class='ident'>overflow_x</span>::<span class='ident'>T</span>::<span class='ident'>auto</span>, _) <span class='op'>|</span>
             (_, _, <span class='ident'>overflow_x</span>::<span class='ident'>T</span>::<span class='ident'>scroll</span>, _) <span class='op'>|</span>
             (_, _, _, <span class='ident'>overflow_x</span>::<span class='ident'>T</span>::<span class='ident'>auto</span>) <span class='op'>|</span>
-            (_, _, _, <span class='ident'>overflow_x</span>::<span class='ident'>T</span>::<span class='ident'>scroll</span>) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            (<span class='ident'>position</span>::<span class='ident'>T</span>::<span class='ident'>static_</span>, _, _, _) <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+            (_, _, _, <span class='ident'>overflow_x</span>::<span class='ident'>T</span>::<span class='ident'>scroll</span>) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            (<span class='ident'>position</span>::<span class='ident'>T</span>::<span class='ident'>static_</span>, _, _, _) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
         }
     }
 
@@ -5149,7 +5149,7 @@
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>ScannedText</span>(<span class='kw-2'>ref</span> <span class='ident'>scanned_text</span>) <span class='op'>=&gt;</span> {
                 <span class='ident'>scanned_text</span>.<span class='ident'>requires_line_break_afterward_if_wrapping_on_newlines</span>()
             }
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -5179,14 +5179,14 @@
             }
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>UnscannedText</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>unscanned_text_fragment_info</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new_text_string</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>modified</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>modified</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
                 <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>character</span>) <span class='kw'>in</span> <span class='ident'>unscanned_text_fragment_info</span>.<span class='ident'>text</span>.<span class='ident'>char_indices</span>() {
                     <span class='kw'>if</span> <span class='ident'>gfx</span>::<span class='ident'>text</span>::<span class='ident'>util</span>::<span class='ident'>is_bidi_control</span>(<span class='ident'>character</span>) {
                         <span class='ident'>new_text_string</span>.<span class='ident'>push</span>(<span class='ident'>character</span>);
                         <span class='kw'>continue</span>
                     }
                     <span class='kw'>if</span> <span class='ident'>util</span>::<span class='ident'>str</span>::<span class='ident'>char_is_whitespace</span>(<span class='ident'>character</span>) {
-                        <span class='ident'>modified</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                        <span class='ident'>modified</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                         <span class='kw'>continue</span>
                     }
                     <span class='comment'>// Finished processing leading control chars and whitespace.</span>
@@ -5237,14 +5237,14 @@
             }
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>UnscannedText</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>unscanned_text_fragment_info</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>trailing_bidi_control_characters_to_retain</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-                <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>modified</span>, <span class='kw-2'>mut</span> <span class='ident'>last_character_index</span>) <span class='op'>=</span> (<span class='boolval'>true</span>, <span class='number'>0</span>);
+                <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>modified</span>, <span class='kw-2'>mut</span> <span class='ident'>last_character_index</span>) <span class='op'>=</span> (<span class='boolvalue'>true</span>, <span class='number'>0</span>);
                 <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>character</span>) <span class='kw'>in</span> <span class='ident'>unscanned_text_fragment_info</span>.<span class='ident'>text</span>.<span class='ident'>char_indices</span>().<span class='ident'>rev</span>() {
                     <span class='kw'>if</span> <span class='ident'>gfx</span>::<span class='ident'>text</span>::<span class='ident'>util</span>::<span class='ident'>is_bidi_control</span>(<span class='ident'>character</span>) {
                         <span class='ident'>trailing_bidi_control_characters_to_retain</span>.<span class='ident'>push</span>(<span class='ident'>character</span>);
                         <span class='kw'>continue</span>
                     }
                     <span class='kw'>if</span> <span class='ident'>util</span>::<span class='ident'>str</span>::<span class='ident'>char_is_whitespace</span>(<span class='ident'>character</span>) {
-                        <span class='ident'>modified</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                        <span class='ident'>modified</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                         <span class='kw'>continue</span>
                     }
                     <span class='ident'>last_character_index</span> <span class='op'>=</span> <span class='ident'>i</span> <span class='op'>+</span> <span class='ident'>character</span>.<span class='ident'>len_utf8</span>();
@@ -5279,16 +5279,16 @@
     <span class='doccomment'>/// non-`static` `position`.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_positioned</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>style</span>.<span class='ident'>get_box</span>().<span class='ident'>position</span> <span class='op'>!=</span> <span class='ident'>position</span>::<span class='ident'>T</span>::<span class='ident'>static_</span> {
-            <span class='kw'>return</span> <span class='boolval'>true</span>
+            <span class='kw'>return</span> <span class='boolvalue'>true</span>
         }
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>inline_context</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>inline_context</span> {
             <span class='kw'>for</span> <span class='ident'>node</span> <span class='kw'>in</span> <span class='ident'>inline_context</span>.<span class='ident'>nodes</span>.<span class='ident'>iter</span>() {
                 <span class='kw'>if</span> <span class='ident'>node</span>.<span class='ident'>style</span>.<span class='ident'>get_box</span>().<span class='ident'>position</span> <span class='op'>!=</span> <span class='ident'>position</span>::<span class='ident'>T</span>::<span class='ident'>static_</span> {
-                    <span class='kw'>return</span> <span class='boolval'>true</span>
+                    <span class='kw'>return</span> <span class='boolvalue'>true</span>
                 }
             }
         }
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 
     <span class='doccomment'>/// Returns true if this node is absolutely positioned.</span>
@@ -5298,8 +5298,8 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_inline_absolute</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>specific</span> {
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>InlineAbsolute</span>(..) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>InlineAbsolute</span>(..) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 
@@ -5382,18 +5382,18 @@
     <span class='doccomment'>/// `vertical-align` set to `top` or `bottom`.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_vertically_aligned_to_top_or_bottom</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>style</span>.<span class='ident'>get_box</span>().<span class='ident'>vertical_align</span> {
-            <span class='ident'>vertical_align</span>::<span class='ident'>T</span>::<span class='ident'>top</span> <span class='op'>|</span> <span class='ident'>vertical_align</span>::<span class='ident'>T</span>::<span class='ident'>bottom</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='boolval'>true</span>,
+            <span class='ident'>vertical_align</span>::<span class='ident'>T</span>::<span class='ident'>top</span> <span class='op'>|</span> <span class='ident'>vertical_align</span>::<span class='ident'>T</span>::<span class='ident'>bottom</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='boolvalue'>true</span>,
             _ <span class='op'>=&gt;</span> {}
         }
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>inline_context</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>inline_context</span> {
             <span class='kw'>for</span> <span class='ident'>node</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>inline_context</span>.<span class='ident'>nodes</span> {
                 <span class='kw'>match</span> <span class='ident'>node</span>.<span class='ident'>style</span>.<span class='ident'>get_box</span>().<span class='ident'>vertical_align</span> {
-                    <span class='ident'>vertical_align</span>::<span class='ident'>T</span>::<span class='ident'>top</span> <span class='op'>|</span> <span class='ident'>vertical_align</span>::<span class='ident'>T</span>::<span class='ident'>bottom</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='boolval'>true</span>,
+                    <span class='ident'>vertical_align</span>::<span class='ident'>T</span>::<span class='ident'>top</span> <span class='op'>|</span> <span class='ident'>vertical_align</span>::<span class='ident'>T</span>::<span class='ident'>bottom</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='boolvalue'>true</span>,
                     _ <span class='op'>=&gt;</span> {}
                 }
             }
         }
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_text_or_replaced</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -5408,13 +5408,13 @@
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>TableCell</span> <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>TableColumn</span>(_) <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>TableRow</span> <span class='op'>|</span>
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>TableWrapper</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>TableWrapper</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>Canvas</span>(_) <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>GeneratedContent</span>(_) <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>Iframe</span>(_) <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>Image</span>(_) <span class='op'>|</span>
             <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>ScannedText</span>(_) <span class='op'>|</span>
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>UnscannedText</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>UnscannedText</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>
         }
     }
 }
@@ -5502,7 +5502,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>ServoComputedValues</span><span class='op'>&gt;</span> {
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>primary_style_yielded</span> {
-            <span class='self'>self</span>.<span class='ident'>primary_style_yielded</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='self'>self</span>.<span class='ident'>primary_style_yielded</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
             <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>style</span>)
         }
         <span class='kw'>let</span> <span class='ident'>inline_context</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>inline_context</span> {
@@ -5523,7 +5523,7 @@
         <span class='ident'>InlineStyleIterator</span> {
             <span class='ident'>fragment</span>: <span class='ident'>fragment</span>,
             <span class='ident'>inline_style_index</span>: <span class='number'>0</span>,
-            <span class='ident'>primary_style_yielded</span>: <span class='boolval'>false</span>,
+            <span class='ident'>primary_style_yielded</span>: <span class='boolvalue'>false</span>,
         }
     }
 }

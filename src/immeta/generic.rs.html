@@ -447,7 +447,7 @@
         <span class='doccomment'>/// let concrete: Result&lt;jpeg::Metadata, GenericMetadata&gt; = generic.into::&lt;Jpeg&gt;();</span>
         <span class='doccomment'>/// assert!(concrete.is_err());</span>
         <span class='doccomment'>/// ```</span>
-        <span class='kw'>fn</span> <span class='ident'>from_generic</span>(<span class='ident'>gmd</span>: <span class='ident'>GenericMetadata</span>) <span class='op'>-&gt;</span> <span class='ident'>result</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Metadata</span>, <span class='ident'>GenericMetadata</span><span class='op'>&gt;</span>;
+        <span class='kw'>fn</span> <span class='ident'>from_generic</span>(<span class='ident'>gmd</span>: <span class='ident'>GenericMetadata</span>) <span class='op'>-&gt;</span> <span class='ident'>result</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Metadata</span>, <span class='ident'>GenericMetadata</span><span class='op'>&gt;</span>;
 
         <span class='doccomment'>/// Tries to extract a reference to a concrete metadata type from the given</span>
         <span class='doccomment'>/// `GenericMetadata` reference.</span>
@@ -474,7 +474,7 @@
         <span class='doccomment'>/// let concrete: Option&lt;&amp;jpeg::Metadata&gt; = generic.as_ref::&lt;Jpeg&gt;();</span>
         <span class='doccomment'>/// assert!(concrete.is_none());</span>
         <span class='doccomment'>/// ```</span>
-        <span class='kw'>fn</span> <span class='ident'>from_generic_ref</span>(<span class='ident'>gmd</span>: <span class='kw-2'>&amp;</span><span class='ident'>GenericMetadata</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
+        <span class='kw'>fn</span> <span class='ident'>from_generic_ref</span>(<span class='ident'>gmd</span>: <span class='kw-2'>&amp;</span><span class='ident'>GenericMetadata</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
 
         <span class='doccomment'>/// Attempts to load metadata for an image of a concrete type from the provided reader.</span>
         <span class='doccomment'>///</span>
@@ -490,7 +490,7 @@
         <span class='doccomment'>/// let data = io::stdin();</span>
         <span class='doccomment'>/// let metadata = Jpeg::load(&amp;mut data.lock());</span>
         <span class='doccomment'>/// ```</span>
-        <span class='kw'>fn</span> <span class='ident'>load</span><span class='op'>&lt;</span><span class='ident'>R</span>: ?<span class='ident'>Sized</span> <span class='op'>+</span> <span class='ident'>BufRead</span><span class='op'>&gt;</span>(<span class='ident'>r</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
+        <span class='kw'>fn</span> <span class='ident'>load</span><span class='op'>&lt;</span><span class='ident'>R</span>: ?<span class='ident'>Sized</span> <span class='op'>+</span> <span class='ident'>BufRead</span><span class='op'>&gt;</span>(<span class='ident'>r</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
 
         <span class='doccomment'>/// Attempts to load metadata for an image of a concrete type from the provided</span>
         <span class='doccomment'>/// seekable reader.</span>
@@ -509,7 +509,7 @@
         <span class='doccomment'>/// let data: Vec&lt;u8&gt; = obtain_image();</span>
         <span class='doccomment'>/// let metadata = Jpeg::load(&amp;mut BufReader::new(Cursor::new(data)));</span>
         <span class='doccomment'>/// ```</span>
-        <span class='kw'>fn</span> <span class='ident'>load_from_seek</span><span class='op'>&lt;</span><span class='ident'>R</span>: ?<span class='ident'>Sized</span> <span class='op'>+</span> <span class='ident'>BufRead</span> <span class='op'>+</span> <span class='ident'>Seek</span><span class='op'>&gt;</span>(<span class='ident'>r</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
+        <span class='kw'>fn</span> <span class='ident'>load_from_seek</span><span class='op'>&lt;</span><span class='ident'>R</span>: ?<span class='ident'>Sized</span> <span class='op'>+</span> <span class='ident'>BufRead</span> <span class='op'>+</span> <span class='ident'>Seek</span><span class='op'>&gt;</span>(<span class='ident'>r</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
 
         <span class='doccomment'>/// Attempts to load metadata for an image of a concrete type from a file identified</span>
         <span class='doccomment'>/// by the provided path.</span>
@@ -524,7 +524,7 @@
         <span class='doccomment'>///</span>
         <span class='doccomment'>/// let metadata = Jpeg::load_from_file(&quot;kitty.jpg&quot;);</span>
         <span class='doccomment'>/// ```</span>
-        <span class='kw'>fn</span> <span class='ident'>load_from_file</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>p</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
+        <span class='kw'>fn</span> <span class='ident'>load_from_file</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>p</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
 
         <span class='doccomment'>/// Attempts to load metadata for an image of a concrete type from the provided byte</span>
         <span class='doccomment'>/// buffer.</span>
@@ -540,7 +540,7 @@
         <span class='doccomment'>/// let buf: &amp;[u8] = &amp;[1, 2, 3, 4];   // pretend that this is an actual image</span>
         <span class='doccomment'>/// let metadata = Jpeg::load_from_buf(buf);</span>
         <span class='doccomment'>/// ```</span>
-        <span class='kw'>fn</span> <span class='ident'>load_from_buf</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
+        <span class='kw'>fn</span> <span class='ident'>load_from_buf</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Metadata</span><span class='op'>&gt;</span>;
     }
 
     <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>impl_metadata_marker</span> {

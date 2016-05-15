@@ -1879,7 +1879,7 @@
             <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>js_runtime</span>.<span class='ident'>borrow_for_script_deallocation</span>() <span class='op'>=</span> <span class='prelude-val'>None</span>;
             <span class='self'>self</span>.<span class='ident'>browsing_context</span>.<span class='ident'>set</span>(<span class='prelude-val'>None</span>);
             <span class='self'>self</span>.<span class='ident'>current_state</span>.<span class='ident'>set</span>(<span class='ident'>WindowState</span>::<span class='ident'>Zombie</span>);
-            <span class='self'>self</span>.<span class='ident'>ignore_further_async_events</span>.<span class='ident'>store</span>(<span class='boolval'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>);
+            <span class='self'>self</span>.<span class='ident'>ignore_further_async_events</span>.<span class='ident'>store</span>(<span class='boolvalue'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>);
         }
     }
 
@@ -2500,7 +2500,7 @@
         <span class='self'>self</span>.<span class='ident'>current_state</span>.<span class='ident'>set</span>(<span class='ident'>WindowState</span>::<span class='ident'>Zombie</span>);
         <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>js_runtime</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>None</span>;
         <span class='self'>self</span>.<span class='ident'>browsing_context</span>.<span class='ident'>set</span>(<span class='prelude-val'>None</span>);
-        <span class='self'>self</span>.<span class='ident'>ignore_further_async_events</span>.<span class='ident'>store</span>(<span class='boolval'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>);
+        <span class='self'>self</span>.<span class='ident'>ignore_further_async_events</span>.<span class='ident'>store</span>(<span class='boolvalue'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>);
     }
 
     <span class='doccomment'>/// https://drafts.csswg.org/cssom-view/#dom-window-scroll</span>
@@ -2557,13 +2557,13 @@
         <span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>x</span>, <span class='ident'>y</span>);
         <span class='kw'>let</span> <span class='ident'>smooth</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>behavior</span> {
             <span class='ident'>ScrollBehavior</span>::<span class='ident'>Auto</span> <span class='op'>=&gt;</span> {
-                <span class='ident'>element</span>.<span class='ident'>map_or</span>(<span class='boolval'>false</span>, <span class='op'>|</span><span class='ident'>_element</span><span class='op'>|</span> {
+                <span class='ident'>element</span>.<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>_element</span><span class='op'>|</span> {
                     <span class='comment'>// TODO check computed scroll-behaviour CSS property</span>
-                    <span class='boolval'>true</span>
+                    <span class='boolvalue'>true</span>
                 })
             }
-            <span class='ident'>ScrollBehavior</span>::<span class='ident'>Instant</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
-            <span class='ident'>ScrollBehavior</span>::<span class='ident'>Smooth</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>
+            <span class='ident'>ScrollBehavior</span>::<span class='ident'>Instant</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+            <span class='ident'>ScrollBehavior</span>::<span class='ident'>Smooth</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>
         };
 
         <span class='comment'>// TODO (farodin91): Raise an event to stop the current_viewport</span>
@@ -2591,7 +2591,7 @@
         <span class='comment'>// Check if we need to unsuppress reflow. Note that this needs to be</span>
         <span class='comment'>// *before* any early bailouts, or reflow might never be unsuppresed!</span>
         <span class='kw'>match</span> <span class='ident'>reason</span> {
-            <span class='ident'>ReflowReason</span>::<span class='ident'>FirstLoad</span> <span class='op'>|</span> <span class='ident'>ReflowReason</span>::<span class='ident'>RefreshTick</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>suppress_reflow</span>.<span class='ident'>set</span>(<span class='boolval'>false</span>),
+            <span class='ident'>ReflowReason</span>::<span class='ident'>FirstLoad</span> <span class='op'>|</span> <span class='ident'>ReflowReason</span>::<span class='ident'>RefreshTick</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>suppress_reflow</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>),
             _ <span class='op'>=&gt;</span> (),
         }
 
@@ -2704,7 +2704,7 @@
             <span class='comment'>// Checks if the html element has reftest-wait attribute present.</span>
             <span class='comment'>// See http://testthewebforward.org/docs/reftests.html</span>
             <span class='kw'>let</span> <span class='ident'>html_element</span> <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>GetDocumentElement</span>();
-            <span class='kw'>let</span> <span class='ident'>reftest_wait</span> <span class='op'>=</span> <span class='ident'>html_element</span>.<span class='ident'>map_or</span>(<span class='boolval'>false</span>, <span class='op'>|</span><span class='ident'>elem</span><span class='op'>|</span> {
+            <span class='kw'>let</span> <span class='ident'>reftest_wait</span> <span class='op'>=</span> <span class='ident'>html_element</span>.<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>elem</span><span class='op'>|</span> {
                 <span class='ident'>elem</span>.<span class='ident'>has_class</span>(<span class='kw-2'>&amp;</span><span class='ident'>Atom</span>::<span class='ident'>from</span>(<span class='string'>&quot;reftest-wait&quot;</span>))
             });
 
@@ -2943,12 +2943,12 @@
             <span class='ident'>viewport</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='op'>*</span> <span class='ident'>VIEWPORT_EXPANSION</span>));
         <span class='kw'>let</span> <span class='ident'>clip_rect</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>page_clip_rect</span>.<span class='ident'>get</span>();
         <span class='kw'>if</span> <span class='ident'>proposed_clip_rect</span> <span class='op'>==</span> <span class='ident'>clip_rect</span> {
-            <span class='kw'>return</span> <span class='boolval'>false</span>;
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         }
 
         <span class='kw'>let</span> <span class='ident'>had_clip_rect</span> <span class='op'>=</span> <span class='ident'>clip_rect</span> <span class='op'>!=</span> <span class='ident'>MAX_RECT</span>;
         <span class='kw'>if</span> <span class='ident'>had_clip_rect</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>should_move_clip_rect</span>(<span class='ident'>clip_rect</span>, <span class='ident'>viewport</span>) {
-            <span class='kw'>return</span> <span class='boolval'>false</span>;
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         }
 
         <span class='self'>self</span>.<span class='ident'>page_clip_rect</span>.<span class='ident'>set</span>(<span class='ident'>proposed_clip_rect</span>);
@@ -3104,15 +3104,15 @@
             <span class='ident'>layout_rpc</span>: <span class='ident'>layout_rpc</span>,
             <span class='ident'>window_size</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>window_size</span>),
             <span class='ident'>current_viewport</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>Rect</span>::<span class='ident'>zero</span>()),
-            <span class='ident'>suppress_reflow</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>true</span>),
+            <span class='ident'>suppress_reflow</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>true</span>),
             <span class='ident'>pending_reflow_count</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>current_state</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>WindowState</span>::<span class='ident'>Alive</span>),
 
             <span class='ident'>devtools_marker_sender</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
             <span class='ident'>devtools_markers</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>HashSet</span>::<span class='ident'>new</span>()),
-            <span class='ident'>devtools_wants_updates</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>),
+            <span class='ident'>devtools_wants_updates</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
             <span class='ident'>webdriver_script_chan</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
-            <span class='ident'>ignore_further_async_events</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicBool</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>)),
+            <span class='ident'>ignore_further_async_events</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicBool</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>)),
             <span class='ident'>error_reporter</span>: <span class='ident'>error_reporter</span>
         };
 

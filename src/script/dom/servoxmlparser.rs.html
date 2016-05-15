@@ -332,8 +332,8 @@
             <span class='ident'>tokenizer</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>tok</span>),
             <span class='ident'>pending_input</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>()),
             <span class='ident'>document</span>: <span class='ident'>JS</span>::<span class='ident'>from_ref</span>(<span class='ident'>document</span>),
-            <span class='ident'>suspended</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>),
-            <span class='ident'>last_chunk_received</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>),
+            <span class='ident'>suspended</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>last_chunk_received</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
             <span class='ident'>pipeline</span>: <span class='ident'>pipeline</span>,
         };
 
@@ -347,13 +347,13 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>resume</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>get</span>());
-        <span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>set</span>(<span class='boolval'>false</span>);
+        <span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
         <span class='self'>self</span>.<span class='ident'>parse_sync</span>();
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>suspend</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>get</span>());
-        <span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>set</span>(<span class='boolval'>true</span>);
+        <span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_suspended</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {

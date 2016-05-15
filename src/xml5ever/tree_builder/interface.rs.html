@@ -199,29 +199,29 @@
     <span class='kw'>fn</span> <span class='ident'>parse_error</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>msg</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span>, <span class='ident'>str</span><span class='op'>&gt;</span>);
 
     <span class='doccomment'>/// Get a handle to the `Document` node.</span>
-    <span class='kw'>fn</span> <span class='ident'>get_document</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='ident'>Handle</span>;
+    <span class='kw'>fn</span> <span class='ident'>get_document</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Handle</span>;
 
     <span class='doccomment'>/// What is the name of this element?</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Should never be called on a non-element node;</span>
     <span class='doccomment'>/// feel free to `panic!`.</span>
-    <span class='kw'>fn</span> <span class='ident'>elem_name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>target</span>: <span class='kw-2'>&amp;</span><span class='kw'>Self</span>::<span class='ident'>Handle</span>) <span class='op'>-&gt;</span> <span class='ident'>QName</span>;
+    <span class='kw'>fn</span> <span class='ident'>elem_name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>target</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Handle</span>) <span class='op'>-&gt;</span> <span class='ident'>QName</span>;
 
     <span class='doccomment'>/// Create an element.</span>
-    <span class='kw'>fn</span> <span class='ident'>create_element</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>QName</span>, <span class='ident'>attrs</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Attribute</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='ident'>Handle</span>;
+    <span class='kw'>fn</span> <span class='ident'>create_element</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>QName</span>, <span class='ident'>attrs</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Attribute</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Handle</span>;
 
     <span class='doccomment'>/// Create a comment node.</span>
-    <span class='kw'>fn</span> <span class='ident'>create_comment</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='ident'>StrTendril</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='ident'>Handle</span>;
+    <span class='kw'>fn</span> <span class='ident'>create_comment</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='ident'>StrTendril</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Handle</span>;
 
     <span class='doccomment'>/// Create a Processing Instruction node.</span>
-    <span class='kw'>fn</span> <span class='ident'>create_pi</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>target</span>: <span class='ident'>StrTendril</span>, <span class='ident'>data</span>: <span class='ident'>StrTendril</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>::<span class='ident'>Handle</span>;
+    <span class='kw'>fn</span> <span class='ident'>create_pi</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>target</span>: <span class='ident'>StrTendril</span>, <span class='ident'>data</span>: <span class='ident'>StrTendril</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Handle</span>;
 
     <span class='doccomment'>/// Append a node as the last child of the given node.  If this would</span>
     <span class='doccomment'>/// produce adjacent sibling text nodes, it should concatenate the text</span>
     <span class='doccomment'>/// instead.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// The child node will not already have a parent.</span>
-    <span class='kw'>fn</span> <span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>parent</span>: <span class='kw'>Self</span>::<span class='ident'>Handle</span>, <span class='ident'>child</span>: <span class='ident'>NodeOrText</span><span class='op'>&lt;</span><span class='kw'>Self</span>::<span class='ident'>Handle</span><span class='op'>&gt;</span>);
+    <span class='kw'>fn</span> <span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>parent</span>: <span class='self'>Self</span>::<span class='ident'>Handle</span>, <span class='ident'>child</span>: <span class='ident'>NodeOrText</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Handle</span><span class='op'>&gt;</span>);
 
     <span class='doccomment'>/// Append a `DOCTYPE` element to the `Document` node.</span>
     <span class='kw'>fn</span> <span class='ident'>append_doctype_to_document</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
@@ -230,10 +230,10 @@
                                   <span class='ident'>system_id</span>: <span class='ident'>StrTendril</span>);
 
     <span class='doccomment'>/// Mark a HTML `&lt;script&gt;` as &quot;already started&quot;.</span>
-    <span class='kw'>fn</span> <span class='ident'>mark_script_already_started</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_node</span>: <span class='kw'>Self</span>::<span class='ident'>Handle</span>) {}
+    <span class='kw'>fn</span> <span class='ident'>mark_script_already_started</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_node</span>: <span class='self'>Self</span>::<span class='ident'>Handle</span>) {}
 
     <span class='doccomment'>/// Indicate that a `script` element is complete.</span>
-    <span class='kw'>fn</span> <span class='ident'>complete_script</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_node</span>: <span class='kw'>Self</span>::<span class='ident'>Handle</span>) <span class='op'>-&gt;</span> <span class='ident'>NextParserState</span> {
+    <span class='kw'>fn</span> <span class='ident'>complete_script</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_node</span>: <span class='self'>Self</span>::<span class='ident'>Handle</span>) <span class='op'>-&gt;</span> <span class='ident'>NextParserState</span> {
         <span class='ident'>NextParserState</span>::<span class='ident'>Continue</span>
     }
 }
@@ -245,7 +245,7 @@
 
     <span class='doccomment'>/// Upon a call to `trace_handles`, the tree builder will call this method</span>
     <span class='doccomment'>/// for each handle in its internal state.</span>
-    <span class='kw'>fn</span> <span class='ident'>trace_handle</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='kw'>Self</span>::<span class='ident'>Handle</span>);
+    <span class='kw'>fn</span> <span class='ident'>trace_handle</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='self'>Self</span>::<span class='ident'>Handle</span>);
 }
 </pre>
 </section>

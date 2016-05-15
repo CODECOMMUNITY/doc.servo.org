@@ -252,7 +252,7 @@
         <span class='kw'>impl</span> <span class='ident'>CollectionFilter</span> <span class='kw'>for</span> <span class='ident'>ElementsFilter</span> {
             <span class='kw'>fn</span> <span class='ident'>filter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>elem</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Element</span>, <span class='ident'>_root</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Node</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
                 <span class='ident'>elem</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>HTMLElement</span><span class='op'>&gt;</span>()
-                    .<span class='ident'>map_or</span>(<span class='boolval'>false</span>, <span class='ident'>HTMLElement</span>::<span class='ident'>is_listed_element</span>)
+                    .<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='ident'>HTMLElement</span>::<span class='ident'>is_listed_element</span>)
             }
         }
         <span class='kw'>let</span> <span class='ident'>filter</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>ElementsFilter</span>;
@@ -288,26 +288,26 @@
         <span class='kw'>match</span> <span class='ident'>attr</span>.<span class='ident'>local_name</span>() {
             <span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;disabled&quot;</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>disabled_state</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>mutation</span> {
-                    <span class='ident'>AttributeMutation</span>::<span class='ident'>Set</span>(<span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+                    <span class='ident'>AttributeMutation</span>::<span class='ident'>Set</span>(<span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
                     <span class='ident'>AttributeMutation</span>::<span class='ident'>Set</span>(<span class='prelude-val'>Some</span>(_)) <span class='op'>=&gt;</span> {
                         <span class='comment'>// Fieldset was already disabled before.</span>
                         <span class='kw'>return</span>;
                     },
-                    <span class='ident'>AttributeMutation</span>::<span class='ident'>Removed</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                    <span class='ident'>AttributeMutation</span>::<span class='ident'>Removed</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
                 };
                 <span class='kw'>let</span> <span class='ident'>node</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>();
                 <span class='kw'>let</span> <span class='ident'>el</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
                 <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='ident'>disabled_state</span>);
                 <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='op'>!</span><span class='ident'>disabled_state</span>);
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found_legend</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found_legend</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
                 <span class='kw'>let</span> <span class='ident'>children</span> <span class='op'>=</span> <span class='ident'>node</span>.<span class='ident'>children</span>().<span class='ident'>filter</span>(<span class='op'>|</span><span class='ident'>node</span><span class='op'>|</span> {
                     <span class='kw'>if</span> <span class='ident'>found_legend</span> {
-                        <span class='boolval'>true</span>
+                        <span class='boolvalue'>true</span>
                     } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>node</span>.<span class='ident'>is</span>::<span class='op'>&lt;</span><span class='ident'>HTMLLegendElement</span><span class='op'>&gt;</span>() {
-                        <span class='ident'>found_legend</span> <span class='op'>=</span> <span class='boolval'>true</span>;
-                        <span class='boolval'>false</span>
+                        <span class='ident'>found_legend</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                        <span class='boolvalue'>false</span>
                     } <span class='kw'>else</span> {
-                        <span class='boolval'>true</span>
+                        <span class='boolvalue'>true</span>
                     }
                 });
                 <span class='kw'>let</span> <span class='ident'>fields</span> <span class='op'>=</span> <span class='ident'>children</span>.<span class='ident'>flat_map</span>(<span class='op'>|</span><span class='ident'>child</span><span class='op'>|</span> {
@@ -325,17 +325,17 @@
                             <span class='ident'>NodeTypeId</span>::<span class='ident'>Element</span>(
                                     <span class='ident'>ElementTypeId</span>::<span class='ident'>HTMLElement</span>(
                                         <span class='ident'>HTMLElementTypeId</span>::<span class='ident'>HTMLTextAreaElement</span>)) <span class='op'>=&gt;</span> {
-                                <span class='boolval'>true</span>
+                                <span class='boolvalue'>true</span>
                             },
-                            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+                            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
                         }
                     })
                 });
                 <span class='kw'>if</span> <span class='ident'>disabled_state</span> {
                     <span class='kw'>for</span> <span class='ident'>field</span> <span class='kw'>in</span> <span class='ident'>fields</span> {
                         <span class='kw'>let</span> <span class='ident'>el</span> <span class='op'>=</span> <span class='ident'>field</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>();
-                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolval'>true</span>);
-                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolval'>false</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_disabled_state</span>(<span class='boolvalue'>true</span>);
+                        <span class='ident'>el</span>.<span class='ident'>set_enabled_state</span>(<span class='boolvalue'>false</span>);
                     }
                 } <span class='kw'>else</span> {
                     <span class='kw'>for</span> <span class='ident'>field</span> <span class='kw'>in</span> <span class='ident'>fields</span> {

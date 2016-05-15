@@ -267,14 +267,6 @@
 <span id="223">223</span>
 <span id="224">224</span>
 <span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
-<span id="228">228</span>
-<span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
-<span id="233">233</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -320,32 +312,32 @@
 
 <span class='doccomment'>/// Checks if a type is unrooted or contains any owned unrooted types</span>
 <span class='kw'>fn</span> <span class='ident'>is_unrooted_ty</span>(<span class='ident'>cx</span>: <span class='kw-2'>&amp;</span><span class='ident'>LateContext</span>, <span class='ident'>ty</span>: <span class='kw-2'>&amp;</span><span class='ident'>ty</span>::<span class='ident'>TyS</span>, <span class='ident'>in_new_function</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
     <span class='ident'>ty</span>.<span class='ident'>maybe_walk</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> {
         <span class='kw'>match</span> <span class='ident'>t</span>.<span class='ident'>sty</span> {
             <span class='ident'>ty</span>::<span class='ident'>TyStruct</span>(<span class='ident'>did</span>, _) <span class='op'>|</span>
             <span class='ident'>ty</span>::<span class='ident'>TyEnum</span>(<span class='ident'>did</span>, _) <span class='op'>=&gt;</span> {
                 <span class='kw'>if</span> <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>has_attr</span>(<span class='ident'>did</span>.<span class='ident'>did</span>, <span class='string'>&quot;must_root&quot;</span>) {
-                    <span class='ident'>ret</span> <span class='op'>=</span> <span class='boolval'>true</span>;
-                    <span class='boolval'>false</span>
+                    <span class='ident'>ret</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                    <span class='boolvalue'>false</span>
                 } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>has_attr</span>(<span class='ident'>did</span>.<span class='ident'>did</span>, <span class='string'>&quot;allow_unrooted_interior&quot;</span>) {
-                    <span class='boolval'>false</span>
+                    <span class='boolvalue'>false</span>
                 } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>match_def_path</span>(<span class='ident'>cx</span>, <span class='ident'>did</span>.<span class='ident'>did</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;core&quot;</span>, <span class='string'>&quot;cell&quot;</span>, <span class='string'>&quot;Ref&quot;</span>])
                         <span class='op'>||</span> <span class='ident'>match_def_path</span>(<span class='ident'>cx</span>, <span class='ident'>did</span>.<span class='ident'>did</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;core&quot;</span>, <span class='string'>&quot;cell&quot;</span>, <span class='string'>&quot;RefMut&quot;</span>])
                         <span class='op'>||</span> <span class='ident'>match_def_path</span>(<span class='ident'>cx</span>, <span class='ident'>did</span>.<span class='ident'>did</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;core&quot;</span>, <span class='string'>&quot;slice&quot;</span>, <span class='string'>&quot;Iter&quot;</span>])
                         <span class='op'>||</span> <span class='ident'>match_def_path</span>(<span class='ident'>cx</span>, <span class='ident'>did</span>.<span class='ident'>did</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;std&quot;</span>, <span class='string'>&quot;collections&quot;</span>, <span class='string'>&quot;hash&quot;</span>, <span class='string'>&quot;map&quot;</span>, <span class='string'>&quot;OccupiedEntry&quot;</span>])
                         <span class='op'>||</span> <span class='ident'>match_def_path</span>(<span class='ident'>cx</span>, <span class='ident'>did</span>.<span class='ident'>did</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;std&quot;</span>, <span class='string'>&quot;collections&quot;</span>, <span class='string'>&quot;hash&quot;</span>, <span class='string'>&quot;map&quot;</span>, <span class='string'>&quot;VacantEntry&quot;</span>]) {
                     <span class='comment'>// Structures which are semantically similar to an &amp;ptr.</span>
-                    <span class='boolval'>false</span>
+                    <span class='boolvalue'>false</span>
                 } <span class='kw'>else</span> {
-                    <span class='boolval'>true</span>
+                    <span class='boolvalue'>true</span>
                 }
             },
-            <span class='ident'>ty</span>::<span class='ident'>TyBox</span>(..) <span class='kw'>if</span> <span class='ident'>in_new_function</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>, <span class='comment'>// box in new() is okay</span>
-            <span class='ident'>ty</span>::<span class='ident'>TyRef</span>(..) <span class='op'>=&gt;</span> <span class='boolval'>false</span>, <span class='comment'>// don&#39;t recurse down &amp;ptrs</span>
-            <span class='ident'>ty</span>::<span class='ident'>TyRawPtr</span>(..) <span class='op'>=&gt;</span> <span class='boolval'>false</span>, <span class='comment'>// don&#39;t recurse down *ptrs</span>
-            <span class='ident'>ty</span>::<span class='ident'>TyFnDef</span>(..) <span class='op'>|</span> <span class='ident'>ty</span>::<span class='ident'>TyFnPtr</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>true</span>
+            <span class='ident'>ty</span>::<span class='ident'>TyBox</span>(..) <span class='kw'>if</span> <span class='ident'>in_new_function</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>, <span class='comment'>// box in new() is okay</span>
+            <span class='ident'>ty</span>::<span class='ident'>TyRef</span>(..) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>, <span class='comment'>// don&#39;t recurse down &amp;ptrs</span>
+            <span class='ident'>ty</span>::<span class='ident'>TyRawPtr</span>(..) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>, <span class='comment'>// don&#39;t recurse down *ptrs</span>
+            <span class='ident'>ty</span>::<span class='ident'>TyFnDef</span>(..) <span class='op'>|</span> <span class='ident'>ty</span>::<span class='ident'>TyFnPtr</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>
         }
     });
     <span class='ident'>ret</span>
@@ -371,7 +363,7 @@
         };
         <span class='kw'>if</span> <span class='ident'>item</span>.<span class='ident'>attrs</span>.<span class='ident'>iter</span>().<span class='ident'>all</span>(<span class='op'>|</span><span class='ident'>a</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>check_name</span>(<span class='string'>&quot;must_root&quot;</span>)) {
             <span class='kw'>for</span> <span class='kw-2'>ref</span> <span class='ident'>field</span> <span class='kw'>in</span> <span class='ident'>def</span>.<span class='ident'>fields</span>() {
-                <span class='kw'>if</span> <span class='ident'>is_unrooted_ty</span>(<span class='ident'>cx</span>, <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>node_id_to_type</span>(<span class='ident'>field</span>.<span class='ident'>id</span>), <span class='boolval'>false</span>) {
+                <span class='kw'>if</span> <span class='ident'>is_unrooted_ty</span>(<span class='ident'>cx</span>, <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>node_id_to_type</span>(<span class='ident'>field</span>.<span class='ident'>id</span>), <span class='boolvalue'>false</span>) {
                     <span class='ident'>cx</span>.<span class='ident'>span_lint</span>(<span class='ident'>UNROOTED_MUST_ROOT</span>, <span class='ident'>field</span>.<span class='ident'>span</span>,
                                  <span class='string'>&quot;Type must be rooted, use #[must_root] on the struct definition to propagate&quot;</span>)
                 }
@@ -384,15 +376,13 @@
         <span class='kw'>let</span> <span class='kw-2'>ref</span> <span class='ident'>map</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>map</span>;
         <span class='kw'>if</span> <span class='ident'>map</span>.<span class='ident'>expect_item</span>(<span class='ident'>map</span>.<span class='ident'>get_parent</span>(<span class='ident'>var</span>.<span class='ident'>node</span>.<span class='ident'>data</span>.<span class='ident'>id</span>())).<span class='ident'>attrs</span>.<span class='ident'>iter</span>().<span class='ident'>all</span>(<span class='op'>|</span><span class='ident'>a</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>check_name</span>(<span class='string'>&quot;must_root&quot;</span>)) {
             <span class='kw'>match</span> <span class='ident'>var</span>.<span class='ident'>node</span>.<span class='ident'>data</span> {
-                <span class='ident'>hir</span>::<span class='ident'>VariantData</span>::<span class='ident'>Tuple</span>(<span class='kw-2'>ref</span> <span class='ident'>vec</span>, _) <span class='op'>=&gt;</span> {
-                    <span class='kw'>for</span> <span class='ident'>ty</span> <span class='kw'>in</span> <span class='ident'>vec</span> {
-                        <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>ast_ty_to_ty_cache</span>.<span class='ident'>borrow</span>().<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>ty</span>.<span class='ident'>id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> {
-                            <span class='kw'>if</span> <span class='ident'>is_unrooted_ty</span>(<span class='ident'>cx</span>, <span class='ident'>t</span>, <span class='boolval'>false</span>) {
-                                <span class='ident'>cx</span>.<span class='ident'>span_lint</span>(<span class='ident'>UNROOTED_MUST_ROOT</span>, <span class='ident'>ty</span>.<span class='ident'>ty</span>.<span class='ident'>span</span>,
-                                             <span class='string'>&quot;Type must be rooted, use #[must_root] on \
-                                              the enum definition to propagate&quot;</span>)
-                            }
-                        });
+                <span class='ident'>hir</span>::<span class='ident'>VariantData</span>::<span class='ident'>Tuple</span>(<span class='kw-2'>ref</span> <span class='ident'>fields</span>, _) <span class='op'>=&gt;</span> {
+                    <span class='kw'>for</span> <span class='kw-2'>ref</span> <span class='ident'>field</span> <span class='kw'>in</span> <span class='ident'>fields</span> {
+                        <span class='kw'>if</span> <span class='ident'>is_unrooted_ty</span>(<span class='ident'>cx</span>, <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>node_id_to_type</span>(<span class='ident'>field</span>.<span class='ident'>id</span>), <span class='boolvalue'>false</span>) {
+                            <span class='ident'>cx</span>.<span class='ident'>span_lint</span>(<span class='ident'>UNROOTED_MUST_ROOT</span>, <span class='ident'>field</span>.<span class='ident'>ty</span>.<span class='ident'>span</span>,
+                                         <span class='string'>&quot;Type must be rooted, use #[must_root] on \
+                                          the enum definition to propagate&quot;</span>)
+                        }
                     }
                 }
                 _ <span class='op'>=&gt;</span> () <span class='comment'>// Struct variants already caught by check_struct_def</span>
@@ -401,7 +391,7 @@
     }
     <span class='doccomment'>/// Function arguments that are #[must_root] types are not allowed</span>
     <span class='kw'>fn</span> <span class='ident'>check_fn</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>cx</span>: <span class='kw-2'>&amp;</span><span class='ident'>LateContext</span>, <span class='ident'>kind</span>: <span class='ident'>visit</span>::<span class='ident'>FnKind</span>, <span class='ident'>decl</span>: <span class='kw-2'>&amp;</span><span class='ident'>hir</span>::<span class='ident'>FnDecl</span>,
-                <span class='ident'>block</span>: <span class='kw-2'>&amp;</span><span class='ident'>hir</span>::<span class='ident'>Block</span>, <span class='ident'>span</span>: <span class='ident'>codemap</span>::<span class='ident'>Span</span>, <span class='ident'>_id</span>: <span class='ident'>ast</span>::<span class='ident'>NodeId</span>) {
+                <span class='ident'>block</span>: <span class='kw-2'>&amp;</span><span class='ident'>hir</span>::<span class='ident'>Block</span>, <span class='ident'>span</span>: <span class='ident'>codemap</span>::<span class='ident'>Span</span>, <span class='ident'>id</span>: <span class='ident'>ast</span>::<span class='ident'>NodeId</span>) {
         <span class='kw'>let</span> <span class='ident'>in_new_function</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>kind</span> {
             <span class='ident'>visit</span>::<span class='ident'>FnKind</span>::<span class='ident'>ItemFn</span>(<span class='ident'>n</span>, _, _, _, _, _, _) <span class='op'>|</span>
             <span class='ident'>visit</span>::<span class='ident'>FnKind</span>::<span class='ident'>Method</span>(<span class='ident'>n</span>, _, _, _) <span class='op'>=&gt;</span> {
@@ -410,27 +400,21 @@
             <span class='ident'>visit</span>::<span class='ident'>FnKind</span>::<span class='ident'>Closure</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span>,
         };
 
-        <span class='kw'>for</span> <span class='ident'>arg</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>decl</span>.<span class='ident'>inputs</span> {
-            <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>ast_ty_to_ty_cache</span>.<span class='ident'>borrow</span>().<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>arg</span>.<span class='ident'>ty</span>.<span class='ident'>id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> {
-                <span class='kw'>if</span> <span class='ident'>is_unrooted_ty</span>(<span class='ident'>cx</span>, <span class='ident'>t</span>, <span class='boolval'>false</span>) {
-                    <span class='kw'>if</span> <span class='ident'>in_derive_expn</span>(<span class='ident'>cx</span>, <span class='ident'>span</span>) {
-                        <span class='kw'>return</span>;
-                    }
+        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>in_derive_expn</span>(<span class='ident'>cx</span>, <span class='ident'>span</span>) {
+            <span class='kw'>let</span> <span class='ident'>ty</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>node_id_to_type</span>(<span class='ident'>id</span>);
+
+            <span class='kw'>for</span> (<span class='ident'>arg</span>, <span class='ident'>ty</span>) <span class='kw'>in</span> <span class='ident'>decl</span>.<span class='ident'>inputs</span>.<span class='ident'>iter</span>().<span class='ident'>zip</span>(<span class='ident'>ty</span>.<span class='ident'>fn_args</span>().<span class='number'>0</span>.<span class='ident'>iter</span>()) {
+                <span class='kw'>if</span> <span class='ident'>is_unrooted_ty</span>(<span class='ident'>cx</span>, <span class='ident'>ty</span>, <span class='boolvalue'>false</span>) {
                     <span class='ident'>cx</span>.<span class='ident'>span_lint</span>(<span class='ident'>UNROOTED_MUST_ROOT</span>, <span class='ident'>arg</span>.<span class='ident'>ty</span>.<span class='ident'>span</span>, <span class='string'>&quot;Type must be rooted&quot;</span>)
                 }
-            });
-        }
+            }
 
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>in_new_function</span> {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>hir</span>::<span class='ident'>Return</span>(<span class='kw-2'>ref</span> <span class='ident'>ty</span>) <span class='op'>=</span> <span class='ident'>decl</span>.<span class='ident'>output</span> {
-                <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>ast_ty_to_ty_cache</span>.<span class='ident'>borrow</span>().<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>ty</span>.<span class='ident'>id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> {
-                    <span class='kw'>if</span> <span class='ident'>is_unrooted_ty</span>(<span class='ident'>cx</span>, <span class='ident'>t</span>, <span class='boolval'>false</span>) {
-                        <span class='kw'>if</span> <span class='ident'>in_derive_expn</span>(<span class='ident'>cx</span>, <span class='ident'>span</span>) {
-                            <span class='kw'>return</span>;
-                        }
-                        <span class='ident'>cx</span>.<span class='ident'>span_lint</span>(<span class='ident'>UNROOTED_MUST_ROOT</span>, <span class='ident'>ty</span>.<span class='ident'>span</span>, <span class='string'>&quot;Type must be rooted&quot;</span>)
+            <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>in_new_function</span> {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>ty</span>::<span class='ident'>FnOutput</span>::<span class='ident'>FnConverging</span>(<span class='ident'>ret</span>) <span class='op'>=</span> <span class='ident'>ty</span>.<span class='ident'>fn_ret</span>().<span class='number'>0</span> {
+                    <span class='kw'>if</span> <span class='ident'>is_unrooted_ty</span>(<span class='ident'>cx</span>, <span class='ident'>ret</span>, <span class='boolvalue'>false</span>) {
+                        <span class='ident'>cx</span>.<span class='ident'>span_lint</span>(<span class='ident'>UNROOTED_MUST_ROOT</span>, <span class='ident'>decl</span>.<span class='ident'>output</span>.<span class='ident'>span</span>(), <span class='string'>&quot;Type must be rooted&quot;</span>)
                     }
-                });
+                }
             }
         }
 

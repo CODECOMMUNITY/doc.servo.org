@@ -615,7 +615,7 @@
 
     <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>from_jsval</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
                          <span class='ident'>value</span>: <span class='ident'>HandleValue</span>,
-                         <span class='ident'>_config</span>: <span class='kw'>Self</span>::<span class='ident'>Config</span>)
+                         <span class='ident'>_config</span>: <span class='self'>Self</span>::<span class='ident'>Config</span>)
                          <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>, ()<span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>root_from_handlevalue</span>(<span class='ident'>value</span>);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(()) <span class='op'>=</span> <span class='ident'>result</span> {
@@ -888,8 +888,8 @@
     <span class='kw'>fn</span> <span class='ident'>is_type_compatible</span>(<span class='ident'>ty</span>: <span class='ident'>Type</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='ident'>ty</span> {
             <span class='ident'>Type</span>::<span class='ident'>Uint8</span> <span class='op'>|</span>
-            <span class='ident'>Type</span>::<span class='ident'>Uint8Clamped</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>Type</span>::<span class='ident'>Uint8Clamped</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
 }
@@ -940,7 +940,7 @@
 <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>array_buffer_view_data</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>: <span class='ident'>ArrayBufferViewContents</span><span class='op'>&gt;</span>(<span class='ident'>abv</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> [<span class='ident'>T</span>]<span class='op'>&gt;</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>byte_length</span> <span class='op'>=</span> <span class='number'>0</span>;
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ptr</span> <span class='op'>=</span> <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_shared</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_shared</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
     <span class='kw'>let</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>JS_GetObjectAsArrayBufferView</span>(<span class='ident'>abv</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>byte_length</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>is_shared</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ptr</span>);
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>is_shared</span>);
     <span class='kw'>if</span> <span class='ident'>ret</span>.<span class='ident'>is_null</span>() {
@@ -981,7 +981,7 @@
 <span class='doccomment'>/// Note: Currently only Arrays are supported.</span>
 <span class='doccomment'>/// TODO: Expand this to support sequences and other array-like objects</span>
 <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>is_array_like</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>value</span>: <span class='ident'>HandleValue</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>JS_IsArrayObject</span>(<span class='ident'>cx</span>, <span class='ident'>value</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result</span>));
     <span class='ident'>result</span>
 }
