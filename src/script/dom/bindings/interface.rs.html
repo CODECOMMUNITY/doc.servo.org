@@ -501,10 +501,10 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>Class</span>, <span class='ident'>ClassExtension</span>, <span class='ident'>ClassSpec</span>, <span class='ident'>GetGlobalForObjectCrossCompartment</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>HandleObject</span>, <span class='ident'>HandleValue</span>, <span class='ident'>JSClass</span>, <span class='ident'>JSContext</span>, <span class='ident'>JSFunctionSpec</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSNative</span>, <span class='ident'>JSFUN_CONSTRUCTOR</span>, <span class='ident'>JSPROP_ENUMERATE</span>, <span class='ident'>JSPROP_PERMANENT</span>, <span class='ident'>JSPROP_READONLY</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSPROP_RESOLVING</span>, <span class='ident'>JSPropertySpec</span>, <span class='ident'>JSString</span>, <span class='ident'>JS_DefineProperty1</span>, <span class='ident'>JS_DefineProperty2</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_AtomizeAndPinString</span>, <span class='ident'>JS_DefineProperty4</span>, <span class='ident'>JS_GetClass</span>, <span class='ident'>JS_GetFunctionObject</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_GetPrototype</span>, <span class='ident'>JS_LinkConstructorAndPrototype</span>, <span class='ident'>JS_NewFunction</span>, <span class='ident'>JS_NewObject</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_NewObjectWithUniqueType</span>, <span class='ident'>JS_NewStringCopyZ</span>, <span class='ident'>JS_DefineProperty</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSPROP_RESOLVING</span>, <span class='ident'>JSPropertySpec</span>, <span class='ident'>JSString</span>, <span class='ident'>JS_AtomizeAndPinString</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_DefineProperty</span>, <span class='ident'>JS_DefineProperty1</span>, <span class='ident'>JS_DefineProperty2</span>, <span class='ident'>JS_DefineProperty4</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_GetClass</span>, <span class='ident'>JS_GetFunctionObject</span>, <span class='ident'>JS_GetPrototype</span>, <span class='ident'>JS_LinkConstructorAndPrototype</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_NewFunction</span>, <span class='ident'>JS_NewObject</span>, <span class='ident'>JS_NewObjectWithUniqueType</span>, <span class='ident'>JS_NewStringCopyN</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>MutableHandleObject</span>, <span class='ident'>MutableHandleValue</span>, <span class='ident'>ObjectOps</span>, <span class='ident'>RootedObject</span>, <span class='ident'>RootedString</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>RootedValue</span>, <span class='ident'>Value</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::{<span class='ident'>BooleanValue</span>, <span class='ident'>DoubleValue</span>, <span class='ident'>Int32Value</span>, <span class='ident'>JSVal</span>, <span class='ident'>NullValue</span>, <span class='ident'>UInt32Value</span>};
@@ -576,9 +576,9 @@
                                         <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSString</span> {
     <span class='kw'>let</span> <span class='ident'>js_class</span> <span class='op'>=</span> <span class='ident'>JS_GetClass</span>(<span class='ident'>obj</span>.<span class='ident'>get</span>());
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>js_class</span>.<span class='ident'>is_null</span>());
-    <span class='kw'>let</span> <span class='ident'>object_class</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span>(<span class='ident'>js_class</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>NonCallbackInterfaceObjectClass</span>);
-    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>object_class</span>.<span class='ident'>representation</span>.<span class='ident'>last</span>() <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='number'>0</span>));
-    <span class='kw'>let</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>JS_NewStringCopyZ</span>(<span class='ident'>cx</span>, <span class='ident'>object_class</span>.<span class='ident'>representation</span>.<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>);
+    <span class='kw'>let</span> <span class='ident'>repr</span> <span class='op'>=</span> (<span class='op'>*</span>(<span class='ident'>js_class</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>NonCallbackInterfaceObjectClass</span>)).<span class='ident'>representation</span>;
+    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>repr</span>.<span class='ident'>is_empty</span>());
+    <span class='kw'>let</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>JS_NewStringCopyN</span>(<span class='ident'>cx</span>, <span class='ident'>repr</span>.<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>, <span class='ident'>repr</span>.<span class='ident'>len</span>());
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>ret</span>.<span class='ident'>is_null</span>());
     <span class='ident'>ret</span>
 }
@@ -592,7 +592,7 @@
     <span class='kw'>pub</span> <span class='ident'>proto_id</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>,
     <span class='doccomment'>/// The prototype depth of that interface, used in the hasInstance hook.</span>
     <span class='kw'>pub</span> <span class='ident'>proto_depth</span>: <span class='ident'>u16</span>,
-    <span class='doccomment'>/// The string representation of the object (ends with &#39;\0&#39;).</span>
+    <span class='doccomment'>/// The string representation of the object.</span>
     <span class='kw'>pub</span> <span class='ident'>representation</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>],
 }
 
@@ -600,7 +600,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>NonCallbackInterfaceObjectClass</span> {
     <span class='doccomment'>/// Create a new `NonCallbackInterfaceObjectClass` structure.</span>
-    <span class='kw'>pub</span> <span class='kw'>const</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>new</span>(
+    <span class='kw'>pub</span> <span class='kw'>const</span> <span class='kw'>fn</span> <span class='ident'>new</span>(
             <span class='ident'>constructor_behavior</span>: <span class='ident'>InterfaceConstructorBehavior</span>,
             <span class='ident'>string_rep</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>],
             <span class='ident'>proto_id</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>,

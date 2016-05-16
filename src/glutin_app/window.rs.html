@@ -946,6 +946,14 @@
 <span id="902">902</span>
 <span id="903">903</span>
 <span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -983,6 +991,8 @@
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>opts</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>))]</span>
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>opts</span>::<span class='ident'>RenderApi</span>;
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>;
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>resource_files</span>;
 
 <span class='kw'>static</span> <span class='kw-2'>mut</span> <span class='ident'>g_nested_event_loop_listener</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw-2'>mut</span> (<span class='ident'>NestedEventLoopListener</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>)<span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 
@@ -1058,6 +1068,9 @@
         <span class='comment'>// #9996.</span>
         <span class='kw'>let</span> <span class='ident'>visible</span> <span class='op'>=</span> <span class='ident'>is_foreground</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>no_native_titlebar</span>;
 
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>icon_path</span> <span class='op'>=</span> <span class='ident'>resource_files</span>::<span class='ident'>resources_dir_path</span>();
+        <span class='ident'>icon_path</span>.<span class='ident'>push</span>(<span class='string'>&quot;servo.png&quot;</span>);
+
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>builder</span> <span class='op'>=</span>
             <span class='ident'>glutin</span>::<span class='ident'>WindowBuilder</span>::<span class='ident'>new</span>().<span class='ident'>with_title</span>(<span class='string'>&quot;Servo&quot;</span>.<span class='ident'>to_string</span>())
                                         .<span class='ident'>with_decorations</span>(<span class='op'>!</span><span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>no_native_titlebar</span>)
@@ -1066,7 +1079,8 @@
                                         .<span class='ident'>with_gl</span>(<span class='ident'>Window</span>::<span class='ident'>gl_version</span>())
                                         .<span class='ident'>with_visibility</span>(<span class='ident'>visible</span>)
                                         .<span class='ident'>with_parent</span>(<span class='ident'>parent</span>)
-                                        .<span class='ident'>with_multitouch</span>();
+                                        .<span class='ident'>with_multitouch</span>()
+                                        .<span class='ident'>with_icon</span>(<span class='ident'>icon_path</span>);
 
         <span class='kw'>if</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>enable_vsync</span> {
             <span class='ident'>builder</span> <span class='op'>=</span> <span class='ident'>builder</span>.<span class='ident'>with_vsync</span>();
@@ -1712,7 +1726,9 @@
             }
 
             (<span class='ident'>NONE</span>, <span class='ident'>Key</span>::<span class='ident'>Escape</span>) <span class='op'>=&gt;</span> {
-                <span class='self'>self</span>.<span class='ident'>event_queue</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>WindowEvent</span>::<span class='ident'>Quit</span>);
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>) <span class='op'>=</span> <span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;shell.quit-on-escape.enabled&quot;</span>).<span class='ident'>as_boolean</span>() {
+                    <span class='self'>self</span>.<span class='ident'>event_queue</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>WindowEvent</span>::<span class='ident'>Quit</span>);
+                }
             }
 
             (<span class='ident'>CMD_OR_ALT</span>, <span class='ident'>Key</span>::<span class='ident'>Right</span>) <span class='op'>=&gt;</span> {
