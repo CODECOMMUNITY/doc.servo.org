@@ -190,13 +190,6 @@
 <span id="146">146</span>
 <span id="147">147</span>
 <span id="148">148</span>
-<span id="149">149</span>
-<span id="150">150</span>
-<span id="151">151</span>
-<span id="152">152</span>
-<span id="153">153</span>
-<span id="154">154</span>
-<span id="155">155</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -212,7 +205,6 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::<span class='ident'>JSAutoCompartment</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSContext</span>, <span class='ident'>JSObject</span>, <span class='ident'>RootedValue</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_IsExceptionPending</span>, <span class='ident'>JS_ReportPendingException</span>, <span class='ident'>JS_SetPendingException</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_RestoreFrameChain</span>, <span class='ident'>JS_SaveFrameChain</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::<span class='ident'>UndefinedValue</span>;
 
 <span class='doccomment'>/// DOM exceptions that can be thrown by a native DOM method.</span>
@@ -325,14 +317,8 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>report_pending_exception</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) {
     <span class='kw'>unsafe</span> {
         <span class='kw'>if</span> <span class='ident'>JS_IsExceptionPending</span>(<span class='ident'>cx</span>) {
-            <span class='kw'>let</span> <span class='ident'>saved</span> <span class='op'>=</span> <span class='ident'>JS_SaveFrameChain</span>(<span class='ident'>cx</span>);
-            {
-                <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>);
-                <span class='ident'>JS_ReportPendingException</span>(<span class='ident'>cx</span>);
-            }
-            <span class='kw'>if</span> <span class='ident'>saved</span> {
-                <span class='ident'>JS_RestoreFrameChain</span>(<span class='ident'>cx</span>);
-            }
+            <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>);
+            <span class='ident'>JS_ReportPendingException</span>(<span class='ident'>cx</span>);
         }
     }
 }

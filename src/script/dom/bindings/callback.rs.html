@@ -245,14 +245,6 @@
 <span id="201">201</span>
 <span id="202">202</span>
 <span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -269,7 +261,6 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>IsCallable</span>, <span class='ident'>JSContext</span>, <span class='ident'>JSObject</span>, <span class='ident'>JS_WrapObject</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSCompartment</span>, <span class='ident'>JS_EnterCompartment</span>, <span class='ident'>JS_LeaveCompartment</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_GetProperty</span>, <span class='ident'>JS_IsExceptionPending</span>, <span class='ident'>JS_ReportPendingException</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_RestoreFrameChain</span>, <span class='ident'>JS_SaveFrameChain</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::{<span class='ident'>JSVal</span>, <span class='ident'>UndefinedValue</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>default</span>::<span class='ident'>Default</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>CString</span>;
@@ -452,15 +443,8 @@
                                           <span class='kw'>unsafe</span> { <span class='ident'>JS_IsExceptionPending</span>(<span class='self'>self</span>.<span class='ident'>cx</span>) };
         <span class='kw'>if</span> <span class='ident'>need_to_deal_with_exception</span> {
             <span class='kw'>unsafe</span> {
-                <span class='kw'>let</span> <span class='ident'>old_global</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>cx</span>, <span class='self'>self</span>.<span class='ident'>exception_compartment</span>.<span class='ident'>ptr</span>);
-                <span class='kw'>let</span> <span class='ident'>saved</span> <span class='op'>=</span> <span class='ident'>JS_SaveFrameChain</span>(<span class='self'>self</span>.<span class='ident'>cx</span>);
-                {
-                    <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>cx</span>, <span class='ident'>old_global</span>.<span class='ident'>ptr</span>);
-                    <span class='ident'>JS_ReportPendingException</span>(<span class='self'>self</span>.<span class='ident'>cx</span>);
-                }
-                <span class='kw'>if</span> <span class='ident'>saved</span> {
-                    <span class='ident'>JS_RestoreFrameChain</span>(<span class='self'>self</span>.<span class='ident'>cx</span>);
-                }
+                <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>cx</span>, <span class='self'>self</span>.<span class='ident'>exception_compartment</span>.<span class='ident'>ptr</span>);
+                <span class='ident'>JS_ReportPendingException</span>(<span class='self'>self</span>.<span class='ident'>cx</span>);
             }
         }
     }
