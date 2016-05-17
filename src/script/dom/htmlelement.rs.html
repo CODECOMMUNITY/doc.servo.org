@@ -531,29 +531,6 @@
 <span id="487">487</span>
 <span id="488">488</span>
 <span id="489">489</span>
-<span id="490">490</span>
-<span id="491">491</span>
-<span id="492">492</span>
-<span id="493">493</span>
-<span id="494">494</span>
-<span id="495">495</span>
-<span id="496">496</span>
-<span id="497">497</span>
-<span id="498">498</span>
-<span id="499">499</span>
-<span id="500">500</span>
-<span id="501">501</span>
-<span id="502">502</span>
-<span id="503">503</span>
-<span id="504">504</span>
-<span id="505">505</span>
-<span id="506">506</span>
-<span id="507">507</span>
-<span id="508">508</span>
-<span id="509">509</span>
-<span id="510">510</span>
-<span id="511">511</span>
-<span id="512">512</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -589,7 +566,6 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>default</span>::<span class='ident'>Default</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>intrinsics</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::<span class='ident'>Atom</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>element_state</span>::<span class='op'>*</span>;
@@ -1043,28 +1019,6 @@
             <span class='ident'>s</span>.<span class='ident'>bind_to_tree</span>(<span class='ident'>tree_in_doc</span>);
         }
         <span class='self'>self</span>.<span class='ident'>update_sequentially_focusable_status</span>();
-    }
-}
-
-<span class='kw'>impl</span> <span class='ident'>PartialEq</span> <span class='kw'>for</span> <span class='ident'>HTMLElementTypeId</span> {
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>HTMLElementTypeId</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>match</span> (<span class='op'>*</span><span class='self'>self</span>, <span class='op'>*</span><span class='ident'>other</span>) {
-            (<span class='ident'>HTMLElementTypeId</span>::<span class='ident'>HTMLMediaElement</span>(<span class='ident'>this_type</span>),
-             <span class='ident'>HTMLElementTypeId</span>::<span class='ident'>HTMLMediaElement</span>(<span class='ident'>other_type</span>)) <span class='op'>=&gt;</span> {
-                <span class='ident'>this_type</span> <span class='op'>==</span> <span class='ident'>other_type</span>
-            }
-            (<span class='ident'>HTMLElementTypeId</span>::<span class='ident'>HTMLTableCellElement</span>(<span class='ident'>this_type</span>),
-             <span class='ident'>HTMLElementTypeId</span>::<span class='ident'>HTMLTableCellElement</span>(<span class='ident'>other_type</span>)) <span class='op'>=&gt;</span> {
-                <span class='ident'>this_type</span> <span class='op'>==</span> <span class='ident'>other_type</span>
-            }
-            (_, _) <span class='op'>=&gt;</span> {
-                <span class='kw'>unsafe</span> {
-                    <span class='ident'>intrinsics</span>::<span class='ident'>discriminant_value</span>(<span class='self'>self</span>) <span class='op'>==</span> <span class='ident'>intrinsics</span>::<span class='ident'>discriminant_value</span>(<span class='ident'>other</span>)
-                }
-            }
-        }
     }
 }
 </pre>
