@@ -253,13 +253,6 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -275,7 +268,6 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>Heap</span>, <span class='ident'>MutableHandleObject</span>, <span class='ident'>RootedObject</span>, <span class='ident'>RootedValue</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>IsCallable</span>, <span class='ident'>JSContext</span>, <span class='ident'>JSObject</span>, <span class='ident'>JS_WrapObject</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSCompartment</span>, <span class='ident'>JS_EnterCompartment</span>, <span class='ident'>JS_LeaveCompartment</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_BeginRequest</span>, <span class='ident'>JS_EndRequest</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_GetProperty</span>, <span class='ident'>JS_IsExceptionPending</span>, <span class='ident'>JS_ReportPendingException</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_RestoreFrameChain</span>, <span class='ident'>JS_SaveFrameChain</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::{<span class='ident'>JSVal</span>, <span class='ident'>UndefinedValue</span>};
@@ -431,9 +423,6 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>CallbackContainer</span><span class='op'>&gt;</span>(<span class='ident'>callback</span>: <span class='kw-2'>&amp;</span><span class='ident'>T</span>, <span class='ident'>handling</span>: <span class='ident'>ExceptionHandling</span>) <span class='op'>-&gt;</span> <span class='ident'>CallSetup</span> {
         <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='ident'>global_root_from_object</span>(<span class='ident'>callback</span>.<span class='ident'>callback</span>());
         <span class='kw'>let</span> <span class='ident'>cx</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>r</span>().<span class='ident'>get_cx</span>();
-        <span class='kw'>unsafe</span> {
-            <span class='ident'>JS_BeginRequest</span>(<span class='ident'>cx</span>);
-        }
 
         <span class='kw'>let</span> <span class='ident'>exception_compartment</span> <span class='op'>=</span> <span class='kw'>unsafe</span> {
             <span class='ident'>GetGlobalForObjectCrossCompartment</span>(<span class='ident'>callback</span>.<span class='ident'>callback</span>())
@@ -473,9 +462,6 @@
                     <span class='ident'>JS_RestoreFrameChain</span>(<span class='self'>self</span>.<span class='ident'>cx</span>);
                 }
             }
-        }
-        <span class='kw'>unsafe</span> {
-            <span class='ident'>JS_EndRequest</span>(<span class='self'>self</span>.<span class='ident'>cx</span>);
         }
     }
 }

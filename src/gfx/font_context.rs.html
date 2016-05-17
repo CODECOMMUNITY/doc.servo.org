@@ -366,7 +366,6 @@
 <span id="322">322</span>
 <span id="323">323</span>
 <span id="324">324</span>
-<span id="325">325</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -488,12 +487,11 @@
             <span class='ident'>font_variant</span>::<span class='ident'>T</span>::<span class='ident'>normal</span> <span class='op'>=&gt;</span> <span class='ident'>pt_size</span>,
         };
 
-        <span class='kw'>let</span> <span class='ident'>handle</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>FontHandle</span>, _<span class='op'>&gt;</span> <span class='op'>=</span>
-            <span class='ident'>FontHandleMethods</span>::<span class='ident'>new_from_template</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>platform_handle</span>, <span class='ident'>template</span>,
-                                                 <span class='prelude-val'>Some</span>(<span class='ident'>actual_pt_size</span>));
+        <span class='kw'>let</span> <span class='ident'>handle</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>FontHandle</span>::<span class='ident'>new_from_template</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>platform_handle</span>,
+                                                        <span class='ident'>template</span>,
+                                                        <span class='prelude-val'>Some</span>(<span class='ident'>actual_pt_size</span>)));
 
-        <span class='ident'>handle</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>handle</span><span class='op'>|</span>
-            <span class='ident'>Font</span>::<span class='ident'>new</span>(<span class='ident'>handle</span>, <span class='ident'>variant</span>, <span class='ident'>descriptor</span>, <span class='ident'>pt_size</span>, <span class='ident'>actual_pt_size</span>, <span class='ident'>font_key</span>))
+        <span class='prelude-val'>Ok</span>(<span class='ident'>Font</span>::<span class='ident'>new</span>(<span class='ident'>handle</span>, <span class='ident'>variant</span>, <span class='ident'>descriptor</span>, <span class='ident'>pt_size</span>, <span class='ident'>actual_pt_size</span>, <span class='ident'>font_key</span>))
     }
 
     <span class='kw'>fn</span> <span class='ident'>expire_font_caches_if_necessary</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
