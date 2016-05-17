@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["hash",""],["hmac",""],["memcmp",""],["pkcs5",""],["pkey",""],["rand",""],["rsa",""],["symm",""],["symm_internal",""]]});
+initSidebarItems({"mod":[["hash",""],["hmac",""],["memcmp",""],["pkcs5",""],["pkey",""],["rand",""],["rsa",""],["symm",""],["symm_internal",""]],"trait":[["HashTypeInternals",""]]});

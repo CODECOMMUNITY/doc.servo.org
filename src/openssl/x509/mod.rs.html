@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/openssl-0.7.11/src/x509/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/openssl-0.7.12/src/x509/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -1338,7 +1338,9 @@
             <span class='ident'>ffi</span>::<span class='ident'>X509_set_issuer_name</span>(<span class='ident'>x509</span>.<span class='ident'>handle</span>, <span class='ident'>name</span>);
 
             <span class='kw'>for</span> (<span class='ident'>exttype</span>, <span class='ident'>ext</span>) <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>extensions</span>.<span class='ident'>iter</span>() {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>X509Generator</span>::<span class='ident'>add_extension_internal</span>(<span class='ident'>x509</span>.<span class='ident'>handle</span>, <span class='kw-2'>&amp;</span><span class='ident'>exttype</span>, <span class='kw-2'>&amp;</span><span class='ident'>ext</span>.<span class='ident'>to_string</span>()));
+                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>X509Generator</span>::<span class='ident'>add_extension_internal</span>(<span class='ident'>x509</span>.<span class='ident'>handle</span>,
+                                                           <span class='kw-2'>&amp;</span><span class='ident'>exttype</span>,
+                                                           <span class='kw-2'>&amp;</span><span class='ident'>ext</span>.<span class='ident'>to_string</span>()));
             }
 
             <span class='kw'>let</span> <span class='ident'>hash_fn</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>hash_type</span>.<span class='ident'>evp_md</span>();
@@ -1498,9 +1500,9 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ctx</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>X509</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ctx</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>X509</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ctx</span><span class='op'>&gt;</span> {
         <span class='kw'>unsafe</span> { <span class='ident'>rust_X509_clone</span>(<span class='self'>self</span>.<span class='ident'>handle</span>) }
-        <span class='comment'>/* FIXME: given that we now have refcounting control, &#39;owned&#39; should be uneeded, the &#39;ctx
-         * is probably also uneeded. We can remove both to condense the x509 api quite a bit
-         */</span>
+        <span class='comment'>// FIXME: given that we now have refcounting control, &#39;owned&#39; should be uneeded, the &#39;ctx</span>
+        <span class='comment'>// is probably also uneeded. We can remove both to condense the x509 api quite a bit</span>
+        <span class='comment'>//</span>
         <span class='ident'>X509</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>handle</span>, <span class='boolvalue'>true</span>)
     }
 }
@@ -1630,7 +1632,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>add</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ext</span>: <span class='ident'>Extension</span>) {
         <span class='kw'>let</span> <span class='ident'>ext_type</span> <span class='op'>=</span> <span class='ident'>ext</span>.<span class='ident'>get_type</span>();
 
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>index</span>) <span class='op'>=</span>  <span class='self'>self</span>.<span class='ident'>indexes</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>ext_type</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>index</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>indexes</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>ext_type</span>) {
             <span class='self'>self</span>.<span class='ident'>extensions</span>[<span class='op'>*</span><span class='ident'>index</span>] <span class='op'>=</span> <span class='ident'>ext</span>;
             <span class='kw'>return</span>;
         }
@@ -1652,7 +1654,7 @@
 <span class='doccomment'>/// extension in the collection.</span>
 <span class='kw'>struct</span> <span class='ident'>ExtensionsIter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='ident'>current</span>: <span class='ident'>usize</span>,
-    <span class='ident'>extensions</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Extension</span><span class='op'>&gt;</span>
+    <span class='ident'>extensions</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Extension</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>ExtensionsIter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
@@ -1757,9 +1759,7 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>GeneralNames</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// Returns the number of `GeneralName`s in this structure.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>len</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-        <span class='kw'>unsafe</span> {
-            (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>stack</span>).<span class='ident'>stack</span>.<span class='ident'>num</span> <span class='kw'>as</span> <span class='ident'>usize</span>
-        }
+        <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>stack</span>).<span class='ident'>stack</span>.<span class='ident'>num</span> <span class='kw'>as</span> <span class='ident'>usize</span> }
     }
 
     <span class='doccomment'>/// Returns the specified `GeneralName`.</span>
@@ -1782,7 +1782,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>iter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>GeneralNamesIter</span> {
         <span class='ident'>GeneralNamesIter</span> {
             <span class='ident'>names</span>: <span class='self'>self</span>,
-            <span class='ident'>idx</span>: <span class='number'>0</span>
+            <span class='ident'>idx</span>: <span class='number'>0</span>,
         }
     }
 }
