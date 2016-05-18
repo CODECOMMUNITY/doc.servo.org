@@ -2902,6 +2902,24 @@
 <span id="2858">2858</span>
 <span id="2859">2859</span>
 <span id="2860">2860</span>
+<span id="2861">2861</span>
+<span id="2862">2862</span>
+<span id="2863">2863</span>
+<span id="2864">2864</span>
+<span id="2865">2865</span>
+<span id="2866">2866</span>
+<span id="2867">2867</span>
+<span id="2868">2868</span>
+<span id="2869">2869</span>
+<span id="2870">2870</span>
+<span id="2871">2871</span>
+<span id="2872">2872</span>
+<span id="2873">2873</span>
+<span id="2874">2874</span>
+<span id="2875">2875</span>
+<span id="2876">2876</span>
+<span id="2877">2877</span>
+<span id="2878">2878</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -3106,6 +3124,11 @@
     <span class='doccomment'>/// List of animation frame callbacks</span>
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;closures are hard&quot;</span>]</span>
     <span class='ident'>animation_frame_list</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>u32</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>FnBox</span>(<span class='ident'>f64</span>)<span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// Whether we&#39;re in the process of running animation callbacks.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Tracking this is not necessary for correctness. Instead, it is an optimization to avoid</span>
+    <span class='doccomment'>/// sending needless `ChangeRunningAnimationsState` messages to the compositor.</span>
+    <span class='ident'>running_animation_callbacks</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// Tracks all outstanding loads related to this document.</span>
     <span class='ident'>loader</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='ident'>DocumentLoader</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// The current active HTML parser, to allow resuming after interruptions.</span>
@@ -4186,11 +4209,20 @@
         <span class='self'>self</span>.<span class='ident'>animation_frame_ident</span>.<span class='ident'>set</span>(<span class='ident'>ident</span>);
         <span class='self'>self</span>.<span class='ident'>animation_frame_list</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>insert</span>(<span class='ident'>ident</span>, <span class='ident'>callback</span>);
 
+        <span class='comment'>// No need to send a `ChangeRunningAnimationsState` if we&#39;re running animation callbacks:</span>
+        <span class='comment'>// we&#39;re guaranteed to already be in the &quot;animation callbacks present&quot; state.</span>
+        <span class='comment'>//</span>
+        <span class='comment'>// This reduces CPU usage by avoiding needless thread wakeups in the common case of</span>
+        <span class='comment'>// repeated rAF.</span>
+        <span class='comment'>//</span>
         <span class='comment'>// TODO: Should tick animation only when document is visible</span>
-        <span class='kw'>let</span> <span class='ident'>ConstellationChan</span>(<span class='kw-2'>ref</span> <span class='ident'>chan</span>) <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>constellation_chan</span>();
-        <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>ConstellationMsg</span>::<span class='ident'>ChangeRunningAnimationsState</span>(<span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>pipeline</span>(),
-                                                                   <span class='ident'>AnimationState</span>::<span class='ident'>AnimationCallbacksPresent</span>);
-        <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>event</span>).<span class='ident'>unwrap</span>();
+        <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>running_animation_callbacks</span>.<span class='ident'>get</span>() {
+            <span class='kw'>let</span> <span class='ident'>ConstellationChan</span>(<span class='kw-2'>ref</span> <span class='ident'>chan</span>) <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>constellation_chan</span>();
+            <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>ConstellationMsg</span>::<span class='ident'>ChangeRunningAnimationsState</span>(
+                <span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>pipeline</span>(),
+                <span class='ident'>AnimationState</span>::<span class='ident'>AnimationCallbacksPresent</span>);
+            <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>event</span>).<span class='ident'>unwrap</span>();
+        }
 
         <span class='ident'>ident</span>
     }
@@ -4210,6 +4242,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>run_the_animation_frame_callbacks</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='kw'>let</span> <span class='ident'>animation_frame_list</span> <span class='op'>=</span>
             <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>animation_frame_list</span>.<span class='ident'>borrow_mut</span>(), <span class='ident'>BTreeMap</span>::<span class='ident'>new</span>());
+        <span class='self'>self</span>.<span class='ident'>running_animation_callbacks</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
         <span class='kw'>let</span> <span class='ident'>performance</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>Performance</span>();
         <span class='kw'>let</span> <span class='ident'>performance</span> <span class='op'>=</span> <span class='ident'>performance</span>.<span class='ident'>r</span>();
         <span class='kw'>let</span> <span class='ident'>timing</span> <span class='op'>=</span> <span class='ident'>performance</span>.<span class='ident'>Now</span>();
@@ -4228,6 +4261,8 @@
                                                                        <span class='ident'>AnimationState</span>::<span class='ident'>NoAnimationCallbacksPresent</span>);
             <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>event</span>).<span class='ident'>unwrap</span>();
         }
+
+        <span class='self'>self</span>.<span class='ident'>running_animation_callbacks</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
 
         <span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>reflow</span>(<span class='ident'>ReflowGoal</span>::<span class='ident'>ForDisplay</span>,
                            <span class='ident'>ReflowQueryType</span>::<span class='ident'>NoQuery</span>,
@@ -4581,6 +4616,7 @@
             <span class='ident'>scripting_enabled</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>browsing_context</span>.<span class='ident'>is_some</span>()),
             <span class='ident'>animation_frame_ident</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>animation_frame_list</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>BTreeMap</span>::<span class='ident'>new</span>()),
+            <span class='ident'>running_animation_callbacks</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
             <span class='ident'>loader</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>doc_loader</span>),
             <span class='ident'>current_parser</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
             <span class='ident'>reflow_timeout</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
