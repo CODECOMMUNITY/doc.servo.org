@@ -148,7 +148,6 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
-<span id="107">107</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -157,7 +156,6 @@
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>box_syntax</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>custom_derive</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>plugin</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>mpsc_select</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>plugin</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>plugin</span>(<span class='ident'>plugins</span>)]</span>
 
@@ -167,9 +165,6 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>app_units</span>;
 
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>azure</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>canvas</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>canvas_traits</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>clipboard</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>devtools_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>euclid</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
@@ -185,10 +180,8 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>log</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>msg</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>net_traits</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>offscreen_gl_context</span>;
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>profile_traits</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>script_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>style_traits</span>;
@@ -200,26 +193,25 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>webrender_traits</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>compositor_thread</span>::{<span class='ident'>CompositorEventListener</span>, <span class='ident'>CompositorProxy</span>, <span class='ident'>CompositorThread</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>constellation</span>::<span class='ident'>Constellation</span>;
-<span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::{<span class='ident'>Size2D</span>};
+<span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::{<span class='ident'>Size2D</span>, <span class='ident'>TypedSize2D</span>};
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>Epoch</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameId</span>, <span class='ident'>Key</span>, <span class='ident'>KeyState</span>, <span class='ident'>KeyModifiers</span>, <span class='ident'>LoadData</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>NavigationDirection</span>, <span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>WebDriverCommandMsg</span>, <span class='ident'>WindowSizeData</span>, <span class='ident'>WindowSizeType</span>};
+<span class='kw'>use</span> <span class='ident'>pipeline</span>::<span class='ident'>CompositionPipeline</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>geometry</span>::<span class='ident'>PagePx</span>;
 
 <span class='kw'>mod</span> <span class='ident'>compositor</span>;
 <span class='kw'>mod</span> <span class='ident'>compositor_layer</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>compositor_thread</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>constellation</span>;
 <span class='kw'>mod</span> <span class='ident'>delayed_composition</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>pipeline</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>sandboxing</span>;
 <span class='kw'>mod</span> <span class='ident'>surface_map</span>;
-<span class='kw'>mod</span> <span class='ident'>timer_scheduler</span>;
 <span class='kw'>mod</span> <span class='ident'>touch</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>windowing</span>;
 
@@ -256,6 +248,12 @@
     <span class='ident'>TickAnimation</span>(<span class='ident'>PipelineId</span>, <span class='ident'>AnimationTickType</span>),
     <span class='doccomment'>/// Dispatch a webdriver command</span>
     <span class='ident'>WebDriverCommand</span>(<span class='ident'>WebDriverCommandMsg</span>),
+}
+
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SendableFrameTree</span> {
+    <span class='kw'>pub</span> <span class='ident'>pipeline</span>: <span class='ident'>CompositionPipeline</span>,
+    <span class='kw'>pub</span> <span class='ident'>size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>PagePx</span>, <span class='ident'>f32</span><span class='op'>&gt;&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>children</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SendableFrameTree</span><span class='op'>&gt;</span>,
 }
 </pre>
 </section>
