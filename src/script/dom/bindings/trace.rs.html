@@ -602,6 +602,15 @@
 <span id="558">558</span>
 <span id="559">559</span>
 <span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -795,6 +804,15 @@
         <span class='kw'>for</span> <span class='ident'>e</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span> {
             <span class='ident'>e</span>.<span class='ident'>trace</span>(<span class='ident'>trc</span>);
         }
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>JSTraceable</span><span class='op'>&gt;</span> <span class='ident'>JSTraceable</span> <span class='kw'>for</span> (<span class='ident'>T</span>, <span class='ident'>T</span>, <span class='ident'>T</span>, <span class='ident'>T</span>) {
+    <span class='kw'>fn</span> <span class='ident'>trace</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>trc</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSTracer</span>) {
+        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>trace</span>(<span class='ident'>trc</span>);
+        <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>trace</span>(<span class='ident'>trc</span>);
+        <span class='self'>self</span>.<span class='number'>2</span>.<span class='ident'>trace</span>(<span class='ident'>trc</span>);
+        <span class='self'>self</span>.<span class='number'>3</span>.<span class='ident'>trace</span>(<span class='ident'>trc</span>);
     }
 }
 

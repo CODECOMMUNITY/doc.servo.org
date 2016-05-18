@@ -333,6 +333,8 @@
 <span id="289">289</span>
 <span id="290">290</span>
 <span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -547,7 +549,9 @@
                         <span class='ident'>supports_clipboard</span>: <span class='ident'>bool</span>,
                         <span class='ident'>webrender_api_sender</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApiSender</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span> {
     <span class='kw'>let</span> <span class='ident'>bluetooth_thread</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothMethodMsg</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>BluetoothThreadFactory</span>::<span class='ident'>new</span>();
-    <span class='kw'>let</span> <span class='ident'>resource_thread</span> <span class='op'>=</span> <span class='ident'>new_resource_thread</span>(<span class='ident'>opts</span>.<span class='ident'>user_agent</span>.<span class='ident'>clone</span>(), <span class='ident'>devtools_chan</span>.<span class='ident'>clone</span>());
+    <span class='kw'>let</span> <span class='ident'>resource_thread</span> <span class='op'>=</span> <span class='ident'>new_resource_thread</span>(<span class='ident'>opts</span>.<span class='ident'>user_agent</span>.<span class='ident'>clone</span>(),
+                                              <span class='ident'>devtools_chan</span>.<span class='ident'>clone</span>(),
+                                              <span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>());
     <span class='kw'>let</span> <span class='ident'>image_cache_thread</span> <span class='op'>=</span> <span class='ident'>new_image_cache_thread</span>(<span class='ident'>resource_thread</span>.<span class='ident'>clone</span>(),
                                                     <span class='ident'>webrender_api_sender</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>wr</span><span class='op'>|</span> <span class='ident'>wr</span>.<span class='ident'>create_api</span>()));
     <span class='kw'>let</span> <span class='ident'>font_cache_thread</span> <span class='op'>=</span> <span class='ident'>FontCacheThread</span>::<span class='ident'>new</span>(<span class='ident'>resource_thread</span>.<span class='ident'>clone</span>(),

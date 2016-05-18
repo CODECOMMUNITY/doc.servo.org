@@ -2665,7 +2665,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};
-<span class='kw'>use</span> <span class='ident'>string_cache</span>::{<span class='ident'>Atom</span>, <span class='ident'>Namespace</span>, <span class='ident'>QualName</span>};
+<span class='kw'>use</span> <span class='ident'>string_cache</span>::{<span class='ident'>Atom</span>, <span class='ident'>BorrowedAtom</span>, <span class='ident'>BorrowedNamespace</span>, <span class='ident'>Namespace</span>, <span class='ident'>QualName</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>element_state</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::<span class='ident'>DeclaredValue</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::<span class='ident'>longhands</span>::{<span class='self'>self</span>, <span class='ident'>background_image</span>, <span class='ident'>border_spacing</span>, <span class='ident'>font_family</span>, <span class='ident'>overflow_x</span>, <span class='ident'>font_size</span>};
@@ -4713,12 +4713,12 @@
         })
     }
 
-    <span class='kw'>fn</span> <span class='ident'>get_local_name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Atom</span> {
-        <span class='self'>self</span>.<span class='ident'>local_name</span>()
+    <span class='kw'>fn</span> <span class='ident'>get_local_name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>BorrowedAtom</span> {
+        <span class='ident'>BorrowedAtom</span>(<span class='self'>self</span>.<span class='ident'>local_name</span>())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>get_namespace</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Namespace</span> {
-        <span class='self'>self</span>.<span class='ident'>namespace</span>()
+    <span class='kw'>fn</span> <span class='ident'>get_namespace</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>BorrowedNamespace</span> {
+        <span class='ident'>BorrowedNamespace</span>(<span class='self'>self</span>.<span class='ident'>namespace</span>())
     }
 
     <span class='kw'>fn</span> <span class='ident'>match_non_ts_pseudo_class</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pseudo_class</span>: <span class='ident'>NonTSPseudoClass</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {

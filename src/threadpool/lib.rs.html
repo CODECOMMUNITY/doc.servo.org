@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/threadpool-1.1.1/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/threadpool-1.3.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -545,6 +545,78 @@
 <span id="501">501</span>
 <span id="502">502</span>
 <span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class='comment'>// file at the top-level directory of this distribution and at</span>
@@ -561,7 +633,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>channel</span>, <span class='ident'>Sender</span>, <span class='ident'>Receiver</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>::<span class='ident'>Builder</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>::{<span class='ident'>Builder</span>, <span class='ident'>panicking</span>};
 
 <span class='kw'>trait</span> <span class='ident'>FnBox</span> {
     <span class='kw'>fn</span> <span class='ident'>call_box</span>(<span class='self'>self</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>);
@@ -580,6 +652,7 @@
     <span class='ident'>jobs</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>Thunk</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>thread_counter</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
     <span class='ident'>thread_count_max</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
+    <span class='ident'>thread_count_panic</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
     <span class='ident'>active</span>: <span class='ident'>bool</span>,
 }
 
@@ -587,13 +660,15 @@
     <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>name</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
            <span class='ident'>jobs</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>Thunk</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span>,
            <span class='ident'>thread_counter</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
-           <span class='ident'>thread_count_max</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>)
+           <span class='ident'>thread_count_max</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
+           <span class='ident'>thread_count_panic</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>)
            <span class='op'>-&gt;</span> <span class='ident'>Sentinel</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
         <span class='ident'>Sentinel</span> {
             <span class='ident'>name</span>: <span class='ident'>name</span>,
             <span class='ident'>jobs</span>: <span class='ident'>jobs</span>,
             <span class='ident'>thread_counter</span>: <span class='ident'>thread_counter</span>,
             <span class='ident'>thread_count_max</span>: <span class='ident'>thread_count_max</span>,
+            <span class='ident'>thread_count_panic</span>: <span class='ident'>thread_count_panic</span>,
             <span class='ident'>active</span>: <span class='boolvalue'>true</span>,
         }
     }
@@ -608,10 +683,14 @@
     <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>active</span> {
             <span class='self'>self</span>.<span class='ident'>thread_counter</span>.<span class='ident'>fetch_sub</span>(<span class='number'>1</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
+            <span class='kw'>if</span> <span class='ident'>panicking</span>() {
+                <span class='self'>self</span>.<span class='ident'>thread_count_panic</span>.<span class='ident'>fetch_add</span>(<span class='number'>1</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
+            }
             <span class='ident'>spawn_in_pool</span>(<span class='self'>self</span>.<span class='ident'>name</span>.<span class='ident'>clone</span>(),
                           <span class='self'>self</span>.<span class='ident'>jobs</span>.<span class='ident'>clone</span>(),
                           <span class='self'>self</span>.<span class='ident'>thread_counter</span>.<span class='ident'>clone</span>(),
-                          <span class='self'>self</span>.<span class='ident'>thread_count_max</span>.<span class='ident'>clone</span>())
+                          <span class='self'>self</span>.<span class='ident'>thread_count_max</span>.<span class='ident'>clone</span>(),
+                          <span class='self'>self</span>.<span class='ident'>thread_count_panic</span>.<span class='ident'>clone</span>())
         }
     }
 }
@@ -621,7 +700,11 @@
 <span class='doccomment'>/// Spawns `n` worker threads and replenishes the pool if any worker threads</span>
 <span class='doccomment'>/// panic.</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// # Example</span>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ## Syncronized with a channel</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Every thread sends one message over the channel, which then is collected with the `take()`.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>/// use threadpool::ThreadPool;</span>
@@ -641,6 +724,42 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// assert_eq!(rx.iter().take(n_jobs).fold(0, |a, b| a + b), 28);</span>
 <span class='doccomment'>/// ```</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ## Syncronized with a barrier</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Keep in mind, if you put more jobs in the pool than you have workers,</span>
+<span class='doccomment'>/// you will end up with a [deadlock](https://en.wikipedia.org/wiki/Deadlock) which is [not considered unsafe](http://doc.rust-lang.org/reference.html#behavior-not-considered-unsafe).</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use threadpool::ThreadPool;</span>
+<span class='doccomment'>/// use std::sync::{Arc, Barrier};</span>
+<span class='doccomment'>/// use std::sync::atomic::{AtomicUsize, Ordering};</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// // create at least as many workers as jobs or you will deadlock yourself</span>
+<span class='doccomment'>/// let n_workers = 42;</span>
+<span class='doccomment'>/// let n_jobs = 23;</span>
+<span class='doccomment'>/// let pool = ThreadPool::new(n_workers);</span>
+<span class='doccomment'>/// let an_atomic = Arc::new(AtomicUsize::new(0));</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// // create a barrier that wait all jobs plus the starter thread</span>
+<span class='doccomment'>/// let barrier = Arc::new(Barrier::new(n_jobs + 1));</span>
+<span class='doccomment'>/// for i in 0..n_jobs {</span>
+<span class='doccomment'>///   let barrier = barrier.clone();</span>
+<span class='doccomment'>///   let an_atomic = an_atomic.clone();</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///   pool.execute(move|| {</span>
+<span class='doccomment'>///     // do the heavy work</span>
+<span class='doccomment'>///     an_atomic.fetch_add(1, Ordering::Relaxed);</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///     // then wait for the other threads</span>
+<span class='doccomment'>///     barrier.wait();</span>
+<span class='doccomment'>///   });</span>
+<span class='doccomment'>/// }</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// // wait for the threads to finish the work</span>
+<span class='doccomment'>/// barrier.wait();</span>
+<span class='doccomment'>/// assert_eq!(an_atomic.load(Ordering::SeqCst), 23);</span>
+<span class='doccomment'>/// ```</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ThreadPool</span> {
     <span class='comment'>// How the threadpool communicates with subthreads.</span>
@@ -652,24 +771,25 @@
     <span class='ident'>job_receiver</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>Thunk</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>active_count</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
     <span class='ident'>max_count</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
+    <span class='ident'>panic_count</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>ThreadPool</span> {
-    <span class='doccomment'>/// Spawns a new thread pool with `threads` threads.</span>
+    <span class='doccomment'>/// Spawns a new thread pool with `num_threads` threads.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Panics</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This function will panic if `threads` is 0.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>threads</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>ThreadPool</span> {
-        <span class='ident'>ThreadPool</span>::<span class='ident'>new_pool</span>(<span class='prelude-val'>None</span>, <span class='ident'>threads</span>)
+    <span class='doccomment'>/// This function will panic if `num_threads` is 0.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>num_threads</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>ThreadPool</span> {
+        <span class='ident'>ThreadPool</span>::<span class='ident'>new_pool</span>(<span class='prelude-val'>None</span>, <span class='ident'>num_threads</span>)
     }
 
-    <span class='doccomment'>/// Spawns a new thread pool with `threads` threads. Each thread will have the</span>
+    <span class='doccomment'>/// Spawns a new thread pool with `num_threads` threads. Each thread will have the</span>
     <span class='doccomment'>/// [name][thread name] `name`.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Panics</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This function will panic if `threads` is 0.</span>
+    <span class='doccomment'>/// This function will panic if `num_threads` is 0.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Example</span>
     <span class='doccomment'>///</span>
@@ -694,25 +814,27 @@
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// [thread name]: https://doc.rust-lang.org/std/thread/struct.Thread.html#method.name</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_with_name</span>(<span class='ident'>name</span>: <span class='ident'>String</span>, <span class='ident'>threads</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>ThreadPool</span> {
-        <span class='ident'>ThreadPool</span>::<span class='ident'>new_pool</span>(<span class='prelude-val'>Some</span>(<span class='ident'>name</span>), <span class='ident'>threads</span>)
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_with_name</span>(<span class='ident'>name</span>: <span class='ident'>String</span>, <span class='ident'>num_threads</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>ThreadPool</span> {
+        <span class='ident'>ThreadPool</span>::<span class='ident'>new_pool</span>(<span class='prelude-val'>Some</span>(<span class='ident'>name</span>), <span class='ident'>num_threads</span>)
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>new_pool</span>(<span class='ident'>name</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>, <span class='ident'>threads</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>ThreadPool</span> {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>threads</span> <span class='op'>&gt;=</span> <span class='number'>1</span>);
+    <span class='kw'>fn</span> <span class='ident'>new_pool</span>(<span class='ident'>name</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>, <span class='ident'>num_threads</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>ThreadPool</span> {
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>num_threads</span> <span class='op'>&gt;=</span> <span class='number'>1</span>);
 
         <span class='kw'>let</span> (<span class='ident'>tx</span>, <span class='ident'>rx</span>) <span class='op'>=</span> <span class='ident'>channel</span>::<span class='op'>&lt;</span><span class='ident'>Thunk</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;&gt;</span>();
         <span class='kw'>let</span> <span class='ident'>rx</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>rx</span>));
         <span class='kw'>let</span> <span class='ident'>active_count</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicUsize</span>::<span class='ident'>new</span>(<span class='number'>0</span>));
-        <span class='kw'>let</span> <span class='ident'>max_count</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicUsize</span>::<span class='ident'>new</span>(<span class='ident'>threads</span>));
+        <span class='kw'>let</span> <span class='ident'>max_count</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicUsize</span>::<span class='ident'>new</span>(<span class='ident'>num_threads</span>));
+        <span class='kw'>let</span> <span class='ident'>panic_count</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicUsize</span>::<span class='ident'>new</span>(<span class='number'>0</span>));
 
         <span class='comment'>// Threadpool threads</span>
-        <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>threads</span> {
+        <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>num_threads</span> {
             <span class='ident'>spawn_in_pool</span>(<span class='ident'>name</span>.<span class='ident'>clone</span>(),
                           <span class='ident'>rx</span>.<span class='ident'>clone</span>(),
                           <span class='ident'>active_count</span>.<span class='ident'>clone</span>(),
-                          <span class='ident'>max_count</span>.<span class='ident'>clone</span>());
+                          <span class='ident'>max_count</span>.<span class='ident'>clone</span>(),
+                          <span class='ident'>panic_count</span>.<span class='ident'>clone</span>());
         }
 
         <span class='ident'>ThreadPool</span> {
@@ -721,6 +843,7 @@
             <span class='ident'>job_receiver</span>: <span class='ident'>rx</span>.<span class='ident'>clone</span>(),
             <span class='ident'>active_count</span>: <span class='ident'>active_count</span>,
             <span class='ident'>max_count</span>: <span class='ident'>max_count</span>,
+            <span class='ident'>panic_count</span>: <span class='ident'>panic_count</span>,
         }
     }
 
@@ -741,19 +864,32 @@
         <span class='self'>self</span>.<span class='ident'>max_count</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>)
     }
 
-    <span class='doccomment'>/// Sets the number of threads to use as `threads`.</span>
+    <span class='doccomment'>/// Returns the number of panicked threads over the lifetime of the pool.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>panic_count</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='self'>self</span>.<span class='ident'>panic_count</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>)
+    }
+
+    <span class='doccomment'>/// **Deprecated: Use `ThreadPool::set_num_threads`**</span>
+    <span class='comment'>// #[deprecated(since = &quot;1.3.0&quot;, note = &quot;use ThreadPool::set_num_threads&quot;)]</span>
+    <span class='comment'>// TODO: #[deprecated] isn&#39;t stable yet.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_threads</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>num_threads</span>: <span class='ident'>usize</span>) {
+        <span class='self'>self</span>.<span class='ident'>set_num_threads</span>(<span class='ident'>num_threads</span>)
+    }
+
+    <span class='doccomment'>/// Sets the number of worker-threads to use as `num_threads`.</span>
     <span class='doccomment'>/// Can be used to change the threadpool size during runtime.</span>
     <span class='doccomment'>/// Will not abort already running or waiting threads.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_threads</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>threads</span>: <span class='ident'>usize</span>) {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>threads</span> <span class='op'>&gt;=</span> <span class='number'>1</span>);
-        <span class='kw'>let</span> <span class='ident'>current_max</span> <span class='op'>=</span> (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>max_count</span>).<span class='ident'>swap</span>(<span class='ident'>threads</span>, <span class='ident'>Ordering</span>::<span class='ident'>Release</span>);
-        <span class='kw'>if</span> <span class='ident'>threads</span> <span class='op'>&gt;</span> <span class='ident'>current_max</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_num_threads</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>num_threads</span>: <span class='ident'>usize</span>) {
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>num_threads</span> <span class='op'>&gt;=</span> <span class='number'>1</span>);
+        <span class='kw'>let</span> <span class='ident'>current_max</span> <span class='op'>=</span> (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>max_count</span>).<span class='ident'>swap</span>(<span class='ident'>num_threads</span>, <span class='ident'>Ordering</span>::<span class='ident'>Release</span>);
+        <span class='kw'>if</span> <span class='ident'>num_threads</span> <span class='op'>&gt;</span> <span class='ident'>current_max</span> {
             <span class='comment'>// Spawn new threads</span>
-            <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..(<span class='ident'>threads</span> <span class='op'>-</span> <span class='ident'>current_max</span>) {
+            <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..(<span class='ident'>num_threads</span> <span class='op'>-</span> <span class='ident'>current_max</span>) {
                 <span class='ident'>spawn_in_pool</span>(<span class='self'>self</span>.<span class='ident'>name</span>.<span class='ident'>clone</span>(),
                               <span class='self'>self</span>.<span class='ident'>job_receiver</span>.<span class='ident'>clone</span>(),
                               <span class='self'>self</span>.<span class='ident'>active_count</span>.<span class='ident'>clone</span>(),
-                              <span class='self'>self</span>.<span class='ident'>max_count</span>.<span class='ident'>clone</span>());
+                              <span class='self'>self</span>.<span class='ident'>max_count</span>.<span class='ident'>clone</span>(),
+                              <span class='self'>self</span>.<span class='ident'>panic_count</span>.<span class='ident'>clone</span>());
             }
         }
     }
@@ -762,83 +898,88 @@
 <span class='kw'>fn</span> <span class='ident'>spawn_in_pool</span>(<span class='ident'>name</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
                  <span class='ident'>jobs</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>Thunk</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span>,
                  <span class='ident'>thread_counter</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
-                 <span class='ident'>thread_count_max</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>) {
+                 <span class='ident'>thread_count_max</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>,
+                 <span class='ident'>thread_count_panic</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicUsize</span><span class='op'>&gt;</span>) {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>builder</span> <span class='op'>=</span> <span class='ident'>Builder</span>::<span class='ident'>new</span>();
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>) <span class='op'>=</span> <span class='ident'>name</span> {
         <span class='ident'>builder</span> <span class='op'>=</span> <span class='ident'>builder</span>.<span class='ident'>name</span>(<span class='ident'>name</span>.<span class='ident'>clone</span>());
     }
     <span class='ident'>builder</span>.<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
-               <span class='comment'>// Will spawn a new thread on panic unless it is cancelled.</span>
-               <span class='kw'>let</span> <span class='ident'>sentinel</span> <span class='op'>=</span> <span class='ident'>Sentinel</span>::<span class='ident'>new</span>(<span class='ident'>name</span>, <span class='kw-2'>&amp;</span><span class='ident'>jobs</span>, <span class='kw-2'>&amp;</span><span class='ident'>thread_counter</span>, <span class='kw-2'>&amp;</span><span class='ident'>thread_count_max</span>);
+            <span class='comment'>// Will spawn a new thread on panic unless it is cancelled.</span>
+            <span class='kw'>let</span> <span class='ident'>sentinel</span> <span class='op'>=</span> <span class='ident'>Sentinel</span>::<span class='ident'>new</span>(<span class='ident'>name</span>,
+                                         <span class='kw-2'>&amp;</span><span class='ident'>jobs</span>,
+                                         <span class='kw-2'>&amp;</span><span class='ident'>thread_counter</span>,
+                                         <span class='kw-2'>&amp;</span><span class='ident'>thread_count_max</span>,
+                                         <span class='kw-2'>&amp;</span><span class='ident'>thread_count_panic</span>);
 
-               <span class='kw'>loop</span> {
-                   <span class='comment'>// Shutdown this thread if the pool has become smaller</span>
-                   <span class='kw'>let</span> <span class='ident'>thread_counter_val</span> <span class='op'>=</span> <span class='ident'>thread_counter</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>Acquire</span>);
-                   <span class='kw'>let</span> <span class='ident'>thread_count_max_val</span> <span class='op'>=</span> <span class='ident'>thread_count_max</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>);
-                   <span class='kw'>if</span> <span class='ident'>thread_counter_val</span> <span class='op'>&lt;</span> <span class='ident'>thread_count_max_val</span> {
-                       <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> {
-                           <span class='comment'>// Only lock jobs for the time it takes</span>
-                           <span class='comment'>// to get a job, not run it.</span>
-                           <span class='kw'>let</span> <span class='ident'>lock</span> <span class='op'>=</span> <span class='ident'>jobs</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
-                           <span class='ident'>lock</span>.<span class='ident'>recv</span>()
-                       };
+            <span class='kw'>loop</span> {
+                <span class='comment'>// Shutdown this thread if the pool has become smaller</span>
+                <span class='kw'>let</span> <span class='ident'>thread_counter_val</span> <span class='op'>=</span> <span class='ident'>thread_counter</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>Acquire</span>);
+                <span class='kw'>let</span> <span class='ident'>thread_count_max_val</span> <span class='op'>=</span> <span class='ident'>thread_count_max</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>Relaxed</span>);
+                <span class='kw'>if</span> <span class='ident'>thread_counter_val</span> <span class='op'>&lt;</span> <span class='ident'>thread_count_max_val</span> {
+                    <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> {
+                        <span class='comment'>// Only lock jobs for the time it takes</span>
+                        <span class='comment'>// to get a job, not run it.</span>
+                        <span class='kw'>let</span> <span class='ident'>lock</span> <span class='op'>=</span> <span class='ident'>jobs</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+                        <span class='ident'>lock</span>.<span class='ident'>recv</span>()
+                    };
 
-                       <span class='kw'>match</span> <span class='ident'>message</span> {
-                           <span class='prelude-val'>Ok</span>(<span class='ident'>job</span>) <span class='op'>=&gt;</span> {
-                               <span class='comment'>// Do not allow IR around the job execution</span>
-                               <span class='ident'>thread_counter</span>.<span class='ident'>fetch_add</span>(<span class='number'>1</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
-                               <span class='ident'>job</span>.<span class='ident'>call_box</span>();
-                               <span class='ident'>thread_counter</span>.<span class='ident'>fetch_sub</span>(<span class='number'>1</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
-                           }
+                    <span class='kw'>match</span> <span class='ident'>message</span> {
+                        <span class='prelude-val'>Ok</span>(<span class='ident'>job</span>) <span class='op'>=&gt;</span> {
+                            <span class='comment'>// Do not allow IR around the job execution</span>
+                            <span class='ident'>thread_counter</span>.<span class='ident'>fetch_add</span>(<span class='number'>1</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
+                            <span class='ident'>job</span>.<span class='ident'>call_box</span>();
+                            <span class='ident'>thread_counter</span>.<span class='ident'>fetch_sub</span>(<span class='number'>1</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
+                        }
 
-                           <span class='comment'>// The ThreadPool was dropped.</span>
-                           <span class='prelude-val'>Err</span>(..) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
-                       }
-                   } <span class='kw'>else</span> {
-                       <span class='kw'>break</span>;
-                   }
-               }
+                        <span class='comment'>// The ThreadPool was dropped.</span>
+                        <span class='prelude-val'>Err</span>(..) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
+                    }
+                } <span class='kw'>else</span> {
+                    <span class='kw'>break</span>;
+                }
+            }
 
-               <span class='ident'>sentinel</span>.<span class='ident'>cancel</span>();
-           })
-           .<span class='ident'>unwrap</span>();
+            <span class='ident'>sentinel</span>.<span class='ident'>cancel</span>();
+        })
+        .<span class='ident'>unwrap</span>();
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>deprecated</span>)]</span>
     <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>ThreadPool</span>;
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>sync_channel</span>, <span class='ident'>channel</span>};
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Barrier</span>};
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>::{<span class='self'>self</span>, <span class='ident'>sleep_ms</span>};
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>::{<span class='self'>self</span>, <span class='ident'>sleep</span>};
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>Duration</span>;
 
     <span class='kw'>const</span> <span class='ident'>TEST_TASKS</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>4</span>;
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_set_threads_increasing</span>() {
+    <span class='kw'>fn</span> <span class='ident'>test_set_num_threads_increasing</span>() {
         <span class='kw'>let</span> <span class='ident'>new_thread_amount</span> <span class='op'>=</span> <span class='ident'>TEST_TASKS</span> <span class='op'>+</span> <span class='number'>8</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pool</span> <span class='op'>=</span> <span class='ident'>ThreadPool</span>::<span class='ident'>new</span>(<span class='ident'>TEST_TASKS</span>);
         <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>TEST_TASKS</span> {
             <span class='ident'>pool</span>.<span class='ident'>execute</span>(<span class='kw'>move</span> <span class='op'>||</span> {
                 <span class='kw'>loop</span> {
-                    <span class='ident'>sleep_ms</span>(<span class='number'>10000</span>)
+                    <span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_secs</span>(<span class='number'>10</span>))
                 }
             });
         }
-        <span class='ident'>pool</span>.<span class='ident'>set_threads</span>(<span class='ident'>new_thread_amount</span>);
+        <span class='ident'>pool</span>.<span class='ident'>set_num_threads</span>(<span class='ident'>new_thread_amount</span>);
         <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..(<span class='ident'>new_thread_amount</span> <span class='op'>-</span> <span class='ident'>TEST_TASKS</span>) {
             <span class='ident'>pool</span>.<span class='ident'>execute</span>(<span class='kw'>move</span> <span class='op'>||</span> {
                 <span class='kw'>loop</span> {
-                    <span class='ident'>sleep_ms</span>(<span class='number'>10000</span>)
+                    <span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_secs</span>(<span class='number'>10</span>))
                 }
             });
         }
-        <span class='ident'>sleep_ms</span>(<span class='number'>1024</span>);
+        <span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_secs</span>(<span class='number'>1</span>));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>pool</span>.<span class='ident'>active_count</span>(), <span class='ident'>new_thread_amount</span>);
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_set_threads_decreasing</span>() {
+    <span class='kw'>fn</span> <span class='ident'>test_set_num_threads_decreasing</span>() {
         <span class='kw'>let</span> <span class='ident'>new_thread_amount</span> <span class='op'>=</span> <span class='number'>2</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pool</span> <span class='op'>=</span> <span class='ident'>ThreadPool</span>::<span class='ident'>new</span>(<span class='ident'>TEST_TASKS</span>);
         <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>TEST_TASKS</span> {
@@ -846,15 +987,15 @@
                 <span class='number'>1</span> <span class='op'>+</span> <span class='number'>1</span>;
             });
         }
-        <span class='ident'>pool</span>.<span class='ident'>set_threads</span>(<span class='ident'>new_thread_amount</span>);
+        <span class='ident'>pool</span>.<span class='ident'>set_num_threads</span>(<span class='ident'>new_thread_amount</span>);
         <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>new_thread_amount</span> {
             <span class='ident'>pool</span>.<span class='ident'>execute</span>(<span class='kw'>move</span> <span class='op'>||</span> {
                 <span class='kw'>loop</span> {
-                    <span class='ident'>sleep_ms</span>(<span class='number'>10000</span>)
+                    <span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_secs</span>(<span class='number'>10</span>))
                 }
             });
         }
-        <span class='ident'>sleep_ms</span>(<span class='number'>1024</span>);
+        <span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_secs</span>(<span class='number'>1</span>));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>pool</span>.<span class='ident'>active_count</span>(), <span class='ident'>new_thread_amount</span>);
     }
 
@@ -864,11 +1005,11 @@
         <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>TEST_TASKS</span> {
             <span class='ident'>pool</span>.<span class='ident'>execute</span>(<span class='kw'>move</span> <span class='op'>||</span> {
                 <span class='kw'>loop</span> {
-                    <span class='ident'>sleep_ms</span>(<span class='number'>10000</span>);
+                    <span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_secs</span>(<span class='number'>10</span>))
                 }
             });
         }
-        <span class='ident'>sleep_ms</span>(<span class='number'>1024</span>);
+        <span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_secs</span>(<span class='number'>1</span>));
         <span class='kw'>let</span> <span class='ident'>active_count</span> <span class='op'>=</span> <span class='ident'>pool</span>.<span class='ident'>active_count</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>active_count</span>, <span class='ident'>TEST_TASKS</span>);
         <span class='kw'>let</span> <span class='ident'>initialized_count</span> <span class='op'>=</span> <span class='ident'>pool</span>.<span class='ident'>max_count</span>();
@@ -904,6 +1045,9 @@
         <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>TEST_TASKS</span> {
             <span class='ident'>pool</span>.<span class='ident'>execute</span>(<span class='kw'>move</span> <span class='op'>||</span> <span class='op'>-&gt;</span> () { <span class='macro'>panic</span><span class='macro'>!</span>() });
         }
+        <span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_secs</span>(<span class='number'>1</span>));
+
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>pool</span>.<span class='ident'>panic_count</span>(), <span class='ident'>TEST_TASKS</span>);
 
         <span class='comment'>// Ensure new threads were spawned to compensate.</span>
         <span class='kw'>let</span> (<span class='ident'>tx</span>, <span class='ident'>rx</span>) <span class='op'>=</span> <span class='ident'>channel</span>();
@@ -1003,7 +1147,7 @@
         }
 
         <span class='ident'>b0</span>.<span class='ident'>wait</span>();
-        <span class='ident'>pool</span>.<span class='ident'>set_threads</span>(<span class='ident'>TEST_TASKS</span>);
+        <span class='ident'>pool</span>.<span class='ident'>set_num_threads</span>(<span class='ident'>TEST_TASKS</span>);
 
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>pool</span>.<span class='ident'>active_count</span>(), <span class='ident'>test_tasks_begin</span>);
         <span class='ident'>b1</span>.<span class='ident'>wait</span>();
@@ -1030,7 +1174,7 @@
         }
 
         <span class='comment'>// new spawn thread should share the name &quot;test&quot; too.</span>
-        <span class='ident'>pool</span>.<span class='ident'>set_threads</span>(<span class='number'>3</span>);
+        <span class='ident'>pool</span>.<span class='ident'>set_num_threads</span>(<span class='number'>3</span>);
         <span class='kw'>let</span> <span class='ident'>tx_clone</span> <span class='op'>=</span> <span class='ident'>tx</span>.<span class='ident'>clone</span>();
         <span class='ident'>pool</span>.<span class='ident'>execute</span>(<span class='kw'>move</span> <span class='op'>||</span> {
             <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>thread</span>::<span class='ident'>current</span>().<span class='ident'>name</span>().<span class='ident'>unwrap</span>().<span class='ident'>to_owned</span>();

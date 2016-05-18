@@ -1030,6 +1030,16 @@
 <span id="986">986</span>
 <span id="987">987</span>
 <span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1064,6 +1074,8 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>CookieSource</span>, <span class='ident'>IncludeSubdomains</span>, <span class='ident'>LoadConsumer</span>, <span class='ident'>LoadContext</span>, <span class='ident'>LoadData</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span>};
 <span class='kw'>use</span> <span class='ident'>openssl</span>::<span class='ident'>ssl</span>::<span class='ident'>error</span>::{<span class='ident'>SslError</span>, <span class='ident'>OpensslError</span>};
+<span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>::{<span class='ident'>ProfilerCategory</span>, <span class='ident'>profile</span>, <span class='ident'>ProfilerChan</span>, <span class='ident'>TimerMetadata</span>};
+<span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>::{<span class='ident'>TimerMetadataReflowType</span>, <span class='ident'>TimerMetadataFrameType</span>};
 <span class='kw'>use</span> <span class='ident'>resource_thread</span>::{<span class='ident'>CancellationListener</span>, <span class='ident'>send_error</span>, <span class='ident'>start_sending_sniffed_opt</span>, <span class='ident'>AuthCache</span>, <span class='ident'>AuthCacheEntry</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>boxed</span>::<span class='ident'>FnBox</span>;
@@ -1085,6 +1097,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>factory</span>(<span class='ident'>user_agent</span>: <span class='ident'>String</span>,
                <span class='ident'>http_state</span>: <span class='ident'>HttpState</span>,
                <span class='ident'>devtools_chan</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>DevtoolsControlMsg</span><span class='op'>&gt;&gt;</span>,
+               <span class='ident'>profiler_chan</span>: <span class='ident'>ProfilerChan</span>,
                <span class='ident'>connector</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Pool</span><span class='op'>&lt;</span><span class='ident'>Connector</span><span class='op'>&gt;&gt;</span>)
                <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>FnBox</span>(<span class='ident'>LoadData</span>,
                             <span class='ident'>LoadConsumer</span>,
@@ -1092,14 +1105,21 @@
                             <span class='ident'>CancellationListener</span>) <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> {
     <span class='kw'>box</span> <span class='kw'>move</span> <span class='op'>|</span><span class='ident'>load_data</span>: <span class='ident'>LoadData</span>, <span class='ident'>senders</span>, <span class='ident'>classifier</span>, <span class='ident'>cancel_listener</span><span class='op'>|</span> {
         <span class='ident'>spawn_named</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;http_loader for {}&quot;</span>, <span class='ident'>load_data</span>.<span class='ident'>url</span>), <span class='kw'>move</span> <span class='op'>||</span> {
-            <span class='ident'>load_for_consumer</span>(<span class='ident'>load_data</span>,
-                              <span class='ident'>senders</span>,
-                              <span class='ident'>classifier</span>,
-                              <span class='ident'>connector</span>,
-                              <span class='ident'>http_state</span>,
-                              <span class='ident'>devtools_chan</span>,
-                              <span class='ident'>cancel_listener</span>,
-                              <span class='ident'>user_agent</span>)
+            <span class='kw'>let</span> <span class='ident'>metadata</span> <span class='op'>=</span> <span class='ident'>TimerMetadata</span> {
+                <span class='ident'>url</span>: <span class='ident'>load_data</span>.<span class='ident'>url</span>.<span class='ident'>as_str</span>().<span class='ident'>into</span>(),
+                <span class='ident'>iframe</span>: <span class='ident'>TimerMetadataFrameType</span>::<span class='ident'>RootWindow</span>,
+                <span class='ident'>incremental</span>: <span class='ident'>TimerMetadataReflowType</span>::<span class='ident'>FirstReflow</span>,
+            };
+            <span class='ident'>profile</span>(<span class='ident'>ProfilerCategory</span>::<span class='ident'>NetHTTPRequestResponse</span>, <span class='prelude-val'>Some</span>(<span class='ident'>metadata</span>), <span class='ident'>profiler_chan</span>, <span class='op'>||</span> {
+                <span class='ident'>load_for_consumer</span>(<span class='ident'>load_data</span>,
+                                  <span class='ident'>senders</span>,
+                                  <span class='ident'>classifier</span>,
+                                  <span class='ident'>connector</span>,
+                                  <span class='ident'>http_state</span>,
+                                  <span class='ident'>devtools_chan</span>,
+                                  <span class='ident'>cancel_listener</span>,
+                                  <span class='ident'>user_agent</span>)
+            })
         })
     }
 }
