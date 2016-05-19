@@ -573,6 +573,9 @@
 <span id="529">529</span>
 <span id="530">530</span>
 <span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -610,7 +613,7 @@
 <span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>JS_NewUCStringCopyN</span>, <span class='ident'>JS_StringHasLatin1Chars</span>, <span class='ident'>JS_WrapValue</span>};
 <span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>JS_GetLatin1StringCharsAndLength</span>, <span class='ident'>JS_GetTwoByteStringCharsAndLength</span>};
 <span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>JS_NewArrayObject1</span>, <span class='ident'>JS_DefineElement</span>, <span class='ident'>RootedValue</span>, <span class='ident'>RootedObject</span>};
-<span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>JS_GetArrayLength</span>, <span class='ident'>JS_GetElement</span>};
+<span class='kw'>use</span> <span class='ident'>jsapi</span>::{<span class='ident'>ForOfIterator</span>, <span class='ident'>ForOfIterator_NonIterableBehavior</span>};
 <span class='kw'>use</span> <span class='ident'>jsval</span>::{<span class='ident'>BooleanValue</span>, <span class='ident'>Int32Value</span>, <span class='ident'>NullValue</span>, <span class='ident'>UInt32Value</span>, <span class='ident'>UndefinedValue</span>};
 <span class='kw'>use</span> <span class='ident'>jsval</span>::{<span class='ident'>JSVal</span>, <span class='ident'>ObjectValue</span>, <span class='ident'>ObjectOrNullValue</span>, <span class='ident'>StringValue</span>};
 <span class='kw'>use</span> <span class='ident'>rust</span>::{<span class='ident'>ToBoolean</span>, <span class='ident'>ToNumber</span>, <span class='ident'>ToUint16</span>, <span class='ident'>ToInt32</span>, <span class='ident'>ToUint32</span>, <span class='ident'>ToInt64</span>, <span class='ident'>ToUint64</span>, <span class='ident'>ToString</span>};
@@ -1071,30 +1074,33 @@
                          <span class='ident'>value</span>: <span class='ident'>HandleValue</span>,
                          <span class='ident'>option</span>: <span class='ident'>C</span>)
                          <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>, ()<span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>length</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iterator</span> <span class='op'>=</span> <span class='ident'>ForOfIterator</span> {
+            <span class='ident'>cx_</span>: <span class='ident'>cx</span>,
+            <span class='ident'>iterator</span>: <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>()),
+            <span class='ident'>index</span>: ::<span class='ident'>std</span>::<span class='ident'>u32</span>::<span class='ident'>MAX</span>, <span class='comment'>// NOT_ARRAY</span>
+        };
 
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>value</span>.<span class='ident'>is_object</span>() {
-            <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Non objects cannot be converted to sequence&quot;</span>);
+        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>iterator</span>.<span class='ident'>init</span>(<span class='ident'>value</span>, <span class='ident'>ForOfIterator_NonIterableBehavior</span>::<span class='ident'>ThrowOnNonIterable</span>) {
             <span class='kw'>return</span> <span class='prelude-val'>Err</span>(())
         }
 
-        <span class='kw'>let</span> <span class='ident'>obj</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>value</span>.<span class='ident'>to_object</span>());
-        <span class='kw'>if</span> <span class='ident'>JS_GetArrayLength</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>.<span class='ident'>handle</span>(), <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>length</span>) {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>length</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
 
-            <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>length</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>val</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>UndefinedValue</span>());
-                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>JS_GetElement</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>.<span class='ident'>handle</span>(), <span class='ident'>i</span>, <span class='ident'>val</span>.<span class='ident'>handle_mut</span>()) {
-                    <span class='comment'>// On JS Exception return Err</span>
-                    <span class='kw'>return</span> <span class='prelude-val'>Err</span>(());
-                }
-                <span class='ident'>ret</span>.<span class='ident'>push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>T</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>val</span>.<span class='ident'>handle</span>(), <span class='ident'>option</span>.<span class='ident'>clone</span>())));
+        <span class='kw'>loop</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>done</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>val</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>UndefinedValue</span>());
+            <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>iterator</span>.<span class='ident'>next</span>(<span class='ident'>val</span>.<span class='ident'>handle_mut</span>(), <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>done</span>) {
+                <span class='kw'>return</span> <span class='prelude-val'>Err</span>(())
             }
 
-            <span class='prelude-val'>Ok</span>(<span class='ident'>ret</span>)
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>Err</span>(())
+            <span class='kw'>if</span> <span class='ident'>done</span> {
+                <span class='kw'>break</span>;
+            }
+
+            <span class='ident'>ret</span>.<span class='ident'>push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>T</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>val</span>.<span class='ident'>handle</span>(), <span class='ident'>option</span>.<span class='ident'>clone</span>())));
         }
+
+        <span class='prelude-val'>Ok</span>(<span class='ident'>ret</span>)
     }
 }
 
