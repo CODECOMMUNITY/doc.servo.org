@@ -870,8 +870,6 @@
 <span id="826">826</span>
 <span id="827">827</span>
 <span id="828">828</span>
-<span id="829">829</span>
-<span id="830">830</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -992,13 +990,11 @@
         }
     }
 
-    <span class='doccomment'>/// Creates a new `CanvasPaintThread` and returns the out-of-process sender and the in-process</span>
-    <span class='doccomment'>/// sender for it.</span>
+    <span class='doccomment'>/// Creates a new `CanvasPaintThread` and returns an `IpcSender` to</span>
+    <span class='doccomment'>/// communicate with it.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start</span>(<span class='ident'>size</span>: <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>,
                  <span class='ident'>webrender_api_sender</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApiSender</span><span class='op'>&gt;</span>)
                  <span class='op'>-&gt;</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span> {
-        <span class='comment'>// TODO(pcwalton): Ask the pipeline to create this for us instead of spawning it directly.</span>
-        <span class='comment'>// This will be needed for multiprocess Servo.</span>
         <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>::<span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>();
         <span class='ident'>spawn_named</span>(<span class='string'>&quot;CanvasThread&quot;</span>.<span class='ident'>to_owned</span>(), <span class='kw'>move</span> <span class='op'>||</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>painter</span> <span class='op'>=</span> <span class='ident'>CanvasPaintThread</span>::<span class='ident'>new</span>(<span class='ident'>size</span>, <span class='ident'>webrender_api_sender</span>);

@@ -2228,38 +2228,38 @@
 <span class='doccomment'>/// the `script` crate).</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Constellation</span><span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// A channel through which script messages can be sent to this object.</span>
-    <span class='kw'>pub</span> <span class='ident'>script_sender</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>FromScriptMsg</span><span class='op'>&gt;</span>,
+    <span class='ident'>script_sender</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>FromScriptMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// A channel through which compositor messages can be sent to this object.</span>
-    <span class='kw'>pub</span> <span class='ident'>compositor_sender</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>FromCompositorMsg</span><span class='op'>&gt;</span>,
+    <span class='ident'>compositor_sender</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>FromCompositorMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// A channel through which layout thread messages can be sent to this object.</span>
-    <span class='kw'>pub</span> <span class='ident'>layout_sender</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>FromLayoutMsg</span><span class='op'>&gt;</span>,
+    <span class='ident'>layout_sender</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>FromLayoutMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// A channel through which panic messages can be sent to this object.</span>
-    <span class='kw'>pub</span> <span class='ident'>panic_sender</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
+    <span class='ident'>panic_sender</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// Receives messages from scripts.</span>
-    <span class='kw'>pub</span> <span class='ident'>script_receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>FromScriptMsg</span><span class='op'>&gt;</span>,
+    <span class='ident'>script_receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>FromScriptMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// Receives messages from the compositor</span>
-    <span class='kw'>pub</span> <span class='ident'>compositor_receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>FromCompositorMsg</span><span class='op'>&gt;</span>,
+    <span class='ident'>compositor_receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>FromCompositorMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// Receives messages from the layout thread</span>
-    <span class='kw'>pub</span> <span class='ident'>layout_receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>FromLayoutMsg</span><span class='op'>&gt;</span>,
+    <span class='ident'>layout_receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>FromLayoutMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// Receives panic messages.</span>
-    <span class='kw'>pub</span> <span class='ident'>panic_receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
+    <span class='ident'>panic_receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// A channel (the implementation of which is port-specific) through which messages can be sent</span>
     <span class='doccomment'>/// to the compositor.</span>
-    <span class='kw'>pub</span> <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span><span class='op'>&gt;</span>,
+    <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// A channel through which messages can be sent to the resource thread.</span>
-    <span class='kw'>pub</span> <span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>,
+    <span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>,
 
     <span class='doccomment'>/// A channel through which messages can be sent to the image cache thread.</span>
-    <span class='kw'>pub</span> <span class='ident'>image_cache_thread</span>: <span class='ident'>ImageCacheThread</span>,
+    <span class='ident'>image_cache_thread</span>: <span class='ident'>ImageCacheThread</span>,
 
     <span class='doccomment'>/// A channel through which messages can be sent to the developer tools.</span>
     <span class='ident'>devtools_chan</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>DevtoolsControlMsg</span><span class='op'>&gt;&gt;</span>,
@@ -2301,10 +2301,10 @@
     <span class='ident'>pending_frames</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FrameChange</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// A channel through which messages can be sent to the time profiler.</span>
-    <span class='kw'>pub</span> <span class='ident'>time_profiler_chan</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>,
+    <span class='ident'>time_profiler_chan</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>,
 
     <span class='doccomment'>/// A channel through which messages can be sent to the memory profiler.</span>
-    <span class='kw'>pub</span> <span class='ident'>mem_profiler_chan</span>: <span class='ident'>mem</span>::<span class='ident'>ProfilerChan</span>,
+    <span class='ident'>mem_profiler_chan</span>: <span class='ident'>mem</span>::<span class='ident'>ProfilerChan</span>,
 
     <span class='ident'>phantom</span>: <span class='ident'>PhantomData</span><span class='op'>&lt;</span>(<span class='ident'>LTF</span>, <span class='ident'>STF</span>)<span class='op'>&gt;</span>,
 
