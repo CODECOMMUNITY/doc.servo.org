@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Task",""]],"struct":[["CancelableOneshotTimer","A quick hack to work around the removal of `std::old_io::timer::Timer`"],["ScheduledEvent",""],["TimerScheduler",""]]});
+initSidebarItems({"struct":[["ScheduledEvent",""],["TimerScheduler",""]]});
