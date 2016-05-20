@@ -1592,9 +1592,9 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::<span class='ident'>JS_ClearPendingException</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSContext</span>, <span class='ident'>JS_ParseJSON</span>, <span class='ident'>RootedValue</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::{<span class='ident'>JSVal</span>, <span class='ident'>NullValue</span>, <span class='ident'>UndefinedValue</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>ControlMsg</span>::<span class='ident'>Load</span>;
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>CoreResourceMsg</span>::<span class='ident'>Load</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseListener</span>, <span class='ident'>AsyncResponseTarget</span>, <span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>LoadConsumer</span>, <span class='ident'>LoadContext</span>, <span class='ident'>LoadData</span>, <span class='ident'>ResourceCORSData</span>, <span class='ident'>ResourceThread</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>LoadConsumer</span>, <span class='ident'>LoadContext</span>, <span class='ident'>LoadData</span>, <span class='ident'>ResourceCORSData</span>, <span class='ident'>CoreResourceThread</span>};
 <span class='kw'>use</span> <span class='ident'>network_listener</span>::{<span class='ident'>NetworkListener</span>, <span class='ident'>PreInvoke</span>};
 <span class='kw'>use</span> <span class='ident'>parse</span>::<span class='ident'>html</span>::{<span class='ident'>ParseContext</span>, <span class='ident'>parse_html</span>};
 <span class='kw'>use</span> <span class='ident'>parse</span>::<span class='ident'>xml</span>::{<span class='self'>self</span>, <span class='ident'>parse_xml</span>};
@@ -1755,13 +1755,13 @@
                   <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>,
                   <span class='ident'>req</span>: <span class='ident'>CORSRequest</span>,
                   <span class='ident'>script_chan</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
-                  <span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>) {
+                  <span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>) {
         <span class='kw'>struct</span> <span class='ident'>CORSContext</span> {
             <span class='ident'>xhr</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>XHRContext</span><span class='op'>&gt;&gt;</span>,
             <span class='ident'>load_data</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>LoadData</span><span class='op'>&gt;&gt;</span>,
             <span class='ident'>req</span>: <span class='ident'>CORSRequest</span>,
             <span class='ident'>script_chan</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
-            <span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>,
+            <span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
         }
 
         <span class='kw'>impl</span> <span class='ident'>AsyncCORSResponseListener</span> <span class='kw'>for</span> <span class='ident'>CORSContext</span> {
@@ -1781,7 +1781,7 @@
                 });
 
                 <span class='ident'>XMLHttpRequest</span>::<span class='ident'>initiate_async_xhr</span>(<span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='ident'>script_chan</span>.<span class='ident'>clone</span>(),
-                                                   <span class='self'>self</span>.<span class='ident'>resource_thread</span>.<span class='ident'>clone</span>(), <span class='ident'>load_data</span>);
+                                                   <span class='self'>self</span>.<span class='ident'>core_resource_thread</span>.<span class='ident'>clone</span>(), <span class='ident'>load_data</span>);
             }
         }
 
@@ -1790,7 +1790,7 @@
             <span class='ident'>load_data</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>Some</span>(<span class='ident'>load_data</span>)),
             <span class='ident'>req</span>: <span class='ident'>req</span>.<span class='ident'>clone</span>(),
             <span class='ident'>script_chan</span>: <span class='ident'>script_chan</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>resource_thread</span>: <span class='ident'>resource_thread</span>,
+            <span class='ident'>core_resource_thread</span>: <span class='ident'>core_resource_thread</span>,
         };
 
         <span class='ident'>req</span>.<span class='ident'>http_fetch_async</span>(<span class='kw'>box</span> <span class='ident'>cors_context</span>, <span class='ident'>script_chan</span>);
@@ -1798,7 +1798,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>initiate_async_xhr</span>(<span class='ident'>context</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>XHRContext</span><span class='op'>&gt;&gt;</span>,
                           <span class='ident'>script_chan</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
-                          <span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>,
+                          <span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
                           <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>) {
         <span class='kw'>impl</span> <span class='ident'>AsyncResponseListener</span> <span class='kw'>for</span> <span class='ident'>XHRContext</span> {
             <span class='kw'>fn</span> <span class='ident'>headers_available</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>metadata</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span><span class='op'>&gt;</span>) {
@@ -1839,7 +1839,7 @@
         <span class='ident'>ROUTER</span>.<span class='ident'>add_route</span>(<span class='ident'>action_receiver</span>.<span class='ident'>to_opaque</span>(), <span class='kw'>box</span> <span class='kw'>move</span> <span class='op'>|</span><span class='ident'>message</span><span class='op'>|</span> {
             <span class='ident'>listener</span>.<span class='ident'>notify</span>(<span class='ident'>message</span>.<span class='ident'>to</span>().<span class='ident'>unwrap</span>());
         });
-        <span class='ident'>resource_thread</span>.<span class='ident'>send</span>(<span class='ident'>Load</span>(<span class='ident'>load_data</span>, <span class='ident'>LoadConsumer</span>::<span class='ident'>Listener</span>(<span class='ident'>response_target</span>), <span class='prelude-val'>None</span>)).<span class='ident'>unwrap</span>();
+        <span class='ident'>core_resource_thread</span>.<span class='ident'>send</span>(<span class='ident'>Load</span>(<span class='ident'>load_data</span>, <span class='ident'>LoadConsumer</span>::<span class='ident'>Listener</span>(<span class='ident'>response_target</span>), <span class='prelude-val'>None</span>)).<span class='ident'>unwrap</span>();
     }
 }
 
@@ -2866,13 +2866,13 @@
             (<span class='ident'>global</span>.<span class='ident'>networking_task_source</span>(), <span class='prelude-val'>None</span>)
         };
 
-        <span class='kw'>let</span> <span class='ident'>resource_thread</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>resource_thread</span>();
+        <span class='kw'>let</span> <span class='ident'>core_resource_thread</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>core_resource_thread</span>();
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>req</span>) <span class='op'>=</span> <span class='ident'>cors_request</span> {
             <span class='ident'>XMLHttpRequest</span>::<span class='ident'>check_cors</span>(<span class='ident'>context</span>.<span class='ident'>clone</span>(), <span class='ident'>load_data</span>, <span class='ident'>req</span>.<span class='ident'>clone</span>(),
-                                       <span class='ident'>script_chan</span>.<span class='ident'>clone</span>(), <span class='ident'>resource_thread</span>);
+                                       <span class='ident'>script_chan</span>.<span class='ident'>clone</span>(), <span class='ident'>core_resource_thread</span>);
         } <span class='kw'>else</span> {
             <span class='ident'>XMLHttpRequest</span>::<span class='ident'>initiate_async_xhr</span>(<span class='ident'>context</span>.<span class='ident'>clone</span>(), <span class='ident'>script_chan</span>,
-                                               <span class='ident'>resource_thread</span>, <span class='ident'>load_data</span>);
+                                               <span class='ident'>core_resource_thread</span>, <span class='ident'>load_data</span>);
         }
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>script_port</span>) <span class='op'>=</span> <span class='ident'>script_port</span> {

@@ -677,7 +677,7 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::<span class='ident'>ImageResponder</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::{<span class='ident'>ImageCacheChan</span>, <span class='ident'>ImageCacheCommand</span>, <span class='ident'>ImageCacheThread</span>, <span class='ident'>ImageState</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::{<span class='ident'>ImageCacheResult</span>, <span class='ident'>ImageOrMetadataAvailable</span>, <span class='ident'>ImageResponse</span>, <span class='ident'>UsePlaceholder</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>ControlMsg</span>, <span class='ident'>LoadConsumer</span>, <span class='ident'>LoadData</span>, <span class='ident'>ResourceThread</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>CoreResourceMsg</span>, <span class='ident'>LoadConsumer</span>, <span class='ident'>LoadData</span>, <span class='ident'>CoreResourceThread</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>ResponseAction</span>, <span class='ident'>LoadContext</span>, <span class='ident'>NetworkError</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
@@ -908,7 +908,7 @@
     <span class='ident'>thread_pool</span>: <span class='ident'>ThreadPool</span>,
 
     <span class='comment'>// Resource thread handle</span>
-    <span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>,
+    <span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
 
     <span class='comment'>// Images that are loading over network, or decoding.</span>
     <span class='ident'>pending_loads</span>: <span class='ident'>AllPendingLoads</span>,
@@ -973,7 +973,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>ImageCache</span> {
-    <span class='kw'>fn</span> <span class='ident'>run</span>(<span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>,
+    <span class='kw'>fn</span> <span class='ident'>run</span>(<span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
            <span class='ident'>webrender_api</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApi</span><span class='op'>&gt;</span>,
            <span class='ident'>ipc_command_receiver</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>ImageCacheCommand</span><span class='op'>&gt;</span>) {
         <span class='comment'>// Preload the placeholder image, used when images fail to load.</span>
@@ -1006,7 +1006,7 @@
             <span class='ident'>thread_pool</span>: <span class='ident'>ThreadPool</span>::<span class='ident'>new</span>(<span class='number'>4</span>),
             <span class='ident'>pending_loads</span>: <span class='ident'>AllPendingLoads</span>::<span class='ident'>new</span>(),
             <span class='ident'>completed_loads</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
-            <span class='ident'>resource_thread</span>: <span class='ident'>resource_thread</span>,
+            <span class='ident'>core_resource_thread</span>: <span class='ident'>core_resource_thread</span>,
             <span class='ident'>placeholder_image</span>: <span class='ident'>placeholder_image</span>,
             <span class='ident'>webrender_api</span>: <span class='ident'>webrender_api</span>,
         };
@@ -1193,7 +1193,7 @@
                         <span class='kw'>let</span> <span class='ident'>response_target</span> <span class='op'>=</span> <span class='ident'>AsyncResponseTarget</span> {
                             <span class='ident'>sender</span>: <span class='ident'>action_sender</span>,
                         };
-                        <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ControlMsg</span>::<span class='ident'>Load</span>(<span class='ident'>load_data</span>,
+                        <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Load</span>(<span class='ident'>load_data</span>,
                                                    <span class='ident'>LoadConsumer</span>::<span class='ident'>Listener</span>(<span class='ident'>response_target</span>),
                                                    <span class='prelude-val'>None</span>);
                         <span class='kw'>let</span> <span class='ident'>progress_sender</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>progress_sender</span>.<span class='ident'>clone</span>();
@@ -1204,7 +1204,7 @@
                                 <span class='ident'>key</span>: <span class='ident'>load_key</span>,
                             }).<span class='ident'>unwrap</span>();
                         });
-                        <span class='self'>self</span>.<span class='ident'>resource_thread</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
+                        <span class='self'>self</span>.<span class='ident'>core_resource_thread</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
                     }
                     <span class='ident'>CacheResult</span>::<span class='ident'>Hit</span> <span class='op'>=&gt;</span> {
                         <span class='comment'>// Request is already on its way.</span>
@@ -1279,12 +1279,12 @@
 }
 
 <span class='doccomment'>/// Create a new image cache.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_image_cache_thread</span>(<span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>,
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_image_cache_thread</span>(<span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
                               <span class='ident'>webrender_api</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApi</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageCacheThread</span> {
     <span class='kw'>let</span> (<span class='ident'>ipc_command_sender</span>, <span class='ident'>ipc_command_receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
 
     <span class='ident'>spawn_named</span>(<span class='string'>&quot;ImageCacheThread&quot;</span>.<span class='ident'>to_owned</span>(), <span class='kw'>move</span> <span class='op'>||</span> {
-        <span class='ident'>ImageCache</span>::<span class='ident'>run</span>(<span class='ident'>resource_thread</span>, <span class='ident'>webrender_api</span>, <span class='ident'>ipc_command_receiver</span>)
+        <span class='ident'>ImageCache</span>::<span class='ident'>run</span>(<span class='ident'>core_resource_thread</span>, <span class='ident'>webrender_api</span>, <span class='ident'>ipc_command_receiver</span>)
     });
 
     <span class='ident'>ImageCacheThread</span>::<span class='ident'>new</span>(<span class='ident'>ipc_command_sender</span>)

@@ -47,10 +47,10 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-989' class='srclink' href='../../src/regex/dfa.rs.html#212-216' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-989' class='srclink' href='../../src/regex/dfa.rs.html#215-219' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum Result&lt;T&gt; {
     Match(T),
-    NoMatch,
+    NoMatch(<a class='primitive' href='../../std/primitive.usize.html'>usize</a>),
     Quit,
 }</pre><div class='docblock'><p>The result of running the DFA.</p>
 
@@ -61,12 +61,20 @@ gives up with the intent of falling back to the NFA algorithm.</p>
 <p>The DFA can also give up if it runs out of room to create new states, or if
 it sees non-ASCII bytes in the presence of a Unicode word boundary.</p>
 </div><h2 class='variants'>Variants</h2>
-<table class='variants_table'><tr><td id='variant.Match'><code>Match</code></td><td></td><td></td></tr><tr><td id='variant.NoMatch'><code>NoMatch</code></td><td></td><td></td></tr><tr><td id='variant.Quit'><code>Quit</code></td><td></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1009' class='srclink' href='../../src/regex/dfa.rs.html#218-226' title='goto source code'>[src]</a></span></h3>
+<table class='variants_table'><tr><td id='variant.Match'><code>Match</code></td><td></td><td></td></tr><tr><td id='variant.NoMatch'><code>NoMatch</code></td><td></td><td></td></tr><tr><td id='variant.Quit'><code>Quit</code></td><td></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1012' class='srclink' href='../../src/regex/dfa.rs.html#221-250' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.is_match' class='method'><code>fn <a href='#method.is_match' class='fnname'>is_match</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Returns true if this result corresponds to a match.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;T: <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>&gt; <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-995' class='srclink' href='../../src/regex/dfa.rs.html#211' title='goto source code'>[src]</a></span></h3>
+</div><h4 id='method.map' class='method'><code>fn <a href='#method.map' class='fnname'>map</a>&lt;U, F: <a class='trait' href='../../core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(T) -&gt; U&gt;(self, f: F) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;U&gt;</code></h4>
+<div class='docblock'><p>Maps the given function onto T and returns the result.</p>
+
+<p>If this isn&#39;t a match, then this is a no-op.</p>
+</div><h4 id='method.set_non_match' class='method'><code>fn <a href='#method.set_non_match' class='fnname'>set_non_match</a>(self, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p>Sets the non-match position.</p>
+
+<p>If this isn&#39;t a non-match, then this is a no-op.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;T: <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>&gt; <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-996' class='srclink' href='../../src/regex/dfa.rs.html#214' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
-</div><h3 class='impl'><span class='in-band'><code>impl&lt;T: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1004' class='srclink' href='../../src/regex/dfa.rs.html#211' title='goto source code'>[src]</a></span></h3>
+</div><h3 class='impl'><span class='in-band'><code>impl&lt;T: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1006' class='srclink' href='../../src/regex/dfa.rs.html#214' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;T&gt;</code></h4>
 <h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class="since">1.0.0</div></h4>
 </div></section>

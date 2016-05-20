@@ -88,14 +88,12 @@
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
-<span id="47">47</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>;
-<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::<span class='ident'>ConstellationChan</span>;
+<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 
@@ -106,14 +104,14 @@
     <span class='kw'>fn</span> <span class='ident'>set_clipboard_contents</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>String</span>);
 }
 
-<span class='kw'>impl</span> <span class='ident'>ClipboardProvider</span> <span class='kw'>for</span> <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span> <span class='ident'>ClipboardProvider</span> <span class='kw'>for</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>clipboard_contents</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
         <span class='kw'>let</span> (<span class='ident'>tx</span>, <span class='ident'>rx</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>GetClipboardContents</span>(<span class='ident'>tx</span>)).<span class='ident'>unwrap</span>();
+        <span class='self'>self</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>GetClipboardContents</span>(<span class='ident'>tx</span>)).<span class='ident'>unwrap</span>();
         <span class='ident'>rx</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>()
     }
     <span class='kw'>fn</span> <span class='ident'>set_clipboard_contents</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>String</span>) {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>SetClipboardContents</span>(<span class='ident'>s</span>)).<span class='ident'>unwrap</span>();
+        <span class='self'>self</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>SetClipboardContents</span>(<span class='ident'>s</span>)).<span class='ident'>unwrap</span>();
     }
 }
 

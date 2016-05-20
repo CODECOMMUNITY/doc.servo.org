@@ -1549,7 +1549,6 @@
 <span id="1505">1505</span>
 <span id="1506">1506</span>
 <span id="1507">1507</span>
-<span id="1508">1508</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1590,7 +1589,7 @@
 <span class='kw'>use</span> <span class='ident'>layout_debug</span>;
 <span class='kw'>use</span> <span class='ident'>layout_traits</span>::{<span class='ident'>ConvertPipelineIdToWebRender</span>, <span class='ident'>LayoutThreadFactory</span>};
 <span class='kw'>use</span> <span class='ident'>log</span>;
-<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>ConstellationChan</span>, <span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::{<span class='ident'>ImageCacheChan</span>, <span class='ident'>ImageCacheResult</span>, <span class='ident'>ImageCacheThread</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::{<span class='ident'>UsePlaceholder</span>};
 <span class='kw'>use</span> <span class='ident'>parallel</span>;
@@ -1653,7 +1652,7 @@
 <span class='doccomment'>/// This needs to be protected by a mutex so we can do fast RPCs.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LayoutThreadData</span> {
     <span class='doccomment'>/// The channel on which messages can be sent to the constellation.</span>
-    <span class='kw'>pub</span> <span class='ident'>constellation_chan</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// The root stacking context.</span>
     <span class='kw'>pub</span> <span class='ident'>display_list</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>DisplayList</span><span class='op'>&gt;&gt;</span>,
@@ -1721,7 +1720,7 @@
     <span class='ident'>font_cache_sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// The channel on which messages can be sent to the constellation.</span>
-    <span class='ident'>constellation_chan</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>,
+    <span class='ident'>constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// The channel on which messages can be sent to the script thread.</span>
     <span class='ident'>script_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;</span>,
@@ -1806,8 +1805,8 @@
               <span class='ident'>is_iframe</span>: <span class='ident'>bool</span>,
               <span class='ident'>chan</span>: <span class='ident'>OpaqueScriptLayoutChannel</span>,
               <span class='ident'>pipeline_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>LayoutControlMsg</span><span class='op'>&gt;</span>,
-              <span class='ident'>constellation_chan</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>,
-              <span class='ident'>panic_chan</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
+              <span class='ident'>constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>,
+              <span class='ident'>panic_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
               <span class='ident'>script_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;</span>,
               <span class='ident'>paint_chan</span>: <span class='ident'>OptionalIpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutToPaintMsg</span><span class='op'>&gt;</span>,
               <span class='ident'>image_cache_thread</span>: <span class='ident'>ImageCacheThread</span>,
@@ -1817,7 +1816,6 @@
               <span class='ident'>shutdown_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
               <span class='ident'>content_process_shutdown_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
               <span class='ident'>webrender_api_sender</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApiSender</span><span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>ConstellationChan</span>(<span class='ident'>fail_chan</span>) <span class='op'>=</span> <span class='ident'>panic_chan</span>.<span class='ident'>clone</span>();
         <span class='ident'>thread</span>::<span class='ident'>spawn_named_with_send_on_panic</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;LayoutThread {:?}&quot;</span>, <span class='ident'>id</span>),
                                                <span class='ident'>thread_state</span>::<span class='ident'>LAYOUT</span>,
                                                <span class='kw'>move</span> <span class='op'>||</span> {
@@ -1844,7 +1842,7 @@
             }
             <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>shutdown_chan</span>.<span class='ident'>send</span>(());
             <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>content_process_shutdown_chan</span>.<span class='ident'>send</span>(());
-        }, <span class='prelude-val'>Some</span>(<span class='ident'>id</span>), <span class='ident'>fail_chan</span>);
+        }, <span class='prelude-val'>Some</span>(<span class='ident'>id</span>), <span class='ident'>panic_chan</span>);
     }
 }
 
@@ -1938,7 +1936,7 @@
            <span class='ident'>is_iframe</span>: <span class='ident'>bool</span>,
            <span class='ident'>port</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span>,
            <span class='ident'>pipeline_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>LayoutControlMsg</span><span class='op'>&gt;</span>,
-           <span class='ident'>constellation_chan</span>: <span class='ident'>ConstellationChan</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>,
+           <span class='ident'>constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>,
            <span class='ident'>script_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;</span>,
            <span class='ident'>paint_chan</span>: <span class='ident'>OptionalIpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutToPaintMsg</span><span class='op'>&gt;</span>,
            <span class='ident'>image_cache_thread</span>: <span class='ident'>ImageCacheThread</span>,
@@ -2633,9 +2631,9 @@
         <span class='kw'>if</span> <span class='ident'>viewport_size_changed</span> {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>constraints</span>) <span class='op'>=</span> <span class='ident'>constraints</span> {
                 <span class='comment'>// let the constellation know about the viewport constraints</span>
-                <span class='kw'>let</span> <span class='ident'>ConstellationChan</span>(<span class='kw-2'>ref</span> <span class='ident'>constellation_chan</span>) <span class='op'>=</span> <span class='ident'>rw_data</span>.<span class='ident'>constellation_chan</span>;
-                <span class='ident'>constellation_chan</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>ViewportConstrained</span>(
-                        <span class='self'>self</span>.<span class='ident'>id</span>, <span class='ident'>constraints</span>)).<span class='ident'>unwrap</span>();
+                <span class='ident'>rw_data</span>.<span class='ident'>constellation_chan</span>
+                       .<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>ViewportConstrained</span>(<span class='self'>self</span>.<span class='ident'>id</span>, <span class='ident'>constraints</span>))
+                       .<span class='ident'>unwrap</span>();
             }
             <span class='comment'>// FIXME (#10104): Only dirty nodes affected by vh/vw/vmin/vmax styles.</span>
             <span class='kw'>if</span> <span class='ident'>data</span>.<span class='ident'>document_stylesheets</span>.<span class='ident'>iter</span>().<span class='ident'>any</span>(<span class='op'>|</span><span class='ident'>sheet</span><span class='op'>|</span> <span class='ident'>sheet</span>.<span class='ident'>dirty_on_viewport_size_change</span>) {

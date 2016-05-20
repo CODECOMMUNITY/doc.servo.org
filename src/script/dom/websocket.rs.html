@@ -660,7 +660,6 @@
 <span id="616">616</span>
 <span id="617">617</span>
 <span id="618">618</span>
-<span id="619">619</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -691,8 +690,8 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_GetArrayBufferData</span>, <span class='ident'>JS_NewArrayBuffer</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::<span class='ident'>UndefinedValue</span>;
 <span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>uint32_t</span>, <span class='ident'>uint8_t</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>ControlMsg</span>::{<span class='ident'>WebsocketConnect</span>, <span class='ident'>SetCookiesForUrl</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>CookieSource</span>::<span class='ident'>HTTP</span>;
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>CoreResourceMsg</span>::{<span class='ident'>WebsocketConnect</span>, <span class='ident'>SetCookiesForUrl</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>MessageData</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>hosts</span>::<span class='ident'>replace_hosts</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>unwrap_websocket_protocol</span>;
@@ -929,8 +928,7 @@
             <span class='ident'>action_receiver</span>: <span class='ident'>resource_action_receiver</span>,
         };
 
-        <span class='kw'>let</span> <span class='ident'>resource_thread</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>resource_thread</span>();
-        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>resource_thread</span>.<span class='ident'>send</span>(<span class='ident'>WebsocketConnect</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>));
+        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>core_resource_thread</span>().<span class='ident'>send</span>(<span class='ident'>WebsocketConnect</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>));
 
         <span class='op'>*</span><span class='ident'>ws</span>.<span class='ident'>sender</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>dom_action_sender</span>);
 
@@ -1157,7 +1155,7 @@
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>cookies</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get_raw</span>(<span class='string'>&quot;set-cookie&quot;</span>) {
             <span class='kw'>for</span> <span class='ident'>cookie</span> <span class='kw'>in</span> <span class='ident'>cookies</span>.<span class='ident'>iter</span>() {
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>cookie_value</span>) <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from_utf8</span>(<span class='ident'>cookie</span>.<span class='ident'>clone</span>()) {
-                    <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>ws</span>.<span class='ident'>global</span>().<span class='ident'>r</span>().<span class='ident'>resource_thread</span>().<span class='ident'>send</span>(<span class='ident'>SetCookiesForUrl</span>(<span class='ident'>ws</span>.<span class='ident'>url</span>.<span class='ident'>clone</span>(),
+                    <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>ws</span>.<span class='ident'>global</span>().<span class='ident'>r</span>().<span class='ident'>core_resource_thread</span>().<span class='ident'>send</span>(<span class='ident'>SetCookiesForUrl</span>(<span class='ident'>ws</span>.<span class='ident'>url</span>.<span class='ident'>clone</span>(),
                                                                                     <span class='ident'>cookie_value</span>,
                                                                                     <span class='ident'>HTTP</span>));
                 }

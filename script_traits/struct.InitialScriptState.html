@@ -47,20 +47,19 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3261' class='srclink' href='../src/script_traits/lib.rs.html#302-342' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3202' class='srclink' href='../src/script_traits/lib.rs.html#301-339' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct InitialScriptState {
     pub id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
     pub parent_info: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a><a class='primitive' href='../std/primitive.tuple.html'>)</a>&gt;,
     pub compositor: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.ScriptToCompositorMsg.html' title='script_traits::ScriptToCompositorMsg'>ScriptToCompositorMsg</a>&gt;,
     pub control_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;,
     pub control_port: <a class='struct' href='../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;,
-    pub constellation_chan: <a class='struct' href='../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='enum' href='../script_traits/enum.ScriptMsg.html' title='script_traits::ScriptMsg'>ScriptMsg</a>&gt;,
-    pub layout_to_constellation_chan: <a class='struct' href='../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='enum' href='../script_traits/enum.LayoutMsg.html' title='script_traits::LayoutMsg'>LayoutMsg</a>&gt;,
-    pub panic_chan: <a class='struct' href='../msg/constellation_msg/struct.ConstellationChan.html' title='msg::constellation_msg::ConstellationChan'>ConstellationChan</a>&lt;<a class='type' href='../msg/constellation_msg/type.PanicMsg.html' title='msg::constellation_msg::PanicMsg'>PanicMsg</a>&gt;,
+    pub constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.ScriptMsg.html' title='script_traits::ScriptMsg'>ScriptMsg</a>&gt;,
+    pub layout_to_constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.LayoutMsg.html' title='script_traits::LayoutMsg'>LayoutMsg</a>&gt;,
+    pub panic_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='type' href='../msg/constellation_msg/type.PanicMsg.html' title='msg::constellation_msg::PanicMsg'>PanicMsg</a>&gt;,
     pub scheduler_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../script_traits/struct.TimerEventRequest.html' title='script_traits::TimerEventRequest'>TimerEventRequest</a>&gt;,
-    pub resource_thread: <a class='type' href='../net_traits/type.ResourceThread.html' title='net_traits::ResourceThread'>ResourceThread</a>,
+    pub resource_threads: <a class='struct' href='../net_traits/struct.ResourceThreads.html' title='net_traits::ResourceThreads'>ResourceThreads</a>,
     pub bluetooth_thread: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../net_traits/bluetooth_thread/enum.BluetoothMethodMsg.html' title='net_traits::bluetooth_thread::BluetoothMethodMsg'>BluetoothMethodMsg</a>&gt;,
-    pub storage_thread: <a class='type' href='../net_traits/storage_thread/type.StorageThread.html' title='net_traits::storage_thread::StorageThread'>StorageThread</a>,
     pub image_cache_thread: <a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a>,
     pub time_profiler_chan: <a class='struct' href='../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a>,
     pub mem_profiler_chan: <a class='struct' href='../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a>,
@@ -93,11 +92,9 @@ If <code>None</code>, this is the root.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.scheduler_chan'><code>scheduler_chan</code></td><td><div class='docblock'><p>A channel to schedule timer events.</p>
 </div></td></tr><tr class='stab '>
-                             <td id='structfield.resource_thread'><code>resource_thread</code></td><td><div class='docblock'><p>A channel to the resource manager thread.</p>
+                             <td id='structfield.resource_threads'><code>resource_threads</code></td><td><div class='docblock'><p>A channel to the resource manager thread.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.bluetooth_thread'><code>bluetooth_thread</code></td><td><div class='docblock'><p>A channel to the bluetooth thread.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.storage_thread'><code>storage_thread</code></td><td><div class='docblock'><p>A channel to the storage thread.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.image_cache_thread'><code>image_cache_thread</code></td><td><div class='docblock'><p>A channel to the image cache thread.</p>
 </div></td></tr><tr class='stab '>

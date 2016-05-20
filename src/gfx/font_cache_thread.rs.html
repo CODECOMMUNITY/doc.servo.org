@@ -514,7 +514,7 @@
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
 <span class='kw'>use</span> <span class='ident'>mime</span>::{<span class='ident'>TopLevel</span>, <span class='ident'>SubLevel</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>LoadContext</span>, <span class='ident'>PendingAsyncLoad</span>, <span class='ident'>ResourceThread</span>, <span class='ident'>ResponseAction</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>LoadContext</span>, <span class='ident'>PendingAsyncLoad</span>, <span class='ident'>CoreResourceThread</span>, <span class='ident'>ResponseAction</span>};
 <span class='kw'>use</span> <span class='ident'>platform</span>::<span class='ident'>font_context</span>::<span class='ident'>FontContextHandle</span>;
 <span class='kw'>use</span> <span class='ident'>platform</span>::<span class='ident'>font_list</span>::<span class='ident'>SANS_SERIF_FONT_FAMILY</span>;
 <span class='kw'>use</span> <span class='ident'>platform</span>::<span class='ident'>font_list</span>::<span class='ident'>for_each_available_family</span>;
@@ -633,7 +633,7 @@
     <span class='ident'>local_families</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>LowercaseString</span>, <span class='ident'>FontTemplates</span><span class='op'>&gt;</span>,
     <span class='ident'>web_families</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>LowercaseString</span>, <span class='ident'>FontTemplates</span><span class='op'>&gt;</span>,
     <span class='ident'>font_context</span>: <span class='ident'>FontContextHandle</span>,
-    <span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>,
+    <span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
     <span class='ident'>webrender_api</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApi</span><span class='op'>&gt;</span>,
     <span class='ident'>webrender_fonts</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>Atom</span>, <span class='ident'>webrender_traits</span>::<span class='ident'>FontKey</span><span class='op'>&gt;</span>,
 }
@@ -690,7 +690,7 @@
                         <span class='ident'>Source</span>::<span class='ident'>Url</span>(<span class='kw-2'>ref</span> <span class='ident'>url_source</span>) <span class='op'>=&gt;</span> {
                             <span class='kw'>let</span> <span class='ident'>url</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>url_source</span>.<span class='ident'>url</span>;
                             <span class='kw'>let</span> <span class='ident'>load</span> <span class='op'>=</span> <span class='ident'>PendingAsyncLoad</span>::<span class='ident'>new</span>(<span class='ident'>LoadContext</span>::<span class='ident'>Font</span>,
-                                                             <span class='self'>self</span>.<span class='ident'>resource_thread</span>.<span class='ident'>clone</span>(),
+                                                             <span class='self'>self</span>.<span class='ident'>core_resource_thread</span>.<span class='ident'>clone</span>(),
                                                              <span class='ident'>url</span>.<span class='ident'>clone</span>(),
                                                              <span class='prelude-val'>None</span>,
                                                              <span class='prelude-val'>None</span>,
@@ -880,7 +880,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>FontCacheThread</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>resource_thread</span>: <span class='ident'>ResourceThread</span>,
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
                <span class='ident'>webrender_api</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApi</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>FontCacheThread</span> {
         <span class='kw'>let</span> (<span class='ident'>chan</span>, <span class='ident'>port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
 
@@ -896,7 +896,7 @@
                 <span class='ident'>local_families</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
                 <span class='ident'>web_families</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
                 <span class='ident'>font_context</span>: <span class='ident'>FontContextHandle</span>::<span class='ident'>new</span>(),
-                <span class='ident'>resource_thread</span>: <span class='ident'>resource_thread</span>,
+                <span class='ident'>core_resource_thread</span>: <span class='ident'>core_resource_thread</span>,
                 <span class='ident'>webrender_api</span>: <span class='ident'>webrender_api</span>,
                 <span class='ident'>webrender_fonts</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
             };

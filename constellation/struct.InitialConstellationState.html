@@ -47,15 +47,14 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-149' class='srclink' href='../src/constellation/constellation.rs.html#203-226' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-148' class='srclink' href='../src/constellation/constellation.rs.html#200-221' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct InitialConstellationState {
     pub compositor_proxy: <a class='struct' href='../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../compositing/compositor_thread/trait.CompositorProxy.html' title='compositing::compositor_thread::CompositorProxy'>CompositorProxy</a> + <a class='trait' href='../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;,
     pub devtools_chan: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../devtools_traits/enum.DevtoolsControlMsg.html' title='devtools_traits::DevtoolsControlMsg'>DevtoolsControlMsg</a>&gt;&gt;,
     pub bluetooth_thread: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../net_traits/bluetooth_thread/enum.BluetoothMethodMsg.html' title='net_traits::bluetooth_thread::BluetoothMethodMsg'>BluetoothMethodMsg</a>&gt;,
     pub image_cache_thread: <a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a>,
     pub font_cache_thread: <a class='struct' href='../gfx/font_cache_thread/struct.FontCacheThread.html' title='gfx::font_cache_thread::FontCacheThread'>FontCacheThread</a>,
-    pub resource_thread: <a class='type' href='../net_traits/type.ResourceThread.html' title='net_traits::ResourceThread'>ResourceThread</a>,
-    pub storage_thread: <a class='type' href='../net_traits/storage_thread/type.StorageThread.html' title='net_traits::storage_thread::StorageThread'>StorageThread</a>,
+    pub resource_threads: <a class='struct' href='../net_traits/struct.ResourceThreads.html' title='net_traits::ResourceThreads'>ResourceThreads</a>,
     pub time_profiler_chan: <a class='struct' href='../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a>,
     pub mem_profiler_chan: <a class='struct' href='../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a>,
     pub supports_clipboard: <a class='primitive' href='../std/primitive.bool.html'>bool</a>,
@@ -73,9 +72,7 @@
 </div></td></tr><tr class='stab '>
                              <td id='structfield.font_cache_thread'><code>font_cache_thread</code></td><td><div class='docblock'><p>A channel to the font cache thread.</p>
 </div></td></tr><tr class='stab '>
-                             <td id='structfield.resource_thread'><code>resource_thread</code></td><td><div class='docblock'><p>A channel to the resource thread.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.storage_thread'><code>storage_thread</code></td><td><div class='docblock'><p>A channel to the storage thread.</p>
+                             <td id='structfield.resource_threads'><code>resource_threads</code></td><td><div class='docblock'><p>A channel to the resource thread.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.time_profiler_chan'><code>time_profiler_chan</code></td><td><div class='docblock'><p>A channel to the time profiler thread.</p>
 </div></td></tr><tr class='stab '>

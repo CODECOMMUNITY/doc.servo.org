@@ -200,7 +200,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>FileManager</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>recv</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>FileManager</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>recv</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>FileManager</span> {
         <span class='ident'>FileManager</span> {
             <span class='ident'>receiver</span>: <span class='ident'>recv</span>,
             <span class='ident'>idmap</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>HashMap</span>::<span class='ident'>new</span>()),
@@ -218,7 +218,7 @@
     }
 
     <span class='doccomment'>/// Start the file manager event loop</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+    <span class='kw'>fn</span> <span class='ident'>start</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>loop</span> {
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>() {
                 <span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>SelectFile</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>select_file</span>(<span class='ident'>sender</span>),

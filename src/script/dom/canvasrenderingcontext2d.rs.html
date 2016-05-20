@@ -1552,7 +1552,7 @@
                      <span class='op'>-&gt;</span> <span class='ident'>CanvasRenderingContext2D</span> {
         <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>constellation_chan</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>constellation_chan</span>();
-        <span class='ident'>constellation_chan</span>.<span class='number'>0</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>CreateCanvasPaintThread</span>(<span class='ident'>size</span>, <span class='ident'>sender</span>)).<span class='ident'>unwrap</span>();
+        <span class='ident'>constellation_chan</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>CreateCanvasPaintThread</span>(<span class='ident'>size</span>, <span class='ident'>sender</span>)).<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>ipc_renderer</span> <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
         <span class='ident'>CanvasRenderingContext2D</span> {
             <span class='ident'>reflector_</span>: <span class='ident'>Reflector</span>::<span class='ident'>new</span>(),

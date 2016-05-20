@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-0.1.69/src/pikevm.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-0.1.70/src/pikevm.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>pikevm.rs.html -- source</title>
@@ -740,10 +740,10 @@
         <span class='kw'>use</span> <span class='ident'>prog</span>::<span class='ident'>Inst</span>::<span class='op'>*</span>;
         <span class='kw'>loop</span> {
             <span class='comment'>// Don&#39;t visit states we&#39;ve already added.</span>
-            <span class='kw'>if</span> <span class='ident'>nlist</span>.<span class='ident'>set</span>.<span class='ident'>contains_ip</span>(<span class='ident'>ip</span>) {
+            <span class='kw'>if</span> <span class='ident'>nlist</span>.<span class='ident'>set</span>.<span class='ident'>contains</span>(<span class='ident'>ip</span>) {
                 <span class='kw'>return</span>;
             }
-            <span class='ident'>nlist</span>.<span class='ident'>set</span>.<span class='ident'>add</span>(<span class='ident'>ip</span>);
+            <span class='ident'>nlist</span>.<span class='ident'>set</span>.<span class='ident'>insert</span>(<span class='ident'>ip</span>);
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>prog</span>[<span class='ident'>ip</span>] {
                 <span class='ident'>EmptyLook</span>(<span class='kw-2'>ref</span> <span class='ident'>inst</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>let</span> <span class='ident'>prev</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>input</span>.<span class='ident'>previous_char</span>(<span class='ident'>at</span>);

@@ -222,7 +222,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>document</span>::<span class='ident'>Document</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::<span class='ident'>PipelineId</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>AsyncResponseTarget</span>;
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>PendingAsyncLoad</span>, <span class='ident'>ResourceThread</span>, <span class='ident'>LoadContext</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>PendingAsyncLoad</span>, <span class='ident'>CoreResourceThread</span>, <span class='ident'>LoadContext</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
@@ -306,10 +306,10 @@
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>JSTraceable</span>, <span class='ident'>HeapSizeOf</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DocumentLoader</span> {
-    <span class='doccomment'>/// We use an `Arc&lt;ResourceThread&gt;` here in order to avoid file descriptor exhaustion when there</span>
+    <span class='doccomment'>/// We use an `Arc&lt;CoreResourceThread&gt;` here in order to avoid file descriptor exhaustion when there</span>
     <span class='doccomment'>/// are lots of iframes.</span>
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;channels are hard&quot;</span>]</span>
-    <span class='kw'>pub</span> <span class='ident'>resource_thread</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>ResourceThread</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>resource_thread</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>CoreResourceThread</span><span class='op'>&gt;</span>,
     <span class='ident'>pipeline</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>PipelineId</span><span class='op'>&gt;</span>,
     <span class='ident'>blocking_loads</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>LoadType</span><span class='op'>&gt;</span>,
     <span class='ident'>events_inhibited</span>: <span class='ident'>bool</span>,
@@ -320,9 +320,9 @@
         <span class='ident'>DocumentLoader</span>::<span class='ident'>new_with_thread</span>(<span class='ident'>existing</span>.<span class='ident'>resource_thread</span>.<span class='ident'>clone</span>(), <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>)
     }
 
-    <span class='doccomment'>/// We use an `Arc&lt;ResourceThread&gt;` here in order to avoid file descriptor exhaustion when there</span>
+    <span class='doccomment'>/// We use an `Arc&lt;CoreResourceThread&gt;` here in order to avoid file descriptor exhaustion when there</span>
     <span class='doccomment'>/// are lots of iframes.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_with_thread</span>(<span class='ident'>resource_thread</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>ResourceThread</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_with_thread</span>(<span class='ident'>resource_thread</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>CoreResourceThread</span><span class='op'>&gt;</span>,
                          <span class='ident'>pipeline</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>PipelineId</span><span class='op'>&gt;</span>,
                          <span class='ident'>initial_load</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span>)
                          <span class='op'>-&gt;</span> <span class='ident'>DocumentLoader</span> {
