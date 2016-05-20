@@ -273,9 +273,9 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>event</span>::{<span class='ident'>Event</span>, <span class='ident'>EventBubbles</span>, <span class='ident'>EventCancelable</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>storageevent</span>::<span class='ident'>StorageEvent</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>urlhelper</span>::<span class='ident'>UrlHelper</span>;
-<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>;
+<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>IpcSend</span>;
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::{<span class='ident'>StorageThread</span>, <span class='ident'>StorageThreadMsg</span>, <span class='ident'>StorageType</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::{<span class='ident'>StorageThreadMsg</span>, <span class='ident'>StorageType</span>};
 <span class='kw'>use</span> <span class='ident'>script_thread</span>::{<span class='ident'>MainThreadRunnable</span>, <span class='ident'>ScriptThread</span>};
 <span class='kw'>use</span> <span class='ident'>task_source</span>::<span class='ident'>dom_manipulation</span>::<span class='ident'>DOMManipulationTask</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
@@ -305,7 +305,7 @@
         <span class='ident'>global_ref</span>.<span class='ident'>get_url</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>get_storage_thread</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>StorageThread</span> {
+    <span class='kw'>fn</span> <span class='ident'>get_storage_thread</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>StorageThreadMsg</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>global_root</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>global</span>();
         <span class='kw'>let</span> <span class='ident'>global_ref</span> <span class='op'>=</span> <span class='ident'>global_root</span>.<span class='ident'>r</span>();
         <span class='ident'>global_ref</span>.<span class='ident'>as_window</span>().<span class='ident'>resource_threads</span>().<span class='ident'>sender</span>()

@@ -500,7 +500,7 @@
                             <span class='ident'>TimerMetadataFrameType</span>::<span class='ident'>RootWindow</span> <span class='op'>=&gt;</span> <span class='string'>&quot;yes&quot;</span>,
                             <span class='ident'>TimerMetadataFrameType</span>::<span class='ident'>IFrame</span> <span class='op'>=&gt;</span> <span class='string'>&quot;no&quot;</span>,
                         };
-                        <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; {}, {}, {}&quot;</span>, <span class='ident'>incremental</span>, <span class='ident'>iframe</span>, <span class='ident'>url</span>)
+                        <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; {}\t{}\t{}&quot;</span>, <span class='ident'>incremental</span>, <span class='ident'>iframe</span>, <span class='ident'>url</span>)
                     },
                     _ <span class='op'>=&gt;</span> {
                         <span class='comment'>/* The profiling output is the terminal */</span>
@@ -524,7 +524,7 @@
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>output</span> {
                     <span class='prelude-val'>Some</span>(<span class='ident'>OutputOptions</span>::<span class='ident'>FileName</span>(_)) <span class='op'>=&gt;</span> {
-                        <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; {}, {}, {}&quot;</span>, <span class='string'>&quot;    N/A&quot;</span>, <span class='string'>&quot;  N/A&quot;</span>, <span class='string'>&quot;             N/A&quot;</span>)
+                        <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; {}\t{}\t{}&quot;</span>, <span class='string'>&quot;    N/A&quot;</span>, <span class='string'>&quot;  N/A&quot;</span>, <span class='string'>&quot;             N/A&quot;</span>)
                     },
                     _ <span class='op'>=&gt;</span> {
                         <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; {:14} {:9} {:30}&quot;</span>, <span class='string'>&quot;    N/A&quot;</span>, <span class='string'>&quot;  N/A&quot;</span>, <span class='string'>&quot;             N/A&quot;</span>)
@@ -789,8 +789,8 @@
                                      <span class='ident'>Error</span>::<span class='ident'>description</span>(<span class='kw-2'>&amp;</span><span class='ident'>e</span>)),
                     <span class='prelude-val'>Ok</span>(<span class='ident'>file</span>) <span class='op'>=&gt;</span> <span class='ident'>file</span>,
                 };
-                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>file</span>, <span class='string'>&quot;_category_, _incremental?_, _iframe?_, _url_, _mean (ms)_, _median (ms)_, _min (ms)_, \
-                _max (ms)_, _events_\n&quot;</span>).<span class='ident'>unwrap</span>();
+                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>file</span>, <span class='string'>&quot;_category_\t_incremental?_\t_iframe?_\t_url_\t_mean (ms)_\t\
+                    _median (ms)_\t_min (ms)_\t_max (ms)_\t_events_\n&quot;</span>).<span class='ident'>unwrap</span>();
                 <span class='kw'>for</span> (<span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>category</span>, <span class='kw-2'>ref</span> <span class='ident'>meta</span>), <span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>data</span>) <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>buckets</span> {
                     <span class='ident'>data</span>.<span class='ident'>sort_by</span>(<span class='op'>|</span><span class='ident'>a</span>, <span class='ident'>b</span><span class='op'>|</span> {
                         <span class='kw'>if</span> <span class='ident'>a</span> <span class='op'>&lt;</span> <span class='ident'>b</span> {
@@ -806,7 +806,7 @@
                              <span class='ident'>data</span>[<span class='ident'>data_len</span> <span class='op'>/</span> <span class='number'>2</span>],
                              <span class='ident'>data</span>.<span class='ident'>iter</span>().<span class='ident'>fold</span>(<span class='ident'>f64</span>::<span class='ident'>INFINITY</span>, <span class='op'>|</span><span class='ident'>a</span>, <span class='kw-2'>&amp;</span><span class='ident'>b</span><span class='op'>|</span> <span class='ident'>a</span>.<span class='ident'>min</span>(<span class='ident'>b</span>)),
                              <span class='ident'>data</span>.<span class='ident'>iter</span>().<span class='ident'>fold</span>(<span class='op'>-</span><span class='ident'>f64</span>::<span class='ident'>INFINITY</span>, <span class='op'>|</span><span class='ident'>a</span>, <span class='kw-2'>&amp;</span><span class='ident'>b</span><span class='op'>|</span> <span class='ident'>a</span>.<span class='ident'>max</span>(<span class='ident'>b</span>)));
-                        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>file</span>, <span class='string'>&quot;{}, {}, {:15.4}, {:15.4}, {:15.4}, {:15.4}, {:15}\n&quot;</span>,
+                        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>file</span>, <span class='string'>&quot;{}\t{}\t{:15.4}\t{:15.4}\t{:15.4}\t{:15.4}\t{:15}\n&quot;</span>,
                             <span class='ident'>category</span>.<span class='ident'>format</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>output</span>), <span class='ident'>meta</span>.<span class='ident'>format</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>output</span>),
                             <span class='ident'>mean</span>, <span class='ident'>median</span>, <span class='ident'>min</span>, <span class='ident'>max</span>, <span class='ident'>data_len</span>).<span class='ident'>unwrap</span>();
                     }

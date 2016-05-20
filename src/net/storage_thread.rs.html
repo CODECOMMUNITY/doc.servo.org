@@ -278,7 +278,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::{<span class='ident'>StorageThread</span>, <span class='ident'>StorageThreadMsg</span>, <span class='ident'>StorageType</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::{<span class='ident'>StorageThreadMsg</span>, <span class='ident'>StorageType</span>};
 <span class='kw'>use</span> <span class='ident'>resource_thread</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
@@ -293,9 +293,9 @@
     <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 
-<span class='kw'>impl</span> <span class='ident'>StorageThreadFactory</span> <span class='kw'>for</span> <span class='ident'>StorageThread</span> {
-    <span class='doccomment'>/// Create a StorageThread</span>
-    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>StorageThread</span> {
+<span class='kw'>impl</span> <span class='ident'>StorageThreadFactory</span> <span class='kw'>for</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>StorageThreadMsg</span><span class='op'>&gt;</span> {
+    <span class='doccomment'>/// Create a storage thread</span>
+    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>StorageThreadMsg</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> (<span class='ident'>chan</span>, <span class='ident'>port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='ident'>spawn_named</span>(<span class='string'>&quot;StorageManager&quot;</span>.<span class='ident'>to_owned</span>(), <span class='kw'>move</span> <span class='op'>||</span> {
             <span class='ident'>StorageManager</span>::<span class='ident'>new</span>(<span class='ident'>port</span>).<span class='ident'>start</span>();
