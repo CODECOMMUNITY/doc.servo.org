@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["libloading"] = [];implementors["shared_library"] = [];implementors["gleam"] = [];implementors["tempfile"] = [];implementors["glx"] = [];implementors["string_cache"] = [];implementors["openssl"] = [];implementors["offscreen_gl_context"] = [];implementors["websocket"] = [];implementors["glutin"] = [];implementors["util"] = [];implementors["gfx"] = [];
+implementors["shared_library"] = [];implementors["libloading"] = [];implementors["string_cache"] = [];implementors["tempfile"] = [];implementors["openssl"] = [];implementors["glx"] = [];implementors["gleam"] = [];implementors["offscreen_gl_context"] = [];implementors["websocket"] = [];implementors["glutin"] = [];implementors["util"] = [];implementors["gfx"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

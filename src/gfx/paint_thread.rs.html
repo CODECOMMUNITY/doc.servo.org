@@ -906,8 +906,6 @@
 <span id="862">862</span>
 <span id="863">863</span>
 <span id="864">864</span>
-<span id="865">865</span>
-<span id="866">866</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1303,7 +1301,7 @@
                   <span class='ident'>chrome_to_paint_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ChromeToPaintMsg</span><span class='op'>&gt;</span>,
                   <span class='ident'>layout_to_paint_port</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>LayoutToPaintMsg</span><span class='op'>&gt;</span>,
                   <span class='ident'>chrome_to_paint_port</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>ChromeToPaintMsg</span><span class='op'>&gt;</span>,
-                  <span class='ident'>compositor</span>: <span class='ident'>C</span>,
+                  <span class='kw-2'>mut</span> <span class='ident'>compositor</span>: <span class='ident'>C</span>,
                   <span class='ident'>panic_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
                   <span class='ident'>font_cache_thread</span>: <span class='ident'>FontCacheThread</span>,
                   <span class='ident'>time_profiler_chan</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>,
@@ -1315,10 +1313,8 @@
             {
                 <span class='comment'>// Ensures that the paint thread and graphics context are destroyed before the</span>
                 <span class='comment'>// shutdown message.</span>
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>compositor</span> <span class='op'>=</span> <span class='ident'>compositor</span>;
-                <span class='kw'>let</span> <span class='ident'>native_display</span> <span class='op'>=</span> <span class='ident'>compositor</span>.<span class='ident'>native_display</span>().<span class='ident'>map</span>(
-                    <span class='op'>|</span><span class='ident'>display</span><span class='op'>|</span> <span class='ident'>display</span>);
-                <span class='kw'>let</span> <span class='ident'>worker_threads</span> <span class='op'>=</span> <span class='ident'>WorkerThreadProxy</span>::<span class='ident'>spawn</span>(<span class='ident'>native_display</span>.<span class='ident'>clone</span>(),
+                <span class='kw'>let</span> <span class='ident'>native_display</span> <span class='op'>=</span> <span class='ident'>compositor</span>.<span class='ident'>native_display</span>();
+                <span class='kw'>let</span> <span class='ident'>worker_threads</span> <span class='op'>=</span> <span class='ident'>WorkerThreadProxy</span>::<span class='ident'>spawn</span>(<span class='ident'>native_display</span>,
                                                               <span class='ident'>font_cache_thread</span>,
                                                               <span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>());
 

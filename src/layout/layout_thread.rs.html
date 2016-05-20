@@ -1547,8 +1547,6 @@
 <span id="1503">1503</span>
 <span id="1504">1504</span>
 <span id="1505">1505</span>
-<span id="1506">1506</span>
-<span id="1507">1507</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1799,8 +1797,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>LayoutThreadFactory</span> <span class='kw'>for</span> <span class='ident'>LayoutThread</span> {
     <span class='doccomment'>/// Spawns a new layout thread.</span>
-    <span class='kw'>fn</span> <span class='ident'>create</span>(<span class='ident'>_phantom</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>LayoutThread</span><span class='op'>&gt;</span>,
-              <span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
+    <span class='kw'>fn</span> <span class='ident'>create</span>(<span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
               <span class='ident'>url</span>: <span class='ident'>Url</span>,
               <span class='ident'>is_iframe</span>: <span class='ident'>bool</span>,
               <span class='ident'>chan</span>: <span class='ident'>OpaqueScriptLayoutChannel</span>,
@@ -2283,23 +2280,22 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>create_layout_thread</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>info</span>: <span class='ident'>NewLayoutThreadInfo</span>) {
-        <span class='ident'>LayoutThreadFactory</span>::<span class='ident'>create</span>(<span class='prelude-val'>None</span>::<span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>LayoutThread</span><span class='op'>&gt;</span>,
-                                  <span class='ident'>info</span>.<span class='ident'>id</span>,
-                                  <span class='ident'>info</span>.<span class='ident'>url</span>.<span class='ident'>clone</span>(),
-                                  <span class='ident'>info</span>.<span class='ident'>is_parent</span>,
-                                  <span class='ident'>info</span>.<span class='ident'>layout_pair</span>,
-                                  <span class='ident'>info</span>.<span class='ident'>pipeline_port</span>,
-                                  <span class='ident'>info</span>.<span class='ident'>constellation_chan</span>,
-                                  <span class='ident'>info</span>.<span class='ident'>panic_chan</span>,
-                                  <span class='ident'>info</span>.<span class='ident'>script_chan</span>.<span class='ident'>clone</span>(),
-                                  <span class='ident'>info</span>.<span class='ident'>paint_chan</span>.<span class='ident'>to</span>::<span class='op'>&lt;</span><span class='ident'>LayoutToPaintMsg</span><span class='op'>&gt;</span>(),
-                                  <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>clone</span>(),
-                                  <span class='self'>self</span>.<span class='ident'>font_cache_thread</span>.<span class='ident'>clone</span>(),
-                                  <span class='self'>self</span>.<span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>(),
-                                  <span class='self'>self</span>.<span class='ident'>mem_profiler_chan</span>.<span class='ident'>clone</span>(),
-                                  <span class='ident'>info</span>.<span class='ident'>layout_shutdown_chan</span>,
-                                  <span class='ident'>info</span>.<span class='ident'>content_process_shutdown_chan</span>,
-                                  <span class='self'>self</span>.<span class='ident'>webrender_api</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>wr</span><span class='op'>|</span> <span class='ident'>wr</span>.<span class='ident'>clone_sender</span>()));
+        <span class='ident'>LayoutThread</span>::<span class='ident'>create</span>(<span class='ident'>info</span>.<span class='ident'>id</span>,
+                             <span class='ident'>info</span>.<span class='ident'>url</span>.<span class='ident'>clone</span>(),
+                             <span class='ident'>info</span>.<span class='ident'>is_parent</span>,
+                             <span class='ident'>info</span>.<span class='ident'>layout_pair</span>,
+                             <span class='ident'>info</span>.<span class='ident'>pipeline_port</span>,
+                             <span class='ident'>info</span>.<span class='ident'>constellation_chan</span>,
+                             <span class='ident'>info</span>.<span class='ident'>panic_chan</span>,
+                             <span class='ident'>info</span>.<span class='ident'>script_chan</span>.<span class='ident'>clone</span>(),
+                             <span class='ident'>info</span>.<span class='ident'>paint_chan</span>.<span class='ident'>to</span>::<span class='op'>&lt;</span><span class='ident'>LayoutToPaintMsg</span><span class='op'>&gt;</span>(),
+                             <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>clone</span>(),
+                             <span class='self'>self</span>.<span class='ident'>font_cache_thread</span>.<span class='ident'>clone</span>(),
+                             <span class='self'>self</span>.<span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>(),
+                             <span class='self'>self</span>.<span class='ident'>mem_profiler_chan</span>.<span class='ident'>clone</span>(),
+                             <span class='ident'>info</span>.<span class='ident'>layout_shutdown_chan</span>,
+                             <span class='ident'>info</span>.<span class='ident'>content_process_shutdown_chan</span>,
+                             <span class='self'>self</span>.<span class='ident'>webrender_api</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>wr</span><span class='op'>|</span> <span class='ident'>wr</span>.<span class='ident'>clone_sender</span>()));
     }
 
     <span class='doccomment'>/// Enters a quiescent state in which no new messages will be processed until an `ExitNow` is</span>

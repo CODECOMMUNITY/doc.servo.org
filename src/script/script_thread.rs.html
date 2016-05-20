@@ -2064,8 +2064,6 @@
 <span id="2020">2020</span>
 <span id="2021">2021</span>
 <span id="2022">2022</span>
-<span id="2023">2023</span>
-<span id="2024">2024</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2490,18 +2488,17 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>ScriptThreadFactory</span> <span class='kw'>for</span> <span class='ident'>ScriptThread</span> {
-    <span class='kw'>fn</span> <span class='ident'>create_layout_channel</span>(<span class='ident'>_phantom</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ScriptThread</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>OpaqueScriptLayoutChannel</span> {
+    <span class='kw'>fn</span> <span class='ident'>create_layout_channel</span>() <span class='op'>-&gt;</span> <span class='ident'>OpaqueScriptLayoutChannel</span> {
         <span class='kw'>let</span> (<span class='ident'>chan</span>, <span class='ident'>port</span>) <span class='op'>=</span> <span class='ident'>channel</span>();
         <span class='ident'>ScriptLayoutChan</span>::<span class='ident'>new</span>(<span class='ident'>chan</span>, <span class='ident'>port</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>clone_layout_channel</span>(<span class='ident'>_phantom</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ScriptThread</span><span class='op'>&gt;</span>, <span class='ident'>pair</span>: <span class='kw-2'>&amp;</span><span class='ident'>OpaqueScriptLayoutChannel</span>)
+    <span class='kw'>fn</span> <span class='ident'>clone_layout_channel</span>(<span class='ident'>pair</span>: <span class='kw-2'>&amp;</span><span class='ident'>OpaqueScriptLayoutChannel</span>)
                             <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Any</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> {
         <span class='kw'>box</span> <span class='ident'>pair</span>.<span class='ident'>sender</span>() <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Any</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>
     }
 
-    <span class='kw'>fn</span> <span class='ident'>create</span>(<span class='ident'>_phantom</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ScriptThread</span><span class='op'>&gt;</span>,
-              <span class='ident'>state</span>: <span class='ident'>InitialScriptState</span>,
+    <span class='kw'>fn</span> <span class='ident'>create</span>(<span class='ident'>state</span>: <span class='ident'>InitialScriptState</span>,
               <span class='ident'>layout_chan</span>: <span class='kw-2'>&amp;</span><span class='ident'>OpaqueScriptLayoutChannel</span>,
               <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>) {
         <span class='kw'>let</span> <span class='ident'>panic_chan</span> <span class='op'>=</span> <span class='ident'>state</span>.<span class='ident'>panic_chan</span>.<span class='ident'>clone</span>();
@@ -3146,9 +3143,8 @@
             <span class='ident'>content_process_shutdown_chan</span>,
         } <span class='op'>=</span> <span class='ident'>new_layout_info</span>;
 
-        <span class='kw'>let</span> <span class='ident'>layout_pair</span> <span class='op'>=</span> <span class='ident'>ScriptThread</span>::<span class='ident'>create_layout_channel</span>(<span class='prelude-val'>None</span>::<span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ScriptThread</span><span class='op'>&gt;</span>);
+        <span class='kw'>let</span> <span class='ident'>layout_pair</span> <span class='op'>=</span> <span class='ident'>ScriptThread</span>::<span class='ident'>create_layout_channel</span>();
         <span class='kw'>let</span> <span class='ident'>layout_chan</span> <span class='op'>=</span> <span class='ident'>LayoutChan</span>(<span class='op'>*</span><span class='ident'>ScriptThread</span>::<span class='ident'>clone_layout_channel</span>(
-            <span class='prelude-val'>None</span>::<span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ScriptThread</span><span class='op'>&gt;</span>,
             <span class='kw-2'>&amp;</span><span class='ident'>layout_pair</span>).<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>layout_interface</span>::<span class='ident'>Msg</span><span class='op'>&gt;&gt;</span>().<span class='ident'>unwrap</span>());
 
         <span class='kw'>let</span> <span class='ident'>layout_creation_info</span> <span class='op'>=</span> <span class='ident'>NewLayoutThreadInfo</span> {
