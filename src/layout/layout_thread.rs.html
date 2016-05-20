@@ -1580,8 +1580,8 @@
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>paint_thread</span>::<span class='ident'>LayoutToPaintMsg</span>;
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>color</span>, <span class='ident'>Epoch</span>, <span class='ident'>LayerId</span>, <span class='ident'>ScrollPolicy</span>};
 <span class='kw'>use</span> <span class='ident'>heapsize</span>::<span class='ident'>HeapSizeOf</span>;
-<span class='kw'>use</span> <span class='ident'>incremental</span>::{<span class='ident'>LayoutDamageComputation</span>, <span class='ident'>REFLOW</span>, <span class='ident'>REFLOW_ENTIRE_DOCUMENT</span>, <span class='ident'>REFLOW_OUT_OF_FLOW</span>};
-<span class='kw'>use</span> <span class='ident'>incremental</span>::{<span class='ident'>REPAINT</span>};
+<span class='kw'>use</span> <span class='ident'>incremental</span>::{<span class='ident'>LayoutDamageComputation</span>};
+<span class='kw'>use</span> <span class='ident'>incremental</span>::{<span class='ident'>REPAINT</span>, <span class='ident'>STORE_OVERFLOW</span>, <span class='ident'>REFLOW_OUT_OF_FLOW</span>, <span class='ident'>REFLOW</span>, <span class='ident'>REFLOW_ENTIRE_DOCUMENT</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
 <span class='kw'>use</span> <span class='ident'>layout_debug</span>;
@@ -2990,7 +2990,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>reflow_all_nodes</span>(<span class='ident'>flow</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Flow</span>) {
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;reflowing all nodes!&quot;</span>);
-        <span class='ident'>flow</span>::<span class='ident'>mut_base</span>(<span class='ident'>flow</span>).<span class='ident'>restyle_damage</span>.<span class='ident'>insert</span>(<span class='ident'>REFLOW</span> <span class='op'>|</span> <span class='ident'>REPAINT</span>);
+        <span class='ident'>flow</span>::<span class='ident'>mut_base</span>(<span class='ident'>flow</span>).<span class='ident'>restyle_damage</span>.<span class='ident'>insert</span>(<span class='ident'>REPAINT</span> <span class='op'>|</span> <span class='ident'>STORE_OVERFLOW</span> <span class='op'>|</span> <span class='ident'>REFLOW</span>);
 
         <span class='kw'>for</span> <span class='ident'>child</span> <span class='kw'>in</span> <span class='ident'>flow</span>::<span class='ident'>child_iter_mut</span>(<span class='ident'>flow</span>) {
             <span class='ident'>LayoutThread</span>::<span class='ident'>reflow_all_nodes</span>(<span class='ident'>child</span>);

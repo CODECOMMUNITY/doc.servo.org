@@ -90,6 +90,8 @@
 <span id="46">46</span>
 <span id="47">47</span>
 <span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -107,6 +109,7 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>gleam</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>glutin</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>layers</span>;
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>log</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>msg</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>net_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>script_traits</span>;
@@ -134,10 +137,11 @@
     <span class='kw'>let</span> <span class='ident'>opts</span> <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>();
     <span class='kw'>let</span> <span class='ident'>foreground</span> <span class='op'>=</span> <span class='ident'>opts</span>.<span class='ident'>output_file</span>.<span class='ident'>is_none</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>opts</span>.<span class='ident'>headless</span>;
     <span class='kw'>let</span> <span class='ident'>scale_factor</span> <span class='op'>=</span> <span class='ident'>ScaleFactor</span>::<span class='ident'>new</span>(<span class='ident'>opts</span>.<span class='ident'>device_pixels_per_px</span>.<span class='ident'>unwrap_or</span>(<span class='number'>1.0</span>));
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>opts</span>.<span class='ident'>initial_window_size</span>.<span class='ident'>as_f32</span>() <span class='op'>*</span> <span class='ident'>scale_factor</span>;
+    <span class='kw'>let</span> <span class='ident'>size_f32</span> <span class='op'>=</span> <span class='ident'>opts</span>.<span class='ident'>initial_window_size</span>.<span class='ident'>as_f32</span>() <span class='op'>*</span> <span class='ident'>scale_factor</span>;
+    <span class='kw'>let</span> <span class='ident'>size_u32</span> <span class='op'>=</span> <span class='ident'>size_f32</span>.<span class='ident'>as_uint</span>().<span class='ident'>cast</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Window size should fit in a u32.&quot;</span>);
 
     <span class='comment'>// Open a window.</span>
-    <span class='ident'>Window</span>::<span class='ident'>new</span>(<span class='ident'>foreground</span>, <span class='ident'>size</span>.<span class='ident'>as_uint</span>().<span class='ident'>cast</span>().<span class='ident'>unwrap</span>(), <span class='ident'>parent</span>)
+    <span class='ident'>Window</span>::<span class='ident'>new</span>(<span class='ident'>foreground</span>, <span class='ident'>size_u32</span>, <span class='ident'>parent</span>)
 }
 </pre>
 </section>
