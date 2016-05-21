@@ -153,6 +153,7 @@
 <span id="109">109</span>
 <span id="110">110</span>
 <span id="111">111</span>
+<span id="112">112</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -184,6 +185,7 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bitflags</span>;
 
 <span class='comment'>// Mac OS-specific library dependencies</span>
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>byteorder</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>core_foundation</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>core_graphics</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>core_text</span>;
@@ -251,7 +253,7 @@
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>display_list</span>;
 
 <span class='comment'>// Fonts</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>font</span>;
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span> <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>font</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>font_cache_thread</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>font_context</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>font_template</span>;

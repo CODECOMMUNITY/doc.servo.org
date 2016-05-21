@@ -324,6 +324,18 @@
 <span id="280">280</span>
 <span id="281">281</span>
 <span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -351,6 +363,16 @@
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>cache</span>::<span class='ident'>HashCache</span>;
 <span class='kw'>use</span> <span class='ident'>webrender_traits</span>;
 
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>ot_tag</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t1</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t2</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t3</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t4</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
+        ((<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t1</span> <span class='kw'>as</span> <span class='ident'>u32</span>) <span class='op'>&lt;&lt;</span> <span class='number'>24</span>) <span class='op'>|</span> ((<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t2</span> <span class='kw'>as</span> <span class='ident'>u32</span>) <span class='op'>&lt;&lt;</span> <span class='number'>16</span>) <span class='op'>|</span> ((<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t3</span> <span class='kw'>as</span> <span class='ident'>u32</span>) <span class='op'>&lt;&lt;</span> <span class='number'>8</span>) <span class='op'>|</span> (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t4</span> <span class='kw'>as</span> <span class='ident'>u32</span>)
+    );
+}
+
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>GPOS</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='macro'>ot_tag</span><span class='macro'>!</span>(<span class='string'>&#39;G&#39;</span>, <span class='string'>&#39;P&#39;</span>, <span class='string'>&#39;O&#39;</span>, <span class='string'>&#39;S&#39;</span>);
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>GSUB</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='macro'>ot_tag</span><span class='macro'>!</span>(<span class='string'>&#39;G&#39;</span>, <span class='string'>&#39;S&#39;</span>, <span class='string'>&#39;U&#39;</span>, <span class='string'>&#39;B&#39;</span>);
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>KERN</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='macro'>ot_tag</span><span class='macro'>!</span>(<span class='string'>&#39;k&#39;</span>, <span class='string'>&#39;e&#39;</span>, <span class='string'>&#39;r&#39;</span>, <span class='string'>&#39;n&#39;</span>);
+
 <span class='kw'>static</span> <span class='ident'>TEXT_SHAPING_PERFORMANCE_COUNTER</span>: <span class='ident'>AtomicUsize</span> <span class='op'>=</span> <span class='ident'>ATOMIC_USIZE_INIT</span>;
 
 <span class='comment'>// FontHandle encapsulates access to the platform&#39;s font API,</span>
@@ -370,9 +392,11 @@
 
     <span class='kw'>fn</span> <span class='ident'>glyph_index</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>codepoint</span>: <span class='ident'>char</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>GlyphId</span><span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>glyph_h_advance</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>GlyphId</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FractionalPixel</span><span class='op'>&gt;</span>;
-    <span class='kw'>fn</span> <span class='ident'>glyph_h_kerning</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>GlyphId</span>, <span class='ident'>GlyphId</span>) <span class='op'>-&gt;</span> <span class='ident'>FractionalPixel</span>;
+    <span class='kw'>fn</span> <span class='ident'>glyph_h_kerning</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>glyph0</span>: <span class='ident'>GlyphId</span>, <span class='ident'>glyph1</span>: <span class='ident'>GlyphId</span>) <span class='op'>-&gt;</span> <span class='ident'>FractionalPixel</span>;
+    <span class='doccomment'>/// Can this font do basic horizontal LTR shaping without Harfbuzz?</span>
+    <span class='kw'>fn</span> <span class='ident'>can_do_fast_shaping</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
     <span class='kw'>fn</span> <span class='ident'>metrics</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>FontMetrics</span>;
-    <span class='kw'>fn</span> <span class='ident'>table_for_tag</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>FontTableTag</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>FontTable</span><span class='op'>&gt;&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>table_for_tag</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>FontTableTag</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FontTable</span><span class='op'>&gt;</span>;
 }
 
 <span class='comment'>// Used to abstract over the shaper&#39;s choice of fixed int representation.</span>
@@ -395,7 +419,7 @@
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>FontTableMethods</span> {
-    <span class='kw'>fn</span> <span class='ident'>with_buffer</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>F</span>) <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>FnOnce</span>(<span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>, <span class='ident'>usize</span>);
+    <span class='kw'>fn</span> <span class='ident'>buffer</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>];
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
@@ -525,7 +549,7 @@
         <span class='self'>self</span>.<span class='ident'>shaper</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>table_for_tag</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tag</span>: <span class='ident'>FontTableTag</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>FontTable</span><span class='op'>&gt;&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>table_for_tag</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tag</span>: <span class='ident'>FontTableTag</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FontTable</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>handle</span>.<span class='ident'>table_for_tag</span>(<span class='ident'>tag</span>);
         <span class='kw'>let</span> <span class='ident'>status</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>result</span>.<span class='ident'>is_some</span>() { <span class='string'>&quot;Found&quot;</span> } <span class='kw'>else</span> { <span class='string'>&quot;Didn&#39;t find&quot;</span> };
 

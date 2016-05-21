@@ -356,6 +356,10 @@
 <span id="312">312</span>
 <span id="313">313</span>
 <span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -365,7 +369,7 @@
 
 <span class='kw'>use</span> <span class='ident'>app_units</span>::<span class='ident'>Au</span>;
 <span class='kw'>use</span> <span class='ident'>font</span>::{<span class='ident'>FontHandleMethods</span>, <span class='ident'>FontMetrics</span>, <span class='ident'>FontTableMethods</span>};
-<span class='kw'>use</span> <span class='ident'>font</span>::{<span class='ident'>FontTableTag</span>, <span class='ident'>FractionalPixel</span>};
+<span class='kw'>use</span> <span class='ident'>font</span>::{<span class='ident'>FontTableTag</span>, <span class='ident'>FractionalPixel</span>, <span class='ident'>GPOS</span>, <span class='ident'>GSUB</span>, <span class='ident'>KERN</span>};
 <span class='kw'>use</span> <span class='ident'>freetype</span>::<span class='ident'>freetype</span>::{<span class='ident'>FTErrorMethods</span>, <span class='ident'>FT_F26Dot6</span>, <span class='ident'>FT_Face</span>, <span class='ident'>FT_FaceRec</span>};
 <span class='kw'>use</span> <span class='ident'>freetype</span>::<span class='ident'>freetype</span>::{<span class='ident'>FT_Done_Face</span>, <span class='ident'>FT_New_Memory_Face</span>};
 <span class='kw'>use</span> <span class='ident'>freetype</span>::<span class='ident'>freetype</span>::{<span class='ident'>FT_Get_Char_Index</span>, <span class='ident'>FT_Get_Postscript_Name</span>};
@@ -394,13 +398,14 @@
     <span class='ident'>fixed_to_float</span>(<span class='number'>6</span>, <span class='ident'>f</span>)
 }
 
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FontTable</span> {
     <span class='ident'>buffer</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>FontTableMethods</span> <span class='kw'>for</span> <span class='ident'>FontTable</span> {
-    <span class='kw'>fn</span> <span class='ident'>with_buffer</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>blk</span>: <span class='ident'>F</span>) <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>FnOnce</span>(<span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>, <span class='ident'>usize</span>) {
-        <span class='ident'>blk</span>(<span class='self'>self</span>.<span class='ident'>buffer</span>.<span class='ident'>as_ptr</span>(), <span class='self'>self</span>.<span class='ident'>buffer</span>.<span class='ident'>len</span>())
+    <span class='kw'>fn</span> <span class='ident'>buffer</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>] {
+        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>buffer</span>
     }
 }
 
@@ -408,9 +413,10 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FontHandle</span> {
     <span class='comment'>// The font binary. This must stay valid for the lifetime of the font,</span>
     <span class='comment'>// if the font is created using FT_Memory_Face.</span>
-    <span class='kw'>pub</span> <span class='ident'>font_data</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>FontTemplateData</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>face</span>: <span class='ident'>FT_Face</span>,
-    <span class='kw'>pub</span> <span class='ident'>handle</span>: <span class='ident'>FontContextHandle</span>
+    <span class='ident'>font_data</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>FontTemplateData</span><span class='op'>&gt;</span>,
+    <span class='ident'>face</span>: <span class='ident'>FT_Face</span>,
+    <span class='ident'>handle</span>: <span class='ident'>FontContextHandle</span>,
+    <span class='ident'>can_do_fast_shaping</span>: <span class='ident'>bool</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>FontHandle</span> {
@@ -432,22 +438,19 @@
         <span class='kw'>let</span> <span class='ident'>ft_ctx</span>: <span class='ident'>FT_Library</span> <span class='op'>=</span> <span class='ident'>fctx</span>.<span class='ident'>ctx</span>.<span class='ident'>ctx</span>;
         <span class='kw'>if</span> <span class='ident'>ft_ctx</span>.<span class='ident'>is_null</span>() { <span class='kw'>return</span> <span class='prelude-val'>Err</span>(()); }
 
-        <span class='kw'>let</span> <span class='ident'>face_result</span> <span class='op'>=</span> <span class='ident'>create_face_from_buffer</span>(<span class='ident'>ft_ctx</span>, <span class='kw-2'>&amp;</span><span class='ident'>template</span>.<span class='ident'>bytes</span>, <span class='ident'>pt_size</span>);
-
-        <span class='comment'>// TODO: this could be more simply written as result::chain</span>
-        <span class='comment'>// and moving buf into the struct ctor, but cant&#39; move out of</span>
-        <span class='comment'>// captured binding.</span>
-        <span class='kw'>return</span> <span class='kw'>match</span> <span class='ident'>face_result</span> {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>face</span>) <span class='op'>=&gt;</span> {
-              <span class='kw'>let</span> <span class='ident'>handle</span> <span class='op'>=</span> <span class='ident'>FontHandle</span> {
+        <span class='kw'>return</span> <span class='ident'>create_face_from_buffer</span>(<span class='ident'>ft_ctx</span>, <span class='kw-2'>&amp;</span><span class='ident'>template</span>.<span class='ident'>bytes</span>, <span class='ident'>pt_size</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>face</span><span class='op'>|</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>handle</span> <span class='op'>=</span> <span class='ident'>FontHandle</span> {
                   <span class='ident'>face</span>: <span class='ident'>face</span>,
                   <span class='ident'>font_data</span>: <span class='ident'>template</span>.<span class='ident'>clone</span>(),
-                  <span class='ident'>handle</span>: <span class='ident'>fctx</span>.<span class='ident'>clone</span>()
-              };
-              <span class='prelude-val'>Ok</span>(<span class='ident'>handle</span>)
-            }
-            <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(())
-        };
+                  <span class='ident'>handle</span>: <span class='ident'>fctx</span>.<span class='ident'>clone</span>(),
+                  <span class='ident'>can_do_fast_shaping</span>: <span class='boolvalue'>false</span>,
+            };
+            <span class='comment'>// TODO (#11310): Implement basic support for GPOS and GSUB.</span>
+            <span class='ident'>handle</span>.<span class='ident'>can_do_fast_shaping</span> <span class='op'>=</span> <span class='ident'>handle</span>.<span class='ident'>has_table</span>(<span class='ident'>KERN</span>) <span class='op'>&amp;&amp;</span>
+                                         <span class='op'>!</span><span class='ident'>handle</span>.<span class='ident'>has_table</span>(<span class='ident'>GPOS</span>) <span class='op'>&amp;&amp;</span>
+                                         <span class='op'>!</span><span class='ident'>handle</span>.<span class='ident'>has_table</span>(<span class='ident'>GSUB</span>);
+            <span class='ident'>handle</span>
+        });
 
         <span class='kw'>fn</span> <span class='ident'>create_face_from_buffer</span>(<span class='ident'>lib</span>: <span class='ident'>FT_Library</span>, <span class='ident'>buffer</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>pt_size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Au</span><span class='op'>&gt;</span>)
                                    <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>FT_Face</span>, ()<span class='op'>&gt;</span> {
@@ -460,15 +463,10 @@
                 <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>result</span>.<span class='ident'>succeeded</span>() <span class='op'>||</span> <span class='ident'>face</span>.<span class='ident'>is_null</span>() {
                     <span class='kw'>return</span> <span class='prelude-val'>Err</span>(());
                 }
-                <span class='kw'>match</span> <span class='ident'>pt_size</span> {
-                    <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> {
-                        <span class='kw'>match</span> <span class='ident'>FontHandle</span>::<span class='ident'>set_char_size</span>(<span class='ident'>face</span>, <span class='ident'>s</span>) {
-                            <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>face</span>),
-                            <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(()),
-                        }
-                    }
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>face</span>),
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>pt_size</span> {
+                    <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>FontHandle</span>::<span class='ident'>set_char_size</span>(<span class='ident'>face</span>, <span class='ident'>s</span>).<span class='ident'>or</span>(<span class='prelude-val'>Err</span>(())))
                 }
+                <span class='prelude-val'>Ok</span>(<span class='ident'>face</span>)
             }
         }
     }
@@ -542,6 +540,10 @@
             <span class='ident'>FT_Get_Kerning</span>(<span class='self'>self</span>.<span class='ident'>face</span>, <span class='ident'>first_glyph</span>, <span class='ident'>second_glyph</span>, <span class='ident'>FT_KERNING_DEFAULT</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>delta</span>);
         }
         <span class='ident'>fixed_to_float_ft</span>(<span class='ident'>delta</span>.<span class='ident'>x</span> <span class='kw'>as</span> <span class='ident'>i32</span>)
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>can_do_fast_shaping</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='self'>self</span>.<span class='ident'>can_do_fast_shaping</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>glyph_h_advance</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>glyph</span>: <span class='ident'>GlyphId</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FractionalPixel</span><span class='op'>&gt;</span> {
@@ -619,7 +621,7 @@
         <span class='ident'>metrics</span>
     }
 
-    <span class='kw'>fn</span> <span class='ident'>table_for_tag</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tag</span>: <span class='ident'>FontTableTag</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>FontTable</span><span class='op'>&gt;&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>table_for_tag</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tag</span>: <span class='ident'>FontTableTag</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FontTable</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>tag</span> <span class='op'>=</span> <span class='ident'>tag</span> <span class='kw'>as</span> <span class='ident'>FT_ULong</span>;
 
         <span class='kw'>unsafe</span> {
@@ -633,7 +635,7 @@
             <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>FT_Load_Sfnt_Table</span>(<span class='self'>self</span>.<span class='ident'>face</span>, <span class='ident'>tag</span>, <span class='number'>0</span>, <span class='ident'>buf</span>.<span class='ident'>as_mut_ptr</span>(), <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>len</span>).<span class='ident'>succeeded</span>() {
                 <span class='kw'>return</span> <span class='prelude-val'>None</span>
             }
-            <span class='prelude-val'>Some</span>(<span class='kw'>box</span> <span class='ident'>FontTable</span> { <span class='ident'>buffer</span>: <span class='ident'>buf</span> })
+            <span class='prelude-val'>Some</span>(<span class='ident'>FontTable</span> { <span class='ident'>buffer</span>: <span class='ident'>buf</span> })
         }
     }
 }
@@ -645,6 +647,12 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>FT_Set_Char_Size</span>(<span class='ident'>face</span>, <span class='ident'>char_width</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>);
             <span class='kw'>if</span> <span class='ident'>result</span>.<span class='ident'>succeeded</span>() { <span class='prelude-val'>Ok</span>(()) } <span class='kw'>else</span> { <span class='prelude-val'>Err</span>(()) }
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>has_table</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tag</span>: <span class='ident'>FontTableTag</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='kw'>unsafe</span> {
+            <span class='ident'>FT_Load_Sfnt_Table</span>(<span class='self'>self</span>.<span class='ident'>face</span>, <span class='ident'>tag</span> <span class='kw'>as</span> <span class='ident'>FT_ULong</span>, <span class='number'>0</span>, <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>(), <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='number'>0</span>).<span class='ident'>succeeded</span>()
         }
     }
 
