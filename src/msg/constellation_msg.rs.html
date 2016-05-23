@@ -396,6 +396,8 @@
 <span id="352">352</span>
 <span id="353">353</span>
 <span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -405,7 +407,7 @@
 <span class='doccomment'>//! reduce coupling between these two components.</span>
 
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>scale_factor</span>::<span class='ident'>ScaleFactor</span>;
-<span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::<span class='ident'>TypedSize2D</span>;
+<span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::{<span class='ident'>Size2D</span>, <span class='ident'>TypedSize2D</span>};
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::<span class='ident'>Headers</span>;
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>method</span>::<span class='ident'>Method</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='ident'>IpcSender</span>, <span class='ident'>IpcSharedMemory</span>};
@@ -587,10 +589,12 @@
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>WebDriverCommandMsg</span> {
+    <span class='ident'>GetWindowSize</span>(<span class='ident'>PipelineId</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WindowSizeData</span><span class='op'>&gt;</span>),
     <span class='ident'>LoadUrl</span>(<span class='ident'>PipelineId</span>, <span class='ident'>LoadData</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LoadStatus</span><span class='op'>&gt;</span>),
     <span class='ident'>Refresh</span>(<span class='ident'>PipelineId</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LoadStatus</span><span class='op'>&gt;</span>),
     <span class='ident'>ScriptCommand</span>(<span class='ident'>PipelineId</span>, <span class='ident'>WebDriverScriptCommand</span>),
     <span class='ident'>SendKeys</span>(<span class='ident'>PipelineId</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>Key</span>, <span class='ident'>KeyModifiers</span>, <span class='ident'>KeyState</span>)<span class='op'>&gt;</span>),
+    <span class='ident'>SetWindowSize</span>(<span class='ident'>PipelineId</span>, <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WindowSizeData</span><span class='op'>&gt;</span>),
     <span class='ident'>TakeScreenshot</span>(<span class='ident'>PipelineId</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Image</span><span class='op'>&gt;&gt;</span>),
 }
 

@@ -968,6 +968,11 @@
 <span id="924">924</span>
 <span id="925">925</span>
 <span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1519,7 +1524,12 @@
                             <span class='ident'>data_set</span>.<span class='ident'>push</span>(<span class='ident'>datum</span>);
                         }
                     }
-                    <span class='ident'>HTMLElementTypeId</span>::<span class='ident'>HTMLButtonElement</span> <span class='op'>|</span>
+                    <span class='ident'>HTMLElementTypeId</span>::<span class='ident'>HTMLButtonElement</span> <span class='op'>=&gt;</span> {
+                        <span class='kw'>let</span> <span class='ident'>button</span> <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>HTMLButtonElement</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>();
+                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>datum</span>) <span class='op'>=</span> <span class='ident'>button</span>.<span class='ident'>form_datum</span>(<span class='ident'>submitter</span>) {
+                            <span class='ident'>data_set</span>.<span class='ident'>push</span>(<span class='ident'>datum</span>);
+                        }
+                    }
                     <span class='ident'>HTMLElementTypeId</span>::<span class='ident'>HTMLObjectElement</span> <span class='op'>=&gt;</span> {
                         <span class='comment'>// Unimplemented</span>
                         ()

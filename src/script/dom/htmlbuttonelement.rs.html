@@ -310,6 +310,40 @@
 <span id="266">266</span>
 <span id="267">267</span>
 <span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -327,8 +361,9 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>eventtarget</span>::<span class='ident'>EventTarget</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlelement</span>::<span class='ident'>HTMLElement</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlfieldsetelement</span>::<span class='ident'>HTMLFieldSetElement</span>;
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlformelement</span>::{<span class='ident'>FormControl</span>, <span class='ident'>FormSubmitter</span>, <span class='ident'>ResetFrom</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlformelement</span>::{<span class='ident'>SubmittedFrom</span>, <span class='ident'>HTMLFormElement</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlformelement</span>::<span class='ident'>HTMLFormElement</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlformelement</span>::{<span class='ident'>FormControl</span>, <span class='ident'>FormDatum</span>, <span class='ident'>FormDatumValue</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlformelement</span>::{<span class='ident'>FormSubmitter</span>, <span class='ident'>ResetFrom</span>, <span class='ident'>SubmittedFrom</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>node</span>::{<span class='ident'>Node</span>, <span class='ident'>UnbindContext</span>, <span class='ident'>document_from_node</span>, <span class='ident'>window_from_node</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>nodelist</span>::<span class='ident'>NodeList</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>validation</span>::<span class='ident'>Validatable</span>;
@@ -447,6 +482,39 @@
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-lfe-labels</span>
     <span class='kw'>fn</span> <span class='ident'>Labels</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>NodeList</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>HTMLElement</span><span class='op'>&gt;</span>().<span class='ident'>labels</span>()
+    }
+}
+
+<span class='kw'>impl</span> <span class='ident'>HTMLButtonElement</span> {
+    <span class='doccomment'>/// https://html.spec.whatwg.org/multipage/#constructing-the-form-data-set</span>
+    <span class='doccomment'>/// Steps range from 3.1 to 3.7 (specific to HTMLButtonElement)</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>form_datum</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>submitter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FormSubmitter</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FormDatum</span><span class='op'>&gt;</span> {
+        <span class='comment'>// Step 3.1: disabled state check is in get_unclean_dataset</span>
+
+        <span class='comment'>// Step 3.1: only run steps if this is the submitter</span>
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>FormSubmitter</span>::<span class='ident'>ButtonElement</span>(<span class='ident'>submitter</span>)) <span class='op'>=</span> <span class='ident'>submitter</span> {
+            <span class='kw'>if</span> <span class='ident'>submitter</span> <span class='op'>!=</span> <span class='self'>self</span> {
+                <span class='kw'>return</span> <span class='prelude-val'>None</span>
+            }
+        } <span class='kw'>else</span> {
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>
+        }
+        <span class='comment'>// Step 3.2</span>
+        <span class='kw'>let</span> <span class='ident'>ty</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>Type</span>();
+        <span class='comment'>// Step 3.4</span>
+        <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>Name</span>();
+
+        <span class='kw'>if</span> <span class='ident'>name</span>.<span class='ident'>is_empty</span>() {
+            <span class='comment'>// Step 3.1: Must have a name</span>
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
+        }
+
+        <span class='comment'>// Step 3.9</span>
+        <span class='prelude-val'>Some</span>(<span class='ident'>FormDatum</span> {
+            <span class='ident'>ty</span>: <span class='ident'>ty</span>,
+            <span class='ident'>name</span>: <span class='ident'>name</span>,
+            <span class='ident'>value</span>: <span class='ident'>FormDatumValue</span>::<span class='ident'>String</span>(<span class='self'>self</span>.<span class='ident'>Value</span>())
+        })
     }
 }
 
