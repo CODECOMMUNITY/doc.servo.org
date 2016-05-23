@@ -2064,6 +2064,37 @@
 <span id="2020">2020</span>
 <span id="2021">2021</span>
 <span id="2022">2022</span>
+<span id="2023">2023</span>
+<span id="2024">2024</span>
+<span id="2025">2025</span>
+<span id="2026">2026</span>
+<span id="2027">2027</span>
+<span id="2028">2028</span>
+<span id="2029">2029</span>
+<span id="2030">2030</span>
+<span id="2031">2031</span>
+<span id="2032">2032</span>
+<span id="2033">2033</span>
+<span id="2034">2034</span>
+<span id="2035">2035</span>
+<span id="2036">2036</span>
+<span id="2037">2037</span>
+<span id="2038">2038</span>
+<span id="2039">2039</span>
+<span id="2040">2040</span>
+<span id="2041">2041</span>
+<span id="2042">2042</span>
+<span id="2043">2043</span>
+<span id="2044">2044</span>
+<span id="2045">2045</span>
+<span id="2046">2046</span>
+<span id="2047">2047</span>
+<span id="2048">2048</span>
+<span id="2049">2049</span>
+<span id="2050">2050</span>
+<span id="2051">2051</span>
+<span id="2052">2052</span>
+<span id="2053">2053</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2132,8 +2163,8 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>LoadData</span> <span class='kw'>as</span> <span class='ident'>NetLoadData</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>bluetooth_thread</span>::<span class='ident'>BluetoothMethodMsg</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::{<span class='ident'>ImageCacheChan</span>, <span class='ident'>ImageCacheResult</span>, <span class='ident'>ImageCacheThread</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>CoreResourceMsg</span>, <span class='ident'>LoadConsumer</span>, <span class='ident'>LoadContext</span>, <span class='ident'>Metadata</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>ResourceThreads</span>, <span class='ident'>IpcSend</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>CoreResourceMsg</span>, <span class='ident'>LoadConsumer</span>, <span class='ident'>LoadContext</span>, <span class='ident'>Metadata</span>, <span class='ident'>ResourceThreads</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>RequestSource</span>, <span class='ident'>CustomResponse</span>, <span class='ident'>CustomResponseSender</span>, <span class='ident'>IpcSend</span>};
 <span class='kw'>use</span> <span class='ident'>network_listener</span>::<span class='ident'>NetworkListener</span>;
 <span class='kw'>use</span> <span class='ident'>parse</span>::<span class='ident'>ParserRoot</span>;
 <span class='kw'>use</span> <span class='ident'>parse</span>::<span class='ident'>html</span>::{<span class='ident'>ParseContext</span>, <span class='ident'>parse_html</span>};
@@ -2272,6 +2303,7 @@
     <span class='ident'>FromDevtools</span>(<span class='ident'>DevtoolScriptControlMsg</span>),
     <span class='ident'>FromImageCache</span>(<span class='ident'>ImageCacheResult</span>),
     <span class='ident'>FromScheduler</span>(<span class='ident'>TimerEvent</span>),
+    <span class='ident'>FromNetwork</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CustomResponse</span><span class='op'>&gt;&gt;</span>),
 }
 
 <span class='doccomment'>/// Messages used to control the script event loop</span>
@@ -2387,6 +2419,12 @@
     <span class='doccomment'>/// A channel to hand out to script thread-based entities that need to be able to enqueue</span>
     <span class='doccomment'>/// events in the event queue.</span>
     <span class='ident'>chan</span>: <span class='ident'>MainThreadScriptChan</span>,
+
+    <span class='doccomment'>/// A handle to network event messages</span>
+    <span class='ident'>custom_message_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CustomResponseSender</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// The port which receives a sender from the network</span>
+    <span class='ident'>custom_message_port</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>CustomResponseSender</span><span class='op'>&gt;</span>,
 
     <span class='ident'>dom_manipulation_task_source</span>: <span class='ident'>DOMManipulationTaskSource</span>,
 
@@ -2603,6 +2641,9 @@
         <span class='kw'>let</span> (<span class='ident'>ipc_devtools_sender</span>, <span class='ident'>ipc_devtools_receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>devtools_port</span> <span class='op'>=</span> <span class='ident'>ROUTER</span>.<span class='ident'>route_ipc_receiver_to_new_mpsc_receiver</span>(<span class='ident'>ipc_devtools_receiver</span>);
 
+        <span class='kw'>let</span> (<span class='ident'>ipc_custom_resp_chan</span>, <span class='ident'>ipc_custom_resp_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>custom_msg_port</span> <span class='op'>=</span> <span class='ident'>ROUTER</span>.<span class='ident'>route_ipc_receiver_to_new_mpsc_receiver</span>(<span class='ident'>ipc_custom_resp_port</span>);
+
         <span class='comment'>// Ask the router to proxy IPC messages from the image cache thread to us.</span>
         <span class='kw'>let</span> (<span class='ident'>ipc_image_cache_channel</span>, <span class='ident'>ipc_image_cache_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>image_cache_port</span> <span class='op'>=</span>
@@ -2625,6 +2666,9 @@
             <span class='ident'>bluetooth_thread</span>: <span class='ident'>state</span>.<span class='ident'>bluetooth_thread</span>,
 
             <span class='ident'>port</span>: <span class='ident'>port</span>,
+            <span class='ident'>custom_message_chan</span>: <span class='ident'>ipc_custom_resp_chan</span>,
+            <span class='ident'>custom_message_port</span>: <span class='ident'>custom_msg_port</span>,
+
             <span class='ident'>chan</span>: <span class='ident'>MainThreadScriptChan</span>(<span class='ident'>chan</span>.<span class='ident'>clone</span>()),
             <span class='ident'>dom_manipulation_task_source</span>: <span class='ident'>DOMManipulationTaskSource</span>(<span class='ident'>chan</span>.<span class='ident'>clone</span>()),
             <span class='ident'>user_interaction_task_source</span>: <span class='ident'>UserInteractionTaskSource</span>(<span class='ident'>chan</span>.<span class='ident'>clone</span>()),
@@ -2686,7 +2730,8 @@
 
     <span class='doccomment'>/// Handle incoming control messages.</span>
     <span class='kw'>fn</span> <span class='ident'>handle_msgs</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>MixedMessage</span>::{<span class='ident'>FromScript</span>, <span class='ident'>FromConstellation</span>, <span class='ident'>FromScheduler</span>, <span class='ident'>FromDevtools</span>, <span class='ident'>FromImageCache</span>};
+        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>MixedMessage</span>::{<span class='ident'>FromConstellation</span>, <span class='ident'>FromDevtools</span>, <span class='ident'>FromImageCache</span>};
+        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>MixedMessage</span>::{<span class='ident'>FromScheduler</span>, <span class='ident'>FromScript</span>, <span class='ident'>FromNetwork</span>};
 
         <span class='comment'>// Handle pending resize events.</span>
         <span class='comment'>// Gather them first to avoid a double mut borrow on self.</span>
@@ -2720,6 +2765,7 @@
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>timer_event_port</span> <span class='op'>=</span> <span class='ident'>sel</span>.<span class='ident'>handle</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>timer_event_port</span>);
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>devtools_port</span> <span class='op'>=</span> <span class='ident'>sel</span>.<span class='ident'>handle</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>devtools_port</span>);
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>image_cache_port</span> <span class='op'>=</span> <span class='ident'>sel</span>.<span class='ident'>handle</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>image_cache_port</span>);
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>custom_message_port</span> <span class='op'>=</span> <span class='ident'>sel</span>.<span class='ident'>handle</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>custom_message_port</span>);
             <span class='kw'>unsafe</span> {
                 <span class='ident'>script_port</span>.<span class='ident'>add</span>();
                 <span class='ident'>control_port</span>.<span class='ident'>add</span>();
@@ -2728,6 +2774,7 @@
                     <span class='ident'>devtools_port</span>.<span class='ident'>add</span>();
                 }
                 <span class='ident'>image_cache_port</span>.<span class='ident'>add</span>();
+                <span class='ident'>custom_message_port</span>.<span class='ident'>add</span>();
             }
             <span class='kw'>let</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>sel</span>.<span class='ident'>wait</span>();
             <span class='kw'>if</span> <span class='ident'>ret</span> <span class='op'>==</span> <span class='ident'>script_port</span>.<span class='ident'>id</span>() {
@@ -2740,6 +2787,8 @@
                 <span class='ident'>FromDevtools</span>(<span class='self'>self</span>.<span class='ident'>devtools_port</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>())
             } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>ret</span> <span class='op'>==</span> <span class='ident'>image_cache_port</span>.<span class='ident'>id</span>() {
                 <span class='ident'>FromImageCache</span>(<span class='self'>self</span>.<span class='ident'>image_cache_port</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>())
+            } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>ret</span> <span class='op'>==</span> <span class='ident'>custom_message_port</span>.<span class='ident'>id</span>() {
+                <span class='ident'>FromNetwork</span>(<span class='self'>self</span>.<span class='ident'>custom_message_port</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>())
             } <span class='kw'>else</span> {
                 <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;unexpected select result&quot;</span>)
             }
@@ -2802,7 +2851,10 @@
                     <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>timer_event_port</span>.<span class='ident'>try_recv</span>() {
                         <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>devtools_port</span>.<span class='ident'>try_recv</span>() {
                             <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>image_cache_port</span>.<span class='ident'>try_recv</span>() {
-                                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
+                                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>custom_message_port</span>.<span class='ident'>try_recv</span>() {
+                                    <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
+                                    <span class='prelude-val'>Ok</span>(<span class='ident'>ev</span>) <span class='op'>=&gt;</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>FromNetwork</span>(<span class='ident'>ev</span>)
+                                },
                                 <span class='prelude-val'>Ok</span>(<span class='ident'>ev</span>) <span class='op'>=&gt;</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>FromImageCache</span>(<span class='ident'>ev</span>),
                             },
                             <span class='prelude-val'>Ok</span>(<span class='ident'>ev</span>) <span class='op'>=&gt;</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>FromDevtools</span>(<span class='ident'>ev</span>),
@@ -2828,6 +2880,7 @@
                     },
                     <span class='ident'>FromConstellation</span>(<span class='ident'>inner_msg</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_msg_from_constellation</span>(<span class='ident'>inner_msg</span>),
                     <span class='ident'>FromScript</span>(<span class='ident'>inner_msg</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_msg_from_script</span>(<span class='ident'>inner_msg</span>),
+                    <span class='ident'>FromNetwork</span>(<span class='ident'>inner_msg</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_msg_from_network</span>(<span class='ident'>inner_msg</span>),
                     <span class='ident'>FromScheduler</span>(<span class='ident'>inner_msg</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_timer_event</span>(<span class='ident'>inner_msg</span>),
                     <span class='ident'>FromDevtools</span>(<span class='ident'>inner_msg</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_msg_from_devtools</span>(<span class='ident'>inner_msg</span>),
                     <span class='ident'>FromImageCache</span>(<span class='ident'>inner_msg</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_msg_from_image_cache</span>(<span class='ident'>inner_msg</span>),
@@ -2887,6 +2940,7 @@
                 }
             },
             <span class='ident'>MixedMessage</span>::<span class='ident'>FromScheduler</span>(_) <span class='op'>=&gt;</span> <span class='ident'>ScriptThreadEventCategory</span>::<span class='ident'>TimerEvent</span>,
+            <span class='ident'>MixedMessage</span>::<span class='ident'>FromNetwork</span>(_) <span class='op'>=&gt;</span> <span class='ident'>ScriptThreadEventCategory</span>::<span class='ident'>NetworkEvent</span>
         }
     }
 
@@ -3054,6 +3108,12 @@
 
     <span class='kw'>fn</span> <span class='ident'>handle_msg_from_image_cache</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>msg</span>: <span class='ident'>ImageCacheResult</span>) {
         <span class='ident'>msg</span>.<span class='ident'>responder</span>.<span class='ident'>unwrap</span>().<span class='ident'>respond</span>(<span class='ident'>msg</span>.<span class='ident'>image_response</span>);
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>handle_msg_from_network</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>msg</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CustomResponse</span><span class='op'>&gt;&gt;</span>) {
+        <span class='comment'>// We may detect controlling service workers here</span>
+        <span class='comment'>// We send None as default</span>
+        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>msg</span>.<span class='ident'>send</span>(<span class='prelude-val'>None</span>);
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_webdriver_msg</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>msg</span>: <span class='ident'>WebDriverScriptCommand</span>) {
@@ -3504,6 +3564,7 @@
                                  <span class='ident'>HistoryTraversalTaskSource</span>(<span class='ident'>history_sender</span>.<span class='ident'>clone</span>()),
                                  <span class='ident'>FileReadingTaskSource</span>(<span class='ident'>file_sender</span>.<span class='ident'>clone</span>()),
                                  <span class='self'>self</span>.<span class='ident'>image_cache_channel</span>.<span class='ident'>clone</span>(),
+                                 <span class='self'>self</span>.<span class='ident'>custom_message_chan</span>.<span class='ident'>clone</span>(),
                                  <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>clone</span>(),
                                  <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>clone</span>(),
                                  <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>clone</span>(),
@@ -3972,6 +4033,7 @@
             <span class='ident'>credentials_flag</span>: <span class='boolvalue'>true</span>,
             <span class='ident'>referrer_policy</span>: <span class='ident'>load_data</span>.<span class='ident'>referrer_policy</span>,
             <span class='ident'>referrer_url</span>: <span class='ident'>load_data</span>.<span class='ident'>referrer_url</span>,
+            <span class='ident'>source</span>: <span class='ident'>RequestSource</span>::<span class='ident'>Window</span>(<span class='self'>self</span>.<span class='ident'>custom_message_chan</span>.<span class='ident'>clone</span>())
         }, <span class='ident'>LoadConsumer</span>::<span class='ident'>Listener</span>(<span class='ident'>response_target</span>), <span class='prelude-val'>None</span>)).<span class='ident'>unwrap</span>();
 
         <span class='self'>self</span>.<span class='ident'>incomplete_loads</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>incomplete</span>);

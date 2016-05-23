@@ -324,6 +324,39 @@
 <span id="280">280</span>
 <span id="281">281</span>
 <span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -351,10 +384,13 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>JS_RequestInterruptCallback</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::<span class='ident'>UndefinedValue</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::<span class='ident'>Runtime</span>;
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PipelineId</span>, <span class='ident'>ReferrerPolicy</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>RequestSource</span>, <span class='ident'>LoadOrigin</span>};
 <span class='kw'>use</span> <span class='ident'>script_thread</span>::<span class='ident'>Runnable</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicBool</span>, <span class='ident'>Ordering</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>Sender</span>, <span class='ident'>channel</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>};
+<span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
 
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>TrustedWorkerAddress</span> <span class='op'>=</span> <span class='ident'>Trusted</span><span class='op'>&lt;</span><span class='ident'>Worker</span><span class='op'>&gt;</span>;
@@ -370,6 +406,29 @@
     <span class='ident'>closing</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicBool</span><span class='op'>&gt;</span>,
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;Defined in rust-mozjs&quot;</span>]</span>
     <span class='ident'>runtime</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>SharedRt</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WorkerScriptLoadOrigin</span> {
+    <span class='ident'>referrer_url</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span>,
+    <span class='ident'>referrer_policy</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ReferrerPolicy</span><span class='op'>&gt;</span>,
+    <span class='ident'>request_source</span>: <span class='ident'>RequestSource</span>,
+    <span class='ident'>pipeline_id</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>PipelineId</span><span class='op'>&gt;</span>
+}
+
+<span class='kw'>impl</span> <span class='ident'>LoadOrigin</span> <span class='kw'>for</span> <span class='ident'>WorkerScriptLoadOrigin</span> {
+    <span class='kw'>fn</span> <span class='ident'>referrer_url</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>referrer_url</span>.<span class='ident'>clone</span>()
+    }
+    <span class='kw'>fn</span> <span class='ident'>referrer_policy</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ReferrerPolicy</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>referrer_policy</span>.<span class='ident'>clone</span>()
+    }
+    <span class='kw'>fn</span> <span class='ident'>request_source</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RequestSource</span> {
+        <span class='self'>self</span>.<span class='ident'>request_source</span>.<span class='ident'>clone</span>()
+    }
+    <span class='kw'>fn</span> <span class='ident'>pipeline_id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>PipelineId</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>pipeline_id</span>.<span class='ident'>clone</span>()
+    }
 }
 
 <span class='kw'>impl</span> <span class='ident'>Worker</span> {
@@ -409,6 +468,13 @@
         <span class='kw'>let</span> <span class='ident'>worker_ref</span> <span class='op'>=</span> <span class='ident'>Trusted</span>::<span class='ident'>new</span>(<span class='ident'>worker</span>.<span class='ident'>r</span>());
         <span class='kw'>let</span> <span class='ident'>worker_id</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>get_next_worker_id</span>();
 
+        <span class='kw'>let</span> <span class='ident'>worker_load_origin</span> <span class='op'>=</span> <span class='ident'>WorkerScriptLoadOrigin</span> {
+            <span class='ident'>referrer_url</span>: <span class='prelude-val'>None</span>,
+            <span class='ident'>referrer_policy</span>: <span class='prelude-val'>None</span>,
+            <span class='ident'>request_source</span>: <span class='ident'>global</span>.<span class='ident'>request_source</span>(),
+            <span class='ident'>pipeline_id</span>: <span class='prelude-val'>Some</span>(<span class='ident'>global</span>.<span class='ident'>pipeline</span>())
+        };
+
         <span class='kw'>let</span> (<span class='ident'>devtools_sender</span>, <span class='ident'>devtools_receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>optional_sender</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>global</span>.<span class='ident'>devtools_chan</span>() {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>chan</span>) <span class='op'>=&gt;</span> {
@@ -441,7 +507,7 @@
 
         <span class='ident'>DedicatedWorkerGlobalScope</span>::<span class='ident'>run_worker_scope</span>(
             <span class='ident'>init</span>, <span class='ident'>worker_url</span>, <span class='ident'>global</span>.<span class='ident'>pipeline</span>(), <span class='ident'>devtools_receiver</span>, <span class='ident'>worker</span>.<span class='ident'>runtime</span>.<span class='ident'>clone</span>(), <span class='ident'>worker_ref</span>,
-            <span class='ident'>global</span>.<span class='ident'>script_chan</span>(), <span class='ident'>sender</span>, <span class='ident'>receiver</span>);
+            <span class='ident'>global</span>.<span class='ident'>script_chan</span>(), <span class='ident'>sender</span>, <span class='ident'>receiver</span>, <span class='ident'>worker_load_origin</span>);
 
         <span class='prelude-val'>Ok</span>(<span class='ident'>worker</span>)
     }

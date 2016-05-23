@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["FileManager",""]]});
+initSidebarItems({"struct":[["FileManager",""]],"trait":[["FileManagerThreadFactory",""]]});

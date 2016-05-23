@@ -596,6 +596,7 @@
 <span id="552">552</span>
 <span id="553">553</span>
 <span id="554">554</span>
+<span id="555">555</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -659,7 +660,7 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::{<span class='ident'>ImageCacheChan</span>, <span class='ident'>ImageCacheThread</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>response</span>::<span class='ident'>HttpsState</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::<span class='ident'>StorageType</span>;
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span>, <span class='ident'>ResourceThreads</span>};
 <span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::<span class='ident'>GLLimits</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>::<span class='ident'>ProfilerChan</span> <span class='kw'>as</span> <span class='ident'>MemProfilerChan</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>::<span class='ident'>ProfilerChan</span> <span class='kw'>as</span> <span class='ident'>TimeProfilerChan</span>;
@@ -920,6 +921,7 @@
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>SharedRt</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>TouchpadPressurePhase</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>ReferrerPolicy</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>ResourceThreads</span>);
 
 <span class='kw'>impl</span> <span class='ident'>JSTraceable</span> <span class='kw'>for</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>

@@ -440,6 +440,39 @@
 <span id="396">396</span>
 <span id="397">397</span>
 <span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -460,12 +493,13 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>window</span>::{<span class='ident'>base64_atob</span>, <span class='ident'>base64_btoa</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>workerlocation</span>::<span class='ident'>WorkerLocation</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>workernavigator</span>::<span class='ident'>WorkerNavigator</span>;
-<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
+<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcSender</span>};
+<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>HandleValue</span>, <span class='ident'>JSContext</span>, <span class='ident'>JSRuntime</span>, <span class='ident'>RootedValue</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::<span class='ident'>UndefinedValue</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::<span class='ident'>Runtime</span>;
-<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>LoadContext</span>, <span class='ident'>CoreResourceThread</span>, <span class='ident'>load_whole_resource</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PipelineId</span>, <span class='ident'>ReferrerPolicy</span>, <span class='ident'>PanicMsg</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>LoadContext</span>, <span class='ident'>CoreResourceThread</span>, <span class='ident'>load_whole_resource</span>, <span class='ident'>RequestSource</span>, <span class='ident'>LoadOrigin</span>, <span class='ident'>CustomResponseSender</span>};
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::{<span class='ident'>mem</span>, <span class='ident'>time</span>};
 <span class='kw'>use</span> <span class='ident'>script_runtime</span>::{<span class='ident'>CommonScriptMsg</span>, <span class='ident'>ScriptChan</span>, <span class='ident'>ScriptPort</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>;
@@ -544,6 +578,12 @@
 
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;Defined in ipc-channel&quot;</span>]</span>
     <span class='ident'>panic_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
+
+    <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;Defined in ipc-channel&quot;</span>]</span>
+    <span class='ident'>custom_msg_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CustomResponseSender</span><span class='op'>&gt;</span>,
+
+    <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;Defined in std&quot;</span>]</span>
+    <span class='ident'>custom_msg_port</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>CustomResponseSender</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>WorkerGlobalScope</span> {
@@ -553,7 +593,8 @@
                          <span class='ident'>from_devtools_receiver</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>DevtoolScriptControlMsg</span><span class='op'>&gt;</span>,
                          <span class='ident'>timer_event_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>TimerEvent</span><span class='op'>&gt;</span>)
                          <span class='op'>-&gt;</span> <span class='ident'>WorkerGlobalScope</span> {
-
+        <span class='kw'>let</span> (<span class='ident'>msg_chan</span>, <span class='ident'>msg_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>custom_msg_port</span> <span class='op'>=</span> <span class='ident'>ROUTER</span>.<span class='ident'>route_ipc_receiver_to_new_mpsc_receiver</span>(<span class='ident'>msg_port</span>);
         <span class='ident'>WorkerGlobalScope</span> {
             <span class='ident'>eventtarget</span>: <span class='ident'>EventTarget</span>::<span class='ident'>new_inherited</span>(),
             <span class='ident'>next_worker_id</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>WorkerId</span>(<span class='number'>0</span>)),
@@ -576,6 +617,8 @@
             <span class='ident'>constellation_chan</span>: <span class='ident'>init</span>.<span class='ident'>constellation_chan</span>,
             <span class='ident'>scheduler_chan</span>: <span class='ident'>init</span>.<span class='ident'>scheduler_chan</span>,
             <span class='ident'>panic_chan</span>: <span class='ident'>init</span>.<span class='ident'>panic_chan</span>,
+            <span class='ident'>custom_msg_chan</span>: <span class='ident'>msg_chan</span>,
+            <span class='ident'>custom_msg_port</span>: <span class='ident'>custom_msg_port</span>
         }
     }
 
@@ -625,6 +668,14 @@
         <span class='self'>self</span>.<span class='ident'>runtime</span>.<span class='ident'>cx</span>()
     }
 
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>custom_message_chan</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CustomResponseSender</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>custom_msg_chan</span>.<span class='ident'>clone</span>()
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>custom_message_port</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>CustomResponseSender</span><span class='op'>&gt;</span> {
+        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>custom_msg_port</span>
+    }
+
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_closing</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='self'>self</span>.<span class='ident'>closing</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>)
     }
@@ -650,6 +701,21 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>panic_chan</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span> {
         <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>panic_chan</span>
+    }
+}
+
+<span class='kw'>impl</span> <span class='ident'>LoadOrigin</span> <span class='kw'>for</span> <span class='ident'>WorkerGlobalScope</span> {
+    <span class='kw'>fn</span> <span class='ident'>referrer_url</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span> {
+        <span class='prelude-val'>None</span>
+    }
+    <span class='kw'>fn</span> <span class='ident'>referrer_policy</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ReferrerPolicy</span><span class='op'>&gt;</span> {
+        <span class='prelude-val'>None</span>
+    }
+    <span class='kw'>fn</span> <span class='ident'>request_source</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RequestSource</span> {
+        <span class='ident'>RequestSource</span>::<span class='prelude-val'>None</span>
+    }
+    <span class='kw'>fn</span> <span class='ident'>pipeline_id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>PipelineId</span><span class='op'>&gt;</span> {
+        <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>pipeline</span>())
     }
 }
 
@@ -679,7 +745,7 @@
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rval</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>runtime</span>.<span class='ident'>cx</span>(), <span class='ident'>UndefinedValue</span>());
         <span class='kw'>for</span> <span class='ident'>url</span> <span class='kw'>in</span> <span class='ident'>urls</span> {
-            <span class='kw'>let</span> (<span class='ident'>url</span>, <span class='ident'>source</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>load_whole_resource</span>(<span class='ident'>LoadContext</span>::<span class='ident'>Script</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>core_resource_thread</span>, <span class='ident'>url</span>, <span class='prelude-val'>None</span>) {
+            <span class='kw'>let</span> (<span class='ident'>url</span>, <span class='ident'>source</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>load_whole_resource</span>(<span class='ident'>LoadContext</span>::<span class='ident'>Script</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>core_resource_thread</span>, <span class='ident'>url</span>, <span class='self'>self</span>) {
                 <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Network</span>),
                 <span class='prelude-val'>Ok</span>((<span class='ident'>metadata</span>, <span class='ident'>bytes</span>)) <span class='op'>=&gt;</span> {
                     (<span class='ident'>metadata</span>.<span class='ident'>final_url</span>, <span class='ident'>String</span>::<span class='ident'>from_utf8</span>(<span class='ident'>bytes</span>).<span class='ident'>unwrap</span>())

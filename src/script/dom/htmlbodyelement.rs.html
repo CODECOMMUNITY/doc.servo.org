@@ -223,24 +223,6 @@
 <span id="179">179</span>
 <span id="180">180</span>
 <span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -248,7 +230,7 @@
 
 <span class='kw'>use</span> <span class='ident'>cssparser</span>::<span class='ident'>RGBA</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::{<span class='ident'>Attr</span>, <span class='ident'>AttrValue</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>EventHandlerBinding</span>::<span class='ident'>EventHandlerNonNull</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>EventHandlerBinding</span>::{<span class='ident'>EventHandlerNonNull</span>, <span class='ident'>OnBeforeUnloadEventHandlerNonNull</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>HTMLBodyElementBinding</span>::{<span class='self'>self</span>, <span class='ident'>HTMLBodyElementMethods</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>WindowBinding</span>::<span class='ident'>WindowMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
@@ -260,7 +242,6 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>node</span>::{<span class='ident'>Node</span>, <span class='ident'>document_from_node</span>, <span class='ident'>window_from_node</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>virtualmethods</span>::<span class='ident'>VirtualMethods</span>;
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::<span class='ident'>Atom</span>;
 <span class='kw'>use</span> <span class='ident'>time</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
@@ -314,31 +295,14 @@
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-body-text</span>
     <span class='macro'>make_legacy_color_setter</span><span class='macro'>!</span>(<span class='ident'>SetText</span>, <span class='string'>&quot;text&quot;</span>);
 
-    <span class='comment'>// https://html.spec.whatwg.org/multipage/#the-body-element</span>
-    <span class='kw'>fn</span> <span class='ident'>GetOnunload</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>EventHandlerNonNull</span><span class='op'>&gt;&gt;</span> {
-        <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='ident'>GetOnunload</span>()
-    }
-
-    <span class='comment'>// https://html.spec.whatwg.org/multipage/#the-body-element</span>
-    <span class='kw'>fn</span> <span class='ident'>SetOnunload</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>listener</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>EventHandlerNonNull</span><span class='op'>&gt;&gt;</span>) {
-        <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='ident'>SetOnunload</span>(<span class='ident'>listener</span>)
-    }
-
-    <span class='comment'>// https://html.spec.whatwg.org/multipage/#the-body-element</span>
-    <span class='kw'>fn</span> <span class='ident'>GetOnstorage</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>EventHandlerNonNull</span><span class='op'>&gt;&gt;</span> {
-        <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='ident'>GetOnstorage</span>()
-    }
-
-    <span class='comment'>// https://html.spec.whatwg.org/multipage/#the-body-element</span>
-    <span class='kw'>fn</span> <span class='ident'>SetOnstorage</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>listener</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>EventHandlerNonNull</span><span class='op'>&gt;&gt;</span>) {
-        <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='ident'>SetOnstorage</span>(<span class='ident'>listener</span>)
-    }
-
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-body-background</span>
     <span class='macro'>make_getter</span><span class='macro'>!</span>(<span class='ident'>Background</span>, <span class='string'>&quot;background&quot;</span>);
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-body-background</span>
     <span class='macro'>make_url_setter</span><span class='macro'>!</span>(<span class='ident'>SetBackground</span>, <span class='string'>&quot;background&quot;</span>);
+
+    <span class='comment'>// https://html.spec.whatwg.org/multipage/#windoweventhandlers</span>
+    <span class='macro'>window_event_handlers</span><span class='macro'>!</span>(<span class='ident'>ForwardToWindow</span>);
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>HTMLBodyElementLayoutHelpers</span> {

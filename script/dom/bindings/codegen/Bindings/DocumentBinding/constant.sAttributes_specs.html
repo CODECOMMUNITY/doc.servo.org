@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-22354' class='srclink' href='../../../../../../src/script/home/servo/buildbot/slave/doc/build/target/debug/build/script-4d3bb93218cab884/out/Bindings/DocumentBinding.rs.html#4796-5189' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-23218' class='srclink' href='../../../../../../src/script/home/servo/buildbot/slave/doc/build/target/debug/build/script-4d3bb93218cab884/out/Bindings/DocumentBinding.rs.html#6861-7464' title='goto source code'>[src]</a></span></h1>
 <pre class='rust const'>const sAttributes_specs: <a class='primitive' href='../../../../../../std/primitive.slice.html'>&amp;'static [</a><a class='primitive' href='../../../../../../std/primitive.slice.html'>&amp;'static [</a><a class='struct' href='../../../../../../js/jsapi/struct.JSPropertySpec.html' title='js::jsapi::JSPropertySpec'>JSPropertySpec</a><a class='primitive' href='../../../../../../std/primitive.slice.html'>]</a><a class='primitive' href='../../../../../../std/primitive.slice.html'>]</a><code> = </code><code>&amp;[&amp;[JSPropertySpec{name:
                        b&quot;implementation\x00&quot; as *const u8 as
                            *const libc::c_char,
@@ -327,6 +327,30 @@
                    setter:
                        JSNativeWrapper{op: None,
                                        info: 0 as *const JSJitInfo,},},
+    JSPropertySpec{name: b&quot;oncopy\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;oncopy_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;oncopy_setterinfo,},},
+    JSPropertySpec{name: b&quot;oncut\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;oncut_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;oncut_setterinfo,},},
+    JSPropertySpec{name: b&quot;onpaste\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onpaste_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onpaste_setterinfo,},},
     JSPropertySpec{name: b&quot;onabort\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -343,6 +367,14 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;onblur_setterinfo,},},
+    JSPropertySpec{name: b&quot;oncancel\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;oncancel_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;oncancel_setterinfo,},},
     JSPropertySpec{name: b&quot;oncanplay\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -377,6 +409,33 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;onclick_setterinfo,},},
+    JSPropertySpec{name: b&quot;onclose\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onclose_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onclose_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;oncontextmenu\x00&quot; as *const u8 as
+                           *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;oncontextmenu_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;oncontextmenu_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;oncuechange\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;oncuechange_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;oncuechange_setterinfo,},},
     JSPropertySpec{name:
                        b&quot;ondblclick\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
@@ -386,6 +445,85 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;ondblclick_setterinfo,},},
+    JSPropertySpec{name: b&quot;ondrag\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;ondrag_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;ondrag_setterinfo,},},
+    JSPropertySpec{name: b&quot;ondragend\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;ondragend_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;ondragend_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;ondragenter\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;ondragenter_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;ondragenter_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;ondragexit\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;ondragexit_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;ondragexit_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;ondragleave\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;ondragleave_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;ondragleave_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;ondragover\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;ondragover_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;ondragover_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;ondragstart\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;ondragstart_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;ondragstart_setterinfo,},},
+    JSPropertySpec{name: b&quot;ondrop\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;ondrop_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;ondrop_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;ondurationchange\x00&quot; as *const u8 as
+                           *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;ondurationchange_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;ondurationchange_setterinfo,},},
     JSPropertySpec{name: b&quot;onemptied\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -394,6 +532,14 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;onemptied_setterinfo,},},
+    JSPropertySpec{name: b&quot;onended\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onended_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onended_setterinfo,},},
     JSPropertySpec{name: b&quot;onerror\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -402,6 +548,14 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;onerror_setterinfo,},},
+    JSPropertySpec{name: b&quot;onfocus\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onfocus_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onfocus_setterinfo,},},
     JSPropertySpec{name: b&quot;oninput\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -410,6 +564,14 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;oninput_setterinfo,},},
+    JSPropertySpec{name: b&quot;oninvalid\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;oninvalid_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;oninvalid_setterinfo,},},
     JSPropertySpec{name: b&quot;onkeydown\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -464,6 +626,62 @@
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;onloadedmetadata_setterinfo,},},
     JSPropertySpec{name:
+                       b&quot;onloadstart\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onloadstart_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onloadstart_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;onmousedown\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onmousedown_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onmousedown_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;onmouseenter\x00&quot; as *const u8 as
+                           *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_lenient_getter),
+                                       info: &amp;onmouseenter_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_lenient_setter),
+                                       info: &amp;onmouseenter_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;onmouseleave\x00&quot; as *const u8 as
+                           *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_lenient_getter),
+                                       info: &amp;onmouseleave_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_lenient_setter),
+                                       info: &amp;onmouseleave_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;onmousemove\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onmousemove_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onmousemove_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;onmouseout\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onmouseout_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onmouseout_setterinfo,},},
+    JSPropertySpec{name:
                        b&quot;onmouseover\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -472,6 +690,22 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;onmouseover_setterinfo,},},
+    JSPropertySpec{name: b&quot;onmouseup\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onmouseup_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onmouseup_setterinfo,},},
+    JSPropertySpec{name: b&quot;onwheel\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onwheel_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onwheel_setterinfo,},},
     JSPropertySpec{name: b&quot;onpause\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -505,6 +739,16 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;onprogress_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;onratechange\x00&quot; as *const u8 as
+                           *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onratechange_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onratechange_setterinfo,},},
     JSPropertySpec{name: b&quot;onreset\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -521,6 +765,54 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;onresize_setterinfo,},},
+    JSPropertySpec{name: b&quot;onscroll\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onscroll_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onscroll_setterinfo,},},
+    JSPropertySpec{name: b&quot;onseeked\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onseeked_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onseeked_setterinfo,},},
+    JSPropertySpec{name: b&quot;onseeking\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onseeking_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onseeking_setterinfo,},},
+    JSPropertySpec{name: b&quot;onselect\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onselect_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onselect_setterinfo,},},
+    JSPropertySpec{name: b&quot;onshow\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onshow_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onshow_setterinfo,},},
+    JSPropertySpec{name: b&quot;onstalled\x00&quot; as *const u8 as *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onstalled_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onstalled_setterinfo,},},
     JSPropertySpec{name: b&quot;onsubmit\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:
@@ -555,6 +847,16 @@
                    setter:
                        JSNativeWrapper{op: Some(generic_setter),
                                        info: &amp;ontoggle_setterinfo,},},
+    JSPropertySpec{name:
+                       b&quot;onvolumechange\x00&quot; as *const u8 as
+                           *const libc::c_char,
+                   flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
+                   getter:
+                       JSNativeWrapper{op: Some(generic_getter),
+                                       info: &amp;onvolumechange_getterinfo,},
+                   setter:
+                       JSNativeWrapper{op: Some(generic_setter),
+                                       info: &amp;onvolumechange_setterinfo,},},
     JSPropertySpec{name: b&quot;onwaiting\x00&quot; as *const u8 as *const libc::c_char,
                    flags: JSPROP_ENUMERATE | JSPROP_SHARED as u8,
                    getter:

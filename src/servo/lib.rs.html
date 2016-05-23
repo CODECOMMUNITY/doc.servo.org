@@ -332,7 +332,6 @@
 <span id="288">288</span>
 <span id="289">289</span>
 <span id="290">290</span>
-<span id="291">291</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -396,13 +395,12 @@
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>CompositorEventListener</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>CompositorMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>compositor_thread</span>::<span class='ident'>InitialCompositorState</span>;
-<span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>pipeline</span>::<span class='ident'>UnprivilegedPipelineContent</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-<span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>sandboxing</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>windowing</span>::<span class='ident'>WindowEvent</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>windowing</span>::<span class='ident'>WindowMethods</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::{<span class='ident'>CompositorProxy</span>, <span class='ident'>CompositorThread</span>};
-<span class='kw'>use</span> <span class='ident'>constellation</span>::{<span class='ident'>Constellation</span>, <span class='ident'>InitialConstellationState</span>};
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
+<span class='kw'>use</span> <span class='ident'>constellation</span>::<span class='ident'>content_process_sandbox_profile</span>;
+<span class='kw'>use</span> <span class='ident'>constellation</span>::{<span class='ident'>Constellation</span>, <span class='ident'>InitialConstellationState</span>, <span class='ident'>UnprivilegedPipelineContent</span>};
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
 <span class='kw'>use</span> <span class='ident'>gaol</span>::<span class='ident'>sandbox</span>::{<span class='ident'>ChildSandbox</span>, <span class='ident'>ChildSandboxMethods</span>};
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>font_cache_thread</span>::<span class='ident'>FontCacheThread</span>;
@@ -465,12 +463,12 @@
             <span class='ident'>resource_path</span>.<span class='ident'>push</span>(<span class='string'>&quot;shaders&quot;</span>);
 
             <span class='comment'>// TODO(gw): Duplicates device_pixels_per_screen_px from compositor. Tidy up!</span>
-            <span class='kw'>let</span> <span class='ident'>hidpi_factor</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>hidpi_factor</span>().<span class='ident'>get</span>();
+            <span class='kw'>let</span> <span class='ident'>scale_factor</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>scale_factor</span>().<span class='ident'>get</span>();
             <span class='kw'>let</span> <span class='ident'>device_pixel_ratio</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>opts</span>.<span class='ident'>device_pixels_per_px</span> {
                 <span class='prelude-val'>Some</span>(<span class='ident'>device_pixels_per_px</span>) <span class='op'>=&gt;</span> <span class='ident'>device_pixels_per_px</span>,
                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>opts</span>.<span class='ident'>output_file</span> {
                     <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='number'>1.0</span>,
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>hidpi_factor</span>,
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>scale_factor</span>,
                 }
             };
 
@@ -617,7 +615,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
 <span class='kw'>fn</span> <span class='ident'>create_sandbox</span>() {
-    <span class='ident'>ChildSandbox</span>::<span class='ident'>new</span>(<span class='ident'>sandboxing</span>::<span class='ident'>content_process_sandbox_profile</span>()).<span class='ident'>activate</span>()
+    <span class='ident'>ChildSandbox</span>::<span class='ident'>new</span>(<span class='ident'>content_process_sandbox_profile</span>()).<span class='ident'>activate</span>()
         .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to activate sandbox!&quot;</span>);
 }
 

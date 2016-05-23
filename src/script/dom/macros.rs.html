@@ -418,6 +418,134 @@
 <span id="374">374</span>
 <span id="375">375</span>
 <span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -742,6 +870,18 @@
     )
 );
 
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>define_window_owned_event_handler</span>(
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>handler</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>event_type</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>::<span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>handler</span><span class='op'>&gt;&gt;</span> {
+            <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>()
+        }
+
+        <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>listener</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>::<span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>handler</span><span class='op'>&gt;&gt;</span>) {
+            <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>(<span class='ident'>listener</span>)
+        }
+    )
+);
+
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>event_handler</span>(
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>event_type</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
         <span class='macro'>define_event_handler</span><span class='macro'>!</span>(<span class='ident'>EventHandlerNonNull</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>event_type</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>,
@@ -756,43 +896,159 @@
     )
 );
 
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>beforeunload_event_handler</span>(
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>event_type</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='macro'>define_event_handler</span><span class='macro'>!</span>(<span class='ident'>OnBeforeUnloadEventHandlerNonNull</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>event_type</span>,
+                              <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>, <span class='ident'>set_beforeunload_event_handler</span>);
+    )
+);
+
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>window_owned_event_handler</span>(
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>event_type</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='macro'>define_window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>EventHandlerNonNull</span>,
+                                           <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>event_type</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>);
+    )
+);
+
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>window_owned_beforeunload_event_handler</span>(
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>event_type</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>: <span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>: <span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
+        <span class='macro'>define_window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>OnBeforeUnloadEventHandlerNonNull</span>,
+                                           <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>event_type</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>getter</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>setter</span>);
+    )
+);
+
 <span class='comment'>// https://html.spec.whatwg.org/multipage/#globaleventhandlers</span>
 <span class='comment'>// see webidls/EventHandler.webidl</span>
 <span class='comment'>// As more methods get added, just update them here.</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>global_event_handlers</span>(
     () <span class='op'>=&gt;</span> (
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>blur</span>, <span class='ident'>GetOnblur</span>, <span class='ident'>SetOnblur</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>focus</span>, <span class='ident'>GetOnfocus</span>, <span class='ident'>SetOnfocus</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>load</span>, <span class='ident'>GetOnload</span>, <span class='ident'>SetOnload</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>resize</span>, <span class='ident'>GetOnresize</span>, <span class='ident'>SetOnresize</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>scroll</span>, <span class='ident'>GetOnscroll</span>, <span class='ident'>SetOnscroll</span>);
         <span class='macro'>global_event_handlers</span><span class='macro'>!</span>(<span class='ident'>NoOnload</span>);
 
     );
     (<span class='ident'>NoOnload</span>) <span class='op'>=&gt;</span> (
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>abort</span>, <span class='ident'>GetOnabort</span>, <span class='ident'>SetOnabort</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>cancel</span>, <span class='ident'>GetOncancel</span>, <span class='ident'>SetOncancel</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>canplay</span>, <span class='ident'>GetOncanplay</span>, <span class='ident'>SetOncanplay</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>canplaythrough</span>, <span class='ident'>GetOncanplaythrough</span>, <span class='ident'>SetOncanplaythrough</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>change</span>, <span class='ident'>GetOnchange</span>, <span class='ident'>SetOnchange</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>click</span>, <span class='ident'>GetOnclick</span>, <span class='ident'>SetOnclick</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>close</span>, <span class='ident'>GetOnclose</span>, <span class='ident'>SetOnclose</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>contextmenu</span>, <span class='ident'>GetOncontextmenu</span>, <span class='ident'>SetOncontextmenu</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>cuechange</span>, <span class='ident'>GetOncuechange</span>, <span class='ident'>SetOncuechange</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>dblclick</span>, <span class='ident'>GetOndblclick</span>, <span class='ident'>SetOndblclick</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>drag</span>, <span class='ident'>GetOndrag</span>, <span class='ident'>SetOndrag</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>dragend</span>, <span class='ident'>GetOndragend</span>, <span class='ident'>SetOndragend</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>dragenter</span>, <span class='ident'>GetOndragenter</span>, <span class='ident'>SetOndragenter</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>dragexit</span>, <span class='ident'>GetOndragexit</span>, <span class='ident'>SetOndragexit</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>dragleave</span>, <span class='ident'>GetOndragleave</span>, <span class='ident'>SetOndragleave</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>dragover</span>, <span class='ident'>GetOndragover</span>, <span class='ident'>SetOndragover</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>dragstart</span>, <span class='ident'>GetOndragstart</span>, <span class='ident'>SetOndragstart</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>drop</span>, <span class='ident'>GetOndrop</span>, <span class='ident'>SetOndrop</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>durationchange</span>, <span class='ident'>GetOndurationchange</span>, <span class='ident'>SetOndurationchange</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>emptied</span>, <span class='ident'>GetOnemptied</span>, <span class='ident'>SetOnemptied</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>ended</span>, <span class='ident'>GetOnended</span>, <span class='ident'>SetOnended</span>);
         <span class='macro'>error_event_handler</span><span class='macro'>!</span>(<span class='ident'>error</span>, <span class='ident'>GetOnerror</span>, <span class='ident'>SetOnerror</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>input</span>, <span class='ident'>GetOninput</span>, <span class='ident'>SetOninput</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>invalid</span>, <span class='ident'>GetOninvalid</span>, <span class='ident'>SetOninvalid</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>keydown</span>, <span class='ident'>GetOnkeydown</span>, <span class='ident'>SetOnkeydown</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>keypress</span>, <span class='ident'>GetOnkeypress</span>, <span class='ident'>SetOnkeypress</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>keyup</span>, <span class='ident'>GetOnkeyup</span>, <span class='ident'>SetOnkeyup</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>loadeddata</span>, <span class='ident'>GetOnloadeddata</span>, <span class='ident'>SetOnloadeddata</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>loadedmetata</span>, <span class='ident'>GetOnloadedmetadata</span>, <span class='ident'>SetOnloadedmetadata</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>loadstart</span>, <span class='ident'>GetOnloadstart</span>, <span class='ident'>SetOnloadstart</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>mousedown</span>, <span class='ident'>GetOnmousedown</span>, <span class='ident'>SetOnmousedown</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>mouseenter</span>, <span class='ident'>GetOnmouseenter</span>, <span class='ident'>SetOnmouseenter</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>mouseleave</span>, <span class='ident'>GetOnmouseleave</span>, <span class='ident'>SetOnmouseleave</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>mousemove</span>, <span class='ident'>GetOnmousemove</span>, <span class='ident'>SetOnmousemove</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>mouseout</span>, <span class='ident'>GetOnmouseout</span>, <span class='ident'>SetOnmouseout</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>mouseover</span>, <span class='ident'>GetOnmouseover</span>, <span class='ident'>SetOnmouseover</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>mouseup</span>, <span class='ident'>GetOnmouseup</span>, <span class='ident'>SetOnmouseup</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>wheel</span>, <span class='ident'>GetOnwheel</span>, <span class='ident'>SetOnwheel</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>pause</span>, <span class='ident'>GetOnpause</span>, <span class='ident'>SetOnpause</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>play</span>, <span class='ident'>GetOnplay</span>, <span class='ident'>SetOnplay</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>playing</span>, <span class='ident'>GetOnplaying</span>, <span class='ident'>SetOnplaying</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>progress</span>, <span class='ident'>GetOnprogress</span>, <span class='ident'>SetOnprogress</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>ratechange</span>, <span class='ident'>GetOnratechange</span>, <span class='ident'>SetOnratechange</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>reset</span>, <span class='ident'>GetOnreset</span>, <span class='ident'>SetOnreset</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>seeked</span>, <span class='ident'>GetOnseeked</span>, <span class='ident'>SetOnseeked</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>seeking</span>, <span class='ident'>GetOnseeking</span>, <span class='ident'>SetOnseeking</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>select</span>, <span class='ident'>GetOnselect</span>, <span class='ident'>SetOnselect</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>show</span>, <span class='ident'>GetOnshow</span>, <span class='ident'>SetOnshow</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>stalled</span>, <span class='ident'>GetOnstalled</span>, <span class='ident'>SetOnstalled</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>submit</span>, <span class='ident'>GetOnsubmit</span>, <span class='ident'>SetOnsubmit</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>suspend</span>, <span class='ident'>GetOnsuspend</span>, <span class='ident'>SetOnsuspend</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>timeupdate</span>, <span class='ident'>GetOntimeupdate</span>, <span class='ident'>SetOntimeupdate</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>toggle</span>, <span class='ident'>GetOntoggle</span>, <span class='ident'>SetOntoggle</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>volumechange</span>, <span class='ident'>GetOnvolumechange</span>, <span class='ident'>SetOnvolumechange</span>);
         <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>waiting</span>, <span class='ident'>GetOnwaiting</span>, <span class='ident'>SetOnwaiting</span>);
+    )
+);
+
+<span class='comment'>// https://html.spec.whatwg.org/multipage/#windoweventhandlers</span>
+<span class='comment'>// see webidls/EventHandler.webidl</span>
+<span class='comment'>// As more methods get added, just update them here.</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>window_event_handlers</span>(
+    () <span class='op'>=&gt;</span> (
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>afterprint</span>, <span class='ident'>GetOnafterprint</span>, <span class='ident'>SetOnafterprint</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>beforeprint</span>, <span class='ident'>GetOnbeforeprint</span>, <span class='ident'>SetOnbeforeprint</span>);
+        <span class='macro'>beforeunload_event_handler</span><span class='macro'>!</span>(<span class='ident'>beforeunload</span>, <span class='ident'>GetOnbeforeunload</span>,
+                                    <span class='ident'>SetOnbeforeunload</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>hashchange</span>, <span class='ident'>GetOnhashchange</span>, <span class='ident'>SetOnhashchange</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>languagechange</span>, <span class='ident'>GetOnlanguagechange</span>,
+                       <span class='ident'>SetOnlanguagechange</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>message</span>, <span class='ident'>GetOnmessage</span>, <span class='ident'>SetOnmessage</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>offline</span>, <span class='ident'>GetOnoffline</span>, <span class='ident'>SetOnoffline</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>online</span>, <span class='ident'>GetOnonline</span>, <span class='ident'>SetOnonline</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>pagehide</span>, <span class='ident'>GetOnpagehide</span>, <span class='ident'>SetOnpagehide</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>pageshow</span>, <span class='ident'>GetOnpageshow</span>, <span class='ident'>SetOnpageshow</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>popstate</span>, <span class='ident'>GetOnpopstate</span>, <span class='ident'>SetOnpopstate</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>rejectionhandled</span>, <span class='ident'>GetOnrejectionhandled</span>,
+                       <span class='ident'>SetOnrejectionhandled</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>storage</span>, <span class='ident'>GetOnstorage</span>, <span class='ident'>SetOnstorage</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>unhandledrejection</span>, <span class='ident'>GetOnunhandledrejection</span>,
+                       <span class='ident'>SetOnunhandledrejection</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>unload</span>, <span class='ident'>GetOnunload</span>, <span class='ident'>SetOnunload</span>);
+    );
+    (<span class='ident'>ForwardToWindow</span>) <span class='op'>=&gt;</span> (
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>afterprint</span>, <span class='ident'>GetOnafterprint</span>,
+                                    <span class='ident'>SetOnafterprint</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>beforeprint</span>, <span class='ident'>GetOnbeforeprint</span>,
+                                    <span class='ident'>SetOnbeforeprint</span>);
+        <span class='macro'>window_owned_beforeunload_event_handler</span><span class='macro'>!</span>(<span class='ident'>beforeunload</span>,
+                                                 <span class='ident'>GetOnbeforeunload</span>,
+                                                 <span class='ident'>SetOnbeforeunload</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>hashchange</span>, <span class='ident'>GetOnhashchange</span>,
+                                    <span class='ident'>SetOnhashchange</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>languagechange</span>, <span class='ident'>GetOnlanguagechange</span>,
+                                    <span class='ident'>SetOnlanguagechange</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>message</span>, <span class='ident'>GetOnmessage</span>, <span class='ident'>SetOnmessage</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>offline</span>, <span class='ident'>GetOnoffline</span>, <span class='ident'>SetOnoffline</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>online</span>, <span class='ident'>GetOnonline</span>, <span class='ident'>SetOnonline</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>pagehide</span>, <span class='ident'>GetOnpagehide</span>, <span class='ident'>SetOnpagehide</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>pageshow</span>, <span class='ident'>GetOnpageshow</span>, <span class='ident'>SetOnpageshow</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>popstate</span>, <span class='ident'>GetOnpopstate</span>, <span class='ident'>SetOnpopstate</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>rejectionhandled</span>, <span class='ident'>GetOnrejectionhandled</span>,
+                                    <span class='ident'>SetOnrejectionhandled</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>storage</span>, <span class='ident'>GetOnstorage</span>, <span class='ident'>SetOnstorage</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>unhandledrejection</span>, <span class='ident'>GetOnunhandledrejection</span>,
+                                    <span class='ident'>SetOnunhandledrejection</span>);
+        <span class='macro'>window_owned_event_handler</span><span class='macro'>!</span>(<span class='ident'>unload</span>, <span class='ident'>GetOnunload</span>, <span class='ident'>SetOnunload</span>);
+    );
+);
+
+<span class='comment'>// https://html.spec.whatwg.org/multipage/#documentandelementeventhandlers</span>
+<span class='comment'>// see webidls/EventHandler.webidl</span>
+<span class='comment'>// As more methods get added, just update them here.</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>document_and_element_event_handlers</span>(
+    () <span class='op'>=&gt;</span> (
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>cut</span>, <span class='ident'>GetOncut</span>, <span class='ident'>SetOncut</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>copy</span>, <span class='ident'>GetOncopy</span>, <span class='ident'>SetOncopy</span>);
+        <span class='macro'>event_handler</span><span class='macro'>!</span>(<span class='ident'>paste</span>, <span class='ident'>GetOnpaste</span>, <span class='ident'>SetOnpaste</span>);
     )
 );
 </pre>

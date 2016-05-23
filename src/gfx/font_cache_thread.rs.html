@@ -505,6 +505,7 @@
 <span id="461">461</span>
 <span id="462">462</span>
 <span id="463">463</span>
+<span id="464">464</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -514,7 +515,7 @@
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
 <span class='kw'>use</span> <span class='ident'>mime</span>::{<span class='ident'>TopLevel</span>, <span class='ident'>SubLevel</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>LoadContext</span>, <span class='ident'>PendingAsyncLoad</span>, <span class='ident'>CoreResourceThread</span>, <span class='ident'>ResponseAction</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>LoadContext</span>, <span class='ident'>PendingAsyncLoad</span>, <span class='ident'>CoreResourceThread</span>, <span class='ident'>ResponseAction</span>, <span class='ident'>RequestSource</span>};
 <span class='kw'>use</span> <span class='ident'>platform</span>::<span class='ident'>font_context</span>::<span class='ident'>FontContextHandle</span>;
 <span class='kw'>use</span> <span class='ident'>platform</span>::<span class='ident'>font_list</span>::<span class='ident'>SANS_SERIF_FONT_FAMILY</span>;
 <span class='kw'>use</span> <span class='ident'>platform</span>::<span class='ident'>font_list</span>::<span class='ident'>for_each_available_family</span>;
@@ -694,7 +695,8 @@
                                                              <span class='ident'>url</span>.<span class='ident'>clone</span>(),
                                                              <span class='prelude-val'>None</span>,
                                                              <span class='prelude-val'>None</span>,
-                                                             <span class='prelude-val'>None</span>);
+                                                             <span class='prelude-val'>None</span>,
+                                                             <span class='ident'>RequestSource</span>::<span class='prelude-val'>None</span>);
                             <span class='kw'>let</span> (<span class='ident'>data_sender</span>, <span class='ident'>data_receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
                             <span class='kw'>let</span> <span class='ident'>data_target</span> <span class='op'>=</span> <span class='ident'>AsyncResponseTarget</span> {
                                 <span class='ident'>sender</span>: <span class='ident'>data_sender</span>,

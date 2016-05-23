@@ -2131,6 +2131,7 @@
 <span id="2087">2087</span>
 <span id="2088">2088</span>
 <span id="2089">2089</span>
+<span id="2090">2090</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2150,9 +2151,6 @@
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>CompositorMsg</span> <span class='kw'>as</span> <span class='ident'>FromCompositorMsg</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>compositor_thread</span>::<span class='ident'>CompositorProxy</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>compositor_thread</span>::<span class='ident'>Msg</span> <span class='kw'>as</span> <span class='ident'>ToCompositorMsg</span>;
-<span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>pipeline</span>::{<span class='ident'>InitialPipelineState</span>, <span class='ident'>Pipeline</span>, <span class='ident'>UnprivilegedPipelineContent</span>};
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-<span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>sandboxing</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::{<span class='ident'>AnimationTickType</span>, <span class='ident'>SendableFrameTree</span>};
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::{<span class='ident'>ChromeToDevtoolsControlMsg</span>, <span class='ident'>DevtoolsControlMsg</span>};
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>scale_factor</span>::<span class='ident'>ScaleFactor</span>;
@@ -2180,9 +2178,12 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::<span class='ident'>StorageThreadMsg</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='self'>self</span>, <span class='ident'>ResourceThreads</span>, <span class='ident'>IpcSend</span>};
 <span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::{<span class='ident'>GLContextAttributes</span>, <span class='ident'>GLLimits</span>};
+<span class='kw'>use</span> <span class='ident'>pipeline</span>::{<span class='ident'>InitialPipelineState</span>, <span class='ident'>Pipeline</span>, <span class='ident'>UnprivilegedPipelineContent</span>};
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>;
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>random</span>, <span class='ident'>Rng</span>, <span class='ident'>SeedableRng</span>, <span class='ident'>StdRng</span>};
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
+<span class='kw'>use</span> <span class='ident'>sandboxing</span>::<span class='ident'>content_process_sandbox_profile</span>;
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>CompositorEvent</span>, <span class='ident'>ConstellationControlMsg</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>DocumentState</span>, <span class='ident'>LayoutControlMsg</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>IFrameLoadInfo</span>, <span class='ident'>IFrameSandboxState</span>, <span class='ident'>TimerEventRequest</span>};
@@ -2616,7 +2617,7 @@
                 <span class='ident'>command</span>.<span class='ident'>env</span>(<span class='string'>&quot;RUST_BACKTRACE&quot;</span>, <span class='ident'>value</span>);
             }
 
-            <span class='kw'>let</span> <span class='ident'>profile</span> <span class='op'>=</span> <span class='ident'>sandboxing</span>::<span class='ident'>content_process_sandbox_profile</span>();
+            <span class='kw'>let</span> <span class='ident'>profile</span> <span class='op'>=</span> <span class='ident'>content_process_sandbox_profile</span>();
             <span class='ident'>ChildProcess</span>::<span class='ident'>Sandboxed</span>(<span class='ident'>Sandbox</span>::<span class='ident'>new</span>(<span class='ident'>profile</span>).<span class='ident'>start</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>command</span>)
                                     .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to start sandboxed child process!&quot;</span>))
         } <span class='kw'>else</span> {
@@ -3869,6 +3870,9 @@
             <span class='kw'>return</span> <span class='ident'>ReadyToSave</span>::<span class='ident'>PendingFrames</span>;
         }
 
+        <span class='kw'>let</span> (<span class='ident'>state_sender</span>, <span class='ident'>state_receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Failed to create IPC channel!&quot;</span>);
+        <span class='kw'>let</span> (<span class='ident'>epoch_sender</span>, <span class='ident'>epoch_receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Failed to create IPC channel!&quot;</span>);
+
         <span class='comment'>// Step through the current frame tree, checking that the script</span>
         <span class='comment'>// thread is idle, and that the current epoch of the layout thread</span>
         <span class='comment'>// matches what the compositor has painted. If all these conditions</span>
@@ -3891,12 +3895,11 @@
             <span class='comment'>// before we check whether the document is ready; otherwise,</span>
             <span class='comment'>// there&#39;s a race condition where a webfont has finished loading,</span>
             <span class='comment'>// but hasn&#39;t yet notified the document.</span>
-            <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Failed to create IPC channel!&quot;</span>);
-            <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>LayoutControlMsg</span>::<span class='ident'>GetWebFontLoadState</span>(<span class='ident'>sender</span>);
+            <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>LayoutControlMsg</span>::<span class='ident'>GetWebFontLoadState</span>(<span class='ident'>state_sender</span>.<span class='ident'>clone</span>());
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>pipeline</span>.<span class='ident'>layout_chan</span>.<span class='number'>0</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>) {
                 <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Get web font failed ({})&quot;</span>, <span class='ident'>e</span>);
             }
-            <span class='kw'>if</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>true</span>) {
+            <span class='kw'>if</span> <span class='ident'>state_receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>true</span>) {
                 <span class='kw'>return</span> <span class='ident'>ReadyToSave</span>::<span class='ident'>WebFontNotLoaded</span>;
             }
 
@@ -3928,12 +3931,11 @@
                         <span class='comment'>// epoch matches what the compositor has drawn. If they match</span>
                         <span class='comment'>// (and script is idle) then this pipeline won&#39;t change again</span>
                         <span class='comment'>// and can be considered stable.</span>
-                        <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Failed to create IPC channel!&quot;</span>);
                         <span class='kw'>let</span> <span class='ident'>LayoutControlChan</span>(<span class='kw-2'>ref</span> <span class='ident'>layout_chan</span>) <span class='op'>=</span> <span class='ident'>pipeline</span>.<span class='ident'>layout_chan</span>;
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>layout_chan</span>.<span class='ident'>send</span>(<span class='ident'>LayoutControlMsg</span>::<span class='ident'>GetCurrentEpoch</span>(<span class='ident'>sender</span>)) {
+                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>layout_chan</span>.<span class='ident'>send</span>(<span class='ident'>LayoutControlMsg</span>::<span class='ident'>GetCurrentEpoch</span>(<span class='ident'>epoch_sender</span>.<span class='ident'>clone</span>())) {
                             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Failed to send GetCurrentEpoch ({}).&quot;</span>, <span class='ident'>e</span>);
                         }
-                        <span class='kw'>match</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>() {
+                        <span class='kw'>match</span> <span class='ident'>epoch_receiver</span>.<span class='ident'>recv</span>() {
                             <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Failed to receive current epoch ({}).&quot;</span>, <span class='ident'>e</span>),
                             <span class='prelude-val'>Ok</span>(<span class='ident'>layout_thread_epoch</span>) <span class='op'>=&gt;</span> <span class='kw'>if</span> <span class='ident'>layout_thread_epoch</span> <span class='op'>!=</span> <span class='op'>*</span><span class='ident'>compositor_epoch</span> {
                                 <span class='kw'>return</span> <span class='ident'>ReadyToSave</span>::<span class='ident'>EpochMismatch</span>;

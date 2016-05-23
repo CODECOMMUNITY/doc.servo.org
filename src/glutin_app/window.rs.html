@@ -970,6 +970,33 @@
 <span id="926">926</span>
 <span id="927">927</span>
 <span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -984,6 +1011,7 @@
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>scale_factor</span>::<span class='ident'>ScaleFactor</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::<span class='ident'>TypedSize2D</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Size2D</span>, <span class='ident'>Point2D</span>};
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>gdi32</span>;
 <span class='kw'>use</span> <span class='ident'>gleam</span>::<span class='ident'>gl</span>;
 <span class='kw'>use</span> <span class='ident'>glutin</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span>
@@ -1003,12 +1031,14 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>channel</span>, <span class='ident'>Sender</span>};
 <span class='kw'>use</span> <span class='ident'>style_traits</span>::<span class='ident'>cursor</span>::<span class='ident'>Cursor</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>user32</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>geometry</span>::<span class='ident'>ScreenPx</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>opts</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>))]</span>
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>opts</span>::<span class='ident'>RenderApi</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>resource_files</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>winapi</span>;
 
 <span class='kw'>static</span> <span class='kw-2'>mut</span> <span class='ident'>g_nested_event_loop_listener</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw-2'>mut</span> (<span class='ident'>NestedEventLoopListener</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>)<span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 
@@ -1071,12 +1101,28 @@
     <span class='ident'>current_url</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;&gt;</span>,
 }
 
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
+<span class='kw'>fn</span> <span class='ident'>window_creation_scale_factor</span>() <span class='op'>-&gt;</span> <span class='ident'>ScaleFactor</span><span class='op'>&lt;</span><span class='ident'>ScreenPx</span>, <span class='ident'>DevicePixel</span>, <span class='ident'>f32</span><span class='op'>&gt;</span> {
+    <span class='ident'>ScaleFactor</span>::<span class='ident'>new</span>(<span class='number'>1.0</span>)
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span>
+<span class='kw'>fn</span> <span class='ident'>window_creation_scale_factor</span>() <span class='op'>-&gt;</span> <span class='ident'>ScaleFactor</span><span class='op'>&lt;</span><span class='ident'>ScreenPx</span>, <span class='ident'>DevicePixel</span>, <span class='ident'>f32</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>hdc</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>user32</span>::<span class='ident'>GetDC</span>(::<span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null_mut</span>()) };
+        <span class='kw'>let</span> <span class='ident'>ppi</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>gdi32</span>::<span class='ident'>GetDeviceCaps</span>(<span class='ident'>hdc</span>, <span class='ident'>winapi</span>::<span class='ident'>wingdi</span>::<span class='ident'>LOGPIXELSY</span>) };
+        <span class='ident'>ScaleFactor</span>::<span class='ident'>new</span>(<span class='ident'>ppi</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='number'>96.0</span>)
+}
+
+
 <span class='kw'>impl</span> <span class='ident'>Window</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>is_foreground</span>: <span class='ident'>bool</span>,
-               <span class='ident'>window_size</span>: <span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>DevicePixel</span>, <span class='ident'>u32</span><span class='op'>&gt;</span>,
+               <span class='ident'>window_size</span>: <span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>ScreenPx</span>, <span class='ident'>u32</span><span class='op'>&gt;</span>,
                <span class='ident'>parent</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>glutin</span>::<span class='ident'>WindowID</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>width</span> <span class='op'>=</span> <span class='ident'>window_size</span>.<span class='ident'>to_untyped</span>().<span class='ident'>width</span>;
-        <span class='kw'>let</span> <span class='ident'>height</span> <span class='op'>=</span> <span class='ident'>window_size</span>.<span class='ident'>to_untyped</span>().<span class='ident'>height</span>;
+        <span class='kw'>let</span> <span class='ident'>win_size</span>: <span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>DevicePixel</span>, <span class='ident'>u32</span><span class='op'>&gt;</span> <span class='op'>=</span>
+            (<span class='ident'>window_size</span>.<span class='ident'>as_f32</span>() <span class='op'>*</span> <span class='ident'>window_creation_scale_factor</span>())
+            .<span class='ident'>as_uint</span>().<span class='ident'>cast</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Window size should fit in u32&quot;</span>);
+        <span class='kw'>let</span> <span class='ident'>width</span> <span class='op'>=</span> <span class='ident'>win_size</span>.<span class='ident'>to_untyped</span>().<span class='ident'>width</span>;
+        <span class='kw'>let</span> <span class='ident'>height</span> <span class='op'>=</span> <span class='ident'>win_size</span>.<span class='ident'>to_untyped</span>().<span class='ident'>height</span>;
 
         <span class='comment'>// If there&#39;s no chrome, start off with the window invisible. It will be set to visible in</span>
         <span class='comment'>// `load_end()`. This avoids an ugly flash of unstyled content (especially important since</span>
@@ -1617,8 +1663,16 @@
          <span class='kw'>box</span> <span class='ident'>receiver</span> <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorReceiver</span><span class='op'>&gt;</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>hidpi_factor</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ScaleFactor</span><span class='op'>&lt;</span><span class='ident'>ScreenPx</span>, <span class='ident'>DevicePixel</span>, <span class='ident'>f32</span><span class='op'>&gt;</span> {
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
+    <span class='kw'>fn</span> <span class='ident'>scale_factor</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ScaleFactor</span><span class='op'>&lt;</span><span class='ident'>ScreenPx</span>, <span class='ident'>DevicePixel</span>, <span class='ident'>f32</span><span class='op'>&gt;</span> {
         <span class='ident'>ScaleFactor</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>hidpi_factor</span>())
+    }
+
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span>
+    <span class='kw'>fn</span> <span class='ident'>scale_factor</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ScaleFactor</span><span class='op'>&lt;</span><span class='ident'>ScreenPx</span>, <span class='ident'>DevicePixel</span>, <span class='ident'>f32</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>hdc</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>user32</span>::<span class='ident'>GetDC</span>(::<span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null_mut</span>()) };
+        <span class='kw'>let</span> <span class='ident'>ppi</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>gdi32</span>::<span class='ident'>GetDeviceCaps</span>(<span class='ident'>hdc</span>, <span class='ident'>winapi</span>::<span class='ident'>wingdi</span>::<span class='ident'>LOGPIXELSY</span>) };
+        <span class='ident'>ScaleFactor</span>::<span class='ident'>new</span>(<span class='ident'>ppi</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>/</span> <span class='number'>96.0</span>)
     }
 
     <span class='kw'>fn</span> <span class='ident'>set_page_title</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>title</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>) {

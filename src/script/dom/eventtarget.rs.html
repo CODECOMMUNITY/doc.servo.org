@@ -569,16 +569,59 @@
 <span id="525">525</span>
 <span id="526">526</span>
 <span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>beforeunloadevent</span>::<span class='ident'>BeforeUnloadEvent</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>callback</span>::{<span class='ident'>CallbackContainer</span>, <span class='ident'>ExceptionHandling</span>, <span class='ident'>CallbackFunction</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>cell</span>::<span class='ident'>DOMRefCell</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BeforeUnloadEventBinding</span>::<span class='ident'>BeforeUnloadEventMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>ErrorEventBinding</span>::<span class='ident'>ErrorEventMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>EventBinding</span>::<span class='ident'>EventMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>EventHandlerBinding</span>::<span class='ident'>EventHandlerNonNull</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>EventHandlerBinding</span>::<span class='ident'>OnBeforeUnloadEventHandlerNonNull</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>EventHandlerBinding</span>::<span class='ident'>OnErrorEventHandlerNonNull</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>EventListenerBinding</span>::<span class='ident'>EventListener</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>EventTargetBinding</span>::<span class='ident'>EventTargetMethods</span>;
@@ -617,6 +660,7 @@
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>CommonEventHandler</span> {
     <span class='ident'>EventHandler</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>EventHandlerNonNull</span><span class='op'>&gt;</span>),
     <span class='ident'>ErrorEventHandler</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>OnErrorEventHandlerNonNull</span><span class='op'>&gt;</span>),
+    <span class='ident'>BeforeUnloadEventHandler</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>OnBeforeUnloadEventHandlerNonNull</span><span class='op'>&gt;</span>),
 }
 
 <span class='kw'>impl</span> <span class='ident'>CommonEventHandler</span> {
@@ -624,6 +668,7 @@
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
             <span class='ident'>CommonEventHandler</span>::<span class='ident'>EventHandler</span>(<span class='kw-2'>ref</span> <span class='ident'>handler</span>) <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>handler</span>.<span class='ident'>parent</span>,
             <span class='ident'>CommonEventHandler</span>::<span class='ident'>ErrorEventHandler</span>(<span class='kw-2'>ref</span> <span class='ident'>handler</span>) <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>handler</span>.<span class='ident'>parent</span>,
+            <span class='ident'>CommonEventHandler</span>::<span class='ident'>BeforeUnloadEventHandler</span>(<span class='kw-2'>ref</span> <span class='ident'>handler</span>) <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>handler</span>.<span class='ident'>parent</span>,
         }
     }
 }
@@ -745,6 +790,27 @@
                                               <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>, <span class='ident'>exception_handle</span>);
                     }
 
+                    <span class='ident'>CommonEventHandler</span>::<span class='ident'>BeforeUnloadEventHandler</span>(<span class='kw-2'>ref</span> <span class='ident'>handler</span>) <span class='op'>=&gt;</span> {
+                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>event</span>) <span class='op'>=</span> <span class='ident'>event</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>BeforeUnloadEvent</span><span class='op'>&gt;</span>() {
+                            <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='ident'>event</span>.<span class='ident'>ReturnValue</span>();
+
+                            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>handler</span>.<span class='ident'>Call_</span>(<span class='ident'>object</span>,
+                                                             <span class='ident'>event</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Event</span><span class='op'>&gt;</span>(),
+                                                             <span class='ident'>exception_handle</span>) {
+                                <span class='kw'>match</span> <span class='ident'>value</span> {
+                                    <span class='prelude-val'>Some</span>(<span class='ident'>value</span>) <span class='op'>=&gt;</span> {
+                                        <span class='kw'>if</span> <span class='ident'>rv</span>.<span class='ident'>is_empty</span>() {
+                                            <span class='ident'>event</span>.<span class='ident'>SetReturnValue</span>(<span class='ident'>value</span>);
+                                        }
+                                    }
+                                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
+                                        <span class='ident'>event</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Event</span><span class='op'>&gt;</span>().<span class='ident'>PreventDefault</span>();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     <span class='ident'>CommonEventHandler</span>::<span class='ident'>EventHandler</span>(<span class='kw-2'>ref</span> <span class='ident'>handler</span>) <span class='op'>=&gt;</span> {
                         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>handler</span>.<span class='ident'>Call_</span>(<span class='ident'>object</span>, <span class='ident'>event</span>, <span class='ident'>exception_handle</span>) {
                             <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='ident'>object</span>.<span class='ident'>global</span>();
@@ -755,7 +821,6 @@
                             <span class='comment'>//Step 4</span>
                             <span class='kw'>let</span> <span class='ident'>should_cancel</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>event</span>.<span class='ident'>type_</span>() {
                                 <span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;mouseover&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>value</span>.<span class='ident'>is_boolean</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>value</span>.<span class='ident'>to_boolean</span>() <span class='op'>==</span> <span class='boolvalue'>true</span>,
-                                <span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;beforeunload&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>value</span>.<span class='ident'>is_null</span>(),
                                 _ <span class='op'>=&gt;</span> <span class='ident'>value</span>.<span class='ident'>is_boolean</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>value</span>.<span class='ident'>to_boolean</span>() <span class='op'>==</span> <span class='boolvalue'>false</span>
                             };
                             <span class='kw'>if</span> <span class='ident'>should_cancel</span> {
@@ -984,7 +1049,12 @@
         <span class='kw'>if</span> <span class='ident'>is_error</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>CommonEventHandler</span>::<span class='ident'>ErrorEventHandler</span>(<span class='ident'>OnErrorEventHandlerNonNull</span>::<span class='ident'>new</span>(<span class='ident'>funobj</span>)))
         } <span class='kw'>else</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>CommonEventHandler</span>::<span class='ident'>EventHandler</span>(<span class='ident'>EventHandlerNonNull</span>::<span class='ident'>new</span>(<span class='ident'>funobj</span>)))
+            <span class='kw'>if</span> <span class='ident'>ty</span> <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;beforeunload&quot;</span>) {
+                <span class='prelude-val'>Some</span>(<span class='ident'>CommonEventHandler</span>::<span class='ident'>BeforeUnloadEventHandler</span>(
+                        <span class='ident'>OnBeforeUnloadEventHandlerNonNull</span>::<span class='ident'>new</span>(<span class='ident'>funobj</span>)))
+            } <span class='kw'>else</span> {
+                <span class='prelude-val'>Some</span>(<span class='ident'>CommonEventHandler</span>::<span class='ident'>EventHandler</span>(<span class='ident'>EventHandlerNonNull</span>::<span class='ident'>new</span>(<span class='ident'>funobj</span>)))
+            }
         }
     }
 
@@ -1005,6 +1075,16 @@
                                           <span class='ident'>InlineEventListener</span>::<span class='ident'>Compiled</span>(
                                               <span class='ident'>CommonEventHandler</span>::<span class='ident'>ErrorEventHandler</span>(
                                                   <span class='ident'>OnErrorEventHandlerNonNull</span>::<span class='ident'>new</span>(<span class='ident'>listener</span>.<span class='ident'>callback</span>()))));
+        <span class='self'>self</span>.<span class='ident'>set_inline_event_listener</span>(<span class='ident'>Atom</span>::<span class='ident'>from</span>(<span class='ident'>ty</span>), <span class='ident'>event_listener</span>);
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_beforeunload_event_handler</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>CallbackContainer</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>ty</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+            <span class='ident'>listener</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>) {
+        <span class='kw'>let</span> <span class='ident'>event_listener</span> <span class='op'>=</span> <span class='ident'>listener</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>listener</span><span class='op'>|</span>
+            <span class='ident'>InlineEventListener</span>::<span class='ident'>Compiled</span>(
+                <span class='ident'>CommonEventHandler</span>::<span class='ident'>BeforeUnloadEventHandler</span>(
+                    <span class='ident'>OnBeforeUnloadEventHandlerNonNull</span>::<span class='ident'>new</span>(<span class='ident'>listener</span>.<span class='ident'>callback</span>())))
+        );
         <span class='self'>self</span>.<span class='ident'>set_inline_event_listener</span>(<span class='ident'>Atom</span>::<span class='ident'>from</span>(<span class='ident'>ty</span>), <span class='ident'>event_listener</span>);
     }
 

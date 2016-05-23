@@ -87,6 +87,14 @@
 <span id="43">43</span>
 <span id="44">44</span>
 <span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -113,6 +121,7 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>gfx</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>gfx_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>ipc_channel</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>layers</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>layout_traits</span>;
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>log</span>;
@@ -123,6 +132,7 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>profile_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>script_traits</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>style_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>url</span>;
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
@@ -130,9 +140,15 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>webrender_traits</span>;
 
 <span class='kw'>mod</span> <span class='ident'>constellation</span>;
+<span class='kw'>mod</span> <span class='ident'>pipeline</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
+<span class='kw'>mod</span> <span class='ident'>sandboxing</span>;
 <span class='kw'>mod</span> <span class='ident'>timer_scheduler</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>constellation</span>::{<span class='ident'>Constellation</span>, <span class='ident'>InitialConstellationState</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>pipeline</span>::<span class='ident'>UnprivilegedPipelineContent</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>sandboxing</span>::<span class='ident'>content_process_sandbox_profile</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

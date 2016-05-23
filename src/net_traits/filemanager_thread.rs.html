@@ -76,6 +76,15 @@
 <span id="32">32</span>
 <span id="33">33</span>
 <span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -86,12 +95,21 @@
 <span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SelectedFile</span> {
+    <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>Uuid</span>,
+    <span class='kw'>pub</span> <span class='ident'>filename</span>: <span class='ident'>PathBuf</span>,
+    <span class='kw'>pub</span> <span class='ident'>modified</span>: <span class='ident'>u64</span>,
+    <span class='comment'>// https://w3c.github.io/FileAPI/#dfn-type</span>
+    <span class='kw'>pub</span> <span class='ident'>type_string</span>: <span class='ident'>String</span>,
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FileManagerThreadMsg</span> {
     <span class='doccomment'>/// Select a single file, return triple (FileID, FileName, lastModified)</span>
-    <span class='ident'>SelectFile</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span>(<span class='ident'>Uuid</span>, <span class='ident'>PathBuf</span>, <span class='ident'>u64</span>)<span class='op'>&gt;&gt;</span>),
+    <span class='ident'>SelectFile</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span>),
 
     <span class='doccomment'>/// Select multiple files, return a vector of triples</span>
-    <span class='ident'>SelectFiles</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>Uuid</span>, <span class='ident'>PathBuf</span>, <span class='ident'>u64</span>)<span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
+    <span class='ident'>SelectFiles</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
 
     <span class='doccomment'>/// Read file, return the bytes</span>
     <span class='ident'>ReadFile</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>, <span class='ident'>Uuid</span>),
@@ -102,7 +120,7 @@
 
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>FileManagerThreadError</span><span class='op'>&gt;</span>;
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FileManagerThreadError</span> {
     <span class='doccomment'>/// The selection action is invalid, nothing is selected</span>
     <span class='ident'>InvalidSelection</span>,

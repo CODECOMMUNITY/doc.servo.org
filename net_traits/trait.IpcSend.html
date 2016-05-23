@@ -47,18 +47,24 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-5301' class='srclink' href='../src/net_traits/lib.rs.html#189-192' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-5713' class='srclink' href='../src/net_traits/lib.rs.html#224-229' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait IpcSend&lt;T&gt; <span class='where'>where T: <a class='trait' href='../serde/ser/trait.Serialize.html' title='serde::ser::Serialize'>Serialize</a> + <a class='trait' href='../serde/de/trait.Deserialize.html' title='serde::de::Deserialize'>Deserialize</a></span> {
     fn <a href='#tymethod.send' class='fnname'>send</a>(&amp;self, T) -&gt; <a class='type' href='../net_traits/type.IpcSendResult.html' title='net_traits::IpcSendResult'>IpcSendResult</a>;
     fn <a href='#tymethod.sender' class='fnname'>sender</a>(&amp;self) -&gt; <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;T&gt;;
-}</pre>
+}</pre><div class='docblock'><p>Abstraction of the ability to send a particular type of message,
+used by net_traits::ResourceThreads to ease the use its IpcSender sub-fields
+XXX: If this trait will be used more in future, some auto derive might be appealing</p>
+</div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.send' class='method stab '><code>fn <a href='#tymethod.send' class='fnname'>send</a>(&amp;self, T) -&gt; <a class='type' href='../net_traits/type.IpcSendResult.html' title='net_traits::IpcSendResult'>IpcSendResult</a></code></h3><h3 id='tymethod.sender' class='method stab '><code>fn <a href='#tymethod.sender' class='fnname'>sender</a>(&amp;self) -&gt; <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;T&gt;</code></h3></div>
+        <h3 id='tymethod.send' class='method stab '><code>fn <a href='#tymethod.send' class='fnname'>send</a>(&amp;self, T) -&gt; <a class='type' href='../net_traits/type.IpcSendResult.html' title='net_traits::IpcSendResult'>IpcSendResult</a></code></h3><div class='docblock'><p>send message T</p>
+</div><h3 id='tymethod.sender' class='method stab '><code>fn <a href='#tymethod.sender' class='fnname'>sender</a>(&amp;self) -&gt; <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;T&gt;</code></h3><div class='docblock'><p>get underlying sender</p>
+</div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
     <li><code>impl IpcSend&lt;<a class='enum' href='../net_traits/enum.CoreResourceMsg.html' title='net_traits::CoreResourceMsg'>CoreResourceMsg</a>&gt; for <a class='struct' href='../net_traits/struct.ResourceThreads.html' title='net_traits::ResourceThreads'>ResourceThreads</a></code></li>
 <li><code>impl IpcSend&lt;<a class='enum' href='../net_traits/storage_thread/enum.StorageThreadMsg.html' title='net_traits::storage_thread::StorageThreadMsg'>StorageThreadMsg</a>&gt; for <a class='struct' href='../net_traits/struct.ResourceThreads.html' title='net_traits::ResourceThreads'>ResourceThreads</a></code></li>
+<li><code>impl IpcSend&lt;<a class='enum' href='../net_traits/filemanager_thread/enum.FileManagerThreadMsg.html' title='net_traits::filemanager_thread::FileManagerThreadMsg'>FileManagerThreadMsg</a>&gt; for <a class='struct' href='../net_traits/struct.ResourceThreads.html' title='net_traits::ResourceThreads'>ResourceThreads</a></code></li>
 </ul><script type="text/javascript" async
                          src="../implementors/net_traits/trait.IpcSend.js">
                  </script></section>
