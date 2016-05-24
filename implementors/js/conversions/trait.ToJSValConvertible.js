@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["js"] = [];implementors["util"] = ["impl <a class='trait' href='js/conversions/trait.ToJSValConvertible.html' title='js::conversions::ToJSValConvertible'>ToJSValConvertible</a> for <a class='struct' href='util/str/struct.DOMString.html' title='util::str::DOMString'>DOMString</a>",];
+implementors["js"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

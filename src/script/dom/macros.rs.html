@@ -546,6 +546,7 @@
 <span id="502">502</span>
 <span id="503">503</span>
 <span id="504">504</span>
+<span id="505">505</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -708,7 +709,8 @@
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>element</span>::<span class='ident'>Element</span>;
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>node</span>::<span class='ident'>document_from_node</span>;
-            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>from_url</span>(<span class='ident'>document_from_node</span>(<span class='self'>self</span>).<span class='ident'>url</span>(), <span class='ident'>value</span>);
+            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>from_url</span>(<span class='ident'>document_from_node</span>(<span class='self'>self</span>).<span class='ident'>url</span>(),
+                                            <span class='ident'>value</span>.<span class='ident'>into</span>());
             <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
             <span class='ident'>element</span>.<span class='ident'>set_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>htmlname</span>), <span class='ident'>value</span>);
         }
@@ -780,7 +782,7 @@
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>element</span>::<span class='ident'>Element</span>;
             <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
-            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>from_legacy_color</span>(<span class='ident'>value</span>);
+            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>from_legacy_color</span>(<span class='ident'>value</span>.<span class='ident'>into</span>());
             <span class='ident'>element</span>.<span class='ident'>set_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>htmlname</span>), <span class='ident'>value</span>)
         }
     );
@@ -793,7 +795,7 @@
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>element</span>::<span class='ident'>Element</span>;
             <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
-            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>from_dimension</span>(<span class='ident'>value</span>);
+            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>from_dimension</span>(<span class='ident'>value</span>.<span class='ident'>into</span>());
             <span class='ident'>element</span>.<span class='ident'>set_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>htmlname</span>), <span class='ident'>value</span>)
         }
     );
@@ -806,7 +808,7 @@
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>element</span>::<span class='ident'>Element</span>;
             <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
-            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>from_nonzero_dimension</span>(<span class='ident'>value</span>);
+            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>from_nonzero_dimension</span>(<span class='ident'>value</span>.<span class='ident'>into</span>());
             <span class='ident'>element</span>.<span class='ident'>set_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>htmlname</span>), <span class='ident'>value</span>)
         }
     );

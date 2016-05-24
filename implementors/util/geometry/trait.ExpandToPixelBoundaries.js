@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["util"] = [];implementors["script"] = [];
+implementors["util"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

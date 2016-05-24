@@ -632,9 +632,11 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>InterfaceObjectMap</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>PrototypeList</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>PrototypeList</span>::{<span class='ident'>MAX_PROTO_CHAIN_LENGTH</span>, <span class='ident'>PROTO_OR_IFACE_LENGTH</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>conversions</span>::{<span class='ident'>DOM_OBJECT_SLOT</span>, <span class='ident'>is_dom_class</span>, <span class='ident'>private_from_proto_check</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>conversions</span>::{<span class='ident'>DOM_OBJECT_SLOT</span>, <span class='ident'>is_dom_class</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>conversions</span>::{<span class='ident'>jsstring_to_str</span>, <span class='ident'>private_from_proto_check</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::<span class='ident'>throw_invalid_this</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>TopTypeId</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>trace</span>::<span class='ident'>trace_object</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>browsingcontext</span>;
 <span class='kw'>use</span> <span class='ident'>heapsize</span>::<span class='ident'>HeapSizeOf</span>;
@@ -662,9 +664,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ptr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>slice</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>non_geckolib</span>::<span class='ident'>jsstring_to_str</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
 
 <span class='doccomment'>/// Proxy handler for a WindowProxy.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WindowProxyHandler</span>(<span class='kw'>pub</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_void</span>);

@@ -396,6 +396,7 @@
 <span id="352">352</span>
 <span id="353">353</span>
 <span id="354">354</span>
+<span id="355">355</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -407,6 +408,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>JS</span>, <span class='ident'>Root</span>, <span class='ident'>MutNullableHeap</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>reflector</span>::{<span class='ident'>Reflector</span>, <span class='ident'>reflect_dom_object</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>trace</span>::<span class='ident'>JSTraceable</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>xmlname</span>::<span class='ident'>namespace_from_domstring</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>element</span>::<span class='ident'>Element</span>;
@@ -415,7 +417,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::{<span class='ident'>Atom</span>, <span class='ident'>Namespace</span>, <span class='ident'>QualName</span>};
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::{<span class='ident'>DOMString</span>, <span class='ident'>split_html_space_chars</span>};
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::<span class='ident'>split_html_space_chars</span>;
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>CollectionFilter</span> : <span class='ident'>JSTraceable</span> {
     <span class='kw'>fn</span> <span class='ident'>filter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>elem</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Element</span>, <span class='ident'>root</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Node</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
