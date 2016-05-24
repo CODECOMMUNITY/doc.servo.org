@@ -2092,7 +2092,6 @@
 <span id="2048">2048</span>
 <span id="2049">2049</span>
 <span id="2050">2050</span>
-<span id="2051">2051</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2448,7 +2447,7 @@
     <span class='ident'>layout_to_constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// A handle to the compositor for communicating ready state messages.</span>
-    <span class='ident'>compositor</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ScriptToCompositorMsg</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>compositor</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ScriptToCompositorMsg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// The port on which we receive messages from the image cache</span>
     <span class='ident'>image_cache_port</span>: <span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>ImageCacheResult</span><span class='op'>&gt;</span>,
@@ -2568,7 +2567,7 @@
             <span class='kw'>let</span> <span class='ident'>reporter_name</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;script-reporter-{}&quot;</span>, <span class='ident'>id</span>);
             <span class='ident'>mem_profiler_chan</span>.<span class='ident'>run_with_memory_reporting</span>(<span class='op'>||</span> {
                 <span class='ident'>script_thread</span>.<span class='ident'>start</span>();
-                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>script_thread</span>.<span class='ident'>compositor</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>Exited</span>);
+                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>script_thread</span>.<span class='ident'>compositor</span>.<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>Exited</span>);
                 <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>script_thread</span>.<span class='ident'>content_process_shutdown_chan</span>.<span class='ident'>send</span>(());
             }, <span class='ident'>reporter_name</span>, <span class='ident'>script_chan</span>, <span class='ident'>CommonScriptMsg</span>::<span class='ident'>CollectReports</span>);
 
@@ -2678,7 +2677,7 @@
             <span class='ident'>control_port</span>: <span class='ident'>control_port</span>,
             <span class='ident'>constellation_chan</span>: <span class='ident'>state</span>.<span class='ident'>constellation_chan</span>,
             <span class='ident'>layout_to_constellation_chan</span>: <span class='ident'>state</span>.<span class='ident'>layout_to_constellation_chan</span>,
-            <span class='ident'>compositor</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>state</span>.<span class='ident'>compositor</span>),
+            <span class='ident'>compositor</span>: <span class='ident'>state</span>.<span class='ident'>compositor</span>,
             <span class='ident'>time_profiler_chan</span>: <span class='ident'>state</span>.<span class='ident'>time_profiler_chan</span>,
             <span class='ident'>mem_profiler_chan</span>: <span class='ident'>state</span>.<span class='ident'>mem_profiler_chan</span>,
             <span class='ident'>panic_chan</span>: <span class='ident'>state</span>.<span class='ident'>panic_chan</span>,
@@ -3404,7 +3403,7 @@
         <span class='comment'>// TODO(tkuehn): currently there is only one window,</span>
         <span class='comment'>// so this can afford to be naive and just shut down the</span>
         <span class='comment'>// compositor. In the future it&#39;ll need to be smarter.</span>
-        <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>Exit</span>).<span class='ident'>unwrap</span>();
+        <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>Exit</span>).<span class='ident'>unwrap</span>();
     }
 
     <span class='doccomment'>/// We have received notification that the response associated with a load has completed.</span>
@@ -3561,7 +3560,7 @@
                                  <span class='ident'>FileReadingTaskSource</span>(<span class='ident'>file_sender</span>.<span class='ident'>clone</span>()),
                                  <span class='self'>self</span>.<span class='ident'>image_cache_channel</span>.<span class='ident'>clone</span>(),
                                  <span class='self'>self</span>.<span class='ident'>custom_message_chan</span>.<span class='ident'>clone</span>(),
-                                 <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>clone</span>(),
+                                 <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>clone</span>(),
                                  <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>clone</span>(),
                                  <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>clone</span>(),
                                  <span class='self'>self</span>.<span class='ident'>bluetooth_thread</span>.<span class='ident'>clone</span>(),
@@ -3784,7 +3783,7 @@
         <span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>rect</span>.<span class='ident'>origin</span>.<span class='ident'>x</span>.<span class='ident'>to_nearest_px</span>() <span class='kw'>as</span> <span class='ident'>f32</span>,
                                  <span class='ident'>rect</span>.<span class='ident'>origin</span>.<span class='ident'>y</span>.<span class='ident'>to_nearest_px</span>() <span class='kw'>as</span> <span class='ident'>f32</span>);
 
-        <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>ScrollFragmentPoint</span>(
+        <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>ScrollFragmentPoint</span>(
                                                  <span class='ident'>pipeline_id</span>, <span class='ident'>LayerId</span>::<span class='ident'>null</span>(), <span class='ident'>point</span>, <span class='boolvalue'>false</span>)).<span class='ident'>unwrap</span>();
     }
 
@@ -3872,11 +3871,11 @@
                     <span class='ident'>TouchEventType</span>::<span class='ident'>Down</span> <span class='op'>=&gt;</span> {
                         <span class='kw'>if</span> <span class='ident'>handled</span> {
                             <span class='comment'>// TODO: Wait to see if preventDefault is called on the first touchmove event.</span>
-                            <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>borrow_mut</span>()
+                            <span class='self'>self</span>.<span class='ident'>compositor</span>
                                 .<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>TouchEventProcessed</span>(
                                         <span class='ident'>EventResult</span>::<span class='ident'>DefaultAllowed</span>)).<span class='ident'>unwrap</span>();
                         } <span class='kw'>else</span> {
-                            <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>borrow_mut</span>()
+                            <span class='self'>self</span>.<span class='ident'>compositor</span>
                                 .<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>TouchEventProcessed</span>(
                                         <span class='ident'>EventResult</span>::<span class='ident'>DefaultPrevented</span>)).<span class='ident'>unwrap</span>();
                         }
@@ -3896,8 +3895,7 @@
             <span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline_id</span>);
                 <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
-                <span class='ident'>document</span>.<span class='ident'>dispatch_key_event</span>(
-                    <span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>compositor</span>.<span class='ident'>borrow_mut</span>());
+                <span class='ident'>document</span>.<span class='ident'>dispatch_key_event</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>compositor</span>);
             }
         }
     }

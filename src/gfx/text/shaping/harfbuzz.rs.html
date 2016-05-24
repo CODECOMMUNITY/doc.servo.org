@@ -568,73 +568,6 @@
 <span id="524">524</span>
 <span id="525">525</span>
 <span id="526">526</span>
-<span id="527">527</span>
-<span id="528">528</span>
-<span id="529">529</span>
-<span id="530">530</span>
-<span id="531">531</span>
-<span id="532">532</span>
-<span id="533">533</span>
-<span id="534">534</span>
-<span id="535">535</span>
-<span id="536">536</span>
-<span id="537">537</span>
-<span id="538">538</span>
-<span id="539">539</span>
-<span id="540">540</span>
-<span id="541">541</span>
-<span id="542">542</span>
-<span id="543">543</span>
-<span id="544">544</span>
-<span id="545">545</span>
-<span id="546">546</span>
-<span id="547">547</span>
-<span id="548">548</span>
-<span id="549">549</span>
-<span id="550">550</span>
-<span id="551">551</span>
-<span id="552">552</span>
-<span id="553">553</span>
-<span id="554">554</span>
-<span id="555">555</span>
-<span id="556">556</span>
-<span id="557">557</span>
-<span id="558">558</span>
-<span id="559">559</span>
-<span id="560">560</span>
-<span id="561">561</span>
-<span id="562">562</span>
-<span id="563">563</span>
-<span id="564">564</span>
-<span id="565">565</span>
-<span id="566">566</span>
-<span id="567">567</span>
-<span id="568">568</span>
-<span id="569">569</span>
-<span id="570">570</span>
-<span id="571">571</span>
-<span id="572">572</span>
-<span id="573">573</span>
-<span id="574">574</span>
-<span id="575">575</span>
-<span id="576">576</span>
-<span id="577">577</span>
-<span id="578">578</span>
-<span id="579">579</span>
-<span id="580">580</span>
-<span id="581">581</span>
-<span id="582">582</span>
-<span id="583">583</span>
-<span id="584">584</span>
-<span id="585">585</span>
-<span id="586">586</span>
-<span id="587">587</span>
-<span id="588">588</span>
-<span id="589">589</span>
-<span id="590">590</span>
-<span id="591">591</span>
-<span id="592">592</span>
-<span id="593">593</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -642,7 +575,7 @@
 
 <span class='kw'>use</span> <span class='ident'>app_units</span>::<span class='ident'>Au</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>Point2D</span>;
-<span class='kw'>use</span> <span class='ident'>font</span>::{<span class='ident'>DISABLE_KERNING_SHAPING_FLAG</span>, <span class='ident'>Font</span>, <span class='ident'>FontHandleMethods</span>, <span class='ident'>FontTableMethods</span>, <span class='ident'>FontTableTag</span>};
+<span class='kw'>use</span> <span class='ident'>font</span>::{<span class='ident'>DISABLE_KERNING_SHAPING_FLAG</span>, <span class='ident'>Font</span>, <span class='ident'>FontTableMethods</span>, <span class='ident'>FontTableTag</span>};
 <span class='kw'>use</span> <span class='ident'>font</span>::{<span class='ident'>IGNORE_LIGATURES_SHAPING_FLAG</span>, <span class='ident'>KERN</span>, <span class='ident'>RTL_FLAG</span>, <span class='ident'>ShapingOptions</span>};
 <span class='kw'>use</span> <span class='ident'>harfbuzz</span>::{<span class='ident'>HB_DIRECTION_LTR</span>, <span class='ident'>HB_DIRECTION_RTL</span>, <span class='ident'>HB_MEMORY_MODE_READONLY</span>};
 <span class='kw'>use</span> <span class='ident'>harfbuzz</span>::{<span class='ident'>hb_blob_create</span>, <span class='ident'>hb_face_create_for_tables</span>};
@@ -672,12 +605,10 @@
 <span class='kw'>use</span> <span class='ident'>harfbuzz</span>::{<span class='ident'>hb_position_t</span>, <span class='ident'>hb_tag_t</span>};
 <span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>c_char</span>, <span class='ident'>c_int</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_void</span>};
 <span class='kw'>use</span> <span class='ident'>platform</span>::<span class='ident'>font</span>::<span class='ident'>FontTable</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::{<span class='ident'>char</span>, <span class='ident'>cmp</span>, <span class='ident'>ptr</span>};
 <span class='kw'>use</span> <span class='ident'>text</span>::<span class='ident'>glyph</span>::{<span class='ident'>ByteIndex</span>, <span class='ident'>GlyphData</span>, <span class='ident'>GlyphId</span>, <span class='ident'>GlyphStore</span>};
 <span class='kw'>use</span> <span class='ident'>text</span>::<span class='ident'>shaping</span>::<span class='ident'>ShaperMethods</span>;
 <span class='kw'>use</span> <span class='ident'>text</span>::<span class='ident'>util</span>::{<span class='ident'>fixed_to_float</span>, <span class='ident'>float_to_fixed</span>, <span class='ident'>is_bidi_control</span>};
-<span class='kw'>use</span> <span class='ident'>unicode_script</span>::<span class='ident'>Script</span>;
 
 <span class='kw'>const</span> <span class='ident'>NO_GLYPH</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='op'>-</span><span class='number'>1</span>;
 <span class='kw'>const</span> <span class='ident'>LIGA</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='macro'>ot_tag</span><span class='macro'>!</span>(<span class='string'>&#39;l&#39;</span>, <span class='string'>&#39;i&#39;</span>, <span class='string'>&#39;g&#39;</span>, <span class='string'>&#39;a&#39;</span>);
@@ -765,16 +696,10 @@
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>FontAndShapingOptions</span> {
-    <span class='ident'>font</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>Font</span>,
-    <span class='ident'>options</span>: <span class='ident'>ShapingOptions</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Shaper</span> {
     <span class='ident'>hb_face</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>hb_face_t</span>,
     <span class='ident'>hb_font</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>hb_font_t</span>,
-    <span class='ident'>font_and_shaping_options</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>FontAndShapingOptions</span><span class='op'>&gt;</span>,
+    <span class='ident'>font</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Font</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Shaper</span> {
@@ -790,20 +715,16 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>Shaper</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>font</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Font</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span><span class='ident'>ShapingOptions</span>) <span class='op'>-&gt;</span> <span class='ident'>Shaper</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>font</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Font</span>) <span class='op'>-&gt;</span> <span class='ident'>Shaper</span> {
         <span class='kw'>unsafe</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>font_and_shaping_options</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>FontAndShapingOptions</span> {
-                <span class='ident'>font</span>: <span class='ident'>font</span>,
-                <span class='ident'>options</span>: <span class='op'>*</span><span class='ident'>options</span>,
-            };
             <span class='kw'>let</span> <span class='ident'>hb_face</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>hb_face_t</span> <span class='op'>=</span>
                 <span class='ident'>hb_face_create_for_tables</span>(<span class='prelude-val'>Some</span>(<span class='ident'>font_table_func</span>),
-                                          <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>font_and_shaping_options</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>,
+                                          <span class='ident'>font</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>,
                                           <span class='prelude-val'>None</span>);
             <span class='kw'>let</span> <span class='ident'>hb_font</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>hb_font_t</span> <span class='op'>=</span> <span class='ident'>hb_font_create</span>(<span class='ident'>hb_face</span>);
 
             <span class='comment'>// Set points-per-em. if zero, performs no hinting in that direction.</span>
-            <span class='kw'>let</span> <span class='ident'>pt_size</span> <span class='op'>=</span> <span class='ident'>font</span>.<span class='ident'>actual_pt_size</span>.<span class='ident'>to_f64_px</span>();
+            <span class='kw'>let</span> <span class='ident'>pt_size</span> <span class='op'>=</span> (<span class='op'>*</span><span class='ident'>font</span>).<span class='ident'>actual_pt_size</span>.<span class='ident'>to_f64_px</span>();
             <span class='ident'>hb_font_set_ppem</span>(<span class='ident'>hb_font</span>, <span class='ident'>pt_size</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>, <span class='ident'>pt_size</span> <span class='kw'>as</span> <span class='ident'>c_uint</span>);
 
             <span class='comment'>// Set scaling. Note that this takes 16.16 fixed point.</span>
@@ -817,13 +738,9 @@
             <span class='ident'>Shaper</span> {
                 <span class='ident'>hb_face</span>: <span class='ident'>hb_face</span>,
                 <span class='ident'>hb_font</span>: <span class='ident'>hb_font</span>,
-                <span class='ident'>font_and_shaping_options</span>: <span class='ident'>font_and_shaping_options</span>,
+                <span class='ident'>font</span>: <span class='ident'>font</span>,
             }
         }
-    }
-
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_options</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span><span class='ident'>ShapingOptions</span>) {
-        <span class='self'>self</span>.<span class='ident'>font_and_shaping_options</span>.<span class='ident'>options</span> <span class='op'>=</span> <span class='op'>*</span><span class='ident'>options</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>float_to_fixed</span>(<span class='ident'>f</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
@@ -839,14 +756,7 @@
     <span class='doccomment'>/// Calculate the layout metrics associated with the given text when painted in a specific</span>
     <span class='doccomment'>/// font.</span>
     <span class='kw'>fn</span> <span class='ident'>shape_text</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span><span class='ident'>ShapingOptions</span>, <span class='ident'>glyphs</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>GlyphStore</span>) {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>can_use_fast_path</span>(<span class='ident'>text</span>, <span class='ident'>options</span>) {
-            <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;shape_text: Using ASCII fast path.&quot;</span>);
-            <span class='self'>self</span>.<span class='ident'>shape_text_fast</span>(<span class='ident'>text</span>, <span class='ident'>options</span>, <span class='ident'>glyphs</span>);
-            <span class='kw'>return</span>;
-        }
         <span class='kw'>unsafe</span> {
-            <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;shape_text: Using Harfbuzz.&quot;</span>);
-
             <span class='kw'>let</span> <span class='ident'>hb_buffer</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>hb_buffer_t</span> <span class='op'>=</span> <span class='ident'>hb_buffer_create</span>();
             <span class='ident'>hb_buffer_set_direction</span>(<span class='ident'>hb_buffer</span>, <span class='kw'>if</span> <span class='ident'>options</span>.<span class='ident'>flags</span>.<span class='ident'>contains</span>(<span class='ident'>RTL_FLAG</span>) {
                 <span class='ident'>HB_DIRECTION_RTL</span>
@@ -888,47 +798,6 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>Shaper</span> {
-    <span class='kw'>fn</span> <span class='ident'>can_use_fast_path</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span><span class='ident'>ShapingOptions</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>let</span> <span class='ident'>font</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>font_and_shaping_options</span>.<span class='ident'>font</span>;
-
-        <span class='ident'>options</span>.<span class='ident'>script</span> <span class='op'>==</span> <span class='ident'>Script</span>::<span class='ident'>Latin</span> <span class='op'>&amp;&amp;</span>
-            <span class='op'>!</span><span class='ident'>options</span>.<span class='ident'>flags</span>.<span class='ident'>contains</span>(<span class='ident'>RTL_FLAG</span>) <span class='op'>&amp;&amp;</span>
-            <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='ident'>font</span>).<span class='ident'>handle</span>.<span class='ident'>can_do_fast_shaping</span>() } <span class='op'>&amp;&amp;</span>
-            <span class='ident'>text</span>.<span class='ident'>is_ascii</span>()
-    }
-
-    <span class='doccomment'>/// Fast path for ASCII text that only needs simple horizontal LTR kerning.</span>
-    <span class='kw'>fn</span> <span class='ident'>shape_text_fast</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span><span class='ident'>ShapingOptions</span>, <span class='ident'>glyphs</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>GlyphStore</span>) {
-        <span class='kw'>let</span> <span class='ident'>font</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>font_and_shaping_options</span>.<span class='ident'>font</span> };
-
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>prev_glyph_id</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
-        <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>byte</span>) <span class='kw'>in</span> <span class='ident'>text</span>.<span class='ident'>bytes</span>().<span class='ident'>enumerate</span>() {
-            <span class='kw'>let</span> <span class='ident'>character</span> <span class='op'>=</span> <span class='ident'>byte</span> <span class='kw'>as</span> <span class='ident'>char</span>;
-            <span class='kw'>let</span> <span class='ident'>glyph_id</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>font</span>.<span class='ident'>glyph_index</span>(<span class='ident'>character</span>) {
-                <span class='prelude-val'>Some</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> <span class='ident'>id</span>,
-                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>continue</span>,
-            };
-
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>advance</span> <span class='op'>=</span> <span class='ident'>Au</span>::<span class='ident'>from_f64_px</span>(<span class='ident'>font</span>.<span class='ident'>glyph_h_advance</span>(<span class='ident'>glyph_id</span>));
-            <span class='kw'>if</span> <span class='ident'>character</span> <span class='op'>==</span> <span class='string'>&#39; &#39;</span> {
-                <span class='ident'>advance</span> <span class='op'>+=</span> <span class='ident'>options</span>.<span class='ident'>word_spacing</span>;
-            }
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>letter_spacing</span>) <span class='op'>=</span> <span class='ident'>options</span>.<span class='ident'>letter_spacing</span> {
-                <span class='ident'>advance</span> <span class='op'>+=</span> <span class='ident'>letter_spacing</span>;
-            }
-            <span class='kw'>let</span> <span class='ident'>offset</span> <span class='op'>=</span> <span class='ident'>prev_glyph_id</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>prev</span><span class='op'>|</span> {
-                <span class='kw'>let</span> <span class='ident'>h_kerning</span> <span class='op'>=</span> <span class='ident'>Au</span>::<span class='ident'>from_f64_px</span>(<span class='ident'>font</span>.<span class='ident'>glyph_h_kerning</span>(<span class='ident'>prev</span>, <span class='ident'>glyph_id</span>));
-                <span class='ident'>advance</span> <span class='op'>+=</span> <span class='ident'>h_kerning</span>;
-                <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>h_kerning</span>, <span class='ident'>Au</span>(<span class='number'>0</span>))
-            });
-
-            <span class='kw'>let</span> <span class='ident'>glyph</span> <span class='op'>=</span> <span class='ident'>GlyphData</span>::<span class='ident'>new</span>(<span class='ident'>glyph_id</span>, <span class='ident'>advance</span>, <span class='ident'>offset</span>, <span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>);
-            <span class='ident'>glyphs</span>.<span class='ident'>add_glyph_for_byte_index</span>(<span class='ident'>ByteIndex</span>(<span class='ident'>i</span> <span class='kw'>as</span> <span class='ident'>isize</span>), <span class='ident'>character</span>, <span class='kw-2'>&amp;</span><span class='ident'>glyph</span>);
-            <span class='ident'>prev_glyph_id</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>glyph_id</span>);
-        }
-        <span class='ident'>glyphs</span>.<span class='ident'>finalize_changes</span>();
-    }
-
     <span class='kw'>fn</span> <span class='ident'>save_glyph_results</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
                           <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
                           <span class='ident'>options</span>: <span class='kw-2'>&amp;</span><span class='ident'>ShapingOptions</span>,
@@ -1047,8 +916,7 @@
                     <span class='comment'>//</span>
                     <span class='comment'>// TODO: Proper tab stops.</span>
                     <span class='kw'>const</span> <span class='ident'>TAB_COLS</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>8</span>;
-                    <span class='kw'>let</span> <span class='ident'>font</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>font_and_shaping_options</span>.<span class='ident'>font</span>;
-                    <span class='kw'>let</span> (<span class='ident'>space_glyph_id</span>, <span class='ident'>space_advance</span>) <span class='op'>=</span> <span class='ident'>glyph_space_advance</span>(<span class='ident'>font</span>);
+                    <span class='kw'>let</span> (<span class='ident'>space_glyph_id</span>, <span class='ident'>space_advance</span>) <span class='op'>=</span> <span class='ident'>glyph_space_advance</span>(<span class='self'>self</span>.<span class='ident'>font</span>);
                     <span class='kw'>let</span> <span class='ident'>advance</span> <span class='op'>=</span> <span class='ident'>Au</span>::<span class='ident'>from_f64_px</span>(<span class='ident'>space_advance</span>) <span class='op'>*</span> <span class='ident'>TAB_COLS</span>;
                     <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>GlyphData</span>::<span class='ident'>new</span>(<span class='ident'>space_glyph_id</span>,
                                               <span class='ident'>advance</span>,
@@ -1160,7 +1028,7 @@
     }
 }
 
-<span class='kw'>fn</span> <span class='ident'>glyph_space_advance</span>(<span class='ident'>font</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>Font</span>) <span class='op'>-&gt;</span> (<span class='ident'>hb_codepoint_t</span>, <span class='ident'>f64</span>) {
+<span class='kw'>fn</span> <span class='ident'>glyph_space_advance</span>(<span class='ident'>font</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Font</span>) <span class='op'>-&gt;</span> (<span class='ident'>hb_codepoint_t</span>, <span class='ident'>f64</span>) {
     <span class='kw'>let</span> <span class='ident'>space_unicode</span> <span class='op'>=</span> <span class='string'>&#39; &#39;</span>;
     <span class='kw'>let</span> <span class='ident'>space_glyph</span>: <span class='ident'>hb_codepoint_t</span>;
     <span class='kw'>match</span> <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='ident'>font</span>).<span class='ident'>glyph_index</span>(<span class='ident'>space_unicode</span>) } {
@@ -1195,13 +1063,11 @@
                               <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>hb_blob_t</span> {
     <span class='kw'>unsafe</span> {
         <span class='comment'>// NB: These asserts have security implications.</span>
-        <span class='kw'>let</span> <span class='ident'>font_and_shaping_options</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>FontAndShapingOptions</span> <span class='op'>=</span>
-            <span class='ident'>user_data</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>FontAndShapingOptions</span>;
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>font_and_shaping_options</span>.<span class='ident'>is_null</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span>(<span class='op'>*</span><span class='ident'>font_and_shaping_options</span>).<span class='ident'>font</span>.<span class='ident'>is_null</span>());
+        <span class='kw'>let</span> <span class='ident'>font</span> <span class='op'>=</span> <span class='ident'>user_data</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Font</span>;
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>font</span>.<span class='ident'>is_null</span>());
 
         <span class='comment'>// TODO(Issue #197): reuse font table data, which will change the unsound trickery here.</span>
-        <span class='kw'>match</span> (<span class='op'>*</span>(<span class='op'>*</span><span class='ident'>font_and_shaping_options</span>).<span class='ident'>font</span>).<span class='ident'>table_for_tag</span>(<span class='ident'>tag</span> <span class='kw'>as</span> <span class='ident'>FontTableTag</span>) {
+        <span class='kw'>match</span> (<span class='op'>*</span><span class='ident'>font</span>).<span class='ident'>table_for_tag</span>(<span class='ident'>tag</span> <span class='kw'>as</span> <span class='ident'>FontTableTag</span>) {
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>(),
             <span class='prelude-val'>Some</span>(<span class='ident'>font_table</span>) <span class='op'>=&gt;</span> {
                 <span class='comment'>// `Box::into_raw` intentionally leaks the FontTable so we don&#39;t destroy the buffer</span>
