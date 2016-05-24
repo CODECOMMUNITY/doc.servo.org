@@ -753,11 +753,6 @@
 <span id="709">709</span>
 <span id="710">710</span>
 <span id="711">711</span>
-<span id="712">712</span>
-<span id="713">713</span>
-<span id="714">714</span>
-<span id="715">715</span>
-<span id="716">716</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -958,17 +953,12 @@
                 <span class='kw'>for</span> (<span class='ident'>byte_index</span>, <span class='ident'>character</span>) <span class='kw'>in</span> <span class='ident'>text</span>.<span class='ident'>char_indices</span>() {
                     <span class='comment'>// Search for the first font in this font group that contains a glyph for this</span>
                     <span class='comment'>// character.</span>
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>font_index</span> <span class='op'>=</span> <span class='number'>0</span>;
+                    <span class='kw'>let</span> <span class='ident'>font_index</span> <span class='op'>=</span> <span class='ident'>fontgroup</span>.<span class='ident'>fonts</span>.<span class='ident'>iter</span>().<span class='ident'>position</span>(<span class='op'>|</span><span class='ident'>font</span><span class='op'>|</span> {
+                        <span class='ident'>font</span>.<span class='ident'>borrow</span>().<span class='ident'>glyph_index</span>(<span class='ident'>character</span>).<span class='ident'>is_some</span>()
+                    }).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
+
                     <span class='comment'>// The following code panics one way or another if this condition isn&#39;t met.</span>
                     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>fontgroup</span>.<span class='ident'>fonts</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span>);
-                    <span class='kw'>while</span> <span class='ident'>font_index</span> <span class='op'>&lt;</span> <span class='ident'>fontgroup</span>.<span class='ident'>fonts</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span> {
-                        <span class='kw'>if</span> <span class='ident'>fontgroup</span>.<span class='ident'>fonts</span>.<span class='ident'>get</span>(<span class='ident'>font_index</span>).<span class='ident'>unwrap</span>().<span class='ident'>borrow</span>()
-                                          .<span class='ident'>glyph_index</span>(<span class='ident'>character</span>)
-                                          .<span class='ident'>is_some</span>() {
-                            <span class='kw'>break</span>
-                        }
-                        <span class='ident'>font_index</span> <span class='op'>+=</span> <span class='number'>1</span>;
-                    }
 
                     <span class='kw'>let</span> <span class='ident'>bidi_level</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>bidi_levels</span> {
                         <span class='prelude-val'>Some</span>(<span class='ident'>levels</span>) <span class='op'>=&gt;</span> <span class='ident'>levels</span>[<span class='op'>*</span><span class='ident'>paragraph_bytes_processed</span>],
