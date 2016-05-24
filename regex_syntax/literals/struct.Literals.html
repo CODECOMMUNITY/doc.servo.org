@@ -70,7 +70,7 @@ the limits can be tweaked.</p>
 <table><tr class='stab '>
                              <td id='structfield.lits'><code>lits</code></td><td></td></tr><tr class='stab '>
                              <td id='structfield.limit_size'><code>limit_size</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.limit_class'><code>limit_class</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../regex_syntax/struct.Literals.html' title='regex_syntax::Literals'>Literals</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-70' class='srclink' href='../../src/regex_syntax/literals.rs.html#50-507' title='goto source code'>[src]</a></span></h3>
+                             <td id='structfield.limit_class'><code>limit_class</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../regex_syntax/struct.Literals.html' title='regex_syntax::Literals'>Literals</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-70' class='srclink' href='../../src/regex_syntax/literals.rs.html#50-523' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.empty' class='method'><code>fn <a href='#method.empty' class='fnname'>empty</a>() -&gt; <a class='struct' href='../../regex_syntax/struct.Literals.html' title='regex_syntax::Literals'>Literals</a></code></h4>
 <div class='docblock'><p>Returns a new empty set of literals using default limits.</p>
 </div><h4 id='method.limit_size' class='method'><code>fn <a href='#method.limit_size' class='fnname'>limit_size</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></h4>
@@ -184,7 +184,13 @@ big.</p>
 <div class='docblock'><p>Extends each literal in this set with the character class given.</p>
 
 <p>Returns false if the character class was too big to add.</p>
-</div><h4 id='method.add_byte_class' class='method'><code>fn <a href='#method.add_byte_class' class='fnname'>add_byte_class</a>(&amp;mut self, cls: &amp;<a class='struct' href='../../regex_syntax/struct.ByteClass.html' title='regex_syntax::ByteClass'>ByteClass</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+</div><h4 id='method.add_char_class_reverse' class='method'><code>fn <a href='#method.add_char_class_reverse' class='fnname'>add_char_class_reverse</a>(&amp;mut self, cls: &amp;<a class='struct' href='../../regex_syntax/struct.CharClass.html' title='regex_syntax::CharClass'>CharClass</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Extends each literal in this set with the character class given,
+writing the bytes of each character in reverse.</p>
+
+<p>Returns false if the character class was too big to add.</p>
+</div><h4 id='method._add_char_class' class='method'><code>fn <a href='#method._add_char_class' class='fnname'>_add_char_class</a>(&amp;mut self, cls: &amp;<a class='struct' href='../../regex_syntax/struct.CharClass.html' title='regex_syntax::CharClass'>CharClass</a>, reverse: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.add_byte_class' class='method'><code>fn <a href='#method.add_byte_class' class='fnname'>add_byte_class</a>(&amp;mut self, cls: &amp;<a class='struct' href='../../regex_syntax/struct.ByteClass.html' title='regex_syntax::ByteClass'>ByteClass</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Extends each literal in this set with the byte class given.</p>
 
 <p>Returns false if the byte class was too big to add.</p>
@@ -204,7 +210,7 @@ be extended.</p>
 set to exceed its limits.</p>
 
 <p>The size given should correspond to the number of items in the class.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../regex_syntax/struct.Literals.html' title='regex_syntax::Literals'>Literals</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-313' class='srclink' href='../../src/regex_syntax/literals.rs.html#790-798' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../regex_syntax/struct.Literals.html' title='regex_syntax::Literals'>Literals</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-322' class='srclink' href='../../src/regex_syntax/literals.rs.html#808-816' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 </div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='struct' href='../../regex_syntax/struct.Literals.html' title='regex_syntax::Literals'>Literals</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-16' class='srclink' href='../../src/regex_syntax/literals.rs.html#33' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../../core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../regex_syntax/struct.Literals.html' title='regex_syntax::Literals'>Literals</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/immeta-0.3.3/src/generic.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/immeta-0.3.4/src/generic.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>generic.rs.html -- source</title>
@@ -368,7 +368,6 @@
 <span id="324">324</span>
 <span id="325">325</span>
 <span id="326">326</span>
-<span id="327">327</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufRead</span>, <span class='ident'>Cursor</span>, <span class='ident'>Seek</span>, <span class='ident'>SeekFrom</span>, <span class='ident'>BufReader</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
@@ -407,7 +406,7 @@
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// `MetadataMarker::Metadata` associated type always points to concrete metadata type</span>
-<span class='doccomment'>/// from one of `immeta::formats` submodule.</span>
+<span class='doccomment'>/// from one of `immeta::formats` submodules.</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>markers</span> {
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufRead</span>, <span class='ident'>Seek</span>};
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
@@ -417,7 +416,7 @@
     <span class='kw'>use</span> <span class='ident'>types</span>::<span class='prelude-ty'>Result</span>;
     <span class='kw'>use</span> <span class='ident'>formats</span>::{<span class='ident'>jpeg</span>, <span class='ident'>png</span>, <span class='ident'>gif</span>, <span class='ident'>webp</span>};
 
-    <span class='doccomment'>/// A marker trait for specific metadata type.</span>
+    <span class='doccomment'>/// A marker trait for a specific metadata type.</span>
     <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>MetadataMarker</span> {
         <span class='kw'>type</span> <span class='ident'>Metadata</span>;
 
@@ -655,30 +654,29 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load</span><span class='op'>&lt;</span><span class='ident'>R</span>: ?<span class='ident'>Sized</span> <span class='op'>+</span> <span class='ident'>BufRead</span> <span class='op'>+</span> <span class='ident'>Seek</span><span class='op'>&gt;</span>(<span class='ident'>r</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>GenericMetadata</span><span class='op'>&gt;</span> {
     <span class='comment'>// try png</span>
     <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>Start</span>(<span class='number'>0</span>)));
-    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>md</span>) <span class='op'>=</span> <span class='ident'>png</span>::<span class='ident'>Metadata</span>::<span class='ident'>load</span>(<span class='ident'>r</span>) {
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>md</span>) <span class='op'>=</span> <span class='ident'>png</span>::<span class='ident'>Metadata</span>::<span class='ident'>load_from_seek</span>(<span class='ident'>r</span>) {
         <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>GenericMetadata</span>::<span class='ident'>Png</span>(<span class='ident'>md</span>));
     }
 
     <span class='comment'>// try gif</span>
     <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>Start</span>(<span class='number'>0</span>)));
-    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>md</span>) <span class='op'>=</span> <span class='ident'>gif</span>::<span class='ident'>Metadata</span>::<span class='ident'>load</span>(<span class='ident'>r</span>) {
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>md</span>) <span class='op'>=</span> <span class='ident'>gif</span>::<span class='ident'>Metadata</span>::<span class='ident'>load_from_seek</span>(<span class='ident'>r</span>) {
         <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>GenericMetadata</span>::<span class='ident'>Gif</span>(<span class='ident'>md</span>));
     }
 
     <span class='comment'>// try webp</span>
     <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>Start</span>(<span class='number'>0</span>)));
-    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>md</span>) <span class='op'>=</span> <span class='ident'>webp</span>::<span class='ident'>Metadata</span>::<span class='ident'>load</span>(<span class='ident'>r</span>) {
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>md</span>) <span class='op'>=</span> <span class='ident'>webp</span>::<span class='ident'>Metadata</span>::<span class='ident'>load_from_seek</span>(<span class='ident'>r</span>) {
         <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>GenericMetadata</span>::<span class='ident'>Webp</span>(<span class='ident'>md</span>));
     }
 
     <span class='comment'>// try jpeg</span>
-    <span class='comment'>// should be the last because JPEG can&#39;t be determined from its header (since it has none)</span>
     <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>Start</span>(<span class='number'>0</span>)));
-    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>md</span>) <span class='op'>=</span> <span class='ident'>jpeg</span>::<span class='ident'>Metadata</span>::<span class='ident'>load</span>(<span class='ident'>r</span>) {
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>md</span>) <span class='op'>=</span> <span class='ident'>jpeg</span>::<span class='ident'>Metadata</span>::<span class='ident'>load_from_seek</span>(<span class='ident'>r</span>) {
         <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>GenericMetadata</span>::<span class='ident'>Jpeg</span>(<span class='ident'>md</span>));
     }
 
-    <span class='prelude-val'>Err</span>(<span class='macro'>invalid_format</span><span class='macro'>!</span>(<span class='string'>&quot;unknown or unsupported file type&quot;</span>))
+    <span class='prelude-val'>Err</span>(<span class='macro'>invalid_format</span><span class='macro'>!</span>(<span class='string'>&quot;unknown or unsupported image type&quot;</span>))
 }
 
 <span class='doccomment'>/// Attempts to load metadata for an image contained in a file identified by the provided path.</span>

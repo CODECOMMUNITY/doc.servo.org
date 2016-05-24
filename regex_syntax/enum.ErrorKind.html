@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-2121' class='srclink' href='../src/regex_syntax/lib.rs.html#1238-1331' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-2139' class='srclink' href='../src/regex_syntax/lib.rs.html#1249-1346' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum ErrorKind {
     DoubleFlagNegation,
     DuplicateCaptureName(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>),
@@ -87,6 +87,7 @@
     StackExhausted,
     FlagNotAllowed(<a class='primitive' href='../std/primitive.char.html'>char</a>),
     UnicodeNotAllowed,
+    InvalidUtf8,
     __Nonexhaustive,
 }</pre><div class='docblock'><p>The specific type of parse error that can occur.</p>
 </div><h2 class='variants'>Variants</h2>
@@ -139,23 +140,26 @@ repeated. e.g., <code>a+*</code> or <code>a|*</code>.</p>
 <p>(N.B. This error exists because traversing the Expr is recursive and
 an explicit heap allocated stack is not (yet?) used. Regardless, some
 sort of limit must be applied to avoid unbounded memory growth.</p>
-</div></td><td></td></tr><tr><td id='variant.FlagNotAllowed'><code>FlagNotAllowed</code></td><td><div class='docblock'><p>A disallowed flag was found (e.g., <code>b</code>).</p>
-</div></td><td></td></tr><tr><td id='variant.UnicodeNotAllowed'><code>UnicodeNotAllowed</code></td><td><div class='docblock'><p>A Unicode class was used when the bytes (<code>b</code>) flag was enabled.</p>
+</div></td><td></td></tr><tr><td id='variant.FlagNotAllowed'><code>FlagNotAllowed</code></td><td><div class='docblock'><p>A disallowed flag was found (e.g., <code>u</code>).</p>
+</div></td><td></td></tr><tr><td id='variant.UnicodeNotAllowed'><code>UnicodeNotAllowed</code></td><td><div class='docblock'><p>A Unicode class was used when the Unicode (<code>u</code>) flag was disabled.</p>
+</div></td><td></td></tr><tr><td id='variant.InvalidUtf8'><code>InvalidUtf8</code></td><td><div class='docblock'><p>InvalidUtf8 indicates that the expression may match non-UTF-8 bytes.
+This never returned if the parser is permitted to allow expressions
+that match arbitrary bytes.</p>
 </div></td><td></td></tr><tr><td id='variant.__Nonexhaustive'><code>__Nonexhaustive</code></td><td><div class='docblock'><p>Hints that destructuring should not be exhaustive.</p>
 
 <p>This enum may grow additional variants, so this makes sure clients
 don&#39;t count on exhaustive matching. (Otherwise, adding a new variant
 could break existing code.)</p>
-</div></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2323' class='srclink' href='../src/regex_syntax/lib.rs.html#1349-1388' title='goto source code'>[src]</a></span></h3>
+</div></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2343' class='srclink' href='../src/regex_syntax/lib.rs.html#1364-1404' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.description' class='method'><code>fn <a href='#method.description' class='fnname'>description</a>(&amp;self) -&gt; &amp;<a class='primitive' href='../std/primitive.str.html'>str</a></code></h4>
-</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a> for <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2360' class='srclink' href='../src/regex_syntax/lib.rs.html#1408-1495' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a> for <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2381' class='srclink' href='../src/regex_syntax/lib.rs.html#1424-1513' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
-</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2171' class='srclink' href='../src/regex_syntax/lib.rs.html#1237' title='goto source code'>[src]</a></span></h3>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2190' class='srclink' href='../src/regex_syntax/lib.rs.html#1248' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a>) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
 <h4 id='method.ne' class='method'><code>fn <a href='../core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a>) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
-</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2246' class='srclink' href='../src/regex_syntax/lib.rs.html#1237' title='goto source code'>[src]</a></span></h3>
+</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2265' class='srclink' href='../src/regex_syntax/lib.rs.html#1248' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
-</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2299' class='srclink' href='../src/regex_syntax/lib.rs.html#1237' title='goto source code'>[src]</a></span></h3>
+</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2319' class='srclink' href='../src/regex_syntax/lib.rs.html#1248' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../regex_syntax/enum.ErrorKind.html' title='regex_syntax::ErrorKind'>ErrorKind</a></code></h4>
 <h4 id='method.clone_from' class='method'><code>fn <a href='../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class="since">1.0.0</div></h4>
 </div></section>
