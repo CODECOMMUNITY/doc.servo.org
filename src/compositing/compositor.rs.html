@@ -2631,15 +2631,12 @@
 <span id="2587">2587</span>
 <span id="2588">2588</span>
 <span id="2589">2589</span>
-<span id="2590">2590</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>AnimationTickType</span>;
 <span class='kw'>use</span> <span class='ident'>CompositionPipeline</span>;
-<span class='kw'>use</span> <span class='ident'>CompositorMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>;
 <span class='kw'>use</span> <span class='ident'>SendableFrameTree</span>;
 <span class='kw'>use</span> <span class='ident'>app_units</span>::<span class='ident'>Au</span>;
 <span class='kw'>use</span> <span class='ident'>compositor_layer</span>::{<span class='ident'>CompositorData</span>, <span class='ident'>CompositorLayer</span>, <span class='ident'>RcCompositorLayer</span>, <span class='ident'>WantsScrollEventsFlag</span>};
@@ -2672,8 +2669,9 @@
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>::{<span class='self'>self</span>, <span class='ident'>ReportKind</span>, <span class='ident'>Reporter</span>, <span class='ident'>ReporterRequest</span>};
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>::{<span class='self'>self</span>, <span class='ident'>ProfilerCategory</span>, <span class='ident'>profile</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>CompositorEvent</span>::{<span class='ident'>MouseMoveEvent</span>, <span class='ident'>MouseButtonEvent</span>, <span class='ident'>TouchEvent</span>};
-<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>ConstellationControlMsg</span>, <span class='ident'>LayoutControlMsg</span>};
-<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>MouseButton</span>, <span class='ident'>MouseEventType</span>, <span class='ident'>TouchpadPressurePhase</span>, <span class='ident'>TouchEventType</span>, <span class='ident'>TouchId</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>AnimationTickType</span>, <span class='ident'>ConstellationControlMsg</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ConstellationMsg</span>, <span class='ident'>LayoutControlMsg</span>, <span class='ident'>MouseButton</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>MouseEventType</span>, <span class='ident'>TouchpadPressurePhase</span>, <span class='ident'>TouchEventType</span>, <span class='ident'>TouchId</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>hash_map</span>::<span class='ident'>Entry</span>::{<span class='ident'>Occupied</span>, <span class='ident'>Vacant</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::{<span class='ident'>HashMap</span>, <span class='ident'>HashSet</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;

@@ -2161,10 +2161,9 @@
 <span class='kw'>use</span> <span class='ident'>canvas</span>::<span class='ident'>webgl_paint_thread</span>::<span class='ident'>WebGLPaintThread</span>;
 <span class='kw'>use</span> <span class='ident'>canvas_traits</span>::<span class='ident'>CanvasMsg</span>;
 <span class='kw'>use</span> <span class='ident'>clipboard</span>::<span class='ident'>ClipboardContext</span>;
-<span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>CompositorMsg</span> <span class='kw'>as</span> <span class='ident'>FromCompositorMsg</span>;
+<span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>SendableFrameTree</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>compositor_thread</span>::<span class='ident'>CompositorProxy</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>compositor_thread</span>::<span class='ident'>Msg</span> <span class='kw'>as</span> <span class='ident'>ToCompositorMsg</span>;
-<span class='kw'>use</span> <span class='ident'>compositing</span>::{<span class='ident'>AnimationTickType</span>, <span class='ident'>SendableFrameTree</span>};
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::{<span class='ident'>ChromeToDevtoolsControlMsg</span>, <span class='ident'>DevtoolsControlMsg</span>};
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>scale_factor</span>::<span class='ident'>ScaleFactor</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::{<span class='ident'>Size2D</span>, <span class='ident'>TypedSize2D</span>};
@@ -2197,7 +2196,8 @@
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>random</span>, <span class='ident'>Rng</span>, <span class='ident'>SeedableRng</span>, <span class='ident'>StdRng</span>};
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
 <span class='kw'>use</span> <span class='ident'>sandboxing</span>::<span class='ident'>content_process_sandbox_profile</span>;
-<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>CompositorEvent</span>, <span class='ident'>ConstellationControlMsg</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>AnimationTickType</span>, <span class='ident'>CompositorEvent</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ConstellationControlMsg</span>, <span class='ident'>ConstellationMsg</span> <span class='kw'>as</span> <span class='ident'>FromCompositorMsg</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>DocumentState</span>, <span class='ident'>LayoutControlMsg</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>IFrameLoadInfo</span>, <span class='ident'>IFrameSandboxState</span>, <span class='ident'>TimerEventRequest</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>LayoutMsg</span> <span class='kw'>as</span> <span class='ident'>FromLayoutMsg</span>, <span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>FromScriptMsg</span>, <span class='ident'>ScriptThreadFactory</span>};

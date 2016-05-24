@@ -535,6 +535,53 @@
 <span id="491">491</span>
 <span id="492">492</span>
 <span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -579,9 +626,10 @@
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>LayerId</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>libc</span>::<span class='ident'>c_void</span>;
-<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>Key</span>, <span class='ident'>KeyModifiers</span>, <span class='ident'>KeyState</span>, <span class='ident'>LoadData</span>};
-<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>, <span class='ident'>PipelineNamespaceId</span>};
-<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>SubpageId</span>, <span class='ident'>WindowSizeData</span>, <span class='ident'>WindowSizeType</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameId</span>, <span class='ident'>Key</span>, <span class='ident'>KeyModifiers</span>, <span class='ident'>KeyState</span>, <span class='ident'>LoadData</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>NavigationDirection</span>, <span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PipelineNamespaceId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>WindowSizeData</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>WebDriverCommandMsg</span>, <span class='ident'>WindowSizeType</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>webdriver_msg</span>::<span class='ident'>WebDriverScriptCommand</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>ResourceThreads</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>bluetooth_thread</span>::<span class='ident'>BluetoothMethodMsg</span>;
@@ -589,6 +637,8 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>response</span>::<span class='ident'>HttpsState</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>any</span>::<span class='ident'>Any</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
+<span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>ipc</span>::<span class='ident'>OptionalOpaqueIpcSender</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>script_msg</span>::{<span class='ident'>LayoutMsg</span>, <span class='ident'>ScriptMsg</span>};
@@ -1028,6 +1078,50 @@
             <span class='ident'>MozBrowserErrorType</span>::<span class='ident'>Fatal</span> <span class='op'>=&gt;</span> <span class='string'>&quot;fatal&quot;</span>,
         }
     }
+}
+
+<span class='doccomment'>/// Specifies whether the script or layout thread needs to be ticked for animation.</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AnimationTickType</span> {
+    <span class='doccomment'>/// The script thread.</span>
+    <span class='ident'>Script</span>,
+    <span class='doccomment'>/// The layout thread.</span>
+    <span class='ident'>Layout</span>,
+}
+
+<span class='doccomment'>/// Messages to the constellation.</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ConstellationMsg</span> {
+    <span class='doccomment'>/// Exit the constellation.</span>
+    <span class='ident'>Exit</span>,
+    <span class='doccomment'>/// Inform the constellation of the size of the viewport.</span>
+    <span class='ident'>FrameSize</span>(<span class='ident'>PipelineId</span>, <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>),
+    <span class='doccomment'>/// Request that the constellation send the FrameId corresponding to the document</span>
+    <span class='doccomment'>/// with the provided pipeline id</span>
+    <span class='ident'>GetFrame</span>(<span class='ident'>PipelineId</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FrameId</span><span class='op'>&gt;&gt;</span>),
+    <span class='doccomment'>/// Request that the constellation send the current pipeline id for the provided frame</span>
+    <span class='doccomment'>/// id, or for the root frame if this is None, over a provided channel.</span>
+    <span class='doccomment'>/// Also returns a boolean saying whether the document has finished loading or not.</span>
+    <span class='ident'>GetPipeline</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FrameId</span><span class='op'>&gt;</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>bool</span>)<span class='op'>&gt;&gt;</span>),
+    <span class='doccomment'>/// Requests that the constellation inform the compositor of the title of the pipeline</span>
+    <span class='doccomment'>/// immediately.</span>
+    <span class='ident'>GetPipelineTitle</span>(<span class='ident'>PipelineId</span>),
+    <span class='doccomment'>/// Request to load the initial page.</span>
+    <span class='ident'>InitLoadUrl</span>(<span class='ident'>Url</span>),
+    <span class='doccomment'>/// Query the constellation to see if the current compositor output is stable</span>
+    <span class='ident'>IsReadyToSaveImage</span>(<span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>PipelineId</span>, <span class='ident'>Epoch</span><span class='op'>&gt;</span>),
+    <span class='doccomment'>/// Inform the constellation of a key event.</span>
+    <span class='ident'>KeyEvent</span>(<span class='ident'>Key</span>, <span class='ident'>KeyState</span>, <span class='ident'>KeyModifiers</span>),
+    <span class='doccomment'>/// Request to load a page.</span>
+    <span class='ident'>LoadUrl</span>(<span class='ident'>PipelineId</span>, <span class='ident'>LoadData</span>),
+    <span class='doccomment'>/// Request to navigate a frame.</span>
+    <span class='ident'>Navigate</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>)<span class='op'>&gt;</span>, <span class='ident'>NavigationDirection</span>),
+    <span class='doccomment'>/// Inform the constellation of a window being resized.</span>
+    <span class='ident'>WindowSize</span>(<span class='ident'>WindowSizeData</span>, <span class='ident'>WindowSizeType</span>),
+    <span class='doccomment'>/// Requests that the constellation instruct layout to begin a new tick of the animation.</span>
+    <span class='ident'>TickAnimation</span>(<span class='ident'>PipelineId</span>, <span class='ident'>AnimationTickType</span>),
+    <span class='doccomment'>/// Dispatch a webdriver command</span>
+    <span class='ident'>WebDriverCommand</span>(<span class='ident'>WebDriverCommandMsg</span>),
 }
 </pre>
 </section>

@@ -564,8 +564,6 @@
 <span id="520">520</span>
 <span id="521">521</span>
 <span id="522">522</span>
-<span id="523">523</span>
-<span id="524">524</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -699,7 +697,6 @@
             .<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline main chan&quot;</span>);;
         <span class='kw'>let</span> (<span class='ident'>script_to_compositor_chan</span>, <span class='ident'>script_to_compositor_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>()
             .<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline script to compositor chan&quot;</span>);
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pipeline_port</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline_port</span>);
 
         <span class='kw'>let</span> <span class='ident'>window_size</span> <span class='op'>=</span> <span class='ident'>state</span>.<span class='ident'>window_size</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>size</span><span class='op'>|</span> {
             <span class='ident'>WindowSizeData</span> {
@@ -728,7 +725,7 @@
         <span class='kw'>let</span> (<span class='ident'>layout_content_process_shutdown_chan</span>, <span class='ident'>layout_content_process_shutdown_port</span>) <span class='op'>=</span>
             <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline layout content shutdown chan&quot;</span>);
 
-        <span class='kw'>let</span> (<span class='ident'>script_chan</span>, <span class='ident'>script_port</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>state</span>.<span class='ident'>script_chan</span> {
+        <span class='kw'>let</span> (<span class='ident'>script_chan</span>, <span class='ident'>script_port</span>, <span class='ident'>pipeline_port</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>state</span>.<span class='ident'>script_chan</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>script_chan</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> (<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>) <span class='op'>=</span>
                     <span class='ident'>state</span>.<span class='ident'>parent_info</span>.<span class='ident'>expect</span>(<span class='string'>&quot;script_pipeline != None but subpage_id == None&quot;</span>);
@@ -739,8 +736,7 @@
                     <span class='ident'>load_data</span>: <span class='ident'>state</span>.<span class='ident'>load_data</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>paint_chan</span>: <span class='ident'>layout_to_paint_chan</span>.<span class='ident'>clone</span>().<span class='ident'>to_opaque</span>(),
                     <span class='ident'>panic_chan</span>: <span class='ident'>state</span>.<span class='ident'>panic_chan</span>.<span class='ident'>clone</span>(),
-                    <span class='ident'>pipeline_port</span>: <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>pipeline_port</span>, <span class='prelude-val'>None</span>)
-                        .<span class='ident'>expect</span>(<span class='string'>&quot;script_pipeline != None but pipeline_port == None&quot;</span>),
+                    <span class='ident'>pipeline_port</span>: <span class='ident'>pipeline_port</span>,
                     <span class='ident'>layout_shutdown_chan</span>: <span class='ident'>layout_shutdown_chan</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>content_process_shutdown_chan</span>: <span class='ident'>layout_content_process_shutdown_chan</span>.<span class='ident'>clone</span>(),
                 };
@@ -748,11 +744,11 @@
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationControlMsg</span>::<span class='ident'>AttachLayout</span>(<span class='ident'>new_layout_info</span>)) {
                     <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Sending to script during pipeline creation failed ({})&quot;</span>, <span class='ident'>e</span>);
                 }
-                (<span class='ident'>script_chan</span>, <span class='prelude-val'>None</span>)
+                (<span class='ident'>script_chan</span>, <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>)
             }
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> (<span class='ident'>script_chan</span>, <span class='ident'>script_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline script chan&quot;</span>);
-                (<span class='ident'>script_chan</span>, <span class='prelude-val'>Some</span>(<span class='ident'>script_port</span>))
+                (<span class='ident'>script_chan</span>, <span class='prelude-val'>Some</span>(<span class='ident'>script_port</span>), <span class='prelude-val'>Some</span>(<span class='ident'>pipeline_port</span>))
             }
         };
 
