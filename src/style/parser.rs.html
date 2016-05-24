@@ -89,6 +89,40 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -97,20 +131,47 @@
 
 <span class='kw'>use</span> <span class='ident'>cssparser</span>::{<span class='ident'>Parser</span>, <span class='ident'>SourcePosition</span>};
 <span class='kw'>use</span> <span class='ident'>error_reporting</span>::<span class='ident'>ParseErrorReporter</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;gecko&quot;</span>)]</span>
+<span class='kw'>use</span> <span class='ident'>gecko_bindings</span>::<span class='ident'>ptr</span>::{<span class='ident'>GeckoArcPrincipal</span>, <span class='ident'>GeckoArcURI</span>};
 <span class='kw'>use</span> <span class='ident'>selectors</span>::<span class='ident'>parser</span>::<span class='ident'>ParserContext</span> <span class='kw'>as</span> <span class='ident'>SelectorParserContext</span>;
 <span class='kw'>use</span> <span class='ident'>stylesheets</span>::<span class='ident'>Origin</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;gecko&quot;</span>))]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ParserContextExtraData</span>;
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;gecko&quot;</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ParserContextExtraData</span> {
+    <span class='kw'>pub</span> <span class='ident'>base</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>GeckoArcURI</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>referrer</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>GeckoArcURI</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>principal</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>GeckoArcPrincipal</span><span class='op'>&gt;</span>,
+}
+
+<span class='kw'>impl</span> <span class='ident'>ParserContextExtraData</span> {
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;gecko&quot;</span>))]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='ident'>ParserContextExtraData</span> {
+        <span class='ident'>ParserContextExtraData</span>
+    }
+
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;gecko&quot;</span>)]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='ident'>ParserContextExtraData</span> {
+        <span class='ident'>ParserContextExtraData</span> { <span class='ident'>base</span>: <span class='prelude-val'>None</span>, <span class='ident'>referrer</span>: <span class='prelude-val'>None</span>, <span class='ident'>principal</span>: <span class='prelude-val'>None</span> }
+    }
+}
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ParserContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='kw'>pub</span> <span class='ident'>stylesheet_origin</span>: <span class='ident'>Origin</span>,
     <span class='kw'>pub</span> <span class='ident'>base_url</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Url</span>,
     <span class='kw'>pub</span> <span class='ident'>selector_context</span>: <span class='ident'>SelectorParserContext</span>,
     <span class='kw'>pub</span> <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>extra_data</span>: <span class='ident'>ParserContextExtraData</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>ParserContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>stylesheet_origin</span>: <span class='ident'>Origin</span>, <span class='ident'>base_url</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Url</span>, <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>)
-               <span class='op'>-&gt;</span> <span class='ident'>ParserContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_with_extra_data</span>(<span class='ident'>stylesheet_origin</span>: <span class='ident'>Origin</span>, <span class='ident'>base_url</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Url</span>,
+                               <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
+                               <span class='ident'>extra_data</span>: <span class='ident'>ParserContextExtraData</span>)
+                               <span class='op'>-&gt;</span> <span class='ident'>ParserContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>selector_context</span> <span class='op'>=</span> <span class='ident'>SelectorParserContext</span>::<span class='ident'>new</span>();
         <span class='ident'>selector_context</span>.<span class='ident'>in_user_agent_stylesheet</span> <span class='op'>=</span> <span class='ident'>stylesheet_origin</span> <span class='op'>==</span> <span class='ident'>Origin</span>::<span class='ident'>UserAgent</span>;
         <span class='ident'>ParserContext</span> {
@@ -118,7 +179,14 @@
             <span class='ident'>base_url</span>: <span class='ident'>base_url</span>,
             <span class='ident'>selector_context</span>: <span class='ident'>selector_context</span>,
             <span class='ident'>error_reporter</span>: <span class='ident'>error_reporter</span>,
+            <span class='ident'>extra_data</span>: <span class='ident'>extra_data</span>,
         }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>stylesheet_origin</span>: <span class='ident'>Origin</span>, <span class='ident'>base_url</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Url</span>, <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>)
+               <span class='op'>-&gt;</span> <span class='ident'>ParserContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>extra_data</span> <span class='op'>=</span> <span class='ident'>ParserContextExtraData</span>::<span class='ident'>default</span>();
+        <span class='ident'>ParserContext</span>::<span class='ident'>new_with_extra_data</span>(<span class='ident'>stylesheet_origin</span>, <span class='ident'>base_url</span>, <span class='ident'>error_reporter</span>, <span class='ident'>extra_data</span>)
     }
 }
 

@@ -548,6 +548,11 @@
 <span id="504">504</span>
 <span id="505">505</span>
 <span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -559,7 +564,7 @@
 <span class='kw'>use</span> <span class='ident'>error_reporting</span>::<span class='ident'>ParseErrorReporter</span>;
 <span class='kw'>use</span> <span class='ident'>font_face</span>::{<span class='ident'>FontFaceRule</span>, <span class='ident'>parse_font_face_block</span>};
 <span class='kw'>use</span> <span class='ident'>media_queries</span>::{<span class='ident'>Device</span>, <span class='ident'>MediaQueryList</span>, <span class='ident'>parse_media_query_list</span>};
-<span class='kw'>use</span> <span class='ident'>parser</span>::{<span class='ident'>ParserContext</span>, <span class='ident'>log_css_error</span>};
+<span class='kw'>use</span> <span class='ident'>parser</span>::{<span class='ident'>ParserContext</span>, <span class='ident'>ParserContextExtraData</span>, <span class='ident'>log_css_error</span>};
 <span class='kw'>use</span> <span class='ident'>properties</span>::{<span class='ident'>PropertyDeclarationBlock</span>, <span class='ident'>parse_property_declaration_list</span>};
 <span class='kw'>use</span> <span class='ident'>selectors</span>::<span class='ident'>parser</span>::{<span class='ident'>Selector</span>, <span class='ident'>SelectorImpl</span>, <span class='ident'>parse_selector_list</span>};
 <span class='kw'>use</span> <span class='ident'>smallvec</span>::<span class='ident'>SmallVec</span>;
@@ -634,32 +639,37 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_bytes_iter</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>(
             <span class='ident'>input</span>: <span class='ident'>I</span>, <span class='ident'>base_url</span>: <span class='ident'>Url</span>, <span class='ident'>protocol_encoding_label</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span>,
             <span class='ident'>environment_encoding</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>EncodingRef</span><span class='op'>&gt;</span>, <span class='ident'>origin</span>: <span class='ident'>Origin</span>,
-            <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Stylesheet</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span> {
+            <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
+            <span class='ident'>extra_data</span>: <span class='ident'>ParserContextExtraData</span>) <span class='op'>-&gt;</span> <span class='ident'>Stylesheet</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
         <span class='comment'>// TODO: incremental decoding and tokenization/parsing</span>
         <span class='kw'>for</span> <span class='ident'>chunk</span> <span class='kw'>in</span> <span class='ident'>input</span> {
             <span class='ident'>bytes</span>.<span class='ident'>extend_from_slice</span>(<span class='kw-2'>&amp;</span><span class='ident'>chunk</span>)
         }
         <span class='ident'>Stylesheet</span>::<span class='ident'>from_bytes</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>, <span class='ident'>base_url</span>, <span class='ident'>protocol_encoding_label</span>,
-                               <span class='ident'>environment_encoding</span>, <span class='ident'>origin</span>, <span class='ident'>error_reporter</span>)
+                               <span class='ident'>environment_encoding</span>, <span class='ident'>origin</span>, <span class='ident'>error_reporter</span>,
+                               <span class='ident'>extra_data</span>)
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_bytes</span>(<span class='ident'>bytes</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
                       <span class='ident'>base_url</span>: <span class='ident'>Url</span>,
                       <span class='ident'>protocol_encoding_label</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span>,
                       <span class='ident'>environment_encoding</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>EncodingRef</span><span class='op'>&gt;</span>,
-                      <span class='ident'>origin</span>: <span class='ident'>Origin</span>, <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>)
+                      <span class='ident'>origin</span>: <span class='ident'>Origin</span>, <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
+                      <span class='ident'>extra_data</span>: <span class='ident'>ParserContextExtraData</span>)
                       <span class='op'>-&gt;</span> <span class='ident'>Stylesheet</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span> {
         <span class='comment'>// TODO: bytes.as_slice could be bytes.container_as_bytes()</span>
         <span class='kw'>let</span> (<span class='ident'>string</span>, _) <span class='op'>=</span> <span class='ident'>decode_stylesheet_bytes</span>(
             <span class='ident'>bytes</span>, <span class='ident'>protocol_encoding_label</span>, <span class='ident'>environment_encoding</span>);
-        <span class='ident'>Stylesheet</span>::<span class='ident'>from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>string</span>, <span class='ident'>base_url</span>, <span class='ident'>origin</span>, <span class='ident'>error_reporter</span>)
+        <span class='ident'>Stylesheet</span>::<span class='ident'>from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>string</span>, <span class='ident'>base_url</span>, <span class='ident'>origin</span>, <span class='ident'>error_reporter</span>, <span class='ident'>extra_data</span>)
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_str</span>(<span class='ident'>css</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>base_url</span>: <span class='ident'>Url</span>, <span class='ident'>origin</span>: <span class='ident'>Origin</span>,
-                    <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Stylesheet</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span> {
+                    <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
+                    <span class='ident'>extra_data</span>: <span class='ident'>ParserContextExtraData</span>) <span class='op'>-&gt;</span> <span class='ident'>Stylesheet</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>rule_parser</span> <span class='op'>=</span> <span class='ident'>TopLevelRuleParser</span> {
-            <span class='ident'>context</span>: <span class='ident'>ParserContext</span>::<span class='ident'>new</span>(<span class='ident'>origin</span>, <span class='kw-2'>&amp;</span><span class='ident'>base_url</span>, <span class='ident'>error_reporter</span>.<span class='ident'>clone</span>()),
+            <span class='ident'>context</span>: <span class='ident'>ParserContext</span>::<span class='ident'>new_with_extra_data</span>(<span class='ident'>origin</span>, <span class='kw-2'>&amp;</span><span class='ident'>base_url</span>, <span class='ident'>error_reporter</span>.<span class='ident'>clone</span>(),
+                                                        <span class='ident'>extra_data</span>),
             <span class='ident'>state</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>State</span>::<span class='ident'>Start</span>),
             <span class='ident'>_impl</span>: <span class='ident'>PhantomData</span>,
         };
