@@ -47,14 +47,13 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3517' class='srclink' href='../src/script_traits/lib.rs.html#301-337' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3534' class='srclink' href='../src/script_traits/lib.rs.html#303-337' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct InitialScriptState {
     pub id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
     pub parent_info: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a><a class='primitive' href='../std/primitive.tuple.html'>)</a>&gt;,
     pub control_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;,
     pub control_port: <a class='struct' href='../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;,
     pub constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.ScriptMsg.html' title='script_traits::ScriptMsg'>ScriptMsg</a>&gt;,
-    pub layout_to_constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.LayoutMsg.html' title='script_traits::LayoutMsg'>LayoutMsg</a>&gt;,
     pub panic_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='type' href='../msg/constellation_msg/type.PanicMsg.html' title='msg::constellation_msg::PanicMsg'>PanicMsg</a>&gt;,
     pub scheduler_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../script_traits/struct.TimerEventRequest.html' title='script_traits::TimerEventRequest'>TimerEventRequest</a>&gt;,
     pub resource_threads: <a class='struct' href='../net_traits/struct.ResourceThreads.html' title='net_traits::ResourceThreads'>ResourceThreads</a>,
@@ -82,8 +81,6 @@ If <code>None</code>, this is the root.</p>
                              <td id='structfield.control_port'><code>control_port</code></td><td><div class='docblock'><p>A port on which messages sent by the constellation to script can be received.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.constellation_chan'><code>constellation_chan</code></td><td><div class='docblock'><p>A channel on which messages can be sent to the constellation from script.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.layout_to_constellation_chan'><code>layout_to_constellation_chan</code></td><td><div class='docblock'><p>A channel for the layout thread to send messages to the constellation.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.panic_chan'><code>panic_chan</code></td><td><div class='docblock'><p>A channel for sending panics to the constellation.</p>
 </div></td></tr><tr class='stab '>

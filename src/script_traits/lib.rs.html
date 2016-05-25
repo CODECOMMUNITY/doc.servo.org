@@ -643,6 +643,8 @@
     <span class='kw'>pub</span> <span class='ident'>pipeline_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>LayoutControlMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel for sending panics on</span>
     <span class='kw'>pub</span> <span class='ident'>panic_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// A sender for the layout thread to communicate to the constellation.</span>
+    <span class='kw'>pub</span> <span class='ident'>layout_to_constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A shutdown channel so that layout can notify others when it&#39;s done.</span>
     <span class='kw'>pub</span> <span class='ident'>layout_shutdown_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
     <span class='doccomment'>/// A shutdown channel so that layout can tell the content process to shut down when it&#39;s done.</span>
@@ -853,8 +855,6 @@
     <span class='kw'>pub</span> <span class='ident'>control_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel on which messages can be sent to the constellation from script.</span>
     <span class='kw'>pub</span> <span class='ident'>constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ScriptMsg</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// A channel for the layout thread to send messages to the constellation.</span>
-    <span class='kw'>pub</span> <span class='ident'>layout_to_constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel for sending panics to the constellation.</span>
     <span class='kw'>pub</span> <span class='ident'>panic_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel to schedule timer events.</span>
