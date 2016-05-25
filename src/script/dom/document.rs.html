@@ -2912,20 +2912,11 @@
 <span id="2868">2868</span>
 <span id="2869">2869</span>
 <span id="2870">2870</span>
-<span id="2871">2871</span>
-<span id="2872">2872</span>
-<span id="2873">2873</span>
-<span id="2874">2874</span>
-<span id="2875">2875</span>
-<span id="2876">2876</span>
-<span id="2877">2877</span>
-<span id="2878">2878</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>devtools_traits</span>::<span class='ident'>CSSError</span>;
 <span class='kw'>use</span> <span class='ident'>document_loader</span>::{<span class='ident'>DocumentLoader</span>, <span class='ident'>LoadType</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>activation</span>::{<span class='ident'>ActivationSource</span>, <span class='ident'>synthetic_click_activation</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::{<span class='ident'>Attr</span>, <span class='ident'>AttrValue</span>};
@@ -3155,8 +3146,6 @@
     <span class='ident'>dom_complete</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>,
     <span class='ident'>load_event_start</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>,
     <span class='ident'>load_event_end</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// Vector to store CSS errors</span>
-    <span class='ident'>css_errors_store</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>CSSError</span><span class='op'>&gt;&gt;</span>,
     <span class='doccomment'>/// https://html.spec.whatwg.org/multipage/#concept-document-https-state</span>
     <span class='ident'>https_state</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>HttpsState</span><span class='op'>&gt;</span>,
     <span class='ident'>touchpad_pressure_phase</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>TouchpadPressurePhase</span><span class='op'>&gt;</span>,
@@ -3253,10 +3242,6 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_https_state</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>https_state</span>: <span class='ident'>HttpsState</span>) {
         <span class='self'>self</span>.<span class='ident'>https_state</span>.<span class='ident'>set</span>(<span class='ident'>https_state</span>);
         <span class='self'>self</span>.<span class='ident'>trigger_mozbrowser_event</span>(<span class='ident'>MozBrowserEvent</span>::<span class='ident'>SecurityChange</span>(<span class='ident'>https_state</span>));
-    }
-
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>report_css_error</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>css_error</span>: <span class='ident'>CSSError</span>) {
-        <span class='self'>self</span>.<span class='ident'>css_errors_store</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>css_error</span>);
     }
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#fully-active</span>
@@ -4628,7 +4613,6 @@
             <span class='ident'>dom_complete</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>()),
             <span class='ident'>load_event_start</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>()),
             <span class='ident'>load_event_end</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>()),
-            <span class='ident'>css_errors_store</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[]),
             <span class='ident'>https_state</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>HttpsState</span>::<span class='prelude-val'>None</span>),
             <span class='ident'>touchpad_pressure_phase</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>TouchpadPressurePhase</span>::<span class='ident'>BeforeClick</span>),
             <span class='ident'>origin</span>: <span class='ident'>origin</span>,

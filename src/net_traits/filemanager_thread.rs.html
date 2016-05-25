@@ -85,6 +85,9 @@
 <span id="41">41</span>
 <span id="42">42</span>
 <span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -94,7 +97,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
 <span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SelectedFile</span> {
     <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>Uuid</span>,
     <span class='kw'>pub</span> <span class='ident'>filename</span>: <span class='ident'>PathBuf</span>,
@@ -116,6 +119,9 @@
 
     <span class='doccomment'>/// Delete the FileID entry</span>
     <span class='ident'>DeleteFileID</span>(<span class='ident'>Uuid</span>),
+
+    <span class='doccomment'>/// Shut down this thread</span>
+    <span class='ident'>Exit</span>,
 }
 
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>FileManagerThreadError</span><span class='op'>&gt;</span>;

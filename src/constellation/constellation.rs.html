@@ -2145,6 +2145,12 @@
 <span id="2101">2101</span>
 <span id="2102">2102</span>
 <span id="2103">2103</span>
+<span id="2104">2104</span>
+<span id="2105">2105</span>
+<span id="2106">2106</span>
+<span id="2107">2107</span>
+<span id="2108">2108</span>
+<span id="2109">2109</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2186,6 +2192,7 @@
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='self'>self</span>, <span class='ident'>PanicMsg</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>webdriver_msg</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>bluetooth_thread</span>::<span class='ident'>BluetoothMethodMsg</span>;
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::<span class='ident'>FileManagerThreadMsg</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::<span class='ident'>ImageCacheThread</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::<span class='ident'>StorageThreadMsg</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='self'>self</span>, <span class='ident'>ResourceThreads</span>, <span class='ident'>IpcSend</span>};
@@ -2998,6 +3005,11 @@
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>StorageThreadMsg</span>::<span class='ident'>Exit</span>) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit storage thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }
+
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>Exit</span>) {
+            <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit storage thread failed ({})&quot;</span>, <span class='ident'>e</span>);
+        }
+
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>bluetooth_thread</span>.<span class='ident'>send</span>(<span class='ident'>BluetoothMethodMsg</span>::<span class='ident'>Exit</span>) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit bluetooth thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }

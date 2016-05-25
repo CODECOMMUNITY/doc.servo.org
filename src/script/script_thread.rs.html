@@ -2090,8 +2090,6 @@
 <span id="2046">2046</span>
 <span id="2047">2047</span>
 <span id="2048">2048</span>
-<span id="2049">2049</span>
-<span id="2050">2050</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -4066,29 +4064,27 @@
 
     <span class='kw'>fn</span> <span class='ident'>handle_css_error_reporting</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>filename</span>: <span class='ident'>String</span>,
                                   <span class='ident'>line</span>: <span class='ident'>usize</span>, <span class='ident'>column</span>: <span class='ident'>usize</span>, <span class='ident'>msg</span>: <span class='ident'>String</span>) {
+        <span class='kw'>let</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>devtools_chan</span> {
+            <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>sender</span>) <span class='op'>=&gt;</span> <span class='ident'>sender</span>,
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
+        };
+
         <span class='kw'>let</span> <span class='ident'>parent_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>();
         <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>parent_context</span>.<span class='ident'>find</span>(<span class='ident'>pipeline_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>context</span>) <span class='op'>=&gt;</span> <span class='ident'>context</span>,
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
         };
 
-        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
-        <span class='kw'>let</span> <span class='ident'>css_error</span> <span class='op'>=</span> <span class='ident'>CSSError</span> {
-            <span class='ident'>filename</span>: <span class='ident'>filename</span>,
-            <span class='ident'>line</span>: <span class='ident'>line</span>,
-            <span class='ident'>column</span>: <span class='ident'>column</span>,
-            <span class='ident'>msg</span>: <span class='ident'>msg</span>
-        };
-
-        <span class='ident'>document</span>.<span class='ident'>report_css_error</span>(<span class='ident'>css_error</span>.<span class='ident'>clone</span>());
         <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_window</span>();
-
         <span class='kw'>if</span> <span class='ident'>window</span>.<span class='ident'>live_devtools_updates</span>() {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>chan</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>devtools_chan</span> {
-                <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>ScriptToDevtoolsControlMsg</span>::<span class='ident'>ReportCSSError</span>(
-                    <span class='ident'>pipeline_id</span>,
-                    <span class='ident'>css_error</span>)).<span class='ident'>unwrap</span>();
-             }
+            <span class='kw'>let</span> <span class='ident'>css_error</span> <span class='op'>=</span> <span class='ident'>CSSError</span> {
+                <span class='ident'>filename</span>: <span class='ident'>filename</span>,
+                <span class='ident'>line</span>: <span class='ident'>line</span>,
+                <span class='ident'>column</span>: <span class='ident'>column</span>,
+                <span class='ident'>msg</span>: <span class='ident'>msg</span>
+            };
+            <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='ident'>ScriptToDevtoolsControlMsg</span>::<span class='ident'>ReportCSSError</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>css_error</span>);
+            <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='ident'>message</span>).<span class='ident'>unwrap</span>();
         }
     }
 }
