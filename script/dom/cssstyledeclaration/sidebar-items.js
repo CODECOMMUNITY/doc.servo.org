@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["CSSModificationAccess",""]],"fn":[["serialize_shorthand",""]],"struct":[["CSSStyleDeclaration",""]]});
+initSidebarItems({"enum":[["CSSModificationAccess",""]],"struct":[["CSSStyleDeclaration",""]]});

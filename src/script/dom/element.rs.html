@@ -2581,6 +2581,62 @@
 <span id="2537">2537</span>
 <span id="2538">2538</span>
 <span id="2539">2539</span>
+<span id="2540">2540</span>
+<span id="2541">2541</span>
+<span id="2542">2542</span>
+<span id="2543">2543</span>
+<span id="2544">2544</span>
+<span id="2545">2545</span>
+<span id="2546">2546</span>
+<span id="2547">2547</span>
+<span id="2548">2548</span>
+<span id="2549">2549</span>
+<span id="2550">2550</span>
+<span id="2551">2551</span>
+<span id="2552">2552</span>
+<span id="2553">2553</span>
+<span id="2554">2554</span>
+<span id="2555">2555</span>
+<span id="2556">2556</span>
+<span id="2557">2557</span>
+<span id="2558">2558</span>
+<span id="2559">2559</span>
+<span id="2560">2560</span>
+<span id="2561">2561</span>
+<span id="2562">2562</span>
+<span id="2563">2563</span>
+<span id="2564">2564</span>
+<span id="2565">2565</span>
+<span id="2566">2566</span>
+<span id="2567">2567</span>
+<span id="2568">2568</span>
+<span id="2569">2569</span>
+<span id="2570">2570</span>
+<span id="2571">2571</span>
+<span id="2572">2572</span>
+<span id="2573">2573</span>
+<span id="2574">2574</span>
+<span id="2575">2575</span>
+<span id="2576">2576</span>
+<span id="2577">2577</span>
+<span id="2578">2578</span>
+<span id="2579">2579</span>
+<span id="2580">2580</span>
+<span id="2581">2581</span>
+<span id="2582">2582</span>
+<span id="2583">2583</span>
+<span id="2584">2584</span>
+<span id="2585">2585</span>
+<span id="2586">2586</span>
+<span id="2587">2587</span>
+<span id="2588">2588</span>
+<span id="2589">2589</span>
+<span id="2590">2590</span>
+<span id="2591">2591</span>
+<span id="2592">2592</span>
+<span id="2593">2593</span>
+<span id="2594">2594</span>
+<span id="2595">2595</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2589,7 +2645,7 @@
 <span class='doccomment'>//! Element nodes.</span>
 
 <span class='kw'>use</span> <span class='ident'>app_units</span>::<span class='ident'>Au</span>;
-<span class='kw'>use</span> <span class='ident'>cssparser</span>::<span class='ident'>Color</span>;
+<span class='kw'>use</span> <span class='ident'>cssparser</span>::{<span class='ident'>Color</span>, <span class='ident'>ToCss</span>};
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::<span class='ident'>AttrInfo</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>activation</span>::<span class='ident'>Activatable</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::<span class='ident'>AttrValue</span>;
@@ -3282,89 +3338,145 @@
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>remove_inline_style_property</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>property</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inline_declarations</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>style_attribute</span>.<span class='ident'>borrow_mut</span>();
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>declarations</span>) <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>inline_declarations</span> {
-            <span class='kw'>let</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='ident'>declarations</span>.<span class='ident'>normal</span>
-                                    .<span class='ident'>iter</span>()
-                                    .<span class='ident'>position</span>(<span class='op'>|</span><span class='ident'>decl</span><span class='op'>|</span> <span class='ident'>decl</span>.<span class='ident'>matches</span>(<span class='ident'>property</span>));
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>index</span>) <span class='op'>=</span> <span class='ident'>index</span> {
-                <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>normal</span>).<span class='ident'>remove</span>(<span class='ident'>index</span>);
-                <span class='kw'>return</span>;
-            }
+    <span class='comment'>// this sync method is called upon modification of the style_attribute property,</span>
+    <span class='comment'>// therefore, it should not trigger subsequent mutation events</span>
+    <span class='kw'>fn</span> <span class='ident'>sync_property_with_attrs_style</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='kw'>let</span> <span class='ident'>style_str</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>declarations</span>) <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>style_attribute</span>().<span class='ident'>borrow</span>() {
+            <span class='ident'>declarations</span>.<span class='ident'>to_css_string</span>()
+        } <span class='kw'>else</span> {
+            <span class='ident'>String</span>::<span class='ident'>new</span>()
+        };
 
-            <span class='kw'>let</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='ident'>declarations</span>.<span class='ident'>important</span>
-                                    .<span class='ident'>iter</span>()
-                                    .<span class='ident'>position</span>(<span class='op'>|</span><span class='ident'>decl</span><span class='op'>|</span> <span class='ident'>decl</span>.<span class='ident'>matches</span>(<span class='ident'>property</span>));
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>index</span>) <span class='op'>=</span> <span class='ident'>index</span> {
-                <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>important</span>).<span class='ident'>remove</span>(<span class='ident'>index</span>);
-                <span class='kw'>return</span>;
-            }
-        }
-    }
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new_style</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>String</span>(<span class='ident'>style_str</span>);
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>update_inline_style</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                               <span class='ident'>property_decl</span>: <span class='ident'>PropertyDeclaration</span>,
-                               <span class='ident'>style_priority</span>: <span class='ident'>StylePriority</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inline_declarations</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>style_attribute</span>().<span class='ident'>borrow_mut</span>();
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>declarations</span>) <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>inline_declarations</span> {
-            <span class='kw'>let</span> <span class='ident'>existing_declarations</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>style_priority</span> <span class='op'>==</span> <span class='ident'>StylePriority</span>::<span class='ident'>Important</span> {
-                <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>important</span>
-            } <span class='kw'>else</span> {
-                <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>normal</span>
-            };
-
-            <span class='comment'>// Usually, the reference count will be 1 here. But transitions could make it greater</span>
-            <span class='comment'>// than that.</span>
-            <span class='kw'>let</span> <span class='ident'>existing_declarations</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='ident'>existing_declarations</span>);
-            <span class='kw'>for</span> <span class='ident'>declaration</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>existing_declarations</span> {
-                <span class='kw'>if</span> <span class='ident'>declaration</span>.<span class='ident'>name</span>() <span class='op'>==</span> <span class='ident'>property_decl</span>.<span class='ident'>name</span>() {
-                    <span class='op'>*</span><span class='ident'>declaration</span> <span class='op'>=</span> <span class='ident'>property_decl</span>;
-                    <span class='kw'>return</span>;
-                }
-            }
-            <span class='ident'>existing_declarations</span>.<span class='ident'>push</span>(<span class='ident'>property_decl</span>);
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>style_attr</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>attrs</span>.<span class='ident'>borrow</span>().<span class='ident'>iter</span>().<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>a</span><span class='op'>|</span> <span class='ident'>a</span>.<span class='ident'>name</span>() <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;style&quot;</span>)) {
+            <span class='ident'>style_attr</span>.<span class='ident'>swap_value</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>new_style</span>);
             <span class='kw'>return</span>;
         }
 
-        <span class='kw'>let</span> (<span class='ident'>important</span>, <span class='ident'>normal</span>) <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>style_priority</span> <span class='op'>==</span> <span class='ident'>StylePriority</span>::<span class='ident'>Important</span> {
-            (<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>property_decl</span>], <span class='macro'>vec</span><span class='macro'>!</span>[])
-        } <span class='kw'>else</span> {
-            (<span class='macro'>vec</span><span class='macro'>!</span>[], <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>property_decl</span>])
-        };
+        <span class='comment'>// explicitly not calling the push_new_attribute convenience method</span>
+        <span class='comment'>// in order to avoid triggering mutation events</span>
+        <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>);
+        <span class='kw'>let</span> <span class='ident'>attr</span> <span class='op'>=</span> <span class='ident'>Attr</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>window</span>,
+                             <span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;style&quot;</span>),
+                             <span class='ident'>new_style</span>,
+                             <span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;style&quot;</span>),
+                             <span class='macro'>ns</span><span class='macro'>!</span>(),
+                             <span class='prelude-val'>Some</span>(<span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;style&quot;</span>)),
+                             <span class='prelude-val'>Some</span>(<span class='self'>self</span>));
 
-        <span class='op'>*</span><span class='ident'>inline_declarations</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>PropertyDeclarationBlock</span> {
-            <span class='ident'>important</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>important</span>),
-            <span class='ident'>normal</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>normal</span>),
-        });
+         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>attr</span>.<span class='ident'>GetOwnerElement</span>().<span class='ident'>r</span>() <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>));
+         <span class='self'>self</span>.<span class='ident'>attrs</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>JS</span>::<span class='ident'>from_ref</span>(<span class='kw-2'>&amp;</span><span class='ident'>attr</span>));
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>remove_inline_style_property</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>property</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) {
+        <span class='kw'>fn</span> <span class='ident'>remove</span>(<span class='ident'>element</span>: <span class='kw-2'>&amp;</span><span class='ident'>Element</span>, <span class='ident'>property</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inline_declarations</span> <span class='op'>=</span> <span class='ident'>element</span>.<span class='ident'>style_attribute</span>.<span class='ident'>borrow_mut</span>();
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>declarations</span>) <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>inline_declarations</span> {
+                <span class='kw'>let</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='ident'>declarations</span>.<span class='ident'>normal</span>
+                                        .<span class='ident'>iter</span>()
+                                        .<span class='ident'>position</span>(<span class='op'>|</span><span class='ident'>decl</span><span class='op'>|</span> <span class='ident'>decl</span>.<span class='ident'>matches</span>(<span class='ident'>property</span>));
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>index</span>) <span class='op'>=</span> <span class='ident'>index</span> {
+                    <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>normal</span>).<span class='ident'>remove</span>(<span class='ident'>index</span>);
+                    <span class='kw'>return</span>;
+                }
+
+                <span class='kw'>let</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='ident'>declarations</span>.<span class='ident'>important</span>
+                                        .<span class='ident'>iter</span>()
+                                        .<span class='ident'>position</span>(<span class='op'>|</span><span class='ident'>decl</span><span class='op'>|</span> <span class='ident'>decl</span>.<span class='ident'>matches</span>(<span class='ident'>property</span>));
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>index</span>) <span class='op'>=</span> <span class='ident'>index</span> {
+                    <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>important</span>).<span class='ident'>remove</span>(<span class='ident'>index</span>);
+                    <span class='kw'>return</span>;
+                }
+            }
+        }
+
+        <span class='ident'>remove</span>(<span class='self'>self</span>, <span class='ident'>property</span>);
+        <span class='self'>self</span>.<span class='ident'>sync_property_with_attrs_style</span>();
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>update_inline_style</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
+                               <span class='ident'>declarations</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PropertyDeclaration</span><span class='op'>&gt;</span>,
+                               <span class='ident'>style_priority</span>: <span class='ident'>StylePriority</span>) {
+
+        <span class='kw'>fn</span> <span class='ident'>update</span>(<span class='ident'>element</span>: <span class='kw-2'>&amp;</span><span class='ident'>Element</span>, <span class='kw-2'>mut</span> <span class='ident'>declarations</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PropertyDeclaration</span><span class='op'>&gt;</span>, <span class='ident'>style_priority</span>: <span class='ident'>StylePriority</span>) {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inline_declarations</span> <span class='op'>=</span> <span class='ident'>element</span>.<span class='ident'>style_attribute</span>().<span class='ident'>borrow_mut</span>();
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>existing_declarations</span>) <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>inline_declarations</span> {
+                <span class='kw'>let</span> <span class='ident'>existing_declarations</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>style_priority</span> <span class='op'>==</span> <span class='ident'>StylePriority</span>::<span class='ident'>Important</span> {
+                    <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>existing_declarations</span>.<span class='ident'>important</span>
+                } <span class='kw'>else</span> {
+                    <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>existing_declarations</span>.<span class='ident'>normal</span>
+                };
+
+                <span class='comment'>// Usually, the reference count will be 1 here. But transitions could make it greater</span>
+                <span class='comment'>// than that.</span>
+                <span class='kw'>let</span> <span class='ident'>existing_declarations</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='ident'>existing_declarations</span>);
+
+                <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>mut</span> <span class='ident'>incoming_declaration</span>) <span class='op'>=</span> <span class='ident'>declarations</span>.<span class='ident'>pop</span>() {
+                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>replaced</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+                    <span class='kw'>for</span> <span class='ident'>existing_declaration</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>existing_declarations</span> {
+                        <span class='kw'>if</span> <span class='ident'>existing_declaration</span>.<span class='ident'>name</span>() <span class='op'>==</span> <span class='ident'>incoming_declaration</span>.<span class='ident'>name</span>() {
+                            <span class='ident'>mem</span>::<span class='ident'>swap</span>(<span class='ident'>existing_declaration</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>incoming_declaration</span>);
+                            <span class='ident'>replaced</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                            <span class='kw'>break</span>;
+                        }
+                    }
+
+                    <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>replaced</span> {
+                        <span class='comment'>// inserting instead of pushing since the declarations are in reverse order</span>
+                        <span class='ident'>existing_declarations</span>.<span class='ident'>insert</span>(<span class='number'>0</span>, <span class='ident'>incoming_declaration</span>);
+                    }
+                }
+
+                <span class='kw'>return</span>;
+            }
+
+            <span class='kw'>let</span> (<span class='ident'>important</span>, <span class='ident'>normal</span>) <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>style_priority</span> <span class='op'>==</span> <span class='ident'>StylePriority</span>::<span class='ident'>Important</span> {
+                (<span class='ident'>declarations</span>, <span class='macro'>vec</span><span class='macro'>!</span>[])
+            } <span class='kw'>else</span> {
+                (<span class='macro'>vec</span><span class='macro'>!</span>[], <span class='ident'>declarations</span>)
+            };
+
+            <span class='op'>*</span><span class='ident'>inline_declarations</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>PropertyDeclarationBlock</span> {
+                <span class='ident'>important</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>important</span>),
+                <span class='ident'>normal</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>normal</span>),
+            });
+        }
+
+        <span class='ident'>update</span>(<span class='self'>self</span>, <span class='ident'>declarations</span>, <span class='ident'>style_priority</span>);
+        <span class='self'>self</span>.<span class='ident'>sync_property_with_attrs_style</span>();
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_inline_style_property_priority</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
                                               <span class='ident'>properties</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>],
                                               <span class='ident'>style_priority</span>: <span class='ident'>StylePriority</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inline_declarations</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>style_attribute</span>().<span class='ident'>borrow_mut</span>();
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>declarations</span>) <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>inline_declarations</span> {
-            <span class='kw'>let</span> (<span class='ident'>from</span>, <span class='ident'>to</span>) <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>style_priority</span> <span class='op'>==</span> <span class='ident'>StylePriority</span>::<span class='ident'>Important</span> {
-                (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>normal</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>important</span>)
-            } <span class='kw'>else</span> {
-                (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>important</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>normal</span>)
-            };
+        {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inline_declarations</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>style_attribute</span>().<span class='ident'>borrow_mut</span>();
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>declarations</span>) <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>inline_declarations</span> {
+              <span class='kw'>let</span> (<span class='ident'>from</span>, <span class='ident'>to</span>) <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>style_priority</span> <span class='op'>==</span> <span class='ident'>StylePriority</span>::<span class='ident'>Important</span> {
+                  (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>normal</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>important</span>)
+              } <span class='kw'>else</span> {
+                  (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>important</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>declarations</span>.<span class='ident'>normal</span>)
+              };
 
-            <span class='comment'>// Usually, the reference counts of `from` and `to` will be 1 here. But transitions</span>
-            <span class='comment'>// could make them greater than that.</span>
-            <span class='kw'>let</span> <span class='ident'>from</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='ident'>from</span>);
-            <span class='kw'>let</span> <span class='ident'>to</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='ident'>to</span>);
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new_from</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-            <span class='kw'>for</span> <span class='ident'>declaration</span> <span class='kw'>in</span> <span class='ident'>from</span>.<span class='ident'>drain</span>(..) {
-                <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>declaration</span>.<span class='ident'>name</span>();
-                <span class='kw'>if</span> <span class='ident'>properties</span>.<span class='ident'>iter</span>().<span class='ident'>any</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> <span class='ident'>name</span> <span class='op'>==</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>p</span>) {
-                    <span class='ident'>to</span>.<span class='ident'>push</span>(<span class='ident'>declaration</span>)
-                } <span class='kw'>else</span> {
-                    <span class='ident'>new_from</span>.<span class='ident'>push</span>(<span class='ident'>declaration</span>)
-                }
+              <span class='comment'>// Usually, the reference counts of `from` and `to` will be 1 here. But transitions</span>
+              <span class='comment'>// could make them greater than that.</span>
+              <span class='kw'>let</span> <span class='ident'>from</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='ident'>from</span>);
+              <span class='kw'>let</span> <span class='ident'>to</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>make_mut</span>(<span class='ident'>to</span>);
+              <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new_from</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+              <span class='kw'>for</span> <span class='ident'>declaration</span> <span class='kw'>in</span> <span class='ident'>from</span>.<span class='ident'>drain</span>(..) {
+                  <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>declaration</span>.<span class='ident'>name</span>();
+                  <span class='kw'>if</span> <span class='ident'>properties</span>.<span class='ident'>iter</span>().<span class='ident'>any</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> <span class='ident'>name</span> <span class='op'>==</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>p</span>) {
+                      <span class='ident'>to</span>.<span class='ident'>push</span>(<span class='ident'>declaration</span>)
+                  } <span class='kw'>else</span> {
+                      <span class='ident'>new_from</span>.<span class='ident'>push</span>(<span class='ident'>declaration</span>)
+                  }
+              }
+              <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='ident'>from</span>, <span class='ident'>new_from</span>);
             }
-            <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='ident'>from</span>, <span class='ident'>new_from</span>);
         }
+
+        <span class='self'>self</span>.<span class='ident'>sync_property_with_attrs_style</span>();
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_inline_style_declaration</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,

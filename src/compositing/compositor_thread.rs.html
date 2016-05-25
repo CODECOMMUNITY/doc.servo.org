@@ -311,54 +311,6 @@
 <span id="267">267</span>
 <span id="268">268</span>
 <span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
-<span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
-<span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
-<span id="279">279</span>
-<span id="280">280</span>
-<span id="281">281</span>
-<span id="282">282</span>
-<span id="283">283</span>
-<span id="284">284</span>
-<span id="285">285</span>
-<span id="286">286</span>
-<span id="287">287</span>
-<span id="288">288</span>
-<span id="289">289</span>
-<span id="290">290</span>
-<span id="291">291</span>
-<span id="292">292</span>
-<span id="293">293</span>
-<span id="294">294</span>
-<span id="295">295</span>
-<span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
-<span id="307">307</span>
-<span id="308">308</span>
-<span id="309">309</span>
-<span id="310">310</span>
-<span id="311">311</span>
-<span id="312">312</span>
-<span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -371,13 +323,13 @@
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>point</span>::<span class='ident'>Point2D</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::<span class='ident'>Size2D</span>;
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>Epoch</span>, <span class='ident'>FrameTreeId</span>, <span class='ident'>LayerId</span>, <span class='ident'>LayerProperties</span>, <span class='ident'>PaintListener</span>};
-<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
+<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
 <span class='kw'>use</span> <span class='ident'>layers</span>::<span class='ident'>layers</span>::{<span class='ident'>BufferRequest</span>, <span class='ident'>LayerBufferSet</span>};
 <span class='kw'>use</span> <span class='ident'>layers</span>::<span class='ident'>platform</span>::<span class='ident'>surface</span>::{<span class='ident'>NativeDisplay</span>, <span class='ident'>NativeSurface</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>Image</span>, <span class='ident'>Key</span>, <span class='ident'>KeyModifiers</span>, <span class='ident'>KeyState</span>, <span class='ident'>PipelineId</span>};
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>;
-<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>ConstellationMsg</span>, <span class='ident'>EventResult</span>, <span class='ident'>ScriptToCompositorMsg</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>ConstellationMsg</span>, <span class='ident'>EventResult</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='ident'>Debug</span>, <span class='ident'>Error</span>, <span class='ident'>Formatter</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>Receiver</span>, <span class='ident'>Sender</span>, <span class='ident'>channel</span>};
@@ -414,54 +366,6 @@
     }
     <span class='kw'>fn</span> <span class='ident'>recv_compositor_msg</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Msg</span> {
         <span class='self'>self</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>()
-    }
-}
-
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>run_script_listener_thread</span>(<span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
-                                  <span class='ident'>receiver</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>ScriptToCompositorMsg</span><span class='op'>&gt;</span>) {
-    <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>msg</span>) <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>() {
-        <span class='kw'>match</span> <span class='ident'>msg</span> {
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>ScrollFragmentPoint</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>layer_id</span>, <span class='ident'>point</span>, <span class='ident'>smooth</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>ScrollFragmentPoint</span>(<span class='ident'>pipeline_id</span>,
-                                                               <span class='ident'>layer_id</span>,
-                                                               <span class='ident'>point</span>,
-                                                               <span class='ident'>smooth</span>));
-            }
-
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>GetClientWindow</span>(<span class='ident'>send</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>GetClientWindow</span>(<span class='ident'>send</span>));
-            }
-
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>MoveTo</span>(<span class='ident'>point</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>MoveTo</span>(<span class='ident'>point</span>));
-            }
-
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>ResizeTo</span>(<span class='ident'>size</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>ResizeTo</span>(<span class='ident'>size</span>));
-            }
-
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>Exit</span> <span class='op'>=&gt;</span> {
-                <span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>Exit</span>);
-            }
-
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>SetTitle</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>title</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>ChangePageTitle</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>title</span>))
-            }
-
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>SendKeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>key_state</span>, <span class='ident'>key_modifiers</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>key_state</span>, <span class='ident'>key_modifiers</span>))
-            }
-
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>TouchEventProcessed</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>TouchEventProcessed</span>(<span class='ident'>result</span>))
-            }
-
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>GetScrollOffset</span>(<span class='ident'>pid</span>, <span class='ident'>lid</span>, <span class='ident'>send</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>GetScrollOffset</span>(<span class='ident'>pid</span>, <span class='ident'>lid</span>, <span class='ident'>send</span>));
-            }
-
-            <span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>Exited</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>,
-        }
     }
 }
 

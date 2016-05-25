@@ -3021,8 +3021,8 @@
 <span class='kw'>use</span> <span class='ident'>script_thread</span>::{<span class='ident'>MainThreadScriptMsg</span>, <span class='ident'>Runnable</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>UntrustedNodeAddress</span>;
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>MouseButton</span>, <span class='ident'>MouseEventType</span>, <span class='ident'>MozBrowserEvent</span>};
-<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>, <span class='ident'>ScriptToCompositorMsg</span>};
-<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>TouchpadPressurePhase</span>, <span class='ident'>TouchEventType</span>, <span class='ident'>TouchId</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>, <span class='ident'>TouchpadPressurePhase</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>TouchEventType</span>, <span class='ident'>TouchId</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>boxed</span>::<span class='ident'>FnBox</span>;
@@ -3551,10 +3551,10 @@
     <span class='doccomment'>/// Sends this document&#39;s title to the compositor.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_title_to_compositor</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>window</span>();
-        <span class='kw'>let</span> <span class='ident'>compositor</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>compositor</span>();
-        <span class='ident'>compositor</span>.<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>SetTitle</span>(<span class='ident'>window</span>.<span class='ident'>pipeline</span>(),
-                                                        <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='self'>self</span>.<span class='ident'>Title</span>()))))
-                  .<span class='ident'>unwrap</span>();
+        <span class='ident'>window</span>.<span class='ident'>constellation_chan</span>()
+              .<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>SetTitle</span>(<span class='ident'>window</span>.<span class='ident'>pipeline</span>(),
+                                               <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='self'>self</span>.<span class='ident'>Title</span>()))))
+              .<span class='ident'>unwrap</span>();
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dirty_all_nodes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
@@ -3964,7 +3964,7 @@
                               <span class='ident'>key</span>: <span class='ident'>Key</span>,
                               <span class='ident'>state</span>: <span class='ident'>KeyState</span>,
                               <span class='ident'>modifiers</span>: <span class='ident'>KeyModifiers</span>,
-                              <span class='ident'>compositor</span>: <span class='kw-2'>&amp;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ScriptToCompositorMsg</span><span class='op'>&gt;</span>) {
+                              <span class='ident'>constellation</span>: <span class='kw-2'>&amp;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>focused</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_focused_element</span>();
         <span class='kw'>let</span> <span class='ident'>body</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>GetBody</span>();
 
@@ -4039,7 +4039,7 @@
         }
 
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>prevented</span> {
-            <span class='ident'>compositor</span>.<span class='ident'>send</span>(<span class='ident'>ScriptToCompositorMsg</span>::<span class='ident'>SendKeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>)).<span class='ident'>unwrap</span>();
+            <span class='ident'>constellation</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>SendKeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>)).<span class='ident'>unwrap</span>();
         }
 
         <span class='comment'>// This behavior is unspecced</span>

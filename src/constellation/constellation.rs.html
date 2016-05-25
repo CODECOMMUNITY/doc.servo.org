@@ -2151,6 +2151,46 @@
 <span id="2107">2107</span>
 <span id="2108">2108</span>
 <span id="2109">2109</span>
+<span id="2110">2110</span>
+<span id="2111">2111</span>
+<span id="2112">2112</span>
+<span id="2113">2113</span>
+<span id="2114">2114</span>
+<span id="2115">2115</span>
+<span id="2116">2116</span>
+<span id="2117">2117</span>
+<span id="2118">2118</span>
+<span id="2119">2119</span>
+<span id="2120">2120</span>
+<span id="2121">2121</span>
+<span id="2122">2122</span>
+<span id="2123">2123</span>
+<span id="2124">2124</span>
+<span id="2125">2125</span>
+<span id="2126">2126</span>
+<span id="2127">2127</span>
+<span id="2128">2128</span>
+<span id="2129">2129</span>
+<span id="2130">2130</span>
+<span id="2131">2131</span>
+<span id="2132">2132</span>
+<span id="2133">2133</span>
+<span id="2134">2134</span>
+<span id="2135">2135</span>
+<span id="2136">2136</span>
+<span id="2137">2137</span>
+<span id="2138">2138</span>
+<span id="2139">2139</span>
+<span id="2140">2140</span>
+<span id="2141">2141</span>
+<span id="2142">2142</span>
+<span id="2143">2143</span>
+<span id="2144">2144</span>
+<span id="2145">2145</span>
+<span id="2146">2146</span>
+<span id="2147">2147</span>
+<span id="2148">2148</span>
+<span id="2149">2149</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2244,7 +2284,7 @@
 <span class='doccomment'>/// `ScriptThreadFactory` (which in practice are implemented by</span>
 <span class='doccomment'>/// `LayoutThread` in the `layout` crate, and `ScriptThread` in</span>
 <span class='doccomment'>/// the `script` crate).</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Constellation</span><span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Constellation</span><span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// A channel through which script messages can be sent to this object.</span>
     <span class='ident'>script_sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FromScriptMsg</span><span class='op'>&gt;</span>,
 
@@ -2321,7 +2361,7 @@
     <span class='doccomment'>/// A channel through which messages can be sent to the memory profiler.</span>
     <span class='ident'>mem_profiler_chan</span>: <span class='ident'>mem</span>::<span class='ident'>ProfilerChan</span>,
 
-    <span class='ident'>phantom</span>: <span class='ident'>PhantomData</span><span class='op'>&lt;</span>(<span class='ident'>LTF</span>, <span class='ident'>STF</span>)<span class='op'>&gt;</span>,
+    <span class='ident'>phantom</span>: <span class='ident'>PhantomData</span><span class='op'>&lt;</span>(<span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span>)<span class='op'>&gt;</span>,
 
     <span class='ident'>window_size</span>: <span class='ident'>WindowSizeData</span>,
 
@@ -2473,7 +2513,10 @@
     <span class='ident'>Unsandboxed</span>(<span class='ident'>process</span>::<span class='ident'>Child</span>),
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>LTF</span>: <span class='ident'>LayoutThreadFactory</span>, <span class='ident'>STF</span>: <span class='ident'>ScriptThreadFactory</span><span class='op'>&gt;</span> <span class='ident'>Constellation</span><span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span> <span class='ident'>Constellation</span><span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>
+    <span class='kw'>where</span> <span class='ident'>LTF</span>: <span class='ident'>LayoutThreadFactory</span><span class='op'>&lt;</span><span class='ident'>Message</span><span class='op'>=</span><span class='ident'>Message</span><span class='op'>&gt;</span>,
+          <span class='ident'>STF</span>: <span class='ident'>ScriptThreadFactory</span><span class='op'>&lt;</span><span class='ident'>Message</span><span class='op'>=</span><span class='ident'>Message</span><span class='op'>&gt;</span>
+{
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start</span>(<span class='ident'>state</span>: <span class='ident'>InitialConstellationState</span>) <span class='op'>-&gt;</span> <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>FromCompositorMsg</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> (<span class='ident'>ipc_script_sender</span>, <span class='ident'>ipc_script_receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;ipc channel failure&quot;</span>);
         <span class='kw'>let</span> <span class='ident'>script_receiver</span> <span class='op'>=</span> <span class='ident'>ROUTER</span>.<span class='ident'>route_ipc_receiver_to_new_mpsc_receiver</span>(<span class='ident'>ipc_script_receiver</span>);
@@ -2488,7 +2531,7 @@
         <span class='kw'>let</span> <span class='ident'>compositor_sender_clone</span> <span class='op'>=</span> <span class='ident'>compositor_sender</span>.<span class='ident'>clone</span>();
 
         <span class='ident'>spawn_named</span>(<span class='string'>&quot;Constellation&quot;</span>.<span class='ident'>to_owned</span>(), <span class='kw'>move</span> <span class='op'>||</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>constellation</span>: <span class='ident'>Constellation</span><span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Constellation</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>constellation</span>: <span class='ident'>Constellation</span><span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Constellation</span> {
                 <span class='ident'>script_sender</span>: <span class='ident'>ipc_script_sender</span>,
                 <span class='ident'>compositor_sender</span>: <span class='ident'>compositor_sender_clone</span>,
                 <span class='ident'>layout_sender</span>: <span class='ident'>ipc_layout_sender</span>,
@@ -2574,7 +2617,7 @@
                     <span class='ident'>initial_window_size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>PagePx</span>, <span class='ident'>f32</span><span class='op'>&gt;&gt;</span>,
                     <span class='ident'>script_channel</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;&gt;</span>,
                     <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>) {
-        <span class='kw'>let</span> <span class='ident'>spawning_paint_only</span> <span class='op'>=</span> <span class='ident'>script_channel</span>.<span class='ident'>is_some</span>();
+        <span class='kw'>let</span> <span class='ident'>spawning_content</span> <span class='op'>=</span> <span class='ident'>script_channel</span>.<span class='ident'>is_none</span>();
         <span class='kw'>let</span> (<span class='ident'>pipeline</span>, <span class='ident'>unprivileged_pipeline_content</span>, <span class='ident'>privileged_pipeline_content</span>) <span class='op'>=</span>
             <span class='ident'>Pipeline</span>::<span class='ident'>create</span>::<span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='ident'>InitialPipelineState</span> {
                 <span class='ident'>id</span>: <span class='ident'>pipeline_id</span>,
@@ -2599,18 +2642,16 @@
                 <span class='ident'>webrender_api_sender</span>: <span class='self'>self</span>.<span class='ident'>webrender_api_sender</span>.<span class='ident'>clone</span>(),
             });
 
-        <span class='kw'>if</span> <span class='ident'>spawning_paint_only</span> {
-            <span class='ident'>privileged_pipeline_content</span>.<span class='ident'>start_paint_thread</span>();
-        } <span class='kw'>else</span> {
-            <span class='ident'>privileged_pipeline_content</span>.<span class='ident'>start_all</span>();
+        <span class='ident'>privileged_pipeline_content</span>.<span class='ident'>start</span>();
 
+        <span class='kw'>if</span> <span class='ident'>spawning_content</span> {
             <span class='comment'>// Spawn the child process.</span>
             <span class='comment'>//</span>
             <span class='comment'>// Yes, that&#39;s all there is to it!</span>
             <span class='kw'>if</span> <span class='ident'>opts</span>::<span class='ident'>multiprocess</span>() {
                 <span class='self'>self</span>.<span class='ident'>spawn_multiprocess</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>unprivileged_pipeline_content</span>);
             } <span class='kw'>else</span> {
-                <span class='ident'>unprivileged_pipeline_content</span>.<span class='ident'>start_all</span>::<span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='boolvalue'>false</span>);
+                <span class='ident'>unprivileged_pipeline_content</span>.<span class='ident'>start_all</span>::<span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='boolvalue'>false</span>);
             }
         }
 
@@ -2961,6 +3002,45 @@
             <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>Alert</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>message</span>, <span class='ident'>sender</span>)) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got Alert message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_alert</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>message</span>, <span class='ident'>sender</span>);
+            }
+
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>ScrollFragmentPoint</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>layer_id</span>, <span class='ident'>point</span>, <span class='ident'>smooth</span>)) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>ScrollFragmentPoint</span>(<span class='ident'>pipeline_id</span>,
+                                                               <span class='ident'>layer_id</span>,
+                                                               <span class='ident'>point</span>,
+                                                               <span class='ident'>smooth</span>));
+            }
+
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>GetClientWindow</span>(<span class='ident'>send</span>)) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>GetClientWindow</span>(<span class='ident'>send</span>));
+            }
+
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>MoveTo</span>(<span class='ident'>point</span>)) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>MoveTo</span>(<span class='ident'>point</span>));
+            }
+
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>ResizeTo</span>(<span class='ident'>size</span>)) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>ResizeTo</span>(<span class='ident'>size</span>));
+            }
+
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>Exit</span>) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>Exit</span>);
+            }
+
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>SetTitle</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>title</span>)) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>ChangePageTitle</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>title</span>))
+            }
+
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>SendKeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>key_state</span>, <span class='ident'>key_modifiers</span>)) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>key_state</span>, <span class='ident'>key_modifiers</span>))
+            }
+
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>TouchEventProcessed</span>(<span class='ident'>result</span>)) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>TouchEventProcessed</span>(<span class='ident'>result</span>))
+            }
+
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>GetScrollOffset</span>(<span class='ident'>pid</span>, <span class='ident'>lid</span>, <span class='ident'>send</span>)) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>GetScrollOffset</span>(<span class='ident'>pid</span>, <span class='ident'>lid</span>, <span class='ident'>send</span>));
             }
 
 

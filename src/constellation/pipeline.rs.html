@@ -530,40 +530,6 @@
 <span id="486">486</span>
 <span id="487">487</span>
 <span id="488">488</span>
-<span id="489">489</span>
-<span id="490">490</span>
-<span id="491">491</span>
-<span id="492">492</span>
-<span id="493">493</span>
-<span id="494">494</span>
-<span id="495">495</span>
-<span id="496">496</span>
-<span id="497">497</span>
-<span id="498">498</span>
-<span id="499">499</span>
-<span id="500">500</span>
-<span id="501">501</span>
-<span id="502">502</span>
-<span id="503">503</span>
-<span id="504">504</span>
-<span id="505">505</span>
-<span id="506">506</span>
-<span id="507">507</span>
-<span id="508">508</span>
-<span id="509">509</span>
-<span id="510">510</span>
-<span id="511">511</span>
-<span id="512">512</span>
-<span id="513">513</span>
-<span id="514">514</span>
-<span id="515">515</span>
-<span id="516">516</span>
-<span id="517">517</span>
-<span id="518">518</span>
-<span id="519">519</span>
-<span id="520">520</span>
-<span id="521">521</span>
-<span id="522">522</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -571,7 +537,6 @@
 
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>CompositionPipeline</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>CompositorProxy</span>;
-<span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>compositor_thread</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>compositor_thread</span>::<span class='ident'>Msg</span> <span class='kw'>as</span> <span class='ident'>CompositorMsg</span>;
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::{<span class='ident'>DevtoolsControlMsg</span>, <span class='ident'>ScriptToDevtoolsControlMsg</span>};
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>scale_factor</span>::<span class='ident'>ScaleFactor</span>;
@@ -591,7 +556,7 @@
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>;
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ConstellationControlMsg</span>, <span class='ident'>InitialScriptState</span>, <span class='ident'>MozBrowserEvent</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>LayoutControlMsg</span>, <span class='ident'>LayoutMsg</span>, <span class='ident'>NewLayoutInfo</span>, <span class='ident'>ScriptMsg</span>};
-<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ScriptToCompositorMsg</span>, <span class='ident'>ScriptThreadFactory</span>, <span class='ident'>TimerEventRequest</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ScriptThreadFactory</span>, <span class='ident'>TimerEventRequest</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>Receiver</span>, <span class='ident'>Sender</span>, <span class='ident'>channel</span>};
@@ -601,7 +566,6 @@
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>ipc</span>::<span class='ident'>OptionalIpcSender</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>opts</span>::{<span class='self'>self</span>, <span class='ident'>Opts</span>};
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>::{<span class='self'>self</span>, <span class='ident'>Pref</span>};
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>thread</span>;
 <span class='kw'>use</span> <span class='ident'>webrender_traits</span>;
 
 <span class='doccomment'>/// A uniquely-identifiable pipeline of script thread, layout thread, and paint thread.</span>
@@ -695,8 +659,6 @@
             .<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline layout shutdown chan&quot;</span>);
         <span class='kw'>let</span> (<span class='ident'>pipeline_chan</span>, <span class='ident'>pipeline_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>()
             .<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline main chan&quot;</span>);;
-        <span class='kw'>let</span> (<span class='ident'>script_to_compositor_chan</span>, <span class='ident'>script_to_compositor_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>()
-            .<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline script to compositor chan&quot;</span>);
 
         <span class='kw'>let</span> <span class='ident'>window_size</span> <span class='op'>=</span> <span class='ident'>state</span>.<span class='ident'>window_size</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>size</span><span class='op'>|</span> {
             <span class='ident'>WindowSizeData</span> {
@@ -790,7 +752,6 @@
             <span class='ident'>pipeline_port</span>: <span class='ident'>pipeline_port</span>,
             <span class='ident'>layout_shutdown_chan</span>: <span class='ident'>layout_shutdown_chan</span>,
             <span class='ident'>paint_shutdown_chan</span>: <span class='ident'>paint_shutdown_chan</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>script_to_compositor_chan</span>: <span class='ident'>script_to_compositor_chan</span>,
             <span class='ident'>pipeline_namespace_id</span>: <span class='ident'>state</span>.<span class='ident'>pipeline_namespace_id</span>,
             <span class='ident'>layout_content_process_shutdown_chan</span>: <span class='ident'>layout_content_process_shutdown_chan</span>,
             <span class='ident'>layout_content_process_shutdown_port</span>: <span class='ident'>layout_content_process_shutdown_port</span>,
@@ -811,7 +772,6 @@
             <span class='ident'>chrome_to_paint_chan</span>: <span class='ident'>chrome_to_paint_chan</span>,
             <span class='ident'>chrome_to_paint_port</span>: <span class='ident'>chrome_to_paint_port</span>,
             <span class='ident'>paint_shutdown_chan</span>: <span class='ident'>paint_shutdown_chan</span>,
-            <span class='ident'>script_to_compositor_port</span>: <span class='ident'>script_to_compositor_port</span>,
         };
 
         (<span class='ident'>pipeline</span>, <span class='ident'>unprivileged_pipeline_content</span>, <span class='ident'>privileged_pipeline_content</span>)
@@ -947,7 +907,6 @@
     <span class='ident'>layout_to_constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutMsg</span><span class='op'>&gt;</span>,
     <span class='ident'>scheduler_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>TimerEventRequest</span><span class='op'>&gt;</span>,
     <span class='ident'>devtools_chan</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ScriptToDevtoolsControlMsg</span><span class='op'>&gt;&gt;</span>,
-    <span class='ident'>script_to_compositor_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ScriptToCompositorMsg</span><span class='op'>&gt;</span>,
     <span class='ident'>bluetooth_thread</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothMethodMsg</span><span class='op'>&gt;</span>,
     <span class='ident'>image_cache_thread</span>: <span class='ident'>ImageCacheThread</span>,
     <span class='ident'>font_cache_thread</span>: <span class='ident'>FontCacheThread</span>,
@@ -974,16 +933,13 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>UnprivilegedPipelineContent</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start_all</span><span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>wait_for_completion</span>: <span class='ident'>bool</span>)
-        <span class='kw'>where</span> <span class='ident'>LTF</span>: <span class='ident'>LayoutThreadFactory</span>,
-              <span class='ident'>STF</span>: <span class='ident'>ScriptThreadFactory</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start_all</span><span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>wait_for_completion</span>: <span class='ident'>bool</span>)
+        <span class='kw'>where</span> <span class='ident'>LTF</span>: <span class='ident'>LayoutThreadFactory</span><span class='op'>&lt;</span><span class='ident'>Message</span><span class='op'>=</span><span class='ident'>Message</span><span class='op'>&gt;</span>,
+              <span class='ident'>STF</span>: <span class='ident'>ScriptThreadFactory</span><span class='op'>&lt;</span><span class='ident'>Message</span><span class='op'>=</span><span class='ident'>Message</span><span class='op'>&gt;</span>
     {
-        <span class='kw'>let</span> <span class='ident'>layout_pair</span> <span class='op'>=</span> <span class='ident'>STF</span>::<span class='ident'>create_layout_channel</span>();
-
-        <span class='ident'>STF</span>::<span class='ident'>create</span>(<span class='ident'>InitialScriptState</span> {
+        <span class='kw'>let</span> <span class='ident'>layout_pair</span> <span class='op'>=</span> <span class='ident'>STF</span>::<span class='ident'>create</span>(<span class='ident'>InitialScriptState</span> {
             <span class='ident'>id</span>: <span class='self'>self</span>.<span class='ident'>id</span>,
             <span class='ident'>parent_info</span>: <span class='self'>self</span>.<span class='ident'>parent_info</span>,
-            <span class='ident'>compositor</span>: <span class='self'>self</span>.<span class='ident'>script_to_compositor_chan</span>,
             <span class='ident'>control_chan</span>: <span class='self'>self</span>.<span class='ident'>script_chan</span>.<span class='ident'>clone</span>(),
             <span class='ident'>control_port</span>: <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>script_port</span>, <span class='prelude-val'>None</span>).<span class='ident'>expect</span>(<span class='string'>&quot;No script port.&quot;</span>),
             <span class='ident'>constellation_chan</span>: <span class='self'>self</span>.<span class='ident'>constellation_chan</span>.<span class='ident'>clone</span>(),
@@ -999,7 +955,7 @@
             <span class='ident'>window_size</span>: <span class='self'>self</span>.<span class='ident'>window_size</span>,
             <span class='ident'>pipeline_namespace_id</span>: <span class='self'>self</span>.<span class='ident'>pipeline_namespace_id</span>,
             <span class='ident'>content_process_shutdown_chan</span>: <span class='self'>self</span>.<span class='ident'>script_content_process_shutdown_chan</span>.<span class='ident'>clone</span>(),
-        }, <span class='kw-2'>&amp;</span><span class='ident'>layout_pair</span>, <span class='self'>self</span>.<span class='ident'>load_data</span>.<span class='ident'>clone</span>());
+        }, <span class='self'>self</span>.<span class='ident'>load_data</span>.<span class='ident'>clone</span>());
 
         <span class='ident'>LTF</span>::<span class='ident'>create</span>(<span class='self'>self</span>.<span class='ident'>id</span>,
                     <span class='self'>self</span>.<span class='ident'>load_data</span>.<span class='ident'>url</span>.<span class='ident'>clone</span>(),
@@ -1036,7 +992,6 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>PrivilegedPipelineContent</span> {
     <span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
     <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>,
-    <span class='ident'>script_to_compositor_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>ScriptToCompositorMsg</span><span class='op'>&gt;</span>,
     <span class='ident'>font_cache_thread</span>: <span class='ident'>FontCacheThread</span>,
     <span class='ident'>time_profiler_chan</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>,
     <span class='ident'>mem_profiler_chan</span>: <span class='ident'>profile_mem</span>::<span class='ident'>ProfilerChan</span>,
@@ -1049,30 +1004,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>PrivilegedPipelineContent</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start_all</span>(<span class='self'>self</span>) {
-        <span class='ident'>PaintThread</span>::<span class='ident'>create</span>(<span class='self'>self</span>.<span class='ident'>id</span>,
-                          <span class='self'>self</span>.<span class='ident'>load_data</span>.<span class='ident'>url</span>,
-                          <span class='self'>self</span>.<span class='ident'>chrome_to_paint_chan</span>,
-                          <span class='self'>self</span>.<span class='ident'>layout_to_paint_port</span>,
-                          <span class='self'>self</span>.<span class='ident'>chrome_to_paint_port</span>,
-                          <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>clone_compositor_proxy</span>(),
-                          <span class='self'>self</span>.<span class='ident'>panic_chan</span>,
-                          <span class='self'>self</span>.<span class='ident'>font_cache_thread</span>,
-                          <span class='self'>self</span>.<span class='ident'>time_profiler_chan</span>,
-                          <span class='self'>self</span>.<span class='ident'>mem_profiler_chan</span>,
-                          <span class='self'>self</span>.<span class='ident'>paint_shutdown_chan</span>);
-
-        <span class='kw'>let</span> <span class='ident'>compositor_proxy_for_script_listener_thread</span> <span class='op'>=</span>
-            <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>clone_compositor_proxy</span>();
-        <span class='kw'>let</span> <span class='ident'>script_to_compositor_port</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>script_to_compositor_port</span>;
-        <span class='ident'>thread</span>::<span class='ident'>spawn_named</span>(<span class='string'>&quot;CompositorScriptListener&quot;</span>.<span class='ident'>to_owned</span>(), <span class='kw'>move</span> <span class='op'>||</span> {
-            <span class='ident'>compositor_thread</span>::<span class='ident'>run_script_listener_thread</span>(
-                <span class='ident'>compositor_proxy_for_script_listener_thread</span>,
-                <span class='ident'>script_to_compositor_port</span>)
-        });
-    }
-
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start_paint_thread</span>(<span class='self'>self</span>) {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start</span>(<span class='self'>self</span>) {
         <span class='ident'>PaintThread</span>::<span class='ident'>create</span>(<span class='self'>self</span>.<span class='ident'>id</span>,
                           <span class='self'>self</span>.<span class='ident'>load_data</span>.<span class='ident'>url</span>,
                           <span class='self'>self</span>.<span class='ident'>chrome_to_paint_chan</span>,
