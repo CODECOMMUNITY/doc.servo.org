@@ -1336,6 +1336,8 @@
 <span id="1292">1292</span>
 <span id="1293">1293</span>
 <span id="1294">1294</span>
+<span id="1295">1295</span>
+<span id="1296">1296</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2156,7 +2158,9 @@
                     <span class='ident'>last_page</span>.<span class='ident'>grow</span>(<span class='ident'>texture_size</span>);
 
                     <span class='self'>self</span>.<span class='ident'>items</span>.<span class='ident'>for_each_item</span>(<span class='op'>|</span><span class='ident'>item</span><span class='op'>|</span> {
-                        <span class='ident'>item</span>.<span class='ident'>texture_size</span> <span class='op'>=</span> <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>texture_size</span>, <span class='ident'>texture_size</span>);
+                        <span class='kw'>if</span> <span class='ident'>item</span>.<span class='ident'>texture_id</span> <span class='op'>==</span> <span class='ident'>last_page</span>.<span class='ident'>texture_id</span> {
+                            <span class='ident'>item</span>.<span class='ident'>texture_size</span> <span class='op'>=</span> <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>texture_size</span>, <span class='ident'>texture_size</span>);
+                        }
                     });
                 } <span class='kw'>else</span> {
                     <span class='comment'>// We need a new page.</span>
