@@ -261,6 +261,9 @@
 <span id="217">217</span>
 <span id="218">218</span>
 <span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -396,7 +399,10 @@
     <span class='ident'>node</span>.<span class='ident'>initialize_data</span>();
 
     <span class='comment'>// Get the parent node.</span>
-    <span class='kw'>let</span> <span class='ident'>parent_opt</span> <span class='op'>=</span> <span class='ident'>node</span>.<span class='ident'>layout_parent_node</span>(<span class='ident'>root</span>);
+    <span class='kw'>let</span> <span class='ident'>parent_opt</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>node</span>.<span class='ident'>parent_node</span>() {
+        <span class='prelude-val'>Some</span>(<span class='ident'>parent</span>) <span class='kw'>if</span> <span class='ident'>parent</span>.<span class='ident'>is_element</span>() <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>parent</span>),
+        _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+    };
 
     <span class='comment'>// Get the style bloom filter.</span>
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bf</span> <span class='op'>=</span> <span class='ident'>take_thread_local_bloom_filter</span>(<span class='ident'>parent_opt</span>, <span class='ident'>root</span>, <span class='ident'>context</span>.<span class='ident'>shared_context</span>());
