@@ -547,7 +547,7 @@
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
 <span class='kw'>use</span> <span class='ident'>layers</span>::<span class='ident'>geometry</span>::<span class='ident'>DevicePixel</span>;
 <span class='kw'>use</span> <span class='ident'>layout_traits</span>::{<span class='ident'>LayoutControlChan</span>, <span class='ident'>LayoutThreadFactory</span>};
-<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameId</span>, <span class='ident'>LoadData</span>, <span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameId</span>, <span class='ident'>FrameType</span>, <span class='ident'>LoadData</span>, <span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PipelineNamespaceId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>WindowSizeData</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>ResourceThreads</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>bluetooth_thread</span>::<span class='ident'>BluetoothMethodMsg</span>;
@@ -571,7 +571,7 @@
 <span class='doccomment'>/// A uniquely-identifiable pipeline of script thread, layout thread, and paint thread.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Pipeline</span> {
     <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
-    <span class='kw'>pub</span> <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>)<span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>FrameType</span>)<span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>script_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel to layout, for performing reflows and shutdown.</span>
     <span class='kw'>pub</span> <span class='ident'>layout_chan</span>: <span class='ident'>LayoutControlChan</span>,
@@ -601,7 +601,7 @@
     <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
     <span class='doccomment'>/// The subpage ID of this pipeline to create in its pipeline parent.</span>
     <span class='doccomment'>/// If `None`, this is the root.</span>
-    <span class='kw'>pub</span> <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>)<span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>FrameType</span>)<span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel to the associated constellation.</span>
     <span class='kw'>pub</span> <span class='ident'>constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ScriptMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel for the layout thread to send messages to the constellation.</span>
@@ -689,7 +689,7 @@
 
         <span class='kw'>let</span> (<span class='ident'>script_chan</span>, <span class='ident'>script_port</span>, <span class='ident'>pipeline_port</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>state</span>.<span class='ident'>script_chan</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>script_chan</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> (<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>) <span class='op'>=</span>
+                <span class='kw'>let</span> (<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>, _) <span class='op'>=</span>
                     <span class='ident'>state</span>.<span class='ident'>parent_info</span>.<span class='ident'>expect</span>(<span class='string'>&quot;script_pipeline != None but subpage_id == None&quot;</span>);
                 <span class='kw'>let</span> <span class='ident'>new_layout_info</span> <span class='op'>=</span> <span class='ident'>NewLayoutInfo</span> {
                     <span class='ident'>containing_pipeline_id</span>: <span class='ident'>containing_pipeline_id</span>,
@@ -731,7 +731,7 @@
 
         <span class='kw'>let</span> <span class='ident'>unprivileged_pipeline_content</span> <span class='op'>=</span> <span class='ident'>UnprivilegedPipelineContent</span> {
             <span class='ident'>id</span>: <span class='ident'>state</span>.<span class='ident'>id</span>,
-            <span class='ident'>parent_info</span>: <span class='ident'>state</span>.<span class='ident'>parent_info</span>,
+            <span class='ident'>parent_info</span>: <span class='ident'>state</span>.<span class='ident'>parent_info</span>.<span class='ident'>map</span>(<span class='op'>|</span>(<span class='ident'>parent_id</span>, <span class='ident'>subpage_id</span>, _)<span class='op'>|</span> (<span class='ident'>parent_id</span>, <span class='ident'>subpage_id</span>)),
             <span class='ident'>constellation_chan</span>: <span class='ident'>state</span>.<span class='ident'>constellation_chan</span>,
             <span class='ident'>scheduler_chan</span>: <span class='ident'>state</span>.<span class='ident'>scheduler_chan</span>,
             <span class='ident'>devtools_chan</span>: <span class='ident'>script_to_devtools_chan</span>,
@@ -779,7 +779,7 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
-               <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>)<span class='op'>&gt;</span>,
+               <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>FrameType</span>)<span class='op'>&gt;</span>,
                <span class='ident'>script_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;</span>,
                <span class='ident'>layout_chan</span>: <span class='ident'>LayoutControlChan</span>,
                <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,

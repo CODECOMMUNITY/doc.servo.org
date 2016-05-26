@@ -539,6 +539,8 @@
 <span id="495">495</span>
 <span id="496">496</span>
 <span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -583,7 +585,7 @@
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>LayerId</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>libc</span>::<span class='ident'>c_void</span>;
-<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameId</span>, <span class='ident'>Key</span>, <span class='ident'>KeyModifiers</span>, <span class='ident'>KeyState</span>, <span class='ident'>LoadData</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameId</span>, <span class='ident'>FrameType</span>, <span class='ident'>Key</span>, <span class='ident'>KeyModifiers</span>, <span class='ident'>KeyState</span>, <span class='ident'>LoadData</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>NavigationDirection</span>, <span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PipelineNamespaceId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>WindowSizeData</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>WebDriverCommandMsg</span>, <span class='ident'>WindowSizeType</span>};
@@ -914,6 +916,8 @@
     <span class='kw'>pub</span> <span class='ident'>sandbox</span>: <span class='ident'>IFrameSandboxState</span>,
     <span class='doccomment'>///  Whether this iframe should be considered private</span>
     <span class='kw'>pub</span> <span class='ident'>is_private</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Whether this iframe is a mozbrowser iframe</span>
+    <span class='kw'>pub</span> <span class='ident'>frame_type</span>: <span class='ident'>FrameType</span>,
 }
 
 <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/API/Using_the_Browser_API#Events</span>

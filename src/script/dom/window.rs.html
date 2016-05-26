@@ -1640,6 +1640,11 @@
 <span id="1596">1596</span>
 <span id="1597">1597</span>
 <span id="1598">1598</span>
+<span id="1599">1599</span>
+<span id="1600">1600</span>
+<span id="1601">1601</span>
+<span id="1602">1602</span>
+<span id="1603">1603</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2073,6 +2078,11 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>WindowMethods</span> <span class='kw'>for</span> <span class='ident'>Window</span> {
+    <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-alert</span>
+    <span class='kw'>fn</span> <span class='ident'>Alert_</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='self'>self</span>.<span class='ident'>Alert</span>(<span class='ident'>DOMString</span>::<span class='ident'>new</span>());
+    }
+
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-alert</span>
     <span class='kw'>fn</span> <span class='ident'>Alert</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>DOMString</span>) {
         <span class='comment'>// Right now, just print to the console</span>
