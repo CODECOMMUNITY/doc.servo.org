@@ -447,13 +447,6 @@
 <span id="403">403</span>
 <span id="404">404</span>
 <span id="405">405</span>
-<span id="406">406</span>
-<span id="407">407</span>
-<span id="408">408</span>
-<span id="409">409</span>
-<span id="410">410</span>
-<span id="411">411</span>
-<span id="412">412</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -621,25 +614,14 @@
         <span class='self'>self</span>.<span class='ident'>active_index</span>.<span class='ident'>set</span>(<span class='number'>0</span>);
         <span class='self'>self</span>.<span class='ident'>history</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>clear</span>();
     }
-}
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ContextIterator</span> {
-    <span class='ident'>stack</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>BrowsingContext</span><span class='op'>&gt;&gt;</span>,
-}
-
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>IterableContext</span> {
-    <span class='kw'>fn</span> <span class='ident'>iter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ContextIterator</span>;
-    <span class='kw'>fn</span> <span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>PipelineId</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>BrowsingContext</span><span class='op'>&gt;&gt;</span>;
-}
-
-<span class='kw'>impl</span> <span class='ident'>IterableContext</span> <span class='kw'>for</span> <span class='ident'>BrowsingContext</span> {
-    <span class='kw'>fn</span> <span class='ident'>iter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ContextIterator</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>iter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ContextIterator</span> {
         <span class='ident'>ContextIterator</span> {
             <span class='ident'>stack</span>: <span class='macro'>vec</span><span class='macro'>!</span>(<span class='ident'>Root</span>::<span class='ident'>from_ref</span>(<span class='self'>self</span>)),
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>PipelineId</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>BrowsingContext</span><span class='op'>&gt;&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>PipelineId</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>BrowsingContext</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>id</span> <span class='op'>==</span> <span class='ident'>id</span> {
             <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>Root</span>::<span class='ident'>from_ref</span>(<span class='self'>self</span>));
         }
@@ -649,6 +631,10 @@
                      .<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>find</span>(<span class='ident'>id</span>))
                      .<span class='ident'>next</span>()
     }
+}
+
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ContextIterator</span> {
+    <span class='ident'>stack</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>BrowsingContext</span><span class='op'>&gt;&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>ContextIterator</span> {

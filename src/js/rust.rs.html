@@ -1092,8 +1092,8 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Calling this function concurrently can cause segfaults inside</span>
     <span class='doccomment'>/// SpiderMonkey</span>
-    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>Runtime</span> {
-        <span class='kw'>let</span> <span class='ident'>js_runtime</span> <span class='op'>=</span> <span class='ident'>JS_NewRuntime</span>(<span class='ident'>default_heapsize</span>, <span class='ident'>ChunkSize</span> <span class='kw'>as</span> <span class='ident'>u32</span>, <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>());
+    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>parent_rt</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSRuntime</span>) <span class='op'>-&gt;</span> <span class='ident'>Runtime</span> {
+        <span class='kw'>let</span> <span class='ident'>js_runtime</span> <span class='op'>=</span> <span class='ident'>JS_NewRuntime</span>(<span class='ident'>default_heapsize</span>, <span class='ident'>ChunkSize</span> <span class='kw'>as</span> <span class='ident'>u32</span>, <span class='ident'>parent_rt</span>);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>js_runtime</span>.<span class='ident'>is_null</span>());
 
         <span class='comment'>// Unconstrain the runtime&#39;s threshold on nominal heap size, to avoid</span>
