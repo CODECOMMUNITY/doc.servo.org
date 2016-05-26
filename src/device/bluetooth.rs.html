@@ -907,6 +907,15 @@
 <span id="863">863</span>
 <span id="864">864</span>
 <span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1544,6 +1553,11 @@
         <span class='self'>self</span>.<span class='ident'>get_gatt_service</span>().<span class='ident'>get_device</span>()
     }
 
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_includes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>BluetoothGATTService</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>services</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_gatt_service</span>().<span class='ident'>get_includes</span>());
+        <span class='prelude-val'>Ok</span>(<span class='ident'>services</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>service</span><span class='op'>|</span> <span class='ident'>BluetoothGATTService</span>::<span class='ident'>create_service</span>(<span class='ident'>service</span>)).<span class='ident'>collect</span>())
+    }
+
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_gatt_characteristics</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>BluetoothGATTCharacteristic</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>characteristics</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_gatt_service</span>().<span class='ident'>get_gatt_characteristics</span>());
         <span class='prelude-val'>Ok</span>(<span class='ident'>characteristics</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>characteristic</span><span class='op'>|</span> <span class='ident'>BluetoothGATTCharacteristic</span>::<span class='ident'>create_characteristic</span>(<span class='ident'>characteristic</span>)).<span class='ident'>collect</span>())
@@ -1569,6 +1583,10 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_device</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
+        <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>from</span>(<span class='ident'>NOT_SUPPORTED_ERROR</span>))
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_includes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>BluetoothGATTService</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
         <span class='prelude-val'>Err</span>(<span class='ident'>Box</span>::<span class='ident'>from</span>(<span class='ident'>NOT_SUPPORTED_ERROR</span>))
     }
 
