@@ -48,7 +48,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-873' class='srclink' href='../src/cssparser/parser.rs.html#65-71' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Parser&lt;'i, 't&gt; {
+<pre class='rust struct'>pub struct Parser&lt;'i: 't, 't&gt; {
     tokenizer: <a class='enum' href='../cssparser/parser/enum.MaybeOwned.html' title='cssparser::parser::MaybeOwned'>MaybeOwned</a>&lt;'t, <a class='struct' href='../cssparser/tokenizer/struct.Tokenizer.html' title='cssparser::tokenizer::Tokenizer'>Tokenizer</a>&lt;'i&gt;&gt;,
     at_start_of: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../cssparser/parser/enum.BlockType.html' title='cssparser::parser::BlockType'>BlockType</a>&gt;,
     stop_before: <a class='struct' href='../cssparser/struct.Delimiters.html' title='cssparser::Delimiters'>Delimiters</a>,
@@ -222,10 +222,12 @@ or if it was there at all (as opposed to reaching the end of the input).</p>
 <div class='docblock'><p>Parse the input until exhaustion and check that it contains no “error” token.</p>
 
 <p>See <code>Token::is_parse_error</code>. This also checks nested blocks and functions recursively.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'i, 't&gt; <a class='trait' href='../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../cssparser/struct.Parser.html' title='cssparser::Parser'>Parser</a>&lt;'i, 't&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-879' class='srclink' href='../src/cssparser/parser.rs.html#64' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'i: 't, 't&gt; <a class='trait' href='../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../cssparser/struct.Parser.html' title='cssparser::Parser'>Parser</a>&lt;'i, 't&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-879' class='srclink' href='../src/cssparser/parser.rs.html#64' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../cssparser/struct.Parser.html' title='cssparser::Parser'>Parser</a>&lt;'i, 't&gt;</code></h4>
-<h4 id='method.clone_from' class='method'><code>fn <a href='../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class="since">1.0.0</div></h4>
-</div></section>
+<div class='docblock'><p>Returns a copy of the value. <a href="../core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class='method'><code>fn <a href='../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="../core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -248,6 +250,8 @@ or if it was there at all (as opposed to reaching the end of the input).</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

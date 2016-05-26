@@ -48,13 +48,13 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-8635' class='srclink' href='../../src/layout/layout_thread.rs.html#327-330' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>struct RwData&lt;'a, 'b&gt; {
+<pre class='rust struct'>struct RwData&lt;'a, 'b: 'a&gt; {
     rw_data: &amp;'b <a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='struct' href='../../layout/layout_thread/struct.LayoutThreadData.html' title='layout::layout_thread::LayoutThreadData'>LayoutThreadData</a>&gt;&gt;,
     possibly_locked_rw_data: &amp;'a mut <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../std/sync/mutex/struct.MutexGuard.html' title='std::sync::mutex::MutexGuard'>MutexGuard</a>&lt;'b, <a class='struct' href='../../layout/layout_thread/struct.LayoutThreadData.html' title='layout::layout_thread::LayoutThreadData'>LayoutThreadData</a>&gt;&gt;,
 }</pre><h2 class='fields'>Fields</h2>
 <table><tr class='stab '>
                              <td id='structfield.rw_data'><code>rw_data</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.possibly_locked_rw_data'><code>possibly_locked_rw_data</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'b&gt; <a class='struct' href='../../layout/layout_thread/struct.RwData.html' title='layout::layout_thread::RwData'>RwData</a>&lt;'a, 'b&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-8640' class='srclink' href='../../src/layout/layout_thread.rs.html#332-355' title='goto source code'>[src]</a></span></h3>
+                             <td id='structfield.possibly_locked_rw_data'><code>possibly_locked_rw_data</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, 'b: 'a&gt; <a class='struct' href='../../layout/layout_thread/struct.RwData.html' title='layout::layout_thread::RwData'>RwData</a>&lt;'a, 'b&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-8640' class='srclink' href='../../src/layout/layout_thread.rs.html#332-355' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.lock' class='method'><code>fn <a href='#method.lock' class='fnname'>lock</a>(&amp;mut self) -&gt; <a class='enum' href='../../layout/layout_thread/enum.RWGuard.html' title='layout::layout_thread::RWGuard'>RWGuard</a>&lt;'b&gt;</code></h4>
 <div class='docblock'><p>If no reflow has happened yet, this will just return the lock in
 <code>possibly_locked_rw_data</code>. Otherwise, it will acquire the <code>rw_data</code> lock.</p>
@@ -89,6 +89,8 @@ be unlocked.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

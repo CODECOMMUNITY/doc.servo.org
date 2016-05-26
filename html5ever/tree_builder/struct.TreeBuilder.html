@@ -200,9 +200,12 @@ the end of the body.</p>
 <h4 id='method.step_foreign' class='method'><code>fn <a href='../../html5ever/tree_builder/rules/trait.TreeBuilderStep.html#tymethod.step_foreign' class='fnname'>step_foreign</a>(&amp;mut self, token: <a class='enum' href='../../html5ever/tree_builder/types/enum.Token.html' title='html5ever::tree_builder::types::Token'>Token</a>) -&gt; <a class='enum' href='../../html5ever/tree_builder/types/enum.ProcessResult.html' title='html5ever::tree_builder::types::ProcessResult'>ProcessResult</a></code></h4>
 </div><h3 class='impl'><span class='in-band'><code>impl&lt;Handle, Sink&gt; <a class='trait' href='../../html5ever/tokenizer/interface/trait.TokenSink.html' title='html5ever::tokenizer::interface::TokenSink'>TokenSink</a> for <a class='struct' href='../../html5ever/tree_builder/struct.TreeBuilder.html' title='html5ever::tree_builder::TreeBuilder'>TreeBuilder</a>&lt;Handle, Sink&gt; <span class='where'>where Handle: <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Sink: <a class='trait' href='../../html5ever/tree_builder/interface/trait.TreeSink.html' title='html5ever::tree_builder::interface::TreeSink'>TreeSink</a>&lt;Handle=Handle&gt;</span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3570' class='srclink' href='../../src/html5ever/tree_builder/mod.rs.html#359-429' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.process_token' class='method'><code>fn <a href='../../html5ever/tokenizer/interface/trait.TokenSink.html#tymethod.process_token' class='fnname'>process_token</a>(&amp;mut self, token: <a class='enum' href='../../html5ever/tokenizer/enum.Token.html' title='html5ever::tokenizer::Token'>Token</a>)</code></h4>
-<h4 id='method.adjusted_current_node_present_but_not_in_html_namespace' class='method'><code>fn <a href='../../html5ever/tokenizer/interface/trait.TokenSink.html#method.adjusted_current_node_present_but_not_in_html_namespace' class='fnname'>adjusted_current_node_present_but_not_in_html_namespace</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
-<h4 id='method.query_state_change' class='method'><code>fn <a href='../../html5ever/tokenizer/interface/trait.TokenSink.html#method.query_state_change' class='fnname'>query_state_change</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../html5ever/tokenizer/states/enum.State.html' title='html5ever::tokenizer::states::State'>State</a>&gt;</code></h4>
-</div></section>
+<div class='docblock'><p>Process a token.</p>
+</div><h4 id='method.adjusted_current_node_present_but_not_in_html_namespace' class='method'><code>fn <a href='../../html5ever/tokenizer/interface/trait.TokenSink.html#method.adjusted_current_node_present_but_not_in_html_namespace' class='fnname'>adjusted_current_node_present_but_not_in_html_namespace</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Used in the markup declaration open state. By default, this always returns false and thus all CDATA sections are tokenized as bogus comments. <a href="https://html.spec.whatwg.org/multipage/#markup-declaration-open-state">https://html.spec.whatwg.org/multipage/#markup-declaration-open-state</a> <a href="../../html5ever/tokenizer/interface/trait.TokenSink.html#method.adjusted_current_node_present_but_not_in_html_namespace">Read more</a></p>
+</div><h4 id='method.query_state_change' class='method'><code>fn <a href='../../html5ever/tokenizer/interface/trait.TokenSink.html#method.query_state_change' class='fnname'>query_state_change</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../html5ever/tokenizer/states/enum.State.html' title='html5ever::tokenizer::states::State'>State</a>&gt;</code></h4>
+<div class='docblock'><p>The tokenizer will call this after emitting any tag. This allows the tree builder to change the tokenizer&#39;s state. By default no state changes occur. <a href="../../html5ever/tokenizer/interface/trait.TokenSink.html#method.query_state_change">Read more</a></p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -225,6 +228,8 @@ the end of the body.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
