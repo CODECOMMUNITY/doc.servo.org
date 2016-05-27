@@ -1658,6 +1658,16 @@
 <span id="1614">1614</span>
 <span id="1615">1615</span>
 <span id="1616">1616</span>
+<span id="1617">1617</span>
+<span id="1618">1618</span>
+<span id="1619">1619</span>
+<span id="1620">1620</span>
+<span id="1621">1621</span>
+<span id="1622">1622</span>
+<span id="1623">1623</span>
+<span id="1624">1624</span>
+<span id="1625">1625</span>
+<span id="1626">1626</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1703,7 +1713,7 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::<span class='ident'>CompileOptionsWrapper</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::<span class='ident'>Runtime</span>;
 <span class='kw'>use</span> <span class='ident'>layout_interface</span>::{<span class='ident'>ContentBoxResponse</span>, <span class='ident'>ContentBoxesResponse</span>, <span class='ident'>ResolvedStyleResponse</span>, <span class='ident'>ScriptReflow</span>};
-<span class='kw'>use</span> <span class='ident'>layout_interface</span>::{<span class='ident'>LayoutChan</span>, <span class='ident'>LayoutRPC</span>, <span class='ident'>Msg</span>, <span class='ident'>Reflow</span>, <span class='ident'>ReflowQueryType</span>, <span class='ident'>MarginStyleResponse</span>};
+<span class='kw'>use</span> <span class='ident'>layout_interface</span>::{<span class='ident'>LayoutRPC</span>, <span class='ident'>Msg</span>, <span class='ident'>Reflow</span>, <span class='ident'>ReflowQueryType</span>, <span class='ident'>MarginStyleResponse</span>};
 <span class='kw'>use</span> <span class='ident'>libc</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>LoadData</span>, <span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>WindowSizeData</span>, <span class='ident'>WindowSizeType</span>};
@@ -1739,7 +1749,7 @@
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::<span class='ident'>Atom</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>context</span>::<span class='ident'>ReflowGoal</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>error_reporting</span>::<span class='ident'>ParseErrorReporter</span>;
-<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::<span class='ident'>longhands</span>::{<span class='ident'>overflow_x</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::<span class='ident'>longhands</span>::<span class='ident'>overflow_x</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>selector_impl</span>::<span class='ident'>PseudoElement</span>;
 <span class='kw'>use</span> <span class='ident'>task_source</span>::<span class='ident'>TaskSource</span>;
 <span class='kw'>use</span> <span class='ident'>task_source</span>::<span class='ident'>dom_manipulation</span>::{<span class='ident'>DOMManipulationTaskSource</span>, <span class='ident'>DOMManipulationTask</span>};
@@ -1821,6 +1831,7 @@
     <span class='ident'>screen</span>: <span class='ident'>MutNullableHeap</span><span class='op'>&lt;</span><span class='ident'>JS</span><span class='op'>&lt;</span><span class='ident'>Screen</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>session_storage</span>: <span class='ident'>MutNullableHeap</span><span class='op'>&lt;</span><span class='ident'>JS</span><span class='op'>&lt;</span><span class='ident'>Storage</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>local_storage</span>: <span class='ident'>MutNullableHeap</span><span class='op'>&lt;</span><span class='ident'>JS</span><span class='op'>&lt;</span><span class='ident'>Storage</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>status</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>,
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;channels are hard&quot;</span>]</span>
     <span class='ident'>scheduler_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>TimerEventRequest</span><span class='op'>&gt;</span>,
     <span class='ident'>timers</span>: <span class='ident'>OneshotTimers</span>,
@@ -1869,7 +1880,7 @@
 
     <span class='doccomment'>/// A handle for communicating messages to the layout thread.</span>
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;channels are hard&quot;</span>]</span>
-    <span class='ident'>layout_chan</span>: <span class='ident'>LayoutChan</span>,
+    <span class='ident'>layout_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// A handle to perform RPC calls into the layout, quickly.</span>
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;trait objects are hard&quot;</span>]</span>
@@ -2489,6 +2500,16 @@
         <span class='kw'>let</span> <span class='ident'>dpr</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>window_size</span>.<span class='ident'>get</span>().<span class='ident'>map_or</span>(<span class='number'>1.0f32</span>, <span class='op'>|</span><span class='ident'>data</span><span class='op'>|</span> <span class='ident'>data</span>.<span class='ident'>device_pixel_ratio</span>.<span class='ident'>get</span>());
         <span class='ident'>Finite</span>::<span class='ident'>wrap</span>(<span class='ident'>dpr</span> <span class='kw'>as</span> <span class='ident'>f64</span>)
     }
+
+    <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-window-status</span>
+    <span class='kw'>fn</span> <span class='ident'>Status</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DOMString</span> {
+        <span class='self'>self</span>.<span class='ident'>status</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>()
+    }
+
+    <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-window-status</span>
+    <span class='kw'>fn</span> <span class='ident'>SetStatus</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>status</span>: <span class='ident'>DOMString</span>) {
+        <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>status</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='ident'>status</span>
+    }
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>ScriptHelpers</span> {
@@ -2707,8 +2728,7 @@
             <span class='ident'>query_type</span>: <span class='ident'>query_type</span>,
         };
 
-        <span class='kw'>let</span> <span class='ident'>LayoutChan</span>(<span class='kw-2'>ref</span> <span class='ident'>chan</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>layout_chan</span>;
-        <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>Reflow</span>(<span class='ident'>reflow</span>)).<span class='ident'>unwrap</span>();
+        <span class='self'>self</span>.<span class='ident'>layout_chan</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>Reflow</span>(<span class='ident'>reflow</span>)).<span class='ident'>unwrap</span>();
 
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;script: layout forked&quot;</span>);
 
@@ -2950,7 +2970,7 @@
         <span class='self'>self</span>.<span class='ident'>devtools_chan</span>.<span class='ident'>clone</span>()
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>layout_chan</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>LayoutChan</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>layout_chan</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span> {
         <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>layout_chan</span>
     }
 
@@ -3134,15 +3154,14 @@
                <span class='ident'>scheduler_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>TimerEventRequest</span><span class='op'>&gt;</span>,
                <span class='ident'>panic_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
                <span class='ident'>timer_event_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>TimerEvent</span><span class='op'>&gt;</span>,
-               <span class='ident'>layout_chan</span>: <span class='ident'>LayoutChan</span>,
+               <span class='ident'>layout_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>Msg</span><span class='op'>&gt;</span>,
                <span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
                <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>)<span class='op'>&gt;</span>,
                <span class='ident'>window_size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WindowSizeData</span><span class='op'>&gt;</span>)
                <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>layout_rpc</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>LayoutRPC</span><span class='op'>&gt;</span> <span class='op'>=</span> {
             <span class='kw'>let</span> (<span class='ident'>rpc_send</span>, <span class='ident'>rpc_recv</span>) <span class='op'>=</span> <span class='ident'>channel</span>();
-            <span class='kw'>let</span> <span class='ident'>LayoutChan</span>(<span class='kw-2'>ref</span> <span class='ident'>lchan</span>) <span class='op'>=</span> <span class='ident'>layout_chan</span>;
-            <span class='ident'>lchan</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>GetRPC</span>(<span class='ident'>rpc_send</span>)).<span class='ident'>unwrap</span>();
+            <span class='ident'>layout_chan</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>GetRPC</span>(<span class='ident'>rpc_send</span>)).<span class='ident'>unwrap</span>();
             <span class='ident'>rpc_recv</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>()
         };
         <span class='kw'>let</span> <span class='ident'>error_reporter</span> <span class='op'>=</span> <span class='ident'>CSSErrorReporter</span> {
@@ -3174,6 +3193,7 @@
             <span class='ident'>screen</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
             <span class='ident'>session_storage</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
             <span class='ident'>local_storage</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
+            <span class='ident'>status</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>DOMString</span>::<span class='ident'>new</span>()),
             <span class='ident'>scheduler_chan</span>: <span class='ident'>scheduler_chan</span>.<span class='ident'>clone</span>(),
             <span class='ident'>timers</span>: <span class='ident'>OneshotTimers</span>::<span class='ident'>new</span>(<span class='ident'>timer_event_chan</span>, <span class='ident'>scheduler_chan</span>),
             <span class='ident'>next_worker_id</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>WorkerId</span>(<span class='number'>0</span>)),

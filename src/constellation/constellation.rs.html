@@ -2116,81 +2116,6 @@
 <span id="2072">2072</span>
 <span id="2073">2073</span>
 <span id="2074">2074</span>
-<span id="2075">2075</span>
-<span id="2076">2076</span>
-<span id="2077">2077</span>
-<span id="2078">2078</span>
-<span id="2079">2079</span>
-<span id="2080">2080</span>
-<span id="2081">2081</span>
-<span id="2082">2082</span>
-<span id="2083">2083</span>
-<span id="2084">2084</span>
-<span id="2085">2085</span>
-<span id="2086">2086</span>
-<span id="2087">2087</span>
-<span id="2088">2088</span>
-<span id="2089">2089</span>
-<span id="2090">2090</span>
-<span id="2091">2091</span>
-<span id="2092">2092</span>
-<span id="2093">2093</span>
-<span id="2094">2094</span>
-<span id="2095">2095</span>
-<span id="2096">2096</span>
-<span id="2097">2097</span>
-<span id="2098">2098</span>
-<span id="2099">2099</span>
-<span id="2100">2100</span>
-<span id="2101">2101</span>
-<span id="2102">2102</span>
-<span id="2103">2103</span>
-<span id="2104">2104</span>
-<span id="2105">2105</span>
-<span id="2106">2106</span>
-<span id="2107">2107</span>
-<span id="2108">2108</span>
-<span id="2109">2109</span>
-<span id="2110">2110</span>
-<span id="2111">2111</span>
-<span id="2112">2112</span>
-<span id="2113">2113</span>
-<span id="2114">2114</span>
-<span id="2115">2115</span>
-<span id="2116">2116</span>
-<span id="2117">2117</span>
-<span id="2118">2118</span>
-<span id="2119">2119</span>
-<span id="2120">2120</span>
-<span id="2121">2121</span>
-<span id="2122">2122</span>
-<span id="2123">2123</span>
-<span id="2124">2124</span>
-<span id="2125">2125</span>
-<span id="2126">2126</span>
-<span id="2127">2127</span>
-<span id="2128">2128</span>
-<span id="2129">2129</span>
-<span id="2130">2130</span>
-<span id="2131">2131</span>
-<span id="2132">2132</span>
-<span id="2133">2133</span>
-<span id="2134">2134</span>
-<span id="2135">2135</span>
-<span id="2136">2136</span>
-<span id="2137">2137</span>
-<span id="2138">2138</span>
-<span id="2139">2139</span>
-<span id="2140">2140</span>
-<span id="2141">2141</span>
-<span id="2142">2142</span>
-<span id="2143">2143</span>
-<span id="2144">2144</span>
-<span id="2145">2145</span>
-<span id="2146">2146</span>
-<span id="2147">2147</span>
-<span id="2148">2148</span>
-<span id="2149">2149</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2213,14 +2138,8 @@
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::{<span class='ident'>ChromeToDevtoolsControlMsg</span>, <span class='ident'>DevtoolsControlMsg</span>};
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>scale_factor</span>::<span class='ident'>ScaleFactor</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::{<span class='ident'>Size2D</span>, <span class='ident'>TypedSize2D</span>};
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-<span class='kw'>use</span> <span class='ident'>gaol</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-<span class='kw'>use</span> <span class='ident'>gaol</span>::<span class='ident'>sandbox</span>::{<span class='self'>self</span>, <span class='ident'>Sandbox</span>, <span class='ident'>SandboxMethods</span>};
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>font_cache_thread</span>::<span class='ident'>FontCacheThread</span>;
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>Epoch</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcOneShotServer</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
 <span class='kw'>use</span> <span class='ident'>layout_traits</span>::{<span class='ident'>LayoutControlChan</span>, <span class='ident'>LayoutThreadFactory</span>};
@@ -2237,12 +2156,10 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::<span class='ident'>StorageThreadMsg</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='self'>self</span>, <span class='ident'>ResourceThreads</span>, <span class='ident'>IpcSend</span>};
 <span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::{<span class='ident'>GLContextAttributes</span>, <span class='ident'>GLLimits</span>};
-<span class='kw'>use</span> <span class='ident'>pipeline</span>::{<span class='ident'>InitialPipelineState</span>, <span class='ident'>Pipeline</span>, <span class='ident'>UnprivilegedPipelineContent</span>};
+<span class='kw'>use</span> <span class='ident'>pipeline</span>::{<span class='ident'>ChildProcess</span>, <span class='ident'>InitialPipelineState</span>, <span class='ident'>Pipeline</span>};
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>;
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>random</span>, <span class='ident'>Rng</span>, <span class='ident'>SeedableRng</span>, <span class='ident'>StdRng</span>};
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-<span class='kw'>use</span> <span class='ident'>sandboxing</span>::<span class='ident'>content_process_sandbox_profile</span>;
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>AnimationTickType</span>, <span class='ident'>CompositorEvent</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ConstellationControlMsg</span>, <span class='ident'>ConstellationMsg</span> <span class='kw'>as</span> <span class='ident'>FromCompositorMsg</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>DocumentState</span>, <span class='ident'>LayoutControlMsg</span>};
@@ -2251,8 +2168,6 @@
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>MozBrowserEvent</span>, <span class='ident'>MozBrowserErrorType</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>env</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>IOError</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>marker</span>::<span class='ident'>PhantomData</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>replace</span>;
@@ -2507,13 +2422,6 @@
     <span class='ident'>Force</span>,
 }
 
-<span class='kw'>enum</span> <span class='ident'>ChildProcess</span> {
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-    <span class='ident'>Sandboxed</span>(<span class='ident'>gaol</span>::<span class='ident'>platform</span>::<span class='ident'>process</span>::<span class='ident'>Process</span>),
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-    <span class='ident'>Unsandboxed</span>(<span class='ident'>process</span>::<span class='ident'>Child</span>),
-}
-
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span> <span class='ident'>Constellation</span><span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>LTF</span>: <span class='ident'>LayoutThreadFactory</span><span class='op'>&lt;</span><span class='ident'>Message</span><span class='op'>=</span><span class='ident'>Message</span><span class='op'>&gt;</span>,
           <span class='ident'>STF</span>: <span class='ident'>ScriptThreadFactory</span><span class='op'>&lt;</span><span class='ident'>Message</span><span class='op'>=</span><span class='ident'>Message</span><span class='op'>&gt;</span>
@@ -2618,98 +2526,40 @@
                     <span class='ident'>initial_window_size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>PagePx</span>, <span class='ident'>f32</span><span class='op'>&gt;&gt;</span>,
                     <span class='ident'>script_channel</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;&gt;</span>,
                     <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>) {
-        <span class='kw'>let</span> <span class='ident'>spawning_content</span> <span class='op'>=</span> <span class='ident'>script_channel</span>.<span class='ident'>is_none</span>();
-        <span class='kw'>let</span> (<span class='ident'>pipeline</span>, <span class='ident'>unprivileged_pipeline_content</span>, <span class='ident'>privileged_pipeline_content</span>) <span class='op'>=</span>
-            <span class='ident'>Pipeline</span>::<span class='ident'>create</span>::<span class='op'>&lt;</span><span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='ident'>InitialPipelineState</span> {
-                <span class='ident'>id</span>: <span class='ident'>pipeline_id</span>,
-                <span class='ident'>parent_info</span>: <span class='ident'>parent_info</span>,
-                <span class='ident'>constellation_chan</span>: <span class='self'>self</span>.<span class='ident'>script_sender</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>layout_to_constellation_chan</span>: <span class='self'>self</span>.<span class='ident'>layout_sender</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>panic_chan</span>: <span class='self'>self</span>.<span class='ident'>panic_sender</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>scheduler_chan</span>: <span class='self'>self</span>.<span class='ident'>scheduler_chan</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>compositor_proxy</span>: <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>clone_compositor_proxy</span>(),
-                <span class='ident'>devtools_chan</span>: <span class='self'>self</span>.<span class='ident'>devtools_chan</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>bluetooth_thread</span>: <span class='self'>self</span>.<span class='ident'>bluetooth_thread</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>image_cache_thread</span>: <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>font_cache_thread</span>: <span class='self'>self</span>.<span class='ident'>font_cache_thread</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>resource_threads</span>: <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>time_profiler_chan</span>: <span class='self'>self</span>.<span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>mem_profiler_chan</span>: <span class='self'>self</span>.<span class='ident'>mem_profiler_chan</span>.<span class='ident'>clone</span>(),
-                <span class='ident'>window_size</span>: <span class='ident'>initial_window_size</span>,
-                <span class='ident'>script_chan</span>: <span class='ident'>script_channel</span>,
-                <span class='ident'>load_data</span>: <span class='ident'>load_data</span>,
-                <span class='ident'>device_pixel_ratio</span>: <span class='self'>self</span>.<span class='ident'>window_size</span>.<span class='ident'>device_pixel_ratio</span>,
-                <span class='ident'>pipeline_namespace_id</span>: <span class='self'>self</span>.<span class='ident'>next_pipeline_namespace_id</span>(),
-                <span class='ident'>webrender_api_sender</span>: <span class='self'>self</span>.<span class='ident'>webrender_api_sender</span>.<span class='ident'>clone</span>(),
-            });
+        <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>Pipeline</span>::<span class='ident'>spawn</span>::<span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='ident'>InitialPipelineState</span> {
+            <span class='ident'>id</span>: <span class='ident'>pipeline_id</span>,
+            <span class='ident'>parent_info</span>: <span class='ident'>parent_info</span>,
+            <span class='ident'>constellation_chan</span>: <span class='self'>self</span>.<span class='ident'>script_sender</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>layout_to_constellation_chan</span>: <span class='self'>self</span>.<span class='ident'>layout_sender</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>panic_chan</span>: <span class='self'>self</span>.<span class='ident'>panic_sender</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>scheduler_chan</span>: <span class='self'>self</span>.<span class='ident'>scheduler_chan</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>compositor_proxy</span>: <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>clone_compositor_proxy</span>(),
+            <span class='ident'>devtools_chan</span>: <span class='self'>self</span>.<span class='ident'>devtools_chan</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>bluetooth_thread</span>: <span class='self'>self</span>.<span class='ident'>bluetooth_thread</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>image_cache_thread</span>: <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>font_cache_thread</span>: <span class='self'>self</span>.<span class='ident'>font_cache_thread</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>resource_threads</span>: <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>time_profiler_chan</span>: <span class='self'>self</span>.<span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>mem_profiler_chan</span>: <span class='self'>self</span>.<span class='ident'>mem_profiler_chan</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>window_size</span>: <span class='ident'>initial_window_size</span>,
+            <span class='ident'>script_chan</span>: <span class='ident'>script_channel</span>,
+            <span class='ident'>load_data</span>: <span class='ident'>load_data</span>,
+            <span class='ident'>device_pixel_ratio</span>: <span class='self'>self</span>.<span class='ident'>window_size</span>.<span class='ident'>device_pixel_ratio</span>,
+            <span class='ident'>pipeline_namespace_id</span>: <span class='self'>self</span>.<span class='ident'>next_pipeline_namespace_id</span>(),
+            <span class='ident'>webrender_api_sender</span>: <span class='self'>self</span>.<span class='ident'>webrender_api_sender</span>.<span class='ident'>clone</span>(),
+        });
 
-        <span class='ident'>privileged_pipeline_content</span>.<span class='ident'>start</span>();
+        <span class='kw'>let</span> (<span class='ident'>pipeline</span>, <span class='ident'>child_process</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>result</span> {
+            <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> <span class='ident'>result</span>,
+            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>handle_send_error</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>e</span>),
+        };
 
-        <span class='kw'>if</span> <span class='ident'>spawning_content</span> {
-            <span class='comment'>// Spawn the child process.</span>
-            <span class='comment'>//</span>
-            <span class='comment'>// Yes, that&#39;s all there is to it!</span>
-            <span class='kw'>if</span> <span class='ident'>opts</span>::<span class='ident'>multiprocess</span>() {
-                <span class='self'>self</span>.<span class='ident'>spawn_multiprocess</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>unprivileged_pipeline_content</span>);
-            } <span class='kw'>else</span> {
-                <span class='ident'>unprivileged_pipeline_content</span>.<span class='ident'>start_all</span>::<span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='boolvalue'>false</span>);
-            }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>child_process</span>) <span class='op'>=</span> <span class='ident'>child_process</span> {
+            <span class='self'>self</span>.<span class='ident'>child_processes</span>.<span class='ident'>push</span>(<span class='ident'>child_process</span>);
         }
 
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>contains_key</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>));
         <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>insert</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>pipeline</span>);
-    }
-
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
-    <span class='kw'>fn</span> <span class='ident'>spawn_multiprocess</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
-                          <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>,
-                          <span class='ident'>unprivileged_pipeline_content</span>: <span class='ident'>UnprivilegedPipelineContent</span>)
-    {
-        <span class='comment'>// Note that this function can panic, due to process creation,</span>
-        <span class='comment'>// avoiding this panic would require a mechanism for dealing</span>
-        <span class='comment'>// with low-resource scenarios.</span>
-        <span class='kw'>let</span> (<span class='ident'>server</span>, <span class='ident'>token</span>) <span class='op'>=</span>
-            <span class='ident'>IpcOneShotServer</span>::<span class='op'>&lt;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>UnprivilegedPipelineContent</span><span class='op'>&gt;&gt;</span>::<span class='ident'>new</span>()
-            .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to create IPC one-shot server.&quot;</span>);
-
-        <span class='comment'>// If there is a sandbox, use the `gaol` API to create the child process.</span>
-        <span class='kw'>let</span> <span class='ident'>child_process</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>sandbox</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>command</span> <span class='op'>=</span> <span class='ident'>sandbox</span>::<span class='ident'>Command</span>::<span class='ident'>me</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Failed to get current sandbox.&quot;</span>);
-            <span class='ident'>command</span>.<span class='ident'>arg</span>(<span class='string'>&quot;--content-process&quot;</span>).<span class='ident'>arg</span>(<span class='ident'>token</span>);
-
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>env</span>::<span class='ident'>var</span>(<span class='string'>&quot;RUST_BACKTRACE&quot;</span>) {
-                <span class='ident'>command</span>.<span class='ident'>env</span>(<span class='string'>&quot;RUST_BACKTRACE&quot;</span>, <span class='ident'>value</span>);
-            }
-
-            <span class='kw'>let</span> <span class='ident'>profile</span> <span class='op'>=</span> <span class='ident'>content_process_sandbox_profile</span>();
-            <span class='ident'>ChildProcess</span>::<span class='ident'>Sandboxed</span>(<span class='ident'>Sandbox</span>::<span class='ident'>new</span>(<span class='ident'>profile</span>).<span class='ident'>start</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>command</span>)
-                                    .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to start sandboxed child process!&quot;</span>))
-        } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='ident'>path_to_self</span> <span class='op'>=</span> <span class='ident'>env</span>::<span class='ident'>current_exe</span>()
-                .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to get current executor.&quot;</span>);
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>child_process</span> <span class='op'>=</span> <span class='ident'>process</span>::<span class='ident'>Command</span>::<span class='ident'>new</span>(<span class='ident'>path_to_self</span>);
-            <span class='ident'>child_process</span>.<span class='ident'>arg</span>(<span class='string'>&quot;--content-process&quot;</span>);
-            <span class='ident'>child_process</span>.<span class='ident'>arg</span>(<span class='ident'>token</span>);
-
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>env</span>::<span class='ident'>var</span>(<span class='string'>&quot;RUST_BACKTRACE&quot;</span>) {
-                <span class='ident'>child_process</span>.<span class='ident'>env</span>(<span class='string'>&quot;RUST_BACKTRACE&quot;</span>, <span class='ident'>value</span>);
-            }
-
-            <span class='ident'>ChildProcess</span>::<span class='ident'>Unsandboxed</span>(<span class='ident'>child_process</span>.<span class='ident'>spawn</span>()
-                                      .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to start unsandboxed child process!&quot;</span>))
-        };
-
-        <span class='self'>self</span>.<span class='ident'>child_processes</span>.<span class='ident'>push</span>(<span class='ident'>child_process</span>);
-        <span class='kw'>let</span> (<span class='ident'>_receiver</span>, <span class='ident'>sender</span>) <span class='op'>=</span> <span class='ident'>server</span>.<span class='ident'>accept</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Server failed to accept.&quot;</span>);
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='ident'>unprivileged_pipeline_content</span>) {
-            <span class='self'>self</span>.<span class='ident'>handle_send_error</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>e</span>);
-        }
-    }
-
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>spawn_multiprocess</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, _: <span class='ident'>PipelineId</span>, _: <span class='ident'>UnprivilegedPipelineContent</span>) {
-        <span class='macro'>error</span><span class='macro'>!</span>(<span class='string'>&quot;Multiprocess is not supported on Windows.&quot;</span>);
-        <span class='ident'>process</span>::<span class='ident'>exit</span>(<span class='number'>1</span>);
     }
 
     <span class='comment'>// Push a new (loading) pipeline to the list of pending frame changes</span>

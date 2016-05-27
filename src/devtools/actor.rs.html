@@ -326,7 +326,7 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>register_script_actor</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>script_id</span>: <span class='ident'>String</span>, <span class='ident'>actor</span>: <span class='ident'>String</span>) {
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;registering {} ({})&quot;</span>, <span class='ident'>actor</span>, <span class='ident'>script_id</span>);
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;registering {} ({})&quot;</span>, <span class='ident'>actor</span>, <span class='ident'>script_id</span>);
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>script_actors</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>script_actors</span>.<span class='ident'>borrow_mut</span>();
         <span class='ident'>script_actors</span>.<span class='ident'>insert</span>(<span class='ident'>script_id</span>, <span class='ident'>actor</span>);
     }
@@ -344,7 +344,7 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>actor_to_script</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>actor</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
         <span class='kw'>for</span> (<span class='ident'>key</span>, <span class='ident'>value</span>) <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>script_actors</span>.<span class='ident'>borrow</span>() {
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;checking {}&quot;</span>, <span class='ident'>value</span>);
+            <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;checking {}&quot;</span>, <span class='ident'>value</span>);
             <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>value</span> <span class='op'>==</span> <span class='ident'>actor</span> {
                 <span class='kw'>return</span> <span class='ident'>key</span>.<span class='ident'>to_owned</span>();
             }
@@ -390,12 +390,12 @@
         <span class='kw'>let</span> <span class='ident'>to</span> <span class='op'>=</span> <span class='ident'>msg</span>.<span class='ident'>get</span>(<span class='string'>&quot;to&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_string</span>().<span class='ident'>unwrap</span>();
 
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>actors</span>.<span class='ident'>get</span>(<span class='ident'>to</span>) {
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;message received for unknown actor \&quot;{}\&quot;&quot;</span>, <span class='ident'>to</span>),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;message received for unknown actor \&quot;{}\&quot;&quot;</span>, <span class='ident'>to</span>),
             <span class='prelude-val'>Some</span>(<span class='ident'>actor</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>msg_type</span> <span class='op'>=</span> <span class='ident'>msg</span>.<span class='ident'>get</span>(<span class='string'>&quot;type&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_string</span>().<span class='ident'>unwrap</span>();
                 <span class='kw'>if</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>actor</span>.<span class='ident'>handle_message</span>(<span class='self'>self</span>, <span class='ident'>msg_type</span>, <span class='ident'>msg</span>, <span class='ident'>stream</span>))
                         <span class='op'>!=</span> <span class='ident'>ActorMessageStatus</span>::<span class='ident'>Processed</span> {
-                    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;unexpected message type \&quot;{}\&quot; found for actor \&quot;{}\&quot;&quot;</span>,
+                    <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;unexpected message type \&quot;{}\&quot; found for actor \&quot;{}\&quot;&quot;</span>,
                              <span class='ident'>msg_type</span>, <span class='ident'>to</span>);
                 }
             }

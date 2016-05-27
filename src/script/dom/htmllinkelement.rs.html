@@ -427,8 +427,6 @@
 <span id="383">383</span>
 <span id="384">384</span>
 <span id="385">385</span>
-<span id="386">386</span>
-<span id="387">387</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -441,8 +439,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>HTMLLinkElementBinding</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>HTMLLinkElementBinding</span>::<span class='ident'>HTMLLinkElementMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>JS</span>, <span class='ident'>MutNullableHeap</span>, <span class='ident'>Root</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>RootedReference</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>JS</span>, <span class='ident'>MutNullableHeap</span>, <span class='ident'>Root</span>, <span class='ident'>RootedReference</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>refcounted</span>::<span class='ident'>Trusted</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>document</span>::<span class='ident'>Document</span>;
@@ -458,7 +455,7 @@
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>mime</span>::{<span class='ident'>Mime</span>, <span class='ident'>TopLevel</span>, <span class='ident'>SubLevel</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
-<span class='kw'>use</span> <span class='ident'>layout_interface</span>::{<span class='ident'>LayoutChan</span>, <span class='ident'>Msg</span>};
+<span class='kw'>use</span> <span class='ident'>layout_interface</span>::<span class='ident'>Msg</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseListener</span>, <span class='ident'>AsyncResponseTarget</span>, <span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span>};
 <span class='kw'>use</span> <span class='ident'>network_listener</span>::{<span class='ident'>NetworkListener</span>, <span class='ident'>PreInvoke</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>MozBrowserEvent</span>, <span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>};
@@ -751,8 +748,7 @@
         <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>r</span>();
 
         <span class='kw'>let</span> <span class='ident'>win</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='ident'>elem</span>);
-        <span class='kw'>let</span> <span class='ident'>LayoutChan</span>(<span class='kw-2'>ref</span> <span class='ident'>layout_chan</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>win</span>.<span class='ident'>layout_chan</span>();
-        <span class='ident'>layout_chan</span>.<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>AddStylesheet</span>(<span class='ident'>sheet</span>.<span class='ident'>clone</span>())).<span class='ident'>unwrap</span>();
+        <span class='ident'>win</span>.<span class='ident'>layout_chan</span>().<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>AddStylesheet</span>(<span class='ident'>sheet</span>.<span class='ident'>clone</span>())).<span class='ident'>unwrap</span>();
 
         <span class='op'>*</span><span class='ident'>elem</span>.<span class='ident'>stylesheet</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>sheet</span>);
         <span class='ident'>document</span>.<span class='ident'>invalidate_stylesheets</span>();
