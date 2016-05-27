@@ -631,23 +631,6 @@
 <span id="587">587</span>
 <span id="588">588</span>
 <span id="589">589</span>
-<span id="590">590</span>
-<span id="591">591</span>
-<span id="592">592</span>
-<span id="593">593</span>
-<span id="594">594</span>
-<span id="595">595</span>
-<span id="596">596</span>
-<span id="597">597</span>
-<span id="598">598</span>
-<span id="599">599</span>
-<span id="600">600</span>
-<span id="601">601</span>
-<span id="602">602</span>
-<span id="603">603</span>
-<span id="604">604</span>
-<span id="605">605</span>
-<span id="606">606</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -693,12 +676,8 @@
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::<span class='ident'>Atom</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>context</span>::<span class='ident'>ReflowGoal</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>;
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>::<span class='ident'>mozbrowser_enabled</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::<span class='ident'>LengthOrPercentageOrAuto</span>;
-
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>mozbrowser_enabled</span>() <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mozbrowser.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>)
-}
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>)]</span>
 <span class='kw'>enum</span> <span class='ident'>SandboxAllowance</span> {
@@ -1090,29 +1069,16 @@
     <span class='comment'>// Experimental mozbrowser implementation is based on the webidl</span>
     <span class='comment'>// present in the gecko source tree, and the documentation here:</span>
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/API/Using_the_Browser_API</span>
-
-    <span class='comment'>// TODO(gw): Use experimental codegen when it is available to avoid</span>
-    <span class='comment'>// exposing these APIs. See https://github.com/servo/servo/issues/5264.</span>
-
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-mozbrowser</span>
     <span class='kw'>fn</span> <span class='ident'>Mozbrowser</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='comment'>// We don&#39;t want to allow mozbrowser iframes within iframes</span>
-        <span class='kw'>let</span> <span class='ident'>is_root_pipeline</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='ident'>parent_info</span>().<span class='ident'>is_none</span>();
-        <span class='kw'>if</span> <span class='ident'>mozbrowser_enabled</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>is_root_pipeline</span> {
-            <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
-            <span class='ident'>element</span>.<span class='ident'>has_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;mozbrowser&quot;</span>))
-        } <span class='kw'>else</span> {
-            <span class='boolvalue'>false</span>
-        }
+        <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
+        <span class='ident'>element</span>.<span class='ident'>has_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;mozbrowser&quot;</span>))
     }
 
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-mozbrowser</span>
-    <span class='kw'>fn</span> <span class='ident'>SetMozbrowser</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>ErrorResult</span> {
-        <span class='kw'>if</span> <span class='ident'>mozbrowser_enabled</span>() {
-            <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
-            <span class='ident'>element</span>.<span class='ident'>set_bool_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;mozbrowser&quot;</span>), <span class='ident'>value</span>);
-        }
-        <span class='prelude-val'>Ok</span>(())
+    <span class='kw'>fn</span> <span class='ident'>SetMozbrowser</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>bool</span>) {
+        <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
+        <span class='ident'>element</span>.<span class='ident'>set_bool_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;mozbrowser&quot;</span>), <span class='ident'>value</span>);
     }
 
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/goBack</span>

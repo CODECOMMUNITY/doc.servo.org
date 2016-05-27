@@ -1645,6 +1645,19 @@
 <span id="1601">1601</span>
 <span id="1602">1602</span>
 <span id="1603">1603</span>
+<span id="1604">1604</span>
+<span id="1605">1605</span>
+<span id="1606">1606</span>
+<span id="1607">1607</span>
+<span id="1608">1608</span>
+<span id="1609">1609</span>
+<span id="1610">1610</span>
+<span id="1611">1611</span>
+<span id="1612">1612</span>
+<span id="1613">1613</span>
+<span id="1614">1614</span>
+<span id="1615">1615</span>
+<span id="1616">1616</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1662,7 +1675,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>WindowBinding</span>::{<span class='ident'>ScrollBehavior</span>, <span class='ident'>ScrollToOptions</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>WindowBinding</span>::{<span class='self'>self</span>, <span class='ident'>FrameRequestCallback</span>, <span class='ident'>WindowMethods</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::{<span class='ident'>Error</span>, <span class='ident'>Fallible</span>, <span class='ident'>report_pending_exception</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>global</span>::<span class='ident'>GlobalRef</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>global</span>::{<span class='ident'>GlobalRef</span>, <span class='ident'>global_root_from_object</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>JS</span>, <span class='ident'>MutNullableHeap</span>, <span class='ident'>Root</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>num</span>::<span class='ident'>Finite</span>;
@@ -1685,9 +1698,8 @@
 <span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Point2D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>LayerId</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcSender</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>Evaluate2</span>, <span class='ident'>MutableHandleValue</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>HandleValue</span>, <span class='ident'>JSContext</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>JS_GC</span>, <span class='ident'>JS_GetRuntime</span>, <span class='ident'>SetWindowProxy</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>Evaluate2</span>, <span class='ident'>HandleObject</span>, <span class='ident'>HandleValue</span>, <span class='ident'>JSAutoCompartment</span>, <span class='ident'>JSContext</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JS_GetRuntime</span>, <span class='ident'>JS_GC</span>, <span class='ident'>MutableHandleValue</span>, <span class='ident'>SetWindowProxy</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::<span class='ident'>CompileOptionsWrapper</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::<span class='ident'>Runtime</span>;
 <span class='kw'>use</span> <span class='ident'>layout_interface</span>::{<span class='ident'>ContentBoxResponse</span>, <span class='ident'>ContentBoxesResponse</span>, <span class='ident'>ResolvedStyleResponse</span>, <span class='ident'>ScriptReflow</span>};
@@ -1741,6 +1753,7 @@
 <span class='kw'>use</span> <span class='ident'>tinyfiledialogs</span>::{<span class='self'>self</span>, <span class='ident'>MessageBoxIcon</span>};
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>geometry</span>::{<span class='self'>self</span>, <span class='ident'>MAX_RECT</span>};
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>::<span class='ident'>mozbrowser_enabled</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::<span class='ident'>HTML_SPACE_CHARACTERS</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::{<span class='ident'>breakpoint</span>, <span class='ident'>opts</span>};
 <span class='kw'>use</span> <span class='ident'>webdriver_handlers</span>::<span class='ident'>jsval_to_webdriver</span>;
@@ -3084,6 +3097,19 @@
             <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>browsing_context</span>();
             <span class='ident'>context</span>.<span class='ident'>active_window</span>()
         })
+    }
+
+    <span class='doccomment'>/// Returns whether mozbrowser is enabled and `obj` has been created</span>
+    <span class='doccomment'>/// in a top-level `Window` global.</span>
+    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
+    <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>global_is_mozbrowser</span>(_: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>mozbrowser_enabled</span>() {
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        }
+        <span class='kw'>match</span> <span class='ident'>global_root_from_object</span>(<span class='ident'>obj</span>.<span class='ident'>get</span>()).<span class='ident'>r</span>() {
+            <span class='ident'>GlobalRef</span>::<span class='ident'>Window</span>(<span class='ident'>window</span>) <span class='op'>=&gt;</span> <span class='ident'>window</span>.<span class='ident'>parent_info</span>().<span class='ident'>is_none</span>(),
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+        }
     }
 }
 

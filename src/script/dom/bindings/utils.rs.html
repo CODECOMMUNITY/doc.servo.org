@@ -593,35 +593,6 @@
 <span id="549">549</span>
 <span id="550">550</span>
 <span id="551">551</span>
-<span id="552">552</span>
-<span id="553">553</span>
-<span id="554">554</span>
-<span id="555">555</span>
-<span id="556">556</span>
-<span id="557">557</span>
-<span id="558">558</span>
-<span id="559">559</span>
-<span id="560">560</span>
-<span id="561">561</span>
-<span id="562">562</span>
-<span id="563">563</span>
-<span id="564">564</span>
-<span id="565">565</span>
-<span id="566">566</span>
-<span id="567">567</span>
-<span id="568">568</span>
-<span id="569">569</span>
-<span id="570">570</span>
-<span id="571">571</span>
-<span id="572">572</span>
-<span id="573">573</span>
-<span id="574">574</span>
-<span id="575">575</span>
-<span id="576">576</span>
-<span id="577">577</span>
-<span id="578">578</span>
-<span id="579">579</span>
-<span id="580">580</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -664,7 +635,6 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ptr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>slice</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>;
 
 <span class='doccomment'>/// Proxy handler for a WindowProxy.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WindowProxyHandler</span>(<span class='kw'>pub</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_void</span>);
@@ -1175,34 +1145,6 @@
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>DOM_CALLBACKS</span>: <span class='ident'>DOMCallbacks</span> <span class='op'>=</span> <span class='ident'>DOMCallbacks</span> {
     <span class='ident'>instanceClassMatchesProto</span>: <span class='prelude-val'>Some</span>(<span class='ident'>instance_class_has_proto_at_depth</span>),
 };
-
-<span class='doccomment'>/// A container around JS member specifications that are conditionally enabled.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// If present, the name of the preference used to conditionally enable these specs.</span>
-    <span class='kw'>pub</span> <span class='ident'>pref</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// The underlying slice of specifications.</span>
-    <span class='kw'>pub</span> <span class='ident'>specs</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>T</span>],
-    <span class='doccomment'>/// Whether the specifications contain special terminating entries that should be</span>
-    <span class='doccomment'>/// included or not.</span>
-    <span class='kw'>pub</span> <span class='ident'>terminator</span>: <span class='ident'>bool</span>,
-}
-
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Retrieve the slice represented by this container, unless the condition</span>
-    <span class='doccomment'>/// guarding it is false.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>specs</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>T</span>] {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pref</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pref</span> {
-            <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='ident'>pref</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) {
-                <span class='kw'>return</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>terminator</span> {
-                    <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>specs</span>[<span class='self'>self</span>.<span class='ident'>specs</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>..]
-                } <span class='kw'>else</span> {
-                    <span class='kw-2'>&amp;</span>[]
-                };
-            }
-        }
-        <span class='self'>self</span>.<span class='ident'>specs</span>
-    }
-}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

@@ -412,7 +412,7 @@
     <span class='doccomment'>/// Performs the setup needed to make a call.</span>
     <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unrooted_must_root</span>)]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>CallbackContainer</span><span class='op'>&gt;</span>(<span class='ident'>callback</span>: <span class='kw-2'>&amp;</span><span class='ident'>T</span>, <span class='ident'>handling</span>: <span class='ident'>ExceptionHandling</span>) <span class='op'>-&gt;</span> <span class='ident'>CallSetup</span> {
-        <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='ident'>global_root_from_object</span>(<span class='ident'>callback</span>.<span class='ident'>callback</span>());
+        <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>global_root_from_object</span>(<span class='ident'>callback</span>.<span class='ident'>callback</span>()) };
         <span class='kw'>let</span> <span class='ident'>cx</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>r</span>().<span class='ident'>get_cx</span>();
 
         <span class='kw'>let</span> <span class='ident'>exception_compartment</span> <span class='op'>=</span> <span class='kw'>unsafe</span> {

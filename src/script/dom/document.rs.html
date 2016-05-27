@@ -2912,6 +2912,7 @@
 <span id="2868">2868</span>
 <span id="2869">2869</span>
 <span id="2870">2870</span>
+<span id="2871">2871</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2971,7 +2972,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlformelement</span>::<span class='ident'>HTMLFormElement</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlheadelement</span>::<span class='ident'>HTMLHeadElement</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlhtmlelement</span>::<span class='ident'>HTMLHtmlElement</span>;
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmliframeelement</span>::{<span class='self'>self</span>, <span class='ident'>HTMLIFrameElement</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmliframeelement</span>::<span class='ident'>HTMLIFrameElement</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlimageelement</span>::<span class='ident'>HTMLImageElement</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmllinkelement</span>::<span class='ident'>HTMLLinkElement</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlmetaelement</span>::<span class='ident'>HTMLMetaElement</span>;
@@ -3042,6 +3043,7 @@
 <span class='kw'>use</span> <span class='ident'>time</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>percent_encoding</span>::<span class='ident'>percent_decode</span>;
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>::<span class='ident'>mozbrowser_enabled</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::{<span class='ident'>split_html_space_chars</span>, <span class='ident'>str_join</span>};
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>JSTraceable</span>, <span class='ident'>PartialEq</span>, <span class='ident'>HeapSizeOf</span>)]</span>
@@ -4176,7 +4178,7 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>trigger_mozbrowser_event</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>event</span>: <span class='ident'>MozBrowserEvent</span>) {
-        <span class='kw'>if</span> <span class='ident'>htmliframeelement</span>::<span class='ident'>mozbrowser_enabled</span>() {
+        <span class='kw'>if</span> <span class='ident'>mozbrowser_enabled</span>() {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>parent_info</span>() {
                 <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>ConstellationMsg</span>::<span class='ident'>MozBrowserEvent</span>(<span class='ident'>containing_pipeline_id</span>,
                                                               <span class='ident'>subpage_id</span>,

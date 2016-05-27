@@ -382,11 +382,6 @@
 <span id="338">338</span>
 <span id="339">339</span>
 <span id="340">340</span>
-<span id="341">341</span>
-<span id="342">342</span>
-<span id="343">343</span>
-<span id="344">344</span>
-<span id="345">345</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -692,46 +687,41 @@
 
 <span class='doccomment'>/// Returns the global object of the realm that the given DOM object&#39;s reflector was created in.</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>global_root_from_reflector</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Reflectable</span><span class='op'>&gt;</span>(<span class='ident'>reflector</span>: <span class='kw-2'>&amp;</span><span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>GlobalRoot</span> {
-    <span class='ident'>global_root_from_object</span>(<span class='op'>*</span><span class='ident'>reflector</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>())
+    <span class='kw'>unsafe</span> { <span class='ident'>global_root_from_object</span>(<span class='op'>*</span><span class='ident'>reflector</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>()) }
 }
 
 <span class='doccomment'>/// Returns the Rust global object from a JS global object.</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unrooted_must_root</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>global_root_from_global</span>(<span class='ident'>global</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) <span class='op'>-&gt;</span> <span class='ident'>GlobalRoot</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>clasp</span> <span class='op'>=</span> <span class='ident'>JS_GetClass</span>(<span class='ident'>global</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(((<span class='op'>*</span><span class='ident'>clasp</span>).<span class='ident'>flags</span> <span class='kw-2'>&amp;</span> (<span class='ident'>JSCLASS_IS_DOMJSCLASS</span> <span class='op'>|</span> <span class='ident'>JSCLASS_IS_GLOBAL</span>)) <span class='op'>!=</span> <span class='number'>0</span>);
-        <span class='kw'>match</span> <span class='ident'>root_from_object</span>(<span class='ident'>global</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>window</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>GlobalRoot</span>::<span class='ident'>Window</span>(<span class='ident'>window</span>),
-            <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> (),
-        }
-
-        <span class='kw'>match</span> <span class='ident'>root_from_object</span>(<span class='ident'>global</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>worker</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>GlobalRoot</span>::<span class='ident'>Worker</span>(<span class='ident'>worker</span>),
-            <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> (),
-        }
-
-        <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;found DOM global that doesn&#39;t unwrap to Window or WorkerGlobalScope&quot;</span>)
+<span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>global_root_from_global</span>(<span class='ident'>global</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) <span class='op'>-&gt;</span> <span class='ident'>GlobalRoot</span> {
+    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>global</span>.<span class='ident'>is_null</span>());
+    <span class='kw'>let</span> <span class='ident'>clasp</span> <span class='op'>=</span> <span class='ident'>JS_GetClass</span>(<span class='ident'>global</span>);
+    <span class='macro'>assert</span><span class='macro'>!</span>(((<span class='op'>*</span><span class='ident'>clasp</span>).<span class='ident'>flags</span> <span class='kw-2'>&amp;</span> (<span class='ident'>JSCLASS_IS_DOMJSCLASS</span> <span class='op'>|</span> <span class='ident'>JSCLASS_IS_GLOBAL</span>)) <span class='op'>!=</span> <span class='number'>0</span>);
+    <span class='kw'>match</span> <span class='ident'>root_from_object</span>(<span class='ident'>global</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>window</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>GlobalRoot</span>::<span class='ident'>Window</span>(<span class='ident'>window</span>),
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> (),
     }
+
+    <span class='kw'>match</span> <span class='ident'>root_from_object</span>(<span class='ident'>global</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>worker</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>GlobalRoot</span>::<span class='ident'>Worker</span>(<span class='ident'>worker</span>),
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> (),
+    }
+
+    <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;found DOM global that doesn&#39;t unwrap to Window or WorkerGlobalScope&quot;</span>)
 }
 
 <span class='doccomment'>/// Returns the global object of the realm that the given JS object was created in.</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unrooted_must_root</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>global_root_from_object</span>(<span class='ident'>obj</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) <span class='op'>-&gt;</span> <span class='ident'>GlobalRoot</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='ident'>GetGlobalForObjectCrossCompartment</span>(<span class='ident'>obj</span>);
-        <span class='ident'>global_root_from_global</span>(<span class='ident'>global</span>)
-    }
+<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>global_root_from_object</span>(<span class='ident'>obj</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) <span class='op'>-&gt;</span> <span class='ident'>GlobalRoot</span> {
+    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>obj</span>.<span class='ident'>is_null</span>());
+    <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='ident'>GetGlobalForObjectCrossCompartment</span>(<span class='ident'>obj</span>);
+    <span class='ident'>global_root_from_global</span>(<span class='ident'>global</span>)
 }
 
 <span class='doccomment'>/// Returns the global object for the given JSContext</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unrooted_must_root</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>global_root_from_context</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>) <span class='op'>-&gt;</span> <span class='ident'>GlobalRoot</span> {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='ident'>CurrentGlobalOrNull</span>(<span class='ident'>cx</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>global</span>.<span class='ident'>is_null</span>());
-        <span class='ident'>global_root_from_global</span>(<span class='ident'>global</span>)
-    }
+<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>global_root_from_context</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>) <span class='op'>-&gt;</span> <span class='ident'>GlobalRoot</span> {
+    <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='ident'>CurrentGlobalOrNull</span>(<span class='ident'>cx</span>);
+    <span class='ident'>global_root_from_global</span>(<span class='ident'>global</span>)
 }
 </pre>
 </section>

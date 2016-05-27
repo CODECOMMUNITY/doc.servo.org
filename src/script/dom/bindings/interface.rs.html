@@ -486,6 +486,16 @@
 <span id="442">442</span>
 <span id="443">443</span>
 <span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -495,7 +505,8 @@
 
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>PrototypeList</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>conversions</span>::<span class='ident'>get_dom_class</span>;
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>utils</span>::{<span class='ident'>get_proto_or_iface_array</span>, <span class='ident'>Prefable</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>guard</span>::<span class='ident'>Guard</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>utils</span>::<span class='ident'>get_proto_or_iface_array</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>error</span>::<span class='ident'>throw_type_error</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>glue</span>::<span class='ident'>UncheckedUnwrapObject</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>Class</span>, <span class='ident'>ClassExtension</span>, <span class='ident'>ClassSpec</span>, <span class='ident'>GetGlobalForObjectCrossCompartment</span>};
@@ -555,7 +566,10 @@
 
 <span class='doccomment'>/// Defines constants on `obj`.</span>
 <span class='doccomment'>/// Fails on JSAPI failure.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>define_constants</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>ConstantSpec</span>]) {
+<span class='kw'>fn</span> <span class='ident'>define_constants</span>(
+        <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
+        <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>,
+        <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>ConstantSpec</span>]) {
     <span class='kw'>for</span> <span class='ident'>spec</span> <span class='kw'>in</span> <span class='ident'>constants</span> {
         <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>spec</span>.<span class='ident'>get_value</span>());
         <span class='kw'>unsafe</span> {
@@ -697,18 +711,20 @@
 <span class='doccomment'>/// Create and define the interface object of a callback interface.</span>
 <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>create_callback_interface_object</span>(
         <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
-        <span class='ident'>receiver</span>: <span class='ident'>HandleObject</span>,
-        <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>ConstantSpec</span><span class='op'>&gt;</span>],
-        <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>],
+        <span class='ident'>global</span>: <span class='ident'>HandleObject</span>,
+        <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span>[<span class='ident'>ConstantSpec</span>]<span class='op'>&gt;</span>],
+        <span class='ident'>name</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
         <span class='ident'>rval</span>: <span class='ident'>MutableHandleObject</span>) {
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>constants</span>.<span class='ident'>is_empty</span>());
     <span class='ident'>rval</span>.<span class='ident'>set</span>(<span class='ident'>JS_NewObject</span>(<span class='ident'>cx</span>, <span class='ident'>ptr</span>::<span class='ident'>null</span>()));
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>rval</span>.<span class='ident'>ptr</span>.<span class='ident'>is_null</span>());
-    <span class='kw'>for</span> <span class='ident'>prefable</span> <span class='kw'>in</span> <span class='ident'>constants</span> {
-        <span class='ident'>define_constants</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>prefable</span>.<span class='ident'>specs</span>());
+    <span class='kw'>for</span> <span class='ident'>guard</span> <span class='kw'>in</span> <span class='ident'>constants</span> {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>specs</span>) <span class='op'>=</span> <span class='ident'>guard</span>.<span class='ident'>expose</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>()) {
+            <span class='ident'>define_constants</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>specs</span>);
+        }
     }
     <span class='ident'>define_name</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>name</span>);
-    <span class='ident'>define_on_global_object</span>(<span class='ident'>cx</span>, <span class='ident'>receiver</span>, <span class='ident'>name</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>());
+    <span class='ident'>define_on_global_object</span>(<span class='ident'>cx</span>, <span class='ident'>global</span>, <span class='ident'>name</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>());
 }
 
 <span class='doccomment'>/// Create the interface prototype object of a non-callback interface.</span>
@@ -716,9 +732,9 @@
         <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
         <span class='ident'>proto</span>: <span class='ident'>HandleObject</span>,
         <span class='ident'>class</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>JSClass</span>,
-        <span class='ident'>regular_methods</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSFunctionSpec</span><span class='op'>&gt;</span>]<span class='op'>&gt;</span>,
-        <span class='ident'>regular_properties</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSPropertySpec</span><span class='op'>&gt;</span>]<span class='op'>&gt;</span>,
-        <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>ConstantSpec</span><span class='op'>&gt;</span>],
+        <span class='ident'>regular_methods</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>JSFunctionSpec</span>]<span class='op'>&gt;</span>],
+        <span class='ident'>regular_properties</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>JSPropertySpec</span>]<span class='op'>&gt;</span>],
+        <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span>[<span class='ident'>ConstantSpec</span>]<span class='op'>&gt;</span>],
         <span class='ident'>rval</span>: <span class='ident'>MutableHandleObject</span>) {
     <span class='ident'>create_object</span>(<span class='ident'>cx</span>, <span class='ident'>proto</span>, <span class='ident'>class</span>, <span class='ident'>regular_methods</span>, <span class='ident'>regular_properties</span>, <span class='ident'>constants</span>, <span class='ident'>rval</span>);
 }
@@ -726,14 +742,14 @@
 <span class='doccomment'>/// Create and define the interface object of a non-callback interface.</span>
 <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>create_noncallback_interface_object</span>(
         <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
-        <span class='ident'>receiver</span>: <span class='ident'>HandleObject</span>,
+        <span class='ident'>global</span>: <span class='ident'>HandleObject</span>,
         <span class='ident'>proto</span>: <span class='ident'>HandleObject</span>,
         <span class='ident'>class</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>NonCallbackInterfaceObjectClass</span>,
-        <span class='ident'>static_methods</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSFunctionSpec</span><span class='op'>&gt;</span>]<span class='op'>&gt;</span>,
-        <span class='ident'>static_properties</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSPropertySpec</span><span class='op'>&gt;</span>]<span class='op'>&gt;</span>,
-        <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>ConstantSpec</span><span class='op'>&gt;</span>],
+        <span class='ident'>static_methods</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>JSFunctionSpec</span>]<span class='op'>&gt;</span>],
+        <span class='ident'>static_properties</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>JSPropertySpec</span>]<span class='op'>&gt;</span>],
+        <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span>[<span class='ident'>ConstantSpec</span>]<span class='op'>&gt;</span>],
         <span class='ident'>interface_prototype_object</span>: <span class='ident'>HandleObject</span>,
-        <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>],
+        <span class='ident'>name</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
         <span class='ident'>length</span>: <span class='ident'>u32</span>,
         <span class='ident'>rval</span>: <span class='ident'>MutableHandleObject</span>) {
     <span class='ident'>create_object</span>(<span class='ident'>cx</span>,
@@ -746,14 +762,14 @@
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>JS_LinkConstructorAndPrototype</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>interface_prototype_object</span>));
     <span class='ident'>define_name</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>name</span>);
     <span class='ident'>define_length</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>length</span>);
-    <span class='ident'>define_on_global_object</span>(<span class='ident'>cx</span>, <span class='ident'>receiver</span>, <span class='ident'>name</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>());
+    <span class='ident'>define_on_global_object</span>(<span class='ident'>cx</span>, <span class='ident'>global</span>, <span class='ident'>name</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>());
 }
 
 <span class='doccomment'>/// Create and define the named constructors of a non-callback interface.</span>
 <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>create_named_constructors</span>(
         <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
-        <span class='ident'>receiver</span>: <span class='ident'>HandleObject</span>,
-        <span class='ident'>named_constructors</span>: <span class='kw-2'>&amp;</span>[(<span class='ident'>NonNullJSNative</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>], <span class='ident'>u32</span>)],
+        <span class='ident'>global</span>: <span class='ident'>HandleObject</span>,
+        <span class='ident'>named_constructors</span>: <span class='kw-2'>&amp;</span>[(<span class='ident'>NonNullJSNative</span>, <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>u32</span>)],
         <span class='ident'>interface_prototype_object</span>: <span class='ident'>HandleObject</span>) {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>constructor</span> <span class='op'>=</span> <span class='ident'>RootedObject</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>());
 
@@ -777,7 +793,7 @@
                                    <span class='prelude-val'>None</span>,
                                    <span class='prelude-val'>None</span>));
 
-        <span class='ident'>define_on_global_object</span>(<span class='ident'>cx</span>, <span class='ident'>receiver</span>, <span class='ident'>name</span>, <span class='ident'>constructor</span>.<span class='ident'>handle</span>());
+        <span class='ident'>define_on_global_object</span>(<span class='ident'>cx</span>, <span class='ident'>global</span>, <span class='ident'>name</span>, <span class='ident'>constructor</span>.<span class='ident'>handle</span>());
     }
 }
 
@@ -843,42 +859,46 @@
         <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
         <span class='ident'>proto</span>: <span class='ident'>HandleObject</span>,
         <span class='ident'>class</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>JSClass</span>,
-        <span class='ident'>methods</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSFunctionSpec</span><span class='op'>&gt;</span>]<span class='op'>&gt;</span>,
-        <span class='ident'>properties</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSPropertySpec</span><span class='op'>&gt;</span>]<span class='op'>&gt;</span>,
-        <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>ConstantSpec</span><span class='op'>&gt;</span>],
+        <span class='ident'>methods</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>JSFunctionSpec</span>]<span class='op'>&gt;</span>],
+        <span class='ident'>properties</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>JSPropertySpec</span>]<span class='op'>&gt;</span>],
+        <span class='ident'>constants</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span>[<span class='ident'>ConstantSpec</span>]<span class='op'>&gt;</span>],
         <span class='ident'>rval</span>: <span class='ident'>MutableHandleObject</span>) {
     <span class='ident'>rval</span>.<span class='ident'>set</span>(<span class='ident'>JS_NewObjectWithUniqueType</span>(<span class='ident'>cx</span>, <span class='ident'>class</span>, <span class='ident'>proto</span>));
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>rval</span>.<span class='ident'>ptr</span>.<span class='ident'>is_null</span>());
-    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>methods</span>) <span class='op'>=</span> <span class='ident'>methods</span> {
-        <span class='ident'>define_prefable_methods</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>methods</span>);
-    }
-    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>properties</span>) <span class='op'>=</span> <span class='ident'>properties</span> {
-        <span class='ident'>define_prefable_properties</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>properties</span>);
-    }
-    <span class='kw'>for</span> <span class='ident'>prefable</span> <span class='kw'>in</span> <span class='ident'>constants</span> {
-        <span class='ident'>define_constants</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>prefable</span>.<span class='ident'>specs</span>());
+    <span class='ident'>define_guarded_methods</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>methods</span>);
+    <span class='ident'>define_guarded_properties</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>properties</span>);
+    <span class='kw'>for</span> <span class='ident'>guard</span> <span class='kw'>in</span> <span class='ident'>constants</span> {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>specs</span>) <span class='op'>=</span> <span class='ident'>guard</span>.<span class='ident'>expose</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>()) {
+            <span class='ident'>define_constants</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>specs</span>);
+        }
     }
 }
 
 <span class='doccomment'>/// Conditionally define methods on an object.</span>
-<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>define_prefable_methods</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
-                                      <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>,
-                                      <span class='ident'>methods</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSFunctionSpec</span><span class='op'>&gt;</span>]) {
-    <span class='kw'>for</span> <span class='ident'>prefable</span> <span class='kw'>in</span> <span class='ident'>methods</span> {
-        <span class='ident'>define_methods</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>, <span class='ident'>prefable</span>.<span class='ident'>specs</span>()).<span class='ident'>unwrap</span>();
+<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>define_guarded_methods</span>(
+        <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
+        <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>,
+        <span class='ident'>methods</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>JSFunctionSpec</span>]<span class='op'>&gt;</span>]) {
+    <span class='kw'>for</span> <span class='ident'>guard</span> <span class='kw'>in</span> <span class='ident'>methods</span> {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>specs</span>) <span class='op'>=</span> <span class='ident'>guard</span>.<span class='ident'>expose</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>) {
+            <span class='ident'>define_methods</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>, <span class='ident'>specs</span>).<span class='ident'>unwrap</span>();
+        }
     }
 }
 
 <span class='doccomment'>/// Conditionally define properties on an object.</span>
-<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>define_prefable_properties</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
-                                         <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>,
-                                         <span class='ident'>properties</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>Prefable</span><span class='op'>&lt;</span><span class='ident'>JSPropertySpec</span><span class='op'>&gt;</span>]) {
-    <span class='kw'>for</span> <span class='ident'>prefable</span> <span class='kw'>in</span> <span class='ident'>properties</span> {
-        <span class='ident'>define_properties</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>, <span class='ident'>prefable</span>.<span class='ident'>specs</span>()).<span class='ident'>unwrap</span>();
+<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>define_guarded_properties</span>(
+        <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
+        <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>,
+        <span class='ident'>properties</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Guard</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>JSPropertySpec</span>]<span class='op'>&gt;</span>]) {
+    <span class='kw'>for</span> <span class='ident'>guard</span> <span class='kw'>in</span> <span class='ident'>properties</span> {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>specs</span>) <span class='op'>=</span> <span class='ident'>guard</span>.<span class='ident'>expose</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>) {
+            <span class='ident'>define_properties</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>, <span class='ident'>specs</span>).<span class='ident'>unwrap</span>();
+        }
     }
 }
 
-<span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>define_name</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>]) {
+<span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>define_name</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) {
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>name</span>.<span class='ident'>last</span>().<span class='ident'>unwrap</span>() <span class='op'>==</span> <span class='string'>b&#39;\0&#39;</span>);
     <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>RootedString</span>::<span class='ident'>new</span>(
         <span class='ident'>cx</span>, <span class='ident'>JS_AtomizeAndPinString</span>(<span class='ident'>cx</span>, <span class='ident'>name</span>.<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>));
@@ -902,12 +922,12 @@
 
 <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>define_on_global_object</span>(
         <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>,
-        <span class='ident'>receiver</span>: <span class='ident'>HandleObject</span>,
-        <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>],
+        <span class='ident'>global</span>: <span class='ident'>HandleObject</span>,
+        <span class='ident'>name</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>],
         <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>) {
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>name</span>.<span class='ident'>last</span>().<span class='ident'>unwrap</span>() <span class='op'>==</span> <span class='string'>b&#39;\0&#39;</span>);
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>JS_DefineProperty1</span>(<span class='ident'>cx</span>,
-                               <span class='ident'>receiver</span>,
+                               <span class='ident'>global</span>,
                                <span class='ident'>name</span>.<span class='ident'>as_ptr</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
                                <span class='ident'>obj</span>,
                                <span class='ident'>JSPROP_RESOLVING</span>,

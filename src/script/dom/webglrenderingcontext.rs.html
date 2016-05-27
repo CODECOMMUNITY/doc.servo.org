@@ -2157,6 +2157,10 @@
 <span id="2113">2113</span>
 <span id="2114">2114</span>
 <span id="2115">2115</span>
+<span id="2116">2116</span>
+<span id="2117">2117</span>
+<span id="2118">2118</span>
+<span id="2119">2119</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2245,6 +2249,10 @@
     <span class='ident'>current_program</span>: <span class='ident'>MutNullableHeap</span><span class='op'>&lt;</span><span class='ident'>JS</span><span class='op'>&lt;</span><span class='ident'>WebGLProgram</span><span class='op'>&gt;&gt;</span>,
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;Because it&#39;s small&quot;</span>]</span>
     <span class='ident'>current_vertex_attrib_0</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span>(<span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>)<span class='op'>&gt;</span>,
+}
+
+<span class='kw'>fn</span> <span class='ident'>log2</span>(<span class='ident'>n</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
+    <span class='number'>31</span> <span class='op'>-</span> <span class='ident'>n</span>.<span class='ident'>leading_zeros</span>()
 }
 
 <span class='kw'>impl</span> <span class='ident'>WebGLRenderingContext</span> {
@@ -2562,7 +2570,7 @@
         <span class='comment'>// the returned value of GL_MAX_TEXTURE_SIZE when</span>
         <span class='comment'>// target is GL_TEXTURE_2D or GL_MAX_CUBE_MAP_TEXTURE_SIZE</span>
         <span class='comment'>// when target is not GL_TEXTURE_2D.</span>
-        <span class='kw'>if</span> <span class='ident'>level</span> <span class='op'>&gt;</span> (<span class='ident'>max</span> <span class='kw'>as</span> <span class='ident'>f32</span>).<span class='ident'>log2</span>() <span class='kw'>as</span> <span class='ident'>i32</span> {
+        <span class='kw'>if</span> <span class='ident'>level</span> <span class='op'>&gt;</span> <span class='ident'>log2</span>(<span class='ident'>max</span>) <span class='kw'>as</span> <span class='ident'>i32</span> {
             <span class='self'>self</span>.<span class='ident'>webgl_error</span>(<span class='ident'>InvalidValue</span>);
             <span class='kw'>return</span> <span class='boolvalue'>false</span>;
         }

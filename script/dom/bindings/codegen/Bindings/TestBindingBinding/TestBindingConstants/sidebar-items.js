@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["prefControlledConstDisabled",""],["prefControlledConstEnabled",""]]});
+initSidebarItems({"constant":[["funcControlledConstDisabled",""],["funcControlledConstEnabled",""],["prefControlledConstDisabled",""],["prefControlledConstEnabled",""]]});

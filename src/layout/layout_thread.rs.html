@@ -1547,7 +1547,6 @@
 <span id="1503">1503</span>
 <span id="1504">1504</span>
 <span id="1505">1505</span>
-<span id="1506">1506</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1608,7 +1607,6 @@
 <span class='kw'>use</span> <span class='ident'>sequential</span>;
 <span class='kw'>use</span> <span class='ident'>serde_json</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>RefCell</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>BuildHasherDefault</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::{<span class='ident'>Deref</span>, <span class='ident'>DerefMut</span>};
@@ -1694,7 +1692,7 @@
     <span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
 
     <span class='doccomment'>/// The URL of the pipeline that we belong to.</span>
-    <span class='ident'>url</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span>,
+    <span class='ident'>url</span>: <span class='ident'>Url</span>,
 
     <span class='doccomment'>/// Is the current reflow of an iframe, as opposed to a root window?</span>
     <span class='ident'>is_iframe</span>: <span class='ident'>bool</span>,
@@ -1982,7 +1980,7 @@
 
         <span class='ident'>LayoutThread</span> {
             <span class='ident'>id</span>: <span class='ident'>id</span>,
-            <span class='ident'>url</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>url</span>),
+            <span class='ident'>url</span>: <span class='ident'>url</span>,
             <span class='ident'>is_iframe</span>: <span class='ident'>is_iframe</span>,
             <span class='ident'>port</span>: <span class='ident'>port</span>,
             <span class='ident'>pipeline_port</span>: <span class='ident'>pipeline_receiver</span>,
@@ -2161,7 +2159,7 @@
         };
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                   <span class='boolvalue'>false</span>,
-                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow</span>(),
+                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                   <span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='self'>self</span>.<span class='ident'>perform_post_style_recalc_layout_passes</span>(<span class='kw-2'>&amp;</span><span class='ident'>reflow_info</span>,
@@ -2220,7 +2218,7 @@
                 <span class='self'>self</span>.<span class='ident'>create_layout_thread</span>(<span class='ident'>info</span>)
             }
             <span class='ident'>Msg</span>::<span class='ident'>SetFinalUrl</span>(<span class='ident'>final_url</span>) <span class='op'>=&gt;</span> {
-                <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='ident'>final_url</span>;
+                <span class='self'>self</span>.<span class='ident'>url</span> <span class='op'>=</span> <span class='ident'>final_url</span>;
             },
             <span class='ident'>Msg</span>::<span class='ident'>PrepareToExit</span>(<span class='ident'>response_chan</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>prepare_to_exit</span>(<span class='ident'>response_chan</span>);
@@ -2244,7 +2242,7 @@
         <span class='comment'>// FIXME(njn): Just measuring the display tree for now.</span>
         <span class='kw'>let</span> <span class='ident'>rw_data</span> <span class='op'>=</span> <span class='ident'>possibly_locked_rw_data</span>.<span class='ident'>lock</span>();
         <span class='kw'>let</span> <span class='ident'>display_list</span> <span class='op'>=</span> <span class='ident'>rw_data</span>.<span class='ident'>display_list</span>.<span class='ident'>as_ref</span>();
-        <span class='kw'>let</span> <span class='ident'>formatted_url</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;url({})&quot;</span>, <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow</span>());
+        <span class='kw'>let</span> <span class='ident'>formatted_url</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;url({})&quot;</span>, <span class='self'>self</span>.<span class='ident'>url</span>);
         <span class='ident'>reports</span>.<span class='ident'>push</span>(<span class='ident'>Report</span> {
             <span class='ident'>path</span>: <span class='macro'>path</span><span class='macro'>!</span>[<span class='ident'>formatted_url</span>, <span class='string'>&quot;layout-thread&quot;</span>, <span class='string'>&quot;display-list&quot;</span>],
             <span class='ident'>kind</span>: <span class='ident'>ReportKind</span>::<span class='ident'>ExplicitJemallocHeapSize</span>,
@@ -2550,7 +2548,7 @@
         <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>ServoLayoutNode</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>.<span class='ident'>document</span>) };
         <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>as_document</span>().<span class='ident'>unwrap</span>();
 
-        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;layout: received layout request for: {}&quot;</span>, <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow</span>());
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;layout: received layout request for: {}&quot;</span>, <span class='self'>self</span>.<span class='ident'>url</span>);
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rw_data</span> <span class='op'>=</span> <span class='ident'>possibly_locked_rw_data</span>.<span class='ident'>lock</span>();
 
@@ -2596,7 +2594,7 @@
             <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>,
         };
 
-        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;layout: received layout request for: {}&quot;</span>, <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow</span>());
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;layout: received layout request for: {}&quot;</span>, <span class='self'>self</span>.<span class='ident'>url</span>);
         <span class='kw'>if</span> <span class='macro'>log_enabled</span><span class='macro'>!</span>(<span class='ident'>log</span>::<span class='ident'>LogLevel</span>::<span class='ident'>Debug</span>) {
             <span class='ident'>node</span>.<span class='ident'>dump</span>();
         }
@@ -2665,7 +2663,7 @@
         <span class='comment'>// Create a layout context for use throughout the following passes.</span>
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>shared_layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                          <span class='ident'>viewport_size_changed</span>,
-                                                                         <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow</span>(),
+                                                                         <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                          <span class='ident'>data</span>.<span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='kw'>if</span> <span class='ident'>node</span>.<span class='ident'>is_dirty</span>() <span class='op'>||</span> <span class='ident'>node</span>.<span class='ident'>has_dirty_descendants</span>() {
@@ -2814,7 +2812,7 @@
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                   <span class='boolvalue'>false</span>,
-                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow</span>(),
+                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                   <span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='self'>self</span>.<span class='ident'>perform_post_main_layout_passes</span>(<span class='kw-2'>&amp;</span><span class='ident'>reflow_info</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>rw_data</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>layout_context</span>);
@@ -2834,7 +2832,7 @@
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                   <span class='boolvalue'>false</span>,
-                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow</span>(),
+                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                   <span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>mut</span> <span class='ident'>root_flow</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>root_flow</span>.<span class='ident'>clone</span>() {
@@ -2865,7 +2863,7 @@
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                   <span class='boolvalue'>false</span>,
-                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow</span>(),
+                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                   <span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='comment'>// No need to do a style recalc here.</span>
@@ -3010,7 +3008,7 @@
     <span class='doccomment'>/// Returns profiling information which is passed to the time profiler.</span>
     <span class='kw'>fn</span> <span class='ident'>profiler_metadata</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TimerMetadata</span><span class='op'>&gt;</span> {
         <span class='prelude-val'>Some</span>(<span class='ident'>TimerMetadata</span> {
-            <span class='ident'>url</span>: <span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>borrow</span>().<span class='ident'>to_string</span>(),
+            <span class='ident'>url</span>: <span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>to_string</span>(),
             <span class='ident'>iframe</span>: <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_iframe</span> {
                 <span class='ident'>TimerMetadataFrameType</span>::<span class='ident'>IFrame</span>
             } <span class='kw'>else</span> {
