@@ -1668,6 +1668,18 @@
 <span id="1624">1624</span>
 <span id="1625">1625</span>
 <span id="1626">1626</span>
+<span id="1627">1627</span>
+<span id="1628">1628</span>
+<span id="1629">1629</span>
+<span id="1630">1630</span>
+<span id="1631">1631</span>
+<span id="1632">1632</span>
+<span id="1633">1633</span>
+<span id="1634">1634</span>
+<span id="1635">1635</span>
+<span id="1636">1636</span>
+<span id="1637">1637</span>
+<span id="1638">1638</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1684,7 +1696,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>FunctionBinding</span>::<span class='ident'>Function</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>WindowBinding</span>::{<span class='ident'>ScrollBehavior</span>, <span class='ident'>ScrollToOptions</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>WindowBinding</span>::{<span class='self'>self</span>, <span class='ident'>FrameRequestCallback</span>, <span class='ident'>WindowMethods</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::{<span class='ident'>Error</span>, <span class='ident'>Fallible</span>, <span class='ident'>report_pending_exception</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::{<span class='ident'>Error</span>, <span class='ident'>ErrorResult</span>, <span class='ident'>Fallible</span>, <span class='ident'>report_pending_exception</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>global</span>::{<span class='ident'>GlobalRef</span>, <span class='ident'>global_root_from_object</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>JS</span>, <span class='ident'>MutNullableHeap</span>, <span class='ident'>Root</span>};
@@ -1723,6 +1735,7 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::<span class='ident'>StorageType</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>ResourceThreads</span>, <span class='ident'>CustomResponseSender</span>};
 <span class='kw'>use</span> <span class='ident'>num_traits</span>::<span class='ident'>ToPrimitive</span>;
+<span class='kw'>use</span> <span class='ident'>open</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>::{<span class='ident'>ProfilerCategory</span>, <span class='ident'>TimerMetadata</span>, <span class='ident'>TimerMetadataFrameType</span>};
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>::{<span class='ident'>ProfilerChan</span>, <span class='ident'>TimerMetadataReflowType</span>, <span class='ident'>profile</span>};
@@ -2509,6 +2522,17 @@
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-window-status</span>
     <span class='kw'>fn</span> <span class='ident'>SetStatus</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>status</span>: <span class='ident'>DOMString</span>) {
         <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>status</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='ident'>status</span>
+    }
+
+    <span class='comment'>// check-tidy: no specs after this line</span>
+    <span class='kw'>fn</span> <span class='ident'>OpenURLInDefaultBrowser</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>href</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>ErrorResult</span> {
+        <span class='kw'>let</span> <span class='ident'>url</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Url</span>::<span class='ident'>parse</span>(<span class='kw-2'>&amp;</span><span class='ident'>href</span>).<span class='ident'>map_err</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> {
+            <span class='ident'>Error</span>::<span class='ident'>Type</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;Couldn&#39;t parse URL: {}&quot;</span>, <span class='ident'>e</span>))
+        }));
+        <span class='kw'>match</span> <span class='ident'>open</span>::<span class='ident'>that</span>(<span class='ident'>url</span>.<span class='ident'>as_str</span>()) {
+            <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(()),
+            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Type</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;Couldn&#39;t open URL: {}&quot;</span>, <span class='ident'>e</span>))),
+        }
     }
 }
 
