@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_LayoutControlChan",""],["_IMPL_SERIALIZE_FOR_LayoutControlChan",""]],"struct":[["LayoutControlChan","A channel wrapper for constellation messages"]],"trait":[["ConvertPipelineIdToWebRender",""],["LayoutThreadFactory",""]]});
+initSidebarItems({"trait":[["ConvertPipelineIdToWebRender",""],["LayoutThreadFactory",""]]});

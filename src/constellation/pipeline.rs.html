@@ -570,7 +570,6 @@
 <span id="526">526</span>
 <span id="527">527</span>
 <span id="528">528</span>
-<span id="529">529</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -589,7 +588,7 @@
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
 <span class='kw'>use</span> <span class='ident'>layers</span>::<span class='ident'>geometry</span>::<span class='ident'>DevicePixel</span>;
-<span class='kw'>use</span> <span class='ident'>layout_traits</span>::{<span class='ident'>LayoutControlChan</span>, <span class='ident'>LayoutThreadFactory</span>};
+<span class='kw'>use</span> <span class='ident'>layout_traits</span>::<span class='ident'>LayoutThreadFactory</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameId</span>, <span class='ident'>FrameType</span>, <span class='ident'>LoadData</span>, <span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PipelineNamespaceId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>WindowSizeData</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>ResourceThreads</span>;
@@ -625,7 +624,7 @@
     <span class='kw'>pub</span> <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>FrameType</span>)<span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>script_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel to layout, for performing reflows and shutdown.</span>
-    <span class='kw'>pub</span> <span class='ident'>layout_chan</span>: <span class='ident'>LayoutControlChan</span>,
+    <span class='kw'>pub</span> <span class='ident'>layout_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutControlMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel to the compositor.</span>
     <span class='kw'>pub</span> <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>chrome_to_paint_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ChromeToPaintMsg</span><span class='op'>&gt;</span>,
@@ -828,7 +827,7 @@
         <span class='kw'>let</span> <span class='ident'>pipeline</span> <span class='op'>=</span> <span class='ident'>Pipeline</span>::<span class='ident'>new</span>(<span class='ident'>state</span>.<span class='ident'>id</span>,
                                      <span class='ident'>state</span>.<span class='ident'>parent_info</span>,
                                      <span class='ident'>script_chan</span>,
-                                     <span class='ident'>LayoutControlChan</span>(<span class='ident'>pipeline_chan</span>),
+                                     <span class='ident'>pipeline_chan</span>,
                                      <span class='ident'>state</span>.<span class='ident'>compositor_proxy</span>,
                                      <span class='ident'>chrome_to_paint_chan</span>,
                                      <span class='ident'>layout_shutdown_port</span>,
@@ -842,7 +841,7 @@
     <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
            <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>FrameType</span>)<span class='op'>&gt;</span>,
            <span class='ident'>script_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;</span>,
-           <span class='ident'>layout_chan</span>: <span class='ident'>LayoutControlChan</span>,
+           <span class='ident'>layout_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutControlMsg</span><span class='op'>&gt;</span>,
            <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
            <span class='ident'>chrome_to_paint_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ChromeToPaintMsg</span><span class='op'>&gt;</span>,
            <span class='ident'>layout_shutdown_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
@@ -921,8 +920,7 @@
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>chrome_to_paint_chan</span>.<span class='ident'>send</span>(<span class='ident'>ChromeToPaintMsg</span>::<span class='ident'>Exit</span>) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Sending paint exit message failed ({}).&quot;</span>, <span class='ident'>e</span>);
         }
-        <span class='kw'>let</span> <span class='ident'>LayoutControlChan</span>(<span class='kw-2'>ref</span> <span class='ident'>layout_channel</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>layout_chan</span>;
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>layout_channel</span>.<span class='ident'>send</span>(<span class='ident'>LayoutControlMsg</span>::<span class='ident'>ExitNow</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>layout_chan</span>.<span class='ident'>send</span>(<span class='ident'>LayoutControlMsg</span>::<span class='ident'>ExitNow</span>) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Sending layout exit message failed ({}).&quot;</span>, <span class='ident'>e</span>);
         }
     }

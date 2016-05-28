@@ -108,21 +108,10 @@
 <span id="64">64</span>
 <span id="65">65</span>
 <span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
-
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>custom_derive</span>, <span class='ident'>plugin</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>plugin</span>(<span class='ident'>serde_macros</span>)]</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>unsafe_code</span>)]</span>
 
@@ -132,7 +121,6 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>net_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>profile_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>script_traits</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>url</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>util</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>webrender_traits</span>;
@@ -153,10 +141,6 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>Sender</span>, <span class='ident'>Receiver</span>};
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>ipc</span>::<span class='ident'>OptionalIpcSender</span>;
-
-<span class='doccomment'>/// A channel wrapper for constellation messages</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LayoutControlChan</span>(<span class='kw'>pub</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutControlMsg</span><span class='op'>&gt;</span>);
 
 <span class='comment'>// A static method creating a layout thread</span>
 <span class='comment'>// Here to remove the compositor -&gt; layout dependency</span>
