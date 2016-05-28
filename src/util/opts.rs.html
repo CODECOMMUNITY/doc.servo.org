@@ -946,17 +946,6 @@
 <span id="902">902</span>
 <span id="903">903</span>
 <span id="904">904</span>
-<span id="905">905</span>
-<span id="906">906</span>
-<span id="907">907</span>
-<span id="908">908</span>
-<span id="909">909</span>
-<span id="910">910</span>
-<span id="911">911</span>
-<span id="912">912</span>
-<span id="913">913</span>
-<span id="914">914</span>
-<span id="915">915</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1374,7 +1363,6 @@
 <span class='kw'>enum</span> <span class='ident'>UserAgent</span> {
     <span class='ident'>Desktop</span>,
     <span class='ident'>Android</span>,
-    <span class='ident'>Gonk</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Eq</span>, <span class='ident'>Deserialize</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>)]</span>
@@ -1413,25 +1401,16 @@
         <span class='ident'>UserAgent</span>::<span class='ident'>Android</span> <span class='op'>=&gt;</span> {
             <span class='string'>&quot;Mozilla/5.0 (Android; Mobile; rv:37.0) Servo/1.0 Firefox/37.0&quot;</span>
         }
-        <span class='ident'>UserAgent</span>::<span class='ident'>Gonk</span> <span class='op'>=&gt;</span> {
-            <span class='string'>&quot;Mozilla/5.0 (Mobile; rv:37.0) Servo/1.0 Firefox/37.0&quot;</span>
-        }
     }.<span class='ident'>to_owned</span>()
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>)]</span>
 <span class='kw'>const</span> <span class='ident'>DEFAULT_USER_AGENT</span>: <span class='ident'>UserAgent</span> <span class='op'>=</span> <span class='ident'>UserAgent</span>::<span class='ident'>Android</span>;
 
-<span class='comment'>// FIXME: This requires https://github.com/servo/servo/issues/7138 to provide the</span>
-<span class='comment'>// correct string in Gonk builds (i.e., it will never be chosen today).</span>
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;gonk&quot;</span>)]</span>
-<span class='kw'>const</span> <span class='ident'>DEFAULT_USER_AGENT</span>: <span class='ident'>UserAgent</span> <span class='op'>=</span> <span class='ident'>UserAgent</span>::<span class='ident'>Gonk</span>;
-
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;gonk&quot;</span>)))]</span>
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>))]</span>
 <span class='kw'>const</span> <span class='ident'>DEFAULT_USER_AGENT</span>: <span class='ident'>UserAgent</span> <span class='op'>=</span> <span class='ident'>UserAgent</span>::<span class='ident'>Desktop</span>;
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>default_opts</span>() <span class='op'>-&gt;</span> <span class='ident'>Opts</span> {
-
     <span class='ident'>Opts</span> {
         <span class='ident'>is_running_problem_test</span>: <span class='boolvalue'>false</span>,
         <span class='ident'>url</span>: <span class='prelude-val'>Some</span>(<span class='ident'>Url</span>::<span class='ident'>parse</span>(<span class='string'>&quot;about:blank&quot;</span>).<span class='ident'>unwrap</span>()),
@@ -1522,7 +1501,7 @@
     <span class='ident'>opts</span>.<span class='ident'>optopt</span>(<span class='string'>&quot;&quot;</span>, <span class='string'>&quot;resolution&quot;</span>, <span class='string'>&quot;Set window resolution.&quot;</span>, <span class='string'>&quot;800x600&quot;</span>);
     <span class='ident'>opts</span>.<span class='ident'>optopt</span>(<span class='string'>&quot;u&quot;</span>,
                 <span class='string'>&quot;user-agent&quot;</span>,
-                <span class='string'>&quot;Set custom user agent string (or android / gonk / desktop for platform default)&quot;</span>,
+                <span class='string'>&quot;Set custom user agent string (or android / desktop for platform default)&quot;</span>,
                 <span class='string'>&quot;NCSA Mosaic/1.0 (X11;SunOS 4.1.4 sun4m)&quot;</span>);
     <span class='ident'>opts</span>.<span class='ident'>optflag</span>(<span class='string'>&quot;M&quot;</span>, <span class='string'>&quot;multiprocess&quot;</span>, <span class='string'>&quot;Run in multiprocess mode&quot;</span>);
     <span class='ident'>opts</span>.<span class='ident'>optflag</span>(<span class='string'>&quot;S&quot;</span>, <span class='string'>&quot;sandbox&quot;</span>, <span class='string'>&quot;Run in a sandbox if multiprocess&quot;</span>);
@@ -1704,7 +1683,6 @@
 
     <span class='kw'>let</span> <span class='ident'>user_agent</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>opt_match</span>.<span class='ident'>opt_str</span>(<span class='string'>&quot;u&quot;</span>) {
         <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>ua</span>) <span class='kw'>if</span> <span class='ident'>ua</span> <span class='op'>==</span> <span class='string'>&quot;android&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>default_user_agent_string</span>(<span class='ident'>UserAgent</span>::<span class='ident'>Android</span>),
-        <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>ua</span>) <span class='kw'>if</span> <span class='ident'>ua</span> <span class='op'>==</span> <span class='string'>&quot;gonk&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>default_user_agent_string</span>(<span class='ident'>UserAgent</span>::<span class='ident'>Gonk</span>),
         <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>ua</span>) <span class='kw'>if</span> <span class='ident'>ua</span> <span class='op'>==</span> <span class='string'>&quot;desktop&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>default_user_agent_string</span>(<span class='ident'>UserAgent</span>::<span class='ident'>Desktop</span>),
         <span class='prelude-val'>Some</span>(<span class='ident'>ua</span>) <span class='op'>=&gt;</span> <span class='ident'>ua</span>,
         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>default_user_agent_string</span>(<span class='ident'>DEFAULT_USER_AGENT</span>),

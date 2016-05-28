@@ -2910,8 +2910,6 @@
 <span id="2866">2866</span>
 <span id="2867">2867</span>
 <span id="2868">2868</span>
-<span id="2869">2869</span>
-<span id="2870">2870</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -3514,7 +3512,6 @@
     <span class='doccomment'>/// Reassign the focus context to the element that last requested focus during this</span>
     <span class='doccomment'>/// transaction, or none if no elements requested it.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>commit_focus_transaction</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>focus_type</span>: <span class='ident'>FocusType</span>) {
-
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>elem</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>focused</span>.<span class='ident'>get</span>() {
             <span class='kw'>let</span> <span class='ident'>node</span> <span class='op'>=</span> <span class='ident'>elem</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>();
             <span class='ident'>elem</span>.<span class='ident'>set_focus_state</span>(<span class='boolvalue'>false</span>);
@@ -3669,7 +3666,6 @@
                                           <span class='ident'>client_point</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
                                           <span class='ident'>pressure</span>: <span class='ident'>f32</span>,
                                           <span class='ident'>phase_now</span>: <span class='ident'>TouchpadPressurePhase</span>) {
-
         <span class='kw'>let</span> <span class='ident'>phase_before</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>touchpad_pressure_phase</span>.<span class='ident'>get</span>();
         <span class='self'>self</span>.<span class='ident'>touchpad_pressure_phase</span>.<span class='ident'>set</span>(<span class='ident'>phase_now</span>);
 

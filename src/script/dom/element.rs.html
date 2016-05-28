@@ -2634,9 +2634,6 @@
 <span id="2590">2590</span>
 <span id="2591">2591</span>
 <span id="2592">2592</span>
-<span id="2593">2593</span>
-<span id="2594">2594</span>
-<span id="2595">2595</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -3398,7 +3395,6 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>update_inline_style</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
                                <span class='ident'>declarations</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PropertyDeclaration</span><span class='op'>&gt;</span>,
                                <span class='ident'>style_priority</span>: <span class='ident'>StylePriority</span>) {
-
         <span class='kw'>fn</span> <span class='ident'>update</span>(<span class='ident'>element</span>: <span class='kw-2'>&amp;</span><span class='ident'>Element</span>, <span class='kw-2'>mut</span> <span class='ident'>declarations</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PropertyDeclaration</span><span class='op'>&gt;</span>, <span class='ident'>style_priority</span>: <span class='ident'>StylePriority</span>) {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>inline_declarations</span> <span class='op'>=</span> <span class='ident'>element</span>.<span class='ident'>style_attribute</span>().<span class='ident'>borrow_mut</span>();
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>existing_declarations</span>) <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>inline_declarations</span> {
@@ -3925,7 +3921,6 @@
 
     <span class='comment'>// https://drafts.csswg.org/cssom-view/#dom-element-scroll</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scroll</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>x_</span>: <span class='ident'>f64</span>, <span class='ident'>y_</span>: <span class='ident'>f64</span>, <span class='ident'>behavior</span>: <span class='ident'>ScrollBehavior</span>) {
-
         <span class='comment'>// Step 1.2 or 2.3</span>
         <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>x_</span>.<span class='ident'>is_finite</span>() { <span class='ident'>x_</span> } <span class='kw'>else</span> { <span class='number'>0.0f64</span> };
         <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>y_</span>.<span class='ident'>is_finite</span>() { <span class='ident'>y_</span> } <span class='kw'>else</span> { <span class='number'>0.0f64</span> };
@@ -4116,7 +4111,6 @@
         });
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>position</span>) <span class='op'>=</span> <span class='ident'>position</span> {
-
             <span class='kw'>let</span> <span class='ident'>old_attr</span> <span class='op'>=</span> <span class='ident'>Root</span>::<span class='ident'>from_ref</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>attrs</span>.<span class='ident'>borrow</span>()[<span class='ident'>position</span>]);
 
             <span class='comment'>// Step 3.</span>

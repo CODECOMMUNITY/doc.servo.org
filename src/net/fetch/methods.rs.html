@@ -1141,35 +1141,6 @@
 <span id="1097">1097</span>
 <span id="1098">1098</span>
 <span id="1099">1099</span>
-<span id="1100">1100</span>
-<span id="1101">1101</span>
-<span id="1102">1102</span>
-<span id="1103">1103</span>
-<span id="1104">1104</span>
-<span id="1105">1105</span>
-<span id="1106">1106</span>
-<span id="1107">1107</span>
-<span id="1108">1108</span>
-<span id="1109">1109</span>
-<span id="1110">1110</span>
-<span id="1111">1111</span>
-<span id="1112">1112</span>
-<span id="1113">1113</span>
-<span id="1114">1114</span>
-<span id="1115">1115</span>
-<span id="1116">1116</span>
-<span id="1117">1117</span>
-<span id="1118">1118</span>
-<span id="1119">1119</span>
-<span id="1120">1120</span>
-<span id="1121">1121</span>
-<span id="1122">1122</span>
-<span id="1123">1123</span>
-<span id="1124">1124</span>
-<span id="1125">1125</span>
-<span id="1126">1126</span>
-<span id="1127">1127</span>
-<span id="1128">1128</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1220,7 +1191,6 @@
 }
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fetch_with_cors_cache</span>(<span class='ident'>request</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Request</span><span class='op'>&gt;</span>, <span class='ident'>cache</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>CORSCache</span>) <span class='op'>-&gt;</span> <span class='ident'>Response</span> {
-
     <span class='comment'>// Step 1</span>
     <span class='kw'>if</span> <span class='ident'>request</span>.<span class='ident'>window</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>Window</span>::<span class='ident'>Client</span> {
         <span class='comment'>// TODO: Set window to request&#39;s client object if client is a Window object</span>
@@ -1236,9 +1206,7 @@
 
     <span class='comment'>// Step 3</span>
     <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>request</span>.<span class='ident'>headers</span>.<span class='ident'>borrow</span>().<span class='ident'>has</span>::<span class='op'>&lt;</span><span class='ident'>Accept</span><span class='op'>&gt;</span>() {
-
         <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>request</span>.<span class='ident'>type_</span> {
-
             <span class='comment'>// Substep 2</span>
             _ <span class='kw'>if</span> <span class='ident'>request</span>.<span class='ident'>is_navigation_request</span>() <span class='op'>=&gt;</span>
                 <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>qitem</span>(<span class='macro'>mime</span><span class='macro'>!</span>(<span class='ident'>Text</span> <span class='op'>/</span> <span class='ident'>Html</span>)),
@@ -1336,7 +1304,6 @@
                 (<span class='ident'>current_url</span>.<span class='ident'>scheme</span>() <span class='op'>==</span> <span class='string'>&quot;file&quot;</span> <span class='op'>&amp;&amp;</span> <span class='ident'>request</span>.<span class='ident'>same_origin_data</span>.<span class='ident'>get</span>()) <span class='op'>||</span>
                 <span class='ident'>current_url</span>.<span class='ident'>scheme</span>() <span class='op'>==</span> <span class='string'>&quot;about&quot;</span> <span class='op'>||</span>
                 <span class='ident'>request</span>.<span class='ident'>mode</span> <span class='op'>==</span> <span class='ident'>RequestMode</span>::<span class='ident'>Navigate</span> {
-
                 <span class='ident'>basic_fetch</span>(<span class='ident'>request</span>.<span class='ident'>clone</span>(), <span class='ident'>cache</span>)
 
             } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>request</span>.<span class='ident'>mode</span> <span class='op'>==</span> <span class='ident'>RequestMode</span>::<span class='ident'>SameOrigin</span> {
@@ -1353,7 +1320,6 @@
                 (<span class='ident'>request</span>.<span class='ident'>unsafe_request</span> <span class='op'>&amp;&amp;</span>
                  (<span class='op'>!</span><span class='ident'>is_simple_method</span>(<span class='kw-2'>&amp;</span><span class='ident'>request</span>.<span class='ident'>method</span>.<span class='ident'>borrow</span>()) <span class='op'>||</span>
                   <span class='ident'>request</span>.<span class='ident'>headers</span>.<span class='ident'>borrow</span>().<span class='ident'>iter</span>().<span class='ident'>any</span>(<span class='op'>|</span><span class='ident'>h</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>is_simple_header</span>(<span class='kw-2'>&amp;</span><span class='ident'>h</span>)))) {
-
                 <span class='ident'>request</span>.<span class='ident'>response_tainting</span>.<span class='ident'>set</span>(<span class='ident'>ResponseTainting</span>::<span class='ident'>CORSTainting</span>);
                 <span class='ident'>request</span>.<span class='ident'>redirect_mode</span>.<span class='ident'>set</span>(<span class='ident'>RedirectMode</span>::<span class='ident'>Error</span>);
                 <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>http_fetch</span>(<span class='ident'>request</span>.<span class='ident'>clone</span>(), <span class='ident'>cache</span>, <span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>);
@@ -1462,11 +1428,9 @@
 
 <span class='doccomment'>/// [Basic fetch](https://fetch.spec.whatwg.org#basic-fetch)</span>
 <span class='kw'>fn</span> <span class='ident'>basic_fetch</span>(<span class='ident'>request</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Request</span><span class='op'>&gt;</span>, <span class='ident'>cache</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>CORSCache</span>) <span class='op'>-&gt;</span> <span class='ident'>Response</span> {
-
     <span class='kw'>let</span> <span class='ident'>url</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>current_url</span>();
 
     <span class='kw'>match</span> <span class='ident'>url</span>.<span class='ident'>scheme</span>() {
-
         <span class='string'>&quot;about&quot;</span> <span class='kw'>if</span> <span class='ident'>url</span>.<span class='ident'>path</span>() <span class='op'>==</span> <span class='string'>&quot;blank&quot;</span> <span class='op'>=&gt;</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>Response</span>::<span class='ident'>new</span>();
             <span class='ident'>response</span>.<span class='ident'>headers</span>.<span class='ident'>set</span>(<span class='ident'>ContentType</span>(<span class='macro'>mime</span><span class='macro'>!</span>(<span class='ident'>Text</span> <span class='op'>/</span> <span class='ident'>Html</span>; <span class='ident'>Charset</span> <span class='op'>=</span> <span class='ident'>Utf8</span>)));
@@ -1531,7 +1495,6 @@
               <span class='ident'>cors_flag</span>: <span class='ident'>bool</span>,
               <span class='ident'>cors_preflight_flag</span>: <span class='ident'>bool</span>,
               <span class='ident'>authentication_fetch_flag</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Response</span> {
-
     <span class='comment'>// Step 1</span>
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>response</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Response</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 
@@ -1540,12 +1503,10 @@
 
     <span class='comment'>// Step 3</span>
     <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>request</span>.<span class='ident'>skip_service_worker</span>.<span class='ident'>get</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>request</span>.<span class='ident'>is_service_worker_global_scope</span> {
-
         <span class='comment'>// Substep 1</span>
         <span class='comment'>// TODO (handle fetch unimplemented)</span>
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>res</span>) <span class='op'>=</span> <span class='ident'>response</span> {
-
             <span class='comment'>// Substep 2</span>
             <span class='comment'>// nothing to do, since actual_response is a function on response</span>
 
@@ -1573,7 +1534,6 @@
 
     <span class='comment'>// Step 4</span>
     <span class='kw'>if</span> <span class='ident'>response</span>.<span class='ident'>is_none</span>() {
-
         <span class='comment'>// Substep 1</span>
         <span class='kw'>if</span> <span class='ident'>cors_preflight_flag</span> {
             <span class='kw'>let</span> <span class='ident'>method_cache_match</span> <span class='op'>=</span> <span class='ident'>cache</span>.<span class='ident'>match_method</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>request</span>,
@@ -1623,11 +1583,9 @@
 
     <span class='comment'>// Step 5</span>
     <span class='kw'>match</span> <span class='ident'>response</span>.<span class='ident'>actual_response</span>().<span class='ident'>status</span>.<span class='ident'>unwrap</span>() {
-
         <span class='comment'>// Code 301, 302, 303, 307, 308</span>
         <span class='ident'>StatusCode</span>::<span class='ident'>MovedPermanently</span> <span class='op'>|</span> <span class='ident'>StatusCode</span>::<span class='ident'>Found</span> <span class='op'>|</span> <span class='ident'>StatusCode</span>::<span class='ident'>SeeOther</span> <span class='op'>|</span>
         <span class='ident'>StatusCode</span>::<span class='ident'>TemporaryRedirect</span> <span class='op'>|</span> <span class='ident'>StatusCode</span>::<span class='ident'>PermanentRedirect</span> <span class='op'>=&gt;</span> {
-
             <span class='ident'>response</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>request</span>.<span class='ident'>redirect_mode</span>.<span class='ident'>get</span>() {
                 <span class='ident'>RedirectMode</span>::<span class='ident'>Error</span> <span class='op'>=&gt;</span> <span class='ident'>Response</span>::<span class='ident'>network_error</span>(),
                 <span class='ident'>RedirectMode</span>::<span class='ident'>Manual</span> <span class='op'>=&gt;</span> {
@@ -1643,7 +1601,6 @@
 
         <span class='comment'>// Code 401</span>
         <span class='ident'>StatusCode</span>::<span class='ident'>Unauthorized</span> <span class='op'>=&gt;</span> {
-
             <span class='comment'>// Step 1</span>
             <span class='comment'>// FIXME: Figure out what to do with request window objects</span>
             <span class='kw'>if</span> <span class='ident'>cors_flag</span> <span class='op'>||</span> <span class='ident'>request</span>.<span class='ident'>credentials_mode</span> <span class='op'>!=</span> <span class='ident'>CredentialsMode</span>::<span class='ident'>Include</span> {
@@ -1664,7 +1621,6 @@
 
         <span class='comment'>// Code 407</span>
         <span class='ident'>StatusCode</span>::<span class='ident'>ProxyAuthenticationRequired</span> <span class='op'>=&gt;</span> {
-
             <span class='comment'>// Step 1</span>
             <span class='comment'>// TODO: Figure out what to do with request window objects</span>
 
@@ -1699,7 +1655,6 @@
                        <span class='ident'>cache</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>CORSCache</span>,
                        <span class='ident'>response</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Response</span><span class='op'>&gt;</span>,
                        <span class='ident'>cors_flag</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Response</span> {
-
     <span class='comment'>// Step 1</span>
     <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>response</span>.<span class='ident'>return_internal</span>.<span class='ident'>get</span>(), <span class='boolvalue'>true</span>);
 
@@ -1765,7 +1720,6 @@
     <span class='kw'>if</span> ((<span class='ident'>status_code</span> <span class='op'>==</span> <span class='ident'>StatusCode</span>::<span class='ident'>MovedPermanently</span> <span class='op'>||</span> <span class='ident'>status_code</span> <span class='op'>==</span> <span class='ident'>StatusCode</span>::<span class='ident'>Found</span>) <span class='op'>&amp;&amp;</span>
         <span class='op'>*</span><span class='ident'>request</span>.<span class='ident'>method</span>.<span class='ident'>borrow</span>() <span class='op'>==</span> <span class='ident'>Method</span>::<span class='ident'>Post</span>) <span class='op'>||</span>
         <span class='ident'>status_code</span> <span class='op'>==</span> <span class='ident'>StatusCode</span>::<span class='ident'>SeeOther</span> {
-
         <span class='op'>*</span><span class='ident'>request</span>.<span class='ident'>method</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='ident'>Method</span>::<span class='ident'>Get</span>;
         <span class='op'>*</span><span class='ident'>request</span>.<span class='ident'>body</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>None</span>;
     }
@@ -1781,7 +1735,6 @@
 <span class='kw'>fn</span> <span class='ident'>http_network_or_cache_fetch</span>(<span class='ident'>request</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Request</span><span class='op'>&gt;</span>,
                                <span class='ident'>credentials_flag</span>: <span class='ident'>bool</span>,
                                <span class='ident'>authentication_fetch_flag</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Response</span> {
-
     <span class='comment'>// TODO: Implement Window enum for Request</span>
     <span class='kw'>let</span> <span class='ident'>request_has_no_window</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
 
@@ -1835,7 +1788,6 @@
     }
 
     <span class='kw'>match</span> <span class='ident'>http_request</span>.<span class='ident'>cache_mode</span>.<span class='ident'>get</span>() {
-
         <span class='comment'>// Step 9</span>
         <span class='ident'>CacheMode</span>::<span class='ident'>Default</span> <span class='kw'>if</span> <span class='ident'>is_no_store_cache</span>(<span class='kw-2'>&amp;</span><span class='ident'>http_request</span>.<span class='ident'>headers</span>.<span class='ident'>borrow</span>()) <span class='op'>=&gt;</span> {
             <span class='ident'>http_request</span>.<span class='ident'>cache_mode</span>.<span class='ident'>set</span>(<span class='ident'>CacheMode</span>::<span class='ident'>NoStore</span>);
@@ -1868,13 +1820,11 @@
     <span class='comment'>// Step 13</span>
     <span class='comment'>// TODO some of this step can&#39;t be implemented yet</span>
     <span class='kw'>if</span> <span class='ident'>credentials_flag</span> {
-
         <span class='comment'>// Substep 1</span>
         <span class='comment'>// TODO http://mxr.mozilla.org/servo/source/components/net/http_loader.rs#504</span>
 
         <span class='comment'>// Substep 2</span>
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>http_request</span>.<span class='ident'>headers</span>.<span class='ident'>borrow</span>().<span class='ident'>has</span>::<span class='op'>&lt;</span><span class='ident'>Authorization</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>() {
-
             <span class='comment'>// Substep 3</span>
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>authorization_value</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 
@@ -1883,7 +1833,6 @@
 
             <span class='comment'>// Substep 5</span>
             <span class='kw'>if</span> <span class='ident'>authentication_fetch_flag</span> {
-
                 <span class='kw'>let</span> <span class='ident'>current_url</span> <span class='op'>=</span> <span class='ident'>http_request</span>.<span class='ident'>current_url</span>();
 
                 <span class='ident'>authorization_value</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>has_credentials</span>(<span class='kw-2'>&amp;</span><span class='ident'>current_url</span>) {
@@ -1915,7 +1864,6 @@
     <span class='kw'>if</span> <span class='ident'>http_request</span>.<span class='ident'>cache_mode</span>.<span class='ident'>get</span>() <span class='op'>!=</span> <span class='ident'>CacheMode</span>::<span class='ident'>NoStore</span> <span class='op'>&amp;&amp;</span>
         <span class='ident'>http_request</span>.<span class='ident'>cache_mode</span>.<span class='ident'>get</span>() <span class='op'>!=</span> <span class='ident'>CacheMode</span>::<span class='ident'>Reload</span> <span class='op'>&amp;&amp;</span>
         <span class='ident'>complete_http_response_from_cache</span>.<span class='ident'>is_some</span>() {
-
         <span class='comment'>// Substep 1</span>
         <span class='kw'>if</span> <span class='ident'>http_request</span>.<span class='ident'>cache_mode</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>CacheMode</span>::<span class='ident'>ForceCache</span> {
             <span class='comment'>// TODO pull response from HTTP cache</span>
@@ -1937,7 +1885,6 @@
         <span class='comment'>// Substep 3</span>
         <span class='kw'>if</span> <span class='ident'>revalidation_needed</span> <span class='op'>&amp;&amp;</span> <span class='ident'>http_request</span>.<span class='ident'>cache_mode</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>CacheMode</span>::<span class='ident'>Default</span> <span class='op'>||</span>
             <span class='ident'>http_request</span>.<span class='ident'>cache_mode</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>CacheMode</span>::<span class='ident'>NoCache</span> {
-
             <span class='comment'>// TODO this substep</span>
         }
 
@@ -1959,7 +1906,6 @@
         <span class='kw'>if</span> <span class='ident'>status</span> <span class='op'>==</span> <span class='ident'>StatusCode</span>::<span class='ident'>NotModified</span> <span class='op'>&amp;&amp;</span>
             (<span class='ident'>http_request</span>.<span class='ident'>cache_mode</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>CacheMode</span>::<span class='ident'>Default</span> <span class='op'>||</span>
             <span class='ident'>http_request</span>.<span class='ident'>cache_mode</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>CacheMode</span>::<span class='ident'>NoCache</span>) {
-
             <span class='comment'>// Substep 1</span>
             <span class='comment'>// TODO this substep</span>
             <span class='comment'>// let cached_response: Option&lt;Response&gt; = None;</span>
@@ -2021,7 +1967,6 @@
 
             <span class='kw'>let</span> <span class='ident'>res_body</span> <span class='op'>=</span> <span class='ident'>response</span>.<span class='ident'>body</span>.<span class='ident'>clone</span>();
             <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
-
                 <span class='op'>*</span><span class='ident'>res_body</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>() <span class='op'>=</span> <span class='ident'>ResponseBody</span>::<span class='ident'>Receiving</span>(<span class='macro'>vec</span><span class='macro'>!</span>[]);
 
                 <span class='kw'>loop</span> {
@@ -2065,11 +2010,9 @@
     <span class='comment'>// TODO this step</span>
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>encoding</span>) <span class='op'>=</span> <span class='ident'>response</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>ContentEncoding</span><span class='op'>&gt;</span>() {
         <span class='kw'>if</span> <span class='ident'>encoding</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>Encoding</span>::<span class='ident'>Gzip</span>) {
-
         }
 
         <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>encoding</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>Encoding</span>::<span class='ident'>Compress</span>) {
-
         }
     };
 
@@ -2200,7 +2143,6 @@
 
 <span class='doccomment'>/// [CORS check](https://fetch.spec.whatwg.org#concept-cors-check)</span>
 <span class='kw'>fn</span> <span class='ident'>cors_check</span>(<span class='ident'>request</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Request</span><span class='op'>&gt;</span>, <span class='ident'>response</span>: <span class='kw-2'>&amp;</span><span class='ident'>Response</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), ()<span class='op'>&gt;</span> {
-
     <span class='comment'>// Step 1</span>
     <span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>response</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>AccessControlAllowOrigin</span><span class='op'>&gt;</span>().<span class='ident'>cloned</span>();
 

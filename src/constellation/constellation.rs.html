@@ -2116,6 +2116,16 @@
 <span id="2072">2072</span>
 <span id="2073">2073</span>
 <span id="2074">2074</span>
+<span id="2075">2075</span>
+<span id="2076">2076</span>
+<span id="2077">2077</span>
+<span id="2078">2078</span>
+<span id="2079">2079</span>
+<span id="2080">2080</span>
+<span id="2081">2081</span>
+<span id="2082">2082</span>
+<span id="2083">2083</span>
+<span id="2084">2084</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2637,46 +2647,62 @@
             }
         };
 
-        <span class='comment'>// Process the request.</span>
         <span class='kw'>match</span> <span class='ident'>request</span> {
-            <span class='comment'>// Messages from compositor</span>
+            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>message</span>) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>handle_request_from_compositor</span>(<span class='ident'>message</span>)
+            },
+            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>message</span>) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>handle_request_from_script</span>(<span class='ident'>message</span>);
+                <span class='boolvalue'>true</span>
+            },
+            <span class='ident'>Request</span>::<span class='ident'>Layout</span>(<span class='ident'>message</span>) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>handle_request_from_layout</span>(<span class='ident'>message</span>);
+                <span class='boolvalue'>true</span>
+            },
+            <span class='ident'>Request</span>::<span class='ident'>Panic</span>(<span class='ident'>message</span>) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>handle_request_from_panic</span>(<span class='ident'>message</span>);
+                <span class='boolvalue'>true</span>
+            },
+        }
+    }
 
-
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>Exit</span>) <span class='op'>=&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>handle_request_from_compositor</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='ident'>FromCompositorMsg</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='kw'>match</span> <span class='ident'>message</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>Exit</span> <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation exiting&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_exit</span>();
                 <span class='kw'>return</span> <span class='boolvalue'>false</span>;
             }
             <span class='comment'>// The compositor discovered the size of a subframe. This needs to be reflected by all</span>
             <span class='comment'>// frame trees in the navigation context containing the subframe.</span>
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>FrameSize</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>size</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>FrameSize</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>size</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got frame size message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_frame_size_msg</span>(<span class='ident'>pipeline_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>Size2D</span>::<span class='ident'>from_untyped</span>(<span class='kw-2'>&amp;</span><span class='ident'>size</span>));
             }
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>GetFrame</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>resp_chan</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>GetFrame</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>resp_chan</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got get root pipeline message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_get_frame</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>resp_chan</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>GetPipeline</span>(<span class='ident'>frame_id</span>, <span class='ident'>resp_chan</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>GetPipeline</span>(<span class='ident'>frame_id</span>, <span class='ident'>resp_chan</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got get root pipeline message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_get_pipeline</span>(<span class='ident'>frame_id</span>, <span class='ident'>resp_chan</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>GetPipelineTitle</span>(<span class='ident'>pipeline_id</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>GetPipelineTitle</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got get-pipeline-title message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_get_pipeline_title_msg</span>(<span class='ident'>pipeline_id</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got key event message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_key_msg</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>);
             }
             <span class='comment'>// Load a new page from a typed url</span>
             <span class='comment'>// If there is already a pending page (self.pending_frames), it will not be overridden;</span>
             <span class='comment'>// However, if the id is not encompassed by another change, it will be.</span>
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>LoadUrl</span>(<span class='ident'>source_id</span>, <span class='ident'>load_data</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>LoadUrl</span>(<span class='ident'>source_id</span>, <span class='ident'>load_data</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got URL load message from compositor&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_load_url_msg</span>(<span class='ident'>source_id</span>, <span class='ident'>load_data</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>IsReadyToSaveImage</span>(<span class='ident'>pipeline_states</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>IsReadyToSaveImage</span>(<span class='ident'>pipeline_states</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>is_ready</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>handle_is_ready_to_save_image</span>(<span class='ident'>pipeline_states</span>);
                 <span class='kw'>if</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>is_running_problem_test</span> {
                     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got ready to save image query, result is {:?}&quot;</span>, <span class='ident'>is_ready</span>);
@@ -2688,70 +2714,72 @@
                 }
             }
             <span class='comment'>// This should only be called once per constellation, and only by the browser</span>
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>InitLoadUrl</span>(<span class='ident'>url</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>InitLoadUrl</span>(<span class='ident'>url</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got init load URL message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_init_load</span>(<span class='ident'>url</span>);
             }
             <span class='comment'>// Handle a forward or back request</span>
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>Navigate</span>(<span class='ident'>pipeline_info</span>, <span class='ident'>direction</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>Navigate</span>(<span class='ident'>pipeline_info</span>, <span class='ident'>direction</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got navigation message from compositor&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_navigate_msg</span>(<span class='ident'>pipeline_info</span>, <span class='ident'>direction</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>WindowSize</span>(<span class='ident'>new_size</span>, <span class='ident'>size_type</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>WindowSize</span>(<span class='ident'>new_size</span>, <span class='ident'>size_type</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got window resize message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_window_size_msg</span>(<span class='ident'>new_size</span>, <span class='ident'>size_type</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>TickAnimation</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>tick_type</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>TickAnimation</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>tick_type</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>handle_tick_animation</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>tick_type</span>)
             }
-            <span class='ident'>Request</span>::<span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>::<span class='ident'>WebDriverCommand</span>(<span class='ident'>command</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>WebDriverCommand</span>(<span class='ident'>command</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got webdriver command message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_webdriver_msg</span>(<span class='ident'>command</span>);
             }
+        }
 
+        <span class='boolvalue'>true</span>
+    }
 
-            <span class='comment'>// Messages from script</span>
-
-
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>ScriptLoadedURLInIFrame</span>(<span class='ident'>load_info</span>)) <span class='op'>=&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>handle_request_from_script</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='ident'>FromScriptMsg</span>) {
+        <span class='kw'>match</span> <span class='ident'>message</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>ScriptLoadedURLInIFrame</span>(<span class='ident'>load_info</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got iframe URL load message {:?} {:?} {:?}&quot;</span>,
                        <span class='ident'>load_info</span>.<span class='ident'>containing_pipeline_id</span>,
                        <span class='ident'>load_info</span>.<span class='ident'>old_subpage_id</span>,
                        <span class='ident'>load_info</span>.<span class='ident'>new_subpage_id</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_script_loaded_url_in_iframe_msg</span>(<span class='ident'>load_info</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>ChangeRunningAnimationsState</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>animation_state</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>ChangeRunningAnimationsState</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>animation_state</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>handle_change_running_animations_state</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>animation_state</span>)
             }
             <span class='comment'>// Load a new page from a mouse click</span>
             <span class='comment'>// If there is already a pending page (self.pending_frames), it will not be overridden;</span>
             <span class='comment'>// However, if the id is not encompassed by another change, it will be.</span>
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>LoadUrl</span>(<span class='ident'>source_id</span>, <span class='ident'>load_data</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>LoadUrl</span>(<span class='ident'>source_id</span>, <span class='ident'>load_data</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got URL load message from script&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_load_url_msg</span>(<span class='ident'>source_id</span>, <span class='ident'>load_data</span>);
             }
             <span class='comment'>// A page loaded has completed all parsing, script, and reflow messages have been sent.</span>
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>LoadComplete</span>(<span class='ident'>pipeline_id</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>LoadComplete</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got load complete message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_load_complete_msg</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>)
             }
             <span class='comment'>// The DOM load event fired on a document</span>
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>DOMLoad</span>(<span class='ident'>pipeline_id</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>DOMLoad</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got dom load message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_dom_load</span>(<span class='ident'>pipeline_id</span>)
             }
             <span class='comment'>// Handle a forward or back request</span>
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>Navigate</span>(<span class='ident'>pipeline_info</span>, <span class='ident'>direction</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>Navigate</span>(<span class='ident'>pipeline_info</span>, <span class='ident'>direction</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got navigation message from script&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_navigate_msg</span>(<span class='ident'>pipeline_info</span>, <span class='ident'>direction</span>);
             }
             <span class='comment'>// Notification that the new document is ready to become active</span>
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>ActivateDocument</span>(<span class='ident'>pipeline_id</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>ActivateDocument</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got activate document message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_activate_document_msg</span>(<span class='ident'>pipeline_id</span>);
             }
             <span class='comment'>// Update pipeline url after redirections</span>
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>SetFinalUrl</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>final_url</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>SetFinalUrl</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>final_url</span>) <span class='op'>=&gt;</span> {
                 <span class='comment'>// The script may have finished loading after we already started shutting down.</span>
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>pipeline</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
                     <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got set final url message&quot;</span>);
@@ -2760,42 +2788,39 @@
                     <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got set final url message for dead pipeline&quot;</span>);
                 }
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>MozBrowserEvent</span>(<span class='ident'>pipeline_id</span>,
-                                              <span class='ident'>subpage_id</span>,
-                                              <span class='ident'>event</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>MozBrowserEvent</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>subpage_id</span>, <span class='ident'>event</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got mozbrowser event message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_mozbrowser_event_msg</span>(<span class='ident'>pipeline_id</span>,
                                                  <span class='ident'>subpage_id</span>,
                                                  <span class='ident'>event</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>Focus</span>(<span class='ident'>pipeline_id</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>Focus</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got focus message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_focus_msg</span>(<span class='ident'>pipeline_id</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>ForwardMouseButtonEvent</span>(
-                    <span class='ident'>pipeline_id</span>, <span class='ident'>event_type</span>, <span class='ident'>button</span>, <span class='ident'>point</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>ForwardMouseButtonEvent</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>event_type</span>, <span class='ident'>button</span>, <span class='ident'>point</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>CompositorEvent</span>::<span class='ident'>MouseButtonEvent</span>(<span class='ident'>event_type</span>, <span class='ident'>button</span>, <span class='ident'>point</span>);
                 <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>SendEvent</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>event</span>);
                 <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got mouse button event after closure.&quot;</span>, <span class='ident'>pipeline_id</span>); <span class='kw'>return</span> <span class='boolvalue'>true</span>; }
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got mouse button event after closure.&quot;</span>, <span class='ident'>pipeline_id</span>); <span class='kw'>return</span>; }
                     <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=&gt;</span> <span class='ident'>pipeline</span>.<span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>),
                 };
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>result</span> {
                     <span class='self'>self</span>.<span class='ident'>handle_send_error</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>e</span>);
                 }
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>ForwardMouseMoveEvent</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>point</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>ForwardMouseMoveEvent</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>point</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>CompositorEvent</span>::<span class='ident'>MouseMoveEvent</span>(<span class='prelude-val'>Some</span>(<span class='ident'>point</span>));
                 <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>SendEvent</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>event</span>);
-               <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got mouse move event after closure.&quot;</span>, <span class='ident'>pipeline_id</span>); <span class='kw'>return</span> <span class='boolvalue'>true</span>; }
+                <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got mouse move event after closure.&quot;</span>, <span class='ident'>pipeline_id</span>); <span class='kw'>return</span>; }
                     <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=&gt;</span> <span class='ident'>pipeline</span>.<span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>),
                 };
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>result</span> {
                     <span class='self'>self</span>.<span class='ident'>handle_send_error</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>e</span>);
                 }
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>GetClipboardContents</span>(<span class='ident'>sender</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>GetClipboardContents</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>clipboard_ctx</span> {
                     <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>ctx</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>ctx</span>.<span class='ident'>get_contents</span>() {
                         <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> <span class='ident'>result</span>,
@@ -2810,14 +2835,14 @@
                     <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Failed to send clipboard ({})&quot;</span>, <span class='ident'>e</span>);
                 }
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>SetClipboardContents</span>(<span class='ident'>s</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>SetClipboardContents</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>ctx</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>clipboard_ctx</span> {
                     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>ctx</span>.<span class='ident'>set_contents</span>(<span class='ident'>s</span>) {
                         <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Error setting clipboard contents ({})&quot;</span>, <span class='ident'>e</span>);
                     }
                 }
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>RemoveIFrame</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>sender</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>RemoveIFrame</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got remove iframe message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_remove_iframe_msg</span>(<span class='ident'>pipeline_id</span>);
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>sender</span>) <span class='op'>=</span> <span class='ident'>sender</span> {
@@ -2826,97 +2851,98 @@
                     }
                 }
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>NewFavicon</span>(<span class='ident'>url</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>NewFavicon</span>(<span class='ident'>url</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got new favicon message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>NewFavicon</span>(<span class='ident'>url</span>));
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>HeadParsed</span>) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>HeadParsed</span> <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got head parsed message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>HeadParsed</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>CreateCanvasPaintThread</span>(<span class='ident'>size</span>, <span class='ident'>sender</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>CreateCanvasPaintThread</span>(<span class='ident'>size</span>, <span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got create-canvas-paint-thread message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_create_canvas_paint_thread_msg</span>(<span class='kw-2'>&amp;</span><span class='ident'>size</span>, <span class='ident'>sender</span>)
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>CreateWebGLPaintThread</span>(<span class='ident'>size</span>, <span class='ident'>attributes</span>, <span class='ident'>sender</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>CreateWebGLPaintThread</span>(<span class='ident'>size</span>, <span class='ident'>attributes</span>, <span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got create-WebGL-paint-thread message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_create_webgl_paint_thread_msg</span>(<span class='kw-2'>&amp;</span><span class='ident'>size</span>, <span class='ident'>attributes</span>, <span class='ident'>sender</span>)
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>NodeStatus</span>(<span class='ident'>message</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>NodeStatus</span>(<span class='ident'>message</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got NodeStatus message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>Status</span>(<span class='ident'>message</span>));
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>SetDocumentState</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>state</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>SetDocumentState</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>state</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got SetDocumentState message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>document_states</span>.<span class='ident'>insert</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>state</span>);
             }
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>Alert</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>message</span>, <span class='ident'>sender</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>Alert</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>message</span>, <span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got Alert message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_alert</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>message</span>, <span class='ident'>sender</span>);
             }
 
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>ScrollFragmentPoint</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>layer_id</span>, <span class='ident'>point</span>, <span class='ident'>smooth</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>ScrollFragmentPoint</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>layer_id</span>, <span class='ident'>point</span>, <span class='ident'>smooth</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>ScrollFragmentPoint</span>(<span class='ident'>pipeline_id</span>,
                                                                <span class='ident'>layer_id</span>,
                                                                <span class='ident'>point</span>,
                                                                <span class='ident'>smooth</span>));
             }
 
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>GetClientWindow</span>(<span class='ident'>send</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>GetClientWindow</span>(<span class='ident'>send</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>GetClientWindow</span>(<span class='ident'>send</span>));
             }
 
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>MoveTo</span>(<span class='ident'>point</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>MoveTo</span>(<span class='ident'>point</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>MoveTo</span>(<span class='ident'>point</span>));
             }
 
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>ResizeTo</span>(<span class='ident'>size</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>ResizeTo</span>(<span class='ident'>size</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>ResizeTo</span>(<span class='ident'>size</span>));
             }
 
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>Exit</span>) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>Exit</span> <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>Exit</span>);
             }
 
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>SetTitle</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>title</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>SetTitle</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>title</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>ChangePageTitle</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>title</span>))
             }
 
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>SendKeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>key_state</span>, <span class='ident'>key_modifiers</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>SendKeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>key_state</span>, <span class='ident'>key_modifiers</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>key_state</span>, <span class='ident'>key_modifiers</span>))
             }
 
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>TouchEventProcessed</span>(<span class='ident'>result</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>TouchEventProcessed</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>TouchEventProcessed</span>(<span class='ident'>result</span>))
             }
 
-            <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>::<span class='ident'>GetScrollOffset</span>(<span class='ident'>pid</span>, <span class='ident'>lid</span>, <span class='ident'>send</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>GetScrollOffset</span>(<span class='ident'>pid</span>, <span class='ident'>lid</span>, <span class='ident'>send</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>GetScrollOffset</span>(<span class='ident'>pid</span>, <span class='ident'>lid</span>, <span class='ident'>send</span>));
             }
+        }
+    }
 
-
-            <span class='comment'>// Messages from layout thread</span>
-
-            <span class='ident'>Request</span>::<span class='ident'>Layout</span>(<span class='ident'>FromLayoutMsg</span>::<span class='ident'>ChangeRunningAnimationsState</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>animation_state</span>)) <span class='op'>=&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>handle_request_from_layout</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='ident'>FromLayoutMsg</span>) {
+        <span class='kw'>match</span> <span class='ident'>message</span> {
+            <span class='ident'>FromLayoutMsg</span>::<span class='ident'>ChangeRunningAnimationsState</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>animation_state</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>handle_change_running_animations_state</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>animation_state</span>)
             }
-            <span class='ident'>Request</span>::<span class='ident'>Layout</span>(<span class='ident'>FromLayoutMsg</span>::<span class='ident'>SetCursor</span>(<span class='ident'>cursor</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromLayoutMsg</span>::<span class='ident'>SetCursor</span>(<span class='ident'>cursor</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>handle_set_cursor_msg</span>(<span class='ident'>cursor</span>)
             }
-            <span class='ident'>Request</span>::<span class='ident'>Layout</span>(<span class='ident'>FromLayoutMsg</span>::<span class='ident'>ViewportConstrained</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>constraints</span>)) <span class='op'>=&gt;</span> {
+            <span class='ident'>FromLayoutMsg</span>::<span class='ident'>ViewportConstrained</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>constraints</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got viewport-constrained event message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_viewport_constrained_msg</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>constraints</span>);
             }
+        }
+    }
 
-
-            <span class='comment'>// Panic messages</span>
-
-            <span class='ident'>Request</span>::<span class='ident'>Panic</span>((<span class='ident'>pipeline_id</span>, <span class='ident'>panic_reason</span>, <span class='ident'>backtrace</span>)) <span class='op'>=&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>handle_request_from_panic</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='ident'>PanicMsg</span>) {
+        <span class='kw'>match</span> <span class='ident'>message</span> {
+            (<span class='ident'>pipeline_id</span>, <span class='ident'>panic_reason</span>, <span class='ident'>backtrace</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;handling panic message ({:?})&quot;</span>, <span class='ident'>pipeline_id</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_panic</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>panic_reason</span>, <span class='ident'>backtrace</span>);
             }
         }
-        <span class='boolvalue'>true</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_exit</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
@@ -2973,7 +2999,6 @@
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Panic handler for pipeline {:?}: {}.&quot;</span>, <span class='ident'>pipeline_id</span>, <span class='ident'>reason</span>);
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=</span> <span class='ident'>pipeline_id</span> {
-
             <span class='kw'>let</span> <span class='ident'>parent_info</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>parent_info</span>);
             <span class='kw'>let</span> <span class='ident'>window_size</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>size</span>);
 
@@ -3070,13 +3095,11 @@
     <span class='comment'>// containing_page_pipeline_id&#39;s frame tree&#39;s children. This message is never the result of a</span>
     <span class='comment'>// page navigation.</span>
     <span class='kw'>fn</span> <span class='ident'>handle_script_loaded_url_in_iframe_msg</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>load_info</span>: <span class='ident'>IFrameLoadInfo</span>) {
-
         <span class='kw'>let</span> <span class='ident'>old_pipeline_id</span> <span class='op'>=</span> <span class='ident'>load_info</span>.<span class='ident'>old_subpage_id</span>
             .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>old_subpage_id</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>subpage_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span>(<span class='ident'>load_info</span>.<span class='ident'>containing_pipeline_id</span>, <span class='ident'>old_subpage_id</span>)))
             .<span class='ident'>cloned</span>();
 
         <span class='kw'>let</span> (<span class='ident'>load_data</span>, <span class='ident'>script_chan</span>, <span class='ident'>window_size</span>) <span class='op'>=</span> {
-
             <span class='kw'>let</span> <span class='ident'>old_pipeline</span> <span class='op'>=</span> <span class='ident'>old_pipeline_id</span>
                 .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>old_pipeline_id</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_pipeline_id</span>));
 
@@ -3643,7 +3666,6 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>add_or_replace_pipeline_in_frame_tree</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>frame_change</span>: <span class='ident'>FrameChange</span>) {
-
         <span class='comment'>// If the currently focused pipeline is the one being changed (or a child</span>
         <span class='comment'>// of the pipeline being changed) then update the focus pipeline to be</span>
         <span class='comment'>// the replacement.</span>
@@ -3848,7 +3870,6 @@
         <span class='comment'>// are met, then the output image should not change and a reftest</span>
         <span class='comment'>// screenshot can safely be written.</span>
         <span class='kw'>for</span> <span class='ident'>frame</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>current_frame_tree_iter</span>(<span class='self'>self</span>.<span class='ident'>root_frame_id</span>) {
-
             <span class='kw'>let</span> <span class='ident'>pipeline_id</span> <span class='op'>=</span> <span class='ident'>frame</span>.<span class='ident'>current</span>;
 
             <span class='kw'>let</span> <span class='ident'>pipeline</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
@@ -4094,7 +4115,6 @@
         <span class='comment'>// with low-resource scenarios.</span>
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>root_frame_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>root_frame_id</span> {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame_tree</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frame_to_sendable</span>(<span class='ident'>root_frame_id</span>) {
-
                 <span class='kw'>let</span> (<span class='ident'>chan</span>, <span class='ident'>port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Failed to create IPC channel!&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>SetFrameTree</span>(<span class='ident'>frame_tree</span>,
                                                                          <span class='ident'>chan</span>,

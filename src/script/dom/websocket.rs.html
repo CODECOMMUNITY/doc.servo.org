@@ -657,8 +657,6 @@
 <span id="613">613</span>
 <span id="614">614</span>
 <span id="615">615</span>
-<span id="616">616</span>
-<span id="617">617</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1044,7 +1042,6 @@
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-websocket-send</span>
     <span class='kw'>fn</span> <span class='ident'>Send</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>data</span>: <span class='ident'>USVString</span>) <span class='op'>-&gt;</span> <span class='ident'>ErrorResult</span> {
-
         <span class='kw'>let</span> <span class='ident'>data_byte_len</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='number'>0</span>.<span class='ident'>as_bytes</span>().<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>u64</span>;
         <span class='kw'>let</span> <span class='ident'>send_data</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>send_impl</span>(<span class='ident'>data_byte_len</span>));
 
@@ -1059,7 +1056,6 @@
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-websocket-send</span>
     <span class='kw'>fn</span> <span class='ident'>Send_</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>blob</span>: <span class='kw-2'>&amp;</span><span class='ident'>Blob</span>) <span class='op'>-&gt;</span> <span class='ident'>ErrorResult</span> {
-
         <span class='comment'>/* As per https://html.spec.whatwg.org/multipage/#websocket
            the buffered amount needs to be clamped to u32, even though Blob.Size() is u64
            If the buffer limit is reached in the first place, there are likely other major problems

@@ -525,8 +525,6 @@
 <span id="481">481</span>
 <span id="482">482</span>
 <span id="483">483</span>
-<span id="484">484</span>
-<span id="485">485</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -794,7 +792,6 @@
                                <span class='ident'>is_interval</span>: <span class='ident'>IsInterval</span>,
                                <span class='ident'>source</span>: <span class='ident'>TimerSource</span>)
                                <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
-
         <span class='self'>self</span>.<span class='ident'>js_timers</span>.<span class='ident'>set_timeout_or_interval</span>(<span class='ident'>global</span>,
                                                <span class='ident'>callback</span>,
                                                <span class='ident'>arguments</span>,
@@ -1008,7 +1005,6 @@
         <span class='comment'>// reschedule repeating timers when they were not canceled as part of step 4.2.</span>
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_interval</span> <span class='op'>==</span> <span class='ident'>IsInterval</span>::<span class='ident'>Interval</span> <span class='op'>&amp;&amp;</span>
             <span class='ident'>timers</span>.<span class='ident'>active_timers</span>.<span class='ident'>borrow</span>().<span class='ident'>contains_key</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>handle</span>) {
-
             <span class='ident'>timers</span>.<span class='ident'>initialize_and_schedule</span>(<span class='ident'>this</span>.<span class='ident'>global</span>().<span class='ident'>r</span>(), <span class='self'>self</span>);
         }
     }

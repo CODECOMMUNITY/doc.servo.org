@@ -504,8 +504,6 @@
 <span id="460">460</span>
 <span id="461">461</span>
 <span id="462">462</span>
-<span id="463">463</span>
-<span id="464">464</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -914,7 +912,6 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>find_font_template</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>family</span>: <span class='ident'>FontFamily</span>, <span class='ident'>desc</span>: <span class='ident'>FontTemplateDescriptor</span>)
                                                 <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FontTemplateInfo</span><span class='op'>&gt;</span> {
-
         <span class='kw'>let</span> (<span class='ident'>response_chan</span>, <span class='ident'>response_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='self'>self</span>.<span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>Command</span>::<span class='ident'>GetFontTemplate</span>(<span class='ident'>family</span>, <span class='ident'>desc</span>, <span class='ident'>response_chan</span>)).<span class='ident'>unwrap</span>();
 
@@ -929,7 +926,6 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>last_resort_font_template</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>desc</span>: <span class='ident'>FontTemplateDescriptor</span>)
                                                 <span class='op'>-&gt;</span> <span class='ident'>FontTemplateInfo</span> {
-
         <span class='kw'>let</span> (<span class='ident'>response_chan</span>, <span class='ident'>response_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='self'>self</span>.<span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>Command</span>::<span class='ident'>GetLastResortFontTemplate</span>(<span class='ident'>desc</span>, <span class='ident'>response_chan</span>)).<span class='ident'>unwrap</span>();
 
