@@ -1894,7 +1894,7 @@
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>get_baseURI</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Node</span>, <span class='ident'>args</span>: <span class='ident'>JSJitGetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
-    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>DOMString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>BaseURI</span>();
+    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>BaseURI</span>();
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
     <span class='kw'>return</span> <span class='boolvalue'>true</span>;
@@ -3321,7 +3321,7 @@
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>NodeMethods</span> {
     <span class='kw'>fn</span> <span class='ident'>NodeType</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u16</span>;
     <span class='kw'>fn</span> <span class='ident'>NodeName</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DOMString</span>;
-    <span class='kw'>fn</span> <span class='ident'>BaseURI</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DOMString</span>;
+    <span class='kw'>fn</span> <span class='ident'>BaseURI</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>USVString</span>;
     <span class='kw'>fn</span> <span class='ident'>GetOwnerDocument</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Document</span><span class='op'>&gt;&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>RootNode</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>GetParentNode</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;&gt;</span>;

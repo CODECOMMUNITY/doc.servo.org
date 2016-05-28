@@ -2910,6 +2910,8 @@
 <span id="2866">2866</span>
 <span id="2867">2867</span>
 <span id="2868">2868</span>
+<span id="2869">2869</span>
+<span id="2870">2870</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2940,7 +2942,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>num</span>::<span class='ident'>Finite</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>refcounted</span>::<span class='ident'>Trusted</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>reflector</span>::{<span class='ident'>Reflectable</span>, <span class='ident'>reflect_dom_object</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::{<span class='ident'>DOMString</span>, <span class='ident'>USVString</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>trace</span>::<span class='ident'>RootedVec</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>xmlname</span>::<span class='ident'>XMLName</span>::<span class='ident'>InvalidXMLName</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>xmlname</span>::{<span class='ident'>validate_and_extract</span>, <span class='ident'>namespace_from_domstring</span>, <span class='ident'>xml_name_type</span>};
@@ -4778,8 +4780,8 @@
     }
 
     <span class='comment'>// https://dom.spec.whatwg.org/#dom-document-url</span>
-    <span class='kw'>fn</span> <span class='ident'>URL</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DOMString</span> {
-        <span class='ident'>DOMString</span>::<span class='ident'>from</span>(<span class='self'>self</span>.<span class='ident'>url</span>().<span class='ident'>as_str</span>())
+    <span class='kw'>fn</span> <span class='ident'>URL</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>USVString</span> {
+        <span class='ident'>USVString</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='self'>self</span>.<span class='ident'>url</span>().<span class='ident'>as_str</span>()))
     }
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-document-activeelement</span>
@@ -4829,7 +4831,7 @@
     }
 
     <span class='comment'>// https://dom.spec.whatwg.org/#dom-document-documenturi</span>
-    <span class='kw'>fn</span> <span class='ident'>DocumentURI</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DOMString</span> {
+    <span class='kw'>fn</span> <span class='ident'>DocumentURI</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>USVString</span> {
         <span class='self'>self</span>.<span class='ident'>URL</span>()
     }
 
@@ -5105,8 +5107,10 @@
                 )),
             <span class='string'>&quot;webglcontextevent&quot;</span> <span class='op'>=&gt;</span>
                 <span class='prelude-val'>Ok</span>(<span class='ident'>Root</span>::<span class='ident'>upcast</span>(<span class='ident'>WebGLContextEvent</span>::<span class='ident'>new_uninitialized</span>(<span class='ident'>GlobalRef</span>::<span class='ident'>Window</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>window</span>)))),
-            <span class='string'>&quot;storageevent&quot;</span> <span class='op'>=&gt;</span>
-                <span class='prelude-val'>Ok</span>(<span class='ident'>Root</span>::<span class='ident'>upcast</span>(<span class='ident'>StorageEvent</span>::<span class='ident'>new_uninitialized</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>window</span>, <span class='self'>self</span>.<span class='ident'>URL</span>()))),
+            <span class='string'>&quot;storageevent&quot;</span> <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='ident'>USVString</span>(<span class='ident'>url</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>URL</span>();
+                <span class='prelude-val'>Ok</span>(<span class='ident'>Root</span>::<span class='ident'>upcast</span>(<span class='ident'>StorageEvent</span>::<span class='ident'>new_uninitialized</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>window</span>, <span class='ident'>DOMString</span>::<span class='ident'>from</span>(<span class='ident'>url</span>))))
+            },
             <span class='string'>&quot;progressevent&quot;</span> <span class='op'>=&gt;</span>
                 <span class='prelude-val'>Ok</span>(<span class='ident'>Root</span>::<span class='ident'>upcast</span>(<span class='ident'>ProgressEvent</span>::<span class='ident'>new_uninitialized</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>window</span>))),
             <span class='string'>&quot;focusevent&quot;</span> <span class='op'>=&gt;</span>

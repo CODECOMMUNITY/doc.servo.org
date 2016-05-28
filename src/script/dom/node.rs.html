@@ -2644,6 +2644,7 @@
 <span id="2600">2600</span>
 <span id="2601">2601</span>
 <span id="2602">2602</span>
+<span id="2603">2603</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2675,7 +2676,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::<span class='ident'>RootedReference</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>JS</span>, <span class='ident'>LayoutJS</span>, <span class='ident'>MutNullableHeap</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>reflector</span>::{<span class='ident'>Reflectable</span>, <span class='ident'>reflect_dom_object</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::{<span class='ident'>DOMString</span>, <span class='ident'>USVString</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>trace</span>::<span class='ident'>RootedVec</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>xmlname</span>::<span class='ident'>namespace_from_domstring</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>characterdata</span>::{<span class='ident'>CharacterData</span>, <span class='ident'>LayoutCharacterDataHelpers</span>};
@@ -3451,9 +3452,10 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>summarize</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>NodeInfo</span> {
+        <span class='kw'>let</span> <span class='ident'>USVString</span>(<span class='ident'>baseURI</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>BaseURI</span>();
         <span class='ident'>NodeInfo</span> {
             <span class='ident'>uniqueId</span>: <span class='self'>self</span>.<span class='ident'>unique_id</span>(),
-            <span class='ident'>baseURI</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='self'>self</span>.<span class='ident'>BaseURI</span>()),
+            <span class='ident'>baseURI</span>: <span class='ident'>baseURI</span>,
             <span class='ident'>parent</span>: <span class='self'>self</span>.<span class='ident'>GetParentNode</span>().<span class='ident'>map_or</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_owned</span>(), <span class='op'>|</span><span class='ident'>node</span><span class='op'>|</span> <span class='ident'>node</span>.<span class='ident'>unique_id</span>()),
             <span class='ident'>nodeType</span>: <span class='self'>self</span>.<span class='ident'>NodeType</span>(),
             <span class='ident'>namespaceURI</span>: <span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='comment'>//FIXME</span>
@@ -4507,8 +4509,8 @@
     }
 
     <span class='comment'>// https://dom.spec.whatwg.org/#dom-node-baseuri</span>
-    <span class='kw'>fn</span> <span class='ident'>BaseURI</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DOMString</span> {
-        <span class='ident'>DOMString</span>::<span class='ident'>from</span>(<span class='self'>self</span>.<span class='ident'>owner_doc</span>().<span class='ident'>base_url</span>().<span class='ident'>as_str</span>())
+    <span class='kw'>fn</span> <span class='ident'>BaseURI</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>USVString</span> {
+        <span class='ident'>USVString</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='self'>self</span>.<span class='ident'>owner_doc</span>().<span class='ident'>base_url</span>().<span class='ident'>as_str</span>()))
     }
 
     <span class='comment'>// https://dom.spec.whatwg.org/#dom-node-ownerdocument</span>

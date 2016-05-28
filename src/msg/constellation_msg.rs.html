@@ -404,6 +404,12 @@
 <span id="360">360</span>
 <span id="361">361</span>
 <span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -737,6 +743,12 @@
             <span class='ident'>namespace_id</span>: <span class='ident'>PipelineNamespaceId</span>(<span class='number'>0</span>),
             <span class='ident'>index</span>: <span class='ident'>PipelineIndex</span>(<span class='number'>0</span>),
         }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_webrender</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>webrender_traits</span>::<span class='ident'>PipelineId</span> {
+        <span class='kw'>let</span> <span class='ident'>PipelineNamespaceId</span>(<span class='ident'>namespace_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>namespace_id</span>;
+        <span class='kw'>let</span> <span class='ident'>PipelineIndex</span>(<span class='ident'>index</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>index</span>;
+        <span class='ident'>webrender_traits</span>::<span class='ident'>PipelineId</span>(<span class='ident'>namespace_id</span>, <span class='ident'>index</span>)
     }
 }
 

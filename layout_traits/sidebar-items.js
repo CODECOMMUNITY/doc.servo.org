@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["ConvertPipelineIdToWebRender",""],["LayoutThreadFactory",""]]});
+initSidebarItems({"trait":[["LayoutThreadFactory",""]]});
