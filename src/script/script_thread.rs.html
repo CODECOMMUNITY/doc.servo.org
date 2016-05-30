@@ -2074,6 +2074,9 @@
 <span id="2030">2030</span>
 <span id="2031">2031</span>
 <span id="2032">2032</span>
+<span id="2033">2033</span>
+<span id="2034">2034</span>
+<span id="2035">2035</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2107,6 +2110,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>JS</span>, <span class='ident'>MutNullableHeap</span>, <span class='ident'>Root</span>, <span class='ident'>RootCollection</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>RootCollectionPtr</span>, <span class='ident'>RootedReference</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>refcounted</span>::{<span class='ident'>LiveDOMReferences</span>, <span class='ident'>Trusted</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>reflector</span>::<span class='ident'>Reflectable</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>trace</span>::<span class='ident'>JSTraceable</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>utils</span>::<span class='ident'>WRAP_CALLBACKS</span>;
@@ -2131,7 +2135,8 @@
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>glue</span>::<span class='ident'>GetWindowProxyClass</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>DOMProxyShadowsResult</span>, <span class='ident'>HandleId</span>, <span class='ident'>HandleObject</span>, <span class='ident'>RootedValue</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSContext</span>, <span class='ident'>JS_SetWrapObjectCallbacks</span>, <span class='ident'>JSTracer</span>, <span class='ident'>SetWindowProxyClass</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>JSContext</span>, <span class='ident'>JS_SetWrapObjectCallbacks</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSTracer</span>, <span class='ident'>SetWindowProxyClass</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::<span class='ident'>UndefinedValue</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::<span class='ident'>Runtime</span>;
 <span class='kw'>use</span> <span class='ident'>layout_interface</span>::{<span class='self'>self</span>, <span class='ident'>NewLayoutThreadInfo</span>, <span class='ident'>ReflowQueryType</span>};
@@ -3676,6 +3681,7 @@
 
             <span class='comment'>// Script source is ready to be evaluated (11.)</span>
             <span class='kw'>unsafe</span> {
+                <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>get_cx</span>(), <span class='ident'>window</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>().<span class='ident'>get</span>());
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>jsval</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>get_cx</span>(), <span class='ident'>UndefinedValue</span>());
                 <span class='ident'>window</span>.<span class='ident'>evaluate_js_on_global_with_result</span>(<span class='kw-2'>&amp;</span><span class='ident'>script_source</span>, <span class='ident'>jsval</span>.<span class='ident'>handle_mut</span>());
                 <span class='kw'>let</span> <span class='ident'>strval</span> <span class='op'>=</span> <span class='ident'>DOMString</span>::<span class='ident'>from_jsval</span>(<span class='self'>self</span>.<span class='ident'>get_cx</span>(),

@@ -527,6 +527,8 @@
 <span id="483">483</span>
 <span id="484">484</span>
 <span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -536,6 +538,7 @@
 <span class='kw'>use</span> <span class='ident'>about_loader</span>;
 <span class='kw'>use</span> <span class='ident'>chrome_loader</span>;
 <span class='kw'>use</span> <span class='ident'>connector</span>::{<span class='ident'>Connector</span>, <span class='ident'>create_http_connector</span>};
+<span class='kw'>use</span> <span class='ident'>content_blocker</span>::<span class='ident'>BLOCKED_CONTENT_RULES</span>;
 <span class='kw'>use</span> <span class='ident'>cookie</span>;
 <span class='kw'>use</span> <span class='ident'>cookie_storage</span>::<span class='ident'>CookieStorage</span>;
 <span class='kw'>use</span> <span class='ident'>data_loader</span>;
@@ -983,7 +986,8 @@
                 <span class='kw'>let</span> <span class='ident'>http_state</span> <span class='op'>=</span> <span class='ident'>HttpState</span> {
                     <span class='ident'>hsts_list</span>: <span class='self'>self</span>.<span class='ident'>hsts_list</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>cookie_jar</span>: <span class='self'>self</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>clone</span>(),
-                    <span class='ident'>auth_cache</span>: <span class='self'>self</span>.<span class='ident'>auth_cache</span>.<span class='ident'>clone</span>()
+                    <span class='ident'>auth_cache</span>: <span class='self'>self</span>.<span class='ident'>auth_cache</span>.<span class='ident'>clone</span>(),
+                    <span class='ident'>blocked_content</span>: <span class='ident'>BLOCKED_CONTENT_RULES</span>.<span class='ident'>clone</span>(),
                 };
                 <span class='ident'>http_loader</span>::<span class='ident'>factory</span>(<span class='self'>self</span>.<span class='ident'>user_agent</span>.<span class='ident'>clone</span>(),
                                      <span class='ident'>http_state</span>,

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Error","Errors returned when parsing a JSON representation of a list of rules."]],"fn":[["parse_list_impl","Parse a string containing a JSON representation of a content blocker list. Returns a vector of parsed rules, or an error representing the nature of the invalid input. Any rules missing required fields will be silently ignored."]]});

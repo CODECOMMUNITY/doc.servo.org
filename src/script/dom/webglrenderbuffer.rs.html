@@ -108,6 +108,17 @@
 <span id="64">64</span>
 <span id="65">65</span>
 <span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -128,6 +139,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebGLRenderbuffer</span> {
     <span class='ident'>webgl_object</span>: <span class='ident'>WebGLObject</span>,
     <span class='ident'>id</span>: <span class='ident'>u32</span>,
+    <span class='ident'>ever_bound</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
     <span class='ident'>is_deleted</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;Defined in ipc-channel&quot;</span>]</span>
     <span class='ident'>renderer</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>,
@@ -138,6 +150,7 @@
         <span class='ident'>WebGLRenderbuffer</span> {
             <span class='ident'>webgl_object</span>: <span class='ident'>WebGLObject</span>::<span class='ident'>new_inherited</span>(),
             <span class='ident'>id</span>: <span class='ident'>id</span>,
+            <span class='ident'>ever_bound</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
             <span class='ident'>is_deleted</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
             <span class='ident'>renderer</span>: <span class='ident'>renderer</span>,
         }
@@ -165,6 +178,7 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bind</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>target</span>: <span class='ident'>u32</span>) {
+        <span class='self'>self</span>.<span class='ident'>ever_bound</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
         <span class='self'>self</span>.<span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>CanvasMsg</span>::<span class='ident'>WebGL</span>(<span class='ident'>WebGLCommand</span>::<span class='ident'>BindRenderbuffer</span>(<span class='ident'>target</span>, <span class='self'>self</span>.<span class='ident'>id</span>))).<span class='ident'>unwrap</span>();
     }
 
@@ -173,6 +187,14 @@
             <span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
             <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>CanvasMsg</span>::<span class='ident'>WebGL</span>(<span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteRenderbuffer</span>(<span class='self'>self</span>.<span class='ident'>id</span>)));
         }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_deleted</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>get</span>()
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ever_bound</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='self'>self</span>.<span class='ident'>ever_bound</span>.<span class='ident'>get</span>()
     }
 }
 </pre>

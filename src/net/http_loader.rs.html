@@ -1076,14 +1076,60 @@
 <span id="1032">1032</span>
 <span id="1033">1033</span>
 <span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-
 <span class='kw'>use</span> <span class='ident'>brotli</span>::<span class='ident'>Decompressor</span>;
 <span class='kw'>use</span> <span class='ident'>connector</span>::<span class='ident'>Connector</span>;
+<span class='kw'>use</span> <span class='ident'>content_blocker_parser</span>::{<span class='ident'>LoadType</span>, <span class='ident'>Reaction</span>, <span class='ident'>Request</span> <span class='kw'>as</span> <span class='ident'>CBRequest</span>, <span class='ident'>ResourceType</span>};
+<span class='kw'>use</span> <span class='ident'>content_blocker_parser</span>::{<span class='ident'>RuleList</span>, <span class='ident'>process_rules_for_request</span>};
 <span class='kw'>use</span> <span class='ident'>cookie</span>;
 <span class='kw'>use</span> <span class='ident'>cookie_storage</span>::<span class='ident'>CookieStorage</span>;
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::{<span class='ident'>ChromeToDevtoolsControlMsg</span>, <span class='ident'>DevtoolsControlMsg</span>, <span class='ident'>HttpRequest</span> <span class='kw'>as</span> <span class='ident'>DevtoolsHttpRequest</span>};
@@ -1183,6 +1229,7 @@
     <span class='kw'>pub</span> <span class='ident'>hsts_list</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>HstsList</span><span class='op'>&gt;&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>cookie_jar</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>CookieStorage</span><span class='op'>&gt;&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>auth_cache</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>AuthCache</span><span class='op'>&gt;&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>blocked_content</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>RuleList</span><span class='op'>&gt;&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>HttpState</span> {
@@ -1191,6 +1238,7 @@
             <span class='ident'>hsts_list</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>HstsList</span>::<span class='ident'>new</span>())),
             <span class='ident'>cookie_jar</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>CookieStorage</span>::<span class='ident'>new</span>())),
             <span class='ident'>auth_cache</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>AuthCache</span>::<span class='ident'>new</span>())),
+            <span class='ident'>blocked_content</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
         }
     }
 }
@@ -1406,6 +1454,7 @@
     <span class='ident'>Cancelled</span>,
     <span class='ident'>Connection</span> { <span class='ident'>reason</span>: <span class='ident'>String</span> },
     <span class='ident'>ConnectionAborted</span> { <span class='ident'>reason</span>: <span class='ident'>String</span> },
+    <span class='ident'>ContentBlocked</span>,
     <span class='comment'>// Preflight fetch inconsistent with main fetch</span>
     <span class='ident'>CorsPreflightFetchInconsistent</span>,
     <span class='ident'>Decoding</span> { <span class='ident'>reason</span>: <span class='ident'>String</span> },
@@ -1428,6 +1477,7 @@
             <span class='ident'>LoadErrorType</span>::<span class='ident'>Cancelled</span> <span class='op'>=&gt;</span> <span class='string'>&quot;load cancelled&quot;</span>,
             <span class='ident'>LoadErrorType</span>::<span class='ident'>Connection</span> { <span class='kw-2'>ref</span> <span class='ident'>reason</span> } <span class='op'>=&gt;</span> <span class='ident'>reason</span>,
             <span class='ident'>LoadErrorType</span>::<span class='ident'>ConnectionAborted</span> { <span class='kw-2'>ref</span> <span class='ident'>reason</span> } <span class='op'>=&gt;</span> <span class='ident'>reason</span>,
+            <span class='ident'>LoadErrorType</span>::<span class='ident'>ContentBlocked</span> <span class='op'>=&gt;</span> <span class='string'>&quot;content blocked&quot;</span>,
             <span class='ident'>LoadErrorType</span>::<span class='ident'>CorsPreflightFetchInconsistent</span> <span class='op'>=&gt;</span> <span class='string'>&quot;preflight fetch inconsistent with main fetch&quot;</span>,
             <span class='ident'>LoadErrorType</span>::<span class='ident'>Decoding</span> { <span class='kw-2'>ref</span> <span class='ident'>reason</span> } <span class='op'>=&gt;</span> <span class='ident'>reason</span>,
             <span class='ident'>LoadErrorType</span>::<span class='ident'>InvalidRedirect</span> { <span class='kw-2'>ref</span> <span class='ident'>reason</span> } <span class='op'>=&gt;</span> <span class='ident'>reason</span>,
@@ -1669,7 +1719,8 @@
                               <span class='ident'>user_agent</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
                               <span class='ident'>cookie_jar</span>: <span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>CookieStorage</span><span class='op'>&gt;&gt;</span>,
                               <span class='ident'>auth_cache</span>: <span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>AuthCache</span><span class='op'>&gt;&gt;</span>,
-                              <span class='ident'>load_data</span>: <span class='kw-2'>&amp;</span><span class='ident'>LoadData</span>) {
+                              <span class='ident'>load_data</span>: <span class='kw-2'>&amp;</span><span class='ident'>LoadData</span>,
+                              <span class='ident'>block_cookies</span>: <span class='ident'>bool</span>) {
     <span class='comment'>// Ensure that the host header is set from the original url</span>
     <span class='kw'>let</span> <span class='ident'>host</span> <span class='op'>=</span> <span class='ident'>Host</span> {
         <span class='ident'>hostname</span>: <span class='ident'>url</span>.<span class='ident'>host_str</span>().<span class='ident'>unwrap</span>().<span class='ident'>to_owned</span>(),
@@ -1699,7 +1750,9 @@
 
     <span class='comment'>// https://fetch.spec.whatwg.org/#concept-http-network-or-cache-fetch step 11</span>
     <span class='kw'>if</span> <span class='ident'>load_data</span>.<span class='ident'>credentials_flag</span> {
-        <span class='ident'>set_request_cookies</span>(<span class='ident'>url</span>.<span class='ident'>clone</span>(), <span class='ident'>headers</span>, <span class='ident'>cookie_jar</span>);
+        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>block_cookies</span> {
+            <span class='ident'>set_request_cookies</span>(<span class='ident'>url</span>.<span class='ident'>clone</span>(), <span class='ident'>headers</span>, <span class='ident'>cookie_jar</span>);
+        }
 
         <span class='comment'>// https://fetch.spec.whatwg.org/#http-network-or-cache-fetch step 12</span>
         <span class='ident'>set_auth_header</span>(<span class='ident'>headers</span>, <span class='ident'>url</span>, <span class='ident'>auth_cache</span>);
@@ -1931,6 +1984,29 @@
             <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>LoadError</span>::<span class='ident'>new</span>(<span class='ident'>doc_url</span>, <span class='ident'>LoadErrorType</span>::<span class='ident'>Cancelled</span>));
         }
 
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>block_cookies</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>rules</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>http_state</span>.<span class='ident'>blocked_content</span> {
+            <span class='kw'>let</span> <span class='ident'>same_origin</span> <span class='op'>=</span>
+                <span class='ident'>load_data</span>.<span class='ident'>referrer_url</span>.<span class='ident'>as_ref</span>()
+                         .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>url</span><span class='op'>|</span> <span class='ident'>url</span>.<span class='ident'>origin</span>() <span class='op'>==</span> <span class='ident'>doc_url</span>.<span class='ident'>origin</span>())
+                         .<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>);
+            <span class='kw'>let</span> <span class='ident'>load_type</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>same_origin</span> { <span class='ident'>LoadType</span>::<span class='ident'>FirstParty</span> } <span class='kw'>else</span> { <span class='ident'>LoadType</span>::<span class='ident'>ThirdParty</span> };
+            <span class='kw'>let</span> <span class='ident'>actions</span> <span class='op'>=</span> <span class='ident'>process_rules_for_request</span>(<span class='ident'>rules</span>, <span class='kw-2'>&amp;</span><span class='ident'>CBRequest</span> {
+                <span class='ident'>url</span>: <span class='kw-2'>&amp;</span><span class='ident'>doc_url</span>,
+                <span class='ident'>resource_type</span>: <span class='ident'>to_resource_type</span>(<span class='kw-2'>&amp;</span><span class='ident'>load_data</span>.<span class='ident'>context</span>),
+                <span class='ident'>load_type</span>: <span class='ident'>load_type</span>,
+            });
+            <span class='kw'>for</span> <span class='ident'>action</span> <span class='kw'>in</span> <span class='ident'>actions</span> {
+                <span class='kw'>match</span> <span class='ident'>action</span> {
+                    <span class='ident'>Reaction</span>::<span class='ident'>Block</span> <span class='op'>=&gt;</span> {
+                        <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>LoadError</span>::<span class='ident'>new</span>(<span class='ident'>doc_url</span>, <span class='ident'>LoadErrorType</span>::<span class='ident'>ContentBlocked</span>));
+                    },
+                    <span class='ident'>Reaction</span>::<span class='ident'>BlockCookies</span> <span class='op'>=&gt;</span> <span class='ident'>block_cookies</span> <span class='op'>=</span> <span class='boolvalue'>true</span>,
+                    <span class='ident'>Reaction</span>::<span class='ident'>HideMatchingElements</span>(_) <span class='op'>=&gt;</span> (),
+                }
+            }
+        }
+
         <span class='macro'>info</span><span class='macro'>!</span>(<span class='string'>&quot;requesting {}&quot;</span>, <span class='ident'>doc_url</span>);
 
         <span class='comment'>// Avoid automatically preserving request headers when redirects occur.</span>
@@ -1949,7 +2025,7 @@
 
         <span class='ident'>modify_request_headers</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>request_headers</span>, <span class='kw-2'>&amp;</span><span class='ident'>doc_url</span>,
                                <span class='kw-2'>&amp;</span><span class='ident'>user_agent</span>, <span class='kw-2'>&amp;</span><span class='ident'>http_state</span>.<span class='ident'>cookie_jar</span>,
-                               <span class='kw-2'>&amp;</span><span class='ident'>http_state</span>.<span class='ident'>auth_cache</span>, <span class='kw-2'>&amp;</span><span class='ident'>load_data</span>);
+                               <span class='kw-2'>&amp;</span><span class='ident'>http_state</span>.<span class='ident'>auth_cache</span>, <span class='kw-2'>&amp;</span><span class='ident'>load_data</span>, <span class='ident'>block_cookies</span>);
 
         <span class='comment'>//if there is a new auth header then set the request headers with it</span>
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>auth_header</span>) <span class='op'>=</span> <span class='ident'>new_auth_header</span> {
@@ -2109,6 +2185,20 @@
             <span class='ident'>function</span> <span class='op'>==</span> <span class='string'>&quot;SSL3_GET_SERVER_CERTIFICATE&quot;</span> <span class='op'>&amp;&amp;</span>
             <span class='ident'>reason</span> <span class='op'>==</span> <span class='string'>&quot;certificate verify failed&quot;</span>
         }
+    }
+}
+
+<span class='kw'>fn</span> <span class='ident'>to_resource_type</span>(<span class='ident'>context</span>: <span class='kw-2'>&amp;</span><span class='ident'>LoadContext</span>) <span class='op'>-&gt;</span> <span class='ident'>ResourceType</span> {
+    <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>context</span> {
+        <span class='ident'>LoadContext</span>::<span class='ident'>Browsing</span> <span class='op'>=&gt;</span> <span class='ident'>ResourceType</span>::<span class='ident'>Document</span>,
+        <span class='ident'>LoadContext</span>::<span class='ident'>Image</span> <span class='op'>=&gt;</span> <span class='ident'>ResourceType</span>::<span class='ident'>Image</span>,
+        <span class='ident'>LoadContext</span>::<span class='ident'>AudioVideo</span> <span class='op'>=&gt;</span> <span class='ident'>ResourceType</span>::<span class='ident'>Media</span>,
+        <span class='ident'>LoadContext</span>::<span class='ident'>Plugin</span> <span class='op'>=&gt;</span> <span class='ident'>ResourceType</span>::<span class='ident'>Raw</span>,
+        <span class='ident'>LoadContext</span>::<span class='ident'>Style</span> <span class='op'>=&gt;</span> <span class='ident'>ResourceType</span>::<span class='ident'>StyleSheet</span>,
+        <span class='ident'>LoadContext</span>::<span class='ident'>Script</span> <span class='op'>=&gt;</span> <span class='ident'>ResourceType</span>::<span class='ident'>Script</span>,
+        <span class='ident'>LoadContext</span>::<span class='ident'>Font</span> <span class='op'>=&gt;</span> <span class='ident'>ResourceType</span>::<span class='ident'>Font</span>,
+        <span class='ident'>LoadContext</span>::<span class='ident'>TextTrack</span> <span class='op'>=&gt;</span> <span class='ident'>ResourceType</span>::<span class='ident'>Media</span>,
+        <span class='ident'>LoadContext</span>::<span class='ident'>CacheManifest</span> <span class='op'>=&gt;</span> <span class='ident'>ResourceType</span>::<span class='ident'>Raw</span>,
     }
 }
 </pre>

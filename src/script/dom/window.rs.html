@@ -1679,6 +1679,8 @@
 <span id="1635">1635</span>
 <span id="1636">1636</span>
 <span id="1637">1637</span>
+<span id="1638">1638</span>
+<span id="1639">1639</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -3141,15 +3143,17 @@
         })
     }
 
+    <span class='doccomment'>/// Returns whether this window is mozbrowser.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_mozbrowser</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='ident'>mozbrowser_enabled</span>() <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>parent_info</span>().<span class='ident'>is_none</span>()
+    }
+
     <span class='doccomment'>/// Returns whether mozbrowser is enabled and `obj` has been created</span>
     <span class='doccomment'>/// in a top-level `Window` global.</span>
     <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
     <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>global_is_mozbrowser</span>(_: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='ident'>HandleObject</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>mozbrowser_enabled</span>() {
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
-        }
         <span class='kw'>match</span> <span class='ident'>global_root_from_object</span>(<span class='ident'>obj</span>.<span class='ident'>get</span>()).<span class='ident'>r</span>() {
-            <span class='ident'>GlobalRef</span>::<span class='ident'>Window</span>(<span class='ident'>window</span>) <span class='op'>=&gt;</span> <span class='ident'>window</span>.<span class='ident'>parent_info</span>().<span class='ident'>is_none</span>(),
+            <span class='ident'>GlobalRef</span>::<span class='ident'>Window</span>(<span class='ident'>window</span>) <span class='op'>=&gt;</span> <span class='ident'>window</span>.<span class='ident'>is_mozbrowser</span>(),
             _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }

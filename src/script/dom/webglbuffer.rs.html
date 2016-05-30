@@ -146,6 +146,14 @@
 <span id="102">102</span>
 <span id="103">103</span>
 <span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -243,6 +251,14 @@
             <span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
             <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>CanvasMsg</span>::<span class='ident'>WebGL</span>(<span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteBuffer</span>(<span class='self'>self</span>.<span class='ident'>id</span>)));
         }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_deleted</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>get</span>()
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>target</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>target</span>.<span class='ident'>get</span>()
     }
 }
 

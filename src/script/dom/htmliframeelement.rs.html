@@ -631,6 +631,10 @@
 <span id="587">587</span>
 <span id="588">588</span>
 <span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1071,8 +1075,12 @@
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/API/Using_the_Browser_API</span>
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-mozbrowser</span>
     <span class='kw'>fn</span> <span class='ident'>Mozbrowser</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
-        <span class='ident'>element</span>.<span class='ident'>has_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;mozbrowser&quot;</span>))
+        <span class='kw'>if</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='ident'>is_mozbrowser</span>() {
+            <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
+            <span class='ident'>element</span>.<span class='ident'>has_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;mozbrowser&quot;</span>))
+        } <span class='kw'>else</span> {
+            <span class='boolvalue'>false</span>
+        }
     }
 
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-mozbrowser</span>
