@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["JsonPacketStream",""]]});
+initSidebarItems({"constant":[["_IMPL_SERIALIZE_FOR_ActorDescription",""],["_IMPL_SERIALIZE_FOR_Method",""]],"struct":[["ActorDescription",""],["Method",""]],"trait":[["JsonPacketStream",""]]});
