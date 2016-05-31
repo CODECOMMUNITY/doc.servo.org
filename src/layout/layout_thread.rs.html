@@ -1540,13 +1540,6 @@
 <span id="1496">1496</span>
 <span id="1497">1497</span>
 <span id="1498">1498</span>
-<span id="1499">1499</span>
-<span id="1500">1500</span>
-<span id="1501">1501</span>
-<span id="1502">1502</span>
-<span id="1503">1503</span>
-<span id="1504">1504</span>
-<span id="1505">1505</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2050,7 +2043,6 @@
     <span class='kw'>fn</span> <span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
                                    <span class='ident'>rw_data</span>: <span class='kw-2'>&amp;</span><span class='ident'>LayoutThreadData</span>,
                                    <span class='ident'>screen_size_changed</span>: <span class='ident'>bool</span>,
-                                   <span class='ident'>url</span>: <span class='kw-2'>&amp;</span><span class='ident'>Url</span>,
                                    <span class='ident'>goal</span>: <span class='ident'>ReflowGoal</span>)
                                    <span class='op'>-&gt;</span> <span class='ident'>SharedLayoutContext</span> {
         <span class='ident'>SharedLayoutContext</span> {
@@ -2068,7 +2060,6 @@
             <span class='ident'>image_cache_thread</span>: <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>clone</span>(),
             <span class='ident'>image_cache_sender</span>: <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>image_cache_sender</span>.<span class='ident'>clone</span>()),
             <span class='ident'>font_cache_thread</span>: <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>font_cache_thread</span>.<span class='ident'>clone</span>()),
-            <span class='ident'>url</span>: (<span class='op'>*</span><span class='ident'>url</span>).<span class='ident'>clone</span>(),
             <span class='ident'>visible_rects</span>: <span class='self'>self</span>.<span class='ident'>visible_rects</span>.<span class='ident'>clone</span>(),
             <span class='ident'>webrender_image_cache</span>: <span class='self'>self</span>.<span class='ident'>webrender_image_cache</span>.<span class='ident'>clone</span>(),
         }
@@ -2159,7 +2150,6 @@
         };
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                   <span class='boolvalue'>false</span>,
-                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                   <span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='self'>self</span>.<span class='ident'>perform_post_style_recalc_layout_passes</span>(<span class='kw-2'>&amp;</span><span class='ident'>reflow_info</span>,
@@ -2663,7 +2653,6 @@
         <span class='comment'>// Create a layout context for use throughout the following passes.</span>
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>shared_layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                          <span class='ident'>viewport_size_changed</span>,
-                                                                         <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                          <span class='ident'>data</span>.<span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='kw'>if</span> <span class='ident'>node</span>.<span class='ident'>is_dirty</span>() <span class='op'>||</span> <span class='ident'>node</span>.<span class='ident'>has_dirty_descendants</span>() {
@@ -2812,7 +2801,6 @@
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                   <span class='boolvalue'>false</span>,
-                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                   <span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='self'>self</span>.<span class='ident'>perform_post_main_layout_passes</span>(<span class='kw-2'>&amp;</span><span class='ident'>reflow_info</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>rw_data</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>layout_context</span>);
@@ -2832,7 +2820,6 @@
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                   <span class='boolvalue'>false</span>,
-                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                   <span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>mut</span> <span class='ident'>root_flow</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>root_flow</span>.<span class='ident'>clone</span>() {
@@ -2863,7 +2850,6 @@
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>layout_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_shared_layout_context</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>rw_data</span>,
                                                                   <span class='boolvalue'>false</span>,
-                                                                  <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span>,
                                                                   <span class='ident'>reflow_info</span>.<span class='ident'>goal</span>);
 
         <span class='comment'>// No need to do a style recalc here.</span>

@@ -775,30 +775,6 @@
 <span id="731">731</span>
 <span id="732">732</span>
 <span id="733">733</span>
-<span id="734">734</span>
-<span id="735">735</span>
-<span id="736">736</span>
-<span id="737">737</span>
-<span id="738">738</span>
-<span id="739">739</span>
-<span id="740">740</span>
-<span id="741">741</span>
-<span id="742">742</span>
-<span id="743">743</span>
-<span id="744">744</span>
-<span id="745">745</span>
-<span id="746">746</span>
-<span id="747">747</span>
-<span id="748">748</span>
-<span id="749">749</span>
-<span id="750">750</span>
-<span id="751">751</span>
-<span id="752">752</span>
-<span id="753">753</span>
-<span id="754">754</span>
-<span id="755">755</span>
-<span id="756">756</span>
-<span id="757">757</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -860,6 +836,15 @@
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>cache</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>key</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
         <span class='kw'>if</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>cache</span>.<span class='ident'>contains_key</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>key</span>) {
             <span class='kw'>return</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>cache</span>.<span class='ident'>get</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>key</span>);
+        }
+    );
+);
+
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>get_adapter_or_return_error</span>(
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>bl_manager</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sender</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
+        <span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>bl_manager</span>.<span class='ident'>get_or_create_adapter</span>() {
+            <span class='prelude-val'>Some</span>(<span class='ident'>adapter</span>) <span class='op'>=&gt;</span> <span class='ident'>adapter</span>,
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
         }
     );
 );
@@ -1204,10 +1189,7 @@
     <span class='kw'>fn</span> <span class='ident'>request_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
                       <span class='ident'>options</span>: <span class='ident'>RequestDeviceoptions</span>,
                       <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>BluetoothDeviceMsg</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>session</span>) <span class='op'>=</span> <span class='ident'>BluetoothDiscoverySession</span>::<span class='ident'>create_session</span>(<span class='ident'>adapter</span>.<span class='ident'>get_object_path</span>()).<span class='ident'>ok</span>() {
             <span class='kw'>if</span> <span class='ident'>session</span>.<span class='ident'>start_discovery</span>().<span class='ident'>is_ok</span>() {
                 <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='ident'>DISCOVERY_TIMEOUT_MS</span>));
@@ -1234,10 +1216,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>gatt_server_connect</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>device_id</span>: <span class='ident'>String</span>, <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
 
         <span class='kw'>let</span> <span class='ident'>connected</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>d</span>) <span class='op'>=&gt;</span> {
@@ -1254,10 +1233,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>gatt_server_disconnect</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>device_id</span>: <span class='ident'>String</span>, <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
 
         <span class='kw'>let</span> <span class='ident'>connected</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>d</span>) <span class='op'>=&gt;</span> {
@@ -1277,10 +1253,7 @@
                            <span class='ident'>device_id</span>: <span class='ident'>String</span>,
                            <span class='ident'>uuid</span>: <span class='ident'>String</span>,
                            <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>BluetoothServiceMsg</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>let</span> <span class='ident'>services</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_gatt_services_by_uuid</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>uuid</span>);
         <span class='kw'>if</span> <span class='ident'>services</span>.<span class='ident'>is_empty</span>() {
             <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>PRIMARY_SERVICE_ERROR</span>))));
@@ -1303,10 +1276,7 @@
                             <span class='ident'>device_id</span>: <span class='ident'>String</span>,
                             <span class='ident'>uuid</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
                             <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>BluetoothServicesMsg</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>let</span> <span class='ident'>services</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>uuid</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>get_gatt_services_by_uuid</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>id</span>),
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>get_and_cache_gatt_services</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>),
@@ -1397,10 +1367,7 @@
                           <span class='ident'>service_id</span>: <span class='ident'>String</span>,
                           <span class='ident'>uuid</span>: <span class='ident'>String</span>,
                           <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>BluetoothCharacteristicMsg</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>let</span> <span class='ident'>characteristics</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_gatt_characteristics_by_uuid</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>service_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>uuid</span>);
         <span class='kw'>if</span> <span class='ident'>characteristics</span>.<span class='ident'>is_empty</span>() {
             <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>CHARACTERISTIC_ERROR</span>))));
@@ -1431,10 +1398,7 @@
                            <span class='ident'>service_id</span>: <span class='ident'>String</span>,
                            <span class='ident'>uuid</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
                            <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>BluetoothCharacteristicsMsg</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>let</span> <span class='ident'>characteristics</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>uuid</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>get_gatt_characteristics_by_uuid</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>service_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>id</span>),
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>get_and_cache_gatt_characteristics</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>service_id</span>),
@@ -1473,10 +1437,7 @@
                       <span class='ident'>characteristic_id</span>: <span class='ident'>String</span>,
                       <span class='ident'>uuid</span>: <span class='ident'>String</span>,
                       <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>BluetoothDescriptorMsg</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>let</span> <span class='ident'>descriptors</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_gatt_descriptors_by_uuid</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>characteristic_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>uuid</span>);
         <span class='kw'>if</span> <span class='ident'>descriptors</span>.<span class='ident'>is_empty</span>() {
             <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>DESCRIPTOR_ERROR</span>))));
@@ -1496,10 +1457,7 @@
                        <span class='ident'>characteristic_id</span>: <span class='ident'>String</span>,
                        <span class='ident'>uuid</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
                        <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>BluetoothDescriptorsMsg</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>let</span> <span class='ident'>descriptors</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>uuid</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>get_gatt_descriptors_by_uuid</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>characteristic_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>id</span>),
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>get_and_cache_gatt_descriptors</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>characteristic_id</span>),
@@ -1523,10 +1481,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>read_value</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>String</span>, <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_gatt_characteristic</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>id</span>)
                             .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>read_value</span>().<span class='ident'>unwrap_or</span>(<span class='macro'>vec</span><span class='macro'>!</span>[]));
         <span class='kw'>if</span> <span class='ident'>value</span>.<span class='ident'>is_none</span>() {
@@ -1537,10 +1492,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>write_value</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>String</span>, <span class='ident'>value</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_or_create_adapter</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> <span class='ident'>a</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>ADAPTER_ERROR</span>)))),
-        };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_gatt_characteristic</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>id</span>)
                              .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>write_value</span>(<span class='ident'>value</span>.<span class='ident'>clone</span>()));
         <span class='kw'>if</span> <span class='ident'>result</span>.<span class='ident'>is_none</span>() {

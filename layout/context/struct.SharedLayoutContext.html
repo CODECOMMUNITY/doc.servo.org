@@ -47,13 +47,12 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-2152' class='srclink' href='../../src/layout/context.rs.html#81-104' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-2152' class='srclink' href='../../src/layout/context.rs.html#81-101' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct SharedLayoutContext {
     pub style_context: <a class='type' href='../../style/servo/type.SharedStyleContext.html' title='style::servo::SharedStyleContext'>SharedStyleContext</a>,
     pub image_cache_thread: <a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a>,
     pub image_cache_sender: <a class='struct' href='../../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='struct' href='../../net_traits/image_cache_thread/struct.ImageCacheChan.html' title='net_traits::image_cache_thread::ImageCacheChan'>ImageCacheChan</a>&gt;,
     pub font_cache_thread: <a class='struct' href='../../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='struct' href='../../gfx/font_cache_thread/struct.FontCacheThread.html' title='gfx::font_cache_thread::FontCacheThread'>FontCacheThread</a>&gt;,
-    pub url: <a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>,
     pub visible_rects: <a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;&gt;,
     pub webrender_image_cache: <a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../std/sync/rwlock/struct.RwLock.html' title='std::sync::rwlock::RwLock'>RwLock</a>&lt;<a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>, <a class='enum' href='../../net_traits/image_cache_thread/enum.UsePlaceholder.html' title='net_traits::image_cache_thread::UsePlaceholder'>UsePlaceholder</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>, <a class='struct' href='../../gfx/display_list/struct.WebRenderImageInfo.html' title='gfx::display_list::WebRenderImageInfo'>WebRenderImageInfo</a>, <a class='struct' href='../../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;&gt;&gt;,
 }</pre><div class='docblock'><p>Layout information shared among all workers. This must be thread-safe.</p>
@@ -66,8 +65,6 @@
                              <td id='structfield.image_cache_sender'><code>image_cache_sender</code></td><td><div class='docblock'><p>A channel for the image cache to send responses to.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.font_cache_thread'><code>font_cache_thread</code></td><td><div class='docblock'><p>Interface to the font cache thread.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.url'><code>url</code></td><td><div class='docblock'><p>The URL.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.visible_rects'><code>visible_rects</code></td><td><div class='docblock'><p>The visible rects for each layer, as reported to us by the compositor.</p>
 </div></td></tr><tr class='stab '>

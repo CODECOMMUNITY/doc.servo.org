@@ -2097,6 +2097,13 @@
 <span id="2053">2053</span>
 <span id="2054">2054</span>
 <span id="2055">2055</span>
+<span id="2056">2056</span>
+<span id="2057">2057</span>
+<span id="2058">2058</span>
+<span id="2059">2059</span>
+<span id="2060">2060</span>
+<span id="2061">2061</span>
+<span id="2062">2062</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2692,35 +2699,41 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>clip</span> <span class='op'>=</span> <span class='ident'>clip</span>.<span class='ident'>clone</span>();
         <span class='ident'>clip</span>.<span class='ident'>intersect_rect</span>(<span class='ident'>absolute_bounds</span>);
 
-        <span class='comment'>// This is the distance between the center and the ending point; i.e. half of the distance</span>
-        <span class='comment'>// between the starting point and the ending point.</span>
-        <span class='kw'>let</span> <span class='ident'>delta</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>gradient</span>.<span class='ident'>angle_or_corner</span> {
-            <span class='ident'>AngleOrCorner</span>::<span class='ident'>Angle</span>(<span class='ident'>angle</span>) <span class='op'>=&gt;</span> {
-                <span class='comment'>// Get correct gradient line length, based on:</span>
-                <span class='comment'>// https://drafts.csswg.org/css-images-3/#linear-gradients</span>
-                <span class='kw'>let</span> <span class='ident'>dir</span> <span class='op'>=</span> <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>angle</span>.<span class='ident'>radians</span>().<span class='ident'>sin</span>(), <span class='op'>-</span><span class='ident'>angle</span>.<span class='ident'>radians</span>().<span class='ident'>cos</span>());
 
-                <span class='kw'>let</span> <span class='ident'>line_length</span> <span class='op'>=</span> (<span class='ident'>dir</span>.<span class='ident'>x</span> <span class='op'>*</span> <span class='ident'>absolute_bounds</span>.<span class='ident'>size</span>.<span class='ident'>width</span>.<span class='ident'>to_f32_px</span>()).<span class='ident'>abs</span>() <span class='op'>+</span>
-                                  (<span class='ident'>dir</span>.<span class='ident'>y</span> <span class='op'>*</span> <span class='ident'>absolute_bounds</span>.<span class='ident'>size</span>.<span class='ident'>height</span>.<span class='ident'>to_f32_px</span>()).<span class='ident'>abs</span>();
-
-                <span class='kw'>let</span> <span class='ident'>inv_dir_length</span> <span class='op'>=</span> <span class='number'>1.0</span> <span class='op'>/</span> (<span class='ident'>dir</span>.<span class='ident'>x</span> <span class='op'>*</span> <span class='ident'>dir</span>.<span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>dir</span>.<span class='ident'>y</span> <span class='op'>*</span> <span class='ident'>dir</span>.<span class='ident'>y</span>).<span class='ident'>sqrt</span>();
-
-                <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>Au</span>::<span class='ident'>from_f32_px</span>(<span class='ident'>dir</span>.<span class='ident'>x</span> <span class='op'>*</span> <span class='ident'>inv_dir_length</span> <span class='op'>*</span> <span class='ident'>line_length</span> <span class='op'>/</span> <span class='number'>2.0</span>),
-                             <span class='ident'>Au</span>::<span class='ident'>from_f32_px</span>(<span class='ident'>dir</span>.<span class='ident'>y</span> <span class='op'>*</span> <span class='ident'>inv_dir_length</span> <span class='op'>*</span> <span class='ident'>line_length</span> <span class='op'>/</span> <span class='number'>2.0</span>))
-            }
+        <span class='kw'>let</span> <span class='ident'>angle</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>gradient</span>.<span class='ident'>angle_or_corner</span> {
+            <span class='ident'>AngleOrCorner</span>::<span class='ident'>Angle</span>(<span class='ident'>angle</span>) <span class='op'>=&gt;</span> <span class='ident'>angle</span>.<span class='ident'>radians</span>(),
             <span class='ident'>AngleOrCorner</span>::<span class='ident'>Corner</span>(<span class='ident'>horizontal</span>, <span class='ident'>vertical</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>x_factor</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>horizontal</span> {
-                    <span class='ident'>HorizontalDirection</span>::<span class='ident'>Left</span> <span class='op'>=&gt;</span> <span class='op'>-</span><span class='number'>1</span>,
-                    <span class='ident'>HorizontalDirection</span>::<span class='ident'>Right</span> <span class='op'>=&gt;</span> <span class='number'>1</span>,
-                };
-                <span class='kw'>let</span> <span class='ident'>y_factor</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>vertical</span> {
-                    <span class='ident'>VerticalDirection</span>::<span class='ident'>Top</span> <span class='op'>=&gt;</span> <span class='op'>-</span><span class='number'>1</span>,
-                    <span class='ident'>VerticalDirection</span>::<span class='ident'>Bottom</span> <span class='op'>=&gt;</span> <span class='number'>1</span>,
-                };
-                <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>absolute_bounds</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='op'>*</span> <span class='ident'>x_factor</span> <span class='op'>/</span> <span class='number'>2</span>,
-                             <span class='ident'>absolute_bounds</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='op'>*</span> <span class='ident'>y_factor</span> <span class='op'>/</span> <span class='number'>2</span>)
+                <span class='comment'>// This the angle for one of the diagonals of the box. Our angle</span>
+                <span class='comment'>// will either be this one, this one + PI, or one of the other</span>
+                <span class='comment'>// two perpendicular angles.</span>
+                <span class='kw'>let</span> <span class='ident'>atan</span> <span class='op'>=</span> (<span class='ident'>absolute_bounds</span>.<span class='ident'>size</span>.<span class='ident'>height</span>.<span class='ident'>to_f32_px</span>() <span class='op'>/</span>
+                            <span class='ident'>absolute_bounds</span>.<span class='ident'>size</span>.<span class='ident'>width</span>.<span class='ident'>to_f32_px</span>()).<span class='ident'>atan</span>();
+                <span class='kw'>match</span> (<span class='ident'>horizontal</span>, <span class='ident'>vertical</span>) {
+                    (<span class='ident'>HorizontalDirection</span>::<span class='ident'>Right</span>, <span class='ident'>VerticalDirection</span>::<span class='ident'>Bottom</span>)
+                        <span class='op'>=&gt;</span> <span class='ident'>f32</span>::<span class='ident'>consts</span>::<span class='ident'>PI</span> <span class='op'>-</span> <span class='ident'>atan</span>,
+                    (<span class='ident'>HorizontalDirection</span>::<span class='ident'>Left</span>, <span class='ident'>VerticalDirection</span>::<span class='ident'>Bottom</span>)
+                        <span class='op'>=&gt;</span> <span class='ident'>f32</span>::<span class='ident'>consts</span>::<span class='ident'>PI</span> <span class='op'>+</span> <span class='ident'>atan</span>,
+                    (<span class='ident'>HorizontalDirection</span>::<span class='ident'>Right</span>, <span class='ident'>VerticalDirection</span>::<span class='ident'>Top</span>)
+                        <span class='op'>=&gt;</span> <span class='ident'>atan</span>,
+                    (<span class='ident'>HorizontalDirection</span>::<span class='ident'>Left</span>, <span class='ident'>VerticalDirection</span>::<span class='ident'>Top</span>)
+                        <span class='op'>=&gt;</span> <span class='op'>-</span><span class='ident'>atan</span>,
+                }
             }
         };
+
+        <span class='comment'>// Get correct gradient line length, based on:</span>
+        <span class='comment'>// https://drafts.csswg.org/css-images-3/#linear-gradients</span>
+        <span class='kw'>let</span> <span class='ident'>dir</span> <span class='op'>=</span> <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>angle</span>.<span class='ident'>sin</span>(), <span class='op'>-</span><span class='ident'>angle</span>.<span class='ident'>cos</span>());
+
+        <span class='kw'>let</span> <span class='ident'>line_length</span> <span class='op'>=</span> (<span class='ident'>dir</span>.<span class='ident'>x</span> <span class='op'>*</span> <span class='ident'>absolute_bounds</span>.<span class='ident'>size</span>.<span class='ident'>width</span>.<span class='ident'>to_f32_px</span>()).<span class='ident'>abs</span>() <span class='op'>+</span>
+                          (<span class='ident'>dir</span>.<span class='ident'>y</span> <span class='op'>*</span> <span class='ident'>absolute_bounds</span>.<span class='ident'>size</span>.<span class='ident'>height</span>.<span class='ident'>to_f32_px</span>()).<span class='ident'>abs</span>();
+
+        <span class='kw'>let</span> <span class='ident'>inv_dir_length</span> <span class='op'>=</span> <span class='number'>1.0</span> <span class='op'>/</span> (<span class='ident'>dir</span>.<span class='ident'>x</span> <span class='op'>*</span> <span class='ident'>dir</span>.<span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>dir</span>.<span class='ident'>y</span> <span class='op'>*</span> <span class='ident'>dir</span>.<span class='ident'>y</span>).<span class='ident'>sqrt</span>();
+
+        <span class='comment'>// This is the vector between the center and the ending point; i.e. half</span>
+        <span class='comment'>// of the distance between the starting point and the ending point.</span>
+        <span class='kw'>let</span> <span class='ident'>delta</span> <span class='op'>=</span> <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>Au</span>::<span class='ident'>from_f32_px</span>(<span class='ident'>dir</span>.<span class='ident'>x</span> <span class='op'>*</span> <span class='ident'>inv_dir_length</span> <span class='op'>*</span> <span class='ident'>line_length</span> <span class='op'>/</span> <span class='number'>2.0</span>),
+                                 <span class='ident'>Au</span>::<span class='ident'>from_f32_px</span>(<span class='ident'>dir</span>.<span class='ident'>y</span> <span class='op'>*</span> <span class='ident'>inv_dir_length</span> <span class='op'>*</span> <span class='ident'>line_length</span> <span class='op'>/</span> <span class='number'>2.0</span>));
 
         <span class='comment'>// This is the length of the gradient line.</span>
         <span class='kw'>let</span> <span class='ident'>length</span> <span class='op'>=</span> <span class='ident'>Au</span>::<span class='ident'>from_f32_px</span>(
@@ -2729,7 +2742,8 @@
         <span class='comment'>// Determine the position of each stop per CSS-IMAGES § 3.4.</span>
         <span class='comment'>//</span>
         <span class='comment'>// FIXME(#3908, pcwalton): Make sure later stops can&#39;t be behind earlier stops.</span>
-        <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>stops</span>, <span class='kw-2'>mut</span> <span class='ident'>stop_run</span>) <span class='op'>=</span> (<span class='ident'>Vec</span>::<span class='ident'>new</span>(), <span class='prelude-val'>None</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stops</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>gradient</span>.<span class='ident'>stops</span>.<span class='ident'>len</span>());
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stop_run</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
         <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>stop</span>) <span class='kw'>in</span> <span class='ident'>gradient</span>.<span class='ident'>stops</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
             <span class='kw'>let</span> <span class='ident'>offset</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>stop</span>.<span class='ident'>position</span> {
                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {

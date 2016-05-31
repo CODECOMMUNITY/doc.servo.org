@@ -541,9 +541,9 @@
 }
 
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>new_rt_and_cx</span>(<span class='ident'>parent_rt</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSRuntime</span>) <span class='op'>-&gt;</span> <span class='ident'>Runtime</span> {
+<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>new_rt_and_cx</span>() <span class='op'>-&gt;</span> <span class='ident'>Runtime</span> {
     <span class='ident'>LiveDOMReferences</span>::<span class='ident'>initialize</span>();
-    <span class='kw'>let</span> <span class='ident'>runtime</span> <span class='op'>=</span> <span class='ident'>Runtime</span>::<span class='ident'>new</span>(<span class='ident'>parent_rt</span>);
+    <span class='kw'>let</span> <span class='ident'>runtime</span> <span class='op'>=</span> <span class='ident'>Runtime</span>::<span class='ident'>new</span>();
 
     <span class='ident'>JS_AddExtraGCRootsTracer</span>(<span class='ident'>runtime</span>.<span class='ident'>rt</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>trace_rust_roots</span>), <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>());
     <span class='ident'>JS_AddExtraGCRootsTracer</span>(<span class='ident'>runtime</span>.<span class='ident'>rt</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>trace_refcounted_objects</span>), <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>());
