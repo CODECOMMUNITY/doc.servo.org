@@ -195,16 +195,26 @@
 <span id="151">151</span>
 <span id="152">152</span>
 <span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
+<span class='kw'>use</span> <span class='ident'>bluetooth_blacklist</span>::{<span class='ident'>Blacklist</span>, <span class='ident'>uuid_is_blacklisted</span>};
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>clone</span>::<span class='ident'>Clone</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BluetoothBinding</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BluetoothBinding</span>::<span class='ident'>RequestDeviceOptions</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BluetoothBinding</span>::{<span class='ident'>BluetoothScanFilter</span>, <span class='ident'>BluetoothMethods</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>::<span class='ident'>Type</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>::{<span class='ident'>Security</span>, <span class='ident'>Type</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::<span class='ident'>Fallible</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>global</span>::<span class='ident'>GlobalRef</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::<span class='ident'>Root</span>;
@@ -269,7 +279,11 @@
             <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Type</span>(<span class='ident'>SERVICE_ERROR</span>.<span class='ident'>to_owned</span>()));
         }
         <span class='kw'>for</span> <span class='ident'>service</span> <span class='kw'>in</span> <span class='ident'>services</span> {
-            <span class='ident'>services_vec</span>.<span class='ident'>push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>BluetoothUUID</span>::<span class='ident'>GetService</span>(<span class='ident'>global</span>, <span class='ident'>service</span>.<span class='ident'>clone</span>())).<span class='ident'>to_string</span>());
+            <span class='kw'>let</span> <span class='ident'>uuid</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>BluetoothUUID</span>::<span class='ident'>GetService</span>(<span class='ident'>global</span>, <span class='ident'>service</span>.<span class='ident'>clone</span>())).<span class='ident'>to_string</span>();
+            <span class='kw'>if</span> <span class='ident'>uuid_is_blacklisted</span>(<span class='ident'>uuid</span>.<span class='ident'>as_ref</span>(), <span class='ident'>Blacklist</span>::<span class='ident'>All</span>) {
+                <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Security</span>)
+            }
+            <span class='ident'>services_vec</span>.<span class='ident'>push</span>(<span class='ident'>uuid</span>);
         }
     }
 
@@ -317,7 +331,11 @@
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>optional_services</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>();
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>opt_services</span>) <span class='op'>=</span> <span class='ident'>options</span>.<span class='ident'>optionalServices</span> {
         <span class='kw'>for</span> <span class='ident'>opt_service</span> <span class='kw'>in</span> <span class='ident'>opt_services</span> {
-            <span class='ident'>optional_services</span>.<span class='ident'>push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>BluetoothUUID</span>::<span class='ident'>GetService</span>(<span class='ident'>global</span>, <span class='ident'>opt_service</span>.<span class='ident'>clone</span>())).<span class='ident'>to_string</span>());
+            <span class='kw'>let</span> <span class='ident'>uuid</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>BluetoothUUID</span>::<span class='ident'>GetService</span>(<span class='ident'>global</span>, <span class='ident'>opt_service</span>.<span class='ident'>clone</span>())).<span class='ident'>to_string</span>();
+            <span class='kw'>if</span> <span class='ident'>uuid_is_blacklisted</span>(<span class='ident'>uuid</span>.<span class='ident'>as_ref</span>(), <span class='ident'>Blacklist</span>::<span class='ident'>All</span>) {
+                <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Security</span>)
+            }
+            <span class='ident'>optional_services</span>.<span class='ident'>push</span>(<span class='ident'>uuid</span>);
         }
     }
 

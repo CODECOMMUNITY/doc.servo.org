@@ -162,11 +162,19 @@
 <span id="118">118</span>
 <span id="119">119</span>
 <span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
+<span class='kw'>use</span> <span class='ident'>bluetooth_blacklist</span>::{<span class='ident'>Blacklist</span>, <span class='ident'>uuid_is_blacklisted</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>cell</span>::<span class='ident'>DOMRefCell</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BluetoothDeviceBinding</span>::<span class='ident'>BluetoothDeviceMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BluetoothRemoteGATTCharacteristicBinding</span>::
@@ -175,7 +183,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BluetoothRemoteGATTDescriptorBinding</span>::<span class='ident'>BluetoothRemoteGATTDescriptorMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BluetoothRemoteGATTServerBinding</span>::<span class='ident'>BluetoothRemoteGATTServerMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BluetoothRemoteGATTServiceBinding</span>::<span class='ident'>BluetoothRemoteGATTServiceMethods</span>;
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>::{<span class='ident'>Type</span>, <span class='ident'>Network</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>::{<span class='ident'>Network</span>, <span class='ident'>Security</span>, <span class='ident'>Type</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::{<span class='ident'>Fallible</span>, <span class='ident'>ErrorResult</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>global</span>::<span class='ident'>GlobalRef</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>JS</span>, <span class='ident'>MutHeap</span>, <span class='ident'>Root</span>};
@@ -250,6 +258,9 @@
 
     <span class='comment'>// https://webbluetoothcg.github.io/web-bluetooth/#dom-bluetoothremotegattdescriptor-readvalue</span>
     <span class='kw'>fn</span> <span class='ident'>ReadValue</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span><span class='ident'>ByteString</span><span class='op'>&gt;</span> {
+        <span class='kw'>if</span> <span class='ident'>uuid_is_blacklisted</span>(<span class='self'>self</span>.<span class='ident'>uuid</span>.<span class='ident'>as_ref</span>(), <span class='ident'>Blacklist</span>::<span class='ident'>Reads</span>) {
+            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Security</span>)
+        }
         <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>Characteristic</span>().<span class='ident'>Service</span>().<span class='ident'>Device</span>().<span class='ident'>Gatt</span>().<span class='ident'>Connected</span>() {
             <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Network</span>)
@@ -271,6 +282,9 @@
 
     <span class='comment'>// https://webbluetoothcg.github.io/web-bluetooth/#dom-bluetoothremotegattdescriptor-writevalue</span>
     <span class='kw'>fn</span> <span class='ident'>WriteValue</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>ErrorResult</span> {
+        <span class='kw'>if</span> <span class='ident'>uuid_is_blacklisted</span>(<span class='self'>self</span>.<span class='ident'>uuid</span>.<span class='ident'>as_ref</span>(), <span class='ident'>Blacklist</span>::<span class='ident'>Writes</span>) {
+            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Security</span>)
+        }
         <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='self'>self</span>.<span class='ident'>get_bluetooth_thread</span>().<span class='ident'>send</span>(
             <span class='ident'>BluetoothMethodMsg</span>::<span class='ident'>WriteValue</span>(<span class='self'>self</span>.<span class='ident'>get_instance_id</span>(), <span class='ident'>value</span>, <span class='ident'>sender</span>)).<span class='ident'>unwrap</span>();
