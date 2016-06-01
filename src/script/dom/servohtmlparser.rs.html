@@ -549,9 +549,9 @@
             <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
         };
         <span class='kw'>let</span> <span class='ident'>content_type</span> <span class='op'>=</span> <span class='ident'>metadata</span>.<span class='ident'>clone</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>meta</span><span class='op'>|</span> <span class='ident'>meta</span>.<span class='ident'>content_type</span>);
-        <span class='kw'>let</span> <span class='ident'>parser</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>ScriptThread</span>::<span class='ident'>page_fetch_complete</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>id</span>,
-                                                             <span class='self'>self</span>.<span class='ident'>subpage</span>.<span class='ident'>as_ref</span>(),
-                                                             <span class='ident'>metadata</span>) {
+        <span class='kw'>let</span> <span class='ident'>parser</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>ScriptThread</span>::<span class='ident'>page_headers_available</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>id</span>,
+                                                                <span class='self'>self</span>.<span class='ident'>subpage</span>.<span class='ident'>as_ref</span>(),
+                                                                <span class='ident'>metadata</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>parser</span>) <span class='op'>=&gt;</span> <span class='ident'>parser</span>,
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
         };

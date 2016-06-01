@@ -3337,7 +3337,7 @@
 
     <span class='comment'>// this sync method is called upon modification of the style_attribute property,</span>
     <span class='comment'>// therefore, it should not trigger subsequent mutation events</span>
-    <span class='kw'>fn</span> <span class='ident'>sync_property_with_attrs_style</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>sync_property_with_attrs_style</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='kw'>let</span> <span class='ident'>style_str</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>declarations</span>) <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>style_attribute</span>().<span class='ident'>borrow</span>() {
             <span class='ident'>declarations</span>.<span class='ident'>to_css_string</span>()
         } <span class='kw'>else</span> {
