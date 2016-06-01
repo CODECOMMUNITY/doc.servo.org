@@ -47,13 +47,18 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-6371' class='srclink' href='../../src/webrender/util.rs.html#39-41' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-6380' class='srclink' href='../../src/webrender/util.rs.html#39-47' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait MatrixHelpers {
     fn <a href='#tymethod.transform_rect' class='fnname'>transform_rect</a>(&amp;self, rect: &amp;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;;
+    fn <a href='#tymethod.can_losslessly_transform_a_2d_rect' class='fnname'>can_losslessly_transform_a_2d_rect</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>;
 }</pre>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.transform_rect' class='method stab '><code>fn <a href='#tymethod.transform_rect' class='fnname'>transform_rect</a>(&amp;self, rect: &amp;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;</code></h3></div>
+        <h3 id='tymethod.transform_rect' class='method stab '><code>fn <a href='#tymethod.transform_rect' class='fnname'>transform_rect</a>(&amp;self, rect: &amp;<a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;</code></h3><h3 id='tymethod.can_losslessly_transform_a_2d_rect' class='method stab '><code>fn <a href='#tymethod.can_losslessly_transform_a_2d_rect' class='fnname'>can_losslessly_transform_a_2d_rect</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Returns true if this matrix transforms an axis-aligned 2D rectangle to another axis-aligned
+2D rectangle.</p>
+
+<p>This is used as part of <code>flatten()</code> above, as essentially a hack for browser.html.</p>
+</div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
     <li><code>impl MatrixHelpers for <a class='struct' href='../../euclid/matrix4d/struct.Matrix4D.html' title='euclid::matrix4d::Matrix4D'>Matrix4D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;</code></li>

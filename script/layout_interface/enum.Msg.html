@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-113473' class='srclink' href='../../src/script/layout_interface.rs.html#33-88' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-113926' class='srclink' href='../../src/script/layout_interface.rs.html#33-91' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum Msg {
     AddStylesheet(<a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='type' href='../../style/servo/type.Stylesheet.html' title='style::servo::Stylesheet'>Stylesheet</a>&gt;),
     SetQuirksMode,
@@ -64,6 +64,7 @@
     GetWebFontLoadState(<a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;),
     CreateLayoutThread(<a class='struct' href='../../script/layout_interface/struct.NewLayoutThreadInfo.html' title='script::layout_interface::NewLayoutThreadInfo'>NewLayoutThreadInfo</a>),
     SetFinalUrl(<a class='struct' href='../../url/struct.Url.html' title='url::Url'>Url</a>),
+    SetStackingContextScrollStates(<a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../script_traits/struct.StackingContextScrollState.html' title='script_traits::StackingContextScrollState'>StackingContextScrollState</a>&gt;),
 }</pre><div class='docblock'><p>Asynchronous messages that script can send to layout.</p>
 </div><h2 class='variants'>Variants</h2>
 <table class='variants_table'><tr><td id='variant.AddStylesheet'><code>AddStylesheet</code></td><td><div class='docblock'><p>Adds the given stylesheet to the document.</p>
@@ -91,6 +92,7 @@ false otherwise).</p>
 
 <p>This basically exists to keep the script-layout dependency one-way.</p>
 </div></td><td></td></tr><tr><td id='variant.SetFinalUrl'><code>SetFinalUrl</code></td><td><div class='docblock'><p>Set the final Url.</p>
+</div></td><td></td></tr><tr><td id='variant.SetStackingContextScrollStates'><code>SetStackingContextScrollStates</code></td><td><div class='docblock'><p>Tells layout about the new scrolling offsets of each scrollable stacking context.</p>
 </div></td><td></td></tr></table></section>
     <section id='search' class="content hidden"></section>
 

@@ -317,6 +317,24 @@
 <span id="273">273</span>
 <span id="274">274</span>
 <span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -324,7 +342,7 @@
 
 <span class='kw'>use</span> <span class='ident'>app_units</span>::<span class='ident'>Au</span>;
 <span class='kw'>use</span> <span class='ident'>display_list</span>::{<span class='ident'>AuxiliaryListsBuilder</span>, <span class='ident'>ItemRange</span>};
-<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
+<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Point2D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>core_graphics</span>::<span class='ident'>font</span>::<span class='ident'>CGFont</span>;
 
@@ -451,14 +469,24 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>StackingContextId</span>(<span class='kw'>pub</span> <span class='ident'>u32</span>, <span class='kw'>pub</span> <span class='ident'>u32</span>);
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DisplayListId</span>(<span class='kw'>pub</span> <span class='ident'>u32</span>, <span class='kw'>pub</span> <span class='ident'>u32</span>);
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ServoStackingContextId</span>(<span class='kw'>pub</span> <span class='ident'>FragmentType</span>, <span class='kw'>pub</span> <span class='ident'>usize</span>);
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FragmentType</span> {
+    <span class='ident'>FragmentBody</span>,
+    <span class='ident'>BeforePseudoContent</span>,
+    <span class='ident'>AfterPseudoContent</span>,
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>DisplayListMode</span> {
     <span class='ident'>Default</span>,
     <span class='ident'>PseudoFloat</span>,
     <span class='ident'>PseudoPositionedContent</span>,
 }
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DisplayListId</span>(<span class='kw'>pub</span> <span class='ident'>u32</span>, <span class='kw'>pub</span> <span class='ident'>u32</span>);
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>, <span class='ident'>Ord</span>, <span class='ident'>PartialOrd</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Epoch</span>(<span class='kw'>pub</span> <span class='ident'>u32</span>);
@@ -593,6 +621,14 @@
     <span class='ident'>Scrollable</span>,
     <span class='ident'>Fixed</span>,
 }
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Clone</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ScrollLayerState</span> {
+    <span class='kw'>pub</span> <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>,
+    <span class='kw'>pub</span> <span class='ident'>stacking_context_id</span>: <span class='ident'>ServoStackingContextId</span>,
+    <span class='kw'>pub</span> <span class='ident'>scroll_offset</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+}
+
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

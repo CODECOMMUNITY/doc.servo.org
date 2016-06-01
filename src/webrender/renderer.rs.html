@@ -1778,6 +1778,35 @@
 <span id="1734">1734</span>
 <span id="1735">1735</span>
 <span id="1736">1736</span>
+<span id="1737">1737</span>
+<span id="1738">1738</span>
+<span id="1739">1739</span>
+<span id="1740">1740</span>
+<span id="1741">1741</span>
+<span id="1742">1742</span>
+<span id="1743">1743</span>
+<span id="1744">1744</span>
+<span id="1745">1745</span>
+<span id="1746">1746</span>
+<span id="1747">1747</span>
+<span id="1748">1748</span>
+<span id="1749">1749</span>
+<span id="1750">1750</span>
+<span id="1751">1751</span>
+<span id="1752">1752</span>
+<span id="1753">1753</span>
+<span id="1754">1754</span>
+<span id="1755">1755</span>
+<span id="1756">1756</span>
+<span id="1757">1757</span>
+<span id="1758">1758</span>
+<span id="1759">1759</span>
+<span id="1760">1760</span>
+<span id="1761">1761</span>
+<span id="1762">1762</span>
+<span id="1763">1763</span>
+<span id="1764">1764</span>
+<span id="1765">1765</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1814,7 +1843,7 @@
 <span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>ColorF</span>, <span class='ident'>Epoch</span>, <span class='ident'>PipelineId</span>, <span class='ident'>RenderNotifier</span>};
 <span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>ImageFormat</span>, <span class='ident'>MixBlendMode</span>, <span class='ident'>RenderApiSender</span>};
 <span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::{<span class='ident'>NativeGLContext</span>, <span class='ident'>NativeGLContextMethods</span>};
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>RectHelpers</span>;
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>MatrixHelpers</span>;
 
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>BLUR_INFLATION_FACTOR</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>3</span>;
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>MAX_RASTER_OP_SIZE</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>2048</span>;
@@ -2161,7 +2190,6 @@
 
             <span class='ident'>gl</span>::<span class='ident'>disable</span>(<span class='ident'>gl</span>::<span class='ident'>SCISSOR_TEST</span>);
             <span class='ident'>gl</span>::<span class='ident'>clear_color</span>(<span class='number'>1.0</span>, <span class='number'>1.0</span>, <span class='number'>1.0</span>, <span class='number'>0.0</span>);
-            <span class='ident'>gl</span>::<span class='ident'>clear</span>(<span class='ident'>gl</span>::<span class='ident'>COLOR_BUFFER_BIT</span> <span class='op'>|</span> <span class='ident'>gl</span>::<span class='ident'>DEPTH_BUFFER_BIT</span> <span class='op'>|</span> <span class='ident'>gl</span>::<span class='ident'>STENCIL_BUFFER_BIT</span>);
 
             <span class='self'>self</span>.<span class='ident'>update_shaders</span>();
             <span class='self'>self</span>.<span class='ident'>update_texture_cache</span>();
@@ -2912,31 +2940,13 @@
         <span class='kw'>let</span> <span class='ident'>layer_origin</span> <span class='op'>=</span> <span class='ident'>Point2D</span>::<span class='ident'>new</span>((<span class='ident'>layer</span>.<span class='ident'>origin</span>.<span class='ident'>x</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>,
                                         (<span class='ident'>layer</span>.<span class='ident'>origin</span>.<span class='ident'>y</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>);
 
-        <span class='kw'>let</span> <span class='ident'>layer_size</span> <span class='op'>=</span> <span class='ident'>Size2D</span>::<span class='ident'>new</span>((<span class='ident'>layer</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>u32</span>,
-                                     (<span class='ident'>layer</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>u32</span>);
+        <span class='kw'>let</span> <span class='ident'>layer_size</span> <span class='op'>=</span> <span class='ident'>Size2D</span>::<span class='ident'>new</span>((<span class='ident'>layer</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>i32</span>,
+                                     (<span class='ident'>layer</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>i32</span>);
 
-        <span class='kw'>let</span> <span class='ident'>layer_origin</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>layer</span>.<span class='ident'>texture_id</span> {
-            <span class='prelude-val'>Some</span>(..) <span class='op'>=&gt;</span> {
-                <span class='ident'>layer_origin</span>
-            }
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>inverted_y0</span> <span class='op'>=</span> <span class='ident'>render_context</span>.<span class='ident'>framebuffer_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span> <span class='op'>-</span>
-                                  <span class='ident'>layer_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span> <span class='op'>-</span>
-                                  <span class='ident'>layer_origin</span>.<span class='ident'>y</span>;
+        <span class='kw'>let</span> <span class='ident'>layer_viewport</span> <span class='op'>=</span> <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>layer_origin</span>, <span class='ident'>layer_size</span>);
+        <span class='ident'>set_scissor_or_viewport</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer_viewport</span>, <span class='ident'>render_context</span>, <span class='ident'>layer</span>.<span class='ident'>texture_id</span>, <span class='ident'>gl</span>::<span class='ident'>scissor</span>);
+        <span class='ident'>set_scissor_or_viewport</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer_viewport</span>, <span class='ident'>render_context</span>, <span class='ident'>layer</span>.<span class='ident'>texture_id</span>, <span class='ident'>gl</span>::<span class='ident'>viewport</span>);
 
-                <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>layer_origin</span>.<span class='ident'>x</span>, <span class='ident'>inverted_y0</span>)
-            }
-        };
-
-        <span class='ident'>gl</span>::<span class='ident'>scissor</span>(<span class='ident'>layer_origin</span>.<span class='ident'>x</span>,
-                    <span class='ident'>layer_origin</span>.<span class='ident'>y</span>,
-                    <span class='ident'>layer_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>,
-                    <span class='ident'>layer_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>);
-
-        <span class='ident'>gl</span>::<span class='ident'>viewport</span>(<span class='ident'>layer_origin</span>.<span class='ident'>x</span>,
-                     <span class='ident'>layer_origin</span>.<span class='ident'>y</span>,
-                     <span class='ident'>layer_size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>,
-                     <span class='ident'>layer_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>);
         <span class='kw'>let</span> <span class='ident'>clear_color</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>layer</span>.<span class='ident'>texture_id</span>.<span class='ident'>is_some</span>() {
             <span class='ident'>ColorF</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>, <span class='number'>0.0</span>, <span class='number'>0.0</span>)
         } <span class='kw'>else</span> {
@@ -3003,19 +3013,37 @@
 
                     <span class='comment'>// Render any masks to the stencil buffer.</span>
                     <span class='kw'>for</span> <span class='ident'>region</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>info</span>.<span class='ident'>regions</span> {
-                        <span class='kw'>let</span> <span class='ident'>layer_rect</span> <span class='op'>=</span> <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>layer</span>.<span class='ident'>origin</span>, <span class='ident'>layer</span>.<span class='ident'>size</span>);
                         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>valid_mask_count</span> <span class='op'>=</span> <span class='number'>0</span>;
+                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>scissor_rect</span> <span class='op'>=</span> <span class='ident'>layer_viewport</span>;
                         <span class='kw'>for</span> <span class='ident'>mask</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>region</span>.<span class='ident'>masks</span> {
 
-                            <span class='comment'>// If the mask is larger than the viewport / scissor rect</span>
-                            <span class='comment'>// then there is no need to draw it.</span>
-                            <span class='kw'>if</span> <span class='ident'>mask</span>.<span class='ident'>transform</span> <span class='op'>==</span> <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>() <span class='op'>&amp;&amp;</span>
-                               <span class='ident'>mask</span>.<span class='ident'>rect</span>.<span class='ident'>contains_rect</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer_rect</span>) {
-                                <span class='kw'>continue</span>;
+                            <span class='comment'>// If we can represent the mask by just adjusting the scissor rect,</span>
+                            <span class='comment'>// don&#39;t draw it.</span>
+                            <span class='kw'>if</span> <span class='ident'>mask</span>.<span class='ident'>transform</span>.<span class='ident'>can_losslessly_transform_a_2d_rect</span>() {
+                                <span class='kw'>let</span> <span class='ident'>transformed_mask_rect</span> <span class='op'>=</span> <span class='ident'>mask</span>.<span class='ident'>transform</span>
+                                                                .<span class='ident'>transform_rect</span>(<span class='kw-2'>&amp;</span><span class='ident'>mask</span>.<span class='ident'>rect</span>);
+                                <span class='kw'>let</span> <span class='ident'>transformed_mask_origin</span> <span class='op'>=</span> <span class='ident'>Point2D</span>::<span class='ident'>new</span>(
+                                    (<span class='ident'>transformed_mask_rect</span>.<span class='ident'>origin</span>.<span class='ident'>x</span> <span class='op'>*</span>
+                                     <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>,
+                                    (<span class='ident'>transformed_mask_rect</span>.<span class='ident'>origin</span>.<span class='ident'>y</span> <span class='op'>*</span>
+                                     <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>);
+                                <span class='kw'>let</span> <span class='ident'>transformed_mask_size</span> <span class='op'>=</span> <span class='ident'>Size2D</span>::<span class='ident'>new</span>(
+                                        (<span class='ident'>transformed_mask_rect</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='op'>*</span>
+                                         <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>,
+                                        (<span class='ident'>transformed_mask_rect</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='op'>*</span>
+                                         <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>);
+                                <span class='kw'>let</span> <span class='ident'>transformed_mask_rect</span> <span class='op'>=</span>
+                                    <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>transformed_mask_origin</span>,
+                                              <span class='ident'>transformed_mask_size</span>);
+
+                                <span class='ident'>scissor_rect</span> <span class='op'>=</span> <span class='ident'>transformed_mask_rect</span>.<span class='ident'>intersection</span>(<span class='kw-2'>&amp;</span><span class='ident'>scissor_rect</span>)
+                                                                    .<span class='ident'>unwrap_or</span>(<span class='ident'>Rect</span>::<span class='ident'>zero</span>());
+                                <span class='kw'>continue</span>
                             }
 
                             <span class='comment'>// First time we find a valid mask, clear stencil and setup render states</span>
                             <span class='kw'>if</span> <span class='ident'>valid_mask_count</span> <span class='op'>==</span> <span class='number'>0</span> {
+                                <span class='comment'>// TODO(pcwalton): Don&#39;t clear stencil if already clear!!!</span>
                                 <span class='ident'>gl</span>::<span class='ident'>clear</span>(<span class='ident'>gl</span>::<span class='ident'>STENCIL_BUFFER_BIT</span>);
                                 <span class='ident'>gl</span>::<span class='ident'>enable</span>(<span class='ident'>gl</span>::<span class='ident'>STENCIL_TEST</span>);
                                 <span class='ident'>gl</span>::<span class='ident'>color_mask</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>);
@@ -3089,6 +3117,14 @@
                                                      <span class='kw-2'>&amp;</span><span class='ident'>projection</span>);
                         }
 
+                        <span class='comment'>// If the scissor rect was updated, scissor.</span>
+                        <span class='kw'>if</span> <span class='ident'>scissor_rect</span> <span class='op'>!=</span> <span class='ident'>layer_viewport</span> {
+                            <span class='ident'>set_scissor_or_viewport</span>(<span class='kw-2'>&amp;</span><span class='ident'>scissor_rect</span>,
+                                                    <span class='ident'>render_context</span>,
+                                                    <span class='ident'>layer</span>.<span class='ident'>texture_id</span>,
+                                                    <span class='ident'>gl</span>::<span class='ident'>scissor</span>)
+                        }
+
                         <span class='kw'>for</span> <span class='ident'>draw_call</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>region</span>.<span class='ident'>draw_calls</span> {
                             <span class='kw'>let</span> <span class='ident'>vao_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_or_create_similar_vao_with_offset</span>(
                                 <span class='ident'>draw_call</span>.<span class='ident'>vertex_buffer_id</span>,
@@ -3149,6 +3185,14 @@
                         <span class='comment'>// Disable stencil test if it was used</span>
                         <span class='kw'>if</span> <span class='ident'>valid_mask_count</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
                             <span class='ident'>gl</span>::<span class='ident'>disable</span>(<span class='ident'>gl</span>::<span class='ident'>STENCIL_TEST</span>);
+                        }
+
+                        <span class='comment'>// Reset scissor if it was used.</span>
+                        <span class='kw'>if</span> <span class='ident'>scissor_rect</span> <span class='op'>!=</span> <span class='ident'>layer_viewport</span> {
+                            <span class='ident'>set_scissor_or_viewport</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer_viewport</span>,
+                                                    <span class='ident'>render_context</span>,
+                                                    <span class='ident'>layer</span>.<span class='ident'>texture_id</span>,
+                                                    <span class='ident'>gl</span>::<span class='ident'>scissor</span>);
                         }
                     }
                 }
@@ -3418,6 +3462,20 @@
                                           <span class='ident'>info</span>.<span class='ident'>texture_id</span>);
                 }
             }
+        }
+
+        <span class='kw'>fn</span> <span class='ident'>set_scissor_or_viewport</span>(<span class='ident'>rect</span>: <span class='kw-2'>&amp;</span><span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>gl</span>::<span class='ident'>GLint</span><span class='op'>&gt;</span>,
+                                   <span class='ident'>render_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>RenderContext</span>,
+                                   <span class='ident'>layer_texture_id</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TextureId</span><span class='op'>&gt;</span>,
+                                   <span class='ident'>function</span>: <span class='kw'>fn</span>(<span class='ident'>gl</span>::<span class='ident'>GLint</span>, <span class='ident'>gl</span>::<span class='ident'>GLint</span>, <span class='ident'>gl</span>::<span class='ident'>GLint</span>, <span class='ident'>gl</span>::<span class='ident'>GLint</span>)) {
+            <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>layer_texture_id</span> {
+                <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='ident'>rect</span>.<span class='ident'>origin</span>.<span class='ident'>y</span>,
+                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
+                    <span class='ident'>render_context</span>.<span class='ident'>framebuffer_size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span> <span class='op'>-</span> <span class='ident'>rect</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='op'>-</span>
+                        <span class='ident'>rect</span>.<span class='ident'>origin</span>.<span class='ident'>y</span>
+                }
+            };
+            <span class='ident'>function</span>(<span class='ident'>rect</span>.<span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>rect</span>.<span class='ident'>size</span>.<span class='ident'>width</span>, <span class='ident'>rect</span>.<span class='ident'>size</span>.<span class='ident'>height</span>)
         }
     }
 

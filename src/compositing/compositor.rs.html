@@ -2628,6 +2628,64 @@
 <span id="2584">2584</span>
 <span id="2585">2585</span>
 <span id="2586">2586</span>
+<span id="2587">2587</span>
+<span id="2588">2588</span>
+<span id="2589">2589</span>
+<span id="2590">2590</span>
+<span id="2591">2591</span>
+<span id="2592">2592</span>
+<span id="2593">2593</span>
+<span id="2594">2594</span>
+<span id="2595">2595</span>
+<span id="2596">2596</span>
+<span id="2597">2597</span>
+<span id="2598">2598</span>
+<span id="2599">2599</span>
+<span id="2600">2600</span>
+<span id="2601">2601</span>
+<span id="2602">2602</span>
+<span id="2603">2603</span>
+<span id="2604">2604</span>
+<span id="2605">2605</span>
+<span id="2606">2606</span>
+<span id="2607">2607</span>
+<span id="2608">2608</span>
+<span id="2609">2609</span>
+<span id="2610">2610</span>
+<span id="2611">2611</span>
+<span id="2612">2612</span>
+<span id="2613">2613</span>
+<span id="2614">2614</span>
+<span id="2615">2615</span>
+<span id="2616">2616</span>
+<span id="2617">2617</span>
+<span id="2618">2618</span>
+<span id="2619">2619</span>
+<span id="2620">2620</span>
+<span id="2621">2621</span>
+<span id="2622">2622</span>
+<span id="2623">2623</span>
+<span id="2624">2624</span>
+<span id="2625">2625</span>
+<span id="2626">2626</span>
+<span id="2627">2627</span>
+<span id="2628">2628</span>
+<span id="2629">2629</span>
+<span id="2630">2630</span>
+<span id="2631">2631</span>
+<span id="2632">2632</span>
+<span id="2633">2633</span>
+<span id="2634">2634</span>
+<span id="2635">2635</span>
+<span id="2636">2636</span>
+<span id="2637">2637</span>
+<span id="2638">2638</span>
+<span id="2639">2639</span>
+<span id="2640">2640</span>
+<span id="2641">2641</span>
+<span id="2642">2642</span>
+<span id="2643">2643</span>
+<span id="2644">2644</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2646,7 +2704,8 @@
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::<span class='ident'>TypedSize2D</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Matrix4D</span>, <span class='ident'>Point2D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>paint_thread</span>::{<span class='ident'>ChromeToPaintMsg</span>, <span class='ident'>PaintRequest</span>};
-<span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>color</span>, <span class='ident'>Epoch</span>, <span class='ident'>FrameTreeId</span>, <span class='ident'>LayerId</span>, <span class='ident'>LayerKind</span>, <span class='ident'>LayerProperties</span>, <span class='ident'>ScrollPolicy</span>};
+<span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>ScrollPolicy</span>, <span class='ident'>StackingContextId</span>};
+<span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>color</span>, <span class='ident'>Epoch</span>, <span class='ident'>FrameTreeId</span>, <span class='ident'>FragmentType</span>, <span class='ident'>LayerId</span>, <span class='ident'>LayerKind</span>, <span class='ident'>LayerProperties</span>};
 <span class='kw'>use</span> <span class='ident'>gleam</span>::<span class='ident'>gl</span>;
 <span class='kw'>use</span> <span class='ident'>gleam</span>::<span class='ident'>gl</span>::<span class='ident'>types</span>::{<span class='ident'>GLint</span>, <span class='ident'>GLsizei</span>};
 <span class='kw'>use</span> <span class='ident'>image</span>::{<span class='ident'>DynamicImage</span>, <span class='ident'>ImageFormat</span>, <span class='ident'>RgbImage</span>};
@@ -2666,8 +2725,8 @@
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>::{<span class='self'>self</span>, <span class='ident'>ProfilerCategory</span>, <span class='ident'>profile</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>CompositorEvent</span>::{<span class='ident'>MouseMoveEvent</span>, <span class='ident'>MouseButtonEvent</span>, <span class='ident'>TouchEvent</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>AnimationTickType</span>, <span class='ident'>ConstellationControlMsg</span>};
-<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ConstellationMsg</span>, <span class='ident'>LayoutControlMsg</span>, <span class='ident'>MouseButton</span>};
-<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>MouseEventType</span>, <span class='ident'>TouchpadPressurePhase</span>, <span class='ident'>TouchEventType</span>, <span class='ident'>TouchId</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ConstellationMsg</span>, <span class='ident'>LayoutControlMsg</span>, <span class='ident'>MouseButton</span>, <span class='ident'>MouseEventType</span>};
+<span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>StackingContextScrollState</span>, <span class='ident'>TouchpadPressurePhase</span>, <span class='ident'>TouchEventType</span>, <span class='ident'>TouchId</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>hash_map</span>::<span class='ident'>Entry</span>::{<span class='ident'>Occupied</span>, <span class='ident'>Vacant</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::{<span class='ident'>HashMap</span>, <span class='ident'>HashSet</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
@@ -2718,6 +2777,32 @@
         <span class='ident'>PipelineId</span> {
             <span class='ident'>namespace_id</span>: <span class='ident'>PipelineNamespaceId</span>(<span class='self'>self</span>.<span class='number'>0</span>),
             <span class='ident'>index</span>: <span class='ident'>PipelineIndex</span>(<span class='self'>self</span>.<span class='number'>1</span>),
+        }
+    }
+}
+
+<span class='kw'>trait</span> <span class='ident'>ConvertStackingContextFromWebRender</span> {
+    <span class='kw'>fn</span> <span class='ident'>from_webrender</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>StackingContextId</span>;
+}
+
+<span class='kw'>impl</span> <span class='ident'>ConvertStackingContextFromWebRender</span> <span class='kw'>for</span> <span class='ident'>webrender_traits</span>::<span class='ident'>ServoStackingContextId</span> {
+    <span class='kw'>fn</span> <span class='ident'>from_webrender</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>StackingContextId</span> {
+        <span class='ident'>StackingContextId</span>::<span class='ident'>new_of_type</span>(<span class='self'>self</span>.<span class='number'>1</span>, <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>from_webrender</span>())
+    }
+}
+
+<span class='kw'>trait</span> <span class='ident'>ConvertFragmentTypeFromWebRender</span> {
+    <span class='kw'>fn</span> <span class='ident'>from_webrender</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>FragmentType</span>;
+}
+
+<span class='kw'>impl</span> <span class='ident'>ConvertFragmentTypeFromWebRender</span> <span class='kw'>for</span> <span class='ident'>webrender_traits</span>::<span class='ident'>FragmentType</span> {
+    <span class='kw'>fn</span> <span class='ident'>from_webrender</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>FragmentType</span> {
+        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+            <span class='ident'>webrender_traits</span>::<span class='ident'>FragmentType</span>::<span class='ident'>FragmentBody</span> <span class='op'>=&gt;</span> <span class='ident'>FragmentType</span>::<span class='ident'>FragmentBody</span>,
+            <span class='ident'>webrender_traits</span>::<span class='ident'>FragmentType</span>::<span class='ident'>BeforePseudoContent</span> <span class='op'>=&gt;</span> {
+                <span class='ident'>FragmentType</span>::<span class='ident'>BeforePseudoContent</span>
+            }
+            <span class='ident'>webrender_traits</span>::<span class='ident'>FragmentType</span>::<span class='ident'>AfterPseudoContent</span> <span class='op'>=&gt;</span> <span class='ident'>FragmentType</span>::<span class='ident'>AfterPseudoContent</span>,
         }
     }
 }
@@ -4251,11 +4336,11 @@
 
                     <span class='self'>self</span>.<span class='ident'>perform_updates_after_scroll</span>();
                 }
-
-                <span class='kw'>if</span> <span class='ident'>had_events</span> {
-                    <span class='self'>self</span>.<span class='ident'>send_viewport_rects_for_all_layers</span>();
-                }
             }
+        }
+
+        <span class='kw'>if</span> <span class='ident'>had_events</span> {
+            <span class='self'>self</span>.<span class='ident'>send_viewport_rects_for_all_layers</span>();
         }
     }
 
@@ -4518,9 +4603,40 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>send_viewport_rects_for_all_layers</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>root</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>root</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>send_viewport_rect_for_layer</span>(<span class='ident'>root</span>.<span class='ident'>clone</span>()),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {},
+        <span class='kw'>if</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>use_webrender</span> {
+            <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>send_webrender_viewport_rects</span>()
+        }
+
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>root</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>root</span> {
+            <span class='self'>self</span>.<span class='ident'>send_viewport_rect_for_layer</span>(<span class='ident'>root</span>.<span class='ident'>clone</span>())
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>send_webrender_viewport_rects</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stacking_context_scroll_states_per_pipeline</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>new</span>();
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>webrender_api</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>webrender_api</span> {
+            <span class='kw'>for</span> <span class='ident'>scroll_layer_state</span> <span class='kw'>in</span> <span class='ident'>webrender_api</span>.<span class='ident'>get_scroll_layer_state</span>() {
+                <span class='kw'>let</span> <span class='ident'>stacking_context_scroll_state</span> <span class='op'>=</span> <span class='ident'>StackingContextScrollState</span> {
+                    <span class='ident'>stacking_context_id</span>: <span class='ident'>scroll_layer_state</span>.<span class='ident'>stacking_context_id</span>.<span class='ident'>from_webrender</span>(),
+                    <span class='ident'>scroll_offset</span>: <span class='ident'>scroll_layer_state</span>.<span class='ident'>scroll_offset</span>,
+                };
+                <span class='kw'>let</span> <span class='ident'>pipeline_id</span> <span class='op'>=</span> <span class='ident'>scroll_layer_state</span>.<span class='ident'>pipeline_id</span>;
+                <span class='kw'>match</span> <span class='ident'>stacking_context_scroll_states_per_pipeline</span>.<span class='ident'>entry</span>(<span class='ident'>pipeline_id</span>) {
+                    <span class='ident'>Vacant</span>(<span class='kw-2'>mut</span> <span class='ident'>entry</span>) <span class='op'>=&gt;</span> {
+                        <span class='ident'>entry</span>.<span class='ident'>insert</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>stacking_context_scroll_state</span>]);
+                    }
+                    <span class='ident'>Occupied</span>(<span class='kw-2'>mut</span> <span class='ident'>entry</span>) <span class='op'>=&gt;</span> <span class='ident'>entry</span>.<span class='ident'>get_mut</span>().<span class='ident'>push</span>(<span class='ident'>stacking_context_scroll_state</span>),
+                }
+            }
+
+            <span class='kw'>for</span> (<span class='ident'>pipeline_id</span>, <span class='ident'>stacking_context_scroll_states</span>) <span class='kw'>in</span>
+                    <span class='ident'>stacking_context_scroll_states_per_pipeline</span> {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline</span>(<span class='ident'>pipeline_id</span>.<span class='ident'>from_webrender</span>()) {
+                    <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>LayoutControlMsg</span>::<span class='ident'>SetStackingContextScrollStates</span>(
+                        <span class='ident'>stacking_context_scroll_states</span>);
+                    <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>pipeline</span>.<span class='ident'>layout_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>);
+                }
+            }
         }
     }
 

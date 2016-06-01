@@ -1681,6 +1681,11 @@
 <span id="1637">1637</span>
 <span id="1638">1638</span>
 <span id="1639">1639</span>
+<span id="1640">1640</span>
+<span id="1641">1641</span>
+<span id="1642">1642</span>
+<span id="1643">1643</span>
+<span id="1644">1644</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2679,11 +2684,16 @@
         };
 
         <span class='comment'>// TODO (farodin91): Raise an event to stop the current_viewport</span>
-        <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>current_viewport</span>.<span class='ident'>get</span>().<span class='ident'>size</span>;
-        <span class='self'>self</span>.<span class='ident'>current_viewport</span>.<span class='ident'>set</span>(<span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>Au</span>::<span class='ident'>from_f32_px</span>(<span class='ident'>x</span>), <span class='ident'>Au</span>::<span class='ident'>from_f32_px</span>(<span class='ident'>y</span>)), <span class='ident'>size</span>));
+        <span class='self'>self</span>.<span class='ident'>update_viewport_for_scroll</span>(<span class='ident'>x</span>, <span class='ident'>y</span>);
 
         <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='ident'>ConstellationMsg</span>::<span class='ident'>ScrollFragmentPoint</span>(<span class='self'>self</span>.<span class='ident'>pipeline</span>(), <span class='ident'>layer_id</span>, <span class='ident'>point</span>, <span class='ident'>smooth</span>);
         <span class='self'>self</span>.<span class='ident'>constellation_chan</span>.<span class='ident'>send</span>(<span class='ident'>message</span>).<span class='ident'>unwrap</span>();
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>update_viewport_for_scroll</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>x</span>: <span class='ident'>f32</span>, <span class='ident'>y</span>: <span class='ident'>f32</span>) {
+        <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>current_viewport</span>.<span class='ident'>get</span>().<span class='ident'>size</span>;
+        <span class='kw'>let</span> <span class='ident'>new_viewport</span> <span class='op'>=</span> <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>Au</span>::<span class='ident'>from_f32_px</span>(<span class='ident'>x</span>), <span class='ident'>Au</span>::<span class='ident'>from_f32_px</span>(<span class='ident'>y</span>)), <span class='ident'>size</span>);
+        <span class='self'>self</span>.<span class='ident'>current_viewport</span>.<span class='ident'>set</span>(<span class='ident'>new_viewport</span>)
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>client_window</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>, <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) {

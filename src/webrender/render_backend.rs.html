@@ -432,6 +432,9 @@
 <span id="388">388</span>
 <span id="389">389</span>
 <span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -688,6 +691,9 @@
                                 }
                             }
                             <span class='ident'>tx</span>.<span class='ident'>send</span>((<span class='ident'>point</span>, <span class='ident'>PipelineId</span>(<span class='number'>0</span>, <span class='number'>0</span>))).<span class='ident'>unwrap</span>()
+                        }
+                        <span class='ident'>ApiMsg</span>::<span class='ident'>GetScrollLayerState</span>(<span class='ident'>tx</span>) <span class='op'>=&gt;</span> {
+                            <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>get_scroll_layer_state</span>()).<span class='ident'>unwrap</span>()
                         }
                         <span class='ident'>ApiMsg</span>::<span class='ident'>RequestWebGLContext</span>(<span class='ident'>size</span>, <span class='ident'>attributes</span>, <span class='ident'>tx</span>) <span class='op'>=&gt;</span> {
                             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>handle</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>webrender_context_handle</span> {

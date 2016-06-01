@@ -296,6 +296,14 @@
 <span id="252">252</span>
 <span id="253">253</span>
 <span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -310,7 +318,7 @@
 <span class='kw'>use</span> <span class='ident'>stacking_context</span>::<span class='ident'>StackingContext</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 <span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ColorF</span>, <span class='ident'>DisplayListId</span>, <span class='ident'>Epoch</span>, <span class='ident'>FontKey</span>, <span class='ident'>StackingContextId</span>};
-<span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ImageKey</span>, <span class='ident'>ImageFormat</span>, <span class='ident'>NativeFontHandle</span>, <span class='ident'>PipelineId</span>};
+<span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ImageKey</span>, <span class='ident'>ImageFormat</span>, <span class='ident'>NativeFontHandle</span>, <span class='ident'>PipelineId</span>, <span class='ident'>ScrollLayerState</span>};
 <span class='kw'>use</span> <span class='ident'>webgl</span>::{<span class='ident'>WebGLContextId</span>, <span class='ident'>WebGLCommand</span>};
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
@@ -357,6 +365,7 @@
     <span class='ident'>Scroll</span>(<span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>ScrollEventPhase</span>),
     <span class='ident'>TickScrollingBounce</span>,
     <span class='ident'>TranslatePointToLayerSpace</span>(<span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span>(<span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>PipelineId</span>)<span class='op'>&gt;</span>),
+    <span class='ident'>GetScrollLayerState</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ScrollLayerState</span><span class='op'>&gt;&gt;</span>),
     <span class='ident'>RequestWebGLContext</span>(<span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>GLContextAttributes</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>WebGLContextId</span>, <span class='ident'>GLLimits</span>), <span class='ident'>String</span><span class='op'>&gt;&gt;</span>),
     <span class='ident'>WebGLCommand</span>(<span class='ident'>WebGLContextId</span>, <span class='ident'>WebGLCommand</span>),
 }
@@ -513,6 +522,13 @@
                                           <span class='op'>-&gt;</span> (<span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>PipelineId</span>) {
         <span class='kw'>let</span> (<span class='ident'>tx</span>, <span class='ident'>rx</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ApiMsg</span>::<span class='ident'>TranslatePointToLayerSpace</span>(<span class='op'>*</span><span class='ident'>point</span>, <span class='ident'>tx</span>);
+        <span class='self'>self</span>.<span class='ident'>api_sender</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
+        <span class='ident'>rx</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>()
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_scroll_layer_state</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ScrollLayerState</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> (<span class='ident'>tx</span>, <span class='ident'>rx</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ApiMsg</span>::<span class='ident'>GetScrollLayerState</span>(<span class='ident'>tx</span>);
         <span class='self'>self</span>.<span class='ident'>api_sender</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
         <span class='ident'>rx</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>()
     }
