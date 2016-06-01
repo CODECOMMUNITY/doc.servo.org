@@ -382,6 +382,17 @@
 <span id="338">338</span>
 <span id="339">339</span>
 <span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -404,7 +415,8 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSContext</span>, <span class='ident'>JSObject</span>, <span class='ident'>JS_GetClass</span>, <span class='ident'>MutableHandleValue</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::{<span class='ident'>JSCLASS_IS_DOMJSCLASS</span>, <span class='ident'>JSCLASS_IS_GLOBAL</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PipelineId</span>, <span class='ident'>PanicMsg</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>CoreResourceThread</span>, <span class='ident'>RequestSource</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::<span class='ident'>FileManagerThreadMsg</span>;
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>ResourceThreads</span>, <span class='ident'>CoreResourceThread</span>, <span class='ident'>RequestSource</span>, <span class='ident'>IpcSend</span>};
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::{<span class='ident'>mem</span>, <span class='ident'>time</span>};
 <span class='kw'>use</span> <span class='ident'>script_runtime</span>::{<span class='ident'>CommonScriptMsg</span>, <span class='ident'>ScriptChan</span>, <span class='ident'>ScriptPort</span>};
 <span class='kw'>use</span> <span class='ident'>script_thread</span>::{<span class='ident'>MainThreadScriptChan</span>, <span class='ident'>ScriptThread</span>};
@@ -507,17 +519,27 @@
         }
     }
 
-    <span class='doccomment'>/// Get the `CoreResourceThread` for this global scope.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>core_resource_thread</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>CoreResourceThread</span> {
+    <span class='doccomment'>/// Get the `ResourceThreads` for this global scope.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>resource_threads</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ResourceThreads</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
             <span class='ident'>GlobalRef</span>::<span class='ident'>Window</span>(<span class='kw-2'>ref</span> <span class='ident'>window</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>doc</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>Document</span>();
                 <span class='kw'>let</span> <span class='ident'>doc</span> <span class='op'>=</span> <span class='ident'>doc</span>.<span class='ident'>r</span>();
                 <span class='kw'>let</span> <span class='ident'>loader</span> <span class='op'>=</span> <span class='ident'>doc</span>.<span class='ident'>loader</span>();
-                (<span class='op'>*</span><span class='ident'>loader</span>.<span class='ident'>resource_thread</span>).<span class='ident'>clone</span>()
+                <span class='ident'>loader</span>.<span class='ident'>resource_threads</span>().<span class='ident'>clone</span>()
             }
-            <span class='ident'>GlobalRef</span>::<span class='ident'>Worker</span>(<span class='kw-2'>ref</span> <span class='ident'>worker</span>) <span class='op'>=&gt;</span> <span class='ident'>worker</span>.<span class='ident'>core_resource_thread</span>().<span class='ident'>clone</span>(),
+            <span class='ident'>GlobalRef</span>::<span class='ident'>Worker</span>(<span class='kw-2'>ref</span> <span class='ident'>worker</span>) <span class='op'>=&gt;</span> <span class='ident'>worker</span>.<span class='ident'>resource_threads</span>().<span class='ident'>clone</span>(),
         }
+    }
+
+    <span class='doccomment'>/// Get the `CoreResourceThread` for this global scope</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>core_resource_thread</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>CoreResourceThread</span> {
+        <span class='self'>self</span>.<span class='ident'>resource_threads</span>().<span class='ident'>sender</span>()
+    }
+
+    <span class='doccomment'>/// Get the port to file manager for this global scope</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>filemanager_thread</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>resource_threads</span>().<span class='ident'>sender</span>()
     }
 
     <span class='doccomment'>/// Get the worker&#39;s id.</span>

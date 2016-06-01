@@ -616,6 +616,7 @@
 <span id="572">572</span>
 <span id="573">573</span>
 <span id="574">574</span>
+<span id="575">575</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -959,8 +960,9 @@
     <span class='ident'>Cancel</span>(<span class='ident'>ResourceId</span>),
     <span class='doccomment'>/// Synchronization message solely for knowing the state of the ResourceChannelManager loop</span>
     <span class='ident'>Synchronize</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>),
-    <span class='doccomment'>/// Break the load handler loop and exit</span>
-    <span class='ident'>Exit</span>,
+    <span class='doccomment'>/// Break the load handler loop, send a reply when done cleaning up local resources</span>
+    <span class='comment'>//  and exit</span>
+    <span class='ident'>Exit</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>),
 }
 
 <span class='doccomment'>/// Initialized but unsent request. Encapsulates everything necessary to instruct</span>

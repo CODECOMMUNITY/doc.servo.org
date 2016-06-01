@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["blob_parts_to_bytes",""],["is_ascii_printable",""]],"struct":[["Blob",""],["DataSlice",""]]});
+initSidebarItems({"enum":[["BlobImpl",""]],"fn":[["blob_parts_to_bytes","Extract bytes from BlobParts, used by Blob and File constructor https://w3c.github.io/FileAPI/#constructorBlob"],["is_ascii_printable",""],["read_file",""]],"struct":[["Blob",""],["DataSlice",""]]});

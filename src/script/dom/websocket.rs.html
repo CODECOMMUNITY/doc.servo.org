@@ -656,7 +656,6 @@
 <span id="612">612</span>
 <span id="613">613</span>
 <span id="614">614</span>
-<span id="615">615</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -676,7 +675,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>refcounted</span>::<span class='ident'>Trusted</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>reflector</span>::{<span class='ident'>Reflectable</span>, <span class='ident'>reflect_dom_object</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::{<span class='ident'>DOMString</span>, <span class='ident'>USVString</span>, <span class='ident'>is_token</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>blob</span>::{<span class='ident'>Blob</span>, <span class='ident'>DataSlice</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>blob</span>::{<span class='ident'>Blob</span>, <span class='ident'>BlobImpl</span>, <span class='ident'>DataSlice</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>closeevent</span>::<span class='ident'>CloseEvent</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>event</span>::{<span class='ident'>Event</span>, <span class='ident'>EventBubbles</span>, <span class='ident'>EventCancelable</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>eventtarget</span>::<span class='ident'>EventTarget</span>;
@@ -700,7 +699,6 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ptr</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>client</span>::<span class='ident'>request</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>header</span>::{<span class='ident'>Headers</span>, <span class='ident'>WebSocketProtocol</span>};
@@ -1066,7 +1064,7 @@
         <span class='kw'>if</span> <span class='ident'>send_data</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>other_sender</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>sender</span>.<span class='ident'>borrow_mut</span>();
             <span class='kw'>let</span> <span class='ident'>my_sender</span> <span class='op'>=</span> <span class='ident'>other_sender</span>.<span class='ident'>as_mut</span>().<span class='ident'>unwrap</span>();
-            <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='ident'>blob</span>.<span class='ident'>get_data</span>().<span class='ident'>get_bytes</span>().<span class='ident'>to_vec</span>();
+            <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='ident'>blob</span>.<span class='ident'>get_slice_or_empty</span>().<span class='ident'>get_bytes</span>().<span class='ident'>to_vec</span>();
             <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>my_sender</span>.<span class='ident'>send</span>(<span class='ident'>WebSocketDomAction</span>::<span class='ident'>SendMessage</span>(<span class='ident'>MessageData</span>::<span class='ident'>Binary</span>(<span class='ident'>bytes</span>)));
         }
 
@@ -1252,8 +1250,8 @@
                 <span class='ident'>MessageData</span>::<span class='ident'>Binary</span>(<span class='ident'>data</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>match</span> <span class='ident'>ws</span>.<span class='ident'>binary_type</span>.<span class='ident'>get</span>() {
                         <span class='ident'>BinaryType</span>::<span class='ident'>Blob</span> <span class='op'>=&gt;</span> {
-                            <span class='kw'>let</span> <span class='ident'>slice</span> <span class='op'>=</span> <span class='ident'>DataSlice</span>::<span class='ident'>new</span>(<span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>data</span>), <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>);
-                            <span class='kw'>let</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>Blob</span>::<span class='ident'>new</span>(<span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>slice</span>, <span class='string'>&quot;&quot;</span>);
+                            <span class='kw'>let</span> <span class='ident'>slice</span> <span class='op'>=</span> <span class='ident'>DataSlice</span>::<span class='ident'>from_bytes</span>(<span class='ident'>data</span>);
+                            <span class='kw'>let</span> <span class='ident'>blob</span> <span class='op'>=</span> <span class='ident'>Blob</span>::<span class='ident'>new</span>(<span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>BlobImpl</span>::<span class='ident'>new_from_slice</span>(<span class='ident'>slice</span>), <span class='string'>&quot;&quot;</span>);
                             <span class='ident'>blob</span>.<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>message</span>.<span class='ident'>handle_mut</span>());
                         }
                         <span class='ident'>BinaryType</span>::<span class='ident'>Arraybuffer</span> <span class='op'>=&gt;</span> {

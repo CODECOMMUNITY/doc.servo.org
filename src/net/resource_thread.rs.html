@@ -529,6 +529,7 @@
 <span id="485">485</span>
 <span id="486">486</span>
 <span id="487">487</span>
+<span id="488">488</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -743,7 +744,7 @@
                 <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Synchronize</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(());
                 }
-                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Exit</span> <span class='op'>=&gt;</span> {
+                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Exit</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>config_dir</span>) <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>config_dir</span> {
                         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>auth_cache</span>.<span class='ident'>read</span>() {
                             <span class='prelude-val'>Ok</span>(<span class='ident'>auth_cache</span>) <span class='op'>=&gt;</span> <span class='ident'>write_json_to_file</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>auth_cache</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;auth_cache.json&quot;</span>),
@@ -758,6 +759,7 @@
                             <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Error writing hsts list to disk&quot;</span>),
                         }
                     }
+                    <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(());
                     <span class='kw'>break</span>;
                 }
 
