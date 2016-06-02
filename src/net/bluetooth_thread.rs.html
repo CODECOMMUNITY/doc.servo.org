@@ -775,6 +775,29 @@
 <span id="731">731</span>
 <span id="732">732</span>
 <span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -792,6 +815,7 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>bluetooth_thread</span>::{<span class='ident'>BluetoothDescriptorMsg</span>, <span class='ident'>BluetoothDescriptorsMsg</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>bluetooth_thread</span>::{<span class='ident'>BluetoothDeviceMsg</span>, <span class='ident'>BluetoothMethodMsg</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>bluetooth_thread</span>::{<span class='ident'>BluetoothResult</span>, <span class='ident'>BluetoothServiceMsg</span>, <span class='ident'>BluetoothServicesMsg</span>};
+<span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='self'>self</span>, <span class='ident'>Rng</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>string</span>::<span class='ident'>String</span>;
@@ -908,6 +932,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>BluetoothManager</span> {
     <span class='ident'>receiver</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>BluetoothMethodMsg</span><span class='op'>&gt;</span>,
     <span class='ident'>adapter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>BluetoothAdapter</span><span class='op'>&gt;</span>,
+    <span class='ident'>address_to_id</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>,
     <span class='ident'>service_to_device</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>,
     <span class='ident'>characteristic_to_service</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>,
     <span class='ident'>descriptor_to_characteristic</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>,
@@ -922,6 +947,7 @@
         <span class='ident'>BluetoothManager</span> {
             <span class='ident'>receiver</span>: <span class='ident'>receiver</span>,
             <span class='ident'>adapter</span>: <span class='ident'>adapter</span>,
+            <span class='ident'>address_to_id</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
             <span class='ident'>service_to_device</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
             <span class='ident'>characteristic_to_service</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
             <span class='ident'>descriptor_to_characteristic</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
@@ -997,7 +1023,11 @@
         <span class='kw'>let</span> <span class='ident'>devices</span> <span class='op'>=</span> <span class='ident'>adapter</span>.<span class='ident'>get_devices</span>().<span class='ident'>unwrap_or</span>(<span class='macro'>vec</span><span class='macro'>!</span>());
         <span class='kw'>for</span> <span class='ident'>device</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>devices</span> {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>address</span>) <span class='op'>=</span> <span class='ident'>device</span>.<span class='ident'>get_address</span>() {
-                <span class='self'>self</span>.<span class='ident'>cached_devices</span>.<span class='ident'>insert</span>(<span class='ident'>address</span>, <span class='ident'>device</span>.<span class='ident'>clone</span>());
+                <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>address_to_id</span>.<span class='ident'>contains_key</span>(<span class='kw-2'>&amp;</span><span class='ident'>address</span>) {
+                    <span class='kw'>let</span> <span class='ident'>generated_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>generate_device_id</span>();
+                    <span class='self'>self</span>.<span class='ident'>address_to_id</span>.<span class='ident'>insert</span>(<span class='ident'>address</span>, <span class='ident'>generated_id</span>.<span class='ident'>clone</span>());
+                    <span class='self'>self</span>.<span class='ident'>cached_devices</span>.<span class='ident'>insert</span>(<span class='ident'>generated_id</span>, <span class='ident'>device</span>.<span class='ident'>clone</span>());
+                }
             }
         }
         <span class='self'>self</span>.<span class='ident'>cached_devices</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='ident'>d</span>)<span class='op'>|</span> <span class='ident'>d</span>.<span class='ident'>clone</span>()).<span class='ident'>collect</span>()
@@ -1039,6 +1069,18 @@
             }
         }
         <span class='prelude-val'>None</span>
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>generate_device_id</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>device_id</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>rand</span>::<span class='ident'>thread_rng</span>();
+        <span class='kw'>loop</span> {
+            <span class='ident'>device_id</span> <span class='op'>=</span> <span class='ident'>rng</span>.<span class='ident'>gen</span>::<span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>().<span class='ident'>to_string</span>();
+            <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>cached_devices</span>.<span class='ident'>contains_key</span>(<span class='kw-2'>&amp;</span><span class='ident'>device_id</span>) {
+                <span class='kw'>break</span>;
+            }
+        }
+        <span class='ident'>device_id</span>
     }
 
     <span class='comment'>// Service</span>
@@ -1201,9 +1243,13 @@
                                                            .<span class='ident'>filter</span>(<span class='op'>|</span><span class='ident'>d</span><span class='op'>|</span> <span class='ident'>matches_filters</span>(<span class='ident'>d</span>, <span class='ident'>options</span>.<span class='ident'>get_filters</span>()))
                                                            .<span class='ident'>collect</span>();
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>address</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>select_device</span>(<span class='ident'>matched_devices</span>) {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>device</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='ident'>address</span>.<span class='ident'>as_str</span>()) {
+            <span class='kw'>let</span> <span class='ident'>device_id</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>address_to_id</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>address</span>) {
+                <span class='prelude-val'>Some</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> <span class='ident'>id</span>.<span class='ident'>clone</span>(),
+                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>DEVICE_MATCH_ERROR</span>)))),
+            };
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>device</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>) {
                 <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='prelude-val'>Ok</span>(<span class='ident'>BluetoothDeviceMsg</span> {
-                                     <span class='ident'>id</span>: <span class='ident'>address</span>,
+                                     <span class='ident'>id</span>: <span class='ident'>device_id</span>,
                                      <span class='ident'>name</span>: <span class='ident'>device</span>.<span class='ident'>get_name</span>().<span class='ident'>ok</span>(),
                                      <span class='ident'>appearance</span>: <span class='ident'>device</span>.<span class='ident'>get_appearance</span>().<span class='ident'>ok</span>(),
                                      <span class='ident'>tx_power</span>: <span class='ident'>device</span>.<span class='ident'>get_tx_power</span>().<span class='ident'>ok</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> <span class='ident'>p</span> <span class='kw'>as</span> <span class='ident'>i8</span>),
