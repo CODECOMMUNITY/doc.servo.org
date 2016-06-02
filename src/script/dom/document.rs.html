@@ -2910,8 +2910,6 @@
 <span id="2866">2866</span>
 <span id="2867">2867</span>
 <span id="2868">2868</span>
-<span id="2869">2869</span>
-<span id="2870">2870</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -4386,10 +4384,8 @@
 
         <span class='ident'>update_with_current_time_ms</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>dom_content_loaded_event_start</span>);
 
-        <span class='kw'>let</span> <span class='ident'>doctarget</span> <span class='op'>=</span> <span class='ident'>Trusted</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>EventTarget</span><span class='op'>&gt;</span>());
-        <span class='kw'>let</span> <span class='ident'>task_source</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>window</span>().<span class='ident'>dom_manipulation_task_source</span>();
-        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>task_source</span>.<span class='ident'>queue</span>(<span class='ident'>DOMManipulationTask</span>::<span class='ident'>FireEvent</span>(
-            <span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;DOMContentLoaded&quot;</span>), <span class='ident'>doctarget</span>, <span class='ident'>EventBubbles</span>::<span class='ident'>Bubbles</span>, <span class='ident'>EventCancelable</span>::<span class='ident'>NotCancelable</span>));
+        <span class='self'>self</span>.<span class='ident'>window</span>().<span class='ident'>dom_manipulation_task_source</span>().<span class='ident'>queue_event</span>(<span class='self'>self</span>.<span class='ident'>upcast</span>(), <span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;DOMContentLoaded&quot;</span>),
+            <span class='ident'>EventBubbles</span>::<span class='ident'>Bubbles</span>, <span class='ident'>EventCancelable</span>::<span class='ident'>NotCancelable</span>);
         <span class='self'>self</span>.<span class='ident'>window</span>().<span class='ident'>reflow</span>(<span class='ident'>ReflowGoal</span>::<span class='ident'>ForDisplay</span>,
                              <span class='ident'>ReflowQueryType</span>::<span class='ident'>NoQuery</span>,
                              <span class='ident'>ReflowReason</span>::<span class='ident'>DOMContentLoaded</span>);

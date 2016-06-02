@@ -422,7 +422,7 @@
 <span class='kw'>use</span> <span class='ident'>script_thread</span>::{<span class='ident'>MainThreadScriptChan</span>, <span class='ident'>ScriptThread</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>MsDuration</span>, <span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>, <span class='ident'>TimerEventRequest</span>};
 <span class='kw'>use</span> <span class='ident'>task_source</span>::<span class='ident'>TaskSource</span>;
-<span class='kw'>use</span> <span class='ident'>task_source</span>::<span class='ident'>dom_manipulation</span>::<span class='ident'>DOMManipulationTask</span>;
+<span class='kw'>use</span> <span class='ident'>task_source</span>::<span class='ident'>dom_manipulation</span>::{<span class='ident'>DOMManipulationTask</span>, <span class='ident'>DOMManipulationTaskSource</span>};
 <span class='kw'>use</span> <span class='ident'>timers</span>::{<span class='ident'>OneshotTimerCallback</span>, <span class='ident'>OneshotTimerHandle</span>};
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 
@@ -589,7 +589,7 @@
 
     <span class='doccomment'>/// `TaskSource` used to queue DOM manipulation messages to the event loop of this global&#39;s</span>
     <span class='doccomment'>/// thread.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dom_manipulation_task_source</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>TaskSource</span><span class='op'>&lt;</span><span class='ident'>DOMManipulationTask</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dom_manipulation_task_source</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DOMManipulationTaskSource</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
             <span class='ident'>GlobalRef</span>::<span class='ident'>Window</span>(<span class='kw-2'>ref</span> <span class='ident'>window</span>) <span class='op'>=&gt;</span> <span class='ident'>window</span>.<span class='ident'>dom_manipulation_task_source</span>(),
             <span class='ident'>GlobalRef</span>::<span class='ident'>Worker</span>(_) <span class='op'>=&gt;</span> <span class='macro'>unimplemented</span><span class='macro'>!</span>(),

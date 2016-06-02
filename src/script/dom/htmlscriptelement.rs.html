@@ -685,10 +685,6 @@
 <span id="641">641</span>
 <span id="642">642</span>
 <span id="643">643</span>
-<span id="644">644</span>
-<span id="645">645</span>
-<span id="646">646</span>
-<span id="647">647</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1154,16 +1150,12 @@
         <span class='kw'>if</span> <span class='ident'>external</span> {
             <span class='self'>self</span>.<span class='ident'>dispatch_load_event</span>();
         } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='ident'>script_element</span> <span class='op'>=</span> <span class='ident'>Trusted</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>EventTarget</span><span class='op'>&gt;</span>());
-            <span class='kw'>let</span> <span class='ident'>task_source</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>dom_manipulation_task_source</span>();
-            <span class='ident'>task_source</span>.<span class='ident'>queue</span>(<span class='ident'>DOMManipulationTask</span>::<span class='ident'>FireSimpleEvent</span>(<span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;load&quot;</span>), <span class='ident'>script_element</span>)).<span class='ident'>unwrap</span>();
+            <span class='ident'>window</span>.<span class='ident'>dom_manipulation_task_source</span>().<span class='ident'>queue_simple_event</span>(<span class='self'>self</span>.<span class='ident'>upcast</span>(), <span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;load&quot;</span>));
         }
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>queue_error_event</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='kw'>let</span> <span class='ident'>task_source</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='ident'>dom_manipulation_task_source</span>();
-        <span class='kw'>let</span> <span class='ident'>script_element</span> <span class='op'>=</span> <span class='ident'>Trusted</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>EventTarget</span><span class='op'>&gt;</span>());
-        <span class='ident'>task_source</span>.<span class='ident'>queue</span>(<span class='ident'>DOMManipulationTask</span>::<span class='ident'>FireSimpleEvent</span>(<span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;error&quot;</span>), <span class='ident'>script_element</span>)).<span class='ident'>unwrap</span>();
+        <span class='ident'>window_from_node</span>(<span class='self'>self</span>).<span class='ident'>dom_manipulation_task_source</span>().<span class='ident'>queue_simple_event</span>(<span class='self'>self</span>.<span class='ident'>upcast</span>(), <span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;error&quot;</span>));
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dispatch_before_script_execute_event</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
