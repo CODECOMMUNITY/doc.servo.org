@@ -332,8 +332,6 @@
 <span id="288">288</span>
 <span id="289">289</span>
 <span id="290">290</span>
-<span id="291">291</span>
-<span id="292">292</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -394,11 +392,10 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;webdriver&quot;</span>))]</span>
 <span class='kw'>fn</span> <span class='ident'>webdriver</span>(<span class='ident'>_port</span>: <span class='ident'>u16</span>, <span class='ident'>_constellation</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>) { }
 
-<span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>CompositorEventListener</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>compositor_thread</span>::<span class='ident'>InitialCompositorState</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>windowing</span>::<span class='ident'>WindowEvent</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>windowing</span>::<span class='ident'>WindowMethods</span>;
-<span class='kw'>use</span> <span class='ident'>compositing</span>::{<span class='ident'>CompositorProxy</span>, <span class='ident'>CompositorThread</span>};
+<span class='kw'>use</span> <span class='ident'>compositing</span>::{<span class='ident'>CompositorProxy</span>, <span class='ident'>CompositorThread</span>, <span class='ident'>IOCompositor</span>};
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
 <span class='kw'>use</span> <span class='ident'>constellation</span>::<span class='ident'>content_process_sandbox_profile</span>;
 <span class='kw'>use</span> <span class='ident'>constellation</span>::{<span class='ident'>Constellation</span>, <span class='ident'>InitialConstellationState</span>, <span class='ident'>UnprivilegedPipelineContent</span>};
@@ -434,13 +431,12 @@
 <span class='doccomment'>/// application Servo is embedded in. Clients then create an event</span>
 <span class='doccomment'>/// loop to pump messages between the embedding application and</span>
 <span class='doccomment'>/// various browser components.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Browser</span> {
-    <span class='ident'>compositor</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorEventListener</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>,
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Browser</span><span class='op'>&lt;</span><span class='ident'>Window</span>: <span class='ident'>WindowMethods</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> {
+    <span class='ident'>compositor</span>: <span class='ident'>IOCompositor</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>Browser</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>(<span class='ident'>window</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Browser</span>
-                       <span class='kw'>where</span> <span class='ident'>Window</span>: <span class='ident'>WindowMethods</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span> <span class='ident'>Browser</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>Window</span>: <span class='ident'>WindowMethods</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>window</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Browser</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span> {
         <span class='comment'>// Global configuration options, parsed from the command line.</span>
         <span class='kw'>let</span> <span class='ident'>opts</span> <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>();
 

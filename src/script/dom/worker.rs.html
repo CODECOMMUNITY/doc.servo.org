@@ -362,8 +362,6 @@
 <span id="318">318</span>
 <span id="319">319</span>
 <span id="320">320</span>
-<span id="321">321</span>
-<span id="322">322</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -389,7 +387,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>workerglobalscope</span>::<span class='ident'>WorkerGlobalScopeInit</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>HandleValue</span>, <span class='ident'>JSContext</span>, <span class='ident'>JSRuntime</span>, <span class='ident'>RootedValue</span>};
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>JS_GetRuntime</span>, <span class='ident'>JS_RequestInterruptCallback</span>};
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSAutoCompartment</span>, <span class='ident'>JS_RequestInterruptCallback</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::<span class='ident'>UndefinedValue</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::<span class='ident'>Runtime</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PipelineId</span>, <span class='ident'>ReferrerPolicy</span>};
@@ -513,10 +511,8 @@
             <span class='ident'>closing</span>: <span class='ident'>closing</span>,
         };
 
-        <span class='kw'>let</span> <span class='ident'>shared_rt</span> <span class='op'>=</span> <span class='ident'>SharedRt</span> { <span class='ident'>rt</span>: <span class='kw'>unsafe</span> { <span class='ident'>JS_GetRuntime</span>(<span class='ident'>global</span>.<span class='ident'>get_cx</span>()) } };
-
         <span class='ident'>DedicatedWorkerGlobalScope</span>::<span class='ident'>run_worker_scope</span>(
-            <span class='ident'>init</span>, <span class='ident'>worker_url</span>, <span class='ident'>global</span>.<span class='ident'>pipeline</span>(), <span class='ident'>devtools_receiver</span>, <span class='ident'>shared_rt</span>, <span class='ident'>worker</span>.<span class='ident'>runtime</span>.<span class='ident'>clone</span>(), <span class='ident'>worker_ref</span>,
+            <span class='ident'>init</span>, <span class='ident'>worker_url</span>, <span class='ident'>global</span>.<span class='ident'>pipeline</span>(), <span class='ident'>devtools_receiver</span>, <span class='ident'>worker</span>.<span class='ident'>runtime</span>.<span class='ident'>clone</span>(), <span class='ident'>worker_ref</span>,
             <span class='ident'>global</span>.<span class='ident'>script_chan</span>(), <span class='ident'>sender</span>, <span class='ident'>receiver</span>, <span class='ident'>worker_load_origin</span>);
 
         <span class='prelude-val'>Ok</span>(<span class='ident'>worker</span>)

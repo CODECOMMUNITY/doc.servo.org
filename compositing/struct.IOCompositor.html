@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `IOCompositor` struct in crate `compositing`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, IOCompositor">
+
+    <title>compositing::IOCompositor - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>compositing</a></p><script>window.sidebarCurrent = {name: 'IOCompositor', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>compositing</a>::<wbr><a class='struct' href=''>IOCompositor</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-185' class='srclink' href='../src/compositing/compositor.rs.html#131-246' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct IOCompositor&lt;Window: <a class='trait' href='../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a>&gt; {
+    window: <a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;Window&gt;,
+    native_display: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../layers/platform/linux/surface/enum.NativeDisplay.html' title='layers::platform::linux::surface::NativeDisplay'>NativeDisplay</a>&gt;,
+    port: <a class='struct' href='../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../compositing/compositor_thread/trait.CompositorReceiver.html' title='compositing::compositor_thread::CompositorReceiver'>CompositorReceiver</a>&gt;,
+    context: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../layers/rendergl/struct.RenderContext.html' title='layers::rendergl::RenderContext'>RenderContext</a>&gt;,
+    root_pipeline: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../compositing/struct.CompositionPipeline.html' title='compositing::CompositionPipeline'>CompositionPipeline</a>&gt;,
+    pipeline_details: <a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../compositing/compositor/struct.PipelineDetails.html' title='compositing::compositor::PipelineDetails'>PipelineDetails</a>&gt;,
+    scene: <a class='struct' href='../layers/scene/struct.Scene.html' title='layers::scene::Scene'>Scene</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;,
+    window_size: <a class='type' href='../euclid/size/type.TypedSize2D.html' title='euclid::size::TypedSize2D'>TypedSize2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.u32.html'>u32</a>&gt;,
+    viewport: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.u32.html'>u32</a>&gt;, <a class='type' href='../euclid/size/type.TypedSize2D.html' title='euclid::size::TypedSize2D'>TypedSize2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.u32.html'>u32</a>&gt;<a class='primitive' href='../std/primitive.tuple.html'>)</a>&gt;,
+    viewport_zoom: <a class='struct' href='../euclid/scale_factor/struct.ScaleFactor.html' title='euclid::scale_factor::ScaleFactor'>ScaleFactor</a>&lt;<a class='enum' href='../util/geometry/enum.PagePx.html' title='util::geometry::PagePx'>PagePx</a>, <a class='enum' href='../util/geometry/enum.ViewportPx.html' title='util::geometry::ViewportPx'>ViewportPx</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;,
+    min_viewport_zoom: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../euclid/scale_factor/struct.ScaleFactor.html' title='euclid::scale_factor::ScaleFactor'>ScaleFactor</a>&lt;<a class='enum' href='../util/geometry/enum.PagePx.html' title='util::geometry::PagePx'>PagePx</a>, <a class='enum' href='../util/geometry/enum.ViewportPx.html' title='util::geometry::ViewportPx'>ViewportPx</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;&gt;,
+    max_viewport_zoom: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../euclid/scale_factor/struct.ScaleFactor.html' title='euclid::scale_factor::ScaleFactor'>ScaleFactor</a>&lt;<a class='enum' href='../util/geometry/enum.PagePx.html' title='util::geometry::PagePx'>PagePx</a>, <a class='enum' href='../util/geometry/enum.ViewportPx.html' title='util::geometry::ViewportPx'>ViewportPx</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;&gt;,
+    page_zoom: <a class='struct' href='../euclid/scale_factor/struct.ScaleFactor.html' title='euclid::scale_factor::ScaleFactor'>ScaleFactor</a>&lt;<a class='enum' href='../util/geometry/enum.ViewportPx.html' title='util::geometry::ViewportPx'>ViewportPx</a>, <a class='enum' href='../util/geometry/enum.ScreenPx.html' title='util::geometry::ScreenPx'>ScreenPx</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;,
+    scale_factor: <a class='struct' href='../euclid/scale_factor/struct.ScaleFactor.html' title='euclid::scale_factor::ScaleFactor'>ScaleFactor</a>&lt;<a class='enum' href='../util/geometry/enum.ScreenPx.html' title='util::geometry::ScreenPx'>ScreenPx</a>, <a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;,
+    channel_to_self: <a class='struct' href='../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../compositing/compositor_thread/trait.CompositorProxy.html' title='compositing::compositor_thread::CompositorProxy'>CompositorProxy</a> + <a class='trait' href='../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;,
+    delayed_composition_timer: <a class='struct' href='../compositing/delayed_composition/struct.DelayedCompositionTimerProxy.html' title='compositing::delayed_composition::DelayedCompositionTimerProxy'>DelayedCompositionTimerProxy</a>,
+    composite_target: <a class='enum' href='../compositing/compositor/enum.CompositeTarget.html' title='compositing::compositor::CompositeTarget'>CompositeTarget</a>,
+    composition_request: <a class='enum' href='../compositing/compositor/enum.CompositionRequest.html' title='compositing::compositor::CompositionRequest'>CompositionRequest</a>,
+    shutdown_state: <a class='enum' href='../compositing/compositor/enum.ShutdownState.html' title='compositing::compositor::ShutdownState'>ShutdownState</a>,
+    last_composite_time: <a class='primitive' href='../std/primitive.u64.html'>u64</a>,
+    zoom_action: <a class='primitive' href='../std/primitive.bool.html'>bool</a>,
+    zoom_time: <a class='primitive' href='../std/primitive.f64.html'>f64</a>,
+    got_load_complete_message: <a class='primitive' href='../std/primitive.bool.html'>bool</a>,
+    frame_tree_id: <a class='struct' href='../gfx_traits/struct.FrameTreeId.html' title='gfx_traits::FrameTreeId'>FrameTreeId</a>,
+    constellation_chan: <a class='struct' href='../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationMsg.html' title='script_traits::ConstellationMsg'>ConstellationMsg</a>&gt;,
+    time_profiler_chan: <a class='struct' href='../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a>,
+    mem_profiler_chan: <a class='struct' href='../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a>,
+    fragment_point: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;&gt;,
+    touch_handler: <a class='struct' href='../compositing/touch/struct.TouchHandler.html' title='compositing::touch::TouchHandler'>TouchHandler</a>,
+    pending_scroll_zoom_events: <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../compositing/compositor/struct.ScrollZoomEvent.html' title='compositing::compositor::ScrollZoomEvent'>ScrollZoomEvent</a>&gt;,
+    ready_to_save_state: <a class='enum' href='../compositing/compositor/enum.ReadyState.html' title='compositing::compositor::ReadyState'>ReadyState</a>,
+    surface_map: <a class='struct' href='../compositing/surface_map/struct.SurfaceMap.html' title='compositing::surface_map::SurfaceMap'>SurfaceMap</a>,
+    pending_subpages: <a class='struct' href='../std/collections/hash/set/struct.HashSet.html' title='std::collections::hash::set::HashSet'>HashSet</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>&gt;,
+    last_mouse_move_recipient: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>&gt;,
+    scroll_in_progress: <a class='primitive' href='../std/primitive.bool.html'>bool</a>,
+    webrender: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../webrender/renderer/struct.Renderer.html' title='webrender::renderer::Renderer'>Renderer</a>&gt;,
+    webrender_api: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../webrender_traits/api/struct.RenderApi.html' title='webrender_traits::api::RenderApi'>RenderApi</a>&gt;,
+}</pre><div class='docblock'><p>NB: Never block on the constellation, because sometimes the constellation blocks on us.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.window'><code>window</code></td><td><div class='docblock'><p>The application window.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.native_display'><code>native_display</code></td><td><div class='docblock'><p>The display this compositor targets. Will be None when using webrender.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.port'><code>port</code></td><td><div class='docblock'><p>The port on which we receive messages.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.context'><code>context</code></td><td><div class='docblock'><p>The render context. This will be <code>None</code> if the windowing system has not yet sent us a
+<code>PrepareRenderingEvent</code>.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.root_pipeline'><code>root_pipeline</code></td><td><div class='docblock'><p>The root pipeline.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.pipeline_details'><code>pipeline_details</code></td><td><div class='docblock'><p>Tracks details about each active pipeline that the compositor knows about.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.scene'><code>scene</code></td><td><div class='docblock'><p>The canvas to paint a page.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.window_size'><code>window_size</code></td><td><div class='docblock'><p>The application window size.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.viewport'><code>viewport</code></td><td><div class='docblock'><p>The overridden viewport.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.viewport_zoom'><code>viewport_zoom</code></td><td><div class='docblock'><p>&quot;Mobile-style&quot; zoom that does not reflow the page.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.min_viewport_zoom'><code>min_viewport_zoom</code></td><td><div class='docblock'><p>Viewport zoom constraints provided by @viewport.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.max_viewport_zoom'><code>max_viewport_zoom</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.page_zoom'><code>page_zoom</code></td><td><div class='docblock'><p>&quot;Desktop-style&quot; zoom that resizes the viewport to fit the window.
+See <code>ViewportPx</code> docs in util/geom.rs for details.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.scale_factor'><code>scale_factor</code></td><td><div class='docblock'><p>The device pixel ratio for this window.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.channel_to_self'><code>channel_to_self</code></td><td></td></tr><tr class='stab '>
+                             <td id='structfield.delayed_composition_timer'><code>delayed_composition_timer</code></td><td><div class='docblock'><p>A handle to the delayed composition timer.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.composite_target'><code>composite_target</code></td><td><div class='docblock'><p>The type of composition to perform</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.composition_request'><code>composition_request</code></td><td><div class='docblock'><p>Tracks whether we should composite this frame.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.shutdown_state'><code>shutdown_state</code></td><td><div class='docblock'><p>Tracks whether we are in the process of shutting down, or have shut down and should close
+the compositor.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.last_composite_time'><code>last_composite_time</code></td><td><div class='docblock'><p>Tracks the last composite time.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.zoom_action'><code>zoom_action</code></td><td><div class='docblock'><p>Tracks whether the zoom action has happened recently.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.zoom_time'><code>zoom_time</code></td><td><div class='docblock'><p>The time of the last zoom action has started.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.got_load_complete_message'><code>got_load_complete_message</code></td><td><div class='docblock'><p>Whether the page being rendered has loaded completely.
+Differs from ReadyState because we can finish loading (ready)
+many times for a single page.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.frame_tree_id'><code>frame_tree_id</code></td><td><div class='docblock'><p>The current frame tree ID (used to reject old paint buffers)</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.constellation_chan'><code>constellation_chan</code></td><td><div class='docblock'><p>The channel on which messages can be sent to the constellation.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.time_profiler_chan'><code>time_profiler_chan</code></td><td><div class='docblock'><p>The channel on which messages can be sent to the time profiler.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.mem_profiler_chan'><code>mem_profiler_chan</code></td><td><div class='docblock'><p>The channel on which messages can be sent to the memory profiler.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.fragment_point'><code>fragment_point</code></td><td><div class='docblock'><p>Pending scroll to fragment event, if any</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.touch_handler'><code>touch_handler</code></td><td><div class='docblock'><p>Touch input state machine</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.pending_scroll_zoom_events'><code>pending_scroll_zoom_events</code></td><td><div class='docblock'><p>Pending scroll/zoom events.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.ready_to_save_state'><code>ready_to_save_state</code></td><td><div class='docblock'><p>Used by the logic that determines when it is safe to output an
+image for the reftest framework.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.surface_map'><code>surface_map</code></td><td><div class='docblock'><p>A data structure to cache unused NativeSurfaces.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.pending_subpages'><code>pending_subpages</code></td><td><div class='docblock'><p>Pipeline IDs of subpages that the compositor has seen in a layer tree but which have not
+yet been painted.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.last_mouse_move_recipient'><code>last_mouse_move_recipient</code></td><td><div class='docblock'><p>The id of the pipeline that was last sent a mouse move event, if any.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.scroll_in_progress'><code>scroll_in_progress</code></td><td><div class='docblock'><p>Whether a scroll is in progress; i.e. whether the user&#39;s fingers are down.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.webrender'><code>webrender</code></td><td><div class='docblock'><p>The webrender renderer, if enabled.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.webrender_api'><code>webrender_api</code></td><td><div class='docblock'><p>The webrender interface, if enabled.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;Window: <a class='trait' href='../compositing/windowing/trait.WindowMethods.html' title='compositing::windowing::WindowMethods'>WindowMethods</a>&gt; <a class='struct' href='../compositing/struct.IOCompositor.html' title='compositing::IOCompositor'>IOCompositor</a>&lt;Window&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-359' class='srclink' href='../src/compositing/compositor.rs.html#412-2596' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(window: <a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;Window&gt;, state: <a class='struct' href='../compositing/compositor_thread/struct.InitialCompositorState.html' title='compositing::compositor_thread::InitialCompositorState'>InitialCompositorState</a>) -&gt; <a class='struct' href='../compositing/struct.IOCompositor.html' title='compositing::IOCompositor'>IOCompositor</a>&lt;Window&gt;</code></h4>
+<h4 id='method.create' class='method'><code>fn <a href='#method.create' class='fnname'>create</a>(window: <a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;Window&gt;, state: <a class='struct' href='../compositing/compositor_thread/struct.InitialCompositorState.html' title='compositing::compositor_thread::InitialCompositorState'>InitialCompositorState</a>) -&gt; <a class='struct' href='../compositing/struct.IOCompositor.html' title='compositing::IOCompositor'>IOCompositor</a>&lt;Window&gt;</code></h4>
+<h4 id='method.start_shutting_down' class='method'><code>fn <a href='#method.start_shutting_down' class='fnname'>start_shutting_down</a>(&amp;mut self)</code></h4>
+<h4 id='method.finish_shutting_down' class='method'><code>fn <a href='#method.finish_shutting_down' class='fnname'>finish_shutting_down</a>(&amp;mut self)</code></h4>
+<h4 id='method.handle_browser_message' class='method'><code>fn <a href='#method.handle_browser_message' class='fnname'>handle_browser_message</a>(&amp;mut self, msg: <a class='enum' href='../compositing/compositor_thread/enum.Msg.html' title='compositing::compositor_thread::Msg'>Msg</a>) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.change_running_animations_state' class='method'><code>fn <a href='#method.change_running_animations_state' class='fnname'>change_running_animations_state</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, animation_state: <a class='enum' href='../script_traits/enum.AnimationState.html' title='script_traits::AnimationState'>AnimationState</a>)</code></h4>
+<div class='docblock'><p>Sets or unsets the animations-running flag for the given pipeline, and schedules a
+recomposite if necessary.</p>
+</div><h4 id='method.pipeline_details' class='method'><code>fn <a href='#method.pipeline_details' class='fnname'>pipeline_details</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>) -&gt; &amp;mut <a class='struct' href='../compositing/compositor/struct.PipelineDetails.html' title='compositing::compositor::PipelineDetails'>PipelineDetails</a></code></h4>
+<h4 id='method.pipeline' class='method'><code>fn <a href='#method.pipeline' class='fnname'>pipeline</a>(&amp;self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../compositing/struct.CompositionPipeline.html' title='compositing::CompositionPipeline'>CompositionPipeline</a>&gt;</code></h4>
+<h4 id='method.change_page_title' class='method'><code>fn <a href='#method.change_page_title' class='fnname'>change_page_title</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, title: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</code></h4>
+<h4 id='method.change_page_url' class='method'><code>fn <a href='#method.change_page_url' class='fnname'>change_page_url</a>(&amp;mut self, _: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, url: <a class='struct' href='../url/struct.Url.html' title='url::Url'>Url</a>)</code></h4>
+<h4 id='method.set_frame_tree' class='method'><code>fn <a href='#method.set_frame_tree' class='fnname'>set_frame_tree</a>(&amp;mut self, frame_tree: &amp;<a class='struct' href='../compositing/struct.SendableFrameTree.html' title='compositing::SendableFrameTree'>SendableFrameTree</a>, response_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;, new_constellation_chan: <a class='struct' href='../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationMsg.html' title='script_traits::ConstellationMsg'>ConstellationMsg</a>&gt;)</code></h4>
+<h4 id='method.create_root_layer_for_pipeline_and_size' class='method'><code>fn <a href='#method.create_root_layer_for_pipeline_and_size' class='fnname'>create_root_layer_for_pipeline_and_size</a>(&amp;mut self, pipeline: &amp;<a class='struct' href='../compositing/struct.CompositionPipeline.html' title='compositing::CompositionPipeline'>CompositionPipeline</a>, frame_size: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../euclid/size/type.TypedSize2D.html' title='euclid::size::TypedSize2D'>TypedSize2D</a>&lt;<a class='enum' href='../util/geometry/enum.PagePx.html' title='util::geometry::PagePx'>PagePx</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;&gt;) -&gt; <a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;&gt;</code></h4>
+<h4 id='method.create_pipeline_details_for_frame_tree' class='method'><code>fn <a href='#method.create_pipeline_details_for_frame_tree' class='fnname'>create_pipeline_details_for_frame_tree</a>(&amp;mut self, frame_tree: &amp;<a class='struct' href='../compositing/struct.SendableFrameTree.html' title='compositing::SendableFrameTree'>SendableFrameTree</a>)</code></h4>
+<h4 id='method.find_pipeline_root_layer' class='method'><code>fn <a href='#method.find_pipeline_root_layer' class='fnname'>find_pipeline_root_layer</a>(&amp;self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;&gt;&gt;</code></h4>
+<h4 id='method.collect_old_layers' class='method'><code>fn <a href='#method.collect_old_layers' class='fnname'>collect_old_layers</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, new_layers: <a class='primitive' href='../std/primitive.slice.html'>&amp;[</a><a class='struct' href='../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a><a class='primitive' href='../std/primitive.slice.html'>]</a>)</code></h4>
+<h4 id='method.remove_pipeline_root_layer' class='method'><code>fn <a href='#method.remove_pipeline_root_layer' class='fnname'>remove_pipeline_root_layer</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<h4 id='method.update_layer_if_exists' class='method'><code>fn <a href='#method.update_layer_if_exists' class='fnname'>update_layer_if_exists</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, properties: <a class='struct' href='../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.create_or_update_base_layer' class='method'><code>fn <a href='#method.create_or_update_base_layer' class='fnname'>create_or_update_base_layer</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, layer_properties: <a class='struct' href='../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>)</code></h4>
+<h4 id='method.create_or_update_descendant_layer' class='method'><code>fn <a href='#method.create_or_update_descendant_layer' class='fnname'>create_or_update_descendant_layer</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, layer_properties: <a class='struct' href='../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>)</code></h4>
+<h4 id='method.create_descendant_layer' class='method'><code>fn <a href='#method.create_descendant_layer' class='fnname'>create_descendant_layer</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, layer_properties: <a class='struct' href='../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>)</code></h4>
+<h4 id='method.create_root_layer_for_subpage_if_necessary' class='method'><code>fn <a href='#method.create_root_layer_for_subpage_if_necessary' class='fnname'>create_root_layer_for_subpage_if_necessary</a>(&amp;mut self, layer_properties: <a class='struct' href='../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>, parent_layer: <a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;&gt;)</code></h4>
+<h4 id='method.send_window_size' class='method'><code>fn <a href='#method.send_window_size' class='fnname'>send_window_size</a>(&amp;self, size_type: <a class='enum' href='../msg/constellation_msg/enum.WindowSizeType.html' title='msg::constellation_msg::WindowSizeType'>WindowSizeType</a>)</code></h4>
+<h4 id='method.update_subpage_size_if_necessary' class='method'><code>fn <a href='#method.update_subpage_size_if_necessary' class='fnname'>update_subpage_size_if_necessary</a>(&amp;self, layer_properties: &amp;<a class='struct' href='../gfx_traits/struct.LayerProperties.html' title='gfx_traits::LayerProperties'>LayerProperties</a>)</code></h4>
+<div class='docblock'><p>Sends the size of the given subpage up to the constellation. This will often trigger a
+reflow of that subpage.</p>
+</div><h4 id='method.move_layer' class='method'><code>fn <a href='#method.move_layer' class='fnname'>move_layer</a>(&amp;self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, layer_id: <a class='struct' href='../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, origin: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.scroll_layer_to_fragment_point_if_necessary' class='method'><code>fn <a href='#method.scroll_layer_to_fragment_point_if_necessary' class='fnname'>scroll_layer_to_fragment_point_if_necessary</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, layer_id: <a class='struct' href='../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>)</code></h4>
+<h4 id='method.schedule_delayed_composite_if_necessary' class='method'><code>fn <a href='#method.schedule_delayed_composite_if_necessary' class='fnname'>schedule_delayed_composite_if_necessary</a>(&amp;mut self)</code></h4>
+<h4 id='method.assign_painted_buffers' class='method'><code>fn <a href='#method.assign_painted_buffers' class='fnname'>assign_painted_buffers</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, layer_id: <a class='struct' href='../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, new_layer_buffer_set: <a class='struct' href='../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../layers/layers/struct.LayerBufferSet.html' title='layers::layers::LayerBufferSet'>LayerBufferSet</a>&gt;, epoch: <a class='struct' href='../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>, frame_tree_id: <a class='struct' href='../gfx_traits/struct.FrameTreeId.html' title='gfx_traits::FrameTreeId'>FrameTreeId</a>)</code></h4>
+<h4 id='method.assign_painted_buffers_to_layer' class='method'><code>fn <a href='#method.assign_painted_buffers_to_layer' class='fnname'>assign_painted_buffers_to_layer</a>(&amp;mut self, layer: <a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;&gt;, new_layer_buffer_set: <a class='struct' href='../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../layers/layers/struct.LayerBufferSet.html' title='layers::layers::LayerBufferSet'>LayerBufferSet</a>&gt;, epoch: <a class='struct' href='../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>)</code></h4>
+<h4 id='method.scroll_fragment_to_point' class='method'><code>fn <a href='#method.scroll_fragment_to_point' class='fnname'>scroll_fragment_to_point</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, layer_id: <a class='struct' href='../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, point: <a class='struct' href='../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.handle_window_message' class='method'><code>fn <a href='#method.handle_window_message' class='fnname'>handle_window_message</a>(&amp;mut self, event: <a class='enum' href='../compositing/windowing/enum.WindowEvent.html' title='compositing::windowing::WindowEvent'>WindowEvent</a>)</code></h4>
+<h4 id='method.on_resize_window_event' class='method'><code>fn <a href='#method.on_resize_window_event' class='fnname'>on_resize_window_event</a>(&amp;mut self, new_size: <a class='type' href='../euclid/size/type.TypedSize2D.html' title='euclid::size::TypedSize2D'>TypedSize2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.u32.html'>u32</a>&gt;)</code></h4>
+<h4 id='method.on_load_url_window_event' class='method'><code>fn <a href='#method.on_load_url_window_event' class='fnname'>on_load_url_window_event</a>(&amp;mut self, url_string: <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>)</code></h4>
+<h4 id='method.on_mouse_window_event_class' class='method'><code>fn <a href='#method.on_mouse_window_event_class' class='fnname'>on_mouse_window_event_class</a>(&amp;mut self, mouse_window_event: <a class='enum' href='../compositing/windowing/enum.MouseWindowEvent.html' title='compositing::windowing::MouseWindowEvent'>MouseWindowEvent</a>)</code></h4>
+<h4 id='method.on_mouse_window_move_event_class' class='method'><code>fn <a href='#method.on_mouse_window_move_event_class' class='fnname'>on_mouse_window_move_event_class</a>(&amp;mut self, cursor: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.on_touch_down' class='method'><code>fn <a href='#method.on_touch_down' class='fnname'>on_touch_down</a>(&amp;mut self, identifier: <a class='struct' href='../script_traits/struct.TouchId.html' title='script_traits::TouchId'>TouchId</a>, point: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.on_touch_move' class='method'><code>fn <a href='#method.on_touch_move' class='fnname'>on_touch_move</a>(&amp;mut self, identifier: <a class='struct' href='../script_traits/struct.TouchId.html' title='script_traits::TouchId'>TouchId</a>, point: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.on_touch_up' class='method'><code>fn <a href='#method.on_touch_up' class='fnname'>on_touch_up</a>(&amp;mut self, identifier: <a class='struct' href='../script_traits/struct.TouchId.html' title='script_traits::TouchId'>TouchId</a>, point: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.on_touch_cancel' class='method'><code>fn <a href='#method.on_touch_cancel' class='fnname'>on_touch_cancel</a>(&amp;mut self, identifier: <a class='struct' href='../script_traits/struct.TouchId.html' title='script_traits::TouchId'>TouchId</a>, point: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<h4 id='method.simulate_mouse_click' class='method'><code>fn <a href='#method.simulate_mouse_click' class='fnname'>simulate_mouse_click</a>(&amp;self, p: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;)</code></h4>
+<div class='docblock'><p><a href="http://w3c.github.io/touch-events/#mouse-events">http://w3c.github.io/touch-events/#mouse-events</a></p>
+</div><h4 id='method.on_scroll_window_event' class='method'><code>fn <a href='#method.on_scroll_window_event' class='fnname'>on_scroll_window_event</a>(&amp;mut self, delta: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;, cursor: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.i32.html'>i32</a>&gt;)</code></h4>
+<h4 id='method.on_scroll_start_window_event' class='method'><code>fn <a href='#method.on_scroll_start_window_event' class='fnname'>on_scroll_start_window_event</a>(&amp;mut self, delta: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;, cursor: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.i32.html'>i32</a>&gt;)</code></h4>
+<h4 id='method.on_scroll_end_window_event' class='method'><code>fn <a href='#method.on_scroll_end_window_event' class='fnname'>on_scroll_end_window_event</a>(&amp;mut self, delta: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;, cursor: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.i32.html'>i32</a>&gt;)</code></h4>
+<h4 id='method.process_pending_scroll_events' class='method'><code>fn <a href='#method.process_pending_scroll_events' class='fnname'>process_pending_scroll_events</a>(&amp;mut self)</code></h4>
+<h4 id='method.send_updated_display_ports_to_layout' class='method'><code>fn <a href='#method.send_updated_display_ports_to_layout' class='fnname'>send_updated_display_ports_to_layout</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Computes new display ports for each layer, taking the scroll position into account, and
+sends them to layout as necessary. This ultimately triggers a rerender of the content.</p>
+</div><h4 id='method.perform_updates_after_scroll' class='method'><code>fn <a href='#method.perform_updates_after_scroll' class='fnname'>perform_updates_after_scroll</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Performs buffer requests and starts the scrolling timer or schedules a recomposite as
+necessary.</p>
+</div><h4 id='method.process_animations' class='method'><code>fn <a href='#method.process_animations' class='fnname'>process_animations</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>If there are any animations running, dispatches appropriate messages to the constellation.</p>
+</div><h4 id='method.tick_animations_for_pipeline' class='method'><code>fn <a href='#method.tick_animations_for_pipeline' class='fnname'>tick_animations_for_pipeline</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></h4>
+<h4 id='method.constrain_viewport' class='method'><code>fn <a href='#method.constrain_viewport' class='fnname'>constrain_viewport</a>(&amp;mut self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, constraints: <a class='struct' href='../style_traits/viewport/struct.ViewportConstraints.html' title='style_traits::viewport::ViewportConstraints'>ViewportConstraints</a>)</code></h4>
+<h4 id='method.device_pixels_per_screen_px' class='method'><code>fn <a href='#method.device_pixels_per_screen_px' class='fnname'>device_pixels_per_screen_px</a>(&amp;self) -&gt; <a class='struct' href='../euclid/scale_factor/struct.ScaleFactor.html' title='euclid::scale_factor::ScaleFactor'>ScaleFactor</a>&lt;<a class='enum' href='../util/geometry/enum.ScreenPx.html' title='util::geometry::ScreenPx'>ScreenPx</a>, <a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;</code></h4>
+<h4 id='method.device_pixels_per_page_px' class='method'><code>fn <a href='#method.device_pixels_per_page_px' class='fnname'>device_pixels_per_page_px</a>(&amp;self) -&gt; <a class='struct' href='../euclid/scale_factor/struct.ScaleFactor.html' title='euclid::scale_factor::ScaleFactor'>ScaleFactor</a>&lt;<a class='enum' href='../util/geometry/enum.PagePx.html' title='util::geometry::PagePx'>PagePx</a>, <a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;</code></h4>
+<h4 id='method.update_zoom_transform' class='method'><code>fn <a href='#method.update_zoom_transform' class='fnname'>update_zoom_transform</a>(&amp;mut self)</code></h4>
+<h4 id='method.on_zoom_reset_window_event' class='method'><code>fn <a href='#method.on_zoom_reset_window_event' class='fnname'>on_zoom_reset_window_event</a>(&amp;mut self)</code></h4>
+<h4 id='method.on_zoom_window_event' class='method'><code>fn <a href='#method.on_zoom_window_event' class='fnname'>on_zoom_window_event</a>(&amp;mut self, magnification: <a class='primitive' href='../std/primitive.f32.html'>f32</a>)</code></h4>
+<h4 id='method.on_pinch_zoom_window_event' class='method'><code>fn <a href='#method.on_pinch_zoom_window_event' class='fnname'>on_pinch_zoom_window_event</a>(&amp;mut self, magnification: <a class='primitive' href='../std/primitive.f32.html'>f32</a>)</code></h4>
+<div class='docblock'><p>Simulate a pinch zoom</p>
+</div><h4 id='method.on_navigation_window_event' class='method'><code>fn <a href='#method.on_navigation_window_event' class='fnname'>on_navigation_window_event</a>(&amp;self, direction: <a class='enum' href='../compositing/windowing/enum.WindowNavigateMsg.html' title='compositing::windowing::WindowNavigateMsg'>WindowNavigateMsg</a>)</code></h4>
+<h4 id='method.on_touchpad_pressure_event' class='method'><code>fn <a href='#method.on_touchpad_pressure_event' class='fnname'>on_touchpad_pressure_event</a>(&amp;self, cursor: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.DevicePixel.html' title='layers::geometry::DevicePixel'>DevicePixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;, pressure: <a class='primitive' href='../std/primitive.f32.html'>f32</a>, phase: <a class='enum' href='../script_traits/enum.TouchpadPressurePhase.html' title='script_traits::TouchpadPressurePhase'>TouchpadPressurePhase</a>)</code></h4>
+<h4 id='method.on_key_event' class='method'><code>fn <a href='#method.on_key_event' class='fnname'>on_key_event</a>(&amp;self, key: <a class='enum' href='../msg/constellation_msg/enum.Key.html' title='msg::constellation_msg::Key'>Key</a>, state: <a class='enum' href='../msg/constellation_msg/enum.KeyState.html' title='msg::constellation_msg::KeyState'>KeyState</a>, modifiers: <a class='struct' href='../msg/constellation_msg/struct.KeyModifiers.html' title='msg::constellation_msg::KeyModifiers'>KeyModifiers</a>)</code></h4>
+<h4 id='method.fill_paint_request_with_cached_layer_buffers' class='method'><code>fn <a href='#method.fill_paint_request_with_cached_layer_buffers' class='fnname'>fill_paint_request_with_cached_layer_buffers</a>(&amp;mut self, paint_request: &amp;mut <a class='struct' href='../gfx/paint_thread/struct.PaintRequest.html' title='gfx::paint_thread::PaintRequest'>PaintRequest</a>)</code></h4>
+<h4 id='method.convert_buffer_requests_to_pipeline_requests_map' class='method'><code>fn <a href='#method.convert_buffer_requests_to_pipeline_requests_map' class='fnname'>convert_buffer_requests_to_pipeline_requests_map</a>(&amp;mut self, requests: <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;&gt;, <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../layers/layers/struct.BufferRequest.html' title='layers::layers::BufferRequest'>BufferRequest</a>&gt;<a class='primitive' href='../std/primitive.tuple.html'>)</a>&gt;) -&gt; <a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../gfx/paint_thread/struct.PaintRequest.html' title='gfx::paint_thread::PaintRequest'>PaintRequest</a>&gt;&gt;</code></h4>
+<h4 id='method.send_viewport_rect_for_layer' class='method'><code>fn <a href='#method.send_viewport_rect_for_layer' class='fnname'>send_viewport_rect_for_layer</a>(&amp;self, layer: <a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;&gt;)</code></h4>
+<h4 id='method.send_viewport_rects_for_all_layers' class='method'><code>fn <a href='#method.send_viewport_rects_for_all_layers' class='fnname'>send_viewport_rects_for_all_layers</a>(&amp;self)</code></h4>
+<h4 id='method.send_webrender_viewport_rects' class='method'><code>fn <a href='#method.send_webrender_viewport_rects' class='fnname'>send_webrender_viewport_rects</a>(&amp;self)</code></h4>
+<h4 id='method.send_buffer_requests_for_all_layers' class='method'><code>fn <a href='#method.send_buffer_requests_for_all_layers' class='fnname'>send_buffer_requests_for_all_layers</a>(&amp;mut self) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if any buffer requests were sent or false otherwise.</p>
+</div><h4 id='method.does_layer_have_outstanding_paint_messages' class='method'><code>fn <a href='#method.does_layer_have_outstanding_paint_messages' class='fnname'>does_layer_have_outstanding_paint_messages</a>(&amp;self, layer: &amp;<a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;&gt;) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Check if a layer (or its children) have any outstanding paint
+results to arrive yet.</p>
+</div><h4 id='method.animations_active' class='method'><code>fn <a href='#method.animations_active' class='fnname'>animations_active</a>(&amp;self) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.is_ready_to_paint_image_output' class='method'><code>fn <a href='#method.is_ready_to_paint_image_output' class='fnname'>is_ready_to_paint_image_output</a>(&amp;mut self) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>, <a class='enum' href='../compositing/compositor/enum.NotReadyToPaint.html' title='compositing::compositor::NotReadyToPaint'>NotReadyToPaint</a>&gt;</code></h4>
+<div class='docblock'><p>Query the constellation to see if the current compositor
+output matches the current frame tree output, and if the
+associated script threads are idle.</p>
+</div><h4 id='method.composite' class='method'><code>fn <a href='#method.composite' class='fnname'>composite</a>(&amp;mut self)</code></h4>
+<h4 id='method.composite_specific_target' class='method'><code>fn <a href='#method.composite_specific_target' class='fnname'>composite_specific_target</a>(&amp;mut self, target: <a class='enum' href='../compositing/compositor/enum.CompositeTarget.html' title='compositing::compositor::CompositeTarget'>CompositeTarget</a>) -&gt; <a class='enum' href='../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.Image.html' title='msg::constellation_msg::Image'>Image</a>&gt;, <a class='enum' href='../compositing/compositor/enum.UnableToComposite.html' title='compositing::compositor::UnableToComposite'>UnableToComposite</a>&gt;</code></h4>
+<div class='docblock'><p>Composite either to the screen or to a png image or both.
+Returns Ok if composition was performed or Err if it was not possible to composite
+for some reason. If CompositeTarget is Window or Png no image data is returned;
+in the latter case the image is written directly to a file. If CompositeTarget
+is WindowAndPng Ok(Some(png::Image)) is returned.</p>
+</div><h4 id='method.draw_img' class='method'><code>fn <a href='#method.draw_img' class='fnname'>draw_img</a>(&amp;self, render_target_info: <a class='struct' href='../compositing/compositor/struct.RenderTargetInfo.html' title='compositing::compositor::RenderTargetInfo'>RenderTargetInfo</a>, width: <a class='primitive' href='../std/primitive.usize.html'>usize</a>, height: <a class='primitive' href='../std/primitive.usize.html'>usize</a>) -&gt; <a class='type' href='../image/buffer/type.RgbImage.html' title='image::buffer::RgbImage'>RgbImage</a></code></h4>
+<h4 id='method.composite_if_necessary' class='method'><code>fn <a href='#method.composite_if_necessary' class='fnname'>composite_if_necessary</a>(&amp;mut self, reason: <a class='enum' href='../compositing/compositor/enum.CompositingReason.html' title='compositing::compositor::CompositingReason'>CompositingReason</a>)</code></h4>
+<h4 id='method.composite_if_necessary_if_not_using_webrender' class='method'><code>fn <a href='#method.composite_if_necessary_if_not_using_webrender' class='fnname'>composite_if_necessary_if_not_using_webrender</a>(&amp;mut self, reason: <a class='enum' href='../compositing/compositor/enum.CompositingReason.html' title='compositing::compositor::CompositingReason'>CompositingReason</a>)</code></h4>
+<h4 id='method.initialize_compositing' class='method'><code>fn <a href='#method.initialize_compositing' class='fnname'>initialize_compositing</a>(&amp;mut self)</code></h4>
+<h4 id='method.find_topmost_layer_at_point_for_layer' class='method'><code>fn <a href='#method.find_topmost_layer_at_point_for_layer' class='fnname'>find_topmost_layer_at_point_for_layer</a>(&amp;self, layer: <a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;&gt;, point_in_parent_layer: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;, clip_rect_in_parent_layer: &amp;<a class='type' href='../euclid/rect/type.TypedRect.html' title='euclid::rect::TypedRect'>TypedRect</a>&lt;<a class='enum' href='../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../compositing/compositor/struct.HitTestResult.html' title='compositing::compositor::HitTestResult'>HitTestResult</a>&gt;</code></h4>
+<h4 id='method.find_topmost_layer_at_point' class='method'><code>fn <a href='#method.find_topmost_layer_at_point' class='fnname'>find_topmost_layer_at_point</a>(&amp;self, point: <a class='type' href='../euclid/point/type.TypedPoint2D.html' title='euclid::point::TypedPoint2D'>TypedPoint2D</a>&lt;<a class='enum' href='../layers/geometry/enum.LayerPixel.html' title='layers::geometry::LayerPixel'>LayerPixel</a>, <a class='primitive' href='../std/primitive.f32.html'>f32</a>&gt;) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../compositing/compositor/struct.HitTestResult.html' title='compositing::compositor::HitTestResult'>HitTestResult</a>&gt;</code></h4>
+<h4 id='method.find_layer_with_pipeline_and_layer_id' class='method'><code>fn <a href='#method.find_layer_with_pipeline_and_layer_id' class='fnname'>find_layer_with_pipeline_and_layer_id</a>(&amp;self, pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, layer_id: <a class='struct' href='../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;&gt;&gt;</code></h4>
+<h4 id='method.cache_unused_buffers' class='method'><code>fn <a href='#method.cache_unused_buffers' class='fnname'>cache_unused_buffers</a>&lt;B&gt;(&amp;mut self, buffers: B) <span class='where'>where B: <a class='trait' href='../core/iter/traits/trait.IntoIterator.html' title='core::iter::traits::IntoIterator'>IntoIterator</a>&lt;Item=<a class='struct' href='../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../layers/layers/struct.LayerBuffer.html' title='layers::layers::LayerBuffer'>LayerBuffer</a>&gt;&gt;</span></code></h4>
+<h4 id='method.get_root_pipeline_id' class='method'><code>fn <a href='#method.get_root_pipeline_id' class='fnname'>get_root_pipeline_id</a>(&amp;self) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>&gt;</code></h4>
+<h4 id='method.dump_layer_tree' class='method'><code>fn <a href='#method.dump_layer_tree' class='fnname'>dump_layer_tree</a>(&amp;self)</code></h4>
+<h4 id='method.dump_layer_tree_layer' class='method'><code>fn <a href='#method.dump_layer_tree_layer' class='fnname'>dump_layer_tree_layer</a>(&amp;self, layer: &amp;<a class='struct' href='../layers/layers/struct.Layer.html' title='layers::layers::Layer'>Layer</a>&lt;<a class='struct' href='../compositing/compositor_layer/struct.CompositorData.html' title='compositing::compositor_layer::CompositorData'>CompositorData</a>&gt;, print_tree: &amp;mut <a class='struct' href='../util/print_tree/struct.PrintTree.html' title='util::print_tree::PrintTree'>PrintTree</a>)</code></h4>
+<h4 id='method.start_scrolling_bounce_if_necessary' class='method'><code>fn <a href='#method.start_scrolling_bounce_if_necessary' class='fnname'>start_scrolling_bounce_if_necessary</a>(&amp;mut self)</code></h4>
+<h4 id='method.handle_events' class='method'><code>fn <a href='#method.handle_events' class='fnname'>handle_events</a>(&amp;mut self, messages: <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../compositing/windowing/enum.WindowEvent.html' title='compositing::windowing::WindowEvent'>WindowEvent</a>&gt;) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.repaint_synchronously' class='method'><code>fn <a href='#method.repaint_synchronously' class='fnname'>repaint_synchronously</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Repaints and recomposites synchronously. You must be careful when calling this, as if a
+paint is not scheduled the compositor will hang forever.</p>
+
+<p>This is used when resizing the window.</p>
+</div><h4 id='method.pinch_zoom_level' class='method'><code>fn <a href='#method.pinch_zoom_level' class='fnname'>pinch_zoom_level</a>(&amp;self) -&gt; <a class='primitive' href='../std/primitive.f32.html'>f32</a></code></h4>
+<h4 id='method.title_for_main_frame' class='method'><code>fn <a href='#method.title_for_main_frame' class='fnname'>title_for_main_frame</a>(&amp;self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "compositing";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

@@ -2424,14 +2424,14 @@
             }
             <span class='ident'>StringOrCanvasGradientOrCanvasPattern</span>::<span class='ident'>CanvasGradient</span>(<span class='ident'>gradient</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>fill_style</span> <span class='op'>=</span>
-                    <span class='ident'>CanvasFillOrStrokeStyle</span>::<span class='ident'>Gradient</span>(<span class='ident'>JS</span>::<span class='ident'>from_rooted</span>(<span class='kw-2'>&amp;</span><span class='ident'>gradient</span>));
+                    <span class='ident'>CanvasFillOrStrokeStyle</span>::<span class='ident'>Gradient</span>(<span class='ident'>JS</span>::<span class='ident'>from_ref</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>gradient</span>));
                 <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>CanvasMsg</span>::<span class='ident'>Canvas2d</span>(
                     <span class='ident'>Canvas2dMsg</span>::<span class='ident'>SetFillStyle</span>(<span class='ident'>gradient</span>.<span class='ident'>to_fill_or_stroke_style</span>()));
                 <span class='self'>self</span>.<span class='ident'>ipc_renderer</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
             }
             <span class='ident'>StringOrCanvasGradientOrCanvasPattern</span>::<span class='ident'>CanvasPattern</span>(<span class='ident'>pattern</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>fill_style</span> <span class='op'>=</span>
-                    <span class='ident'>CanvasFillOrStrokeStyle</span>::<span class='ident'>Pattern</span>(<span class='ident'>JS</span>::<span class='ident'>from_rooted</span>(<span class='kw-2'>&amp;</span><span class='ident'>pattern</span>));
+                    <span class='ident'>CanvasFillOrStrokeStyle</span>::<span class='ident'>Pattern</span>(<span class='ident'>JS</span>::<span class='ident'>from_ref</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>pattern</span>));
                 <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>CanvasMsg</span>::<span class='ident'>Canvas2d</span>(
                     <span class='ident'>Canvas2dMsg</span>::<span class='ident'>SetFillStyle</span>(<span class='ident'>pattern</span>.<span class='ident'>to_fill_or_stroke_style</span>()));
                 <span class='self'>self</span>.<span class='ident'>ipc_renderer</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();

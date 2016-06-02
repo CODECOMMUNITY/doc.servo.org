@@ -302,15 +302,6 @@
 <span id="258">258</span>
 <span id="259">259</span>
 <span id="260">260</span>
-<span id="261">261</span>
-<span id="262">262</span>
-<span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
-<span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -319,7 +310,7 @@
 <span class='doccomment'>//! Communication with the compositor thread.</span>
 
 <span class='kw'>use</span> <span class='ident'>SendableFrameTree</span>;
-<span class='kw'>use</span> <span class='ident'>compositor</span>::{<span class='self'>self</span>, <span class='ident'>CompositingReason</span>};
+<span class='kw'>use</span> <span class='ident'>compositor</span>::{<span class='ident'>CompositingReason</span>, <span class='ident'>IOCompositor</span>};
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>point</span>::<span class='ident'>Point2D</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::<span class='ident'>Size2D</span>;
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>Epoch</span>, <span class='ident'>FrameTreeId</span>, <span class='ident'>LayerId</span>, <span class='ident'>LayerProperties</span>, <span class='ident'>PaintListener</span>};
@@ -338,7 +329,7 @@
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>webrender</span>;
 <span class='kw'>use</span> <span class='ident'>webrender_traits</span>;
-<span class='kw'>use</span> <span class='ident'>windowing</span>::{<span class='ident'>WindowEvent</span>, <span class='ident'>WindowMethods</span>};
+<span class='kw'>use</span> <span class='ident'>windowing</span>::<span class='ident'>WindowMethods</span>;
 
 <span class='doccomment'>/// Sends messages to the compositor. This is a trait supplied by the port because the method used</span>
 <span class='doccomment'>/// to communicate with the compositor may have to kick OS event loops awake, communicate cross-</span>
@@ -550,19 +541,10 @@
 <span class='kw'>impl</span> <span class='ident'>CompositorThread</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>create</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>(<span class='ident'>window</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>,
                           <span class='ident'>state</span>: <span class='ident'>InitialCompositorState</span>)
-                          <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorEventListener</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>
+                          <span class='op'>-&gt;</span> <span class='ident'>IOCompositor</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>
                           <span class='kw'>where</span> <span class='ident'>Window</span>: <span class='ident'>WindowMethods</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
-        <span class='kw'>box</span> <span class='ident'>compositor</span>::<span class='ident'>IOCompositor</span>::<span class='ident'>create</span>(<span class='ident'>window</span>, <span class='ident'>state</span>)
-            <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorEventListener</span><span class='op'>&gt;</span>
+        <span class='ident'>IOCompositor</span>::<span class='ident'>create</span>(<span class='ident'>window</span>, <span class='ident'>state</span>)
     }
-}
-
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>CompositorEventListener</span> {
-    <span class='kw'>fn</span> <span class='ident'>handle_events</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>events</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>WindowEvent</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
-    <span class='kw'>fn</span> <span class='ident'>repaint_synchronously</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>);
-    <span class='kw'>fn</span> <span class='ident'>pinch_zoom_level</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span>;
-    <span class='doccomment'>/// Requests that the compositor send the title for the main frame as soon as possible.</span>
-    <span class='kw'>fn</span> <span class='ident'>title_for_main_frame</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>);
 }
 
 <span class='doccomment'>/// Data used to construct a compositor.</span>

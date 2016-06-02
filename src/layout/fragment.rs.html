@@ -2824,6 +2824,13 @@
 <span id="2780">2780</span>
 <span id="2781">2781</span>
 <span id="2782">2782</span>
+<span id="2783">2783</span>
+<span id="2784">2784</span>
+<span id="2785">2785</span>
+<span id="2786">2786</span>
+<span id="2787">2787</span>
+<span id="2788">2788</span>
+<span id="2789">2789</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -5034,6 +5041,13 @@
 
     <span class='doccomment'>/// Returns true if this fragment establishes a new stacking context and false otherwise.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>establishes_stacking_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='comment'>// Text fragments shouldn&#39;t create stacking contexts.</span>
+        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>specific</span> {
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>ScannedText</span>(_) <span class='op'>|</span>
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>UnscannedText</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='boolvalue'>false</span>,
+            _ <span class='op'>=&gt;</span> {}
+        }
+
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>flags</span>.<span class='ident'>contains</span>(<span class='ident'>HAS_LAYER</span>) {
             <span class='kw'>return</span> <span class='boolvalue'>true</span>
         }
