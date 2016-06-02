@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3419' class='srclink' href='../../../../src/script/dom/bindings/trace.rs.html#98-101' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3573' class='srclink' href='../../../../src/script/dom/bindings/trace.rs.html#99-102' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait JSTraceable {
     fn <a href='#tymethod.trace' class='fnname'>trace</a>(&amp;self, trc: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../../../js/jsapi/struct.JSTracer.html' title='js::jsapi::JSTracer'>JSTracer</a>);
 }</pre><div class='docblock'><p>A trait to allow tracing (only) DOM objects.</p>
@@ -61,6 +61,8 @@
     <li><code>impl JSTraceable for <a class='enum' href='../../../../script/document_loader/enum.LoadType.html' title='script::document_loader::LoadType'>LoadType</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/document_loader/struct.LoadBlocker.html' title='script::document_loader::LoadBlocker'>LoadBlocker</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/document_loader/struct.DocumentLoader.html' title='script::document_loader::DocumentLoader'>DocumentLoader</a></code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a> + <a class='trait' href='../../../../script/dom/bindings/reflector/trait.Reflectable.html' title='script::dom::bindings::reflector::Reflectable'>Reflectable</a>&gt; JSTraceable for <a class='struct' href='../../../../script/dom/abstractworkerglobalscope/struct.SendableWorkerScriptChan.html' title='script::dom::abstractworkerglobalscope::SendableWorkerScriptChan'>SendableWorkerScriptChan</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a> + <a class='trait' href='../../../../script/dom/bindings/reflector/trait.Reflectable.html' title='script::dom::bindings::reflector::Reflectable'>Reflectable</a>&gt; JSTraceable for <a class='struct' href='../../../../script/dom/abstractworkerglobalscope/struct.WorkerThreadWorkerChan.html' title='script::dom::abstractworkerglobalscope::WorkerThreadWorkerChan'>WorkerThreadWorkerChan</a>&lt;T&gt;</code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/attr/struct.Attr.html' title='script::dom::attr::Attr'>Attr</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/beforeunloadevent/struct.BeforeUnloadEvent.html' title='script::dom::beforeunloadevent::BeforeUnloadEvent'>BeforeUnloadEvent</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/bindings/callback/struct.CallbackFunction.html' title='script::dom::bindings::callback::CallbackFunction'>CallbackFunction</a></code></li>
@@ -166,10 +168,12 @@
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/attr/enum.AttrValue.html' title='script::dom::attr::AttrValue'>AttrValue</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../style/restyle_hints/struct.ElementSnapshot.html' title='style::restyle_hints::ElementSnapshot'>ElementSnapshot</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../net_traits/response/enum.HttpsState.html' title='net_traits::response::HttpsState'>HttpsState</a></code></li>
-<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/worker/struct.SharedRt.html' title='script::dom::worker::SharedRt'>SharedRt</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/abstractworker/struct.SharedRt.html' title='script::dom::abstractworker::SharedRt'>SharedRt</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script_traits/enum.TouchpadPressurePhase.html' title='script_traits::TouchpadPressurePhase'>TouchpadPressurePhase</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/bindings/str/struct.USVString.html' title='script::dom::bindings::str::USVString'>USVString</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../msg/constellation_msg/enum.ReferrerPolicy.html' title='msg::constellation_msg::ReferrerPolicy'>ReferrerPolicy</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../net_traits/struct.ResourceThreads.html' title='net_traits::ResourceThreads'>ResourceThreads</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../std/time/struct.SystemTime.html' title='std::time::SystemTime'>SystemTime</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/script_runtime/trait.ScriptChan.html' title='script::script_runtime::ScriptChan'>ScriptChan</a> + <a class='trait' href='../../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;</code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../alloc/boxed/trait.FnBox.html' title='alloc::boxed::FnBox'>FnBox</a>(<a class='primitive' href='../../../../std/primitive.f64.html'>f64</a>)&gt;</code></li>
 <li><code>impl&lt;'a&gt; JSTraceable for &amp;'a <a class='primitive' href='../../../../std/primitive.str.html'>str</a></code></li>
@@ -190,6 +194,7 @@
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/CanvasRenderingContext2DBinding/enum.CanvasTextAlign.html' title='script::dom::bindings::codegen::Bindings::CanvasRenderingContext2DBinding::CanvasTextAlign'>CanvasTextAlign</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/CanvasRenderingContext2DBinding/enum.CanvasTextBaseline.html' title='script::dom::bindings::codegen::Bindings::CanvasRenderingContext2DBinding::CanvasTextBaseline'>CanvasTextBaseline</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/CanvasRenderingContext2DBinding/enum.CanvasDirection.html' title='script::dom::bindings::codegen::Bindings::CanvasRenderingContext2DBinding::CanvasDirection'>CanvasDirection</a></code></li>
+<li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/ClientBinding/enum.FrameType.html' title='script::dom::bindings::codegen::Bindings::ClientBinding::FrameType'>FrameType</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/DOMParserBinding/enum.SupportedType.html' title='script::dom::bindings::codegen::Bindings::DOMParserBinding::SupportedType'>SupportedType</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/DocumentBinding/enum.DocumentReadyState.html' title='script::dom::bindings::codegen::Bindings::DocumentBinding::DocumentReadyState'>DocumentReadyState</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/EventHandlerBinding/struct.EventHandlerNonNull.html' title='script::dom::bindings::codegen::Bindings::EventHandlerBinding::EventHandlerNonNull'>EventHandlerNonNull</a></code></li>
@@ -199,6 +204,7 @@
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/FunctionBinding/struct.Function.html' title='script::dom::bindings::codegen::Bindings::FunctionBinding::Function'>Function</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/HTMLMediaElementBinding/enum.CanPlayTypeResult.html' title='script::dom::bindings::codegen::Bindings::HTMLMediaElementBinding::CanPlayTypeResult'>CanPlayTypeResult</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/bindings/codegen/Bindings/NodeFilterBinding/struct.NodeFilter.html' title='script::dom::bindings::codegen::Bindings::NodeFilterBinding::NodeFilter'>NodeFilter</a></code></li>
+<li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/ServiceWorkerBinding/enum.ServiceWorkerState.html' title='script::dom::bindings::codegen::Bindings::ServiceWorkerBinding::ServiceWorkerState'>ServiceWorkerState</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/TestBindingBinding/enum.TestEnum.html' title='script::dom::bindings::codegen::Bindings::TestBindingBinding::TestEnum'>TestEnum</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/WebSocketBinding/enum.BinaryType.html' title='script::dom::bindings::codegen::Bindings::WebSocketBinding::BinaryType'>BinaryType</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/bindings/codegen/Bindings/WindowBinding/enum.ScrollBehavior.html' title='script::dom::bindings::codegen::Bindings::WindowBinding::ScrollBehavior'>ScrollBehavior</a></code></li>
@@ -225,6 +231,7 @@
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/canvasrenderingcontext2d/struct.CanvasRenderingContext2D.html' title='script::dom::canvasrenderingcontext2d::CanvasRenderingContext2D'>CanvasRenderingContext2D</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/canvasrenderingcontext2d/struct.CanvasContextState.html' title='script::dom::canvasrenderingcontext2d::CanvasContextState'>CanvasContextState</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/characterdata/struct.CharacterData.html' title='script::dom::characterdata::CharacterData'>CharacterData</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/client/struct.Client.html' title='script::dom::client::Client'>Client</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/closeevent/struct.CloseEvent.html' title='script::dom::closeevent::CloseEvent'>CloseEvent</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/comment/struct.Comment.html' title='script::dom::comment::Comment'>Comment</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/console/struct.Console.html' title='script::dom::console::Console'>Console</a></code></li>
@@ -233,8 +240,6 @@
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/css/struct.CSS.html' title='script::dom::css::CSS'>CSS</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/cssstyledeclaration/struct.CSSStyleDeclaration.html' title='script::dom::cssstyledeclaration::CSSStyleDeclaration'>CSSStyleDeclaration</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/customevent/struct.CustomEvent.html' title='script::dom::customevent::CustomEvent'>CustomEvent</a></code></li>
-<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/dedicatedworkerglobalscope/struct.SendableWorkerScriptChan.html' title='script::dom::dedicatedworkerglobalscope::SendableWorkerScriptChan'>SendableWorkerScriptChan</a></code></li>
-<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/dedicatedworkerglobalscope/struct.WorkerThreadWorkerChan.html' title='script::dom::dedicatedworkerglobalscope::WorkerThreadWorkerChan'>WorkerThreadWorkerChan</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/dedicatedworkerglobalscope/struct.DedicatedWorkerGlobalScope.html' title='script::dom::dedicatedworkerglobalscope::DedicatedWorkerGlobalScope'>DedicatedWorkerGlobalScope</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/document/enum.IsHTMLDocument.html' title='script::dom::document::IsHTMLDocument'>IsHTMLDocument</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/document/struct.Document.html' title='script::dom::document::Document'>Document</a></code></li>
@@ -403,6 +408,10 @@
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/range/struct.BoundaryPoint.html' title='script::dom::range::BoundaryPoint'>BoundaryPoint</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/range/struct.WeakRangeVec.html' title='script::dom::range::WeakRangeVec'>WeakRangeVec</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/screen/struct.Screen.html' title='script::dom::screen::Screen'>Screen</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/serviceworker/struct.ServiceWorker.html' title='script::dom::serviceworker::ServiceWorker'>ServiceWorker</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/serviceworkercontainer/struct.ServiceWorkerContainer.html' title='script::dom::serviceworkercontainer::ServiceWorkerContainer'>ServiceWorkerContainer</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/serviceworkerglobalscope/struct.ServiceWorkerGlobalScope.html' title='script::dom::serviceworkerglobalscope::ServiceWorkerGlobalScope'>ServiceWorkerGlobalScope</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/serviceworkerregistration/struct.ServiceWorkerRegistration.html' title='script::dom::serviceworkerregistration::ServiceWorkerRegistration'>ServiceWorkerRegistration</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/servohtmlparser/struct.Sink.html' title='script::dom::servohtmlparser::Sink'>Sink</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/servohtmlparser/struct.ServoHTMLParser.html' title='script::dom::servohtmlparser::ServoHTMLParser'>ServoHTMLParser</a></code></li>
 <li><code>impl JSTraceable for <a class='type' href='../../../../script/dom/servohtmlparser/type.Tokenizer.html' title='script::dom::servohtmlparser::Tokenizer'>Tokenizer</a></code></li>

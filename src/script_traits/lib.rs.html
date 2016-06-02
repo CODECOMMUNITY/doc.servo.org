@@ -555,6 +555,12 @@
 <span id="511">511</span>
 <span id="512">512</span>
 <span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -830,7 +836,7 @@
     <span class='doccomment'>/// The event was requested from a window (ScriptThread).</span>
     <span class='ident'>FromWindow</span>(<span class='ident'>PipelineId</span>),
     <span class='doccomment'>/// The event was requested from a worker (DedicatedGlobalWorkerScope).</span>
-    <span class='ident'>FromWorker</span>
+    <span class='ident'>FromWorker</span>,
 }
 
 <span class='doccomment'>/// The id to be used for a TimerEvent is defined by the corresponding TimerEventRequest.</span>
@@ -962,8 +968,13 @@
     <span class='ident'>LoadStart</span>,
     <span class='doccomment'>/// Sent when a browser `&lt;iframe&gt;`&#39;s location changes.</span>
     <span class='ident'>LocationChange</span>(<span class='ident'>String</span>, <span class='ident'>bool</span>, <span class='ident'>bool</span>),
-    <span class='doccomment'>/// Sent when window.open() is called within a browser `&lt;iframe&gt;`.</span>
-    <span class='ident'>OpenWindow</span>,
+    <span class='doccomment'>/// Sent when a new tab is opened within a browser `&lt;iframe&gt;` as a result of the user</span>
+    <span class='doccomment'>/// issuing a command to open a link target in a new tab (for example ctrl/cmd + click.)</span>
+    <span class='doccomment'>/// Includes the URL.</span>
+    <span class='ident'>OpenTab</span>(<span class='ident'>String</span>),
+    <span class='doccomment'>/// Sent when a new window is opened within a browser `&lt;iframe&gt;`.</span>
+    <span class='doccomment'>/// Includes the URL, target browsing context name, and features.</span>
+    <span class='ident'>OpenWindow</span>(<span class='ident'>String</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>),
     <span class='doccomment'>/// Sent when the SSL state changes within a browser `&lt;iframe&gt;`.</span>
     <span class='ident'>SecurityChange</span>(<span class='ident'>HttpsState</span>),
     <span class='doccomment'>/// Sent when alert(), confirm(), or prompt() is called within a browser `&lt;iframe&gt;`.</span>
@@ -989,7 +1000,8 @@
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>LoadEnd</span> <span class='op'>=&gt;</span> <span class='string'>&quot;mozbrowserloadend&quot;</span>,
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>LoadStart</span> <span class='op'>=&gt;</span> <span class='string'>&quot;mozbrowserloadstart&quot;</span>,
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>LocationChange</span>(_, _, _) <span class='op'>=&gt;</span> <span class='string'>&quot;mozbrowserlocationchange&quot;</span>,
-            <span class='ident'>MozBrowserEvent</span>::<span class='ident'>OpenWindow</span> <span class='op'>=&gt;</span> <span class='string'>&quot;mozbrowseropenwindow&quot;</span>,
+            <span class='ident'>MozBrowserEvent</span>::<span class='ident'>OpenTab</span>(_) <span class='op'>=&gt;</span> <span class='string'>&quot;mozbrowseropentab&quot;</span>,
+            <span class='ident'>MozBrowserEvent</span>::<span class='ident'>OpenWindow</span>(_, _, _) <span class='op'>=&gt;</span> <span class='string'>&quot;mozbrowseropenwindow&quot;</span>,
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>SecurityChange</span>(_) <span class='op'>=&gt;</span> <span class='string'>&quot;mozbrowsersecuritychange&quot;</span>,
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>ShowModalPrompt</span>(_, _, _, _) <span class='op'>=&gt;</span> <span class='string'>&quot;mozbrowsershowmodalprompt&quot;</span>,
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>TitleChange</span>(_) <span class='op'>=&gt;</span> <span class='string'>&quot;mozbrowsertitlechange&quot;</span>,

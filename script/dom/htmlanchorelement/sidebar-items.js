@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["follow_hyperlink","https://html.spec.whatwg.org/multipage/#following-hyperlinks-2"]],"struct":[["HTMLAnchorElement",""]]});
+initSidebarItems({"fn":[["follow_hyperlink","https://html.spec.whatwg.org/multipage/#following-hyperlinks-2"],["is_current_browsing_context","https://html.spec.whatwg.org/multipage/#the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name"]],"struct":[["HTMLAnchorElement",""]]});

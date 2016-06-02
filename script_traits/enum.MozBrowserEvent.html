@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3901' class='srclink' href='../src/script_traits/lib.rs.html#387-419' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3901' class='srclink' href='../src/script_traits/lib.rs.html#387-424' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum MozBrowserEvent {
     AsyncScroll,
     Close,
@@ -58,7 +58,8 @@
     LoadEnd,
     LoadStart,
     LocationChange(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='primitive' href='../std/primitive.bool.html'>bool</a>, <a class='primitive' href='../std/primitive.bool.html'>bool</a>),
-    OpenWindow,
+    OpenTab(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>),
+    OpenWindow(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;, <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;),
     SecurityChange(<a class='enum' href='../net_traits/response/enum.HttpsState.html' title='net_traits::response::HttpsState'>HttpsState</a>),
     ShowModalPrompt(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>),
     TitleChange(<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>),
@@ -76,13 +77,17 @@ handling <code>&lt;menuitem&gt;</code> element available within the browser <cod
 </div></td><td></td></tr><tr><td id='variant.LoadEnd'><code>LoadEnd</code></td><td><div class='docblock'><p>Sent when the browser <code>&lt;iframe&gt;</code> has finished loading all its assets.</p>
 </div></td><td></td></tr><tr><td id='variant.LoadStart'><code>LoadStart</code></td><td><div class='docblock'><p>Sent when the browser <code>&lt;iframe&gt;</code> starts to load a new page.</p>
 </div></td><td></td></tr><tr><td id='variant.LocationChange'><code>LocationChange</code></td><td><div class='docblock'><p>Sent when a browser <code>&lt;iframe&gt;</code>&#39;s location changes.</p>
-</div></td><td></td></tr><tr><td id='variant.OpenWindow'><code>OpenWindow</code></td><td><div class='docblock'><p>Sent when window.open() is called within a browser <code>&lt;iframe&gt;</code>.</p>
+</div></td><td></td></tr><tr><td id='variant.OpenTab'><code>OpenTab</code></td><td><div class='docblock'><p>Sent when a new tab is opened within a browser <code>&lt;iframe&gt;</code> as a result of the user
+issuing a command to open a link target in a new tab (for example ctrl/cmd + click.)
+Includes the URL.</p>
+</div></td><td></td></tr><tr><td id='variant.OpenWindow'><code>OpenWindow</code></td><td><div class='docblock'><p>Sent when a new window is opened within a browser <code>&lt;iframe&gt;</code>.
+Includes the URL, target browsing context name, and features.</p>
 </div></td><td></td></tr><tr><td id='variant.SecurityChange'><code>SecurityChange</code></td><td><div class='docblock'><p>Sent when the SSL state changes within a browser <code>&lt;iframe&gt;</code>.</p>
 </div></td><td></td></tr><tr><td id='variant.ShowModalPrompt'><code>ShowModalPrompt</code></td><td><div class='docblock'><p>Sent when alert(), confirm(), or prompt() is called within a browser <code>&lt;iframe&gt;</code>.</p>
 </div></td><td></td></tr><tr><td id='variant.TitleChange'><code>TitleChange</code></td><td><div class='docblock'><p>Sent when the document.title changes within a browser <code>&lt;iframe&gt;</code>.</p>
 </div></td><td></td></tr><tr><td id='variant.UsernameAndPasswordRequired'><code>UsernameAndPasswordRequired</code></td><td><div class='docblock'><p>Sent when an HTTP authentification is requested.</p>
 </div></td><td></td></tr><tr><td id='variant.OpenSearch'><code>OpenSearch</code></td><td><div class='docblock'><p>Sent when a link to a search engine is found.</p>
-</div></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='enum' href='../script_traits/enum.MozBrowserEvent.html' title='script_traits::MozBrowserEvent'>MozBrowserEvent</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-4233' class='srclink' href='../src/script_traits/lib.rs.html#421-442' title='goto source code'>[src]</a></span></h3>
+</div></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='enum' href='../script_traits/enum.MozBrowserEvent.html' title='script_traits::MozBrowserEvent'>MozBrowserEvent</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-4291' class='srclink' href='../src/script_traits/lib.rs.html#426-448' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.name' class='method'><code>fn <a href='#method.name' class='fnname'>name</a>(&amp;self) -&gt; &amp;'static <a class='primitive' href='../std/primitive.str.html'>str</a></code></h4>
 <div class='docblock'><p>Get the name of the event as a <code>&amp; str</code></p>
 </div></div></section>

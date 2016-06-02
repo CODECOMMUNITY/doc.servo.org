@@ -635,6 +635,20 @@
 <span id="591">591</span>
 <span id="592">592</span>
 <span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -646,6 +660,8 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BrowserElementBinding</span>::<span class='ident'>BrowserElementErrorEventDetail</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BrowserElementBinding</span>::<span class='ident'>BrowserElementIconChangeEventDetail</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BrowserElementBinding</span>::<span class='ident'>BrowserElementLocationChangeEventDetail</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BrowserElementBinding</span>::<span class='ident'>BrowserElementOpenTabEventDetail</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BrowserElementBinding</span>::<span class='ident'>BrowserElementOpenWindowEventDetail</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BrowserElementBinding</span>::<span class='ident'>BrowserElementSecurityChangeDetail</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BrowserElementBinding</span>::<span class='ident'>BrowserShowModalPromptEventDetail</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>HTMLIFrameElementBinding</span>;
@@ -948,7 +964,7 @@
         <span class='kw'>match</span> <span class='ident'>event</span> {
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>AsyncScroll</span> <span class='op'>|</span> <span class='ident'>MozBrowserEvent</span>::<span class='ident'>Close</span> <span class='op'>|</span> <span class='ident'>MozBrowserEvent</span>::<span class='ident'>ContextMenu</span> <span class='op'>|</span>
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>LoadEnd</span> <span class='op'>|</span> <span class='ident'>MozBrowserEvent</span>::<span class='ident'>LoadStart</span> <span class='op'>|</span>
-            <span class='ident'>MozBrowserEvent</span>::<span class='ident'>Connected</span> <span class='op'>|</span> <span class='ident'>MozBrowserEvent</span>::<span class='ident'>OpenWindow</span> <span class='op'>|</span> <span class='ident'>MozBrowserEvent</span>::<span class='ident'>OpenSearch</span>  <span class='op'>|</span>
+            <span class='ident'>MozBrowserEvent</span>::<span class='ident'>Connected</span> <span class='op'>|</span> <span class='ident'>MozBrowserEvent</span>::<span class='ident'>OpenSearch</span>  <span class='op'>|</span>
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>UsernameAndPasswordRequired</span> <span class='op'>=&gt;</span> {
                 <span class='ident'>rval</span>.<span class='ident'>set</span>(<span class='ident'>NullValue</span>());
             }
@@ -983,6 +999,18 @@
                     <span class='ident'>uri</span>: <span class='prelude-val'>Some</span>(<span class='ident'>DOMString</span>::<span class='ident'>from</span>(<span class='ident'>uri</span>)),
                     <span class='ident'>canGoBack</span>: <span class='prelude-val'>Some</span>(<span class='ident'>can_go_back</span>),
                     <span class='ident'>canGoForward</span>: <span class='prelude-val'>Some</span>(<span class='ident'>can_go_forward</span>),
+                }.<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>);
+            }
+            <span class='ident'>MozBrowserEvent</span>::<span class='ident'>OpenTab</span>(<span class='ident'>url</span>) <span class='op'>=&gt;</span> {
+                <span class='ident'>BrowserElementOpenTabEventDetail</span> {
+                    <span class='ident'>url</span>: <span class='prelude-val'>Some</span>(<span class='ident'>DOMString</span>::<span class='ident'>from</span>(<span class='ident'>url</span>)),
+                }.<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>);
+            }
+            <span class='ident'>MozBrowserEvent</span>::<span class='ident'>OpenWindow</span>(<span class='ident'>url</span>, <span class='ident'>target</span>, <span class='ident'>features</span>) <span class='op'>=&gt;</span> {
+                <span class='ident'>BrowserElementOpenWindowEventDetail</span> {
+                    <span class='ident'>url</span>: <span class='prelude-val'>Some</span>(<span class='ident'>DOMString</span>::<span class='ident'>from</span>(<span class='ident'>url</span>)),
+                    <span class='ident'>target</span>: <span class='ident'>target</span>.<span class='ident'>map</span>(<span class='ident'>DOMString</span>::<span class='ident'>from</span>),
+                    <span class='ident'>features</span>: <span class='ident'>features</span>.<span class='ident'>map</span>(<span class='ident'>DOMString</span>::<span class='ident'>from</span>),
                 }.<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>);
             }
             <span class='ident'>MozBrowserEvent</span>::<span class='ident'>IconChange</span>(<span class='ident'>rel</span>, <span class='ident'>href</span>, <span class='ident'>sizes</span>) <span class='op'>=&gt;</span> {

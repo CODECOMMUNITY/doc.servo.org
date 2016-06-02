@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["SharedRt",""],["SimpleWorkerErrorHandler",""],["Worker",""],["WorkerErrorHandler",""],["WorkerMessageHandler",""],["WorkerScriptLoadOrigin",""]],"type":[["TrustedWorkerAddress",""]]});
+initSidebarItems({"struct":[["Worker",""],["WorkerMessageHandler",""]],"type":[["TrustedWorkerAddress",""]]});

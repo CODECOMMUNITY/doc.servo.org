@@ -477,12 +477,64 @@
 <span id="433">433</span>
 <span id="434">434</span>
 <span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>devtools_traits</span>::{<span class='ident'>DevtoolScriptControlMsg</span>, <span class='ident'>ScriptToDevtoolsControlMsg</span>, <span class='ident'>WorkerId</span>};
+<span class='kw'>use</span> <span class='ident'>devtools_traits</span>::{<span class='ident'>DevtoolScriptControlMsg</span>, <span class='ident'>ScriptToDevtoolsControlMsg</span>, <span class='ident'>WorkerId</span>, <span class='ident'>DevtoolsPageInfo</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>FunctionBinding</span>::<span class='ident'>Function</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>WorkerGlobalScopeBinding</span>::<span class='ident'>WorkerGlobalScopeMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>error</span>::{<span class='ident'>Error</span>, <span class='ident'>ErrorResult</span>, <span class='ident'>Fallible</span>, <span class='ident'>report_pending_exception</span>};
@@ -495,6 +547,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>crypto</span>::<span class='ident'>Crypto</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>dedicatedworkerglobalscope</span>::<span class='ident'>DedicatedWorkerGlobalScope</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>eventtarget</span>::<span class='ident'>EventTarget</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>serviceworkerglobalscope</span>::<span class='ident'>ServiceWorkerGlobalScope</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>window</span>::{<span class='ident'>base64_atob</span>, <span class='ident'>base64_btoa</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>workerlocation</span>::<span class='ident'>WorkerLocation</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>workernavigator</span>::<span class='ident'>WorkerNavigator</span>;
@@ -535,6 +588,44 @@
     <span class='kw'>pub</span> <span class='ident'>panic_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>worker_id</span>: <span class='ident'>WorkerId</span>,
     <span class='kw'>pub</span> <span class='ident'>closing</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicBool</span><span class='op'>&gt;</span>,
+}
+
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>prepare_workerscope_init</span>(<span class='ident'>global</span>: <span class='ident'>GlobalRef</span>,
+                                <span class='ident'>worker_type</span>: <span class='ident'>String</span>,
+                                <span class='ident'>worker_url</span>: <span class='ident'>Url</span>,
+                                <span class='ident'>devtools_sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>DevtoolScriptControlMsg</span><span class='op'>&gt;</span>,
+                                <span class='ident'>closing</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>AtomicBool</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>WorkerGlobalScopeInit</span> {
+    <span class='kw'>let</span> <span class='ident'>worker_id</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>get_next_worker_id</span>();
+    <span class='kw'>let</span> <span class='ident'>optional_sender</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>global</span>.<span class='ident'>devtools_chan</span>() {
+            <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>chan</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='ident'>pipeline_id</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>pipeline</span>();
+                <span class='kw'>let</span> <span class='ident'>title</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} for {}&quot;</span>, <span class='ident'>worker_type</span>, <span class='ident'>worker_url</span>);
+                <span class='kw'>let</span> <span class='ident'>page_info</span> <span class='op'>=</span> <span class='ident'>DevtoolsPageInfo</span> {
+                    <span class='ident'>title</span>: <span class='ident'>title</span>,
+                    <span class='ident'>url</span>: <span class='ident'>worker_url</span>,
+                };
+                <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>ScriptToDevtoolsControlMsg</span>::<span class='ident'>NewGlobal</span>((<span class='ident'>pipeline_id</span>, <span class='prelude-val'>Some</span>(<span class='ident'>worker_id</span>)),
+                                                                <span class='ident'>devtools_sender</span>.<span class='ident'>clone</span>(),
+                                                                <span class='ident'>page_info</span>)).<span class='ident'>unwrap</span>();
+                <span class='prelude-val'>Some</span>(<span class='ident'>devtools_sender</span>)
+            },
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+        };
+
+    <span class='kw'>let</span> <span class='ident'>init</span> <span class='op'>=</span> <span class='ident'>WorkerGlobalScopeInit</span> {
+            <span class='ident'>resource_threads</span>: <span class='ident'>global</span>.<span class='ident'>resource_threads</span>(),
+            <span class='ident'>mem_profiler_chan</span>: <span class='ident'>global</span>.<span class='ident'>mem_profiler_chan</span>().<span class='ident'>clone</span>(),
+            <span class='ident'>to_devtools_sender</span>: <span class='ident'>global</span>.<span class='ident'>devtools_chan</span>(),
+            <span class='ident'>time_profiler_chan</span>: <span class='ident'>global</span>.<span class='ident'>time_profiler_chan</span>().<span class='ident'>clone</span>(),
+            <span class='ident'>from_devtools_sender</span>: <span class='ident'>optional_sender</span>,
+            <span class='ident'>constellation_chan</span>: <span class='ident'>global</span>.<span class='ident'>constellation_chan</span>().<span class='ident'>clone</span>(),
+            <span class='ident'>panic_chan</span>: <span class='ident'>global</span>.<span class='ident'>panic_chan</span>().<span class='ident'>clone</span>(),
+            <span class='ident'>scheduler_chan</span>: <span class='ident'>global</span>.<span class='ident'>scheduler_chan</span>().<span class='ident'>clone</span>(),
+            <span class='ident'>worker_id</span>: <span class='ident'>worker_id</span>,
+            <span class='ident'>closing</span>: <span class='ident'>closing</span>,
+        };
+
+    <span class='ident'>init</span>
 }
 
 <span class='comment'>// https://html.spec.whatwg.org/multipage/#the-workerglobalscope-common-interface</span>
@@ -872,36 +963,49 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>script_chan</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>dedicated</span> <span class='op'>=</span>
             <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>DedicatedWorkerGlobalScope</span><span class='op'>&gt;</span>();
-        <span class='kw'>match</span> <span class='ident'>dedicated</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>dedicated</span>) <span class='op'>=&gt;</span> <span class='ident'>dedicated</span>.<span class='ident'>script_chan</span>(),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;need to implement a sender for SharedWorker&quot;</span>),
+        <span class='kw'>let</span> <span class='ident'>service_worker</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>ServiceWorkerGlobalScope</span><span class='op'>&gt;</span>();
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>dedicated</span>) <span class='op'>=</span> <span class='ident'>dedicated</span> {
+            <span class='kw'>return</span> <span class='ident'>dedicated</span>.<span class='ident'>script_chan</span>();
+        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>service_worker</span>) <span class='op'>=</span> <span class='ident'>service_worker</span> {
+            <span class='kw'>return</span> <span class='ident'>service_worker</span>.<span class='ident'>script_chan</span>();
+        } <span class='kw'>else</span> {
+            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;need to implement a sender for SharedWorker&quot;</span>)
         }
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pipeline</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PipelineId</span> {
-        <span class='kw'>let</span> <span class='ident'>dedicated</span> <span class='op'>=</span>
-            <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>DedicatedWorkerGlobalScope</span><span class='op'>&gt;</span>();
-        <span class='kw'>match</span> <span class='ident'>dedicated</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>dedicated</span>) <span class='op'>=&gt;</span> <span class='ident'>dedicated</span>.<span class='ident'>pipeline</span>(),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;need to add a pipeline for SharedWorker&quot;</span>),
+        <span class='kw'>let</span> <span class='ident'>dedicated</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>DedicatedWorkerGlobalScope</span><span class='op'>&gt;</span>();
+        <span class='kw'>let</span> <span class='ident'>service_worker</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>ServiceWorkerGlobalScope</span><span class='op'>&gt;</span>();
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>dedicated</span>) <span class='op'>=</span> <span class='ident'>dedicated</span> {
+            <span class='kw'>return</span> <span class='ident'>dedicated</span>.<span class='ident'>pipeline</span>();
+        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>service_worker</span>) <span class='op'>=</span> <span class='ident'>service_worker</span> {
+            <span class='kw'>return</span> <span class='ident'>service_worker</span>.<span class='ident'>pipeline</span>();
+        } <span class='kw'>else</span> {
+            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;need to implement a sender for SharedWorker&quot;</span>)
         }
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_script_pair</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptPort</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>dedicated</span> <span class='op'>=</span>
-            <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>DedicatedWorkerGlobalScope</span><span class='op'>&gt;</span>();
-        <span class='kw'>match</span> <span class='ident'>dedicated</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>dedicated</span>) <span class='op'>=&gt;</span> <span class='ident'>dedicated</span>.<span class='ident'>new_script_pair</span>(),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;need to implement creating isolated event loops for SharedWorker&quot;</span>),
+        <span class='kw'>let</span> <span class='ident'>dedicated</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>DedicatedWorkerGlobalScope</span><span class='op'>&gt;</span>();
+        <span class='kw'>let</span> <span class='ident'>service_worker</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>ServiceWorkerGlobalScope</span><span class='op'>&gt;</span>();
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>dedicated</span>) <span class='op'>=</span> <span class='ident'>dedicated</span> {
+            <span class='kw'>return</span> <span class='ident'>dedicated</span>.<span class='ident'>new_script_pair</span>();
+        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>service_worker</span>) <span class='op'>=</span> <span class='ident'>service_worker</span> {
+            <span class='kw'>return</span> <span class='ident'>service_worker</span>.<span class='ident'>new_script_pair</span>();
+        } <span class='kw'>else</span> {
+            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;need to implement a sender for SharedWorker&quot;</span>)
         }
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>process_event</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>msg</span>: <span class='ident'>CommonScriptMsg</span>) {
-        <span class='kw'>let</span> <span class='ident'>dedicated</span> <span class='op'>=</span>
-            <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>DedicatedWorkerGlobalScope</span><span class='op'>&gt;</span>();
-        <span class='kw'>match</span> <span class='ident'>dedicated</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>dedicated</span>) <span class='op'>=&gt;</span> <span class='ident'>dedicated</span>.<span class='ident'>process_event</span>(<span class='ident'>msg</span>),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;need to implement processing single events for SharedWorker&quot;</span>),
+        <span class='kw'>let</span> <span class='ident'>dedicated</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>DedicatedWorkerGlobalScope</span><span class='op'>&gt;</span>();
+        <span class='kw'>let</span> <span class='ident'>service_worker</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>ServiceWorkerGlobalScope</span><span class='op'>&gt;</span>();
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>dedicated</span>) <span class='op'>=</span> <span class='ident'>dedicated</span> {
+            <span class='kw'>return</span> <span class='ident'>dedicated</span>.<span class='ident'>process_event</span>(<span class='ident'>msg</span>);
+        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>service_worker</span>) <span class='op'>=</span> <span class='ident'>service_worker</span> {
+            <span class='kw'>return</span> <span class='ident'>service_worker</span>.<span class='ident'>process_event</span>(<span class='ident'>msg</span>);
+        } <span class='kw'>else</span> {
+            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;need to implement a sender for SharedWorker&quot;</span>)
         }
     }
 

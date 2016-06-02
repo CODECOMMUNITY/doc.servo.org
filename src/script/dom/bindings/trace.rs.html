@@ -597,6 +597,9 @@
 <span id="553">553</span>
 <span id="554">554</span>
 <span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -634,12 +637,12 @@
 <span class='kw'>use</span> <span class='ident'>cssparser</span>::<span class='ident'>RGBA</span>;
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::<span class='ident'>CSSError</span>;
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::<span class='ident'>WorkerId</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>abstractworker</span>::<span class='ident'>SharedRt</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>JS</span>, <span class='ident'>Root</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>refcounted</span>::<span class='ident'>Trusted</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>reflector</span>::{<span class='ident'>Reflectable</span>, <span class='ident'>Reflector</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::{<span class='ident'>DOMString</span>, <span class='ident'>USVString</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>utils</span>::<span class='ident'>WindowProxyHandler</span>;
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>worker</span>::<span class='ident'>SharedRt</span>;
 <span class='kw'>use</span> <span class='ident'>encoding</span>::<span class='ident'>types</span>::<span class='ident'>EncodingRef</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>length</span>::<span class='ident'>Length</span> <span class='kw'>as</span> <span class='ident'>EuclidLength</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>matrix2d</span>::<span class='ident'>Matrix2D</span>;
@@ -681,6 +684,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicBool</span>, <span class='ident'>AtomicUsize</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>Receiver</span>, <span class='ident'>Sender</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>SystemTime</span>;
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::{<span class='ident'>Atom</span>, <span class='ident'>Namespace</span>, <span class='ident'>QualName</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>attr</span>::{<span class='ident'>AttrIdentifier</span>, <span class='ident'>AttrValue</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>element_state</span>::<span class='op'>*</span>;
@@ -920,8 +924,10 @@
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>HttpsState</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>SharedRt</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>TouchpadPressurePhase</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>USVString</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>ReferrerPolicy</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>ResourceThreads</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>SystemTime</span>);
 
 <span class='kw'>impl</span> <span class='ident'>JSTraceable</span> <span class='kw'>for</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
