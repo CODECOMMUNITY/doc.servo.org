@@ -859,54 +859,6 @@
 <span id="815">815</span>
 <span id="816">816</span>
 <span id="817">817</span>
-<span id="818">818</span>
-<span id="819">819</span>
-<span id="820">820</span>
-<span id="821">821</span>
-<span id="822">822</span>
-<span id="823">823</span>
-<span id="824">824</span>
-<span id="825">825</span>
-<span id="826">826</span>
-<span id="827">827</span>
-<span id="828">828</span>
-<span id="829">829</span>
-<span id="830">830</span>
-<span id="831">831</span>
-<span id="832">832</span>
-<span id="833">833</span>
-<span id="834">834</span>
-<span id="835">835</span>
-<span id="836">836</span>
-<span id="837">837</span>
-<span id="838">838</span>
-<span id="839">839</span>
-<span id="840">840</span>
-<span id="841">841</span>
-<span id="842">842</span>
-<span id="843">843</span>
-<span id="844">844</span>
-<span id="845">845</span>
-<span id="846">846</span>
-<span id="847">847</span>
-<span id="848">848</span>
-<span id="849">849</span>
-<span id="850">850</span>
-<span id="851">851</span>
-<span id="852">852</span>
-<span id="853">853</span>
-<span id="854">854</span>
-<span id="855">855</span>
-<span id="856">856</span>
-<span id="857">857</span>
-<span id="858">858</span>
-<span id="859">859</span>
-<span id="860">860</span>
-<span id="861">861</span>
-<span id="862">862</span>
-<span id="863">863</span>
-<span id="864">864</span>
-<span id="865">865</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -935,7 +887,6 @@
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>::{<span class='self'>self</span>, <span class='ident'>ReportsChan</span>};
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>;
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='self'>self</span>, <span class='ident'>Rng</span>};
-<span class='kw'>use</span> <span class='ident'>skia</span>::<span class='ident'>gl_context</span>::<span class='ident'>GLContext</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span> <span class='kw'>as</span> <span class='ident'>std_mem</span>;
@@ -1502,11 +1453,7 @@
              <span class='ident'>font_cache_thread</span>: <span class='ident'>FontCacheThread</span>,
              <span class='ident'>time_profiler_chan</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>)
              <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>WorkerThreadProxy</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>thread_count</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>gpu_painting</span> {
-            <span class='number'>1</span>
-        } <span class='kw'>else</span> {
-            <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>paint_threads</span>
-        };
+        <span class='kw'>let</span> <span class='ident'>thread_count</span> <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>paint_threads</span>;
         (<span class='number'>0</span>..<span class='ident'>thread_count</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> {
             <span class='kw'>let</span> (<span class='ident'>from_worker_sender</span>, <span class='ident'>from_worker_receiver</span>) <span class='op'>=</span> <span class='ident'>channel</span>();
             <span class='kw'>let</span> (<span class='ident'>to_worker_sender</span>, <span class='ident'>to_worker_receiver</span>) <span class='op'>=</span> <span class='ident'>channel</span>();
@@ -1560,24 +1507,6 @@
     <span class='ident'>native_display</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NativeDisplay</span><span class='op'>&gt;</span>,
     <span class='ident'>font_context</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>FontContext</span><span class='op'>&gt;</span>,
     <span class='ident'>time_profiler_sender</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>,
-    <span class='ident'>gl_context</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>GLContext</span><span class='op'>&gt;&gt;</span>,
-}
-
-<span class='kw'>fn</span> <span class='ident'>create_gl_context</span>(<span class='ident'>native_display</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NativeDisplay</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>GLContext</span><span class='op'>&gt;&gt;</span> {
-    <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>gpu_painting</span> {
-        <span class='kw'>return</span> <span class='prelude-val'>None</span>;
-    }
-
-    <span class='kw'>match</span> <span class='ident'>native_display</span> {
-        <span class='prelude-val'>Some</span>(<span class='ident'>display</span>) <span class='op'>=&gt;</span> {
-            <span class='kw'>let</span> <span class='ident'>tile_size</span> <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>tile_size</span> <span class='kw'>as</span> <span class='ident'>i32</span>;
-            <span class='ident'>GLContext</span>::<span class='ident'>new</span>(<span class='ident'>display</span>.<span class='ident'>platform_display_data</span>(), <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>tile_size</span>, <span class='ident'>tile_size</span>))
-        }
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-            <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Could not create GLContext, falling back to CPU rasterization&quot;</span>);
-            <span class='prelude-val'>None</span>
-        }
-    }
 }
 
 <span class='kw'>impl</span> <span class='ident'>WorkerThread</span> {
@@ -1587,14 +1516,12 @@
            <span class='ident'>font_cache_thread</span>: <span class='ident'>FontCacheThread</span>,
            <span class='ident'>time_profiler_sender</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>)
            <span class='op'>-&gt;</span> <span class='ident'>WorkerThread</span> {
-        <span class='kw'>let</span> <span class='ident'>gl_context</span> <span class='op'>=</span> <span class='ident'>create_gl_context</span>(<span class='ident'>native_display</span>);
         <span class='ident'>WorkerThread</span> {
             <span class='ident'>sender</span>: <span class='ident'>sender</span>,
             <span class='ident'>receiver</span>: <span class='ident'>receiver</span>,
             <span class='ident'>native_display</span>: <span class='ident'>native_display</span>,
             <span class='ident'>font_context</span>: <span class='kw'>box</span> <span class='ident'>FontContext</span>::<span class='ident'>new</span>(<span class='ident'>font_cache_thread</span>.<span class='ident'>clone</span>()),
             <span class='ident'>time_profiler_sender</span>: <span class='ident'>time_profiler_sender</span>,
-            <span class='ident'>gl_context</span>: <span class='ident'>gl_context</span>,
         }
     }
 
@@ -1620,27 +1547,6 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>create_draw_target_for_layer_buffer</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                                           <span class='ident'>size</span>: <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>,
-                                           <span class='ident'>layer_buffer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>LayerBuffer</span><span class='op'>&gt;</span>)
-                                           <span class='op'>-&gt;</span> <span class='ident'>DrawTarget</span> {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>gl_context</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>gl_context</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>match</span> <span class='ident'>layer_buffer</span>.<span class='ident'>native_surface</span>.<span class='ident'>gl_rasterization_context</span>(<span class='ident'>gl_context</span>.<span class='ident'>clone</span>()) {
-                    <span class='prelude-val'>Some</span>(<span class='ident'>rasterization_context</span>) <span class='op'>=&gt;</span> {
-                        <span class='ident'>DrawTarget</span>::<span class='ident'>new_with_gl_rasterization_context</span>(<span class='ident'>rasterization_context</span>,
-                                                                      <span class='ident'>SurfaceFormat</span>::<span class='ident'>B8G8R8A8</span>)
-                    }
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Could not create GLRasterizationContext for LayerBuffer&quot;</span>),
-                }
-            },
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                <span class='comment'>// A missing GLContext means we want CPU rasterization.</span>
-                <span class='ident'>DrawTarget</span>::<span class='ident'>new</span>(<span class='ident'>BackendType</span>::<span class='ident'>Skia</span>, <span class='ident'>size</span>, <span class='ident'>SurfaceFormat</span>::<span class='ident'>B8G8R8A8</span>)
-            }
-        }
-   }
-
     <span class='kw'>fn</span> <span class='ident'>optimize_and_paint_tile</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
                                <span class='ident'>thread_id</span>: <span class='ident'>usize</span>,
                                <span class='kw-2'>mut</span> <span class='ident'>tile</span>: <span class='ident'>BufferRequest</span>,
@@ -1652,7 +1558,7 @@
         <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>tile</span>.<span class='ident'>screen_rect</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>i32</span>,
                                <span class='ident'>tile</span>.<span class='ident'>screen_rect</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>create_layer_buffer</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>tile</span>, <span class='ident'>scale</span>);
-        <span class='kw'>let</span> <span class='ident'>draw_target</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>create_draw_target_for_layer_buffer</span>(<span class='ident'>size</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buffer</span>);
+        <span class='kw'>let</span> <span class='ident'>draw_target</span> <span class='op'>=</span> <span class='ident'>DrawTarget</span>::<span class='ident'>new</span>(<span class='ident'>BackendType</span>::<span class='ident'>Skia</span>, <span class='ident'>size</span>, <span class='ident'>SurfaceFormat</span>::<span class='ident'>B8G8R8A8</span>);
 
         {
             <span class='comment'>// Build the paint context.</span>
@@ -1716,15 +1622,13 @@
             }
         }
 
-        <span class='comment'>// Extract the texture from the draw target and place it into its slot in the buffer. If</span>
-        <span class='comment'>// using CPU painting, upload it first.</span>
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>gl_context</span>.<span class='ident'>is_none</span>() {
-            <span class='ident'>draw_target</span>.<span class='ident'>snapshot</span>().<span class='ident'>get_data_surface</span>().<span class='ident'>with_data</span>(<span class='op'>|</span><span class='ident'>data</span><span class='op'>|</span> {
-                <span class='ident'>buffer</span>.<span class='ident'>native_surface</span>.<span class='ident'>upload</span>(<span class='macro'>native_display</span><span class='macro'>!</span>(<span class='self'>self</span>), <span class='ident'>data</span>);
-                <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;painting worker thread uploading to native surface {}&quot;</span>,
-                       <span class='ident'>buffer</span>.<span class='ident'>native_surface</span>.<span class='ident'>get_id</span>());
-            });
-        }
+        <span class='comment'>// Extract the texture from the draw target and place it into its slot in the buffer.</span>
+        <span class='comment'>// Upload it first.</span>
+        <span class='ident'>draw_target</span>.<span class='ident'>snapshot</span>().<span class='ident'>get_data_surface</span>().<span class='ident'>with_data</span>(<span class='op'>|</span><span class='ident'>data</span><span class='op'>|</span> {
+            <span class='ident'>buffer</span>.<span class='ident'>native_surface</span>.<span class='ident'>upload</span>(<span class='macro'>native_display</span><span class='macro'>!</span>(<span class='self'>self</span>), <span class='ident'>data</span>);
+            <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;painting worker thread uploading to native surface {}&quot;</span>,
+                   <span class='ident'>buffer</span>.<span class='ident'>native_surface</span>.<span class='ident'>get_id</span>());
+        });
 
         <span class='ident'>draw_target</span>.<span class='ident'>finish</span>();
         <span class='ident'>buffer</span>
@@ -1748,7 +1652,7 @@
             <span class='ident'>rect</span>: <span class='ident'>tile</span>.<span class='ident'>page_rect</span>,
             <span class='ident'>screen_pos</span>: <span class='ident'>tile</span>.<span class='ident'>screen_rect</span>,
             <span class='ident'>resolution</span>: <span class='ident'>scale</span>,
-            <span class='ident'>painted_with_cpu</span>: <span class='self'>self</span>.<span class='ident'>gl_context</span>.<span class='ident'>is_none</span>(),
+            <span class='ident'>painted_with_cpu</span>: <span class='boolvalue'>true</span>,
             <span class='ident'>content_age</span>: <span class='ident'>tile</span>.<span class='ident'>content_age</span>,
         }
     }
