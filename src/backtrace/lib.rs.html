@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.2.1/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.2.2/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -223,7 +223,7 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! This library makes use of a number of strategies for actually acquiring a</span>
 <span class='doccomment'>//! backtrace. For example unix uses libgcc&#39;s libunwind bindings by default to</span>
-<span class='doccomment'>//! acquir a backtrace, but dladdr is used on OSX to acquire symbol names while</span>
+<span class='doccomment'>//! acquire a backtrace, but dladdr is used on OSX to acquire symbol names while</span>
 <span class='doccomment'>//! linux uses gcc&#39;s libbacktrace.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! When using the default feature set of this library the &quot;most reasonable&quot; set</span>
@@ -296,13 +296,13 @@
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>cfg_if</span>;
 
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_demangle</span>;
+
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>backtrace</span>::{<span class='ident'>trace</span>, <span class='ident'>Frame</span>};
 <span class='kw'>mod</span> <span class='ident'>backtrace</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>symbolize</span>::{<span class='ident'>resolve</span>, <span class='ident'>Symbol</span>, <span class='ident'>SymbolName</span>};
 <span class='kw'>mod</span> <span class='ident'>symbolize</span>;
-
-<span class='kw'>mod</span> <span class='ident'>demangle</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>capture</span>::{<span class='ident'>Backtrace</span>, <span class='ident'>BacktraceFrame</span>, <span class='ident'>BacktraceSymbol</span>};
 <span class='kw'>mod</span> <span class='ident'>capture</span> {

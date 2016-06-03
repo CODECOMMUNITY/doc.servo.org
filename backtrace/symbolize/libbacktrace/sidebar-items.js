@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["call",""],["error_cb",""],["init_state",""],["path2bytes",""],["pcinfo_cb",""],["resolve",""],["syminfo_cb",""]],"type":[["FileLine",""]]});
+initSidebarItems({"fn":[["call",""],["error_cb",""],["init_state",""],["pcinfo_cb",""],["resolve",""],["syminfo_cb",""]],"type":[["FileLine",""]]});

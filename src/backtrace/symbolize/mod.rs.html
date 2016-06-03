@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.2.1/src/symbolize/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.2.2/src/symbolize/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -205,14 +205,12 @@
 <span id="161">161</span>
 <span id="162">162</span>
 <span id="163">163</span>
-<span id="164">164</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>;
-
-<span class='kw'>use</span> <span class='ident'>demangle</span>::{<span class='ident'>demangle</span>, <span class='ident'>Demangle</span>};
+<span class='kw'>use</span> <span class='ident'>rustc_demangle</span>::{<span class='ident'>demangle</span>, <span class='ident'>Demangle</span>};
 
 <span class='doccomment'>/// A trait representing the resolution of a symbol in a file.</span>
 <span class='doccomment'>///</span>

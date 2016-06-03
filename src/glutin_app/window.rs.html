@@ -997,6 +997,15 @@
 <span id="953">953</span>
 <span id="954">954</span>
 <span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1243,16 +1252,16 @@
                     <span class='ident'>VirtualKeyCode</span>::<span class='ident'>RAlt</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>toggle_modifier</span>(<span class='ident'>RIGHT_ALT</span>),
                     <span class='ident'>VirtualKeyCode</span>::<span class='ident'>LWin</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>toggle_modifier</span>(<span class='ident'>LEFT_SUPER</span>),
                     <span class='ident'>VirtualKeyCode</span>::<span class='ident'>RWin</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>toggle_modifier</span>(<span class='ident'>RIGHT_SUPER</span>),
-                    _ <span class='op'>=&gt;</span> {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>key</span>) <span class='op'>=</span> <span class='ident'>Window</span>::<span class='ident'>glutin_key_to_script_key</span>(<span class='ident'>virtual_key_code</span>) {
-                            <span class='kw'>let</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>element_state</span> {
-                                <span class='ident'>ElementState</span>::<span class='ident'>Pressed</span> <span class='op'>=&gt;</span> <span class='ident'>KeyState</span>::<span class='ident'>Pressed</span>,
-                                <span class='ident'>ElementState</span>::<span class='ident'>Released</span> <span class='op'>=&gt;</span> <span class='ident'>KeyState</span>::<span class='ident'>Released</span>,
-                            };
-                            <span class='kw'>let</span> <span class='ident'>modifiers</span> <span class='op'>=</span> <span class='ident'>Window</span>::<span class='ident'>glutin_mods_to_script_mods</span>(<span class='self'>self</span>.<span class='ident'>key_modifiers</span>.<span class='ident'>get</span>());
-                            <span class='self'>self</span>.<span class='ident'>event_queue</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>WindowEvent</span>::<span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>));
-                        }
-                    }
+                    _ <span class='op'>=&gt;</span> {}
+                }
+
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>key</span>) <span class='op'>=</span> <span class='ident'>Window</span>::<span class='ident'>glutin_key_to_script_key</span>(<span class='ident'>virtual_key_code</span>) {
+                    <span class='kw'>let</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>element_state</span> {
+                        <span class='ident'>ElementState</span>::<span class='ident'>Pressed</span> <span class='op'>=&gt;</span> <span class='ident'>KeyState</span>::<span class='ident'>Pressed</span>,
+                        <span class='ident'>ElementState</span>::<span class='ident'>Released</span> <span class='op'>=&gt;</span> <span class='ident'>KeyState</span>::<span class='ident'>Released</span>,
+                    };
+                    <span class='kw'>let</span> <span class='ident'>modifiers</span> <span class='op'>=</span> <span class='ident'>Window</span>::<span class='ident'>glutin_mods_to_script_mods</span>(<span class='self'>self</span>.<span class='ident'>key_modifiers</span>.<span class='ident'>get</span>());
+                    <span class='self'>self</span>.<span class='ident'>event_queue</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>WindowEvent</span>::<span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>));
                 }
             }
             <span class='ident'>Event</span>::<span class='ident'>KeyboardInput</span>(_, _, <span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> {
@@ -1547,6 +1556,15 @@
             <span class='ident'>VirtualKeyCode</span>::<span class='ident'>Up</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>Up</span>),
             <span class='ident'>VirtualKeyCode</span>::<span class='ident'>Right</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>Right</span>),
             <span class='ident'>VirtualKeyCode</span>::<span class='ident'>Down</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>Down</span>),
+
+            <span class='ident'>VirtualKeyCode</span>::<span class='ident'>LShift</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>LeftShift</span>),
+            <span class='ident'>VirtualKeyCode</span>::<span class='ident'>LControl</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>LeftControl</span>),
+            <span class='ident'>VirtualKeyCode</span>::<span class='ident'>LAlt</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>LeftAlt</span>),
+            <span class='ident'>VirtualKeyCode</span>::<span class='ident'>LWin</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>LeftSuper</span>),
+            <span class='ident'>VirtualKeyCode</span>::<span class='ident'>RShift</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>RightShift</span>),
+            <span class='ident'>VirtualKeyCode</span>::<span class='ident'>RControl</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>RightControl</span>),
+            <span class='ident'>VirtualKeyCode</span>::<span class='ident'>RAlt</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>RightAlt</span>),
+            <span class='ident'>VirtualKeyCode</span>::<span class='ident'>RWin</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>RightSuper</span>),
 
             <span class='ident'>VirtualKeyCode</span>::<span class='ident'>Apostrophe</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>Apostrophe</span>),
             <span class='ident'>VirtualKeyCode</span>::<span class='ident'>Backslash</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span>::<span class='ident'>Backslash</span>),

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.9.5/src/net.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/hyper-0.9.6/src/net.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>net.rs.html -- source</title>
@@ -1469,7 +1469,7 @@
     <span class='ident'>ssl</span>: <span class='ident'>S</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Ssl</span><span class='op'>&gt;</span> <span class='ident'>HttpsListener</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>SslServer</span><span class='op'>&gt;</span> <span class='ident'>HttpsListener</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// Start listening to an address over HTTPS.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>To</span>: <span class='ident'>ToSocketAddrs</span><span class='op'>&gt;</span>(<span class='ident'>addr</span>: <span class='ident'>To</span>, <span class='ident'>ssl</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> ::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>HttpsListener</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;&gt;</span> {
         <span class='ident'>HttpListener</span>::<span class='ident'>new</span>(<span class='ident'>addr</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>l</span><span class='op'>|</span> <span class='ident'>HttpsListener</span> {
