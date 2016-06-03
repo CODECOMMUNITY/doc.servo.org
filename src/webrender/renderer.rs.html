@@ -1807,6 +1807,45 @@
 <span id="1763">1763</span>
 <span id="1764">1764</span>
 <span id="1765">1765</span>
+<span id="1766">1766</span>
+<span id="1767">1767</span>
+<span id="1768">1768</span>
+<span id="1769">1769</span>
+<span id="1770">1770</span>
+<span id="1771">1771</span>
+<span id="1772">1772</span>
+<span id="1773">1773</span>
+<span id="1774">1774</span>
+<span id="1775">1775</span>
+<span id="1776">1776</span>
+<span id="1777">1777</span>
+<span id="1778">1778</span>
+<span id="1779">1779</span>
+<span id="1780">1780</span>
+<span id="1781">1781</span>
+<span id="1782">1782</span>
+<span id="1783">1783</span>
+<span id="1784">1784</span>
+<span id="1785">1785</span>
+<span id="1786">1786</span>
+<span id="1787">1787</span>
+<span id="1788">1788</span>
+<span id="1789">1789</span>
+<span id="1790">1790</span>
+<span id="1791">1791</span>
+<span id="1792">1792</span>
+<span id="1793">1793</span>
+<span id="1794">1794</span>
+<span id="1795">1795</span>
+<span id="1796">1796</span>
+<span id="1797">1797</span>
+<span id="1798">1798</span>
+<span id="1799">1799</span>
+<span id="1800">1800</span>
+<span id="1801">1801</span>
+<span id="1802">1802</span>
+<span id="1803">1803</span>
+<span id="1804">1804</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1816,7 +1855,7 @@
 <span class='kw'>use</span> <span class='ident'>debug_render</span>::<span class='ident'>DebugRenderer</span>;
 <span class='kw'>use</span> <span class='ident'>device</span>::{<span class='ident'>Device</span>, <span class='ident'>ProgramId</span>, <span class='ident'>TextureId</span>, <span class='ident'>UniformLocation</span>, <span class='ident'>VertexFormat</span>, <span class='ident'>GpuProfile</span>};
 <span class='kw'>use</span> <span class='ident'>device</span>::{<span class='ident'>TextureFilter</span>, <span class='ident'>VAOId</span>, <span class='ident'>VBOId</span>, <span class='ident'>VertexUsageHint</span>, <span class='ident'>FileWatcherHandler</span>};
-<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Matrix4D</span>, <span class='ident'>Point2D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
+<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Matrix4D</span>, <span class='ident'>Point2D</span>, <span class='ident'>Point4D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
 <span class='kw'>use</span> <span class='ident'>fnv</span>::<span class='ident'>FnvHasher</span>;
 <span class='kw'>use</span> <span class='ident'>gleam</span>::<span class='ident'>gl</span>;
 <span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>RendererFrame</span>, <span class='ident'>ResultMsg</span>, <span class='ident'>TextureUpdateOp</span>, <span class='ident'>BatchUpdateOp</span>, <span class='ident'>BatchUpdateList</span>};
@@ -1843,7 +1882,7 @@
 <span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>ColorF</span>, <span class='ident'>Epoch</span>, <span class='ident'>PipelineId</span>, <span class='ident'>RenderNotifier</span>};
 <span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>ImageFormat</span>, <span class='ident'>MixBlendMode</span>, <span class='ident'>RenderApiSender</span>};
 <span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::{<span class='ident'>NativeGLContext</span>, <span class='ident'>NativeGLContextMethods</span>};
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>MatrixHelpers</span>;
+<span class='kw'>use</span> <span class='ident'>util</span>::{<span class='ident'>MatrixHelpers</span>, <span class='ident'>RectHelpers</span>};
 
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>BLUR_INFLATION_FACTOR</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>3</span>;
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>MAX_RASTER_OP_SIZE</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>2048</span>;
@@ -2924,9 +2963,7 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>draw_layer</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
-                  <span class='ident'>layer</span>: <span class='kw-2'>&amp;</span><span class='ident'>DrawLayer</span>,
-                  <span class='ident'>render_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>RenderContext</span>) {
+    <span class='kw'>fn</span> <span class='ident'>draw_layer</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>layer</span>: <span class='kw-2'>&amp;</span><span class='ident'>DrawLayer</span>, <span class='ident'>render_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>RenderContext</span>) {
         <span class='comment'>// Draw child layers first, to ensure that dependent render targets</span>
         <span class='comment'>// have been built before they are read as a texture.</span>
         <span class='kw'>for</span> <span class='ident'>child</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>layer</span>.<span class='ident'>child_layers</span> {
@@ -3019,22 +3056,59 @@
 
                             <span class='comment'>// If we can represent the mask by just adjusting the scissor rect,</span>
                             <span class='comment'>// don&#39;t draw it.</span>
-                            <span class='kw'>if</span> <span class='ident'>mask</span>.<span class='ident'>transform</span>.<span class='ident'>can_losslessly_transform_a_2d_rect</span>() {
-                                <span class='kw'>let</span> <span class='ident'>transformed_mask_rect</span> <span class='op'>=</span> <span class='ident'>mask</span>.<span class='ident'>transform</span>
-                                                                .<span class='ident'>transform_rect</span>(<span class='kw-2'>&amp;</span><span class='ident'>mask</span>.<span class='ident'>rect</span>);
+                            <span class='kw'>if</span> <span class='ident'>mask</span>.<span class='ident'>transform</span>
+                                   .<span class='ident'>can_losslessly_transform_and_perspective_project_a_2d_rect</span>() {
+                                <span class='comment'>// Convert the mask rect to 4D points.</span>
+                                <span class='kw'>let</span> <span class='ident'>top_left</span> <span class='op'>=</span> <span class='ident'>to_point4d</span>(<span class='kw-2'>&amp;</span><span class='ident'>mask</span>.<span class='ident'>rect</span>.<span class='ident'>origin</span>);
+                                <span class='kw'>let</span> <span class='ident'>top_right</span> <span class='op'>=</span> <span class='ident'>to_point4d</span>(<span class='kw-2'>&amp;</span><span class='ident'>mask</span>.<span class='ident'>rect</span>.<span class='ident'>top_right</span>());
+                                <span class='kw'>let</span> <span class='ident'>bottom_right</span> <span class='op'>=</span> <span class='ident'>to_point4d</span>(<span class='kw-2'>&amp;</span><span class='ident'>mask</span>.<span class='ident'>rect</span>.<span class='ident'>bottom_right</span>());
+                                <span class='kw'>let</span> <span class='ident'>bottom_left</span> <span class='op'>=</span> <span class='ident'>to_point4d</span>(<span class='kw-2'>&amp;</span><span class='ident'>mask</span>.<span class='ident'>rect</span>.<span class='ident'>bottom_left</span>());
+
+                                <span class='comment'>// Transform in normalized device coordinates.</span>
+                                <span class='kw'>let</span> <span class='ident'>transform</span> <span class='op'>=</span> <span class='ident'>projection</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>mask</span>.<span class='ident'>transform</span>);
+                                <span class='kw'>let</span> <span class='ident'>top_left</span> <span class='op'>=</span>
+                                    <span class='ident'>transform</span>.<span class='ident'>transform_point_and_perspective_project</span>(<span class='kw-2'>&amp;</span><span class='ident'>top_left</span>);
+                                <span class='kw'>let</span> <span class='ident'>top_right</span> <span class='op'>=</span>
+                                    <span class='ident'>transform</span>.<span class='ident'>transform_point_and_perspective_project</span>(<span class='kw-2'>&amp;</span><span class='ident'>top_right</span>);
+                                <span class='kw'>let</span> <span class='ident'>bottom_right</span> <span class='op'>=</span>
+                                    <span class='ident'>transform</span>.<span class='ident'>transform_point_and_perspective_project</span>(
+                                        <span class='kw-2'>&amp;</span><span class='ident'>bottom_right</span>);
+                                <span class='kw'>let</span> <span class='ident'>bottom_left</span> <span class='op'>=</span>
+                                    <span class='ident'>transform</span>.<span class='ident'>transform_point_and_perspective_project</span>(
+                                        <span class='kw-2'>&amp;</span><span class='ident'>bottom_left</span>);
+                                <span class='kw'>let</span> <span class='ident'>transformed_mask_rect</span> <span class='op'>=</span> <span class='ident'>Rect</span>::<span class='ident'>from_points</span>(<span class='kw-2'>&amp;</span><span class='ident'>top_left</span>,
+                                                                              <span class='kw-2'>&amp;</span><span class='ident'>top_right</span>,
+                                                                              <span class='kw-2'>&amp;</span><span class='ident'>bottom_right</span>,
+                                                                              <span class='kw-2'>&amp;</span><span class='ident'>bottom_left</span>);
+                                <span class='comment'>/*println!(&quot;... transformed mask rect in NDC: {:?}&quot;,
+                                         transformed_mask_rect);*/</span>
+
+                                <span class='comment'>// Convert to window coordinates.</span>
                                 <span class='kw'>let</span> <span class='ident'>transformed_mask_origin</span> <span class='op'>=</span> <span class='ident'>Point2D</span>::<span class='ident'>new</span>(
-                                    (<span class='ident'>transformed_mask_rect</span>.<span class='ident'>origin</span>.<span class='ident'>x</span> <span class='op'>*</span>
-                                     <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>,
-                                    (<span class='ident'>transformed_mask_rect</span>.<span class='ident'>origin</span>.<span class='ident'>y</span> <span class='op'>*</span>
-                                     <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>);
+                                    (<span class='ident'>transformed_mask_rect</span>.<span class='ident'>origin</span>.<span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1.0</span>) <span class='op'>/</span> <span class='number'>2.0</span> <span class='op'>*</span>
+                                    <span class='ident'>layer_viewport</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>+</span>
+                                    <span class='ident'>layer_viewport</span>.<span class='ident'>origin</span>.<span class='ident'>x</span> <span class='kw'>as</span> <span class='ident'>f32</span>,
+                                    (<span class='number'>1.0</span> <span class='op'>-</span> <span class='ident'>transformed_mask_rect</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='op'>-</span>
+                                     <span class='ident'>transformed_mask_rect</span>.<span class='ident'>origin</span>.<span class='ident'>y</span>) <span class='op'>/</span> <span class='number'>2.0</span> <span class='op'>*</span>
+                                    <span class='ident'>layer_viewport</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>f32</span> <span class='op'>+</span>
+                                    <span class='ident'>layer_viewport</span>.<span class='ident'>origin</span>.<span class='ident'>y</span> <span class='kw'>as</span> <span class='ident'>f32</span>);
                                 <span class='kw'>let</span> <span class='ident'>transformed_mask_size</span> <span class='op'>=</span> <span class='ident'>Size2D</span>::<span class='ident'>new</span>(
-                                        (<span class='ident'>transformed_mask_rect</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='op'>*</span>
-                                         <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>,
-                                        (<span class='ident'>transformed_mask_rect</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='op'>*</span>
-                                         <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>).<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>gl</span>::<span class='ident'>GLint</span>);
-                                <span class='kw'>let</span> <span class='ident'>transformed_mask_rect</span> <span class='op'>=</span>
-                                    <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>transformed_mask_origin</span>,
-                                              <span class='ident'>transformed_mask_size</span>);
+                                    <span class='ident'>transformed_mask_rect</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='op'>/</span> <span class='number'>2.0</span> <span class='op'>*</span>
+                                     <span class='ident'>layer_viewport</span>.<span class='ident'>size</span>.<span class='ident'>width</span> <span class='kw'>as</span> <span class='ident'>f32</span>,
+                                    <span class='ident'>transformed_mask_rect</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='op'>/</span> <span class='number'>2.0</span> <span class='op'>*</span>
+                                     <span class='ident'>layer_viewport</span>.<span class='ident'>size</span>.<span class='ident'>height</span> <span class='kw'>as</span> <span class='ident'>f32</span>);
+                                <span class='kw'>let</span> <span class='ident'>transformed_mask_rect</span> <span class='op'>=</span> <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>transformed_mask_origin</span>,
+                                                                      <span class='ident'>transformed_mask_size</span>);
+
+                                <span class='comment'>// Round and convert to integers.</span>
+                                <span class='kw'>let</span> <span class='ident'>transformed_mask_origin</span> <span class='op'>=</span>
+                                    <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>transformed_mask_rect</span>.<span class='ident'>origin</span>.<span class='ident'>x</span>.<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>i32</span>,
+                                                 <span class='ident'>transformed_mask_rect</span>.<span class='ident'>origin</span>.<span class='ident'>y</span>.<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>i32</span>);
+                                <span class='kw'>let</span> <span class='ident'>transformed_mask_size</span> <span class='op'>=</span>
+                                    <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>transformed_mask_rect</span>.<span class='ident'>size</span>.<span class='ident'>width</span>.<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>i32</span>,
+                                                <span class='ident'>transformed_mask_rect</span>.<span class='ident'>size</span>.<span class='ident'>height</span>.<span class='ident'>round</span>() <span class='kw'>as</span> <span class='ident'>i32</span>);
+                                <span class='kw'>let</span> <span class='ident'>transformed_mask_rect</span> <span class='op'>=</span> <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>transformed_mask_origin</span>,
+                                                                      <span class='ident'>transformed_mask_size</span>);
 
                                 <span class='ident'>scissor_rect</span> <span class='op'>=</span> <span class='ident'>transformed_mask_rect</span>.<span class='ident'>intersection</span>(<span class='kw-2'>&amp;</span><span class='ident'>scissor_rect</span>)
                                                                     .<span class='ident'>unwrap_or</span>(<span class='ident'>Rect</span>::<span class='ident'>zero</span>());
@@ -3476,6 +3550,10 @@
                 }
             };
             <span class='ident'>function</span>(<span class='ident'>rect</span>.<span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>rect</span>.<span class='ident'>size</span>.<span class='ident'>width</span>, <span class='ident'>rect</span>.<span class='ident'>size</span>.<span class='ident'>height</span>)
+        }
+
+        <span class='kw'>fn</span> <span class='ident'>to_point4d</span>(<span class='ident'>point</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Point4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
+            <span class='ident'>Point4D</span>::<span class='ident'>new</span>(<span class='ident'>point</span>.<span class='ident'>x</span>, <span class='ident'>point</span>.<span class='ident'>y</span>, <span class='number'>0.0</span>, <span class='number'>1.0</span>)
         }
     }
 

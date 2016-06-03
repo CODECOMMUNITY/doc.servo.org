@@ -2676,12 +2676,6 @@
 <span id="2632">2632</span>
 <span id="2633">2633</span>
 <span id="2634">2634</span>
-<span id="2635">2635</span>
-<span id="2636">2636</span>
-<span id="2637">2637</span>
-<span id="2638">2638</span>
-<span id="2639">2639</span>
-<span id="2640">2640</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -4072,31 +4066,27 @@
             <span class='ident'>MouseWindowEvent</span>::<span class='ident'>MouseUp</span>(_, <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>p</span>,
         };
 
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>webrender_api</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>webrender_api</span> {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>webrender_api</span>.<span class='ident'>is_some</span>() {
             <span class='kw'>let</span> <span class='ident'>root_pipeline_id</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_root_pipeline_id</span>() {
                 <span class='prelude-val'>Some</span>(<span class='ident'>root_pipeline_id</span>) <span class='op'>=&gt;</span> <span class='ident'>root_pipeline_id</span>,
                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
             };
-            <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>pipeline</span>(<span class='ident'>root_pipeline_id</span>).<span class='ident'>is_none</span>() {
-                <span class='kw'>return</span>;
-            }
 
-            <span class='kw'>let</span> (<span class='ident'>translated_point</span>, <span class='ident'>translated_pipeline_id</span>) <span class='op'>=</span>
-                <span class='ident'>webrender_api</span>.<span class='ident'>translate_point_to_layer_space</span>(<span class='kw-2'>&amp;</span><span class='ident'>point</span>.<span class='ident'>to_untyped</span>());
-            <span class='kw'>let</span> <span class='ident'>event_to_send</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>mouse_window_event</span> {
-                <span class='ident'>MouseWindowEvent</span>::<span class='ident'>Click</span>(<span class='ident'>button</span>, _) <span class='op'>=&gt;</span> {
-                    <span class='ident'>MouseButtonEvent</span>(<span class='ident'>MouseEventType</span>::<span class='ident'>Click</span>, <span class='ident'>button</span>, <span class='ident'>translated_point</span>)
-                }
-                <span class='ident'>MouseWindowEvent</span>::<span class='ident'>MouseDown</span>(<span class='ident'>button</span>, _) <span class='op'>=&gt;</span> {
-                    <span class='ident'>MouseButtonEvent</span>(<span class='ident'>MouseEventType</span>::<span class='ident'>MouseDown</span>, <span class='ident'>button</span>, <span class='ident'>translated_point</span>)
-                }
-                <span class='ident'>MouseWindowEvent</span>::<span class='ident'>MouseUp</span>(<span class='ident'>button</span>, _) <span class='op'>=&gt;</span> {
-                    <span class='ident'>MouseButtonEvent</span>(<span class='ident'>MouseEventType</span>::<span class='ident'>MouseUp</span>, <span class='ident'>button</span>, <span class='ident'>translated_point</span>)
-                }
-            };
-            <span class='kw'>let</span> <span class='ident'>translated_pipeline_id</span> <span class='op'>=</span> <span class='ident'>translated_pipeline_id</span>.<span class='ident'>from_webrender</span>();
-            <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>SendEvent</span>(<span class='ident'>translated_pipeline_id</span>, <span class='ident'>event_to_send</span>);
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline</span>(<span class='ident'>translated_pipeline_id</span>) {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline</span>(<span class='ident'>root_pipeline_id</span>) {
+                <span class='kw'>let</span> <span class='ident'>dppx</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>page_zoom</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>device_pixels_per_screen_px</span>();
+                <span class='kw'>let</span> <span class='ident'>translated_point</span> <span class='op'>=</span> (<span class='ident'>point</span> <span class='op'>/</span> <span class='ident'>dppx</span>).<span class='ident'>to_untyped</span>();
+                <span class='kw'>let</span> <span class='ident'>event_to_send</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>mouse_window_event</span> {
+                    <span class='ident'>MouseWindowEvent</span>::<span class='ident'>Click</span>(<span class='ident'>button</span>, _) <span class='op'>=&gt;</span> {
+                        <span class='ident'>MouseButtonEvent</span>(<span class='ident'>MouseEventType</span>::<span class='ident'>Click</span>, <span class='ident'>button</span>, <span class='ident'>translated_point</span>)
+                    }
+                    <span class='ident'>MouseWindowEvent</span>::<span class='ident'>MouseDown</span>(<span class='ident'>button</span>, _) <span class='op'>=&gt;</span> {
+                        <span class='ident'>MouseButtonEvent</span>(<span class='ident'>MouseEventType</span>::<span class='ident'>MouseDown</span>, <span class='ident'>button</span>, <span class='ident'>translated_point</span>)
+                    }
+                    <span class='ident'>MouseWindowEvent</span>::<span class='ident'>MouseUp</span>(<span class='ident'>button</span>, _) <span class='op'>=&gt;</span> {
+                        <span class='ident'>MouseButtonEvent</span>(<span class='ident'>MouseEventType</span>::<span class='ident'>MouseUp</span>, <span class='ident'>button</span>, <span class='ident'>translated_point</span>)
+                    }
+                };
+                <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>SendEvent</span>(<span class='ident'>root_pipeline_id</span>, <span class='ident'>event_to_send</span>);
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>pipeline</span>.<span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>) {
                     <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Sending control event to script failed ({}).&quot;</span>, <span class='ident'>e</span>);
                 }
@@ -4116,7 +4106,7 @@
             <span class='kw'>return</span>
         }
 
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>webrender_api</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>webrender_api</span> {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>webrender_api</span>.<span class='ident'>is_some</span>() {
             <span class='kw'>let</span> <span class='ident'>root_pipeline_id</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_root_pipeline_id</span>() {
                 <span class='prelude-val'>Some</span>(<span class='ident'>root_pipeline_id</span>) <span class='op'>=&gt;</span> <span class='ident'>root_pipeline_id</span>,
                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
@@ -4125,12 +4115,10 @@
                 <span class='kw'>return</span>;
             }
 
-            <span class='kw'>let</span> (<span class='ident'>translated_point</span>, <span class='ident'>translated_pipeline_id</span>) <span class='op'>=</span>
-                <span class='ident'>webrender_api</span>.<span class='ident'>translate_point_to_layer_space</span>(<span class='kw-2'>&amp;</span><span class='ident'>cursor</span>.<span class='ident'>to_untyped</span>());
-            <span class='kw'>let</span> <span class='ident'>translated_pipeline_id</span> <span class='op'>=</span> <span class='ident'>translated_pipeline_id</span>.<span class='ident'>from_webrender</span>();
-            <span class='kw'>let</span> <span class='ident'>event_to_send</span> <span class='op'>=</span> <span class='ident'>MouseMoveEvent</span>(<span class='prelude-val'>Some</span>(<span class='ident'>translated_point</span>));
-            <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>SendEvent</span>(<span class='ident'>translated_pipeline_id</span>, <span class='ident'>event_to_send</span>);
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline</span>(<span class='ident'>translated_pipeline_id</span>) {
+            <span class='kw'>let</span> <span class='ident'>dppx</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>page_zoom</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>device_pixels_per_screen_px</span>();
+            <span class='kw'>let</span> <span class='ident'>event_to_send</span> <span class='op'>=</span> <span class='ident'>MouseMoveEvent</span>(<span class='prelude-val'>Some</span>((<span class='ident'>cursor</span> <span class='op'>/</span> <span class='ident'>dppx</span>).<span class='ident'>to_untyped</span>()));
+            <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>SendEvent</span>(<span class='ident'>root_pipeline_id</span>, <span class='ident'>event_to_send</span>);
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline</span>(<span class='ident'>root_pipeline_id</span>) {
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>pipeline</span>.<span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>) {
                     <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Sending mouse control event to script failed ({}).&quot;</span>, <span class='ident'>e</span>);
                 }

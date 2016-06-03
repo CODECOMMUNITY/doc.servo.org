@@ -395,7 +395,7 @@
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>compositor_thread</span>::<span class='ident'>InitialCompositorState</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>windowing</span>::<span class='ident'>WindowEvent</span>;
 <span class='kw'>use</span> <span class='ident'>compositing</span>::<span class='ident'>windowing</span>::<span class='ident'>WindowMethods</span>;
-<span class='kw'>use</span> <span class='ident'>compositing</span>::{<span class='ident'>CompositorProxy</span>, <span class='ident'>CompositorThread</span>, <span class='ident'>IOCompositor</span>};
+<span class='kw'>use</span> <span class='ident'>compositing</span>::{<span class='ident'>CompositorProxy</span>, <span class='ident'>IOCompositor</span>};
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
 <span class='kw'>use</span> <span class='ident'>constellation</span>::<span class='ident'>content_process_sandbox_profile</span>;
 <span class='kw'>use</span> <span class='ident'>constellation</span>::{<span class='ident'>Constellation</span>, <span class='ident'>InitialConstellationState</span>, <span class='ident'>UnprivilegedPipelineContent</span>};
@@ -502,7 +502,7 @@
 
         <span class='comment'>// The compositor coordinates with the client window to create the final</span>
         <span class='comment'>// rendered page and display it somewhere.</span>
-        <span class='kw'>let</span> <span class='ident'>compositor</span> <span class='op'>=</span> <span class='ident'>CompositorThread</span>::<span class='ident'>create</span>(<span class='ident'>window</span>, <span class='ident'>InitialCompositorState</span> {
+        <span class='kw'>let</span> <span class='ident'>compositor</span> <span class='op'>=</span> <span class='ident'>IOCompositor</span>::<span class='ident'>create</span>(<span class='ident'>window</span>, <span class='ident'>InitialCompositorState</span> {
             <span class='ident'>sender</span>: <span class='ident'>compositor_proxy</span>,
             <span class='ident'>receiver</span>: <span class='ident'>compositor_receiver</span>,
             <span class='ident'>constellation_chan</span>: <span class='ident'>constellation_chan</span>,

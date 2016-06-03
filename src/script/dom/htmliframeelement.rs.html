@@ -649,6 +649,7 @@
 <span id="605">605</span>
 <span id="606">606</span>
 <span id="607">607</span>
+<span id="608">608</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -798,8 +799,9 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>process_the_iframe_attributes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='kw'>let</span> <span class='ident'>url</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_url</span>();
 
-        <span class='comment'>// TODO - loaddata here should have referrer info (not None, None)</span>
-        <span class='self'>self</span>.<span class='ident'>navigate_or_reload_child_browsing_context</span>(<span class='prelude-val'>Some</span>(<span class='ident'>LoadData</span>::<span class='ident'>new</span>(<span class='ident'>url</span>, <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>)));
+        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>document_from_node</span>(<span class='self'>self</span>);
+        <span class='self'>self</span>.<span class='ident'>navigate_or_reload_child_browsing_context</span>(
+            <span class='prelude-val'>Some</span>(<span class='ident'>LoadData</span>::<span class='ident'>new</span>(<span class='ident'>url</span>, <span class='ident'>document</span>.<span class='ident'>get_referrer_policy</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>document</span>.<span class='ident'>url</span>().<span class='ident'>clone</span>()))));
     }
 
     <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>

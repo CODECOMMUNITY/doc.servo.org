@@ -289,19 +289,6 @@
 <span id="245">245</span>
 <span id="246">246</span>
 <span id="247">247</span>
-<span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
-<span id="252">252</span>
-<span id="253">253</span>
-<span id="254">254</span>
-<span id="255">255</span>
-<span id="256">256</span>
-<span id="257">257</span>
-<span id="258">258</span>
-<span id="259">259</span>
-<span id="260">260</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -310,7 +297,7 @@
 <span class='doccomment'>//! Communication with the compositor thread.</span>
 
 <span class='kw'>use</span> <span class='ident'>SendableFrameTree</span>;
-<span class='kw'>use</span> <span class='ident'>compositor</span>::{<span class='ident'>CompositingReason</span>, <span class='ident'>IOCompositor</span>};
+<span class='kw'>use</span> <span class='ident'>compositor</span>::<span class='ident'>CompositingReason</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>point</span>::<span class='ident'>Point2D</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::<span class='ident'>Size2D</span>;
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>Epoch</span>, <span class='ident'>FrameTreeId</span>, <span class='ident'>LayerId</span>, <span class='ident'>LayerProperties</span>, <span class='ident'>PaintListener</span>};
@@ -322,14 +309,12 @@
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>;
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>AnimationState</span>, <span class='ident'>ConstellationMsg</span>, <span class='ident'>EventResult</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='ident'>Debug</span>, <span class='ident'>Error</span>, <span class='ident'>Formatter</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>Receiver</span>, <span class='ident'>Sender</span>, <span class='ident'>channel</span>};
 <span class='kw'>use</span> <span class='ident'>style_traits</span>::<span class='ident'>cursor</span>::<span class='ident'>Cursor</span>;
 <span class='kw'>use</span> <span class='ident'>style_traits</span>::<span class='ident'>viewport</span>::<span class='ident'>ViewportConstraints</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>webrender</span>;
 <span class='kw'>use</span> <span class='ident'>webrender_traits</span>;
-<span class='kw'>use</span> <span class='ident'>windowing</span>::<span class='ident'>WindowMethods</span>;
 
 <span class='doccomment'>/// Sends messages to the compositor. This is a trait supplied by the port because the method used</span>
 <span class='doccomment'>/// to communicate with the compositor may have to kick OS event loops awake, communicate cross-</span>
@@ -533,17 +518,6 @@
             <span class='ident'>Msg</span>::<span class='ident'>PipelineExited</span>(..) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;PipelineExited&quot;</span>),
             <span class='ident'>Msg</span>::<span class='ident'>GetScrollOffset</span>(..) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;GetScrollOffset&quot;</span>),
         }
-    }
-}
-
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>CompositorThread</span>;
-
-<span class='kw'>impl</span> <span class='ident'>CompositorThread</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>create</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>(<span class='ident'>window</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>,
-                          <span class='ident'>state</span>: <span class='ident'>InitialCompositorState</span>)
-                          <span class='op'>-&gt;</span> <span class='ident'>IOCompositor</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span>
-                          <span class='kw'>where</span> <span class='ident'>Window</span>: <span class='ident'>WindowMethods</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
-        <span class='ident'>IOCompositor</span>::<span class='ident'>create</span>(<span class='ident'>window</span>, <span class='ident'>state</span>)
     }
 }
 

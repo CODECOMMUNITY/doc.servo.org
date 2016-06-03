@@ -270,12 +270,29 @@
 <span id="226">226</span>
 <span id="227">227</span>
 <span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Matrix4D</span>, <span class='ident'>Point2D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
+<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Matrix4D</span>, <span class='ident'>Point2D</span>, <span class='ident'>Point4D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
 <span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>RectColors</span>};
 <span class='kw'>use</span> <span class='ident'>num_traits</span>::<span class='ident'>Zero</span>;
 <span class='kw'>use</span> <span class='ident'>time</span>::<span class='ident'>precise_time_ns</span>;
@@ -310,25 +327,52 @@
 
 <span class='comment'>// TODO: Implement these in euclid!</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>MatrixHelpers</span> {
+    <span class='kw'>fn</span> <span class='ident'>transform_point_and_perspective_project</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>point</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>transform_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>rect</span>: <span class='kw-2'>&amp;</span><span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>;
 
     <span class='doccomment'>/// Returns true if this matrix transforms an axis-aligned 2D rectangle to another axis-aligned</span>
     <span class='doccomment'>/// 2D rectangle.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This is used as part of `flatten()` above, as essentially a hack for browser.html.</span>
     <span class='kw'>fn</span> <span class='ident'>can_losslessly_transform_a_2d_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
+
+    <span class='doccomment'>/// Returns true if this matrix will transforms an axis-aligned 2D rectangle to another axis-</span>
+    <span class='doccomment'>/// aligned 2D rectangle after perspective divide.</span>
+    <span class='kw'>fn</span> <span class='ident'>can_losslessly_transform_and_perspective_project_a_2d_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
 }
 
 <span class='kw'>impl</span> <span class='ident'>MatrixHelpers</span> <span class='kw'>for</span> <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>transform_point_and_perspective_project</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>point</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>transform_point4d</span>(<span class='ident'>point</span>);
+        <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>point</span>.<span class='ident'>x</span> <span class='op'>/</span> <span class='ident'>point</span>.<span class='ident'>w</span>, <span class='ident'>point</span>.<span class='ident'>y</span> <span class='op'>/</span> <span class='ident'>point</span>.<span class='ident'>w</span>)
+    }
+
     <span class='kw'>fn</span> <span class='ident'>transform_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>rect</span>: <span class='kw-2'>&amp;</span><span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>top_left</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>transform_point</span>(<span class='kw-2'>&amp;</span><span class='ident'>rect</span>.<span class='ident'>origin</span>);
         <span class='kw'>let</span> <span class='ident'>top_right</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>transform_point</span>(<span class='kw-2'>&amp;</span><span class='ident'>rect</span>.<span class='ident'>top_right</span>());
         <span class='kw'>let</span> <span class='ident'>bottom_left</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>transform_point</span>(<span class='kw-2'>&amp;</span><span class='ident'>rect</span>.<span class='ident'>bottom_left</span>());
         <span class='kw'>let</span> <span class='ident'>bottom_right</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>transform_point</span>(<span class='kw-2'>&amp;</span><span class='ident'>rect</span>.<span class='ident'>bottom_right</span>());
-        <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>min_x</span>, <span class='kw-2'>mut</span> <span class='ident'>min_y</span>) <span class='op'>=</span> (<span class='ident'>top_left</span>.<span class='ident'>x</span>.<span class='ident'>clone</span>(), <span class='ident'>top_left</span>.<span class='ident'>y</span>.<span class='ident'>clone</span>());
+        <span class='ident'>Rect</span>::<span class='ident'>from_points</span>(<span class='kw-2'>&amp;</span><span class='ident'>top_left</span>, <span class='kw-2'>&amp;</span><span class='ident'>top_right</span>, <span class='kw-2'>&amp;</span><span class='ident'>bottom_right</span>, <span class='kw-2'>&amp;</span><span class='ident'>bottom_left</span>)
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>can_losslessly_transform_a_2d_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='self'>self</span>.<span class='ident'>m12</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m14</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m21</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m24</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m44</span> <span class='op'>==</span> <span class='number'>1.0</span>
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>can_losslessly_transform_and_perspective_project_a_2d_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='self'>self</span>.<span class='ident'>m12</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m21</span> <span class='op'>==</span> <span class='number'>0.0</span>
+    }
+}
+
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>RectHelpers</span> {
+    <span class='kw'>fn</span> <span class='ident'>from_points</span>(<span class='ident'>a</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>c</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>d</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>contains_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
+}
+
+<span class='kw'>impl</span> <span class='ident'>RectHelpers</span> <span class='kw'>for</span> <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>from_points</span>(<span class='ident'>a</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>c</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>d</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>)
+                   <span class='op'>-&gt;</span> <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>min_x</span>, <span class='kw-2'>mut</span> <span class='ident'>min_y</span>) <span class='op'>=</span> (<span class='ident'>a</span>.<span class='ident'>x</span>.<span class='ident'>clone</span>(), <span class='ident'>a</span>.<span class='ident'>y</span>.<span class='ident'>clone</span>());
         <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>max_x</span>, <span class='kw-2'>mut</span> <span class='ident'>max_y</span>) <span class='op'>=</span> (<span class='ident'>min_x</span>.<span class='ident'>clone</span>(), <span class='ident'>min_y</span>.<span class='ident'>clone</span>());
-        <span class='kw'>for</span> <span class='ident'>point</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span>[ <span class='ident'>top_right</span>, <span class='ident'>bottom_left</span>, <span class='ident'>bottom_right</span> ] {
+        <span class='kw'>for</span> <span class='ident'>point</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span>[<span class='ident'>b</span>, <span class='ident'>c</span>, <span class='ident'>d</span>] {
             <span class='kw'>if</span> <span class='ident'>point</span>.<span class='ident'>x</span> <span class='op'>&lt;</span> <span class='ident'>min_x</span> {
                 <span class='ident'>min_x</span> <span class='op'>=</span> <span class='ident'>point</span>.<span class='ident'>x</span>.<span class='ident'>clone</span>()
             }
@@ -346,16 +390,6 @@
                   <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>max_x</span> <span class='op'>-</span> <span class='ident'>min_x</span>, <span class='ident'>max_y</span> <span class='op'>-</span> <span class='ident'>min_y</span>))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>can_losslessly_transform_a_2d_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>m12</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m14</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m21</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m24</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m44</span> <span class='op'>==</span> <span class='number'>1.0</span>
-    }
-}
-
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>RectHelpers</span> {
-    <span class='kw'>fn</span> <span class='ident'>contains_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
-}
-
-<span class='kw'>impl</span> <span class='ident'>RectHelpers</span> <span class='kw'>for</span> <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>contains_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='self'>self</span>.<span class='ident'>origin</span>.<span class='ident'>x</span> <span class='op'>&lt;=</span> <span class='ident'>other</span>.<span class='ident'>origin</span>.<span class='ident'>x</span> <span class='op'>&amp;&amp;</span>
         <span class='self'>self</span>.<span class='ident'>origin</span>.<span class='ident'>y</span> <span class='op'>&lt;=</span> <span class='ident'>other</span>.<span class='ident'>origin</span>.<span class='ident'>y</span> <span class='op'>&amp;&amp;</span>
