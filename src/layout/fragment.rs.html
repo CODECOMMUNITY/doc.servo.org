@@ -2831,6 +2831,53 @@
 <span id="2787">2787</span>
 <span id="2788">2788</span>
 <span id="2789">2789</span>
+<span id="2790">2790</span>
+<span id="2791">2791</span>
+<span id="2792">2792</span>
+<span id="2793">2793</span>
+<span id="2794">2794</span>
+<span id="2795">2795</span>
+<span id="2796">2796</span>
+<span id="2797">2797</span>
+<span id="2798">2798</span>
+<span id="2799">2799</span>
+<span id="2800">2800</span>
+<span id="2801">2801</span>
+<span id="2802">2802</span>
+<span id="2803">2803</span>
+<span id="2804">2804</span>
+<span id="2805">2805</span>
+<span id="2806">2806</span>
+<span id="2807">2807</span>
+<span id="2808">2808</span>
+<span id="2809">2809</span>
+<span id="2810">2810</span>
+<span id="2811">2811</span>
+<span id="2812">2812</span>
+<span id="2813">2813</span>
+<span id="2814">2814</span>
+<span id="2815">2815</span>
+<span id="2816">2816</span>
+<span id="2817">2817</span>
+<span id="2818">2818</span>
+<span id="2819">2819</span>
+<span id="2820">2820</span>
+<span id="2821">2821</span>
+<span id="2822">2822</span>
+<span id="2823">2823</span>
+<span id="2824">2824</span>
+<span id="2825">2825</span>
+<span id="2826">2826</span>
+<span id="2827">2827</span>
+<span id="2828">2828</span>
+<span id="2829">2829</span>
+<span id="2830">2830</span>
+<span id="2831">2831</span>
+<span id="2832">2832</span>
+<span id="2833">2833</span>
+<span id="2834">2834</span>
+<span id="2835">2835</span>
+<span id="2836">2836</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2856,6 +2903,7 @@
 <span class='kw'>use</span> <span class='ident'>inline</span>::{<span class='ident'>FIRST_FRAGMENT_OF_ELEMENT</span>, <span class='ident'>InlineFragmentContext</span>, <span class='ident'>InlineFragmentNodeInfo</span>};
 <span class='kw'>use</span> <span class='ident'>inline</span>::{<span class='ident'>InlineMetrics</span>, <span class='ident'>LAST_FRAGMENT_OF_ELEMENT</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>debug_assertions</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>layout_debug</span>;
 <span class='kw'>use</span> <span class='ident'>model</span>::{<span class='self'>self</span>, <span class='ident'>IntrinsicISizes</span>, <span class='ident'>IntrinsicISizesContribution</span>, <span class='ident'>MaybeAuto</span>, <span class='ident'>specified</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::<span class='ident'>PipelineId</span>;
@@ -2952,7 +3000,9 @@
     <span class='kw'>pub</span> <span class='ident'>flags</span>: <span class='ident'>FragmentFlags</span>,
 
     <span class='doccomment'>/// A debug ID that is consistent for the life of this fragment (via transform etc).</span>
-    <span class='kw'>pub</span> <span class='ident'>debug_id</span>: <span class='ident'>u16</span>,
+    <span class='doccomment'>/// This ID should not be considered stable across multiple layouts or fragment</span>
+    <span class='doccomment'>/// manipulations.</span>
+    <span class='ident'>debug_id</span>: <span class='ident'>DebugId</span>,
 
     <span class='doccomment'>/// The ID of the StackingContext that contains this fragment. This is initialized</span>
     <span class='doccomment'>/// to 0, but it assigned during the collect_stacking_contexts phase of display</span>
@@ -2963,7 +3013,7 @@
 <span class='kw'>impl</span> <span class='ident'>Encodable</span> <span class='kw'>for</span> <span class='ident'>Fragment</span> {
     <span class='kw'>fn</span> <span class='ident'>encode</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Encoder</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>e</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
         <span class='ident'>e</span>.<span class='ident'>emit_struct</span>(<span class='string'>&quot;fragment&quot;</span>, <span class='number'>0</span>, <span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>e</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;id&quot;</span>, <span class='number'>0</span>, <span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>debug_id</span>().<span class='ident'>encode</span>(<span class='ident'>e</span>)));
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>e</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;id&quot;</span>, <span class='number'>0</span>, <span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>debug_id</span>.<span class='ident'>encode</span>(<span class='ident'>e</span>)));
             <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>e</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;border_box&quot;</span>, <span class='number'>1</span>, <span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>border_box</span>.<span class='ident'>encode</span>(<span class='ident'>e</span>)));
             <span class='ident'>e</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;margin&quot;</span>, <span class='number'>2</span>, <span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>margin</span>.<span class='ident'>encode</span>(<span class='ident'>e</span>))
         })
@@ -3643,7 +3693,7 @@
             <span class='ident'>inline_context</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>pseudo</span>: <span class='ident'>node</span>.<span class='ident'>get_pseudo_element_type</span>().<span class='ident'>strip</span>(),
             <span class='ident'>flags</span>: <span class='ident'>FragmentFlags</span>::<span class='ident'>empty</span>(),
-            <span class='ident'>debug_id</span>: <span class='ident'>layout_debug</span>::<span class='ident'>generate_unique_debug_id</span>(),
+            <span class='ident'>debug_id</span>: <span class='ident'>DebugId</span>::<span class='ident'>new</span>(),
             <span class='ident'>stacking_context_id</span>: <span class='ident'>StackingContextId</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
         }
     }
@@ -3672,15 +3722,9 @@
             <span class='ident'>inline_context</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>pseudo</span>: <span class='ident'>pseudo</span>,
             <span class='ident'>flags</span>: <span class='ident'>FragmentFlags</span>::<span class='ident'>empty</span>(),
-            <span class='ident'>debug_id</span>: <span class='ident'>layout_debug</span>::<span class='ident'>generate_unique_debug_id</span>(),
+            <span class='ident'>debug_id</span>: <span class='ident'>DebugId</span>::<span class='ident'>new</span>(),
             <span class='ident'>stacking_context_id</span>: <span class='ident'>StackingContextId</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
         }
-    }
-
-    <span class='doccomment'>/// Returns a debug ID of this fragment. This ID should not be considered stable across</span>
-    <span class='doccomment'>/// multiple layouts or fragment manipulations.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>debug_id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u16</span> {
-        <span class='self'>self</span>.<span class='ident'>debug_id</span>
     }
 
     <span class='doccomment'>/// Transforms this fragment into another fragment of the given type, with the given size,</span>
@@ -3706,7 +3750,7 @@
             <span class='ident'>inline_context</span>: <span class='self'>self</span>.<span class='ident'>inline_context</span>.<span class='ident'>clone</span>(),
             <span class='ident'>pseudo</span>: <span class='self'>self</span>.<span class='ident'>pseudo</span>.<span class='ident'>clone</span>(),
             <span class='ident'>flags</span>: <span class='ident'>FragmentFlags</span>::<span class='ident'>empty</span>(),
-            <span class='ident'>debug_id</span>: <span class='self'>self</span>.<span class='ident'>debug_id</span>,
+            <span class='ident'>debug_id</span>: <span class='self'>self</span>.<span class='ident'>debug_id</span>.<span class='ident'>clone</span>(),
             <span class='ident'>stacking_context_id</span>: <span class='ident'>StackingContextId</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
         }
     }
@@ -5465,7 +5509,7 @@
 
         <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}({}) [{:?}] border_box={:?}{}{}{}&quot;</span>,
             <span class='self'>self</span>.<span class='ident'>specific</span>.<span class='ident'>get_type</span>(),
-            <span class='self'>self</span>.<span class='ident'>debug_id</span>(),
+            <span class='self'>self</span>.<span class='ident'>debug_id</span>,
             <span class='self'>self</span>.<span class='ident'>specific</span>,
             <span class='self'>self</span>.<span class='ident'>border_box</span>,
             <span class='ident'>border_padding_string</span>,
@@ -5620,6 +5664,56 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SpeculatedInlineContentEdgeOffsets</span> {
     <span class='kw'>pub</span> <span class='ident'>start</span>: <span class='ident'>Au</span>,
     <span class='kw'>pub</span> <span class='ident'>end</span>: <span class='ident'>Au</span>,
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>debug_assertions</span>))]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>DebugId</span>;
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>debug_assertions</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>DebugId</span>(<span class='ident'>u16</span>);
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>debug_assertions</span>))]</span>
+<span class='kw'>impl</span> <span class='ident'>DebugId</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>DebugId</span> {
+        <span class='ident'>DebugId</span>
+    }
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>debug_assertions</span>)]</span>
+<span class='kw'>impl</span> <span class='ident'>DebugId</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>DebugId</span> {
+        <span class='ident'>DebugId</span>(<span class='ident'>layout_debug</span>::<span class='ident'>generate_unique_debug_id</span>())
+    }
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>debug_assertions</span>))]</span>
+<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>DebugId</span> {
+    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
+        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{:p}&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>)
+    }
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>debug_assertions</span>)]</span>
+<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>DebugId</span> {
+    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
+        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}&quot;</span>, <span class='self'>self</span>.<span class='number'>0</span>)
+    }
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>debug_assertions</span>))]</span>
+<span class='kw'>impl</span> <span class='ident'>Encodable</span> <span class='kw'>for</span> <span class='ident'>DebugId</span> {
+    <span class='kw'>fn</span> <span class='ident'>encode</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Encoder</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>e</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
+        <span class='ident'>e</span>.<span class='ident'>emit_str</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:p}&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>))
+    }
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>debug_assertions</span>)]</span>
+<span class='kw'>impl</span> <span class='ident'>Encodable</span> <span class='kw'>for</span> <span class='ident'>DebugId</span> {
+    <span class='kw'>fn</span> <span class='ident'>encode</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Encoder</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>e</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
+        <span class='ident'>e</span>.<span class='ident'>emit_u16</span>(<span class='self'>self</span>.<span class='number'>0</span>)
+    }
 }
 </pre>
 </section>
