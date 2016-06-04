@@ -567,9 +567,6 @@
 <span id="523">523</span>
 <span id="524">524</span>
 <span id="525">525</span>
-<span id="526">526</span>
-<span id="527">527</span>
-<span id="528">528</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -882,6 +879,8 @@
         <span class='comment'>// The compositor wants to know when pipelines shut down too.</span>
         <span class='comment'>// It may still have messages to process from these other threads</span>
         <span class='comment'>// before they can be safely shut down.</span>
+        <span class='comment'>// It&#39;s OK for the constellation to block on the compositor,</span>
+        <span class='comment'>// since the compositor never blocks on the constellation.</span>
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>((<span class='ident'>sender</span>, <span class='ident'>receiver</span>)) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>() {
             <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>CompositorMsg</span>::<span class='ident'>PipelineExited</span>(<span class='self'>self</span>.<span class='ident'>id</span>, <span class='ident'>sender</span>));
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>() {
@@ -891,13 +890,8 @@
 
         <span class='comment'>// Script thread handles shutting down layout, and layout handles shutting down the painter.</span>
         <span class='comment'>// For now, if the script thread has failed, we give up on clean shutdown.</span>
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>script_chan</span>
-               .<span class='ident'>send</span>(<span class='ident'>ConstellationControlMsg</span>::<span class='ident'>ExitPipeline</span>(<span class='self'>self</span>.<span class='ident'>id</span>))
-               .<span class='ident'>is_ok</span>() {
-            <span class='comment'>// Wait until all slave threads have terminated and run destructors</span>
-            <span class='comment'>// NOTE: We don&#39;t wait for script thread as we don&#39;t always own it</span>
-            <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>paint_shutdown_port</span>.<span class='ident'>recv</span>();
-            <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>layout_shutdown_port</span>.<span class='ident'>recv</span>();
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationControlMsg</span>::<span class='ident'>ExitPipeline</span>(<span class='self'>self</span>.<span class='ident'>id</span>)) {
+            <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Sending script exit message failed ({}).&quot;</span>, <span class='ident'>e</span>);
         }
     }
 

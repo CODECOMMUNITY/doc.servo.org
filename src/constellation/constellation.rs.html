@@ -2139,6 +2139,36 @@
 <span id="2095">2095</span>
 <span id="2096">2096</span>
 <span id="2097">2097</span>
+<span id="2098">2098</span>
+<span id="2099">2099</span>
+<span id="2100">2100</span>
+<span id="2101">2101</span>
+<span id="2102">2102</span>
+<span id="2103">2103</span>
+<span id="2104">2104</span>
+<span id="2105">2105</span>
+<span id="2106">2106</span>
+<span id="2107">2107</span>
+<span id="2108">2108</span>
+<span id="2109">2109</span>
+<span id="2110">2110</span>
+<span id="2111">2111</span>
+<span id="2112">2112</span>
+<span id="2113">2113</span>
+<span id="2114">2114</span>
+<span id="2115">2115</span>
+<span id="2116">2116</span>
+<span id="2117">2117</span>
+<span id="2118">2118</span>
+<span id="2119">2119</span>
+<span id="2120">2120</span>
+<span id="2121">2121</span>
+<span id="2122">2122</span>
+<span id="2123">2123</span>
+<span id="2124">2124</span>
+<span id="2125">2125</span>
+<span id="2126">2126</span>
+<span id="2127">2127</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2321,6 +2351,9 @@
 
     <span class='comment'>// Webrender interface, if enabled.</span>
     <span class='ident'>webrender_api_sender</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApiSender</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// Are we shutting down?</span>
+    <span class='ident'>shutting_down</span>: <span class='ident'>bool</span>,
 
     <span class='doccomment'>/// Have we seen any panics? Hopefully always false!</span>
     <span class='ident'>handled_panic</span>: <span class='ident'>bool</span>,
@@ -2508,6 +2541,7 @@
                 <span class='ident'>child_processes</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
                 <span class='ident'>document_states</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
                 <span class='ident'>webrender_api_sender</span>: <span class='ident'>state</span>.<span class='ident'>webrender_api_sender</span>,
+                <span class='ident'>shutting_down</span>: <span class='boolvalue'>false</span>,
                 <span class='ident'>handled_panic</span>: <span class='boolvalue'>false</span>,
                 <span class='ident'>random_pipeline_closure</span>: <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>random_pipeline_closure_probability</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>prob</span><span class='op'>|</span> {
                     <span class='kw'>let</span> <span class='ident'>seed</span> <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>random_pipeline_closure_seed</span>.<span class='ident'>unwrap_or_else</span>(<span class='ident'>random</span>);
@@ -2525,14 +2559,13 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>run</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='kw'>loop</span> {
+        <span class='kw'>while</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>shutting_down</span> <span class='op'>||</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>is_empty</span>() {
             <span class='comment'>// Randomly close a pipeline if --random-pipeline-closure-probability is set</span>
             <span class='comment'>// This is for testing the hardening of the constellation.</span>
             <span class='self'>self</span>.<span class='ident'>maybe_close_random_pipeline</span>();
-            <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>handle_request</span>() {
-                <span class='kw'>break</span>;
-            }
+            <span class='self'>self</span>.<span class='ident'>handle_request</span>();
         }
+        <span class='self'>self</span>.<span class='ident'>handle_shutdown</span>();
     }
 
     <span class='kw'>fn</span> <span class='ident'>next_pipeline_namespace_id</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PipelineNamespaceId</span> {
@@ -2549,6 +2582,8 @@
                     <span class='ident'>initial_window_size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>PagePx</span>, <span class='ident'>f32</span><span class='op'>&gt;&gt;</span>,
                     <span class='ident'>script_channel</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;&gt;</span>,
                     <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>) {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>shutting_down</span> { <span class='kw'>return</span>; }
+
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>Pipeline</span>::<span class='ident'>spawn</span>::<span class='op'>&lt;</span><span class='ident'>Message</span>, <span class='ident'>LTF</span>, <span class='ident'>STF</span><span class='op'>&gt;</span>(<span class='ident'>InitialPipelineState</span> {
             <span class='ident'>id</span>: <span class='ident'>pipeline_id</span>,
             <span class='ident'>parent_info</span>: <span class='ident'>parent_info</span>,
@@ -2624,12 +2659,12 @@
 
     <span class='doccomment'>/// Handles loading pages, navigation, and granting access to the compositor</span>
     <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>handle_request</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='kw'>fn</span> <span class='ident'>handle_request</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>enum</span> <span class='ident'>Request</span> {
             <span class='ident'>Script</span>(<span class='ident'>FromScriptMsg</span>),
             <span class='ident'>Compositor</span>(<span class='ident'>FromCompositorMsg</span>),
             <span class='ident'>Layout</span>(<span class='ident'>FromLayoutMsg</span>),
-            <span class='ident'>Panic</span>(<span class='ident'>PanicMsg</span>)
+            <span class='ident'>Panic</span>(<span class='ident'>PanicMsg</span>),
         }
 
         <span class='comment'>// Get one incoming request.</span>
@@ -2666,25 +2701,21 @@
             },
             <span class='ident'>Request</span>::<span class='ident'>Script</span>(<span class='ident'>message</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>handle_request_from_script</span>(<span class='ident'>message</span>);
-                <span class='boolvalue'>true</span>
             },
             <span class='ident'>Request</span>::<span class='ident'>Layout</span>(<span class='ident'>message</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>handle_request_from_layout</span>(<span class='ident'>message</span>);
-                <span class='boolvalue'>true</span>
             },
             <span class='ident'>Request</span>::<span class='ident'>Panic</span>(<span class='ident'>message</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>handle_request_from_panic</span>(<span class='ident'>message</span>);
-                <span class='boolvalue'>true</span>
             },
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>handle_request_from_compositor</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='ident'>FromCompositorMsg</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='kw'>fn</span> <span class='ident'>handle_request_from_compositor</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='ident'>FromCompositorMsg</span>) {
         <span class='kw'>match</span> <span class='ident'>message</span> {
             <span class='ident'>FromCompositorMsg</span>::<span class='ident'>Exit</span> <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation exiting&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_exit</span>();
-                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
             }
             <span class='comment'>// The compositor discovered the size of a subframe. This needs to be reflected by all</span>
             <span class='comment'>// frame trees in the navigation context containing the subframe.</span>
@@ -2748,12 +2779,13 @@
                 <span class='self'>self</span>.<span class='ident'>handle_webdriver_msg</span>(<span class='ident'>command</span>);
             }
         }
-
-        <span class='boolvalue'>true</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_request_from_script</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='ident'>FromScriptMsg</span>) {
         <span class='kw'>match</span> <span class='ident'>message</span> {
+            <span class='ident'>FromScriptMsg</span>::<span class='ident'>PipelineExited</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span> {
+                <span class='self'>self</span>.<span class='ident'>handle_pipeline_exited</span>(<span class='ident'>pipeline_id</span>);
+            }
             <span class='ident'>FromScriptMsg</span>::<span class='ident'>ScriptLoadedURLInIFrame</span>(<span class='ident'>load_info</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got iframe URL load message {:?} {:?} {:?}&quot;</span>,
                        <span class='ident'>load_info</span>.<span class='ident'>containing_pipeline_id</span>,
@@ -2959,34 +2991,55 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_exit</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+        <span class='comment'>// TODO: add a timer, which forces shutdown if threads aren&#39;t responsive.</span>
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>shutting_down</span> { <span class='kw'>return</span>; }
+        <span class='self'>self</span>.<span class='ident'>shutting_down</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+
+        <span class='comment'>// TODO: exit before the root frame is set?</span>
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>root_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>root_frame_id</span> {
+            <span class='self'>self</span>.<span class='ident'>close_frame</span>(<span class='ident'>root_id</span>, <span class='ident'>ExitPipelineMode</span>::<span class='ident'>Normal</span>);
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>handle_shutdown</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+        <span class='comment'>// At this point, there are no active pipelines,</span>
+        <span class='comment'>// so we can safely block on other threads, without worrying about deadlock.</span>
         <span class='comment'>// Channels to recieve signals when threads are done exiting.</span>
         <span class='kw'>let</span> (<span class='ident'>core_sender</span>, <span class='ident'>core_receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Failed to create IPC channel!&quot;</span>);
         <span class='kw'>let</span> (<span class='ident'>storage_sender</span>, <span class='ident'>storage_receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Failed to create IPC channel!&quot;</span>);
 
-        <span class='kw'>for</span> (<span class='ident'>_id</span>, <span class='kw-2'>ref</span> <span class='ident'>pipeline</span>) <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>pipelines</span> {
-            <span class='ident'>pipeline</span>.<span class='ident'>exit</span>();
-        }
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting image cache.&quot;</span>);
         <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>exit</span>();
+
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting core resource threads.&quot;</span>);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>net_traits</span>::<span class='ident'>CoreResourceMsg</span>::<span class='ident'>Exit</span>(<span class='ident'>core_sender</span>)) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit resource thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }
+
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>chan</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>devtools_chan</span> {
+            <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting devtools.&quot;</span>);
             <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>DevtoolsControlMsg</span>::<span class='ident'>FromChrome</span>(<span class='ident'>ChromeToDevtoolsControlMsg</span>::<span class='ident'>ServerExitMsg</span>);
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>) {
                 <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit devtools failed ({})&quot;</span>, <span class='ident'>e</span>);
             }
         }
+
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting storage resource threads.&quot;</span>);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>StorageThreadMsg</span>::<span class='ident'>Exit</span>(<span class='ident'>storage_sender</span>)) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit storage thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }
 
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting file manager resource threads.&quot;</span>);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>Exit</span>) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit storage thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }
 
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting bluetooth thread.&quot;</span>);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>bluetooth_thread</span>.<span class='ident'>send</span>(<span class='ident'>BluetoothMethodMsg</span>::<span class='ident'>Exit</span>) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit bluetooth thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }
+
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting font cache thread.&quot;</span>);
         <span class='self'>self</span>.<span class='ident'>font_cache_thread</span>.<span class='ident'>exit</span>();
 
         <span class='comment'>// Receive exit signals from threads.</span>
@@ -2997,7 +3050,13 @@
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit storage thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }
 
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Asking compositor to complete shutdown.&quot;</span>);
         <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>ShutdownComplete</span>);
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>handle_pipeline_exited</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>) {
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} exited.&quot;</span>, <span class='ident'>pipeline_id</span>);
+        <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>);
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_send_error</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>err</span>: <span class='ident'>IOError</span>) {
@@ -3032,6 +3091,7 @@
             <span class='self'>self</span>.<span class='ident'>trigger_mozbrowsererror</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>reason</span>, <span class='ident'>backtrace</span>);
 
             <span class='self'>self</span>.<span class='ident'>close_pipeline</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>ExitPipelineMode</span>::<span class='ident'>Force</span>);
+            <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>);
 
             <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pending_pipeline_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pending_frames</span>.<span class='ident'>iter</span>().<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>pending</span><span class='op'>|</span> {
                 <span class='ident'>pending</span>.<span class='ident'>old_pipeline_id</span> <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline_id</span>)
@@ -3559,7 +3619,7 @@
         };
         <span class='kw'>let</span> (<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>, _) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>parent_info</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>info</span>) <span class='op'>=&gt;</span> <span class='ident'>info</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} focus has no parent.&quot;</span>, <span class='ident'>pipeline_id</span>),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} focus has no parent.&quot;</span>, <span class='ident'>pipeline_id</span>),
         };
 
         <span class='comment'>// Send a message to the parent of the provided pipeline (if it exists)</span>
@@ -4050,7 +4110,7 @@
             <span class='self'>self</span>.<span class='ident'>close_frame</span>(<span class='op'>*</span><span class='ident'>child_frame</span>, <span class='ident'>exit_mode</span>);
         }
 
-        <span class='kw'>let</span> <span class='ident'>pipeline</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
+        <span class='kw'>let</span> <span class='ident'>pipeline</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=&gt;</span> <span class='ident'>pipeline</span>,
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Closing pipeline {:?} twice.&quot;</span>, <span class='ident'>pipeline_id</span>),
         };

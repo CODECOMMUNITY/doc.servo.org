@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-253' class='srclink' href='../../src/script_traits/script_msg.rs.html#45-115' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-253' class='srclink' href='../../src/script_traits/script_msg.rs.html#45-117' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum ScriptMsg {
     ChangeRunningAnimationsState(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='enum' href='../../script_traits/enum.AnimationState.html' title='script_traits::AnimationState'>AnimationState</a>),
     CreateCanvasPaintThread(<a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.i32.html'>i32</a>&gt;, <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../canvas_traits/enum.CanvasMsg.html' title='canvas_traits::CanvasMsg'>CanvasMsg</a>&gt;&gt;),
@@ -79,6 +79,7 @@
     ResizeTo(<a class='struct' href='../../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='primitive' href='../../std/primitive.u32.html'>u32</a>&gt;),
     TouchEventProcessed(<a class='enum' href='../../script_traits/enum.EventResult.html' title='script_traits::EventResult'>EventResult</a>),
     GetScrollOffset(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, <a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='primitive' href='../../std/primitive.f32.html'>f32</a>&gt;&gt;),
+    PipelineExited(<a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
     Exit,
 }</pre><div class='docblock'><p>Messages from the script to the constellation.</p>
 </div><h2 class='variants'>Variants</h2>
@@ -117,6 +118,7 @@ for the given pipeline.</p>
 </div></td><td></td></tr><tr><td id='variant.ResizeTo'><code>ResizeTo</code></td><td><div class='docblock'><p>Resize the window to size</p>
 </div></td><td></td></tr><tr><td id='variant.TouchEventProcessed'><code>TouchEventProcessed</code></td><td><div class='docblock'><p>Script has handled a touch event, and either prevented or allowed default actions.</p>
 </div></td><td></td></tr><tr><td id='variant.GetScrollOffset'><code>GetScrollOffset</code></td><td><div class='docblock'><p>Get Scroll Offset</p>
+</div></td><td></td></tr><tr><td id='variant.PipelineExited'><code>PipelineExited</code></td><td><div class='docblock'><p>Notifies the constellation that this pipeline has exited.</p>
 </div></td><td></td></tr><tr><td id='variant.Exit'><code>Exit</code></td><td><div class='docblock'><p>Requests that the compositor shut down.</p>
 </div></td><td></td></tr></table></section>
     <section id='search' class="content hidden"></section>
