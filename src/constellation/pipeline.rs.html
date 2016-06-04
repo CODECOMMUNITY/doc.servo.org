@@ -550,23 +550,6 @@
 <span id="506">506</span>
 <span id="507">507</span>
 <span id="508">508</span>
-<span id="509">509</span>
-<span id="510">510</span>
-<span id="511">511</span>
-<span id="512">512</span>
-<span id="513">513</span>
-<span id="514">514</span>
-<span id="515">515</span>
-<span id="516">516</span>
-<span id="517">517</span>
-<span id="518">518</span>
-<span id="519">519</span>
-<span id="520">520</span>
-<span id="521">521</span>
-<span id="522">522</span>
-<span id="523">523</span>
-<span id="524">524</span>
-<span id="525">525</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -625,8 +608,6 @@
     <span class='doccomment'>/// A channel to the compositor.</span>
     <span class='kw'>pub</span> <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>chrome_to_paint_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ChromeToPaintMsg</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>layout_shutdown_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>paint_shutdown_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
     <span class='doccomment'>/// URL corresponding to the most recently-loaded page.</span>
     <span class='kw'>pub</span> <span class='ident'>url</span>: <span class='ident'>Url</span>,
     <span class='doccomment'>/// The title of the most recently-loaded page.</span>
@@ -700,10 +681,6 @@
         <span class='comment'>// probably requires a general low-memory strategy.</span>
         <span class='kw'>let</span> (<span class='ident'>layout_to_paint_chan</span>, <span class='ident'>layout_to_paint_port</span>) <span class='op'>=</span> <span class='ident'>util</span>::<span class='ident'>ipc</span>::<span class='ident'>optional_ipc_channel</span>();
         <span class='kw'>let</span> (<span class='ident'>chrome_to_paint_chan</span>, <span class='ident'>chrome_to_paint_port</span>) <span class='op'>=</span> <span class='ident'>channel</span>();
-        <span class='kw'>let</span> (<span class='ident'>paint_shutdown_chan</span>, <span class='ident'>paint_shutdown_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>()
-            .<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline paint shutdown chan&quot;</span>);
-        <span class='kw'>let</span> (<span class='ident'>layout_shutdown_chan</span>, <span class='ident'>layout_shutdown_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>()
-            .<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline layout shutdown chan&quot;</span>);
         <span class='kw'>let</span> (<span class='ident'>pipeline_chan</span>, <span class='ident'>pipeline_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>()
             .<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline main chan&quot;</span>);;
 
@@ -723,7 +700,6 @@
                     <span class='ident'>panic_chan</span>: <span class='ident'>state</span>.<span class='ident'>panic_chan</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>pipeline_port</span>: <span class='ident'>pipeline_port</span>,
                     <span class='ident'>layout_to_constellation_chan</span>: <span class='ident'>state</span>.<span class='ident'>layout_to_constellation_chan</span>.<span class='ident'>clone</span>(),
-                    <span class='ident'>layout_shutdown_chan</span>: <span class='ident'>layout_shutdown_chan</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>content_process_shutdown_chan</span>: <span class='ident'>layout_content_process_shutdown_chan</span>.<span class='ident'>clone</span>(),
                 };
 
@@ -747,8 +723,7 @@
                             <span class='ident'>state</span>.<span class='ident'>panic_chan</span>.<span class='ident'>clone</span>(),
                             <span class='ident'>state</span>.<span class='ident'>font_cache_thread</span>.<span class='ident'>clone</span>(),
                             <span class='ident'>state</span>.<span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>(),
-                            <span class='ident'>state</span>.<span class='ident'>mem_profiler_chan</span>.<span class='ident'>clone</span>(),
-                            <span class='ident'>paint_shutdown_chan</span>);
+                            <span class='ident'>state</span>.<span class='ident'>mem_profiler_chan</span>.<span class='ident'>clone</span>());
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>child_process</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>script_port</span>, <span class='ident'>pipeline_port</span>)) <span class='op'>=</span> <span class='ident'>content_ports</span> {
@@ -802,7 +777,6 @@
                 <span class='ident'>prefs</span>: <span class='ident'>prefs</span>::<span class='ident'>get_cloned</span>(),
                 <span class='ident'>layout_to_paint_chan</span>: <span class='ident'>layout_to_paint_chan</span>,
                 <span class='ident'>pipeline_port</span>: <span class='ident'>pipeline_port</span>,
-                <span class='ident'>layout_shutdown_chan</span>: <span class='ident'>layout_shutdown_chan</span>,
                 <span class='ident'>pipeline_namespace_id</span>: <span class='ident'>state</span>.<span class='ident'>pipeline_namespace_id</span>,
                 <span class='ident'>layout_content_process_shutdown_chan</span>: <span class='ident'>layout_content_process_shutdown_chan</span>,
                 <span class='ident'>layout_content_process_shutdown_port</span>: <span class='ident'>layout_content_process_shutdown_port</span>,
@@ -827,8 +801,6 @@
                                      <span class='ident'>pipeline_chan</span>,
                                      <span class='ident'>state</span>.<span class='ident'>compositor_proxy</span>,
                                      <span class='ident'>chrome_to_paint_chan</span>,
-                                     <span class='ident'>layout_shutdown_port</span>,
-                                     <span class='ident'>paint_shutdown_port</span>,
                                      <span class='ident'>state</span>.<span class='ident'>load_data</span>.<span class='ident'>url</span>,
                                      <span class='ident'>state</span>.<span class='ident'>window_size</span>);
 
@@ -841,8 +813,6 @@
            <span class='ident'>layout_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutControlMsg</span><span class='op'>&gt;</span>,
            <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
            <span class='ident'>chrome_to_paint_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ChromeToPaintMsg</span><span class='op'>&gt;</span>,
-           <span class='ident'>layout_shutdown_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
-           <span class='ident'>paint_shutdown_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
            <span class='ident'>url</span>: <span class='ident'>Url</span>,
            <span class='ident'>size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>PagePx</span>, <span class='ident'>f32</span><span class='op'>&gt;&gt;</span>)
            <span class='op'>-&gt;</span> <span class='ident'>Pipeline</span> {
@@ -853,8 +823,6 @@
             <span class='ident'>layout_chan</span>: <span class='ident'>layout_chan</span>,
             <span class='ident'>compositor_proxy</span>: <span class='ident'>compositor_proxy</span>,
             <span class='ident'>chrome_to_paint_chan</span>: <span class='ident'>chrome_to_paint_chan</span>,
-            <span class='ident'>layout_shutdown_port</span>: <span class='ident'>layout_shutdown_port</span>,
-            <span class='ident'>paint_shutdown_port</span>: <span class='ident'>paint_shutdown_port</span>,
             <span class='ident'>url</span>: <span class='ident'>url</span>,
             <span class='ident'>title</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>children</span>: <span class='macro'>vec</span><span class='macro'>!</span>(),
@@ -977,7 +945,6 @@
     <span class='ident'>prefs</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Pref</span><span class='op'>&gt;</span>,
     <span class='ident'>pipeline_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>LayoutControlMsg</span><span class='op'>&gt;</span>,
     <span class='ident'>pipeline_namespace_id</span>: <span class='ident'>PipelineNamespaceId</span>,
-    <span class='ident'>layout_shutdown_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
     <span class='ident'>layout_content_process_shutdown_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
     <span class='ident'>layout_content_process_shutdown_port</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
     <span class='ident'>script_content_process_shutdown_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>,
@@ -1022,7 +989,6 @@
                     <span class='self'>self</span>.<span class='ident'>font_cache_thread</span>,
                     <span class='self'>self</span>.<span class='ident'>time_profiler_chan</span>,
                     <span class='self'>self</span>.<span class='ident'>mem_profiler_chan</span>,
-                    <span class='self'>self</span>.<span class='ident'>layout_shutdown_chan</span>,
                     <span class='self'>self</span>.<span class='ident'>layout_content_process_shutdown_chan</span>,
                     <span class='self'>self</span>.<span class='ident'>webrender_api_sender</span>);
 

@@ -2348,7 +2348,7 @@
                 <span class='comment'>// FIXME (Manishearth): support document owners (needs ability to get parent browsing context)</span>
                 <span class='comment'>// Check if document owner is fully active</span>
                 <span class='self'>self</span>.<span class='ident'>form_owner</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>o</span><span class='op'>|</span> {
-                    <span class='ident'>o</span>.<span class='ident'>submit</span>(<span class='ident'>SubmittedFrom</span>::<span class='ident'>NotFromFormSubmitMethod</span>,
+                    <span class='ident'>o</span>.<span class='ident'>submit</span>(<span class='ident'>SubmittedFrom</span>::<span class='ident'>NotFromForm</span>,
                              <span class='ident'>FormSubmitter</span>::<span class='ident'>InputElement</span>(<span class='self'>self</span>.<span class='ident'>clone</span>()))
                 });
             },
@@ -2357,7 +2357,7 @@
                 <span class='comment'>// FIXME (Manishearth): support document owners (needs ability to get parent browsing context)</span>
                 <span class='comment'>// Check if document owner is fully active</span>
                 <span class='self'>self</span>.<span class='ident'>form_owner</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>o</span><span class='op'>|</span> {
-                    <span class='ident'>o</span>.<span class='ident'>reset</span>(<span class='ident'>ResetFrom</span>::<span class='ident'>NotFromFormResetMethod</span>)
+                    <span class='ident'>o</span>.<span class='ident'>reset</span>(<span class='ident'>ResetFrom</span>::<span class='ident'>NotFromForm</span>)
                 });
             },
             <span class='ident'>InputType</span>::<span class='ident'>InputCheckbox</span> <span class='op'>|</span> <span class='ident'>InputType</span>::<span class='ident'>InputRadio</span> <span class='op'>=&gt;</span> {
@@ -2461,7 +2461,7 @@
                     <span class='comment'>// lazily test for &gt; 1 submission-blocking inputs</span>
                     <span class='kw'>return</span>;
                 }
-                <span class='ident'>form</span>.<span class='ident'>submit</span>(<span class='ident'>SubmittedFrom</span>::<span class='ident'>NotFromFormSubmitMethod</span>,
+                <span class='ident'>form</span>.<span class='ident'>submit</span>(<span class='ident'>SubmittedFrom</span>::<span class='ident'>NotFromForm</span>,
                             <span class='ident'>FormSubmitter</span>::<span class='ident'>FormElement</span>(<span class='ident'>form</span>.<span class='ident'>r</span>()));
             }
         }

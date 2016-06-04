@@ -851,14 +851,6 @@
 <span id="807">807</span>
 <span id="808">808</span>
 <span id="809">809</span>
-<span id="810">810</span>
-<span id="811">811</span>
-<span id="812">812</span>
-<span id="813">813</span>
-<span id="814">814</span>
-<span id="815">815</span>
-<span id="816">816</span>
-<span id="817">817</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1258,46 +1250,38 @@
                   <span class='ident'>panic_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>PanicMsg</span><span class='op'>&gt;</span>,
                   <span class='ident'>font_cache_thread</span>: <span class='ident'>FontCacheThread</span>,
                   <span class='ident'>time_profiler_chan</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>,
-                  <span class='ident'>mem_profiler_chan</span>: <span class='ident'>mem</span>::<span class='ident'>ProfilerChan</span>,
-                  <span class='ident'>shutdown_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>) {
+                  <span class='ident'>mem_profiler_chan</span>: <span class='ident'>mem</span>::<span class='ident'>ProfilerChan</span>) {
         <span class='ident'>thread</span>::<span class='ident'>spawn_named_with_send_on_panic</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;PaintThread {:?}&quot;</span>, <span class='ident'>id</span>),
                                                <span class='ident'>thread_state</span>::<span class='ident'>PAINT</span>,
                                                <span class='kw'>move</span> <span class='op'>||</span> {
-            {
-                <span class='comment'>// Ensures that the paint thread and graphics context are destroyed before the</span>
-                <span class='comment'>// shutdown message.</span>
-                <span class='kw'>let</span> <span class='ident'>native_display</span> <span class='op'>=</span> <span class='ident'>compositor</span>.<span class='ident'>native_display</span>();
-                <span class='kw'>let</span> <span class='ident'>worker_threads</span> <span class='op'>=</span> <span class='ident'>WorkerThreadProxy</span>::<span class='ident'>spawn</span>(<span class='ident'>native_display</span>,
-                                                              <span class='ident'>font_cache_thread</span>,
-                                                              <span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>());
+            <span class='kw'>let</span> <span class='ident'>native_display</span> <span class='op'>=</span> <span class='ident'>compositor</span>.<span class='ident'>native_display</span>();
+            <span class='kw'>let</span> <span class='ident'>worker_threads</span> <span class='op'>=</span> <span class='ident'>WorkerThreadProxy</span>::<span class='ident'>spawn</span>(<span class='ident'>native_display</span>,
+                                                          <span class='ident'>font_cache_thread</span>,
+                                                          <span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>());
 
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>paint_thread</span> <span class='op'>=</span> <span class='ident'>PaintThread</span> {
-                    <span class='ident'>id</span>: <span class='ident'>id</span>,
-                    <span class='ident'>_url</span>: <span class='ident'>url</span>,
-                    <span class='ident'>layout_to_paint_port</span>: <span class='ident'>layout_to_paint_port</span>,
-                    <span class='ident'>chrome_to_paint_port</span>: <span class='ident'>chrome_to_paint_port</span>,
-                    <span class='ident'>compositor</span>: <span class='ident'>compositor</span>,
-                    <span class='ident'>time_profiler_chan</span>: <span class='ident'>time_profiler_chan</span>,
-                    <span class='ident'>root_display_list</span>: <span class='prelude-val'>None</span>,
-                    <span class='ident'>layer_map</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
-                    <span class='ident'>paint_permission</span>: <span class='boolvalue'>false</span>,
-                    <span class='ident'>current_epoch</span>: <span class='prelude-val'>None</span>,
-                    <span class='ident'>worker_threads</span>: <span class='ident'>worker_threads</span>,
-                };
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>paint_thread</span> <span class='op'>=</span> <span class='ident'>PaintThread</span> {
+                <span class='ident'>id</span>: <span class='ident'>id</span>,
+                <span class='ident'>_url</span>: <span class='ident'>url</span>,
+                <span class='ident'>layout_to_paint_port</span>: <span class='ident'>layout_to_paint_port</span>,
+                <span class='ident'>chrome_to_paint_port</span>: <span class='ident'>chrome_to_paint_port</span>,
+                <span class='ident'>compositor</span>: <span class='ident'>compositor</span>,
+                <span class='ident'>time_profiler_chan</span>: <span class='ident'>time_profiler_chan</span>,
+                <span class='ident'>root_display_list</span>: <span class='prelude-val'>None</span>,
+                <span class='ident'>layer_map</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
+                <span class='ident'>paint_permission</span>: <span class='boolvalue'>false</span>,
+                <span class='ident'>current_epoch</span>: <span class='prelude-val'>None</span>,
+                <span class='ident'>worker_threads</span>: <span class='ident'>worker_threads</span>,
+            };
 
-                <span class='kw'>let</span> <span class='ident'>reporter_name</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;paint-reporter-{}&quot;</span>, <span class='ident'>id</span>);
-                <span class='ident'>mem_profiler_chan</span>.<span class='ident'>run_with_memory_reporting</span>(<span class='op'>||</span> {
-                    <span class='ident'>paint_thread</span>.<span class='ident'>start</span>();
-                }, <span class='ident'>reporter_name</span>, <span class='ident'>chrome_to_paint_chan</span>, <span class='ident'>ChromeToPaintMsg</span>::<span class='ident'>CollectReports</span>);
+            <span class='kw'>let</span> <span class='ident'>reporter_name</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;paint-reporter-{}&quot;</span>, <span class='ident'>id</span>);
+            <span class='ident'>mem_profiler_chan</span>.<span class='ident'>run_with_memory_reporting</span>(<span class='op'>||</span> {
+                <span class='ident'>paint_thread</span>.<span class='ident'>start</span>();
+            }, <span class='ident'>reporter_name</span>, <span class='ident'>chrome_to_paint_chan</span>, <span class='ident'>ChromeToPaintMsg</span>::<span class='ident'>CollectReports</span>);
 
-                <span class='comment'>// Tell all the worker threads to shut down.</span>
-                <span class='kw'>for</span> <span class='ident'>worker_thread</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>paint_thread</span>.<span class='ident'>worker_threads</span> {
-                    <span class='ident'>worker_thread</span>.<span class='ident'>exit</span>()
-                }
+            <span class='comment'>// Tell all the worker threads to shut down.</span>
+            <span class='kw'>for</span> <span class='ident'>worker_thread</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>paint_thread</span>.<span class='ident'>worker_threads</span> {
+                <span class='ident'>worker_thread</span>.<span class='ident'>exit</span>()
             }
-
-            <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;paint_thread: shutdown_chan send&quot;</span>);
-            <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>shutdown_chan</span>.<span class='ident'>send</span>(());
         }, <span class='prelude-val'>Some</span>(<span class='ident'>id</span>), <span class='ident'>panic_chan</span>);
     }
 
