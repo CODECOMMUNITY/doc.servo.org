@@ -3507,7 +3507,7 @@
     }
 
     <span class='doccomment'>/// Return the element that currently has focus.</span>
-    <span class='comment'>// https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html#events-focusevent-doc-focus</span>
+    <span class='comment'>// https://w3c.github.io/uievents/#events-focusevent-doc-focus</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_focused_element</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>focused</span>.<span class='ident'>get</span>()
     }
@@ -3636,7 +3636,7 @@
             <span class='self'>self</span>.<span class='ident'>begin_focus_transaction</span>();
         }
 
-        <span class='comment'>// https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html#event-type-click</span>
+        <span class='comment'>// https://w3c.github.io/uievents/#event-type-click</span>
         <span class='kw'>let</span> <span class='ident'>client_x</span> <span class='op'>=</span> <span class='ident'>client_point</span>.<span class='ident'>x</span> <span class='kw'>as</span> <span class='ident'>i32</span>;
         <span class='kw'>let</span> <span class='ident'>client_y</span> <span class='op'>=</span> <span class='ident'>client_point</span>.<span class='ident'>y</span> <span class='kw'>as</span> <span class='ident'>i32</span>;
         <span class='kw'>let</span> <span class='ident'>clickCount</span> <span class='op'>=</span> <span class='number'>1</span>;
@@ -3658,7 +3658,7 @@
                                     <span class='prelude-val'>None</span>);
         <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>event</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Event</span><span class='op'>&gt;</span>();
 
-        <span class='comment'>// https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html#trusted-events</span>
+        <span class='comment'>// https://w3c.github.io/uievents/#trusted-events</span>
         <span class='ident'>event</span>.<span class='ident'>set_trusted</span>(<span class='boolvalue'>true</span>);
         <span class='comment'>// https://html.spec.whatwg.org/multipage/#run-authentic-click-activation-steps</span>
         <span class='kw'>match</span> <span class='ident'>mouse_event_type</span> {
@@ -4023,9 +4023,9 @@
         <span class='ident'>event</span>.<span class='ident'>fire</span>(<span class='ident'>target</span>);
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>prevented</span> <span class='op'>=</span> <span class='ident'>event</span>.<span class='ident'>DefaultPrevented</span>();
 
-        <span class='comment'>// https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html#keys-cancelable-keys</span>
+        <span class='comment'>// https://w3c.github.io/uievents/#keys-cancelable-keys</span>
         <span class='kw'>if</span> <span class='ident'>state</span> <span class='op'>!=</span> <span class='ident'>KeyState</span>::<span class='ident'>Released</span> <span class='op'>&amp;&amp;</span> <span class='ident'>props</span>.<span class='ident'>is_printable</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>prevented</span> {
-            <span class='comment'>// https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html#keypress-event-order</span>
+            <span class='comment'>// https://w3c.github.io/uievents/#keypress-event-order</span>
             <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>KeyboardEvent</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>window</span>,
                                            <span class='ident'>DOMString</span>::<span class='ident'>from</span>(<span class='string'>&quot;keypress&quot;</span>),
                                            <span class='boolvalue'>true</span>,

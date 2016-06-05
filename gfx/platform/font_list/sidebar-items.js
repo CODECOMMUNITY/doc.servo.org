@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["for_each_available_family",""],["for_each_variation",""],["last_resort_font_families",""],["system_default_family",""]],"static":[["FC_FAMILY",""],["FC_FILE",""],["FC_FONTFORMAT",""],["FC_INDEX",""],["SANS_SERIF_FONT_FAMILY",""]]});
