@@ -3948,6 +3948,39 @@
         )
 };
 
+<span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>hasAttributes</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
+    <span class='kw'>let</span> <span class='ident'>args</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>args</span>;
+    <span class='kw'>let</span> <span class='ident'>argc</span> <span class='op'>=</span> <span class='ident'>args</span>.<span class='ident'>_base</span>.<span class='ident'>argc_</span>;
+    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>HasAttributes</span>();
+
+    (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+}
+
+<span class='kw'>const</span> <span class='ident'>hasAttributes_methodinfo_argTypes</span>: [<span class='ident'>i32</span>; <span class='number'>1</span>] <span class='op'>=</span> [ <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>ArgTypeListEnd</span> <span class='kw'>as</span> <span class='ident'>i32</span> ];
+<span class='kw'>const</span> <span class='ident'>hasAttributes_methodinfo</span>: <span class='ident'>JSTypedMethodJitInfo</span> <span class='op'>=</span> <span class='ident'>JSTypedMethodJitInfo</span> {
+    <span class='ident'>base</span>:   <span class='ident'>JSJitInfo</span> {
+      <span class='ident'>call</span>: <span class='ident'>hasAttributes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>,
+      <span class='ident'>protoID</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>::<span class='ident'>Element</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
+      <span class='ident'>depth</span>: <span class='number'>2</span>,
+      <span class='ident'>_bitfield_1</span>:
+          <span class='ident'>JSJitInfo</span>::<span class='ident'>new_bitfield_1</span>(
+              <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+              <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasDOMSets</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+              <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_BOOLEAN</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+              <span class='boolvalue'>true</span>,
+              <span class='boolvalue'>true</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>true</span>,
+              <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
+          )
+  },
+    <span class='ident'>argTypes</span>: <span class='kw-2'>&amp;</span><span class='ident'>hasAttributes_methodinfo_argTypes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo_ArgType</span>,
+};
+
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>get_attributes</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='ident'>JSJitGetterCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>NamedNodeMap</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Attributes</span>();
@@ -4007,39 +4040,6 @@
           )
   },
     <span class='ident'>argTypes</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNames_methodinfo_argTypes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo_ArgType</span>,
-};
-
-<span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>hasAttributes</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
-    <span class='kw'>let</span> <span class='ident'>args</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>args</span>;
-    <span class='kw'>let</span> <span class='ident'>argc</span> <span class='op'>=</span> <span class='ident'>args</span>.<span class='ident'>_base</span>.<span class='ident'>argc_</span>;
-    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>HasAttributes</span>();
-
-    (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
-}
-
-<span class='kw'>const</span> <span class='ident'>hasAttributes_methodinfo_argTypes</span>: [<span class='ident'>i32</span>; <span class='number'>1</span>] <span class='op'>=</span> [ <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>ArgTypeListEnd</span> <span class='kw'>as</span> <span class='ident'>i32</span> ];
-<span class='kw'>const</span> <span class='ident'>hasAttributes_methodinfo</span>: <span class='ident'>JSTypedMethodJitInfo</span> <span class='op'>=</span> <span class='ident'>JSTypedMethodJitInfo</span> {
-    <span class='ident'>base</span>:   <span class='ident'>JSJitInfo</span> {
-      <span class='ident'>call</span>: <span class='ident'>hasAttributes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>,
-      <span class='ident'>protoID</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>::<span class='ident'>Element</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-      <span class='ident'>depth</span>: <span class='number'>2</span>,
-      <span class='ident'>_bitfield_1</span>:
-          <span class='ident'>JSJitInfo</span>::<span class='ident'>new_bitfield_1</span>(
-              <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-              <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasDOMSets</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-              <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_BOOLEAN</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-              <span class='boolvalue'>true</span>,
-              <span class='boolvalue'>true</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>true</span>,
-              <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-          )
-  },
-    <span class='ident'>argTypes</span>: <span class='kw-2'>&amp;</span><span class='ident'>hasAttributes_methodinfo_argTypes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo_ArgType</span>,
 };
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>getAttribute</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -4128,94 +4128,6 @@
           )
   },
     <span class='ident'>argTypes</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNS_methodinfo_argTypes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo_ArgType</span>,
-};
-
-<span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>getAttributeNode</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
-    <span class='kw'>let</span> <span class='ident'>args</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>args</span>;
-    <span class='kw'>let</span> <span class='ident'>argc</span> <span class='op'>=</span> <span class='ident'>args</span>.<span class='ident'>_base</span>.<span class='ident'>argc_</span>;
-
-    <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
-        <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;Element.getAttributeNode\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
-    }
-    <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>DOMString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), <span class='ident'>StringificationBehavior</span>::<span class='ident'>Default</span>) {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
-    };
-    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>GetAttributeNode</span>(<span class='ident'>arg0</span>);
-
-    (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
-}
-
-<span class='kw'>const</span> <span class='ident'>getAttributeNode_methodinfo_argTypes</span>: [<span class='ident'>i32</span>; <span class='number'>2</span>] <span class='op'>=</span> [ <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>String</span> <span class='kw'>as</span> <span class='ident'>i32</span>, <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>ArgTypeListEnd</span> <span class='kw'>as</span> <span class='ident'>i32</span> ];
-<span class='kw'>const</span> <span class='ident'>getAttributeNode_methodinfo</span>: <span class='ident'>JSTypedMethodJitInfo</span> <span class='op'>=</span> <span class='ident'>JSTypedMethodJitInfo</span> {
-    <span class='ident'>base</span>:   <span class='ident'>JSJitInfo</span> {
-      <span class='ident'>call</span>: <span class='ident'>getAttributeNode</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>,
-      <span class='ident'>protoID</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>::<span class='ident'>Element</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-      <span class='ident'>depth</span>: <span class='number'>2</span>,
-      <span class='ident'>_bitfield_1</span>:
-          <span class='ident'>JSJitInfo</span>::<span class='ident'>new_bitfield_1</span>(
-              <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-              <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasDOMSets</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-              <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNKNOWN</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>true</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>true</span>,
-              <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-          )
-  },
-    <span class='ident'>argTypes</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNode_methodinfo_argTypes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo_ArgType</span>,
-};
-
-<span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>getAttributeNodeNS</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
-    <span class='kw'>let</span> <span class='ident'>args</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>args</span>;
-    <span class='kw'>let</span> <span class='ident'>argc</span> <span class='op'>=</span> <span class='ident'>args</span>.<span class='ident'>_base</span>.<span class='ident'>argc_</span>;
-
-    <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>2</span> {
-        <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;Element.getAttributeNodeNS\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
-    }
-    <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), <span class='ident'>StringificationBehavior</span>::<span class='ident'>Default</span>) {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
-    };
-    <span class='kw'>let</span> <span class='ident'>arg1</span>: <span class='ident'>DOMString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>1</span>), <span class='ident'>StringificationBehavior</span>::<span class='ident'>Default</span>) {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
-    };
-    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>GetAttributeNodeNS</span>(<span class='ident'>arg0</span>, <span class='ident'>arg1</span>);
-
-    (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
-}
-
-<span class='kw'>const</span> <span class='ident'>getAttributeNodeNS_methodinfo_argTypes</span>: [<span class='ident'>i32</span>; <span class='number'>3</span>] <span class='op'>=</span> [ <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>Null</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>|</span> <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>String</span> <span class='kw'>as</span> <span class='ident'>i32</span>, <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>String</span> <span class='kw'>as</span> <span class='ident'>i32</span>, <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>ArgTypeListEnd</span> <span class='kw'>as</span> <span class='ident'>i32</span> ];
-<span class='kw'>const</span> <span class='ident'>getAttributeNodeNS_methodinfo</span>: <span class='ident'>JSTypedMethodJitInfo</span> <span class='op'>=</span> <span class='ident'>JSTypedMethodJitInfo</span> {
-    <span class='ident'>base</span>:   <span class='ident'>JSJitInfo</span> {
-      <span class='ident'>call</span>: <span class='ident'>getAttributeNodeNS</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>,
-      <span class='ident'>protoID</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>::<span class='ident'>Element</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-      <span class='ident'>depth</span>: <span class='number'>2</span>,
-      <span class='ident'>_bitfield_1</span>:
-          <span class='ident'>JSJitInfo</span>::<span class='ident'>new_bitfield_1</span>(
-              <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-              <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasDOMSets</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-              <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNKNOWN</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>true</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>false</span>,
-              <span class='boolvalue'>true</span>,
-              <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-          )
-  },
-    <span class='ident'>argTypes</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNodeNS_methodinfo_argTypes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo_ArgType</span>,
 };
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>setAttribute</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -4406,61 +4318,6 @@
         )
 };
 
-<span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>removeAttributeNode</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
-    <span class='kw'>let</span> <span class='ident'>args</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>args</span>;
-    <span class='kw'>let</span> <span class='ident'>argc</span> <span class='op'>=</span> <span class='ident'>args</span>.<span class='ident'>_base</span>.<span class='ident'>argc_</span>;
-
-    <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
-        <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;Element.removeAttributeNode\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
-    }
-    <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>).<span class='ident'>get</span>().<span class='ident'>is_object</span>() {
-        <span class='kw'>match</span> <span class='ident'>root_from_handlevalue</span>(<span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>)) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>val</span>) <span class='op'>=&gt;</span> <span class='ident'>val</span>,
-            <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> {
-                <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;value does not implement interface Attr.&quot;</span>);
-                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
-            }
-        }
-    } <span class='kw'>else</span> {
-        <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Value is not an object.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
-    };
-    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>RemoveAttributeNode</span>(<span class='ident'>arg0</span>.<span class='ident'>r</span>());
-    <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>result</span> {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> <span class='ident'>result</span>,
-        <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-            <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='ident'>global_root_from_reflector</span>(<span class='ident'>this</span>);
-            <span class='ident'>throw_dom_exception</span>(<span class='ident'>cx</span>, <span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>e</span>);
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
-        },
-    };
-
-    (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
-}
-
-
-<span class='kw'>const</span> <span class='ident'>removeAttributeNode_methodinfo</span>: <span class='ident'>JSJitInfo</span> <span class='op'>=</span> <span class='ident'>JSJitInfo</span> {
-    <span class='ident'>call</span>: <span class='ident'>removeAttributeNode</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>,
-    <span class='ident'>protoID</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>::<span class='ident'>Element</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-    <span class='ident'>depth</span>: <span class='number'>2</span>,
-    <span class='ident'>_bitfield_1</span>:
-        <span class='ident'>JSJitInfo</span>::<span class='ident'>new_bitfield_1</span>(
-            <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_OBJECT</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
-        )
-};
-
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>hasAttribute</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
     <span class='kw'>let</span> <span class='ident'>args</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>args</span>;
@@ -4541,6 +4398,94 @@
             <span class='boolvalue'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
+};
+
+<span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>getAttributeNode</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
+    <span class='kw'>let</span> <span class='ident'>args</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>args</span>;
+    <span class='kw'>let</span> <span class='ident'>argc</span> <span class='op'>=</span> <span class='ident'>args</span>.<span class='ident'>_base</span>.<span class='ident'>argc_</span>;
+
+    <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
+        <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;Element.getAttributeNode\&quot;.&quot;</span>);
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+    }
+    <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>DOMString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), <span class='ident'>StringificationBehavior</span>::<span class='ident'>Default</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+    };
+    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>GetAttributeNode</span>(<span class='ident'>arg0</span>);
+
+    (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+}
+
+<span class='kw'>const</span> <span class='ident'>getAttributeNode_methodinfo_argTypes</span>: [<span class='ident'>i32</span>; <span class='number'>2</span>] <span class='op'>=</span> [ <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>String</span> <span class='kw'>as</span> <span class='ident'>i32</span>, <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>ArgTypeListEnd</span> <span class='kw'>as</span> <span class='ident'>i32</span> ];
+<span class='kw'>const</span> <span class='ident'>getAttributeNode_methodinfo</span>: <span class='ident'>JSTypedMethodJitInfo</span> <span class='op'>=</span> <span class='ident'>JSTypedMethodJitInfo</span> {
+    <span class='ident'>base</span>:   <span class='ident'>JSJitInfo</span> {
+      <span class='ident'>call</span>: <span class='ident'>getAttributeNode</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>,
+      <span class='ident'>protoID</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>::<span class='ident'>Element</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
+      <span class='ident'>depth</span>: <span class='number'>2</span>,
+      <span class='ident'>_bitfield_1</span>:
+          <span class='ident'>JSJitInfo</span>::<span class='ident'>new_bitfield_1</span>(
+              <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+              <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasDOMSets</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+              <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNKNOWN</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>true</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>true</span>,
+              <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
+          )
+  },
+    <span class='ident'>argTypes</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNode_methodinfo_argTypes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo_ArgType</span>,
+};
+
+<span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>getAttributeNodeNS</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
+    <span class='kw'>let</span> <span class='ident'>args</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>args</span>;
+    <span class='kw'>let</span> <span class='ident'>argc</span> <span class='op'>=</span> <span class='ident'>args</span>.<span class='ident'>_base</span>.<span class='ident'>argc_</span>;
+
+    <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>2</span> {
+        <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;Element.getAttributeNodeNS\&quot;.&quot;</span>);
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+    }
+    <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), <span class='ident'>StringificationBehavior</span>::<span class='ident'>Default</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+    };
+    <span class='kw'>let</span> <span class='ident'>arg1</span>: <span class='ident'>DOMString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>1</span>), <span class='ident'>StringificationBehavior</span>::<span class='ident'>Default</span>) {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+    };
+    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>GetAttributeNodeNS</span>(<span class='ident'>arg0</span>, <span class='ident'>arg1</span>);
+
+    (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+}
+
+<span class='kw'>const</span> <span class='ident'>getAttributeNodeNS_methodinfo_argTypes</span>: [<span class='ident'>i32</span>; <span class='number'>3</span>] <span class='op'>=</span> [ <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>Null</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>|</span> <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>String</span> <span class='kw'>as</span> <span class='ident'>i32</span>, <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>String</span> <span class='kw'>as</span> <span class='ident'>i32</span>, <span class='ident'>JSJitInfo_ArgType</span>::<span class='ident'>ArgTypeListEnd</span> <span class='kw'>as</span> <span class='ident'>i32</span> ];
+<span class='kw'>const</span> <span class='ident'>getAttributeNodeNS_methodinfo</span>: <span class='ident'>JSTypedMethodJitInfo</span> <span class='op'>=</span> <span class='ident'>JSTypedMethodJitInfo</span> {
+    <span class='ident'>base</span>:   <span class='ident'>JSJitInfo</span> {
+      <span class='ident'>call</span>: <span class='ident'>getAttributeNodeNS</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>,
+      <span class='ident'>protoID</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>::<span class='ident'>Element</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
+      <span class='ident'>depth</span>: <span class='number'>2</span>,
+      <span class='ident'>_bitfield_1</span>:
+          <span class='ident'>JSJitInfo</span>::<span class='ident'>new_bitfield_1</span>(
+              <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+              <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasDOMSets</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+              <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNKNOWN</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>true</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>false</span>,
+              <span class='boolvalue'>true</span>,
+              <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
+          )
+  },
+    <span class='ident'>argTypes</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNodeNS_methodinfo_argTypes</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo_ArgType</span>,
 };
 
 <span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>setAttributeNode</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -4643,6 +4588,61 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNKNOWN</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='boolvalue'>false</span>,
+            <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
+        )
+};
+
+<span class='kw'>unsafe</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>removeAttributeNode</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>_obj</span>: <span class='ident'>HandleObject</span>, <span class='ident'>this</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>Element</span>, <span class='ident'>args</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitMethodCallArgs</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='kw'>let</span> <span class='ident'>this</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>this</span>;
+    <span class='kw'>let</span> <span class='ident'>args</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>args</span>;
+    <span class='kw'>let</span> <span class='ident'>argc</span> <span class='op'>=</span> <span class='ident'>args</span>.<span class='ident'>_base</span>.<span class='ident'>argc_</span>;
+
+    <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
+        <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;Element.removeAttributeNode\&quot;.&quot;</span>);
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+    }
+    <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>).<span class='ident'>get</span>().<span class='ident'>is_object</span>() {
+        <span class='kw'>match</span> <span class='ident'>root_from_handlevalue</span>(<span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>)) {
+            <span class='prelude-val'>Ok</span>(<span class='ident'>val</span>) <span class='op'>=&gt;</span> <span class='ident'>val</span>,
+            <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> {
+                <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;value does not implement interface Attr.&quot;</span>);
+                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+            }
+        }
+    } <span class='kw'>else</span> {
+        <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Value is not an object.&quot;</span>);
+        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+    };
+    <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>RemoveAttributeNode</span>(<span class='ident'>arg0</span>.<span class='ident'>r</span>());
+    <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>result</span> {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> <span class='ident'>result</span>,
+        <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
+            <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='ident'>global_root_from_reflector</span>(<span class='ident'>this</span>);
+            <span class='ident'>throw_dom_exception</span>(<span class='ident'>cx</span>, <span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>e</span>);
+            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        },
+    };
+
+    (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
+    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+}
+
+
+<span class='kw'>const</span> <span class='ident'>removeAttributeNode_methodinfo</span>: <span class='ident'>JSJitInfo</span> <span class='op'>=</span> <span class='ident'>JSJitInfo</span> {
+    <span class='ident'>call</span>: <span class='ident'>removeAttributeNode</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>os</span>::<span class='ident'>raw</span>::<span class='ident'>c_void</span>,
+    <span class='ident'>protoID</span>: <span class='ident'>PrototypeList</span>::<span class='ident'>ID</span>::<span class='ident'>Element</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
+    <span class='ident'>depth</span>: <span class='number'>2</span>,
+    <span class='ident'>_bitfield_1</span>:
+        <span class='ident'>JSJitInfo</span>::<span class='ident'>new_bitfield_1</span>(
+            <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+            <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
+            <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_OBJECT</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='boolvalue'>false</span>,
             <span class='boolvalue'>false</span>,
             <span class='boolvalue'>false</span>,
@@ -6341,15 +6341,15 @@
 <span class='kw'>const</span> <span class='ident'>sMethods_specs</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span>[<span class='ident'>JSFunctionSpec</span>]] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[
 <span class='kw-2'>&amp;</span>[
     <span class='ident'>JSFunctionSpec</span> {
-        <span class='ident'>name</span>: <span class='string'>b&quot;getAttributeNames\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
-        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNames_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
+        <span class='ident'>name</span>: <span class='string'>b&quot;hasAttributes\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
+        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>hasAttributes_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
         <span class='ident'>nargs</span>: <span class='number'>0</span>,
         <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
         <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
     },
     <span class='ident'>JSFunctionSpec</span> {
-        <span class='ident'>name</span>: <span class='string'>b&quot;hasAttributes\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
-        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>hasAttributes_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
+        <span class='ident'>name</span>: <span class='string'>b&quot;getAttributeNames\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
+        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNames_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
         <span class='ident'>nargs</span>: <span class='number'>0</span>,
         <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
         <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
@@ -6364,20 +6364,6 @@
     <span class='ident'>JSFunctionSpec</span> {
         <span class='ident'>name</span>: <span class='string'>b&quot;getAttributeNS\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
         <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNS_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
-        <span class='ident'>nargs</span>: <span class='number'>2</span>,
-        <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
-        <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
-    },
-    <span class='ident'>JSFunctionSpec</span> {
-        <span class='ident'>name</span>: <span class='string'>b&quot;getAttributeNode\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
-        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNode_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
-        <span class='ident'>nargs</span>: <span class='number'>1</span>,
-        <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
-        <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
-    },
-    <span class='ident'>JSFunctionSpec</span> {
-        <span class='ident'>name</span>: <span class='string'>b&quot;getAttributeNodeNS\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
-        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNodeNS_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
         <span class='ident'>nargs</span>: <span class='number'>2</span>,
         <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
         <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
@@ -6411,13 +6397,6 @@
         <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
     },
     <span class='ident'>JSFunctionSpec</span> {
-        <span class='ident'>name</span>: <span class='string'>b&quot;removeAttributeNode\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
-        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>removeAttributeNode_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
-        <span class='ident'>nargs</span>: <span class='number'>1</span>,
-        <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
-        <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
-    },
-    <span class='ident'>JSFunctionSpec</span> {
         <span class='ident'>name</span>: <span class='string'>b&quot;hasAttribute\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
         <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>hasAttribute_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
         <span class='ident'>nargs</span>: <span class='number'>1</span>,
@@ -6432,6 +6411,20 @@
         <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
     },
     <span class='ident'>JSFunctionSpec</span> {
+        <span class='ident'>name</span>: <span class='string'>b&quot;getAttributeNode\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
+        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNode_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
+        <span class='ident'>nargs</span>: <span class='number'>1</span>,
+        <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
+        <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
+    },
+    <span class='ident'>JSFunctionSpec</span> {
+        <span class='ident'>name</span>: <span class='string'>b&quot;getAttributeNodeNS\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
+        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>getAttributeNodeNS_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
+        <span class='ident'>nargs</span>: <span class='number'>2</span>,
+        <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
+        <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
+    },
+    <span class='ident'>JSFunctionSpec</span> {
         <span class='ident'>name</span>: <span class='string'>b&quot;setAttributeNode\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
         <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>setAttributeNode_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
         <span class='ident'>nargs</span>: <span class='number'>1</span>,
@@ -6441,6 +6434,13 @@
     <span class='ident'>JSFunctionSpec</span> {
         <span class='ident'>name</span>: <span class='string'>b&quot;setAttributeNodeNS\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
         <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>setAttributeNodeNS_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
+        <span class='ident'>nargs</span>: <span class='number'>1</span>,
+        <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
+        <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
+    },
+    <span class='ident'>JSFunctionSpec</span> {
+        <span class='ident'>name</span>: <span class='string'>b&quot;removeAttributeNode\0&quot;</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>,
+        <span class='ident'>call</span>: <span class='ident'>JSNativeWrapper</span> { <span class='ident'>op</span>: <span class='prelude-val'>Some</span>(<span class='ident'>generic_method</span>), <span class='ident'>info</span>: <span class='kw-2'>&amp;</span><span class='ident'>removeAttributeNode_methodinfo</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>JSJitInfo</span> },
         <span class='ident'>nargs</span>: <span class='number'>1</span>,
         <span class='ident'>flags</span>: (<span class='ident'>JSPROP_ENUMERATE</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
         <span class='ident'>selfHostedName</span>: <span class='number'>0</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>
@@ -6925,22 +6925,22 @@
     <span class='kw'>fn</span> <span class='ident'>ClassName</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>DOMString</span>;
     <span class='kw'>fn</span> <span class='ident'>SetClassName</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> ();
     <span class='kw'>fn</span> <span class='ident'>ClassList</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>DOMTokenList</span><span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>HasAttributes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
     <span class='kw'>fn</span> <span class='ident'>Attributes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>NamedNodeMap</span><span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>GetAttributeNames</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>;
-    <span class='kw'>fn</span> <span class='ident'>HasAttributes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
     <span class='kw'>fn</span> <span class='ident'>GetAttribute</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>GetAttributeNS</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>namespace</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>, <span class='ident'>localName</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>;
-    <span class='kw'>fn</span> <span class='ident'>GetAttributeNode</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span>;
-    <span class='kw'>fn</span> <span class='ident'>GetAttributeNodeNS</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>namespace</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>, <span class='ident'>localName</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>SetAttribute</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>DOMString</span>, <span class='ident'>value</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>SetAttributeNS</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>namespace</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>, <span class='ident'>name</span>: <span class='ident'>DOMString</span>, <span class='ident'>value</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>RemoveAttribute</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> ();
     <span class='kw'>fn</span> <span class='ident'>RemoveAttributeNS</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>namespace</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>, <span class='ident'>localName</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> ();
-    <span class='kw'>fn</span> <span class='ident'>RemoveAttributeNode</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>oldAttr</span>: <span class='kw-2'>&amp;</span><span class='ident'>Attr</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>HasAttribute</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
     <span class='kw'>fn</span> <span class='ident'>HasAttributeNS</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>namespace</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>, <span class='ident'>localName</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
+    <span class='kw'>fn</span> <span class='ident'>GetAttributeNode</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>GetAttributeNodeNS</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>namespace</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>, <span class='ident'>localName</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>SetAttributeNode</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>attr</span>: <span class='kw-2'>&amp;</span><span class='ident'>Attr</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>SetAttributeNodeNS</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>attr</span>: <span class='kw-2'>&amp;</span><span class='ident'>Attr</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>RemoveAttributeNode</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>oldAttr</span>: <span class='kw-2'>&amp;</span><span class='ident'>Attr</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Attr</span><span class='op'>&gt;&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>Closest</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>selectors</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>Matches</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>selectors</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>;
     <span class='kw'>fn</span> <span class='ident'>WebkitMatchesSelector</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>selectors</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>Fallible</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>;

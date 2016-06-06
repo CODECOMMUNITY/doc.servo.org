@@ -582,6 +582,13 @@
 <span id="538">538</span>
 <span id="539">539</span>
 <span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -595,12 +602,19 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::{<span class='ident'>Atom</span>, <span class='ident'>Namespace</span>};
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::{<span class='ident'>LengthOrPercentageOrAuto</span>, <span class='ident'>HTML_SPACE_CHARACTERS</span>};
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::{<span class='ident'>read_exponent</span>, <span class='ident'>read_fraction</span>, <span class='ident'>read_numbers</span>, <span class='ident'>split_commas</span>, <span class='ident'>split_html_space_chars</span>};
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::{<span class='ident'>HTML_SPACE_CHARACTERS</span>, <span class='ident'>read_exponent</span>, <span class='ident'>read_fraction</span>};
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::{<span class='ident'>read_numbers</span>, <span class='ident'>split_commas</span>, <span class='ident'>split_html_space_chars</span>};
 <span class='kw'>use</span> <span class='ident'>values</span>::<span class='ident'>specified</span>::<span class='ident'>Length</span>;
 
 <span class='comment'>// Duplicated from script::dom::values.</span>
 <span class='kw'>const</span> <span class='ident'>UNSIGNED_LONG_MAX</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>2147483647</span>;
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LengthOrPercentageOrAuto</span> {
+    <span class='ident'>Auto</span>,
+    <span class='ident'>Percentage</span>(<span class='ident'>f32</span>),
+    <span class='ident'>Length</span>(<span class='ident'>Au</span>),
+}
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Clone</span>, <span class='ident'>HeapSizeOf</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AttrValue</span> {

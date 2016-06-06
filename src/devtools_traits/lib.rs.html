@@ -395,6 +395,11 @@
 <span id="351">351</span>
 <span id="352">352</span>
 <span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -612,6 +617,8 @@
     <span class='doccomment'>/// Request a callback directed at the given actor name from the next animation frame</span>
     <span class='doccomment'>/// executed in the given pipeline.</span>
     <span class='ident'>RequestAnimationFrame</span>(<span class='ident'>PipelineId</span>, <span class='ident'>String</span>),
+    <span class='doccomment'>/// Direct the given pipeline to reload the current page.</span>
+    <span class='ident'>Reload</span>(<span class='ident'>PipelineId</span>),
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
@@ -690,7 +697,10 @@
     <span class='kw'>pub</span> <span class='ident'>headers</span>: <span class='ident'>Headers</span>,
     <span class='kw'>pub</span> <span class='ident'>body</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>,
-    <span class='kw'>pub</span> <span class='ident'>startedDateTime</span>: <span class='ident'>Tm</span>
+    <span class='kw'>pub</span> <span class='ident'>startedDateTime</span>: <span class='ident'>Tm</span>,
+    <span class='kw'>pub</span> <span class='ident'>timeStamp</span>: <span class='ident'>i64</span>,
+    <span class='kw'>pub</span> <span class='ident'>connect_time</span>: <span class='ident'>u64</span>,
+    <span class='kw'>pub</span> <span class='ident'>send_time</span>: <span class='ident'>u64</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>

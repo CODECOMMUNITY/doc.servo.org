@@ -591,40 +591,6 @@
 <span id="547">547</span>
 <span id="548">548</span>
 <span id="549">549</span>
-<span id="550">550</span>
-<span id="551">551</span>
-<span id="552">552</span>
-<span id="553">553</span>
-<span id="554">554</span>
-<span id="555">555</span>
-<span id="556">556</span>
-<span id="557">557</span>
-<span id="558">558</span>
-<span id="559">559</span>
-<span id="560">560</span>
-<span id="561">561</span>
-<span id="562">562</span>
-<span id="563">563</span>
-<span id="564">564</span>
-<span id="565">565</span>
-<span id="566">566</span>
-<span id="567">567</span>
-<span id="568">568</span>
-<span id="569">569</span>
-<span id="570">570</span>
-<span id="571">571</span>
-<span id="572">572</span>
-<span id="573">573</span>
-<span id="574">574</span>
-<span id="575">575</span>
-<span id="576">576</span>
-<span id="577">577</span>
-<span id="578">578</span>
-<span id="579">579</span>
-<span id="580">580</span>
-<span id="581">581</span>
-<span id="582">582</span>
-<span id="583">583</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -663,8 +629,7 @@
 <span class='kw'>use</span> <span class='ident'>actors</span>::<span class='ident'>console</span>::<span class='ident'>ConsoleActor</span>;
 <span class='kw'>use</span> <span class='ident'>actors</span>::<span class='ident'>framerate</span>::<span class='ident'>FramerateActor</span>;
 <span class='kw'>use</span> <span class='ident'>actors</span>::<span class='ident'>inspector</span>::<span class='ident'>InspectorActor</span>;
-<span class='kw'>use</span> <span class='ident'>actors</span>::<span class='ident'>network_event</span>::{<span class='ident'>EventActor</span>, <span class='ident'>NetworkEventActor</span>, <span class='ident'>RequestCookiesMsg</span>, <span class='ident'>ResponseCookiesMsg</span> };
-<span class='kw'>use</span> <span class='ident'>actors</span>::<span class='ident'>network_event</span>::{<span class='ident'>ResponseContentMsg</span>, <span class='ident'>ResponseHeadersMsg</span>, <span class='ident'>ResponseStartMsg</span> };
+<span class='kw'>use</span> <span class='ident'>actors</span>::<span class='ident'>network_event</span>::{<span class='ident'>EventActor</span>, <span class='ident'>NetworkEventActor</span>, <span class='ident'>ResponseStartMsg</span>};
 <span class='kw'>use</span> <span class='ident'>actors</span>::<span class='ident'>performance</span>::<span class='ident'>PerformanceActor</span>;
 <span class='kw'>use</span> <span class='ident'>actors</span>::<span class='ident'>profiler</span>::<span class='ident'>ProfilerActor</span>;
 <span class='kw'>use</span> <span class='ident'>actors</span>::<span class='ident'>root</span>::<span class='ident'>RootActor</span>;
@@ -734,66 +699,30 @@
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>NetworkEventUpdateMsg</span> {
+    <span class='ident'>from</span>: <span class='ident'>String</span>,
+    <span class='attribute'>#[<span class='ident'>serde</span>(<span class='ident'>rename</span> <span class='op'>=</span> <span class='string'>&quot;type&quot;</span>)]</span>
+    <span class='ident'>type_</span>: <span class='ident'>String</span>,
+    <span class='ident'>updateType</span>: <span class='ident'>String</span>,
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>EventTimingsUpdateMsg</span> {
+    <span class='ident'>totalTime</span>: <span class='ident'>u64</span>,
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>SecurityInfoUpdateMsg</span> {
+    <span class='ident'>state</span>: <span class='ident'>String</span>,
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
 <span class='kw'>struct</span> <span class='ident'>ResponseStartUpdateMsg</span> {
     <span class='ident'>from</span>: <span class='ident'>String</span>,
     <span class='attribute'>#[<span class='ident'>serde</span>(<span class='ident'>rename</span> <span class='op'>=</span> <span class='string'>&quot;type&quot;</span>)]</span>
     <span class='ident'>type_</span>: <span class='ident'>String</span>,
     <span class='ident'>updateType</span>: <span class='ident'>String</span>,
     <span class='ident'>response</span>: <span class='ident'>ResponseStartMsg</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>ResponseContentUpdateMsg</span> {
-    <span class='ident'>from</span>: <span class='ident'>String</span>,
-    <span class='attribute'>#[<span class='ident'>serde</span>(<span class='ident'>rename</span> <span class='op'>=</span> <span class='string'>&quot;type&quot;</span>)]</span>
-    <span class='ident'>type_</span>: <span class='ident'>String</span>,
-    <span class='ident'>updateType</span>: <span class='ident'>String</span>,
-    <span class='ident'>responseContent</span>: <span class='ident'>ResponseContentMsg</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>ResponseCookiesUpdateMsg</span> {
-    <span class='ident'>from</span>: <span class='ident'>String</span>,
-    <span class='attribute'>#[<span class='ident'>serde</span>(<span class='ident'>rename</span> <span class='op'>=</span> <span class='string'>&quot;type&quot;</span>)]</span>
-    <span class='ident'>type_</span>: <span class='ident'>String</span>,
-    <span class='ident'>updateType</span>: <span class='ident'>String</span>,
-    <span class='ident'>responseCookies</span>: <span class='ident'>ResponseCookiesMsg</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>ResponseHeadersUpdateMsg</span> {
-    <span class='ident'>from</span>: <span class='ident'>String</span>,
-    <span class='attribute'>#[<span class='ident'>serde</span>(<span class='ident'>rename</span> <span class='op'>=</span> <span class='string'>&quot;type&quot;</span>)]</span>
-    <span class='ident'>type_</span>: <span class='ident'>String</span>,
-    <span class='ident'>updateType</span>: <span class='ident'>String</span>,
-    <span class='ident'>responseHeaders</span>: <span class='ident'>ResponseHeadersMsg</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>RequestCookiesUpdateMsg</span> {
-    <span class='ident'>from</span>: <span class='ident'>String</span>,
-    <span class='attribute'>#[<span class='ident'>serde</span>(<span class='ident'>rename</span> <span class='op'>=</span> <span class='string'>&quot;type&quot;</span>)]</span>
-    <span class='ident'>type_</span>: <span class='ident'>String</span>,
-    <span class='ident'>updateType</span>: <span class='ident'>String</span>,
-    <span class='ident'>requestcookies</span>: <span class='ident'>RequestCookiesMsg</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>EventTimingsUpdateMsg</span> {
-    <span class='ident'>from</span>: <span class='ident'>String</span>,
-    <span class='attribute'>#[<span class='ident'>serde</span>(<span class='ident'>rename</span> <span class='op'>=</span> <span class='string'>&quot;type&quot;</span>)]</span>
-    <span class='ident'>type_</span>: <span class='ident'>String</span>,
-    <span class='ident'>updateType</span>: <span class='ident'>String</span>,
-    <span class='ident'>totalTime</span>: <span class='ident'>u32</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>SecurityInfoUpdateMsg</span> {
-    <span class='ident'>from</span>: <span class='ident'>String</span>,
-    <span class='attribute'>#[<span class='ident'>serde</span>(<span class='ident'>rename</span> <span class='op'>=</span> <span class='string'>&quot;type&quot;</span>)]</span>
-    <span class='ident'>type_</span>: <span class='ident'>String</span>,
-    <span class='ident'>updateType</span>: <span class='ident'>String</span>,
-    <span class='ident'>securityState</span>: <span class='ident'>String</span>,
 }
 
 <span class='doccomment'>/// Spin up a devtools server that listens for connections on the specified port.</span>
@@ -1044,14 +973,22 @@
                 <span class='comment'>//Store the response information in the actor</span>
                 <span class='ident'>actor</span>.<span class='ident'>add_response</span>(<span class='ident'>httpresponse</span>);
 
-                <span class='kw'>let</span> <span class='ident'>msg7</span> <span class='op'>=</span> <span class='ident'>RequestCookiesUpdateMsg</span> {
+                <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>NetworkEventUpdateMsg</span> {
+                    <span class='ident'>from</span>: <span class='ident'>netevent_actor_name</span>.<span class='ident'>clone</span>(),
+                    <span class='ident'>type_</span>: <span class='string'>&quot;networkEventUpdate&quot;</span>.<span class='ident'>to_owned</span>(),
+                    <span class='ident'>updateType</span>: <span class='string'>&quot;requestHeaders&quot;</span>.<span class='ident'>to_owned</span>(),
+                };
+                <span class='kw'>for</span> <span class='ident'>stream</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>connections</span> {
+                    <span class='ident'>stream</span>.<span class='ident'>write_merged_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>, <span class='kw-2'>&amp;</span><span class='ident'>actor</span>.<span class='ident'>request_headers</span>());
+                }
+
+                <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>NetworkEventUpdateMsg</span> {
                     <span class='ident'>from</span>: <span class='ident'>netevent_actor_name</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>type_</span>: <span class='string'>&quot;networkEventUpdate&quot;</span>.<span class='ident'>to_owned</span>(),
                     <span class='ident'>updateType</span>: <span class='string'>&quot;requestCookies&quot;</span>.<span class='ident'>to_owned</span>(),
-                    <span class='ident'>requestcookies</span>: <span class='ident'>actor</span>.<span class='ident'>request_cookies</span>(),
                 };
                 <span class='kw'>for</span> <span class='ident'>stream</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>connections</span> {
-                    <span class='ident'>stream</span>.<span class='ident'>write_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg7</span>);
+                    <span class='ident'>stream</span>.<span class='ident'>write_merged_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>, <span class='kw-2'>&amp;</span><span class='ident'>actor</span>.<span class='ident'>request_cookies</span>());
                 }
 
                 <span class='comment'>//Send a networkEventUpdate (responseStart) to the client</span>
@@ -1065,61 +1002,56 @@
                 <span class='kw'>for</span> <span class='ident'>stream</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>connections</span> {
                     <span class='ident'>stream</span>.<span class='ident'>write_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>);
                 }
-                <span class='kw'>let</span> <span class='ident'>msg2</span> <span class='op'>=</span> <span class='ident'>EventTimingsUpdateMsg</span> {
+                <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>NetworkEventUpdateMsg</span> {
                     <span class='ident'>from</span>: <span class='ident'>netevent_actor_name</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>type_</span>: <span class='string'>&quot;networkEventUpdate&quot;</span>.<span class='ident'>to_owned</span>(),
                     <span class='ident'>updateType</span>: <span class='string'>&quot;eventTimings&quot;</span>.<span class='ident'>to_owned</span>(),
-                    <span class='ident'>totalTime</span>: <span class='number'>0</span>
                 };
-
+                <span class='kw'>let</span> <span class='ident'>extra</span> <span class='op'>=</span> <span class='ident'>EventTimingsUpdateMsg</span> {
+                    <span class='ident'>totalTime</span>: <span class='ident'>actor</span>.<span class='ident'>total_time</span>(),
+                };
                 <span class='kw'>for</span> <span class='ident'>stream</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>connections</span> {
-                    <span class='ident'>stream</span>.<span class='ident'>write_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg2</span>);
+                    <span class='ident'>stream</span>.<span class='ident'>write_merged_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>, <span class='kw-2'>&amp;</span><span class='ident'>extra</span>);
                 }
 
-                <span class='kw'>let</span> <span class='ident'>msg3</span> <span class='op'>=</span> <span class='ident'>SecurityInfoUpdateMsg</span> {
+                <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>NetworkEventUpdateMsg</span> {
                     <span class='ident'>from</span>: <span class='ident'>netevent_actor_name</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>type_</span>: <span class='string'>&quot;networkEventUpdate&quot;</span>.<span class='ident'>to_owned</span>(),
                     <span class='ident'>updateType</span>: <span class='string'>&quot;securityInfo&quot;</span>.<span class='ident'>to_owned</span>(),
-                    <span class='ident'>securityState</span>: <span class='string'>&quot;&quot;</span>.<span class='ident'>to_owned</span>(),
                 };
-
+                <span class='kw'>let</span> <span class='ident'>extra</span> <span class='op'>=</span> <span class='ident'>SecurityInfoUpdateMsg</span> {
+                    <span class='ident'>state</span>: <span class='string'>&quot;insecure&quot;</span>.<span class='ident'>to_owned</span>(),
+                };
                 <span class='kw'>for</span> <span class='ident'>stream</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>connections</span> {
-                    <span class='ident'>stream</span>.<span class='ident'>write_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg3</span>);
+                    <span class='ident'>stream</span>.<span class='ident'>write_merged_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>, <span class='kw-2'>&amp;</span><span class='ident'>extra</span>);
                 }
 
-                <span class='kw'>let</span> <span class='ident'>msg4</span> <span class='op'>=</span> <span class='ident'>ResponseContentUpdateMsg</span> {
+                <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>NetworkEventUpdateMsg</span> {
                     <span class='ident'>from</span>: <span class='ident'>netevent_actor_name</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>type_</span>: <span class='string'>&quot;networkEventUpdate&quot;</span>.<span class='ident'>to_owned</span>(),
                     <span class='ident'>updateType</span>: <span class='string'>&quot;responseContent&quot;</span>.<span class='ident'>to_owned</span>(),
-                    <span class='ident'>responseContent</span>: <span class='ident'>actor</span>.<span class='ident'>response_content</span>(),
                 };
-
                 <span class='kw'>for</span> <span class='ident'>stream</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>connections</span> {
-                    <span class='ident'>stream</span>.<span class='ident'>write_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg4</span>);
+                    <span class='ident'>stream</span>.<span class='ident'>write_merged_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>, <span class='kw-2'>&amp;</span><span class='ident'>actor</span>.<span class='ident'>response_content</span>());
                 }
 
-                <span class='kw'>let</span> <span class='ident'>msg5</span> <span class='op'>=</span> <span class='ident'>ResponseCookiesUpdateMsg</span> {
+                <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>NetworkEventUpdateMsg</span> {
                     <span class='ident'>from</span>: <span class='ident'>netevent_actor_name</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>type_</span>: <span class='string'>&quot;networkEventUpdate&quot;</span>.<span class='ident'>to_owned</span>(),
                     <span class='ident'>updateType</span>: <span class='string'>&quot;responseCookies&quot;</span>.<span class='ident'>to_owned</span>(),
-                    <span class='ident'>responseCookies</span>: <span class='ident'>actor</span>.<span class='ident'>response_cookies</span>(),
                 };
-
                 <span class='kw'>for</span> <span class='ident'>stream</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>connections</span> {
-                    <span class='ident'>stream</span>.<span class='ident'>write_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg5</span>);
+                    <span class='ident'>stream</span>.<span class='ident'>write_merged_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>, <span class='kw-2'>&amp;</span><span class='ident'>actor</span>.<span class='ident'>response_cookies</span>());
                 }
 
-                <span class='kw'>let</span> <span class='ident'>msg6</span> <span class='op'>=</span> <span class='ident'>ResponseHeadersUpdateMsg</span> {
+                <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>NetworkEventUpdateMsg</span> {
                     <span class='ident'>from</span>: <span class='ident'>netevent_actor_name</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>type_</span>: <span class='string'>&quot;networkEventUpdate&quot;</span>.<span class='ident'>to_owned</span>(),
                     <span class='ident'>updateType</span>: <span class='string'>&quot;responseHeaders&quot;</span>.<span class='ident'>to_owned</span>(),
-                    <span class='ident'>responseHeaders</span>: <span class='ident'>actor</span>.<span class='ident'>response_headers</span>(),
                 };
-
                 <span class='kw'>for</span> <span class='ident'>stream</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>connections</span> {
-                    <span class='ident'>stream</span>.<span class='ident'>write_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg6</span>);
+                    <span class='ident'>stream</span>.<span class='ident'>write_merged_json_packet</span>(<span class='kw-2'>&amp;</span><span class='ident'>msg</span>, <span class='kw-2'>&amp;</span><span class='ident'>actor</span>.<span class='ident'>response_headers</span>());
                 }
-
             }
         }
     }
