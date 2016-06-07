@@ -2633,6 +2633,17 @@
 <span id="2589">2589</span>
 <span id="2590">2590</span>
 <span id="2591">2591</span>
+<span id="2592">2592</span>
+<span id="2593">2593</span>
+<span id="2594">2594</span>
+<span id="2595">2595</span>
+<span id="2596">2596</span>
+<span id="2597">2597</span>
+<span id="2598">2598</span>
+<span id="2599">2599</span>
+<span id="2600">2600</span>
+<span id="2601">2601</span>
+<span id="2602">2602</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2644,7 +2655,6 @@
 <span class='kw'>use</span> <span class='ident'>cssparser</span>::{<span class='ident'>Color</span>, <span class='ident'>ToCss</span>};
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::<span class='ident'>AttrInfo</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>activation</span>::<span class='ident'>Activatable</span>;
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::<span class='ident'>AttrValue</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::{<span class='ident'>Attr</span>, <span class='ident'>AttrHelpersForLayout</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>cell</span>::<span class='ident'>DOMRefCell</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>AttrBinding</span>::<span class='ident'>AttrMethods</span>;
@@ -2721,7 +2731,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::{<span class='ident'>Atom</span>, <span class='ident'>BorrowedAtom</span>, <span class='ident'>BorrowedNamespace</span>, <span class='ident'>Namespace</span>, <span class='ident'>QualName</span>};
-<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>attr</span>::<span class='ident'>LengthOrPercentageOrAuto</span>;
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>attr</span>::{<span class='ident'>AttrValue</span>, <span class='ident'>LengthOrPercentageOrAuto</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>element_state</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>parser</span>::<span class='ident'>ParserContextExtraData</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::<span class='ident'>DeclaredValue</span>;
@@ -4858,7 +4868,8 @@
             <span class='ident'>NonTSPseudoClass</span>::<span class='ident'>Disabled</span> <span class='op'>|</span>
             <span class='ident'>NonTSPseudoClass</span>::<span class='ident'>Checked</span> <span class='op'>|</span>
             <span class='ident'>NonTSPseudoClass</span>::<span class='ident'>Indeterminate</span> <span class='op'>|</span>
-            <span class='ident'>NonTSPseudoClass</span>::<span class='ident'>ReadWrite</span> <span class='op'>=&gt;</span>
+            <span class='ident'>NonTSPseudoClass</span>::<span class='ident'>ReadWrite</span> <span class='op'>|</span>
+            <span class='ident'>NonTSPseudoClass</span>::<span class='ident'>PlaceholderShown</span> <span class='op'>=&gt;</span>
                 <span class='ident'>Element</span>::<span class='ident'>state</span>(<span class='self'>self</span>).<span class='ident'>contains</span>(<span class='ident'>pseudo_class</span>.<span class='ident'>state_flag</span>()),
         }
     }
@@ -5128,6 +5139,17 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_read_write_state</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>bool</span>) {
         <span class='self'>self</span>.<span class='ident'>set_state</span>(<span class='ident'>IN_READ_WRITE_STATE</span>, <span class='ident'>value</span>)
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>placeholder_shown_state</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>get</span>().<span class='ident'>contains</span>(<span class='ident'>IN_PLACEHOLDER_SHOWN_STATE</span>)
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_placeholder_shown_state</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>bool</span>) {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>placeholder_shown_state</span>() <span class='op'>!=</span> <span class='ident'>value</span> {
+            <span class='self'>self</span>.<span class='ident'>set_state</span>(<span class='ident'>IN_PLACEHOLDER_SHOWN_STATE</span>, <span class='ident'>value</span>);
+            <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span>().<span class='ident'>dirty</span>(<span class='ident'>NodeDamage</span>::<span class='ident'>OtherNodeDamage</span>);
+        }
     }
 }
 

@@ -278,6 +278,19 @@
 <span id="234">234</span>
 <span id="235">235</span>
 <span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -288,7 +301,6 @@
 <span class='doccomment'>//! the DOM to be placed in a separate crate from layout.</span>
 
 <span class='kw'>use</span> <span class='ident'>app_units</span>::<span class='ident'>Au</span>;
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>node</span>::<span class='ident'>OpaqueStyleAndLayoutData</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>point</span>::<span class='ident'>Point2D</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>rect</span>::<span class='ident'>Rect</span>;
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>Epoch</span>, <span class='ident'>LayerId</span>};
@@ -308,7 +320,21 @@
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>ipc</span>::<span class='ident'>OptionalOpaqueIpcSender</span>;
 
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::{<span class='ident'>CharacterDataTypeId</span>, <span class='ident'>ElementTypeId</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::{<span class='ident'>HTMLElementTypeId</span>, <span class='ident'>NodeTypeId</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::<span class='ident'>LayoutJS</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>characterdata</span>::<span class='ident'>LayoutCharacterDataHelpers</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>document</span>::{<span class='ident'>Document</span>, <span class='ident'>LayoutDocumentHelpers</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>element</span>::{<span class='ident'>Element</span>, <span class='ident'>LayoutElementHelpers</span>, <span class='ident'>RawLayoutElementHelpers</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlcanvaselement</span>::<span class='ident'>HTMLCanvasData</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlobjectelement</span>::<span class='ident'>is_image_data</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>node</span>::{<span class='ident'>CAN_BE_FRAGMENTED</span>, <span class='ident'>HAS_CHANGED</span>, <span class='ident'>HAS_DIRTY_DESCENDANTS</span>, <span class='ident'>IS_DIRTY</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>node</span>::<span class='ident'>LayoutNodeHelpers</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>node</span>::<span class='ident'>Node</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>node</span>::<span class='ident'>OpaqueStyleAndLayoutData</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>node</span>::<span class='ident'>TrustedNodeAddress</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>text</span>::<span class='ident'>Text</span>;
+
 
 <span class='doccomment'>/// Asynchronous messages that script can send to layout.</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Msg</span> {

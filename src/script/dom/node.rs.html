@@ -2645,6 +2645,49 @@
 <span id="2601">2601</span>
 <span id="2602">2602</span>
 <span id="2603">2603</span>
+<span id="2604">2604</span>
+<span id="2605">2605</span>
+<span id="2606">2606</span>
+<span id="2607">2607</span>
+<span id="2608">2608</span>
+<span id="2609">2609</span>
+<span id="2610">2610</span>
+<span id="2611">2611</span>
+<span id="2612">2612</span>
+<span id="2613">2613</span>
+<span id="2614">2614</span>
+<span id="2615">2615</span>
+<span id="2616">2616</span>
+<span id="2617">2617</span>
+<span id="2618">2618</span>
+<span id="2619">2619</span>
+<span id="2620">2620</span>
+<span id="2621">2621</span>
+<span id="2622">2622</span>
+<span id="2623">2623</span>
+<span id="2624">2624</span>
+<span id="2625">2625</span>
+<span id="2626">2626</span>
+<span id="2627">2627</span>
+<span id="2628">2628</span>
+<span id="2629">2629</span>
+<span id="2630">2630</span>
+<span id="2631">2631</span>
+<span id="2632">2632</span>
+<span id="2633">2633</span>
+<span id="2634">2634</span>
+<span id="2635">2635</span>
+<span id="2636">2636</span>
+<span id="2637">2637</span>
+<span id="2638">2638</span>
+<span id="2639">2639</span>
+<span id="2640">2640</span>
+<span id="2641">2641</span>
+<span id="2642">2642</span>
+<span id="2643">2643</span>
+<span id="2644">2644</span>
+<span id="2645">2645</span>
+<span id="2646">2646</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2686,8 +2729,11 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>element</span>::{<span class='ident'>Element</span>, <span class='ident'>ElementCreator</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>eventtarget</span>::<span class='ident'>EventTarget</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlbodyelement</span>::<span class='ident'>HTMLBodyElement</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlcanvaselement</span>::{<span class='ident'>LayoutHTMLCanvasElementHelpers</span>, <span class='ident'>HTMLCanvasData</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlcollection</span>::<span class='ident'>HTMLCollection</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlelement</span>::<span class='ident'>HTMLElement</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmliframeelement</span>::{<span class='ident'>HTMLIFrameElement</span>, <span class='ident'>HTMLIFrameElementLayoutMethods</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlimageelement</span>::{<span class='ident'>HTMLImageElement</span>, <span class='ident'>LayoutHTMLImageElementHelpers</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmlinputelement</span>::{<span class='ident'>HTMLInputElement</span>, <span class='ident'>LayoutHTMLInputElementHelpers</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>htmltextareaelement</span>::{<span class='ident'>HTMLTextAreaElement</span>, <span class='ident'>LayoutHTMLTextAreaElementHelpers</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>nodelist</span>::<span class='ident'>NodeList</span>;
@@ -2704,6 +2750,7 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSContext</span>, <span class='ident'>JSObject</span>, <span class='ident'>JSRuntime</span>};
 <span class='kw'>use</span> <span class='ident'>layout_interface</span>::<span class='ident'>Msg</span>;
 <span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='self'>self</span>, <span class='ident'>c_void</span>, <span class='ident'>uintptr_t</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::<span class='ident'>PipelineId</span>;
 <span class='kw'>use</span> <span class='ident'>parse</span>::<span class='ident'>html</span>::<span class='ident'>parse_html_fragment</span>;
 <span class='kw'>use</span> <span class='ident'>ref_slice</span>::<span class='ident'>ref_slice</span>;
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>UntrustedNodeAddress</span>;
@@ -2716,8 +2763,10 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>default</span>::<span class='ident'>Default</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::{<span class='self'>self</span>, <span class='ident'>FilterMap</span>, <span class='ident'>Peekable</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Range</span>;
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::{<span class='ident'>Atom</span>, <span class='ident'>Namespace</span>, <span class='ident'>QualName</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>selector_impl</span>::<span class='ident'>ServoSelectorImpl</span>;
+<span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>thread_state</span>;
 <span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
 
@@ -3608,6 +3657,10 @@
     <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>init_style_and_layout_data</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>OpaqueStyleAndLayoutData</span>);
 
     <span class='kw'>fn</span> <span class='ident'>text_content</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span>;
+    <span class='kw'>fn</span> <span class='ident'>selection</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Range</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>image_url</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>canvas_data</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>HTMLCanvasData</span><span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>iframe_pipeline_id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PipelineId</span>;
 }
 
 <span class='kw'>impl</span> <span class='ident'>LayoutNodeHelpers</span> <span class='kw'>for</span> <span class='ident'>LayoutJS</span><span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&gt;</span> {
@@ -3714,6 +3767,39 @@
         }
 
         <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;not text!&quot;</span>)
+    }
+
+    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
+    <span class='kw'>fn</span> <span class='ident'>selection</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Range</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;&gt;</span> {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>area</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>HTMLTextAreaElement</span><span class='op'>&gt;</span>() {
+            <span class='kw'>return</span> <span class='kw'>unsafe</span> { <span class='ident'>area</span>.<span class='ident'>selection_for_layout</span>() };
+        }
+
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>input</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>HTMLInputElement</span><span class='op'>&gt;</span>() {
+            <span class='kw'>return</span> <span class='kw'>unsafe</span> { <span class='ident'>input</span>.<span class='ident'>selection_for_layout</span>() };
+        }
+
+        <span class='prelude-val'>None</span>
+    }
+
+    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
+    <span class='kw'>fn</span> <span class='ident'>image_url</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span> {
+        <span class='kw'>unsafe</span> {
+            <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>HTMLImageElement</span><span class='op'>&gt;</span>()
+                .<span class='ident'>expect</span>(<span class='string'>&quot;not an image!&quot;</span>)
+                .<span class='ident'>image_url</span>()
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>canvas_data</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>HTMLCanvasData</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>downcast</span>()
+            .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>canvas</span><span class='op'>|</span> <span class='ident'>canvas</span>.<span class='ident'>data</span>())
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>iframe_pipeline_id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>PipelineId</span> {
+        <span class='kw'>let</span> <span class='ident'>iframe_element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>HTMLIFrameElement</span><span class='op'>&gt;</span>()
+            .<span class='ident'>expect</span>(<span class='string'>&quot;not an iframe element!&quot;</span>);
+        <span class='ident'>iframe_element</span>.<span class='ident'>pipeline_id</span>().<span class='ident'>unwrap</span>()
     }
 }
 

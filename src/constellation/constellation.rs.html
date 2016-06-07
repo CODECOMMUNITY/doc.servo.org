@@ -2169,6 +2169,7 @@
 <span id="2125">2125</span>
 <span id="2126">2126</span>
 <span id="2127">2127</span>
+<span id="2128">2128</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -3450,34 +3451,35 @@
         <span class='comment'>// Get the ids for the previous and next pipelines.</span>
         <span class='kw'>let</span> (<span class='ident'>prev_pipeline_id</span>, <span class='ident'>next_pipeline_id</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='ident'>prev</span> <span class='op'>=</span> <span class='ident'>frame</span>.<span class='ident'>current</span>;
                 <span class='kw'>let</span> <span class='ident'>next</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>direction</span> {
-                    <span class='ident'>NavigationDirection</span>::<span class='ident'>Forward</span> <span class='op'>=&gt;</span> {
-                        <span class='kw'>match</span> <span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>pop</span>() {
-                            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                                <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;no next page to navigate to&quot;</span>);
-                                <span class='kw'>return</span>;
-                            },
-                            <span class='prelude-val'>Some</span>(<span class='ident'>next</span>) <span class='op'>=&gt;</span> {
-                                <span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>push</span>(<span class='ident'>frame</span>.<span class='ident'>current</span>);
-                                <span class='ident'>next</span>
-                            },
+                    <span class='ident'>NavigationDirection</span>::<span class='ident'>Forward</span>(<span class='ident'>delta</span>) <span class='op'>=&gt;</span> {
+                        <span class='kw'>if</span> <span class='ident'>delta</span> <span class='op'>&gt;</span> <span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>len</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>delta</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
+                            <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid navigation delta&quot;</span>);
                         }
+                        <span class='kw'>let</span> <span class='ident'>new_next_len</span> <span class='op'>=</span> <span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>len</span>() <span class='op'>-</span> (<span class='ident'>delta</span> <span class='op'>-</span> <span class='number'>1</span>);
+                        <span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>push</span>(<span class='ident'>frame</span>.<span class='ident'>current</span>);
+                        <span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>extend</span>(<span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>drain</span>(<span class='ident'>new_next_len</span>..).<span class='ident'>rev</span>());
+                        <span class='ident'>frame</span>.<span class='ident'>current</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>pop</span>() {
+                            <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>) <span class='op'>=&gt;</span> <span class='ident'>frame</span>,
+                            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Could not get next frame for forward navigation&quot;</span>),
+                        };
+                        <span class='ident'>frame</span>.<span class='ident'>current</span>
                     }
-                    <span class='ident'>NavigationDirection</span>::<span class='ident'>Back</span> <span class='op'>=&gt;</span> {
-                        <span class='kw'>match</span> <span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>pop</span>() {
-                            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                                <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;no previous page to navigate to&quot;</span>);
-                                <span class='kw'>return</span>;
-                            },
-                            <span class='prelude-val'>Some</span>(<span class='ident'>prev</span>) <span class='op'>=&gt;</span> {
-                                <span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>push</span>(<span class='ident'>frame</span>.<span class='ident'>current</span>);
-                                <span class='ident'>prev</span>
-                            },
+                    <span class='ident'>NavigationDirection</span>::<span class='ident'>Back</span>(<span class='ident'>delta</span>) <span class='op'>=&gt;</span> {
+                        <span class='kw'>if</span> <span class='ident'>delta</span> <span class='op'>&gt;</span> <span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>len</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>delta</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
+                            <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid navigation delta&quot;</span>);
                         }
+                        <span class='kw'>let</span> <span class='ident'>new_prev_len</span> <span class='op'>=</span> <span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>len</span>() <span class='op'>-</span> (<span class='ident'>delta</span> <span class='op'>-</span> <span class='number'>1</span>);
+                        <span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>push</span>(<span class='ident'>frame</span>.<span class='ident'>current</span>);
+                        <span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>extend</span>(<span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>drain</span>(<span class='ident'>new_prev_len</span>..).<span class='ident'>rev</span>());
+                        <span class='ident'>frame</span>.<span class='ident'>current</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>pop</span>() {
+                            <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>) <span class='op'>=&gt;</span> <span class='ident'>frame</span>,
+                            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Could not get prev frame for back navigation&quot;</span>),
+                        };
+                        <span class='ident'>frame</span>.<span class='ident'>current</span>
                     }
                 };
-                <span class='kw'>let</span> <span class='ident'>prev</span> <span class='op'>=</span> <span class='ident'>frame</span>.<span class='ident'>current</span>;
-                <span class='ident'>frame</span>.<span class='ident'>current</span> <span class='op'>=</span> <span class='ident'>next</span>;
                 (<span class='ident'>prev</span>, <span class='ident'>next</span>)
             },
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {

@@ -778,9 +778,9 @@
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>make_legacy_color_setter</span>(
     ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>attr</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>htmlname</span>:<span class='ident'>tt</span> ) <span class='op'>=&gt;</span> (
         <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>attr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>DOMString</span>) {
-            <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::<span class='ident'>AttrValue</span>;
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
             <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>element</span>::<span class='ident'>Element</span>;
+            <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>attr</span>::<span class='ident'>AttrValue</span>;
             <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
             <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>AttrValue</span>::<span class='ident'>from_legacy_color</span>(<span class='ident'>value</span>.<span class='ident'>into</span>());
             <span class='ident'>element</span>.<span class='ident'>set_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>htmlname</span>), <span class='ident'>value</span>)

@@ -559,6 +559,8 @@
 <span id="515">515</span>
 <span id="516">516</span>
 <span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -655,6 +657,8 @@
     <span class='kw'>pub</span> <span class='ident'>new_pipeline_id</span>: <span class='ident'>PipelineId</span>,
     <span class='doccomment'>/// Id of the new frame associated with this pipeline.</span>
     <span class='kw'>pub</span> <span class='ident'>subpage_id</span>: <span class='ident'>SubpageId</span>,
+    <span class='doccomment'>/// Type of the new frame associated with this pipeline.</span>
+    <span class='kw'>pub</span> <span class='ident'>frame_type</span>: <span class='ident'>FrameType</span>,
     <span class='doccomment'>/// Network request data which will be initiated by the script thread.</span>
     <span class='kw'>pub</span> <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>,
     <span class='doccomment'>/// The paint channel, cast to `OptionalOpaqueIpcSender`. This is really an</span>
@@ -869,7 +873,7 @@
     <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>PipelineId</span>,
     <span class='doccomment'>/// The subpage ID of this pipeline to create in its pipeline parent.</span>
     <span class='doccomment'>/// If `None`, this is the root.</span>
-    <span class='kw'>pub</span> <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>)<span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>FrameType</span>)<span class='op'>&gt;</span>,
     <span class='doccomment'>/// A channel with which messages can be sent to us (the script thread).</span>
     <span class='kw'>pub</span> <span class='ident'>control_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// A port on which messages sent by the constellation to script can be received.</span>

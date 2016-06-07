@@ -656,7 +656,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
 <span class='kw'>use</span> <span class='ident'>document_loader</span>::{<span class='ident'>LoadType</span>, <span class='ident'>LoadBlocker</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::{<span class='ident'>Attr</span>, <span class='ident'>AttrValue</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::<span class='ident'>Attr</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>cell</span>::<span class='ident'>DOMRefCell</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BrowserElementBinding</span>::<span class='ident'>BrowserElementErrorEventDetail</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BrowserElementBinding</span>::<span class='ident'>BrowserElementIconChangeEventDetail</span>;
@@ -695,7 +695,7 @@
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>IFrameLoadInfo</span>, <span class='ident'>MozBrowserEvent</span>, <span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::<span class='ident'>Atom</span>;
-<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>attr</span>::<span class='ident'>LengthOrPercentageOrAuto</span>;
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>attr</span>::{<span class='ident'>AttrValue</span>, <span class='ident'>LengthOrPercentageOrAuto</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>context</span>::<span class='ident'>ReflowGoal</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>::<span class='ident'>mozbrowser_enabled</span>;
@@ -1121,12 +1121,12 @@
 
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/goBack</span>
     <span class='kw'>fn</span> <span class='ident'>GoBack</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ErrorResult</span> {
-        <span class='ident'>Navigate</span>(<span class='self'>self</span>, <span class='ident'>NavigationDirection</span>::<span class='ident'>Back</span>)
+        <span class='ident'>Navigate</span>(<span class='self'>self</span>, <span class='ident'>NavigationDirection</span>::<span class='ident'>Back</span>(<span class='number'>1</span>))
     }
 
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/goForward</span>
     <span class='kw'>fn</span> <span class='ident'>GoForward</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ErrorResult</span> {
-        <span class='ident'>Navigate</span>(<span class='self'>self</span>, <span class='ident'>NavigationDirection</span>::<span class='ident'>Forward</span>)
+        <span class='ident'>Navigate</span>(<span class='self'>self</span>, <span class='ident'>NavigationDirection</span>::<span class='ident'>Forward</span>(<span class='number'>1</span>))
     }
 
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/reload</span>

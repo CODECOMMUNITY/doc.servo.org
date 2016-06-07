@@ -188,8 +188,6 @@
 <span id="144">144</span>
 <span id="145">145</span>
 <span id="146">146</span>
-<span id="147">147</span>
-<span id="148">148</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -314,12 +312,10 @@
 }
 
 <span class='doccomment'>/// Report a pending exception, thereby clearing it.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>report_pending_exception</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) {
-    <span class='kw'>unsafe</span> {
-        <span class='kw'>if</span> <span class='ident'>JS_IsExceptionPending</span>(<span class='ident'>cx</span>) {
-            <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>);
-            <span class='ident'>JS_ReportPendingException</span>(<span class='ident'>cx</span>);
-        }
+<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>report_pending_exception</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>obj</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span>) {
+    <span class='kw'>if</span> <span class='ident'>JS_IsExceptionPending</span>(<span class='ident'>cx</span>) {
+        <span class='kw'>let</span> <span class='ident'>_ac</span> <span class='op'>=</span> <span class='ident'>JSAutoCompartment</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>);
+        <span class='ident'>JS_ReportPendingException</span>(<span class='ident'>cx</span>);
     }
 }
 

@@ -300,6 +300,9 @@
 <span id="256">256</span>
 <span id="257">257</span>
 <span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -434,7 +437,8 @@
     <span class='ident'>Indeterminate</span>,
     <span class='ident'>ServoNonZeroBorder</span>,
     <span class='ident'>ReadWrite</span>,
-    <span class='ident'>ReadOnly</span>
+    <span class='ident'>ReadOnly</span>,
+    <span class='ident'>PlaceholderShown</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>NonTSPseudoClass</span> {
@@ -450,6 +454,7 @@
             <span class='ident'>Checked</span> <span class='op'>=&gt;</span> <span class='ident'>IN_CHECKED_STATE</span>,
             <span class='ident'>Indeterminate</span> <span class='op'>=&gt;</span> <span class='ident'>IN_INDETERMINATE_STATE</span>,
             <span class='ident'>ReadOnly</span> <span class='op'>|</span> <span class='ident'>ReadWrite</span> <span class='op'>=&gt;</span> <span class='ident'>IN_READ_WRITE_STATE</span>,
+            <span class='ident'>PlaceholderShown</span> <span class='op'>=&gt;</span> <span class='ident'>IN_PLACEHOLDER_SHOWN_STATE</span>,
 
             <span class='ident'>AnyLink</span> <span class='op'>|</span>
             <span class='ident'>Link</span> <span class='op'>|</span>
@@ -482,6 +487,7 @@
             <span class='string'>&quot;indeterminate&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Indeterminate</span>,
             <span class='string'>&quot;read-write&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>ReadWrite</span>,
             <span class='string'>&quot;read-only&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>ReadOnly</span>,
+            <span class='string'>&quot;placeholder-shown&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>PlaceholderShown</span>,
             <span class='string'>&quot;-servo-nonzero-border&quot;</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>context</span>.<span class='ident'>in_user_agent_stylesheet</span> {
                     <span class='kw'>return</span> <span class='prelude-val'>Err</span>(());

@@ -609,6 +609,8 @@
 <span id="565">565</span>
 <span id="566">566</span>
 <span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1037,7 +1039,9 @@
         };
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>rv</span> <span class='op'>||</span> <span class='ident'>handler</span>.<span class='ident'>ptr</span>.<span class='ident'>is_null</span>() {
             <span class='comment'>// Step 1.8.2</span>
-            <span class='ident'>report_pending_exception</span>(<span class='ident'>cx</span>, <span class='self'>self</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>().<span class='ident'>get</span>());
+            <span class='kw'>unsafe</span> {
+                <span class='ident'>report_pending_exception</span>(<span class='ident'>cx</span>, <span class='self'>self</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>().<span class='ident'>get</span>());
+            }
             <span class='comment'>// Step 1.8.1 / 1.8.3</span>
             <span class='kw'>return</span> <span class='prelude-val'>None</span>;
         }

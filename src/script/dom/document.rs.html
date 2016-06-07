@@ -2927,6 +2927,7 @@
 <span id="2883">2883</span>
 <span id="2884">2884</span>
 <span id="2885">2885</span>
+<span id="2886">2886</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2934,7 +2935,7 @@
 
 <span class='kw'>use</span> <span class='ident'>document_loader</span>::{<span class='ident'>DocumentLoader</span>, <span class='ident'>LoadType</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>activation</span>::{<span class='ident'>ActivationSource</span>, <span class='ident'>synthetic_click_activation</span>};
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::{<span class='ident'>Attr</span>, <span class='ident'>AttrValue</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>attr</span>::<span class='ident'>Attr</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>cell</span>::<span class='ident'>DOMRefCell</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>DOMRectBinding</span>::<span class='ident'>DOMRectMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>DocumentBinding</span>;
@@ -3050,6 +3051,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::{<span class='ident'>Atom</span>, <span class='ident'>QualName</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>attr</span>::<span class='ident'>AttrValue</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>context</span>::<span class='ident'>ReflowGoal</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>restyle_hints</span>::<span class='ident'>ElementSnapshot</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>servo</span>::<span class='ident'>Stylesheet</span>;
@@ -4189,7 +4191,7 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>trigger_mozbrowser_event</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>event</span>: <span class='ident'>MozBrowserEvent</span>) {
         <span class='kw'>if</span> <span class='ident'>mozbrowser_enabled</span>() {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>parent_info</span>() {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>, _)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>window</span>.<span class='ident'>parent_info</span>() {
                 <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>ConstellationMsg</span>::<span class='ident'>MozBrowserEvent</span>(<span class='ident'>containing_pipeline_id</span>,
                                                               <span class='ident'>subpage_id</span>,
                                                               <span class='ident'>event</span>);

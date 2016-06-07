@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/heapsize-0.3.5/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/heapsize-0.3.6/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -356,6 +356,42 @@
 <span id="312">312</span>
 <span id="313">313</span>
 <span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -509,10 +545,46 @@
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>HeapSizeOf</span>, <span class='ident'>U</span>: <span class='ident'>HeapSizeOf</span><span class='op'>&gt;</span> <span class='ident'>HeapSizeOf</span> <span class='kw'>for</span> (<span class='ident'>T</span>, <span class='ident'>U</span>) {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T1</span>, <span class='ident'>T2</span><span class='op'>&gt;</span> <span class='ident'>HeapSizeOf</span> <span class='kw'>for</span> (<span class='ident'>T1</span>, <span class='ident'>T2</span>)
+    <span class='kw'>where</span> <span class='ident'>T1</span>: <span class='ident'>HeapSizeOf</span>, <span class='ident'>T2</span> :<span class='ident'>HeapSizeOf</span>
+{
     <span class='kw'>fn</span> <span class='ident'>heap_size_of_children</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span> <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>heap_size_of_children</span>()
+        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>heap_size_of_children</span>()
     }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T1</span>, <span class='ident'>T2</span>, <span class='ident'>T3</span><span class='op'>&gt;</span> <span class='ident'>HeapSizeOf</span> <span class='kw'>for</span> (<span class='ident'>T1</span>, <span class='ident'>T2</span>, <span class='ident'>T3</span>)
+    <span class='kw'>where</span> <span class='ident'>T1</span>: <span class='ident'>HeapSizeOf</span>, <span class='ident'>T2</span> :<span class='ident'>HeapSizeOf</span>, <span class='ident'>T3</span>: <span class='ident'>HeapSizeOf</span>
+{
+    <span class='kw'>fn</span> <span class='ident'>heap_size_of_children</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>2</span>.<span class='ident'>heap_size_of_children</span>()
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T1</span>, <span class='ident'>T2</span>, <span class='ident'>T3</span>, <span class='ident'>T4</span><span class='op'>&gt;</span> <span class='ident'>HeapSizeOf</span> <span class='kw'>for</span> (<span class='ident'>T1</span>, <span class='ident'>T2</span>, <span class='ident'>T3</span>, <span class='ident'>T4</span>)
+    <span class='kw'>where</span> <span class='ident'>T1</span>: <span class='ident'>HeapSizeOf</span>, <span class='ident'>T2</span> :<span class='ident'>HeapSizeOf</span>, <span class='ident'>T3</span>: <span class='ident'>HeapSizeOf</span>, <span class='ident'>T4</span>: <span class='ident'>HeapSizeOf</span>
+{
+    <span class='kw'>fn</span> <span class='ident'>heap_size_of_children</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>2</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>3</span>.<span class='ident'>heap_size_of_children</span>()
+  }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T1</span>, <span class='ident'>T2</span>, <span class='ident'>T3</span>, <span class='ident'>T4</span>, <span class='ident'>T5</span><span class='op'>&gt;</span> <span class='ident'>HeapSizeOf</span> <span class='kw'>for</span> (<span class='ident'>T1</span>, <span class='ident'>T2</span>, <span class='ident'>T3</span>, <span class='ident'>T4</span>, <span class='ident'>T5</span>)
+    <span class='kw'>where</span> <span class='ident'>T1</span>: <span class='ident'>HeapSizeOf</span>, <span class='ident'>T2</span> :<span class='ident'>HeapSizeOf</span>, <span class='ident'>T3</span>: <span class='ident'>HeapSizeOf</span>, <span class='ident'>T4</span>: <span class='ident'>HeapSizeOf</span>, <span class='ident'>T5</span>: <span class='ident'>HeapSizeOf</span>
+{
+    <span class='kw'>fn</span> <span class='ident'>heap_size_of_children</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>1</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>2</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>3</span>.<span class='ident'>heap_size_of_children</span>() <span class='op'>+</span>
+            <span class='self'>self</span>.<span class='number'>4</span>.<span class='ident'>heap_size_of_children</span>()
+  }
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>HeapSizeOf</span><span class='op'>&gt;</span> <span class='ident'>HeapSizeOf</span> <span class='kw'>for</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {

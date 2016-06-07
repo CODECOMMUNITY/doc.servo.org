@@ -708,6 +708,11 @@
 <span id="664">664</span>
 <span id="665">665</span>
 <span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1258,6 +1263,11 @@
             <span class='ident'>Key</span>::<span class='ident'>Tab</span> <span class='op'>=&gt;</span> <span class='ident'>KeyReaction</span>::<span class='ident'>TriggerDefaultAction</span>,
             _ <span class='op'>=&gt;</span> <span class='ident'>KeyReaction</span>::<span class='ident'>Nothing</span>,
         }
+    }
+
+    <span class='doccomment'>/// Whether the content is empty.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_empty</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>len</span>() <span class='op'>&lt;=</span> <span class='number'>1</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>get</span>(<span class='number'>0</span>).<span class='ident'>map_or</span>(<span class='boolvalue'>true</span>, <span class='op'>|</span><span class='ident'>line</span><span class='op'>|</span> <span class='ident'>line</span>.<span class='ident'>is_empty</span>())
     }
 
     <span class='doccomment'>/// The length of the content in bytes.</span>
