@@ -528,12 +528,12 @@
         <span class='kw'>let</span> <span class='ident'>element_ref</span> <span class='op'>=</span> <span class='ident'>element</span>.<span class='ident'>r</span>();
         <span class='kw'>let</span> (<span class='ident'>image</span>, <span class='ident'>metadata</span>, <span class='ident'>trigger_image_load</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>image</span> {
             <span class='ident'>ImageResponse</span>::<span class='ident'>Loaded</span>(<span class='ident'>image</span>) <span class='op'>|</span> <span class='ident'>ImageResponse</span>::<span class='ident'>PlaceholderLoaded</span>(<span class='ident'>image</span>) <span class='op'>=&gt;</span> {
-                (<span class='prelude-val'>Some</span>(<span class='ident'>image</span>.<span class='ident'>clone</span>()), <span class='prelude-val'>Some</span>(<span class='ident'>ImageMetadata</span> { <span class='ident'>height</span>: <span class='ident'>image</span>.<span class='ident'>height</span>, <span class='ident'>width</span>: <span class='ident'>image</span>.<span class='ident'>width</span> } ), <span class='boolvalue'>true</span>)
+                (<span class='prelude-val'>Some</span>(<span class='ident'>image</span>.<span class='ident'>clone</span>()), <span class='prelude-val'>Some</span>(<span class='ident'>ImageMetadata</span> { <span class='ident'>height</span>: <span class='ident'>image</span>.<span class='ident'>height</span>, <span class='ident'>width</span>: <span class='ident'>image</span>.<span class='ident'>width</span> } ), <span class='bool-val'>true</span>)
             }
             <span class='ident'>ImageResponse</span>::<span class='ident'>MetadataLoaded</span>(<span class='ident'>meta</span>) <span class='op'>=&gt;</span> {
-                (<span class='prelude-val'>None</span>, <span class='prelude-val'>Some</span>(<span class='ident'>meta</span>), <span class='boolvalue'>false</span>)
+                (<span class='prelude-val'>None</span>, <span class='prelude-val'>Some</span>(<span class='ident'>meta</span>), <span class='bool-val'>false</span>)
             }
-            <span class='ident'>ImageResponse</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>, <span class='boolvalue'>true</span>)
+            <span class='ident'>ImageResponse</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>, <span class='bool-val'>true</span>)
         };
         <span class='ident'>element_ref</span>.<span class='ident'>current_request</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>image</span> <span class='op'>=</span> <span class='ident'>image</span>;
         <span class='ident'>element_ref</span>.<span class='ident'>current_request</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>metadata</span> <span class='op'>=</span> <span class='ident'>metadata</span>;

@@ -286,7 +286,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>apply_viewport</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='kw'>if</span> <span class='op'>!</span>::<span class='ident'>util</span>::<span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;layout.viewport.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) {
+        <span class='kw'>if</span> <span class='op'>!</span>::<span class='ident'>util</span>::<span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;layout.viewport.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>) {
             <span class='kw'>return</span>;
         }
         <span class='kw'>let</span> <span class='ident'>element</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>();
@@ -300,7 +300,7 @@
                         <span class='ident'>media</span>: <span class='prelude-val'>None</span>,
                         <span class='comment'>// Viewport constraints are always recomputed on resize; they don&#39;t need to</span>
                         <span class='comment'>// force all styles to be recomputed.</span>
-                        <span class='ident'>dirty_on_viewport_size_change</span>: <span class='boolvalue'>false</span>,
+                        <span class='ident'>dirty_on_viewport_size_change</span>: <span class='bool-val'>false</span>,
                     }));
                     <span class='kw'>let</span> <span class='ident'>doc</span> <span class='op'>=</span> <span class='ident'>document_from_node</span>(<span class='self'>self</span>);
                     <span class='ident'>doc</span>.<span class='ident'>invalidate_stylesheets</span>();

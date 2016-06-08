@@ -64,14 +64,13 @@ connection&#39;s frame handling only when there are buffered frames, if it is no
 from within <code>HttpConnection</code>s, while handling the actual reads using a <code>ReceiveFrame</code>
 implementation that can block. (Predicated on triggering a single frame handle operation on
 the connection for each successfully executed <code>read_next</code>.)</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.tx'><code>tx</code></td><td><div class='docblock'><p>The sender side of the channel. Buffers the frames read by the wrapped <code>ReceiveFrame</code>
+</div><h2 class='fields'>Fields</h2><span id='structfield.tx'><code>tx: <a class='struct' href='../../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../../../solicit/http/connection/enum.HttpFrame.html' title='solicit::http::connection::HttpFrame'>HttpFrame</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The sender side of the channel. Buffers the frames read by the wrapped <code>ReceiveFrame</code>
 instance for future consumation by the associated <code>ChannelFrameReceiverHandle</code>.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.inner'><code>inner</code></td><td><div class='docblock'><p>The <code>ReceiveFrame</code> instance that performs the actual reading of the frame, used from within
+</div><span id='structfield.inner'><code>inner: R</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The <code>ReceiveFrame</code> instance that performs the actual reading of the frame, used from within
 the <code>read_next</code> method.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;R&gt; <a class='struct' href='../../../solicit/client/async/struct.ChannelFrameReceiver.html' title='solicit::client::async::ChannelFrameReceiver'>ChannelFrameReceiver</a>&lt;R&gt; <span class='where'>where R: <a class='trait' href='../../../solicit/http/connection/trait.ReceiveFrame.html' title='solicit::http::connection::ReceiveFrame'>ReceiveFrame</a></span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1769' class='srclink' href='../../../src/solicit/client/async.rs.html#131-156' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;R&gt; <a class='struct' href='../../../solicit/client/async/struct.ChannelFrameReceiver.html' title='solicit::client::async::ChannelFrameReceiver'>ChannelFrameReceiver</a>&lt;R&gt; <span class='where'>where R: <a class='trait' href='../../../solicit/http/connection/trait.ReceiveFrame.html' title='solicit::http::connection::ReceiveFrame'>ReceiveFrame</a></span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1769' class='srclink' href='../../../src/solicit/client/async.rs.html#131-156' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(inner: R) -&gt; <a class='primitive' href='../../../std/primitive.tuple.html'>(</a><a class='struct' href='../../../solicit/client/async/struct.ChannelFrameReceiver.html' title='solicit::client::async::ChannelFrameReceiver'>ChannelFrameReceiver</a>&lt;R&gt;, <a class='struct' href='../../../solicit/client/async/struct.ChannelFrameReceiverHandle.html' title='solicit::client::async::ChannelFrameReceiverHandle'>ChannelFrameReceiverHandle</a><a class='primitive' href='../../../std/primitive.tuple.html'>)</a></code></h4>
 <div class='docblock'><p>Creates a new <code>ChannelFrameReceiver</code>, as well as the associated
 <code>ChannelFrameReceiverHandle</code>.</p>

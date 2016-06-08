@@ -2886,11 +2886,11 @@
 				<span class='ident'>symbols</span>[<span class='number'>1</span>..<span class='number'>3</span>].<span class='ident'>sort</span>();
 				<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>2</span>]
 			},
-			(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>)) <span class='op'>=&gt;</span> {
+			(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='bool-val'>false</span>)) <span class='op'>=&gt;</span> {
 				<span class='ident'>symbols</span>.<span class='ident'>sort</span>();
 				<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>2</span>, <span class='number'>2</span>, <span class='number'>2</span>, <span class='number'>2</span>]
 			},
-			(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>)) <span class='op'>=&gt;</span> {
+			(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='bool-val'>true</span>)) <span class='op'>=&gt;</span> {
 				<span class='ident'>symbols</span>[<span class='number'>2</span>..<span class='number'>4</span>].<span class='ident'>sort</span>();
 				<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>3</span>]
 			},
@@ -3308,8 +3308,8 @@
 
 	<span class='kw'>fn</span> <span class='ident'>parse_context_map</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>n_trees</span>: <span class='ident'>NTrees</span>, <span class='ident'>len</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ContextMap</span>, <span class='ident'>DecompressorError</span><span class='op'>&gt;</span> {
 		<span class='kw'>let</span> <span class='ident'>rlemax</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>in_stream</span>.<span class='ident'>read_bit</span>() {
-			<span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> <span class='number'>0u16</span>,
-			<span class='prelude-val'>Ok</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>in_stream</span>.<span class='ident'>read_u16_from_n_bits</span>(<span class='number'>4</span>) {
+			<span class='prelude-val'>Ok</span>(<span class='bool-val'>false</span>) <span class='op'>=&gt;</span> <span class='number'>0u16</span>,
+			<span class='prelude-val'>Ok</span>(<span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>in_stream</span>.<span class='ident'>read_u16_from_n_bits</span>(<span class='number'>4</span>) {
 				<span class='prelude-val'>Ok</span>(<span class='ident'>my_u16</span>) <span class='op'>=&gt;</span> <span class='ident'>my_u16</span> <span class='op'>+</span> <span class='number'>1</span>,
 				<span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>UnexpectedEOF</span>),
 			},
@@ -3815,8 +3815,8 @@
 						<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>),
 					};
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsLast</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsLast</span>(<span class='bool-val'>true</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='bool-val'>true</span>);
 
 					<span class='comment'>// debug(&amp;format!(&quot;ISLAST = true&quot;));</span>
 
@@ -3825,8 +3825,8 @@
 						<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>),
 					};
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsLast</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsLast</span>(<span class='bool-val'>false</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='bool-val'>false</span>);
 
 					<span class='comment'>// println!(&quot;ISLAST = false&quot;);</span>
 
@@ -3835,16 +3835,16 @@
 						<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>),
 					};
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsLastEmpty</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last_empty</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsLastEmpty</span>(<span class='bool-val'>true</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last_empty</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='bool-val'>true</span>);
 
 					<span class='comment'>// debug(&amp;format!(&quot;ISLASTEMPTY = true&quot;));</span>
 
 
 					<span class='self'>self</span>.<span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>State</span>::<span class='ident'>StreamEnd</span>;
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsLastEmpty</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last_empty</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsLastEmpty</span>(<span class='bool-val'>false</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_last_empty</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='bool-val'>false</span>);
 
 					<span class='comment'>// debug(&amp;format!(&quot;ISLASTEMPTY = false&quot;));</span>
 
@@ -3855,8 +3855,8 @@
 				},
 				<span class='ident'>State</span>::<span class='ident'>MNibbles</span>(<span class='number'>0</span>) <span class='op'>=&gt;</span> {
 					<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>in_stream</span>.<span class='ident'>read_bit</span>() {
-						<span class='prelude-val'>Ok</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>NonZeroReservedBit</span>),
-						<span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {},
+						<span class='prelude-val'>Ok</span>(<span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>NonZeroReservedBit</span>),
+						<span class='prelude-val'>Ok</span>(<span class='bool-val'>false</span>) <span class='op'>=&gt;</span> {},
 						<span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>DecompressorError</span>::<span class='ident'>UnexpectedEOF</span>),
 					}
 
@@ -3937,8 +3937,8 @@
 						}
 					};
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsUncompressed</span>(<span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_uncompressed</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsUncompressed</span>(<span class='bool-val'>true</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_uncompressed</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='bool-val'>true</span>);
 
 					<span class='comment'>// println!(&quot;UNCOMPRESSED = true&quot;);</span>
 
@@ -3971,8 +3971,8 @@
 						<span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>buf_pos</span>);
 					}
 				},
-				<span class='ident'>State</span>::<span class='ident'>IsUncompressed</span>(<span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> {
-					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_uncompressed</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>false</span>);
+				<span class='ident'>State</span>::<span class='ident'>IsUncompressed</span>(<span class='bool-val'>false</span>) <span class='op'>=&gt;</span> {
+					<span class='self'>self</span>.<span class='ident'>meta_block</span>.<span class='ident'>header</span>.<span class='ident'>is_uncompressed</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='bool-val'>false</span>);
 
 					<span class='comment'>// println!(&quot;UNCOMPRESSED = false&quot;);</span>
 

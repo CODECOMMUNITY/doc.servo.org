@@ -1122,7 +1122,7 @@
             <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationMsg</span>::<span class='ident'>GetPipeline</span>(<span class='ident'>frame_id</span>, <span class='ident'>sender</span>.<span class='ident'>clone</span>());
             <span class='self'>self</span>.<span class='ident'>constellation_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
             <span class='comment'>// Wait until the document is ready before returning the pipeline id.</span>
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>x</span>, <span class='boolvalue'>true</span>)) <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>() {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>x</span>, <span class='bool-val'>true</span>)) <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>() {
                 <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>x</span>);
             }
             <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='ident'>interval</span>));
@@ -1165,9 +1165,9 @@
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>capabilities</span> <span class='op'>=</span> <span class='ident'>BTreeMap</span>::<span class='ident'>new</span>();
             <span class='ident'>capabilities</span>.<span class='ident'>insert</span>(<span class='string'>&quot;browserName&quot;</span>.<span class='ident'>to_owned</span>(), <span class='string'>&quot;servo&quot;</span>.<span class='ident'>to_json</span>());
             <span class='ident'>capabilities</span>.<span class='ident'>insert</span>(<span class='string'>&quot;browserVersion&quot;</span>.<span class='ident'>to_owned</span>(), <span class='string'>&quot;0.0.1&quot;</span>.<span class='ident'>to_json</span>());
-            <span class='ident'>capabilities</span>.<span class='ident'>insert</span>(<span class='string'>&quot;acceptSslCerts&quot;</span>.<span class='ident'>to_owned</span>(), <span class='boolvalue'>false</span>.<span class='ident'>to_json</span>());
-            <span class='ident'>capabilities</span>.<span class='ident'>insert</span>(<span class='string'>&quot;takeScreenshot&quot;</span>.<span class='ident'>to_owned</span>(), <span class='boolvalue'>true</span>.<span class='ident'>to_json</span>());
-            <span class='ident'>capabilities</span>.<span class='ident'>insert</span>(<span class='string'>&quot;takeElementScreenshot&quot;</span>.<span class='ident'>to_owned</span>(), <span class='boolvalue'>false</span>.<span class='ident'>to_json</span>());
+            <span class='ident'>capabilities</span>.<span class='ident'>insert</span>(<span class='string'>&quot;acceptSslCerts&quot;</span>.<span class='ident'>to_owned</span>(), <span class='bool-val'>false</span>.<span class='ident'>to_json</span>());
+            <span class='ident'>capabilities</span>.<span class='ident'>insert</span>(<span class='string'>&quot;takeScreenshot&quot;</span>.<span class='ident'>to_owned</span>(), <span class='bool-val'>true</span>.<span class='ident'>to_json</span>());
+            <span class='ident'>capabilities</span>.<span class='ident'>insert</span>(<span class='string'>&quot;takeElementScreenshot&quot;</span>.<span class='ident'>to_owned</span>(), <span class='bool-val'>false</span>.<span class='ident'>to_json</span>());
             <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='prelude-val'>Ok</span>(<span class='ident'>WebDriverResponse</span>::<span class='ident'>NewSession</span>(
                 <span class='ident'>NewSessionResponse</span>::<span class='ident'>new</span>(
                     <span class='ident'>session</span>.<span class='ident'>id</span>.<span class='ident'>to_string</span>(),
@@ -1619,7 +1619,7 @@
         <span class='kw'>let</span> <span class='ident'>config</span> <span class='op'>=</span> <span class='ident'>Config</span> {
             <span class='ident'>char_set</span>: <span class='ident'>CharacterSet</span>::<span class='ident'>Standard</span>,
             <span class='ident'>newline</span>: <span class='ident'>Newline</span>::<span class='ident'>LF</span>,
-            <span class='ident'>pad</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>pad</span>: <span class='bool-val'>true</span>,
             <span class='ident'>line_length</span>: <span class='prelude-val'>None</span>
         };
         <span class='kw'>let</span> <span class='ident'>encoded</span> <span class='op'>=</span> <span class='ident'>png_data</span>.<span class='ident'>to_base64</span>(<span class='ident'>config</span>);

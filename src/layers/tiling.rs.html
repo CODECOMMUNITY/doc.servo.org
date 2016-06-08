@@ -419,7 +419,7 @@
     <span class='kw'>fn</span> <span class='ident'>should_use_new_buffer</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>new_buffer</span>: <span class='kw-2'>&amp;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>LayerBuffer</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>buffer</span> {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>buffer</span>) <span class='op'>=&gt;</span> <span class='ident'>new_buffer</span>.<span class='ident'>content_age</span> <span class='op'>&gt;=</span> <span class='ident'>buffer</span>.<span class='ident'>content_age</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
         }
     }
 
@@ -458,14 +458,14 @@
         <span class='comment'>// Don&#39;t resend a request if our buffer&#39;s content age matches the current content age.</span>
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>buffer</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>buffer</span> {
             <span class='kw'>if</span> <span class='ident'>buffer</span>.<span class='ident'>content_age</span> <span class='op'>&gt;=</span> <span class='ident'>content_age</span> {
-                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                <span class='kw'>return</span> <span class='bool-val'>false</span>;
             }
         }
 
         <span class='comment'>// Don&#39;t resend a request, if we already have one pending.</span>
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>content_age_of_pending_buffer</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>pending_content_age</span>) <span class='op'>=&gt;</span> <span class='ident'>pending_content_age</span> <span class='op'>!=</span> <span class='ident'>content_age</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
         }
     }
 }
@@ -541,11 +541,11 @@
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>screen_rect</span>) <span class='op'>=</span> <span class='ident'>screen_rect</span> {
             <span class='kw'>if</span> <span class='ident'>screen_rect</span>.<span class='ident'>rect</span>.<span class='ident'>intersection</span>(<span class='kw-2'>&amp;</span><span class='ident'>test_rect</span>).<span class='ident'>is_some</span>() {
-                <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+                <span class='kw'>return</span> <span class='bool-val'>true</span>;
             }
         }
 
-        <span class='boolvalue'>false</span>
+        <span class='bool-val'>false</span>
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>mark_tiles_outside_of_rect_as_unused</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,

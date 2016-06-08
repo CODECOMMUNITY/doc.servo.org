@@ -55,10 +55,9 @@
 
 <p>This type has <code>Deref</code> and <code>DerefMut</code> impls to <code>Vec&lt;u8&gt;</code> so that all slice
 and <code>Vec</code> operations are available.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.v'><code>v</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.cut'><code>cut</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../regex_syntax/struct.Lit.html' title='regex_syntax::Lit'>Lit</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-326' class='srclink' href='../src/regex_syntax/literals.rs.html#818-838' title='goto source code'>[src]</a></span></h3>
+</div><h2 class='fields'>Fields</h2><span id='structfield.v'><code>v: <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../std/primitive.u8.html'>u8</a>&gt;</code></span>
+                           <span class='stab '></span><span id='structfield.cut'><code>cut: <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../regex_syntax/struct.Lit.html' title='regex_syntax::Lit'>Lit</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-326' class='srclink' href='../src/regex_syntax/literals.rs.html#818-838' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(bytes: <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../std/primitive.u8.html'>u8</a>&gt;) -&gt; <a class='struct' href='../regex_syntax/struct.Lit.html' title='regex_syntax::Lit'>Lit</a></code></h4>
 <div class='docblock'><p>Returns a new complete literal with the bytes given.</p>
 </div><h4 id='method.empty' class='method'><code>fn <a href='#method.empty' class='fnname'>empty</a>() -&gt; <a class='struct' href='../regex_syntax/struct.Lit.html' title='regex_syntax::Lit'>Lit</a></code></h4>
@@ -330,7 +329,7 @@ If <code>new_len</code> is less than <code>len()</code>, the <code>Vec</code> is
 <span class='ident'>vec</span>.<span class='ident'>resize</span>(<span class='number'>2</span>, <span class='number'>0</span>);
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>vec</span>, [<span class='number'>1</span>, <span class='number'>2</span>]);</pre>
 </div><h4 id='method.extend_from_slice' class='method'><code>fn <a href='#method.extend_from_slice' class='fnname'>extend_from_slice</a>(&amp;mut self, other: <a class='primitive' href='../std/primitive.slice.html'>&amp;[T]</a>)</code><div class='since' title='Stable since Rust version 1.6.0'>1.6.0</div></h4>
-<div class='docblock'><p>Appends all elements in a slice to the <code>Vec</code>.</p>
+<div class='docblock'><p>Clones and appends all elements in a slice to the <code>Vec</code>.</p>
 
 <p>Iterates over the slice <code>other</code>, clones each element, and then appends
 it to this <code>Vec</code>. The <code>other</code> vector is traversed in-order.</p>

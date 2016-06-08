@@ -908,22 +908,22 @@
 
 <span class='kw'>fn</span> <span class='ident'>matches_filter</span>(<span class='ident'>device</span>: <span class='kw-2'>&amp;</span><span class='ident'>BluetoothDevice</span>, <span class='ident'>filter</span>: <span class='kw-2'>&amp;</span><span class='ident'>BluetoothScanfilter</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>if</span> <span class='ident'>filter</span>.<span class='ident'>is_empty_or_invalid</span>() {
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
 
     <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>filter</span>.<span class='ident'>get_name</span>().<span class='ident'>is_empty</span>() {
         <span class='kw'>if</span> <span class='ident'>device</span>.<span class='ident'>get_name</span>().<span class='ident'>ok</span>() <span class='op'>!=</span> <span class='prelude-val'>Some</span>(<span class='ident'>filter</span>.<span class='ident'>get_name</span>().<span class='ident'>to_string</span>()) {
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>return</span> <span class='bool-val'>false</span>;
         }
     }
 
     <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>filter</span>.<span class='ident'>get_name_prefix</span>().<span class='ident'>is_empty</span>() {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>device_name</span>) <span class='op'>=</span> <span class='ident'>device</span>.<span class='ident'>get_name</span>() {
             <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>device_name</span>.<span class='ident'>starts_with</span>(<span class='ident'>filter</span>.<span class='ident'>get_name_prefix</span>()) {
-                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                <span class='kw'>return</span> <span class='bool-val'>false</span>;
             }
         } <span class='kw'>else</span> {
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>return</span> <span class='bool-val'>false</span>;
         }
     }
 
@@ -931,17 +931,17 @@
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>device_uuids</span>) <span class='op'>=</span> <span class='ident'>device</span>.<span class='ident'>get_uuids</span>() {
             <span class='kw'>for</span> <span class='ident'>service</span> <span class='kw'>in</span> <span class='ident'>filter</span>.<span class='ident'>get_services</span>() {
                 <span class='kw'>if</span> <span class='ident'>device_uuids</span>.<span class='ident'>iter</span>().<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='ident'>service</span>).<span class='ident'>is_none</span>() {
-                    <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                    <span class='kw'>return</span> <span class='bool-val'>false</span>;
                 }
             }
         }
     }
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+    <span class='kw'>return</span> <span class='bool-val'>true</span>;
 }
 
 <span class='kw'>fn</span> <span class='ident'>matches_filters</span>(<span class='ident'>device</span>: <span class='kw-2'>&amp;</span><span class='ident'>BluetoothDevice</span>, <span class='ident'>filters</span>: <span class='kw-2'>&amp;</span><span class='ident'>BluetoothScanfilterSequence</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>if</span> <span class='ident'>filters</span>.<span class='ident'>has_empty_or_invalid_filter</span>() {
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
 
     <span class='kw'>return</span> <span class='ident'>filters</span>.<span class='ident'>iter</span>().<span class='ident'>any</span>(<span class='op'>|</span><span class='ident'>f</span><span class='op'>|</span> <span class='ident'>matches_filter</span>(<span class='ident'>device</span>, <span class='ident'>f</span>))
@@ -1030,7 +1030,7 @@
     <span class='comment'>// Adapter</span>
 
     <span class='kw'>fn</span> <span class='ident'>get_or_create_adapter</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>BluetoothAdapter</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>adapter_valid</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>adapter</span>.<span class='ident'>as_ref</span>().<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>a</span><span class='op'>|</span> <span class='ident'>a</span>.<span class='ident'>get_address</span>().<span class='ident'>is_ok</span>());
+        <span class='kw'>let</span> <span class='ident'>adapter_valid</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>adapter</span>.<span class='ident'>as_ref</span>().<span class='ident'>map_or</span>(<span class='bool-val'>false</span>, <span class='op'>|</span><span class='ident'>a</span><span class='op'>|</span> <span class='ident'>a</span>.<span class='ident'>get_address</span>().<span class='ident'>is_ok</span>());
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>adapter_valid</span> {
             <span class='self'>self</span>.<span class='ident'>adapter</span> <span class='op'>=</span> <span class='ident'>BluetoothAdapter</span>::<span class='ident'>init</span>().<span class='ident'>ok</span>();
         }
@@ -1292,8 +1292,8 @@
 
         <span class='kw'>let</span> <span class='ident'>connected</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>d</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='ident'>d</span>.<span class='ident'>is_connected</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) {
-                    <span class='boolvalue'>true</span>
+                <span class='kw'>if</span> <span class='ident'>d</span>.<span class='ident'>is_connected</span>().<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>) {
+                    <span class='bool-val'>true</span>
                 } <span class='kw'>else</span> {
                     <span class='ident'>d</span>.<span class='ident'>connect</span>().<span class='ident'>is_ok</span>()
                 }
@@ -1309,10 +1309,10 @@
 
         <span class='kw'>let</span> <span class='ident'>connected</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_device</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>d</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='ident'>d</span>.<span class='ident'>is_connected</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) {
+                <span class='kw'>if</span> <span class='ident'>d</span>.<span class='ident'>is_connected</span>().<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>) {
                     <span class='ident'>d</span>.<span class='ident'>disconnect</span>().<span class='ident'>is_ok</span>()
                 } <span class='kw'>else</span> {
-                    <span class='boolvalue'>false</span>
+                    <span class='bool-val'>false</span>
                 }
             },
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>DEVICE_ERROR</span>)))),
@@ -1326,7 +1326,7 @@
                            <span class='ident'>uuid</span>: <span class='ident'>String</span>,
                            <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>BluetoothResult</span><span class='op'>&lt;</span><span class='ident'>BluetoothServiceMsg</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
-        <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>allowed_services</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>device_id</span>).<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>uuid</span>)) {
+        <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>allowed_services</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>device_id</span>).<span class='ident'>map_or</span>(<span class='bool-val'>false</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>uuid</span>)) {
             <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>SECURITY_ERROR</span>))));
         }
         <span class='kw'>let</span> <span class='ident'>services</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_gatt_services_by_uuid</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>uuid</span>);
@@ -1334,11 +1334,11 @@
             <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>PRIMARY_SERVICE_ERROR</span>))));
         }
         <span class='kw'>for</span> <span class='ident'>service</span> <span class='kw'>in</span> <span class='ident'>services</span> {
-            <span class='kw'>if</span> <span class='ident'>service</span>.<span class='ident'>is_primary</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) {
+            <span class='kw'>if</span> <span class='ident'>service</span>.<span class='ident'>is_primary</span>().<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>) {
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>uuid</span>) <span class='op'>=</span> <span class='ident'>service</span>.<span class='ident'>get_uuid</span>() {
                     <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>BluetoothServiceMsg</span> {
                                                    <span class='ident'>uuid</span>: <span class='ident'>uuid</span>,
-                                                   <span class='ident'>is_primary</span>: <span class='boolvalue'>true</span>,
+                                                   <span class='ident'>is_primary</span>: <span class='bool-val'>true</span>,
                                                    <span class='ident'>instance_id</span>: <span class='ident'>service</span>.<span class='ident'>get_object_path</span>(),
                                                })));
                 }
@@ -1354,7 +1354,7 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>adapter</span> <span class='op'>=</span> <span class='macro'>get_adapter_or_return_error</span><span class='macro'>!</span>(<span class='self'>self</span>, <span class='ident'>sender</span>);
         <span class='kw'>let</span> <span class='ident'>services</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>uuid</span> {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>id</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>allowed_services</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>device_id</span>).<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>contains</span>(<span class='ident'>id</span>)) {
+                <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>allowed_services</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>device_id</span>).<span class='ident'>map_or</span>(<span class='bool-val'>false</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>contains</span>(<span class='ident'>id</span>)) {
                     <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>SECURITY_ERROR</span>))))
                 }
                 <span class='self'>self</span>.<span class='ident'>get_gatt_services_by_uuid</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>adapter</span>, <span class='kw-2'>&amp;</span><span class='ident'>device_id</span>, <span class='ident'>id</span>)
@@ -1366,11 +1366,11 @@
         }
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>services_vec</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>();
         <span class='kw'>for</span> <span class='ident'>service</span> <span class='kw'>in</span> <span class='ident'>services</span> {
-            <span class='kw'>if</span> <span class='ident'>service</span>.<span class='ident'>is_primary</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) {
+            <span class='kw'>if</span> <span class='ident'>service</span>.<span class='ident'>is_primary</span>().<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>) {
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>uuid</span>) <span class='op'>=</span> <span class='ident'>service</span>.<span class='ident'>get_uuid</span>() {
                     <span class='ident'>services_vec</span>.<span class='ident'>push</span>(<span class='ident'>BluetoothServiceMsg</span> {
                                           <span class='ident'>uuid</span>: <span class='ident'>uuid</span>,
-                                          <span class='ident'>is_primary</span>: <span class='boolvalue'>true</span>,
+                                          <span class='ident'>is_primary</span>: <span class='bool-val'>true</span>,
                                           <span class='ident'>instance_id</span>: <span class='ident'>service</span>.<span class='ident'>get_object_path</span>(),
                                       });
                 }
@@ -1401,7 +1401,7 @@
                 <span class='kw'>if</span> <span class='ident'>uuid</span> <span class='op'>==</span> <span class='ident'>service_uuid</span> {
                     <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>BluetoothServiceMsg</span> {
                                                    <span class='ident'>uuid</span>: <span class='ident'>uuid</span>,
-                                                   <span class='ident'>is_primary</span>: <span class='ident'>service</span>.<span class='ident'>is_primary</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>),
+                                                   <span class='ident'>is_primary</span>: <span class='ident'>service</span>.<span class='ident'>is_primary</span>().<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>),
                                                    <span class='ident'>instance_id</span>: <span class='ident'>service</span>.<span class='ident'>get_object_path</span>(),
                                                })));
                 }
@@ -1428,7 +1428,7 @@
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>service_uuid</span>) <span class='op'>=</span> <span class='ident'>service</span>.<span class='ident'>get_uuid</span>() {
                 <span class='ident'>services_vec</span>.<span class='ident'>push</span>(<span class='ident'>BluetoothServiceMsg</span> {
                                       <span class='ident'>uuid</span>: <span class='ident'>service_uuid</span>,
-                                      <span class='ident'>is_primary</span>: <span class='ident'>service</span>.<span class='ident'>is_primary</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>),
+                                      <span class='ident'>is_primary</span>: <span class='ident'>service</span>.<span class='ident'>is_primary</span>().<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>),
                                       <span class='ident'>instance_id</span>: <span class='ident'>service</span>.<span class='ident'>get_object_path</span>(),
                                   });
             }
@@ -1581,7 +1581,7 @@
         }
         <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>result</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>v</span> {
-                <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='boolvalue'>true</span>),
+                <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='bool-val'>true</span>),
                 <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>to_string</span>()))),
             },
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>drop</span>(<span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='ident'>VALUE_ERROR</span>)))),

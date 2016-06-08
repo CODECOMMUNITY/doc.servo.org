@@ -269,15 +269,15 @@
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>ast_map</span>::<span class='ident'>NodeStmt</span>(<span class='kw-2'>ref</span> <span class='ident'>st</span>) <span class='op'>=</span> <span class='ident'>tcx</span>.<span class='ident'>map</span>.<span class='ident'>get</span>(<span class='ident'>tcx</span>.<span class='ident'>map</span>.<span class='ident'>get_parent_node</span>(<span class='ident'>id</span>)) {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>StmtDecl</span>(..) <span class='op'>=</span> <span class='ident'>st</span>.<span class='ident'>node</span> {
             <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;found&quot;</span>);
-            <span class='kw'>return</span> <span class='boolvalue'>true</span>
+            <span class='kw'>return</span> <span class='bool-val'>true</span>
         }
     }
-    <span class='boolvalue'>false</span>
+    <span class='bool-val'>false</span>
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rvalue_checks&quot;</span>))]</span>
 <span class='kw'>fn</span> <span class='ident'>is_in_let</span>(_: <span class='ident'>ty</span>::<span class='ident'>TyCtxt</span>, _: <span class='ident'>NodeId</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='boolvalue'>true</span>
+    <span class='bool-val'>true</span>
 }
 
 <span class='macro'>declare_lint</span><span class='macro'>!</span>(<span class='kw'>pub</span> <span class='ident'>MOVED_NO_MOVE</span>, <span class='ident'>Deny</span>,
@@ -366,25 +366,25 @@
 }
 
 <span class='kw'>fn</span> <span class='ident'>is_ty_no_move</span>(<span class='ident'>tcx</span>: <span class='ident'>ty</span>::<span class='ident'>TyCtxt</span>, <span class='ident'>t</span>: <span class='ident'>ty</span>::<span class='ident'>Ty</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
     <span class='ident'>t</span>.<span class='ident'>maybe_walk</span>(<span class='op'>|</span><span class='ident'>ty</span><span class='op'>|</span> {
         <span class='kw'>match</span> <span class='ident'>ty</span>.<span class='ident'>sty</span> {
             <span class='ident'>ty</span>::<span class='ident'>TyStruct</span>(<span class='ident'>did</span>, _) <span class='op'>|</span> <span class='ident'>ty</span>::<span class='ident'>TyEnum</span>(<span class='ident'>did</span>, _) <span class='op'>=&gt;</span> {
                 <span class='kw'>if</span> <span class='ident'>tcx</span>.<span class='ident'>has_attr</span>(<span class='ident'>did</span>.<span class='ident'>did</span>, <span class='string'>&quot;allow_movable_interior&quot;</span>) {
-                    <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                    <span class='kw'>return</span> <span class='bool-val'>false</span>;
                 }
                 <span class='kw'>if</span> <span class='ident'>tcx</span>.<span class='ident'>has_attr</span>(<span class='ident'>did</span>.<span class='ident'>did</span>, <span class='string'>&quot;no_move&quot;</span>) {
-                    <span class='ident'>found</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
-                    <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                    <span class='ident'>found</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+                    <span class='kw'>return</span> <span class='bool-val'>false</span>;
                 }
                 <span class='kw'>if</span> <span class='ident'>match_def_path</span>(<span class='ident'>tcx</span>, <span class='ident'>did</span>.<span class='ident'>did</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;alloc&quot;</span>, <span class='string'>&quot;rc&quot;</span>, <span class='string'>&quot;Rc&quot;</span>]) <span class='op'>||</span>
                    <span class='ident'>match_def_path</span>(<span class='ident'>tcx</span>, <span class='ident'>did</span>.<span class='ident'>did</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;alloc&quot;</span>, <span class='string'>&quot;arc&quot;</span>, <span class='string'>&quot;Arc&quot;</span>]) {
-                    <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                    <span class='kw'>return</span> <span class='bool-val'>false</span>;
                 }
-                <span class='boolvalue'>true</span>
+                <span class='bool-val'>true</span>
             },
-            <span class='ident'>ty</span>::<span class='ident'>TyRef</span>(..) <span class='op'>|</span> <span class='ident'>ty</span>::<span class='ident'>TyRawPtr</span>(..) <span class='op'>|</span> <span class='ident'>ty</span>::<span class='ident'>TyBox</span>(..) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>, <span class='comment'>// don&#39;t recurse down ptrs</span>
-            _ <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>
+            <span class='ident'>ty</span>::<span class='ident'>TyRef</span>(..) <span class='op'>|</span> <span class='ident'>ty</span>::<span class='ident'>TyRawPtr</span>(..) <span class='op'>|</span> <span class='ident'>ty</span>::<span class='ident'>TyBox</span>(..) <span class='op'>=&gt;</span> <span class='bool-val'>false</span>, <span class='comment'>// don&#39;t recurse down ptrs</span>
+            _ <span class='op'>=&gt;</span> <span class='bool-val'>true</span>
         }
     });
     <span class='ident'>found</span>
@@ -400,14 +400,14 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_def_path</span>(<span class='ident'>tcx</span>: <span class='ident'>ty</span>::<span class='ident'>TyCtxt</span>, <span class='ident'>def_id</span>: <span class='ident'>def_id</span>::<span class='ident'>DefId</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>]) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>krate</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>tcx</span>.<span class='ident'>crate_name</span>(<span class='ident'>def_id</span>.<span class='ident'>krate</span>);
     <span class='kw'>if</span> <span class='ident'>krate</span> <span class='op'>!=</span> <span class='kw-2'>&amp;</span><span class='ident'>path</span>[<span class='number'>0</span>] {
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
 
     <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>path</span>[<span class='number'>1</span>..];
     <span class='kw'>let</span> <span class='ident'>other</span> <span class='op'>=</span> <span class='ident'>tcx</span>.<span class='ident'>def_path</span>(<span class='ident'>def_id</span>).<span class='ident'>data</span>;
 
     <span class='kw'>if</span> <span class='ident'>other</span>.<span class='ident'>len</span>() <span class='op'>!=</span> <span class='ident'>path</span>.<span class='ident'>len</span>() {
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
 
     <span class='ident'>other</span>.<span class='ident'>into_iter</span>()

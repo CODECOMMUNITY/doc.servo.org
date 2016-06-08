@@ -526,7 +526,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>subpage</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>SubpageId</span><span class='op'>&gt;</span>, <span class='ident'>url</span>: <span class='ident'>Url</span>) <span class='op'>-&gt;</span> <span class='ident'>ParserContext</span> {
         <span class='ident'>ParserContext</span> {
             <span class='ident'>parser</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>is_synthesized_document</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>is_synthesized_document</span>: <span class='bool-val'>false</span>,
             <span class='ident'>id</span>: <span class='ident'>id</span>,
             <span class='ident'>subpage</span>: <span class='ident'>subpage</span>,
             <span class='ident'>url</span>: <span class='ident'>url</span>,
@@ -536,11 +536,11 @@
 
 <span class='kw'>impl</span> <span class='ident'>AsyncResponseListener</span> <span class='kw'>for</span> <span class='ident'>ParserContext</span> {
     <span class='kw'>fn</span> <span class='ident'>headers_available</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>meta_result</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span><span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_ssl_error</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_ssl_error</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
         <span class='kw'>let</span> <span class='ident'>metadata</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>meta_result</span> {
             <span class='prelude-val'>Ok</span>(<span class='ident'>meta</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>meta</span>),
             <span class='prelude-val'>Err</span>(<span class='ident'>NetworkError</span>::<span class='ident'>SslValidation</span>(<span class='ident'>url</span>)) <span class='op'>=&gt;</span> {
-                <span class='ident'>is_ssl_error</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                <span class='ident'>is_ssl_error</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>meta</span> <span class='op'>=</span> <span class='ident'>Metadata</span>::<span class='ident'>default</span>(<span class='ident'>url</span>);
                 <span class='kw'>let</span> <span class='ident'>mime</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Mime</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;text/html&quot;</span>.<span class='ident'>parse</span>().<span class='ident'>ok</span>();
                 <span class='ident'>meta</span>.<span class='ident'>set_content_type</span>(<span class='ident'>mime</span>.<span class='ident'>as_ref</span>());
@@ -566,7 +566,7 @@
 
         <span class='kw'>match</span> <span class='ident'>content_type</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>ContentType</span>(<span class='ident'>Mime</span>(<span class='ident'>TopLevel</span>::<span class='ident'>Image</span>, _, _))) <span class='op'>=&gt;</span> {
-                <span class='self'>self</span>.<span class='ident'>is_synthesized_document</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                <span class='self'>self</span>.<span class='ident'>is_synthesized_document</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                 <span class='kw'>let</span> <span class='ident'>page</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;&lt;html&gt;&lt;body&gt;&lt;img src=&#39;{}&#39; /&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>, <span class='self'>self</span>.<span class='ident'>url</span>);
                 <span class='ident'>parser</span>.<span class='ident'>pending_input</span>().<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>page</span>);
                 <span class='ident'>parser</span>.<span class='ident'>parse_sync</span>();
@@ -580,7 +580,7 @@
             },
             <span class='prelude-val'>Some</span>(<span class='ident'>ContentType</span>(<span class='ident'>Mime</span>(<span class='ident'>TopLevel</span>::<span class='ident'>Text</span>, <span class='ident'>SubLevel</span>::<span class='ident'>Html</span>, _))) <span class='op'>=&gt;</span> { <span class='comment'>// Handle text/html</span>
                 <span class='kw'>if</span> <span class='ident'>is_ssl_error</span> {
-                    <span class='self'>self</span>.<span class='ident'>is_synthesized_document</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                    <span class='self'>self</span>.<span class='ident'>is_synthesized_document</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                     <span class='kw'>let</span> <span class='ident'>page_bytes</span> <span class='op'>=</span> <span class='ident'>read_resource_file</span>(<span class='string'>&quot;badcert.html&quot;</span>).<span class='ident'>unwrap</span>();
                     <span class='kw'>let</span> <span class='ident'>page</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from_utf8</span>(<span class='ident'>page_bytes</span>).<span class='ident'>unwrap</span>();
                     <span class='ident'>parser</span>.<span class='ident'>pending_input</span>().<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>page</span>);
@@ -597,7 +597,7 @@
                 <span class='comment'>// Show warning page for unknown mime types.</span>
                 <span class='kw'>let</span> <span class='ident'>page</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;Unknown content type ({}/{}).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>,
                     <span class='ident'>toplevel</span>.<span class='ident'>as_str</span>(), <span class='ident'>sublevel</span>.<span class='ident'>as_str</span>());
-                <span class='self'>self</span>.<span class='ident'>is_synthesized_document</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                <span class='self'>self</span>.<span class='ident'>is_synthesized_document</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                 <span class='ident'>parser</span>.<span class='ident'>pending_input</span>().<span class='ident'>borrow_mut</span>().<span class='ident'>push</span>(<span class='ident'>page</span>);
                 <span class='ident'>parser</span>.<span class='ident'>parse_sync</span>();
             },
@@ -632,7 +632,7 @@
             <span class='comment'>// TODO(Savago): we should send a notification to callers #5463.</span>
         }
 
-        <span class='ident'>parser</span>.<span class='ident'>r</span>().<span class='ident'>last_chunk_received</span>().<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
+        <span class='ident'>parser</span>.<span class='ident'>r</span>().<span class='ident'>last_chunk_received</span>().<span class='ident'>set</span>(<span class='bool-val'>true</span>);
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>r</span>().<span class='ident'>is_suspended</span>() {
             <span class='ident'>parser</span>.<span class='ident'>r</span>().<span class='ident'>parse_sync</span>();
         }
@@ -694,7 +694,7 @@
         };
 
         <span class='kw'>let</span> <span class='ident'>tb</span> <span class='op'>=</span> <span class='ident'>TreeBuilder</span>::<span class='ident'>new</span>(<span class='ident'>sink</span>, <span class='ident'>TreeBuilderOpts</span> {
-            <span class='ident'>ignore_missing_rules</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>ignore_missing_rules</span>: <span class='bool-val'>true</span>,
             .. <span class='ident'>Default</span>::<span class='ident'>default</span>()
         });
 
@@ -705,8 +705,8 @@
             <span class='ident'>tokenizer</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>tok</span>),
             <span class='ident'>pending_input</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>()),
             <span class='ident'>document</span>: <span class='ident'>JS</span>::<span class='ident'>from_ref</span>(<span class='ident'>document</span>),
-            <span class='ident'>suspended</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
-            <span class='ident'>last_chunk_received</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>suspended</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
+            <span class='ident'>last_chunk_received</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>pipeline</span>: <span class='ident'>pipeline</span>,
         };
 
@@ -723,7 +723,7 @@
         };
 
         <span class='kw'>let</span> <span class='ident'>tb_opts</span> <span class='op'>=</span> <span class='ident'>TreeBuilderOpts</span> {
-            <span class='ident'>ignore_missing_rules</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>ignore_missing_rules</span>: <span class='bool-val'>true</span>,
             .. <span class='ident'>Default</span>::<span class='ident'>default</span>()
         };
         <span class='kw'>let</span> <span class='ident'>tb</span> <span class='op'>=</span> <span class='ident'>TreeBuilder</span>::<span class='ident'>new_for_fragment</span>(<span class='ident'>sink</span>,
@@ -742,8 +742,8 @@
             <span class='ident'>tokenizer</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>tok</span>),
             <span class='ident'>pending_input</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>()),
             <span class='ident'>document</span>: <span class='ident'>JS</span>::<span class='ident'>from_ref</span>(<span class='ident'>document</span>),
-            <span class='ident'>suspended</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
-            <span class='ident'>last_chunk_received</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>true</span>),
+            <span class='ident'>suspended</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
+            <span class='ident'>last_chunk_received</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>true</span>),
             <span class='ident'>pipeline</span>: <span class='prelude-val'>None</span>,
         };
 
@@ -817,12 +817,12 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>suspend</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>get</span>());
-        <span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
+        <span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>set</span>(<span class='bool-val'>true</span>);
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>resume</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>get</span>());
-        <span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
+        <span class='self'>self</span>.<span class='ident'>suspended</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
         <span class='self'>self</span>.<span class='ident'>parse_sync</span>();
     }
 

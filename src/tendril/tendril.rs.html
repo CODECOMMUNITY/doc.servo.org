@@ -2891,8 +2891,8 @@
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>try_from_byte_slice</span>(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Tendril</span><span class='op'>&lt;</span><span class='ident'>F</span>, <span class='ident'>A</span><span class='op'>&gt;</span>, ()<span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='ident'>F</span>::<span class='ident'>validate</span>(<span class='ident'>x</span>) {
-            <span class='boolvalue'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>Tendril</span>::<span class='ident'>from_byte_slice_without_validating</span>(<span class='ident'>x</span>) }),
-            <span class='boolvalue'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(()),
+            <span class='bool-val'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>Tendril</span>::<span class='ident'>from_byte_slice_without_validating</span>(<span class='ident'>x</span>) }),
+            <span class='bool-val'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(()),
         }
     }
 
@@ -2946,8 +2946,8 @@
         <span class='kw'>where</span> <span class='ident'>Sub</span>: <span class='ident'>fmt</span>::<span class='ident'>SubsetOf</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>,
     {
         <span class='kw'>match</span> <span class='ident'>Sub</span>::<span class='ident'>revalidate_subset</span>(<span class='self'>self</span>.<span class='ident'>as_byte_slice</span>()) {
-            <span class='boolvalue'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='self'>self</span>) }),
-            <span class='boolvalue'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(()),
+            <span class='bool-val'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='self'>self</span>) }),
+            <span class='bool-val'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(()),
         }
     }
 
@@ -2957,8 +2957,8 @@
         <span class='kw'>where</span> <span class='ident'>Sub</span>: <span class='ident'>fmt</span>::<span class='ident'>SubsetOf</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>,
     {
         <span class='kw'>match</span> <span class='ident'>Sub</span>::<span class='ident'>revalidate_subset</span>(<span class='self'>self</span>.<span class='ident'>as_byte_slice</span>()) {
-            <span class='boolvalue'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='self'>self</span>) }),
-            <span class='boolvalue'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='self'>self</span>),
+            <span class='bool-val'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='self'>self</span>) }),
+            <span class='bool-val'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='self'>self</span>),
         }
     }
 
@@ -2969,8 +2969,8 @@
         <span class='kw'>where</span> <span class='ident'>Other</span>: <span class='ident'>fmt</span>::<span class='ident'>Format</span>,
     {
         <span class='kw'>match</span> <span class='ident'>Other</span>::<span class='ident'>validate</span>(<span class='self'>self</span>.<span class='ident'>as_byte_slice</span>()) {
-            <span class='boolvalue'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='self'>self</span>) }),
-            <span class='boolvalue'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(()),
+            <span class='bool-val'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='self'>self</span>) }),
+            <span class='bool-val'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(()),
         }
     }
 
@@ -2985,8 +2985,8 @@
         <span class='kw'>where</span> <span class='ident'>Other</span>: <span class='ident'>fmt</span>::<span class='ident'>Format</span>,
     {
         <span class='kw'>match</span> <span class='ident'>Other</span>::<span class='ident'>validate</span>(<span class='self'>self</span>.<span class='ident'>as_byte_slice</span>()) {
-            <span class='boolvalue'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='self'>self</span>) }),
-            <span class='boolvalue'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='self'>self</span>),
+            <span class='bool-val'>true</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='self'>self</span>) }),
+            <span class='bool-val'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='self'>self</span>),
         }
     }
 
@@ -2995,11 +2995,11 @@
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>try_push_bytes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), ()<span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='ident'>F</span>::<span class='ident'>validate</span>(<span class='ident'>buf</span>) {
-            <span class='boolvalue'>true</span> <span class='op'>=&gt;</span> <span class='kw'>unsafe</span> {
+            <span class='bool-val'>true</span> <span class='op'>=&gt;</span> <span class='kw'>unsafe</span> {
                 <span class='self'>self</span>.<span class='ident'>push_bytes_without_validating</span>(<span class='ident'>buf</span>);
                 <span class='prelude-val'>Ok</span>(())
             },
-            <span class='boolvalue'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(()),
+            <span class='bool-val'>false</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(()),
         }
     }
 
@@ -3293,8 +3293,8 @@
         <span class='kw'>let</span> <span class='ident'>header</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>header</span>();
         <span class='kw'>let</span> <span class='ident'>shared</span> <span class='op'>=</span> (<span class='op'>*</span><span class='ident'>ptr</span> <span class='kw-2'>&amp;</span> <span class='number'>1</span>) <span class='op'>==</span> <span class='number'>1</span>;
         <span class='kw'>let</span> (<span class='ident'>cap</span>, <span class='ident'>offset</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>shared</span> {
-            <span class='boolvalue'>true</span> <span class='op'>=&gt;</span> ((<span class='op'>*</span><span class='ident'>header</span>).<span class='ident'>cap</span>, <span class='self'>self</span>.<span class='ident'>aux</span>.<span class='ident'>get</span>()),
-            <span class='boolvalue'>false</span> <span class='op'>=&gt;</span> (<span class='self'>self</span>.<span class='ident'>aux</span>.<span class='ident'>get</span>(), <span class='number'>0</span>),
+            <span class='bool-val'>true</span> <span class='op'>=&gt;</span> ((<span class='op'>*</span><span class='ident'>header</span>).<span class='ident'>cap</span>, <span class='self'>self</span>.<span class='ident'>aux</span>.<span class='ident'>get</span>()),
+            <span class='bool-val'>false</span> <span class='op'>=&gt;</span> (<span class='self'>self</span>.<span class='ident'>aux</span>.<span class='ident'>get</span>(), <span class='number'>0</span>),
         };
 
         (<span class='ident'>Buf32</span> {
@@ -4114,18 +4114,18 @@
     <span class='kw'>fn</span> <span class='ident'>char_run</span>() {
         <span class='kw'>for</span> <span class='kw-2'>&amp;</span>(<span class='ident'>s</span>, <span class='ident'>exp</span>) <span class='kw'>in</span> <span class='kw-2'>&amp;</span>[
             (<span class='string'>&quot;&quot;</span>, <span class='prelude-val'>None</span>),
-            (<span class='string'>&quot; &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot; &quot;</span>, <span class='boolvalue'>true</span>))),
-            (<span class='string'>&quot;x&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;x&quot;</span>, <span class='boolvalue'>false</span>))),
-            (<span class='string'>&quot;  \t  \n&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;  \t  \n&quot;</span>, <span class='boolvalue'>true</span>))),
-            (<span class='string'>&quot;xyzzy&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;xyzzy&quot;</span>, <span class='boolvalue'>false</span>))),
-            (<span class='string'>&quot;   xyzzy&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;   &quot;</span>, <span class='boolvalue'>true</span>))),
-            (<span class='string'>&quot;xyzzy   &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;xyzzy&quot;</span>, <span class='boolvalue'>false</span>))),
-            (<span class='string'>&quot;   xyzzy  &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;   &quot;</span>, <span class='boolvalue'>true</span>))),
-            (<span class='string'>&quot;xyzzy   hi&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;xyzzy&quot;</span>, <span class='boolvalue'>false</span>))),
-            (<span class='string'>&quot;中 &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;中&quot;</span>, <span class='boolvalue'>false</span>))),
-            (<span class='string'>&quot; 中 &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot; &quot;</span>, <span class='boolvalue'>true</span>))),
-            (<span class='string'>&quot;  中 &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;  &quot;</span>, <span class='boolvalue'>true</span>))),
-            (<span class='string'>&quot;   中 &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;   &quot;</span>, <span class='boolvalue'>true</span>))),
+            (<span class='string'>&quot; &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot; &quot;</span>, <span class='bool-val'>true</span>))),
+            (<span class='string'>&quot;x&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;x&quot;</span>, <span class='bool-val'>false</span>))),
+            (<span class='string'>&quot;  \t  \n&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;  \t  \n&quot;</span>, <span class='bool-val'>true</span>))),
+            (<span class='string'>&quot;xyzzy&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;xyzzy&quot;</span>, <span class='bool-val'>false</span>))),
+            (<span class='string'>&quot;   xyzzy&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;   &quot;</span>, <span class='bool-val'>true</span>))),
+            (<span class='string'>&quot;xyzzy   &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;xyzzy&quot;</span>, <span class='bool-val'>false</span>))),
+            (<span class='string'>&quot;   xyzzy  &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;   &quot;</span>, <span class='bool-val'>true</span>))),
+            (<span class='string'>&quot;xyzzy   hi&quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;xyzzy&quot;</span>, <span class='bool-val'>false</span>))),
+            (<span class='string'>&quot;中 &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;中&quot;</span>, <span class='bool-val'>false</span>))),
+            (<span class='string'>&quot; 中 &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot; &quot;</span>, <span class='bool-val'>true</span>))),
+            (<span class='string'>&quot;  中 &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;  &quot;</span>, <span class='bool-val'>true</span>))),
+            (<span class='string'>&quot;   中 &quot;</span>, <span class='prelude-val'>Some</span>((<span class='string'>&quot;   &quot;</span>, <span class='bool-val'>true</span>))),
         ] {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>to_tendril</span>();
             <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>pop_front_char_run</span>(<span class='ident'>char</span>::<span class='ident'>is_whitespace</span>);
@@ -4238,9 +4238,9 @@
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>t</span>.<span class='ident'>pop_front_char</span>());
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>mk</span>(<span class='string'>b&quot; \t xyz&quot;</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='ident'>mk</span>(<span class='string'>b&quot; \t &quot;</span>), <span class='boolvalue'>true</span>))
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='ident'>mk</span>(<span class='string'>b&quot; \t &quot;</span>), <span class='bool-val'>true</span>))
             <span class='op'>==</span> <span class='ident'>t</span>.<span class='ident'>pop_front_char_run</span>(<span class='ident'>char</span>::<span class='ident'>is_whitespace</span>));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='ident'>mk</span>(<span class='string'>b&quot;xyz&quot;</span>), <span class='boolvalue'>false</span>))
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='ident'>mk</span>(<span class='string'>b&quot;xyz&quot;</span>), <span class='bool-val'>false</span>))
             <span class='op'>==</span> <span class='ident'>t</span>.<span class='ident'>pop_front_char_run</span>(<span class='ident'>char</span>::<span class='ident'>is_whitespace</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>t</span>.<span class='ident'>pop_front_char_run</span>(<span class='ident'>char</span>::<span class='ident'>is_whitespace</span>).<span class='ident'>is_none</span>());
 
@@ -4264,9 +4264,9 @@
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>t</span>.<span class='ident'>pop_front_char</span>());
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>mk</span>(<span class='string'>b&quot; \t \xfe\xa7z&quot;</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='ident'>mk</span>(<span class='string'>b&quot; \t &quot;</span>), <span class='boolvalue'>true</span>))
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='ident'>mk</span>(<span class='string'>b&quot; \t &quot;</span>), <span class='bool-val'>true</span>))
             <span class='op'>==</span> <span class='ident'>t</span>.<span class='ident'>pop_front_char_run</span>(<span class='ident'>char</span>::<span class='ident'>is_whitespace</span>));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='ident'>mk</span>(<span class='string'>b&quot;\xfe\xa7z&quot;</span>), <span class='boolvalue'>false</span>))
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='ident'>mk</span>(<span class='string'>b&quot;\xfe\xa7z&quot;</span>), <span class='bool-val'>false</span>))
             <span class='op'>==</span> <span class='ident'>t</span>.<span class='ident'>pop_front_char_run</span>(<span class='ident'>char</span>::<span class='ident'>is_whitespace</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>t</span>.<span class='ident'>pop_front_char_run</span>(<span class='ident'>char</span>::<span class='ident'>is_whitespace</span>).<span class='ident'>is_none</span>());
 

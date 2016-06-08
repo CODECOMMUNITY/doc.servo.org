@@ -558,9 +558,9 @@
     <span class='kw'>match</span> <span class='ident'>prev</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>deref_mut</span>().<span class='ident'>node</span> {
         <span class='ident'>Text</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>existing</span>) <span class='op'>=&gt;</span> {
             <span class='ident'>existing</span>.<span class='ident'>push_slice</span>(<span class='ident'>text</span>);
-            <span class='boolvalue'>true</span>
+            <span class='bool-val'>true</span>
         }
-        _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+        _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
     }
 }
 
@@ -627,11 +627,11 @@
 
     <span class='kw'>fn</span> <span class='ident'>create_element</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>QualName</span>, <span class='ident'>attrs</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Attribute</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Handle</span> {
         <span class='kw'>let</span> <span class='ident'>info</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>name</span> {
-            <span class='macro'>qualname</span><span class='macro'>!</span>(<span class='ident'>html</span>, <span class='string'>&quot;script&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>Script</span>(<span class='boolvalue'>false</span>),
+            <span class='macro'>qualname</span><span class='macro'>!</span>(<span class='ident'>html</span>, <span class='string'>&quot;script&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>Script</span>(<span class='bool-val'>false</span>),
             <span class='macro'>qualname</span><span class='macro'>!</span>(<span class='ident'>html</span>, <span class='string'>&quot;template&quot;</span>) <span class='op'>=&gt;</span> <span class='ident'>Template</span>(<span class='ident'>new_node</span>(<span class='ident'>Document</span>)),
             <span class='macro'>qualname</span><span class='macro'>!</span>(<span class='ident'>mathml</span>, <span class='string'>&quot;annotation-xml&quot;</span>) <span class='op'>=&gt;</span> {
                 <span class='ident'>AnnotationXml</span>(<span class='ident'>attrs</span>.<span class='ident'>iter</span>().<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>attr</span><span class='op'>|</span> <span class='ident'>attr</span>.<span class='ident'>name</span> <span class='op'>==</span> <span class='macro'>qualname</span><span class='macro'>!</span>(<span class='string'>&quot;&quot;</span>, <span class='string'>&quot;encoding&quot;</span>))
-                                   .<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>,
+                                   .<span class='ident'>map_or</span>(<span class='bool-val'>false</span>,
                                            <span class='op'>|</span><span class='ident'>attr</span><span class='op'>|</span> <span class='ident'>attr</span>.<span class='ident'>value</span>
                                                       .<span class='ident'>eq_ignore_ascii_case</span>(<span class='string'>&quot;text/html&quot;</span>) <span class='op'>||</span>
                                                   <span class='ident'>attr</span>.<span class='ident'>value</span>
@@ -737,7 +737,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>mark_script_already_started</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>target</span>: <span class='ident'>Handle</span>) {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>Element</span>(_, <span class='ident'>Script</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>script_already_started</span>), _) <span class='op'>=</span> <span class='ident'>target</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>node</span> {
-            <span class='op'>*</span><span class='ident'>script_already_started</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+            <span class='op'>*</span><span class='ident'>script_already_started</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
         } <span class='kw'>else</span> {
             <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;not a script element!&quot;</span>);
         }

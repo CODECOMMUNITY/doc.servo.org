@@ -343,8 +343,8 @@
         <span class='kw'>let</span> <span class='ident'>baseline</span> <span class='op'>=</span> <span class='ident'>marker</span> <span class='op'>==</span> <span class='number'>0xc0</span>;
 
         <span class='kw'>let</span> <span class='ident'>differential</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>marker</span> {
-            <span class='number'>0xc0</span> <span class='op'>|</span> <span class='number'>0xc1</span> <span class='op'>|</span> <span class='number'>0xc2</span> <span class='op'>|</span> <span class='number'>0xc3</span> <span class='op'>|</span> <span class='number'>0xc9</span> <span class='op'>|</span> <span class='number'>0xca</span> <span class='op'>|</span> <span class='number'>0xcb</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
-            <span class='number'>0xc5</span> <span class='op'>|</span> <span class='number'>0xc6</span> <span class='op'>|</span> <span class='number'>0xc7</span> <span class='op'>|</span> <span class='number'>0xcd</span> <span class='op'>|</span> <span class='number'>0xce</span> <span class='op'>|</span> <span class='number'>0xcf</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='number'>0xc0</span> <span class='op'>|</span> <span class='number'>0xc1</span> <span class='op'>|</span> <span class='number'>0xc2</span> <span class='op'>|</span> <span class='number'>0xc3</span> <span class='op'>|</span> <span class='number'>0xc9</span> <span class='op'>|</span> <span class='number'>0xca</span> <span class='op'>|</span> <span class='number'>0xcb</span> <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+            <span class='number'>0xc5</span> <span class='op'>|</span> <span class='number'>0xc6</span> <span class='op'>|</span> <span class='number'>0xc7</span> <span class='op'>|</span> <span class='number'>0xcd</span> <span class='op'>|</span> <span class='number'>0xce</span> <span class='op'>|</span> <span class='number'>0xcf</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             _ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),  <span class='comment'>// because we are inside a valid SOF marker</span>
         };
 
@@ -367,8 +367,8 @@
     <span class='kw'>match</span> <span class='ident'>value</span> {
         <span class='comment'>// no 0xC4, 0xC8 and 0xCC, they are not SOF markers</span>
         <span class='number'>0xc0</span> <span class='op'>|</span> <span class='number'>0xc1</span> <span class='op'>|</span> <span class='number'>0xc2</span> <span class='op'>|</span> <span class='number'>0xc3</span> <span class='op'>|</span> <span class='number'>0xc5</span> <span class='op'>|</span> <span class='number'>0xc6</span> <span class='op'>|</span> <span class='number'>0xc7</span> <span class='op'>|</span> <span class='number'>0xc9</span> <span class='op'>|</span>
-        <span class='number'>0xca</span> <span class='op'>|</span> <span class='number'>0xcb</span> <span class='op'>|</span> <span class='number'>0xcd</span> <span class='op'>|</span> <span class='number'>0xce</span> <span class='op'>|</span> <span class='number'>0xcf</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
-        _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
+        <span class='number'>0xca</span> <span class='op'>|</span> <span class='number'>0xcb</span> <span class='op'>|</span> <span class='number'>0xcd</span> <span class='op'>|</span> <span class='number'>0xce</span> <span class='op'>|</span> <span class='number'>0xcf</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
+        _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
     }
 }
 </pre>

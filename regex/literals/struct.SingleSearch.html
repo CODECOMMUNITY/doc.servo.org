@@ -70,21 +70,20 @@ front and hard code them in src/freqs.rs. Frequency analysis is done via
 scripts/frequencies.py.</p>
 
 <p>TODO(burntsushi): Add some amount of shifting to this.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.pat'><code>pat</code></td><td><div class='docblock'><p>The pattern.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.char_len'><code>char_len</code></td><td><div class='docblock'><p>The number of Unicode characters in the pattern. This is useful for
+</div><h2 class='fields'>Fields</h2><span id='structfield.pat'><code>pat: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The pattern.</p>
+</div><span id='structfield.char_len'><code>char_len: <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The number of Unicode characters in the pattern. This is useful for
 determining the effective length of a pattern when deciding which
 optimizations to perform. A trailing incomplete UTF-8 sequence counts
 as one character.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.rare1'><code>rare1</code></td><td><div class='docblock'><p>The rarest byte in the pattern, according to pre-computed frequency
+</div><span id='structfield.rare1'><code>rare1: <a class='primitive' href='../../std/primitive.u8.html'>u8</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The rarest byte in the pattern, according to pre-computed frequency
 analysis.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.rare1i'><code>rare1i</code></td><td><div class='docblock'><p>The offset of the rarest byte in <code>pat</code>.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.rare2'><code>rare2</code></td><td><div class='docblock'><p>The second rarest byte in the pattern, according to pre-computed
+</div><span id='structfield.rare1i'><code>rare1i: <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The offset of the rarest byte in <code>pat</code>.</p>
+</div><span id='structfield.rare2'><code>rare2: <a class='primitive' href='../../std/primitive.u8.html'>u8</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The second rarest byte in the pattern, according to pre-computed
 frequency analysis. (This may be equivalent to the rarest byte.)</p>
 
 <p>The second rarest byte is used as a type of guard for quickly detecting
@@ -92,9 +91,9 @@ a mismatch after memchr locates an instance of the rarest byte. This
 is a hedge against pathological cases where the pre-computed frequency
 analysis may be off. (But of course, does not prevent <em>all</em>
 pathological cases.)</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.rare2i'><code>rare2i</code></td><td><div class='docblock'><p>The offset of the second rarest byte in <code>pat</code>.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../regex/literals/struct.SingleSearch.html' title='regex::literals::SingleSearch'>SingleSearch</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2757' class='srclink' href='../../src/regex/literals.rs.html#402-498' title='goto source code'>[src]</a></span></h3>
+</div><span id='structfield.rare2i'><code>rare2i: <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The offset of the second rarest byte in <code>pat</code>.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../regex/literals/struct.SingleSearch.html' title='regex::literals::SingleSearch'>SingleSearch</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2757' class='srclink' href='../../src/regex/literals.rs.html#402-498' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(pat: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;) -&gt; <a class='struct' href='../../regex/literals/struct.SingleSearch.html' title='regex::literals::SingleSearch'>SingleSearch</a></code></h4>
 <h4 id='method.empty' class='method'><code>fn <a href='#method.empty' class='fnname'>empty</a>() -&gt; <a class='struct' href='../../regex/literals/struct.SingleSearch.html' title='regex::literals::SingleSearch'>SingleSearch</a></code></h4>
 <h4 id='method.find' class='method'><code>fn <a href='#method.find' class='fnname'>find</a>(&amp;self, haystack: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>

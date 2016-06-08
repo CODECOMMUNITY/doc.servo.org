@@ -74,27 +74,27 @@ variant.) Given that byte based machines are typically much bigger than
 their Unicode analogues (because they can decode UTF-8 directly), this ends
 up being a pretty significant savings.</p>
 </div><h2 class='variants'>Variants</h2>
-<table class='variants_table'><tr><td id='variant.Match'><code>Match</code></td><td><div class='docblock'><p>Match indicates that the program has reached a match state.</p>
+<span id='variant.Match' class='variant'><code>Match(<a class='primitive' href='../../std/primitive.usize.html'>usize</a>)</code></span><div class='docblock'><p>Match indicates that the program has reached a match state.</p>
 
 <p>The number in the match corresponds to the Nth logical regular
 expression in this program. This index is always 0 for normal regex
 programs. Values greater than 0 appear when compiling regex sets, and
 each match instruction gets its own unique value. The value corresponds
 to the Nth regex in the set.</p>
-</div></td><td></td></tr><tr><td id='variant.Save'><code>Save</code></td><td><div class='docblock'><p>Save causes the program to save the current location of the input in
+</div><span id='variant.Save' class='variant'><code>Save(<a class='struct' href='../../regex/prog/struct.InstSave.html' title='regex::prog::InstSave'>InstSave</a>)</code></span><div class='docblock'><p>Save causes the program to save the current location of the input in
 the slot indicated by InstSave.</p>
-</div></td><td></td></tr><tr><td id='variant.Split'><code>Split</code></td><td><div class='docblock'><p>Split causes the program to diverge to one of two paths in the
+</div><span id='variant.Split' class='variant'><code>Split(<a class='struct' href='../../regex/prog/struct.InstSplit.html' title='regex::prog::InstSplit'>InstSplit</a>)</code></span><div class='docblock'><p>Split causes the program to diverge to one of two paths in the
 program, preferring goto1 in InstSplit.</p>
-</div></td><td></td></tr><tr><td id='variant.EmptyLook'><code>EmptyLook</code></td><td><div class='docblock'><p>EmptyLook represents a zero-width assertion in a regex program. A
+</div><span id='variant.EmptyLook' class='variant'><code>EmptyLook(<a class='struct' href='../../regex/prog/struct.InstEmptyLook.html' title='regex::prog::InstEmptyLook'>InstEmptyLook</a>)</code></span><div class='docblock'><p>EmptyLook represents a zero-width assertion in a regex program. A
 zero-width assertion does not consume any of the input text.</p>
-</div></td><td></td></tr><tr><td id='variant.Char'><code>Char</code></td><td><div class='docblock'><p>Char requires the regex program to match the character in InstChar at
+</div><span id='variant.Char' class='variant'><code>Char(<a class='struct' href='../../regex/prog/struct.InstChar.html' title='regex::prog::InstChar'>InstChar</a>)</code></span><div class='docblock'><p>Char requires the regex program to match the character in InstChar at
 the current position in the input.</p>
-</div></td><td></td></tr><tr><td id='variant.Ranges'><code>Ranges</code></td><td><div class='docblock'><p>Ranges requires the regex program to match the character at the current
+</div><span id='variant.Ranges' class='variant'><code>Ranges(<a class='struct' href='../../regex/prog/struct.InstRanges.html' title='regex::prog::InstRanges'>InstRanges</a>)</code></span><div class='docblock'><p>Ranges requires the regex program to match the character at the current
 position in the input with one of the ranges specified in InstRanges.</p>
-</div></td><td></td></tr><tr><td id='variant.Bytes'><code>Bytes</code></td><td><div class='docblock'><p>Bytes is like Ranges, except it expresses a single byte range. It is
+</div><span id='variant.Bytes' class='variant'><code>Bytes(<a class='struct' href='../../regex/prog/struct.InstBytes.html' title='regex::prog::InstBytes'>InstBytes</a>)</code></span><div class='docblock'><p>Bytes is like Ranges, except it expresses a single byte range. It is
 used in conjunction with Split instructions to implement multi-byte
 character classes.</p>
-</div></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='enum' href='../../regex/prog/enum.Inst.html' title='regex::prog::Inst'>Inst</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3174' class='srclink' href='../../src/regex/prog.rs.html#292-300' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='enum' href='../../regex/prog/enum.Inst.html' title='regex::prog::Inst'>Inst</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3174' class='srclink' href='../../src/regex/prog.rs.html#292-300' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.is_match' class='method'><code>fn <a href='#method.is_match' class='fnname'>is_match</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Returns true if and only if this is a match instruction.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../../regex/prog/enum.Inst.html' title='regex::prog::Inst'>Inst</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3146' class='srclink' href='../../src/regex/prog.rs.html#261' title='goto source code'>[src]</a></span></h3>

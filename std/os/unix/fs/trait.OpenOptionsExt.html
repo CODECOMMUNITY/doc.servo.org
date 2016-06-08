@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-12611' class='srclink' href='../../../../src/std/up/src/libstd/sys/unix/ext/fs.rs.html#58-95' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-12515' class='srclink' href='../../../../src/std/up/src/libstd/sys/unix/ext/fs.rs.html#58-93' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait OpenOptionsExt {
     fn <a href='#tymethod.mode' class='fnname'>mode</a>(&amp;mut self, mode: <a class='primitive' href='../../../primitive.u32.html'>u32</a>) -&gt; &amp;mut Self;
     fn <a href='#tymethod.custom_flags' class='fnname'>custom_flags</a>(&amp;mut self, flags: <a class='primitive' href='../../../primitive.i32.html'>i32</a>) -&gt; &amp;mut Self;
@@ -62,8 +62,7 @@ specified <code>mode</code> will be used as the permission bits for the new file
 If no <code>mode</code> is set, the default of <code>0o666</code> will be used.
 The operating system masks out bits with the systems <code>umask</code>, to produce
 the final permissions.</p>
-</div><h3 id='tymethod.custom_flags' class='method stab unstable'><code>fn <a href='#tymethod.custom_flags' class='fnname'>custom_flags</a>(&amp;mut self, flags: <a class='primitive' href='../../../primitive.i32.html'>i32</a>) -&gt; &amp;mut Self</code></h3><div class='stability'><em class='stab unstable'>Unstable (<code>expand_open_options</code> <a href="https://github.com/rust-lang/rust/issues/30014">#30014</a>)<p>: recently added</p>
-</em></div><div class='docblock'><p>Pass custom flags to the <code>flags</code> agument of <code>open</code>.</p>
+</div><h3 id='tymethod.custom_flags' class='method stab '><code>fn <a href='#tymethod.custom_flags' class='fnname'>custom_flags</a>(&amp;mut self, flags: <a class='primitive' href='../../../primitive.i32.html'>i32</a>) -&gt; &amp;mut Self</code><div class='since' title='Stable since Rust version 1.10.0'>1.10.0</div></h3><div class='docblock'><p>Pass custom flags to the <code>flags</code> agument of <code>open</code>.</p>
 
 <p>The bits that define the access mode are masked out with <code>O_ACCMODE</code>, to
 ensure they do not interfere with the access mode set by Rusts options.</p>
@@ -89,7 +88,7 @@ let file = options.open(&quot;foo.txt&quot;);
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>unix</span>::<span class='ident'>fs</span>::<span class='ident'>OpenOptionsExt</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>options</span> <span class='op'>=</span> <span class='ident'>OpenOptions</span>::<span class='ident'>new</span>();
-<span class='ident'>options</span>.<span class='ident'>write</span>(<span class='boolvalue'>true</span>);
+<span class='ident'>options</span>.<span class='ident'>write</span>(<span class='bool-val'>true</span>);
 <span class='kw'>if</span> <span class='macro'>cfg</span><span class='macro'>!</span>(<span class='ident'>unix</span>) {
     <span class='ident'>options</span>.<span class='ident'>custom_flags</span>(<span class='ident'>libc</span>::<span class='ident'>O_NOFOLLOW</span>);
 }

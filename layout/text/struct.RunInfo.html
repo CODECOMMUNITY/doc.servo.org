@@ -55,18 +55,17 @@
     bidi_level: <a class='primitive' href='../../std/primitive.u8.html'>u8</a>,
     script: <a class='enum' href='../../unicode_script/tables/enum.Script.html' title='unicode_script::tables::Script'>Script</a>,
 }</pre><div class='docblock'><p>Information about a text run that we&#39;re about to create. This is used in <code>scan_for_runs</code>.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.text'><code>text</code></td><td><div class='docblock'><p>The text that will go in this text run.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.insertion_point'><code>insertion_point</code></td><td><div class='docblock'><p>The insertion point in this text run, if applicable.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.font_index'><code>font_index</code></td><td><div class='docblock'><p>The index of the applicable font in the font group.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.bidi_level'><code>bidi_level</code></td><td><div class='docblock'><p>The bidirection embedding level of this text run.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.script'><code>script</code></td><td><div class='docblock'><p>The Unicode script property of this text run.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../layout/text/struct.RunInfo.html' title='layout::text::RunInfo'>RunInfo</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-12380' class='srclink' href='../../src/layout/text.rs.html#531-561' title='goto source code'>[src]</a></span></h3>
+</div><h2 class='fields'>Fields</h2><span id='structfield.text'><code>text: <a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The text that will go in this text run.</p>
+</div><span id='structfield.insertion_point'><code>insertion_point: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../gfx/text/glyph/struct.ByteIndex.html' title='gfx::text::glyph::ByteIndex'>ByteIndex</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The insertion point in this text run, if applicable.</p>
+</div><span id='structfield.font_index'><code>font_index: <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The index of the applicable font in the font group.</p>
+</div><span id='structfield.bidi_level'><code>bidi_level: <a class='primitive' href='../../std/primitive.u8.html'>u8</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The bidirection embedding level of this text run.</p>
+</div><span id='structfield.script'><code>script: <a class='enum' href='../../unicode_script/tables/enum.Script.html' title='unicode_script::tables::Script'>Script</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The Unicode script property of this text run.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../layout/text/struct.RunInfo.html' title='layout::text::RunInfo'>RunInfo</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-12380' class='srclink' href='../../src/layout/text.rs.html#531-561' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../layout/text/struct.RunInfo.html' title='layout::text::RunInfo'>RunInfo</a></code></h4>
 <h4 id='method.flush' class='method'><code>fn <a href='#method.flush' class='fnname'>flush</a>(self, list: &amp;mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/text/struct.RunInfo.html' title='layout::text::RunInfo'>RunInfo</a>&gt;, insertion_point: &amp;mut <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../gfx/text/glyph/struct.ByteIndex.html' title='gfx::text::glyph::ByteIndex'>ByteIndex</a>&gt;)</code></h4>
 <div class='docblock'><p>Finish processing this RunInfo and add it to the &quot;done&quot; list.</p>

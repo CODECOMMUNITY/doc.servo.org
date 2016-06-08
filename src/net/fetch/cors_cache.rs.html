@@ -240,14 +240,14 @@
     <span class='kw'>fn</span> <span class='ident'>match_header</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>header_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
             <span class='ident'>HeaderOrMethod</span>::<span class='ident'>HeaderData</span>(<span class='kw-2'>ref</span> <span class='ident'>s</span>) <span class='op'>=&gt;</span> (<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>eq_ignore_ascii_case</span>(<span class='ident'>header_name</span>),
-            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
+            _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
         }
     }
 
     <span class='kw'>fn</span> <span class='ident'>match_method</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>method</span>: <span class='kw-2'>&amp;</span><span class='ident'>Method</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
             <span class='ident'>HeaderOrMethod</span>::<span class='ident'>MethodData</span>(<span class='kw-2'>ref</span> <span class='ident'>m</span>) <span class='op'>=&gt;</span> <span class='ident'>m</span> <span class='op'>==</span> <span class='ident'>method</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
+            _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
         }
     }
 }
@@ -337,12 +337,12 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_header_and_update</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>request</span>: <span class='kw-2'>&amp;</span><span class='ident'>Request</span>,
                                    <span class='ident'>header_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>new_max_age</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>find_entry_by_header</span>(<span class='kw-2'>&amp;</span><span class='ident'>request</span>, <span class='ident'>header_name</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='ident'>max_age</span> <span class='op'>=</span> <span class='ident'>new_max_age</span>) {
-            <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>insert</span>(<span class='ident'>CORSCacheEntry</span>::<span class='ident'>new</span>(<span class='ident'>request</span>.<span class='ident'>origin</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>(), <span class='ident'>request</span>.<span class='ident'>current_url</span>(), <span class='ident'>new_max_age</span>,
                                                 <span class='ident'>request</span>.<span class='ident'>credentials_mode</span> <span class='op'>==</span> <span class='ident'>CredentialsMode</span>::<span class='ident'>Include</span>,
                                                 <span class='ident'>HeaderOrMethod</span>::<span class='ident'>HeaderData</span>(<span class='ident'>header_name</span>.<span class='ident'>to_owned</span>())));
-                <span class='boolvalue'>false</span>
+                <span class='bool-val'>false</span>
             }
         }
     }
@@ -359,12 +359,12 @@
     <span class='doccomment'>/// If not, it will insert an equivalent entry</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_method_and_update</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>request</span>: <span class='kw-2'>&amp;</span><span class='ident'>Request</span>, <span class='ident'>method</span>: <span class='ident'>Method</span>, <span class='ident'>new_max_age</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>find_entry_by_method</span>(<span class='kw-2'>&amp;</span><span class='ident'>request</span>, <span class='ident'>method</span>.<span class='ident'>clone</span>()).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='ident'>max_age</span> <span class='op'>=</span> <span class='ident'>new_max_age</span>) {
-            <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>insert</span>(<span class='ident'>CORSCacheEntry</span>::<span class='ident'>new</span>(<span class='ident'>request</span>.<span class='ident'>origin</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>(), <span class='ident'>request</span>.<span class='ident'>current_url</span>(), <span class='ident'>new_max_age</span>,
                                                 <span class='ident'>request</span>.<span class='ident'>credentials_mode</span> <span class='op'>==</span> <span class='ident'>CredentialsMode</span>::<span class='ident'>Include</span>,
                                                 <span class='ident'>HeaderOrMethod</span>::<span class='ident'>MethodData</span>(<span class='ident'>method</span>)));
-                <span class='boolvalue'>false</span>
+                <span class='bool-val'>false</span>
             }
         }
     }

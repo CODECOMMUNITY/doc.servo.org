@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1359' class='srclink' href='../src/script_traits/lib.rs.html#89-111' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1340' class='srclink' href='../src/script_traits/lib.rs.html#89-111' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct NewLayoutInfo {
     pub containing_pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
     pub new_pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
@@ -60,29 +60,28 @@
     pub layout_to_constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.LayoutMsg.html' title='script_traits::LayoutMsg'>LayoutMsg</a>&gt;,
     pub content_process_shutdown_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;,
 }</pre><div class='docblock'><p>The initial data associated with a newly-created framed pipeline.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.containing_pipeline_id'><code>containing_pipeline_id</code></td><td><div class='docblock'><p>Id of the parent of this new pipeline.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.new_pipeline_id'><code>new_pipeline_id</code></td><td><div class='docblock'><p>Id of the newly-created pipeline.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.subpage_id'><code>subpage_id</code></td><td><div class='docblock'><p>Id of the new frame associated with this pipeline.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.frame_type'><code>frame_type</code></td><td><div class='docblock'><p>Type of the new frame associated with this pipeline.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.load_data'><code>load_data</code></td><td><div class='docblock'><p>Network request data which will be initiated by the script thread.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.paint_chan'><code>paint_chan</code></td><td><div class='docblock'><p>The paint channel, cast to <code>OptionalOpaqueIpcSender</code>. This is really an
+</div><h2 class='fields'>Fields</h2><span id='structfield.containing_pipeline_id'><code>containing_pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Id of the parent of this new pipeline.</p>
+</div><span id='structfield.new_pipeline_id'><code>new_pipeline_id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Id of the newly-created pipeline.</p>
+</div><span id='structfield.subpage_id'><code>subpage_id: <a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Id of the new frame associated with this pipeline.</p>
+</div><span id='structfield.frame_type'><code>frame_type: <a class='enum' href='../msg/constellation_msg/enum.FrameType.html' title='msg::constellation_msg::FrameType'>FrameType</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Type of the new frame associated with this pipeline.</p>
+</div><span id='structfield.load_data'><code>load_data: <a class='struct' href='../msg/constellation_msg/struct.LoadData.html' title='msg::constellation_msg::LoadData'>LoadData</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Network request data which will be initiated by the script thread.</p>
+</div><span id='structfield.paint_chan'><code>paint_chan: <a class='enum' href='../util/ipc/enum.OptionalOpaqueIpcSender.html' title='util::ipc::OptionalOpaqueIpcSender'>OptionalOpaqueIpcSender</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The paint channel, cast to <code>OptionalOpaqueIpcSender</code>. This is really an
 <code>Sender&lt;LayoutToPaintMsg&gt;</code>.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.pipeline_port'><code>pipeline_port</code></td><td><div class='docblock'><p>A port on which layout can receive messages from the pipeline.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.panic_chan'><code>panic_chan</code></td><td><div class='docblock'><p>A channel for sending panics on</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.layout_to_constellation_chan'><code>layout_to_constellation_chan</code></td><td><div class='docblock'><p>A sender for the layout thread to communicate to the constellation.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.content_process_shutdown_chan'><code>content_process_shutdown_chan</code></td><td><div class='docblock'><p>A shutdown channel so that layout can tell the content process to shut down when it&#39;s done.</p>
-</div></td></tr></table></section>
+</div><span id='structfield.pipeline_port'><code>pipeline_port: <a class='struct' href='../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='enum' href='../script_traits/enum.LayoutControlMsg.html' title='script_traits::LayoutControlMsg'>LayoutControlMsg</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A port on which layout can receive messages from the pipeline.</p>
+</div><span id='structfield.panic_chan'><code>panic_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='type' href='../msg/constellation_msg/type.PanicMsg.html' title='msg::constellation_msg::PanicMsg'>PanicMsg</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A channel for sending panics on</p>
+</div><span id='structfield.layout_to_constellation_chan'><code>layout_to_constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.LayoutMsg.html' title='script_traits::LayoutMsg'>LayoutMsg</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A sender for the layout thread to communicate to the constellation.</p>
+</div><span id='structfield.content_process_shutdown_chan'><code>content_process_shutdown_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A shutdown channel so that layout can tell the content process to shut down when it&#39;s done.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

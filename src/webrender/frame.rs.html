@@ -1534,10 +1534,10 @@
 <span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>ScrollEventPhase</span>, <span class='ident'>ScrollLayerInfo</span>, <span class='ident'>ScrollLayerState</span>};
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span>
-<span class='kw'>const</span> <span class='ident'>CAN_OVERSCROLL</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+<span class='kw'>const</span> <span class='ident'>CAN_OVERSCROLL</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>))]</span>
-<span class='kw'>const</span> <span class='ident'>CAN_OVERSCROLL</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+<span class='kw'>const</span> <span class='ident'>CAN_OVERSCROLL</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>PartialOrd</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FrameId</span>(<span class='kw'>pub</span> <span class='ident'>u32</span>);
@@ -1712,9 +1712,9 @@
                 <span class='kw-2'>&amp;</span><span class='ident'>FrameRenderItem</span>::<span class='ident'>CompositeBatch</span>(<span class='kw-2'>ref</span> <span class='ident'>info</span>, <span class='ident'>z_clear_needed</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>if</span> <span class='ident'>z_clear_needed</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>commands</span>.<span class='ident'>is_empty</span>() {
                         <span class='ident'>commands</span>.<span class='ident'>push</span>(<span class='ident'>DrawCommand</span>::<span class='ident'>Clear</span>(<span class='ident'>ClearInfo</span> {
-                            <span class='ident'>clear_color</span>: <span class='boolvalue'>false</span>,
-                            <span class='ident'>clear_z</span>: <span class='boolvalue'>true</span>,
-                            <span class='ident'>clear_stencil</span>: <span class='boolvalue'>true</span>,
+                            <span class='ident'>clear_color</span>: <span class='bool-val'>false</span>,
+                            <span class='ident'>clear_z</span>: <span class='bool-val'>true</span>,
+                            <span class='ident'>clear_stencil</span>: <span class='bool-val'>true</span>,
                         }))
                     }
                     <span class='ident'>commands</span>.<span class='ident'>push</span>(<span class='ident'>DrawCommand</span>::<span class='ident'>CompositeBatch</span>(<span class='ident'>info</span>.<span class='ident'>clone</span>()));
@@ -1730,7 +1730,7 @@
                         <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>OffsetParams</span>::<span class='ident'>identity</span>(); <span class='ident'>draw_list_group</span>.<span class='ident'>draw_list_ids</span>.<span class='ident'>len</span>()];
 
                     <span class='comment'>// Update batch matrices</span>
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>z_clear_needed</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>z_clear_needed</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
                     <span class='kw'>for</span> (<span class='ident'>index</span>, <span class='ident'>draw_list_id</span>) <span class='kw'>in</span> <span class='ident'>draw_list_group</span>.<span class='ident'>draw_list_ids</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
                         <span class='kw'>let</span> <span class='ident'>draw_list</span> <span class='op'>=</span> <span class='ident'>resource_cache</span>.<span class='ident'>get_draw_list</span>(<span class='op'>*</span><span class='ident'>draw_list_id</span>);
 
@@ -1738,7 +1738,7 @@
                             <span class='prelude-val'>Some</span>(<span class='ident'>StackingContextIndex</span>(<span class='ident'>stacking_context_id</span>)) <span class='op'>=&gt;</span> {
                                 <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>stacking_context_info</span>[<span class='ident'>stacking_context_id</span>];
                                 <span class='kw'>if</span> <span class='ident'>context</span>.<span class='ident'>z_clear_needed</span> {
-                                    <span class='ident'>z_clear_needed</span> <span class='op'>=</span> <span class='boolvalue'>true</span>
+                                    <span class='ident'>z_clear_needed</span> <span class='op'>=</span> <span class='bool-val'>true</span>
                                 }
 
                                 <span class='kw'>let</span> <span class='ident'>transform</span> <span class='op'>=</span> <span class='ident'>layer</span>.<span class='ident'>world_transform</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>context</span>.<span class='ident'>transform</span>);
@@ -1761,10 +1761,10 @@
                     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>batch_info</span> <span class='op'>=</span> <span class='ident'>BatchInfo</span>::<span class='ident'>new</span>(<span class='ident'>matrix_palette</span>, <span class='ident'>offset_palette</span>);
 
                     <span class='comment'>// Collect relevant draws from each node in the tree.</span>
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>any_were_visible</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>any_were_visible</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
                     <span class='kw'>for</span> <span class='ident'>node</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>layer</span>.<span class='ident'>aabb_tree</span>.<span class='ident'>nodes</span> {
                         <span class='kw'>if</span> <span class='ident'>node</span>.<span class='ident'>is_visible</span> {
-                            <span class='ident'>any_were_visible</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                            <span class='ident'>any_were_visible</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
 
                             <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='ident'>node</span>.<span class='ident'>compiled_node</span>.<span class='ident'>is_some</span>());
                             <span class='kw'>let</span> <span class='ident'>compiled_node</span> <span class='op'>=</span> <span class='ident'>node</span>.<span class='ident'>compiled_node</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>();
@@ -1814,9 +1814,9 @@
                         <span class='comment'>// Add a clear command if necessary.</span>
                         <span class='kw'>if</span> <span class='ident'>z_clear_needed</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>commands</span>.<span class='ident'>is_empty</span>() {
                             <span class='ident'>commands</span>.<span class='ident'>push</span>(<span class='ident'>DrawCommand</span>::<span class='ident'>Clear</span>(<span class='ident'>ClearInfo</span> {
-                                <span class='ident'>clear_color</span>: <span class='boolvalue'>false</span>,
-                                <span class='ident'>clear_z</span>: <span class='boolvalue'>true</span>,
-                                <span class='ident'>clear_stencil</span>: <span class='boolvalue'>true</span>,
+                                <span class='ident'>clear_color</span>: <span class='bool-val'>false</span>,
+                                <span class='ident'>clear_z</span>: <span class='bool-val'>true</span>,
+                                <span class='ident'>clear_stencil</span>: <span class='bool-val'>true</span>,
                             }))
                         }
 
@@ -1874,7 +1874,7 @@
             <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>FrameRenderItem</span>::<span class='ident'>CompositeBatch</span>(<span class='kw-2'>ref</span> <span class='ident'>info</span>, _)) <span class='op'>=&gt;</span> {
                 <span class='ident'>info</span>.<span class='ident'>operation</span> <span class='op'>!=</span> <span class='ident'>op</span> <span class='op'>||</span> <span class='ident'>info</span>.<span class='ident'>texture_id</span> <span class='op'>!=</span> <span class='ident'>texture_id</span>
             }
-            <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>FrameRenderItem</span>::<span class='ident'>DrawListBatch</span>(..)) <span class='op'>|</span> <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>FrameRenderItem</span>::<span class='ident'>DrawListBatch</span>(..)) <span class='op'>|</span> <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
         };
 
         <span class='kw'>if</span> <span class='ident'>need_new_batch</span> {
@@ -1896,7 +1896,7 @@
                 <span class='ident'>batch</span>.<span class='ident'>jobs</span>.<span class='ident'>push</span>(<span class='ident'>job</span>);
 
                 <span class='kw'>if</span> <span class='op'>!</span><span class='op'>*</span><span class='ident'>old_z_clear_needed</span> <span class='op'>&amp;&amp;</span> <span class='ident'>z_clear_needed</span> {
-                    <span class='op'>*</span><span class='ident'>old_z_clear_needed</span> <span class='op'>=</span> <span class='boolvalue'>true</span>
+                    <span class='op'>*</span><span class='ident'>old_z_clear_needed</span> <span class='op'>=</span> <span class='bool-val'>true</span>
                 }
             }
             _ <span class='op'>=&gt;</span> {
@@ -1978,7 +1978,7 @@
 <span class='kw'>impl</span> <span class='ident'>StackingContextHelpers</span> <span class='kw'>for</span> <span class='ident'>StackingContext</span> {
     <span class='kw'>fn</span> <span class='ident'>needs_composition_operation_for_mix_blend_mode</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>mix_blend_mode</span> {
-            <span class='ident'>MixBlendMode</span>::<span class='ident'>Normal</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+            <span class='ident'>MixBlendMode</span>::<span class='ident'>Normal</span> <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
             <span class='ident'>MixBlendMode</span>::<span class='ident'>Multiply</span> <span class='op'>|</span>
             <span class='ident'>MixBlendMode</span>::<span class='ident'>Screen</span> <span class='op'>|</span>
             <span class='ident'>MixBlendMode</span>::<span class='ident'>Overlay</span> <span class='op'>|</span>
@@ -1993,7 +1993,7 @@
             <span class='ident'>MixBlendMode</span>::<span class='ident'>Hue</span> <span class='op'>|</span>
             <span class='ident'>MixBlendMode</span>::<span class='ident'>Saturation</span> <span class='op'>|</span>
             <span class='ident'>MixBlendMode</span>::<span class='ident'>Color</span> <span class='op'>|</span>
-            <span class='ident'>MixBlendMode</span>::<span class='ident'>Luminosity</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='ident'>MixBlendMode</span>::<span class='ident'>Luminosity</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
         }
     }
 
@@ -2186,7 +2186,7 @@
         };
 
         <span class='kw'>let</span> <span class='ident'>layer</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>layers</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>scroll_layer_id</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>if</span> <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>started_bouncing_back</span> <span class='op'>&amp;&amp;</span> <span class='ident'>phase</span> <span class='op'>==</span> <span class='ident'>ScrollEventPhase</span>::<span class='ident'>Move</span>(<span class='boolvalue'>false</span>) {
+        <span class='kw'>if</span> <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>started_bouncing_back</span> <span class='op'>&amp;&amp;</span> <span class='ident'>phase</span> <span class='op'>==</span> <span class='ident'>ScrollEventPhase</span>::<span class='ident'>Move</span>(<span class='bool-val'>false</span>) {
             <span class='kw'>return</span>
         }
 
@@ -2225,11 +2225,11 @@
             }
         }
 
-        <span class='kw'>if</span> <span class='ident'>phase</span> <span class='op'>==</span> <span class='ident'>ScrollEventPhase</span>::<span class='ident'>Start</span> <span class='op'>||</span> <span class='ident'>phase</span> <span class='op'>==</span> <span class='ident'>ScrollEventPhase</span>::<span class='ident'>Move</span>(<span class='boolvalue'>true</span>) {
-            <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>started_bouncing_back</span> <span class='op'>=</span> <span class='boolvalue'>false</span>
+        <span class='kw'>if</span> <span class='ident'>phase</span> <span class='op'>==</span> <span class='ident'>ScrollEventPhase</span>::<span class='ident'>Start</span> <span class='op'>||</span> <span class='ident'>phase</span> <span class='op'>==</span> <span class='ident'>ScrollEventPhase</span>::<span class='ident'>Move</span>(<span class='bool-val'>true</span>) {
+            <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>started_bouncing_back</span> <span class='op'>=</span> <span class='bool-val'>false</span>
         } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>overscrolling</span> <span class='op'>&amp;&amp;</span>
                 ((<span class='ident'>delta</span>.<span class='ident'>x</span> <span class='op'>&lt;</span> <span class='number'>1.0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>delta</span>.<span class='ident'>y</span> <span class='op'>&lt;</span> <span class='number'>1.0</span>) <span class='op'>||</span> <span class='ident'>phase</span> <span class='op'>==</span> <span class='ident'>ScrollEventPhase</span>::<span class='ident'>End</span>) {
-            <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>started_bouncing_back</span> <span class='op'>=</span> <span class='boolvalue'>true</span>
+            <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>started_bouncing_back</span> <span class='op'>=</span> <span class='bool-val'>true</span>
         }
 
         <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>.<span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>.<span class='ident'>x</span>.<span class='ident'>round</span>();
@@ -2367,7 +2367,7 @@
                                                      <span class='ident'>target</span>.<span class='ident'>id</span>)
                         }
                         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                            <span class='boolvalue'>true</span>
+                            <span class='bool-val'>true</span>
                         }
                     };
 

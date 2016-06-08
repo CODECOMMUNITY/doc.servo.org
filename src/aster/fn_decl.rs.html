@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/aster-0.16.0/src/fn_decl.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/aster-0.17.0/src/fn_decl.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>fn_decl.rs.html -- source</title>
@@ -284,14 +284,35 @@
 <span id="240">240</span>
 <span id="241">241</span>
 <span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>syntax</span>::<span class='ident'>ast</span>;
-<span class='kw'>use</span> <span class='ident'>syntax</span>::<span class='ident'>codemap</span>::{<span class='ident'>DUMMY_SP</span>, <span class='ident'>Span</span>};
+<span class='kw'>use</span> <span class='ident'>syntax</span>::<span class='ident'>codemap</span>::{<span class='ident'>DUMMY_SP</span>, <span class='ident'>Span</span>, <span class='ident'>respan</span>};
 <span class='kw'>use</span> <span class='ident'>syntax</span>::<span class='ident'>ptr</span>::<span class='ident'>P</span>;
 
 <span class='kw'>use</span> <span class='ident'>ident</span>::<span class='ident'>ToIdent</span>;
 <span class='kw'>use</span> <span class='ident'>invoke</span>::{<span class='ident'>Invoke</span>, <span class='ident'>Identity</span>};
 <span class='kw'>use</span> <span class='ident'>pat</span>::<span class='ident'>PatBuilder</span>;
+<span class='kw'>use</span> <span class='ident'>self_</span>::<span class='ident'>SelfBuilder</span>;
 <span class='kw'>use</span> <span class='ident'>ty</span>::<span class='ident'>TyBuilder</span>;
 
 <span class='comment'>//////////////////////////////////////////////////////////////////////////////</span>
@@ -317,7 +338,7 @@
             <span class='ident'>callback</span>: <span class='ident'>callback</span>,
             <span class='ident'>span</span>: <span class='ident'>DUMMY_SP</span>,
             <span class='ident'>args</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>variadic</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>variadic</span>: <span class='bool-val'>false</span>,
         }
     }
 
@@ -327,8 +348,17 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>variadic</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>variadic</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+        <span class='self'>self</span>.<span class='ident'>variadic</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
         <span class='self'>self</span>
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_self</span>(<span class='self'>self</span>, <span class='ident'>explicit_self</span>: <span class='ident'>ast</span>::<span class='ident'>ExplicitSelf</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='kw'>let</span> <span class='ident'>self_ident</span> <span class='op'>=</span> <span class='ident'>respan</span>(<span class='self'>self</span>.<span class='ident'>span</span>, <span class='string'>&quot;self&quot;</span>.<span class='ident'>to_ident</span>());
+        <span class='self'>self</span>.<span class='ident'>with_arg</span>(<span class='ident'>ast</span>::<span class='ident'>Arg</span>::<span class='ident'>from_self</span>(<span class='ident'>explicit_self</span>, <span class='ident'>self_ident</span>))
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>self_</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>SelfBuilder</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
+        <span class='ident'>SelfBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_arg</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>arg</span>: <span class='ident'>ast</span>::<span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
@@ -415,6 +445,16 @@
 
     <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>ty</span>: <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Ty</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span> {
         <span class='self'>self</span>.<span class='ident'>build_return</span>(<span class='ident'>ty</span>)
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>ExplicitSelf</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>FnDeclBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
+    <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>FnDecl</span><span class='op'>&gt;&gt;</span>,
+{
+    <span class='kw'>type</span> <span class='prelude-ty'>Result</span> <span class='op'>=</span> <span class='self'>Self</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>invoke</span>(<span class='self'>self</span>, <span class='ident'>explicit_self</span>: <span class='ident'>ast</span>::<span class='ident'>ExplicitSelf</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='self'>self</span>.<span class='ident'>with_self</span>(<span class='ident'>explicit_self</span>)
     }
 }
 

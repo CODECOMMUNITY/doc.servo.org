@@ -320,7 +320,7 @@
                                <span class='ident'>script_url</span>: <span class='ident'>Url</span>,
                                <span class='ident'>skip_waiting</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>ServiceWorker</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>channel</span>();
-        <span class='kw'>let</span> <span class='ident'>closing</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicBool</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>));
+        <span class='kw'>let</span> <span class='ident'>closing</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicBool</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>));
         <span class='kw'>let</span> <span class='ident'>worker</span> <span class='op'>=</span> <span class='ident'>ServiceWorker</span>::<span class='ident'>new</span>(<span class='ident'>global</span>,
                                         <span class='ident'>closing</span>.<span class='ident'>clone</span>(),
                                         <span class='ident'>sender</span>.<span class='ident'>clone</span>(),

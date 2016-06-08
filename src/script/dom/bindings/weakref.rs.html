@@ -454,7 +454,7 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>match</span> (<span class='op'>*</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>ptr</span>).<span class='ident'>value</span>.<span class='ident'>get</span>() {
                 <span class='prelude-val'>Some</span>(<span class='ident'>ptr</span>) <span class='op'>=&gt;</span> <span class='op'>*</span><span class='ident'>ptr</span> <span class='op'>==</span> <span class='ident'>other</span>,
-                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
             }
         }
     }
@@ -521,7 +521,7 @@
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>should_drop</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>ptr</span> {
                 <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=&gt;</span> <span class='op'>!</span><span class='ident'>value</span>.<span class='ident'>is_alive</span>(),
-                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
             };
             <span class='kw'>if</span> <span class='ident'>should_drop</span> {
                 <span class='ident'>mem</span>::<span class='ident'>drop</span>((<span class='op'>*</span><span class='ident'>ptr</span>).<span class='ident'>take</span>().<span class='ident'>unwrap</span>());

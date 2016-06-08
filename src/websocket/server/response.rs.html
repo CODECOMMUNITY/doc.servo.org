@@ -338,8 +338,8 @@
 		<span class='macro'>try</span><span class='macro'>!</span>(<span class='macro'>write</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_mut_writer</span>(), <span class='string'>&quot;{} {}\r\n&quot;</span>, <span class='ident'>version</span>, <span class='ident'>status</span>));
 		<span class='macro'>try</span><span class='macro'>!</span>(<span class='macro'>write</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>get_mut_writer</span>(), <span class='string'>&quot;{}\r\n&quot;</span>, <span class='ident'>headers</span>));
 		<span class='kw'>let</span> (<span class='ident'>reader</span>, <span class='ident'>writer</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>into_inner</span>();
-		<span class='kw'>let</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>Sender</span>::<span class='ident'>new</span>(<span class='ident'>writer</span>, <span class='boolvalue'>false</span>);
-		<span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>Receiver</span>::<span class='ident'>new</span>(<span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>), <span class='boolvalue'>true</span>);
+		<span class='kw'>let</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>Sender</span>::<span class='ident'>new</span>(<span class='ident'>writer</span>, <span class='bool-val'>false</span>);
+		<span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>Receiver</span>::<span class='ident'>new</span>(<span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>), <span class='bool-val'>true</span>);
 		<span class='prelude-val'>Ok</span>(<span class='ident'>Client</span>::<span class='ident'>new</span>(<span class='ident'>sender</span>, <span class='ident'>receiver</span>))
 	}
 }

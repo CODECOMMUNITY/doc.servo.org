@@ -55,20 +55,19 @@
     pub active: <a class='struct' href='../../../../core/sync/atomic/struct.AtomicBool.html' title='core::sync::atomic::AtomicBool'>AtomicBool</a>,
     pub next: <a class='struct' href='../../../../crossbeam/mem/epoch/struct.Atomic.html' title='crossbeam::mem::epoch::Atomic'>Atomic</a>&lt;<a class='struct' href='../../../../crossbeam/mem/epoch/participants/struct.ParticipantNode.html' title='crossbeam::mem::epoch::participants::ParticipantNode'>ParticipantNode</a>&gt;,
 }</pre><div class='docblock'><p>Thread-local data for epoch participation.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.epoch'><code>epoch</code></td><td><div class='docblock'><p>The local epoch.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.in_critical'><code>in_critical</code></td><td><div class='docblock'><p>Number of pending uses of <code>epoch::pin()</code>; keeping a count allows for
+</div><h2 class='fields'>Fields</h2><span id='structfield.epoch'><code>epoch: <a class='struct' href='../../../../core/sync/atomic/struct.AtomicUsize.html' title='core::sync::atomic::AtomicUsize'>AtomicUsize</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The local epoch.</p>
+</div><span id='structfield.in_critical'><code>in_critical: <a class='struct' href='../../../../core/sync/atomic/struct.AtomicUsize.html' title='core::sync::atomic::AtomicUsize'>AtomicUsize</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Number of pending uses of <code>epoch::pin()</code>; keeping a count allows for
 reentrant use of epoch management.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.garbage'><code>garbage</code></td><td><div class='docblock'><p>Thread-local garbage tracking</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.active'><code>active</code></td><td><div class='docblock'><p>Is the thread still active? Becomes <code>false</code> when the thread exits. This
+</div><span id='structfield.garbage'><code>garbage: <a class='struct' href='../../../../core/cell/struct.UnsafeCell.html' title='core::cell::UnsafeCell'>UnsafeCell</a>&lt;<a class='struct' href='../../../../crossbeam/mem/epoch/garbage/struct.Local.html' title='crossbeam::mem::epoch::garbage::Local'>Local</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>Thread-local garbage tracking</p>
+</div><span id='structfield.active'><code>active: <a class='struct' href='../../../../core/sync/atomic/struct.AtomicBool.html' title='core::sync::atomic::AtomicBool'>AtomicBool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Is the thread still active? Becomes <code>false</code> when the thread exits. This
 is ultimately used to free <code>Participant</code> records.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.next'><code>next</code></td><td><div class='docblock'><p>The participant list is coded intrusively; here&#39;s the <code>next</code> pointer.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../../crossbeam/mem/epoch/participant/struct.Participant.html' title='crossbeam::mem::epoch::participant::Participant'>Participant</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-247' class='srclink' href='../../../../src/crossbeam/mem/epoch/participant.rs.html#36-126' title='goto source code'>[src]</a></span></h3>
+</div><span id='structfield.next'><code>next: <a class='struct' href='../../../../crossbeam/mem/epoch/struct.Atomic.html' title='crossbeam::mem::epoch::Atomic'>Atomic</a>&lt;<a class='struct' href='../../../../crossbeam/mem/epoch/participants/struct.ParticipantNode.html' title='crossbeam::mem::epoch::participants::ParticipantNode'>ParticipantNode</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The participant list is coded intrusively; here&#39;s the <code>next</code> pointer.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../../crossbeam/mem/epoch/participant/struct.Participant.html' title='crossbeam::mem::epoch::participant::Participant'>Participant</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-247' class='srclink' href='../../../../src/crossbeam/mem/epoch/participant.rs.html#36-126' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../../../crossbeam/mem/epoch/participant/struct.Participant.html' title='crossbeam::mem::epoch::participant::Participant'>Participant</a></code></h4>
 <h4 id='method.enter' class='method'><code>fn <a href='#method.enter' class='fnname'>enter</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Enter a critical section.</p>

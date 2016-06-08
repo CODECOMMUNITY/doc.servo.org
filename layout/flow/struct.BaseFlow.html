@@ -74,14 +74,13 @@
     pub flags: <a class='struct' href='../../layout/flow/struct.FlowFlags.html' title='layout::flow::FlowFlags'>FlowFlags</a>,
     pub stacking_context_id: <a class='struct' href='../../gfx_traits/struct.StackingContextId.html' title='gfx_traits::StackingContextId'>StackingContextId</a>,
 }</pre><div class='docblock'><p>Data common to all flows.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.restyle_damage'><code>restyle_damage</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.children'><code>children</code></td><td><div class='docblock'><p>The children of this flow.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.intrinsic_inline_sizes'><code>intrinsic_inline_sizes</code></td><td><div class='docblock'><p>Intrinsic inline sizes for this flow.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.position'><code>position</code></td><td><div class='docblock'><p>The upper left corner of the box representing this flow, relative to the box representing
+</div><h2 class='fields'>Fields</h2><span id='structfield.restyle_damage'><code>restyle_damage: <a class='struct' href='../../layout/incremental/struct.RestyleDamage.html' title='layout::incremental::RestyleDamage'>RestyleDamage</a></code></span>
+                           <span class='stab '></span><span id='structfield.children'><code>children: <a class='struct' href='../../layout/flow_list/struct.FlowList.html' title='layout::flow_list::FlowList'>FlowList</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The children of this flow.</p>
+</div><span id='structfield.intrinsic_inline_sizes'><code>intrinsic_inline_sizes: <a class='struct' href='../../layout/model/struct.IntrinsicISizes.html' title='layout::model::IntrinsicISizes'>IntrinsicISizes</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Intrinsic inline sizes for this flow.</p>
+</div><span id='structfield.position'><code>position: <a class='struct' href='../../style/logical_geometry/struct.LogicalRect.html' title='style::logical_geometry::LogicalRect'>LogicalRect</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The upper left corner of the box representing this flow, relative to the box representing
 its parent flow.</p>
 
 <p>For absolute flows, this represents the position with respect to its <em>containing block</em>.</p>
@@ -89,66 +88,66 @@ its parent flow.</p>
 <p>This does not include margins in the block flow direction, because those can collapse. So
 for the block direction (usually vertical), this represents the <em>border box</em>. For the
 inline direction (usually horizontal), this represents the <em>margin box</em>.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.overflow'><code>overflow</code></td><td><div class='docblock'><p>The amount of overflow of this flow, relative to the containing block. Must include all the
+</div><span id='structfield.overflow'><code>overflow: <a class='struct' href='../../layout/fragment/struct.Overflow.html' title='layout::fragment::Overflow'>Overflow</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The amount of overflow of this flow, relative to the containing block. Must include all the
 pixels of all the display list items for correct invalidation.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.parallel'><code>parallel</code></td><td><div class='docblock'><p>Data used during parallel traversals.</p>
+</div><span id='structfield.parallel'><code>parallel: <a class='struct' href='../../layout/parallel/struct.FlowParallelInfo.html' title='layout::parallel::FlowParallelInfo'>FlowParallelInfo</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Data used during parallel traversals.</p>
 
 <p>TODO(pcwalton): Group with other transient data to save space.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.floats'><code>floats</code></td><td><div class='docblock'><p>The floats next to this flow.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.speculated_float_placement_in'><code>speculated_float_placement_in</code></td><td><div class='docblock'><p>Metrics for floats in computed during the float metrics speculation phase.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.speculated_float_placement_out'><code>speculated_float_placement_out</code></td><td><div class='docblock'><p>Metrics for floats out computed during the float metrics speculation phase.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.collapsible_margins'><code>collapsible_margins</code></td><td><div class='docblock'><p>The collapsible margins for this flow, if any.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.stacking_relative_position'><code>stacking_relative_position</code></td><td><div class='docblock'><p>The position of this flow relative to the start of the nearest ancestor stacking context.
+</div><span id='structfield.floats'><code>floats: <a class='struct' href='../../layout/floats/struct.Floats.html' title='layout::floats::Floats'>Floats</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The floats next to this flow.</p>
+</div><span id='structfield.speculated_float_placement_in'><code>speculated_float_placement_in: <a class='struct' href='../../layout/floats/struct.SpeculatedFloatPlacement.html' title='layout::floats::SpeculatedFloatPlacement'>SpeculatedFloatPlacement</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Metrics for floats in computed during the float metrics speculation phase.</p>
+</div><span id='structfield.speculated_float_placement_out'><code>speculated_float_placement_out: <a class='struct' href='../../layout/floats/struct.SpeculatedFloatPlacement.html' title='layout::floats::SpeculatedFloatPlacement'>SpeculatedFloatPlacement</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Metrics for floats out computed during the float metrics speculation phase.</p>
+</div><span id='structfield.collapsible_margins'><code>collapsible_margins: <a class='enum' href='../../layout/model/enum.CollapsibleMargins.html' title='layout::model::CollapsibleMargins'>CollapsibleMargins</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The collapsible margins for this flow, if any.</p>
+</div><span id='structfield.stacking_relative_position'><code>stacking_relative_position: <a class='struct' href='../../euclid/point/struct.Point2D.html' title='euclid::point::Point2D'>Point2D</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The position of this flow relative to the start of the nearest ancestor stacking context.
 This is computed during the top-down pass of display list construction.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.abs_descendants'><code>abs_descendants</code></td><td><div class='docblock'><p>Details about descendants with position &#39;absolute&#39; or &#39;fixed&#39; for which we are the
+</div><span id='structfield.abs_descendants'><code>abs_descendants: <a class='struct' href='../../layout/flow/struct.AbsoluteDescendants.html' title='layout::flow::AbsoluteDescendants'>AbsoluteDescendants</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Details about descendants with position &#39;absolute&#39; or &#39;fixed&#39; for which we are the
 containing block. This is in tree order. This includes any direct children.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.block_container_inline_size'><code>block_container_inline_size</code></td><td><div class='docblock'><p>The inline-size of the block container of this flow. Used for computing percentage and
+</div><span id='structfield.block_container_inline_size'><code>block_container_inline_size: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The inline-size of the block container of this flow. Used for computing percentage and
 automatic values for <code>width</code>.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.block_container_writing_mode'><code>block_container_writing_mode</code></td><td><div class='docblock'><p>The writing mode of the block container of this flow.</p>
+</div><span id='structfield.block_container_writing_mode'><code>block_container_writing_mode: <a class='struct' href='../../style/logical_geometry/struct.WritingMode.html' title='style::logical_geometry::WritingMode'>WritingMode</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The writing mode of the block container of this flow.</p>
 
 <p>FIXME (mbrubeck): Combine this and block_container_inline_size and maybe
 block_container_explicit_block_size into a struct, to guarantee they are set at the same
 time?  Or just store a link to the containing block flow.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.block_container_explicit_block_size'><code>block_container_explicit_block_size</code></td><td><div class='docblock'><p>The block-size of the block container of this flow, if it is an explicit size (does not
+</div><span id='structfield.block_container_explicit_block_size'><code>block_container_explicit_block_size: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The block-size of the block container of this flow, if it is an explicit size (does not
 depend on content heights).  Used for computing percentage values for <code>height</code>.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.absolute_cb'><code>absolute_cb</code></td><td><div class='docblock'><p>Reference to the Containing Block, if this flow is absolutely positioned.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.early_absolute_position_info'><code>early_absolute_position_info</code></td><td><div class='docblock'><p>Information needed to compute absolute (i.e. viewport-relative) flow positions (not to be
+</div><span id='structfield.absolute_cb'><code>absolute_cb: <a class='struct' href='../../layout/flow/struct.ContainingBlockLink.html' title='layout::flow::ContainingBlockLink'>ContainingBlockLink</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Reference to the Containing Block, if this flow is absolutely positioned.</p>
+</div><span id='structfield.early_absolute_position_info'><code>early_absolute_position_info: <a class='struct' href='../../layout/flow/struct.EarlyAbsolutePositionInfo.html' title='layout::flow::EarlyAbsolutePositionInfo'>EarlyAbsolutePositionInfo</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Information needed to compute absolute (i.e. viewport-relative) flow positions (not to be
 confused with absolutely-positioned flows) that is computed during block-size assignment.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.late_absolute_position_info'><code>late_absolute_position_info</code></td><td><div class='docblock'><p>Information needed to compute absolute (i.e. viewport-relative) flow positions (not to be
+</div><span id='structfield.late_absolute_position_info'><code>late_absolute_position_info: <a class='struct' href='../../layout/flow/struct.LateAbsolutePositionInfo.html' title='layout::flow::LateAbsolutePositionInfo'>LateAbsolutePositionInfo</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Information needed to compute absolute (i.e. viewport-relative) flow positions (not to be
 confused with absolutely-positioned flows) that is computed during final position
 assignment.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.clip'><code>clip</code></td><td><div class='docblock'><p>The clipping region for this flow and its descendants, in layer coordinates.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.stacking_relative_position_of_display_port'><code>stacking_relative_position_of_display_port</code></td><td><div class='docblock'><p>The stacking-relative position of the display port.</p>
+</div><span id='structfield.clip'><code>clip: <a class='struct' href='../../gfx/display_list/struct.ClippingRegion.html' title='gfx::display_list::ClippingRegion'>ClippingRegion</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The clipping region for this flow and its descendants, in layer coordinates.</p>
+</div><span id='structfield.stacking_relative_position_of_display_port'><code>stacking_relative_position_of_display_port: <a class='struct' href='../../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The stacking-relative position of the display port.</p>
 
 <p>FIXME(pcwalton): This might be faster as an Arc, since this varies only
 per-stacking-context.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.writing_mode'><code>writing_mode</code></td><td><div class='docblock'><p>The writing mode for this flow.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.thread_id'><code>thread_id</code></td><td><div class='docblock'><p>For debugging and profiling, the identifier of the thread that laid out this fragment.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.flags'><code>flags</code></td><td><div class='docblock'><p>Various flags for flows, tightly packed to save space.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.stacking_context_id'><code>stacking_context_id</code></td><td><div class='docblock'><p>The ID of the StackingContext that contains this flow. This is initialized
+</div><span id='structfield.writing_mode'><code>writing_mode: <a class='struct' href='../../style/logical_geometry/struct.WritingMode.html' title='style::logical_geometry::WritingMode'>WritingMode</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The writing mode for this flow.</p>
+</div><span id='structfield.thread_id'><code>thread_id: <a class='primitive' href='../../std/primitive.u8.html'>u8</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>For debugging and profiling, the identifier of the thread that laid out this fragment.</p>
+</div><span id='structfield.flags'><code>flags: <a class='struct' href='../../layout/flow/struct.FlowFlags.html' title='layout::flow::FlowFlags'>FlowFlags</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Various flags for flows, tightly packed to save space.</p>
+</div><span id='structfield.stacking_context_id'><code>stacking_context_id: <a class='struct' href='../../gfx_traits/struct.StackingContextId.html' title='gfx_traits::StackingContextId'>StackingContextId</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The ID of the StackingContext that contains this flow. This is initialized
 to 0, but it assigned during the collect_stacking_contexts phase of display
 list construction.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../layout/flow/struct.BaseFlow.html' title='layout::flow::BaseFlow'>BaseFlow</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-4624' class='srclink' href='../../src/layout/flow.rs.html#1048-1179' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../layout/flow/struct.BaseFlow.html' title='layout::flow::BaseFlow'>BaseFlow</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-4624' class='srclink' href='../../src/layout/flow.rs.html#1048-1179' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(style: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;, writing_mode: <a class='struct' href='../../style/logical_geometry/struct.WritingMode.html' title='style::logical_geometry::WritingMode'>WritingMode</a>, force_nonfloated: <a class='enum' href='../../layout/flow/enum.ForceNonfloatedFlag.html' title='layout::flow::ForceNonfloatedFlag'>ForceNonfloatedFlag</a>) -&gt; <a class='struct' href='../../layout/flow/struct.BaseFlow.html' title='layout::flow::BaseFlow'>BaseFlow</a></code></h4>
 <h4 id='method.clone_with_children' class='method'><code>fn <a href='#method.clone_with_children' class='fnname'>clone_with_children</a>(&amp;self, children: <a class='struct' href='../../layout/flow_list/struct.FlowList.html' title='layout::flow_list::FlowList'>FlowList</a>) -&gt; <a class='struct' href='../../layout/flow/struct.BaseFlow.html' title='layout::flow::BaseFlow'>BaseFlow</a></code></h4>
 <div class='docblock'><p>Return a new BaseFlow like this one but with the given children list</p>
@@ -164,7 +163,7 @@ list construction.</p>
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../layout/flow/struct.BaseFlow.html' title='layout::flow::BaseFlow'>BaseFlow</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-4569' class='srclink' href='../../src/layout/flow.rs.html#997-1036' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, e: &amp;mut S) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, S::Error&gt;</code></h4>
+<div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;S:&nbsp;<a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, e: &amp;mut S) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>,&nbsp;S::Error&gt;</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

@@ -68,56 +68,55 @@
     current_comment: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>,
     current_pi_target: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>,
     current_pi_data: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>,
-    state_profile: <a class='struct' href='../../collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='enum' href='../../xml5ever/tokenizer/states/enum.XmlState.html' title='xml5ever::tokenizer::states::XmlState'>XmlState</a>, <a class='primitive' href='../../std/primitive.u64.html'>u64</a>&gt;,
+    state_profile: <a class='struct' href='../../collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='enum' href='../../xml5ever/tokenizer/states/enum.XmlState.html' title='xml5ever::tokenizer::states::XmlState'>XmlState</a>,&nbsp;<a class='primitive' href='../../std/primitive.u64.html'>u64</a>&gt;,
     time_in_sink: <a class='primitive' href='../../std/primitive.u64.html'>u64</a>,
 }</pre><div class='docblock'><p>The Xml tokenizer.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.opts'><code>opts</code></td><td><div class='docblock'><p>Options controlling the behavior of the tokenizer.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.sink'><code>sink</code></td><td><div class='docblock'><p>Destination for tokens we emit.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.state'><code>state</code></td><td><div class='docblock'><p>The abstract machine state as described in the spec.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.input_buffers'><code>input_buffers</code></td><td><div class='docblock'><p>Input ready to be tokenized.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.at_eof'><code>at_eof</code></td><td><div class='docblock'><p>Are we at the end of the file, once buffers have been processed
+</div><h2 class='fields'>Fields</h2><span id='structfield.opts'><code>opts: <a class='struct' href='../../xml5ever/tokenizer/struct.XmlTokenizerOpts.html' title='xml5ever::tokenizer::XmlTokenizerOpts'>XmlTokenizerOpts</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Options controlling the behavior of the tokenizer.</p>
+</div><span id='structfield.sink'><code>sink: Sink</code></span>
+                           <span class='stab '></span><div class='docblock'><p>Destination for tokens we emit.</p>
+</div><span id='structfield.state'><code>state: <a class='enum' href='../../xml5ever/tokenizer/states/enum.XmlState.html' title='xml5ever::tokenizer::states::XmlState'>XmlState</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The abstract machine state as described in the spec.</p>
+</div><span id='structfield.input_buffers'><code>input_buffers: <a class='struct' href='../../xml5ever/tokenizer/buffer_queue/struct.BufferQueue.html' title='xml5ever::tokenizer::buffer_queue::BufferQueue'>BufferQueue</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Input ready to be tokenized.</p>
+</div><span id='structfield.at_eof'><code>at_eof: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Are we at the end of the file, once buffers have been processed
 completely? This affects whether we will wait for lookahead or not.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.char_ref_tokenizer'><code>char_ref_tokenizer</code></td><td><div class='docblock'><p>Tokenizer for character references, if we&#39;re tokenizing
+</div><span id='structfield.char_ref_tokenizer'><code>char_ref_tokenizer: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='../../xml5ever/tokenizer/char_ref/struct.CharRefTokenizer.html' title='xml5ever::tokenizer::char_ref::CharRefTokenizer'>CharRefTokenizer</a>&gt;&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>Tokenizer for character references, if we&#39;re tokenizing
 one at the moment.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.current_char'><code>current_char</code></td><td><div class='docblock'><p>Current input character.  Just consumed, may reconsume.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.reconsume'><code>reconsume</code></td><td><div class='docblock'><p>Should we reconsume the current input character?</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.ignore_lf'><code>ignore_lf</code></td><td><div class='docblock'><p>Did we just consume \r, translating it to \n?  In that case we need
+</div><span id='structfield.current_char'><code>current_char: <a class='primitive' href='../../std/primitive.char.html'>char</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Current input character.  Just consumed, may reconsume.</p>
+</div><span id='structfield.reconsume'><code>reconsume: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Should we reconsume the current input character?</p>
+</div><span id='structfield.ignore_lf'><code>ignore_lf: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Did we just consume \r, translating it to \n?  In that case we need
 to ignore the next character if it&#39;s \n.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.discard_bom'><code>discard_bom</code></td><td><div class='docblock'><p>Discard a U+FEFF BYTE ORDER MARK if we see one?  Only done at the
+</div><span id='structfield.discard_bom'><code>discard_bom: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Discard a U+FEFF BYTE ORDER MARK if we see one?  Only done at the
 beginning of the stream.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.current_tag_kind'><code>current_tag_kind</code></td><td><div class='docblock'><p>Current tag kind.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.current_tag_name'><code>current_tag_name</code></td><td><div class='docblock'><p>Current tag name.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.current_tag_attrs'><code>current_tag_attrs</code></td><td><div class='docblock'><p>Current tag attributes.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.current_attr_name'><code>current_attr_name</code></td><td><div class='docblock'><p>Current attribute name.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.current_attr_value'><code>current_attr_value</code></td><td><div class='docblock'><p>Current attribute value.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.current_doctype'><code>current_doctype</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.current_comment'><code>current_comment</code></td><td><div class='docblock'><p>Current comment.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.current_pi_target'><code>current_pi_target</code></td><td><div class='docblock'><p>Current processing instruction target.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.current_pi_data'><code>current_pi_data</code></td><td><div class='docblock'><p>Current processing instruction value.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.state_profile'><code>state_profile</code></td><td><div class='docblock'><p>Record of how many ns we spent in each state, if profiling is enabled.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.time_in_sink'><code>time_in_sink</code></td><td><div class='docblock'><p>Record of how many ns we spent in the token sink.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;Sink: <a class='trait' href='../../xml5ever/tokenizer/interface/trait.TokenSink.html' title='xml5ever::tokenizer::interface::TokenSink'>TokenSink</a>&gt; <a class='struct' href='../../xml5ever/tokenizer/struct.XmlTokenizer.html' title='xml5ever::tokenizer::XmlTokenizer'>XmlTokenizer</a>&lt;Sink&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1212' class='srclink' href='../../src/xml5ever/tokenizer/mod.rs.html#170-516' title='goto source code'>[src]</a></span></h3>
+</div><span id='structfield.current_tag_kind'><code>current_tag_kind: <a class='enum' href='../../xml5ever/tokenizer/enum.TagKind.html' title='xml5ever::tokenizer::TagKind'>TagKind</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Current tag kind.</p>
+</div><span id='structfield.current_tag_name'><code>current_tag_name: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Current tag name.</p>
+</div><span id='structfield.current_tag_attrs'><code>current_tag_attrs: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../xml5ever/tokenizer/struct.Attribute.html' title='xml5ever::tokenizer::Attribute'>Attribute</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>Current tag attributes.</p>
+</div><span id='structfield.current_attr_name'><code>current_attr_name: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Current attribute name.</p>
+</div><span id='structfield.current_attr_value'><code>current_attr_value: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Current attribute value.</p>
+</div><span id='structfield.current_doctype'><code>current_doctype: <a class='struct' href='../../xml5ever/tokenizer/struct.Doctype.html' title='xml5ever::tokenizer::Doctype'>Doctype</a></code></span>
+                           <span class='stab '></span><span id='structfield.current_comment'><code>current_comment: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Current comment.</p>
+</div><span id='structfield.current_pi_target'><code>current_pi_target: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Current processing instruction target.</p>
+</div><span id='structfield.current_pi_data'><code>current_pi_data: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Current processing instruction value.</p>
+</div><span id='structfield.state_profile'><code>state_profile: <a class='struct' href='../../collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='enum' href='../../xml5ever/tokenizer/states/enum.XmlState.html' title='xml5ever::tokenizer::states::XmlState'>XmlState</a>,&nbsp;<a class='primitive' href='../../std/primitive.u64.html'>u64</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>Record of how many ns we spent in each state, if profiling is enabled.</p>
+</div><span id='structfield.time_in_sink'><code>time_in_sink: <a class='primitive' href='../../std/primitive.u64.html'>u64</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Record of how many ns we spent in the token sink.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;Sink:&nbsp;<a class='trait' href='../../xml5ever/tokenizer/interface/trait.TokenSink.html' title='xml5ever::tokenizer::interface::TokenSink'>TokenSink</a>&gt; <a class='struct' href='../../xml5ever/tokenizer/struct.XmlTokenizer.html' title='xml5ever::tokenizer::XmlTokenizer'>XmlTokenizer</a>&lt;Sink&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1212' class='srclink' href='../../src/xml5ever/tokenizer/mod.rs.html#170-516' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(sink: Sink, opts: <a class='struct' href='../../xml5ever/tokenizer/struct.XmlTokenizerOpts.html' title='xml5ever::tokenizer::XmlTokenizerOpts'>XmlTokenizerOpts</a>) -&gt; <a class='struct' href='../../xml5ever/tokenizer/struct.XmlTokenizer.html' title='xml5ever::tokenizer::XmlTokenizer'>XmlTokenizer</a>&lt;Sink&gt;</code></h4>
 <div class='docblock'><p>Create a new tokenizer which feeds tokens to a particular <code>TokenSink</code>.</p>
 </div><h4 id='method.unwrap' class='method'><code>fn <a href='#method.unwrap' class='fnname'>unwrap</a>(self) -&gt; Sink</code></h4>
@@ -150,7 +149,7 @@ beginning of the stream.</p>
 <h4 id='method.emit_pi' class='method'><code>fn <a href='#method.emit_pi' class='fnname'>emit_pi</a>(&amp;mut self)</code></h4>
 <h4 id='method.consume_char_ref' class='method'><code>fn <a href='#method.consume_char_ref' class='fnname'>consume_char_ref</a>(&amp;mut self, addnl_allowed: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.char.html'>char</a>&gt;)</code></h4>
 <h4 id='method.emit_eof' class='method'><code>fn <a href='#method.emit_eof' class='fnname'>emit_eof</a>(&amp;mut self)</code></h4>
-<h4 id='method.emit_error' class='method'><code>fn <a href='#method.emit_error' class='fnname'>emit_error</a>(&amp;mut self, error: <a class='enum' href='../../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'static, <a class='primitive' href='../../std/primitive.str.html'>str</a>&gt;)</code></h4>
+<h4 id='method.emit_error' class='method'><code>fn <a href='#method.emit_error' class='fnname'>emit_error</a>(&amp;mut self, error: <a class='enum' href='../../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'static,&nbsp;<a class='primitive' href='../../std/primitive.str.html'>str</a>&gt;)</code></h4>
 <h4 id='method.emit_current_comment' class='method'><code>fn <a href='#method.emit_current_comment' class='fnname'>emit_current_comment</a>(&amp;mut self)</code></h4>
 <h4 id='method.emit_current_doctype' class='method'><code>fn <a href='#method.emit_current_doctype' class='fnname'>emit_current_doctype</a>(&amp;mut self)</code></h4>
 <h4 id='method.doctype_id' class='method'><code>fn <a href='#method.doctype_id' class='fnname'>doctype_id</a>&lt;'a&gt;(&amp;'a mut self, kind: <a class='enum' href='../../xml5ever/tokenizer/states/enum.DoctypeKind.html' title='xml5ever::tokenizer::states::DoctypeKind'>DoctypeKind</a>) -&gt; &amp;'a mut <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>&gt;</code></h4>
@@ -158,7 +157,7 @@ beginning of the stream.</p>
 <h4 id='method.peek' class='method'><code>fn <a href='#method.peek' class='fnname'>peek</a>(&amp;mut self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.char.html'>char</a>&gt;</code></h4>
 <h4 id='method.discard_char' class='method'><code>fn <a href='#method.discard_char' class='fnname'>discard_char</a>(&amp;mut self)</code></h4>
 <h4 id='method.unconsume' class='method'><code>fn <a href='#method.unconsume' class='fnname'>unconsume</a>(&amp;mut self, buf: <a class='type' href='../../tendril/tendril/type.StrTendril.html' title='tendril::tendril::StrTendril'>StrTendril</a>)</code></h4>
-</div><h3 class='impl'><span class='in-band'><code>impl&lt;Sink: <a class='trait' href='../../xml5ever/tokenizer/interface/trait.TokenSink.html' title='xml5ever::tokenizer::interface::TokenSink'>TokenSink</a>&gt; <a class='struct' href='../../xml5ever/tokenizer/struct.XmlTokenizer.html' title='xml5ever::tokenizer::XmlTokenizer'>XmlTokenizer</a>&lt;Sink&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1368' class='srclink' href='../../src/xml5ever/tokenizer/mod.rs.html#650-1183' title='goto source code'>[src]</a></span></h3>
+</div><h3 class='impl'><span class='in-band'><code>impl&lt;Sink:&nbsp;<a class='trait' href='../../xml5ever/tokenizer/interface/trait.TokenSink.html' title='xml5ever::tokenizer::interface::TokenSink'>TokenSink</a>&gt; <a class='struct' href='../../xml5ever/tokenizer/struct.XmlTokenizer.html' title='xml5ever::tokenizer::XmlTokenizer'>XmlTokenizer</a>&lt;Sink&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1368' class='srclink' href='../../src/xml5ever/tokenizer/mod.rs.html#650-1183' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.step' class='method'><code>fn <a href='#method.step' class='fnname'>step</a>(&amp;mut self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
 <h4 id='method.end' class='method'><code>fn <a href='#method.end' class='fnname'>end</a>(&amp;mut self)</code></h4>
 <div class='docblock'><p>Indicate that we have reached the end of the input.</p>

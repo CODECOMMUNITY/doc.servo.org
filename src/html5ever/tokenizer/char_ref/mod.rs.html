@@ -516,8 +516,8 @@
             <span class='ident'>addnl_allowed</span>: <span class='ident'>addnl_allowed</span>,
             <span class='ident'>result</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>num</span>: <span class='number'>0</span>,
-            <span class='ident'>num_too_big</span>: <span class='boolvalue'>false</span>,
-            <span class='ident'>seen_digit</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>num_too_big</span>: <span class='bool-val'>false</span>,
+            <span class='ident'>seen_digit</span>: <span class='bool-val'>false</span>,
             <span class='ident'>hex_marker</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>name_buf_opt</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>name_match</span>: <span class='prelude-val'>None</span>,
@@ -622,10 +622,10 @@
                 <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>num</span> <span class='op'>&gt;</span> <span class='number'>0x10FFFF</span> {
                     <span class='comment'>// We might overflow, and the character is definitely invalid.</span>
                     <span class='comment'>// We still parse digits and semicolon, but don&#39;t use the result.</span>
-                    <span class='self'>self</span>.<span class='ident'>num_too_big</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                    <span class='self'>self</span>.<span class='ident'>num_too_big</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                 }
                 <span class='self'>self</span>.<span class='ident'>num</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>num</span>.<span class='ident'>wrapping_add</span>(<span class='ident'>n</span>);
-                <span class='self'>self</span>.<span class='ident'>seen_digit</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                <span class='self'>self</span>.<span class='ident'>seen_digit</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                 <span class='ident'>Progress</span>
             }
 
@@ -664,21 +664,21 @@
         }
 
         <span class='kw'>let</span> (<span class='ident'>c</span>, <span class='ident'>error</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>num</span> {
-            <span class='ident'>n</span> <span class='kw'>if</span> (<span class='ident'>n</span> <span class='op'>&gt;</span> <span class='number'>0x10FFFF</span>) <span class='op'>||</span> <span class='self'>self</span>.<span class='ident'>num_too_big</span> <span class='op'>=&gt;</span> (<span class='string'>&#39;\u{fffd}&#39;</span>, <span class='boolvalue'>true</span>),
-            <span class='number'>0x00</span> <span class='op'>|</span> <span class='number'>0xD800</span>...<span class='number'>0xDFFF</span> <span class='op'>=&gt;</span> (<span class='string'>&#39;\u{fffd}&#39;</span>, <span class='boolvalue'>true</span>),
+            <span class='ident'>n</span> <span class='kw'>if</span> (<span class='ident'>n</span> <span class='op'>&gt;</span> <span class='number'>0x10FFFF</span>) <span class='op'>||</span> <span class='self'>self</span>.<span class='ident'>num_too_big</span> <span class='op'>=&gt;</span> (<span class='string'>&#39;\u{fffd}&#39;</span>, <span class='bool-val'>true</span>),
+            <span class='number'>0x00</span> <span class='op'>|</span> <span class='number'>0xD800</span>...<span class='number'>0xDFFF</span> <span class='op'>=&gt;</span> (<span class='string'>&#39;\u{fffd}&#39;</span>, <span class='bool-val'>true</span>),
 
             <span class='number'>0x80</span>...<span class='number'>0x9F</span> <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>data</span>::<span class='ident'>C1_REPLACEMENTS</span>[(<span class='self'>self</span>.<span class='ident'>num</span> <span class='op'>-</span> <span class='number'>0x80</span>) <span class='kw'>as</span> <span class='ident'>usize</span>] {
-                <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> (<span class='ident'>c</span>, <span class='boolvalue'>true</span>),
-                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='ident'>conv</span>(<span class='self'>self</span>.<span class='ident'>num</span>), <span class='boolvalue'>true</span>),
+                <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> (<span class='ident'>c</span>, <span class='bool-val'>true</span>),
+                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='ident'>conv</span>(<span class='self'>self</span>.<span class='ident'>num</span>), <span class='bool-val'>true</span>),
             },
 
             <span class='number'>0x01</span>...<span class='number'>0x08</span> <span class='op'>|</span> <span class='number'>0x0B</span> <span class='op'>|</span> <span class='number'>0x0D</span>...<span class='number'>0x1F</span> <span class='op'>|</span> <span class='number'>0x7F</span> <span class='op'>|</span> <span class='number'>0xFDD0</span>...<span class='number'>0xFDEF</span>
-                <span class='op'>=&gt;</span> (<span class='ident'>conv</span>(<span class='self'>self</span>.<span class='ident'>num</span>), <span class='boolvalue'>true</span>),
+                <span class='op'>=&gt;</span> (<span class='ident'>conv</span>(<span class='self'>self</span>.<span class='ident'>num</span>), <span class='bool-val'>true</span>),
 
             <span class='ident'>n</span> <span class='kw'>if</span> (<span class='ident'>n</span> <span class='kw-2'>&amp;</span> <span class='number'>0xFFFE</span>) <span class='op'>==</span> <span class='number'>0xFFFE</span>
-                <span class='op'>=&gt;</span> (<span class='ident'>conv</span>(<span class='ident'>n</span>), <span class='boolvalue'>true</span>),
+                <span class='op'>=&gt;</span> (<span class='ident'>conv</span>(<span class='ident'>n</span>), <span class='bool-val'>true</span>),
 
-            <span class='ident'>n</span> <span class='op'>=&gt;</span> (<span class='ident'>conv</span>(<span class='ident'>n</span>), <span class='boolvalue'>false</span>),
+            <span class='ident'>n</span> <span class='op'>=&gt;</span> (<span class='ident'>conv</span>(<span class='ident'>n</span>), <span class='bool-val'>false</span>),
         };
 
         <span class='kw'>if</span> <span class='ident'>error</span> {
@@ -777,15 +777,15 @@
                 <span class='comment'>// character (=), then this is a parse error&quot;</span>
 
                 <span class='kw'>let</span> <span class='ident'>unconsume_all</span> <span class='op'>=</span> <span class='kw'>match</span> (<span class='self'>self</span>.<span class='ident'>addnl_allowed</span>, <span class='ident'>last_matched</span>, <span class='ident'>next_after</span>) {
-                    (_, <span class='string'>&#39;;&#39;</span>, _) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+                    (_, <span class='string'>&#39;;&#39;</span>, _) <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
                     (<span class='prelude-val'>Some</span>(_), _, <span class='prelude-val'>Some</span>(<span class='string'>&#39;=&#39;</span>)) <span class='op'>=&gt;</span> {
                         <span class='ident'>tokenizer</span>.<span class='ident'>emit_error</span>(<span class='ident'>Borrowed</span>(<span class='string'>&quot;Equals sign after character reference in attribute&quot;</span>));
-                        <span class='boolvalue'>true</span>
+                        <span class='bool-val'>true</span>
                     }
-                    (<span class='prelude-val'>Some</span>(_), _, <span class='prelude-val'>Some</span>(<span class='ident'>c</span>)) <span class='kw'>if</span> <span class='ident'>is_ascii_alnum</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+                    (<span class='prelude-val'>Some</span>(_), _, <span class='prelude-val'>Some</span>(<span class='ident'>c</span>)) <span class='kw'>if</span> <span class='ident'>is_ascii_alnum</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
                     _ <span class='op'>=&gt;</span> {
                         <span class='ident'>tokenizer</span>.<span class='ident'>emit_error</span>(<span class='ident'>Borrowed</span>(<span class='string'>&quot;Character reference does not end with semicolon&quot;</span>));
-                        <span class='boolvalue'>false</span>
+                        <span class='bool-val'>false</span>
                     }
                 };
 

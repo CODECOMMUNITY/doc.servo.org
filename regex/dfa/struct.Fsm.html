@@ -57,35 +57,34 @@
     last_cache_flush: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
     cache: &amp;'a mut <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a>,
 }</pre><div class='docblock'><p>Fsm encapsulates the actual execution of the DFA.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.prog'><code>prog</code></td><td><div class='docblock'><p>prog contains the NFA instruction opcodes. DFA execution uses either
+</div><h2 class='fields'>Fields</h2><span id='structfield.prog'><code>prog: &amp;'a <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>prog contains the NFA instruction opcodes. DFA execution uses either
 the <code>dfa</code> instructions or the <code>dfa_reverse</code> instructions from
 <code>exec::ExecReadOnly</code>. (It never uses <code>ExecReadOnly.nfa</code>, which may have
 Unicode opcodes that cannot be executed by the DFA.)</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.start'><code>start</code></td><td><div class='docblock'><p>The start state. We record it here because the pointer may change
+</div><span id='structfield.start'><code>start: <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The start state. We record it here because the pointer may change
 when the cache is wiped.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.at'><code>at</code></td><td><div class='docblock'><p>The current position in the input.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.quit_after_match'><code>quit_after_match</code></td><td><div class='docblock'><p>Should we quit after seeing the first match? e.g., When the caller
+</div><span id='structfield.at'><code>at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The current position in the input.</p>
+</div><span id='structfield.quit_after_match'><code>quit_after_match: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Should we quit after seeing the first match? e.g., When the caller
 uses <code>is_match</code> or <code>shortest_match</code>.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.last_match_si'><code>last_match_si</code></td><td><div class='docblock'><p>The last state that matched.</p>
+</div><span id='structfield.last_match_si'><code>last_match_si: <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The last state that matched.</p>
 
 <p>When no match has occurred, this is set to STATE_UNKNOWN.</p>
 
 <p>This is only useful when matching regex sets. The last match state
 is useful because it contains all of the match instructions seen,
 thereby allowing us to enumerate which regexes in the set matched.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.last_cache_flush'><code>last_cache_flush</code></td><td><div class='docblock'><p>The input position of the last cache flush. We use this to determine
+</div><span id='structfield.last_cache_flush'><code>last_cache_flush: <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The input position of the last cache flush. We use this to determine
 if we&#39;re thrashing in the cache too often. If so, the DFA quits so
 that we can fall back to the NFA algorithm.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.cache'><code>cache</code></td><td><div class='docblock'><p>All cached DFA information that is persisted between searches.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../regex/dfa/struct.Fsm.html' title='regex::dfa::Fsm'>Fsm</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1216' class='srclink' href='../../src/regex/dfa.rs.html#438-1585' title='goto source code'>[src]</a></span></h3>
+</div><span id='structfield.cache'><code>cache: &amp;'a mut <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>All cached DFA information that is persisted between searches.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../regex/dfa/struct.Fsm.html' title='regex::dfa::Fsm'>Fsm</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1216' class='srclink' href='../../src/regex/dfa.rs.html#438-1585' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.forward' class='method'><code>fn <a href='#method.forward' class='fnname'>forward</a>(prog: &amp;'a <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, cache: &amp;<a class='type' href='../../regex/exec/type.ProgramCache.html' title='regex::exec::ProgramCache'>ProgramCache</a>, quit_after_match: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>
 <h4 id='method.reverse' class='method'><code>fn <a href='#method.reverse' class='fnname'>reverse</a>(prog: &amp;'a <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, cache: &amp;<a class='type' href='../../regex/exec/type.ProgramCache.html' title='regex::exec::ProgramCache'>ProgramCache</a>, quit_after_match: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>
 <h4 id='method.forward_many' class='method'><code>fn <a href='#method.forward_many' class='fnname'>forward_many</a>(prog: &amp;'a <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, cache: &amp;<a class='type' href='../../regex/exec/type.ProgramCache.html' title='regex::exec::ProgramCache'>ProgramCache</a>, matches: <a class='primitive' href='../../std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='../../std/primitive.bool.html'>bool</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, text: <a class='primitive' href='../../std/primitive.slice.html'>&amp;[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, at: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='../../regex/dfa/enum.Result.html' title='regex::dfa::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;</code></h4>

@@ -48,22 +48,21 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-2803' class='srclink' href='../../src/regex/pikevm.rs.html#38-48' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Fsm&lt;'r, I&gt; {
+<pre class='rust struct'>pub struct Fsm&lt;'r,&nbsp;I&gt; {
     prog: &amp;'r <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>,
     stack: &amp;'r mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../regex/pikevm/enum.FollowEpsilon.html' title='regex::pikevm::FollowEpsilon'>FollowEpsilon</a>&gt;,
     input: I,
 }</pre><div class='docblock'><p>An NFA simulation matching engine.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.prog'><code>prog</code></td><td><div class='docblock'><p>The sequence of opcodes (among other things) that is actually executed.</p>
+</div><h2 class='fields'>Fields</h2><span id='structfield.prog'><code>prog: &amp;'r <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The sequence of opcodes (among other things) that is actually executed.</p>
 
 <p>The program may be byte oriented or Unicode codepoint oriented.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.stack'><code>stack</code></td><td><div class='docblock'><p>An explicit stack used for following epsilon transitions. (This is
+</div><span id='structfield.stack'><code>stack: &amp;'r mut <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../regex/pikevm/enum.FollowEpsilon.html' title='regex::pikevm::FollowEpsilon'>FollowEpsilon</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>An explicit stack used for following epsilon transitions. (This is
 borrowed from the cache.)</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.input'><code>input</code></td><td><div class='docblock'><p>The input to search.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'r, I: <a class='trait' href='../../regex/input/trait.Input.html' title='regex::input::Input'>Input</a>&gt; <a class='struct' href='../../regex/pikevm/struct.Fsm.html' title='regex::pikevm::Fsm'>Fsm</a>&lt;'r, I&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2879' class='srclink' href='../../src/regex/pikevm.rs.html#97-355' title='goto source code'>[src]</a></span></h3>
+</div><span id='structfield.input'><code>input: I</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The input to search.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'r,&nbsp;I:&nbsp;<a class='trait' href='../../regex/input/trait.Input.html' title='regex::input::Input'>Input</a>&gt; <a class='struct' href='../../regex/pikevm/struct.Fsm.html' title='regex::pikevm::Fsm'>Fsm</a>&lt;'r,&nbsp;I&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2879' class='srclink' href='../../src/regex/pikevm.rs.html#97-355' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.exec' class='method'><code>fn <a href='#method.exec' class='fnname'>exec</a>(prog: &amp;'r <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>, cache: &amp;<a class='type' href='../../regex/exec/type.ProgramCache.html' title='regex::exec::ProgramCache'>ProgramCache</a>, matches: <a class='primitive' href='../../std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='../../std/primitive.bool.html'>bool</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, slots: <a class='primitive' href='../../std/primitive.slice.html'>&amp;mut [</a><a class='type' href='../../regex/re_trait/type.Slot.html' title='regex::re_trait::Slot'>Slot</a><a class='primitive' href='../../std/primitive.slice.html'>]</a>, quit_after_match: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>, input: I, start: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Execute the NFA matching engine.</p>
 
@@ -88,7 +87,7 @@ at_next may be EOF.</p>
 starting at and including ip.</p>
 </div><h4 id='method.add_step' class='method'><code>fn <a href='#method.add_step' class='fnname'>add_step</a>(&amp;mut self, nlist: &amp;mut <a class='struct' href='../../regex/pikevm/struct.Threads.html' title='regex::pikevm::Threads'>Threads</a>, thread_caps: <a class='primitive' href='../../std/primitive.slice.html'>&amp;mut [</a><a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;<a class='primitive' href='../../std/primitive.slice.html'>]</a>, ip: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>, at: <a class='struct' href='../../regex/input/struct.InputAt.html' title='regex::input::InputAt'>InputAt</a>)</code></h4>
 <div class='docblock'><p>A helper function for add that avoids excessive pushing to the stack.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'r, I: <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>&gt; <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../regex/pikevm/struct.Fsm.html' title='regex::pikevm::Fsm'>Fsm</a>&lt;'r, I&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2809' class='srclink' href='../../src/regex/pikevm.rs.html#37' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'r,&nbsp;I:&nbsp;<a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>&gt; <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../regex/pikevm/struct.Fsm.html' title='regex::pikevm::Fsm'>Fsm</a>&lt;'r,&nbsp;I&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2809' class='srclink' href='../../src/regex/pikevm.rs.html#37' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>

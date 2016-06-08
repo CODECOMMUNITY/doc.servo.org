@@ -926,12 +926,12 @@
                              .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> <span class='ident'>m</span>.<span class='ident'>status</span>
                                             .<span class='ident'>as_ref</span>()
                                             .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='number'>0</span> <span class='op'>&lt;</span> <span class='number'>200</span> <span class='op'>||</span> <span class='ident'>s</span>.<span class='number'>0</span> <span class='op'>&gt;=</span> <span class='number'>300</span>))
-                             .<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>);
+                             .<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>);
         <span class='kw'>if</span> <span class='ident'>is_failure</span> {
             <span class='comment'>// Ensure that the element doesn&#39;t receive any further notifications</span>
             <span class='comment'>// of the aborted fetch. The dedicated failure steps will be executed</span>
             <span class='comment'>// when response_complete runs.</span>
-            <span class='self'>self</span>.<span class='ident'>ignore_response</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+            <span class='self'>self</span>.<span class='ident'>ignore_response</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
         }
     }
 
@@ -952,7 +952,7 @@
 
             <span class='comment'>// Step 6</span>
             <span class='ident'>elem</span>.<span class='ident'>change_ready_state</span>(<span class='ident'>HAVE_METADATA</span>);
-            <span class='self'>self</span>.<span class='ident'>have_metadata</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+            <span class='self'>self</span>.<span class='ident'>have_metadata</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
         } <span class='kw'>else</span> {
             <span class='ident'>elem</span>.<span class='ident'>change_ready_state</span>(<span class='ident'>HAVE_CURRENT_DATA</span>);
         }
@@ -1019,8 +1019,8 @@
             <span class='ident'>generation_id</span>: <span class='ident'>elem</span>.<span class='ident'>generation_id</span>.<span class='ident'>get</span>(),
             <span class='ident'>next_progress_event</span>: <span class='ident'>time</span>::<span class='ident'>get_time</span>() <span class='op'>+</span> <span class='ident'>Duration</span>::<span class='ident'>milliseconds</span>(<span class='number'>350</span>),
             <span class='ident'>url</span>: <span class='ident'>url</span>,
-            <span class='ident'>have_metadata</span>: <span class='boolvalue'>false</span>,
-            <span class='ident'>ignore_response</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>have_metadata</span>: <span class='bool-val'>false</span>,
+            <span class='ident'>ignore_response</span>: <span class='bool-val'>false</span>,
         }
     }
 }
@@ -1049,10 +1049,10 @@
             <span class='ident'>ready_state</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>HAVE_NOTHING</span>),
             <span class='ident'>current_src</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_owned</span>()),
             <span class='ident'>generation_id</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
-            <span class='ident'>first_data_load</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>true</span>),
+            <span class='ident'>first_data_load</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>true</span>),
             <span class='ident'>error</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
-            <span class='ident'>paused</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>true</span>),
-            <span class='ident'>autoplaying</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>true</span>),
+            <span class='ident'>paused</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>true</span>),
+            <span class='ident'>autoplaying</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>true</span>),
         }
     }
 
@@ -1064,12 +1064,12 @@
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#internal-pause-steps</span>
     <span class='kw'>fn</span> <span class='ident'>internal_pause_steps</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='comment'>// Step 1</span>
-        <span class='self'>self</span>.<span class='ident'>autoplaying</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
+        <span class='self'>self</span>.<span class='ident'>autoplaying</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
 
         <span class='comment'>// Step 2</span>
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>Paused</span>() {
             <span class='comment'>// 2.1</span>
-            <span class='self'>self</span>.<span class='ident'>paused</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
+            <span class='self'>self</span>.<span class='ident'>paused</span>.<span class='ident'>set</span>(<span class='bool-val'>true</span>);
 
             <span class='comment'>// 2.2</span>
             <span class='self'>self</span>.<span class='ident'>queue_internal_pause_steps_task</span>();
@@ -1167,7 +1167,7 @@
             (<span class='ident'>HAVE_METADATA</span>, <span class='ident'>HAVE_FUTURE_DATA</span>) <span class='op'>|</span>
             (<span class='ident'>HAVE_METADATA</span>, <span class='ident'>HAVE_ENOUGH_DATA</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>first_data_load</span>.<span class='ident'>get</span>() {
-                    <span class='self'>self</span>.<span class='ident'>first_data_load</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
+                    <span class='self'>self</span>.<span class='ident'>first_data_load</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
                     <span class='self'>self</span>.<span class='ident'>queue_fire_simple_event</span>(<span class='string'>&quot;loadeddata&quot;</span>);
                 }
             }
@@ -1217,14 +1217,14 @@
                    <span class='self'>self</span>.<span class='ident'>Paused</span>() <span class='op'>&amp;&amp;</span>
                    <span class='self'>self</span>.<span class='ident'>Autoplay</span>() {
                     <span class='comment'>// Step 1</span>
-                    <span class='self'>self</span>.<span class='ident'>paused</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
+                    <span class='self'>self</span>.<span class='ident'>paused</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
                     <span class='comment'>// TODO step 2: show poster</span>
                     <span class='comment'>// Step 3</span>
                     <span class='self'>self</span>.<span class='ident'>queue_fire_simple_event</span>(<span class='string'>&quot;play&quot;</span>);
                     <span class='comment'>// Step 4</span>
                     <span class='self'>self</span>.<span class='ident'>queue_notify_about_playing</span>();
                     <span class='comment'>// Step 5</span>
-                    <span class='self'>self</span>.<span class='ident'>autoplaying</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
+                    <span class='self'>self</span>.<span class='ident'>autoplaying</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
                 }
 
                 <span class='self'>self</span>.<span class='ident'>queue_fire_simple_event</span>(<span class='string'>&quot;canplaythrough&quot;</span>);
@@ -1254,12 +1254,12 @@
         <span class='comment'>// TODO step 5 (populate pending text tracks)</span>
 
         <span class='comment'>// Step 6</span>
-        <span class='kw'>let</span> <span class='ident'>mode</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='boolvalue'>false</span> {
+        <span class='kw'>let</span> <span class='ident'>mode</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='bool-val'>false</span> {
             <span class='comment'>// TODO media provider object</span>
             <span class='ident'>ResourceSelectionMode</span>::<span class='ident'>Object</span>
         } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>attr</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>().<span class='ident'>get_attribute</span>(<span class='kw-2'>&amp;</span><span class='macro'>ns</span><span class='macro'>!</span>(), <span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;src&quot;</span>)) {
             <span class='ident'>ResourceSelectionMode</span>::<span class='ident'>Attribute</span>(<span class='ident'>attr</span>.<span class='ident'>Value</span>().<span class='ident'>to_string</span>())
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='boolvalue'>false</span> {
+        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='bool-val'>false</span> {
             <span class='comment'>// TODO &lt;source&gt; child</span>
             <span class='ident'>ResourceSelectionMode</span>::<span class='ident'>Children</span>(<span class='macro'>panic</span><span class='macro'>!</span>())
         } <span class='kw'>else</span> {
@@ -1382,7 +1382,7 @@
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#media-element-load-algorithm</span>
     <span class='kw'>fn</span> <span class='ident'>media_element_load_algorithm</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='self'>self</span>.<span class='ident'>first_data_load</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
+        <span class='self'>self</span>.<span class='ident'>first_data_load</span>.<span class='ident'>set</span>(<span class='bool-val'>true</span>);
 
         <span class='comment'>// TODO Step 1 (abort resource selection algorithm instances)</span>
 
@@ -1413,7 +1413,7 @@
 
             <span class='comment'>// 4.6</span>
             <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>Paused</span>() {
-                <span class='self'>self</span>.<span class='ident'>paused</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
+                <span class='self'>self</span>.<span class='ident'>paused</span>.<span class='ident'>set</span>(<span class='bool-val'>true</span>);
             }
             <span class='comment'>// TODO 4.7 (seeking)</span>
             <span class='comment'>// TODO 4.8 (playback position)</span>
@@ -1424,7 +1424,7 @@
         <span class='comment'>// TODO step 5 (playback rate)</span>
         <span class='comment'>// Step 6</span>
         <span class='self'>self</span>.<span class='ident'>error</span>.<span class='ident'>set</span>(<span class='prelude-val'>None</span>);
-        <span class='self'>self</span>.<span class='ident'>autoplaying</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
+        <span class='self'>self</span>.<span class='ident'>autoplaying</span>.<span class='ident'>set</span>(<span class='bool-val'>true</span>);
 
         <span class='comment'>// Step 7</span>
         <span class='self'>self</span>.<span class='ident'>invoke_resource_selection_algorithm</span>();
@@ -1486,7 +1486,7 @@
         <span class='comment'>// TODO step 1</span>
 
         <span class='comment'>// Step 2</span>
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>error</span>.<span class='ident'>get</span>().<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='ident'>Code</span>() <span class='op'>==</span> <span class='ident'>MEDIA_ERR_SRC_NOT_SUPPORTED</span>) {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>error</span>.<span class='ident'>get</span>().<span class='ident'>map_or</span>(<span class='bool-val'>false</span>, <span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='ident'>Code</span>() <span class='op'>==</span> <span class='ident'>MEDIA_ERR_SRC_NOT_SUPPORTED</span>) {
             <span class='comment'>// TODO return rejected promise</span>
             <span class='kw'>return</span>;
         }
@@ -1507,7 +1507,7 @@
         <span class='comment'>// Step 7</span>
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>Paused</span>() {
             <span class='comment'>// 7.1</span>
-            <span class='self'>self</span>.<span class='ident'>paused</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
+            <span class='self'>self</span>.<span class='ident'>paused</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
 
             <span class='comment'>// TODO 7.2 (show poster)</span>
 
@@ -1529,7 +1529,7 @@
         }
 
         <span class='comment'>// Step 9</span>
-        <span class='self'>self</span>.<span class='ident'>autoplaying</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
+        <span class='self'>self</span>.<span class='ident'>autoplaying</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
 
         <span class='comment'>// TODO step 10 (media controller)</span>
 

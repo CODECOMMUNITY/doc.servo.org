@@ -1044,13 +1044,13 @@
                     <span class='ident'>ViewportDescriptorDeclaration</span>::<span class='ident'>new</span>(
                         <span class='ident'>Origin</span>::<span class='ident'>Author</span>,
                         <span class='ident'>descriptor</span>,
-                        <span class='boolvalue'>false</span>))
+                        <span class='bool-val'>false</span>))
             }
         }}
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>has_width</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>has_height</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>has_zoom</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>has_width</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>has_height</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>has_zoom</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iter</span> <span class='op'>=</span> <span class='ident'>content</span>.<span class='ident'>chars</span>().<span class='ident'>enumerate</span>();
 
@@ -1081,20 +1081,20 @@
                         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>ViewportLength</span>::<span class='ident'>from_meta</span>(<span class='ident'>value</span>) {
                             <span class='macro'>push_descriptor</span><span class='macro'>!</span>(<span class='ident'>MinWidth</span>(<span class='ident'>ViewportLength</span>::<span class='ident'>ExtendToZoom</span>));
                             <span class='macro'>push_descriptor</span><span class='macro'>!</span>(<span class='ident'>MaxWidth</span>(<span class='ident'>value</span>));
-                            <span class='ident'>has_width</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                            <span class='ident'>has_width</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                         }
                     }
                     <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span>.<span class='ident'>eq_ignore_ascii_case</span>(<span class='string'>&quot;height&quot;</span>) <span class='op'>=&gt;</span> {
                         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>ViewportLength</span>::<span class='ident'>from_meta</span>(<span class='ident'>value</span>) {
                             <span class='macro'>push_descriptor</span><span class='macro'>!</span>(<span class='ident'>MinHeight</span>(<span class='ident'>ViewportLength</span>::<span class='ident'>ExtendToZoom</span>));
                             <span class='macro'>push_descriptor</span><span class='macro'>!</span>(<span class='ident'>MaxHeight</span>(<span class='ident'>value</span>));
-                            <span class='ident'>has_height</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                            <span class='ident'>has_height</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                         }
                     }
                     <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span>.<span class='ident'>eq_ignore_ascii_case</span>(<span class='string'>&quot;initial-scale&quot;</span>) <span class='op'>=&gt;</span> {
                         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>Zoom</span>::<span class='ident'>from_meta</span>(<span class='ident'>value</span>) {
                             <span class='macro'>push_descriptor</span><span class='macro'>!</span>(<span class='ident'>Zoom</span>(<span class='ident'>value</span>));
-                            <span class='ident'>has_zoom</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                            <span class='ident'>has_zoom</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                         }
                     }
                     <span class='ident'>n</span> <span class='kw'>if</span> <span class='ident'>n</span>.<span class='ident'>eq_ignore_ascii_case</span>(<span class='string'>&quot;minimum-scale&quot;</span>) <span class='op'>=&gt;</span>
@@ -1195,12 +1195,12 @@
 <span class='doccomment'>/// http://dev.w3.org/csswg/css-cascade/#cascade-origin</span>
 <span class='kw'>fn</span> <span class='ident'>cascade_precendence</span>(<span class='ident'>origin</span>: <span class='ident'>Origin</span>, <span class='ident'>important</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>u8</span> {
     <span class='kw'>match</span> (<span class='ident'>origin</span>, <span class='ident'>important</span>) {
-        (<span class='ident'>Origin</span>::<span class='ident'>UserAgent</span>, <span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='number'>1</span>,
-        (<span class='ident'>Origin</span>::<span class='ident'>User</span>, <span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='number'>2</span>,
-        (<span class='ident'>Origin</span>::<span class='ident'>Author</span>, <span class='boolvalue'>true</span>) <span class='op'>=&gt;</span> <span class='number'>3</span>,
-        (<span class='ident'>Origin</span>::<span class='ident'>Author</span>, <span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> <span class='number'>4</span>,
-        (<span class='ident'>Origin</span>::<span class='ident'>User</span>, <span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> <span class='number'>5</span>,
-        (<span class='ident'>Origin</span>::<span class='ident'>UserAgent</span>, <span class='boolvalue'>false</span>) <span class='op'>=&gt;</span> <span class='number'>6</span>,
+        (<span class='ident'>Origin</span>::<span class='ident'>UserAgent</span>, <span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='number'>1</span>,
+        (<span class='ident'>Origin</span>::<span class='ident'>User</span>, <span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='number'>2</span>,
+        (<span class='ident'>Origin</span>::<span class='ident'>Author</span>, <span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='number'>3</span>,
+        (<span class='ident'>Origin</span>::<span class='ident'>Author</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> <span class='number'>4</span>,
+        (<span class='ident'>Origin</span>::<span class='ident'>User</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> <span class='number'>5</span>,
+        (<span class='ident'>Origin</span>::<span class='ident'>UserAgent</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> <span class='number'>6</span>,
     }
 }
 
@@ -1346,7 +1346,7 @@
 
 
         <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>Context</span> {
-            <span class='ident'>is_root_element</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>is_root_element</span>: <span class='bool-val'>false</span>,
             <span class='ident'>viewport_size</span>: <span class='ident'>initial_viewport</span>,
             <span class='ident'>inherited_style</span>: <span class='ident'>ServoComputedValues</span>::<span class='ident'>initial_values</span>(),
             <span class='ident'>style</span>: <span class='ident'>ServoComputedValues</span>::<span class='ident'>initial_values</span>().<span class='ident'>clone</span>(),

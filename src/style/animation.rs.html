@@ -1800,7 +1800,7 @@
                         <span class='ident'>to_list</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>TransformOperation</span>]) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='comment'>// Lists must be equal length</span>
     <span class='kw'>if</span> <span class='ident'>from_list</span>.<span class='ident'>len</span>() <span class='op'>!=</span> <span class='ident'>to_list</span>.<span class='ident'>len</span>() {
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
 
     <span class='comment'>// Each transform operation must match primitive type in other list</span>
@@ -1813,12 +1813,12 @@
             (<span class='kw-2'>&amp;</span><span class='ident'>TransformOperation</span>::<span class='ident'>Rotate</span>(..), <span class='kw-2'>&amp;</span><span class='ident'>TransformOperation</span>::<span class='ident'>Rotate</span>(..)) <span class='op'>|</span>
             (<span class='kw-2'>&amp;</span><span class='ident'>TransformOperation</span>::<span class='ident'>Perspective</span>(..), <span class='kw-2'>&amp;</span><span class='ident'>TransformOperation</span>::<span class='ident'>Perspective</span>(..)) <span class='op'>=&gt;</span> {}
             _ <span class='op'>=&gt;</span> {
-                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                <span class='kw'>return</span> <span class='bool-val'>false</span>;
             }
         }
     }
 
-    <span class='boolvalue'>true</span>
+    <span class='bool-val'>true</span>
 }
 
 <span class='doccomment'>/// Interpolate two transform lists.</span>
@@ -1968,7 +1968,7 @@
                                                           <span class='ident'>old_style</span>: <span class='kw-2'>&amp;</span><span class='ident'>C</span>,
                                                           <span class='ident'>new_style</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>C</span>)
                                                           <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>had_animations</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>had_animations</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
     <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>new_style</span>.<span class='ident'>get_box</span>().<span class='ident'>transition_count</span>() {
         <span class='comment'>// Create any property animations, if applicable.</span>
         <span class='kw'>let</span> <span class='ident'>property_animations</span> <span class='op'>=</span> <span class='ident'>PropertyAnimation</span>::<span class='ident'>from_transition</span>(<span class='ident'>i</span>, <span class='ident'>old_style</span>.<span class='ident'>as_servo</span>(), <span class='ident'>new_style</span>.<span class='ident'>as_servo_mut</span>());
@@ -1989,7 +1989,7 @@
                     (<span class='ident'>box_style</span>.<span class='ident'>transition_duration</span>.<span class='number'>0</span>.<span class='ident'>get_mod</span>(<span class='ident'>i</span>).<span class='ident'>seconds</span>() <span class='kw'>as</span> <span class='ident'>f64</span>),
             }).<span class='ident'>unwrap</span>();
 
-            <span class='ident'>had_animations</span> <span class='op'>=</span> <span class='boolvalue'>true</span>
+            <span class='ident'>had_animations</span> <span class='op'>=</span> <span class='bool-val'>true</span>
         }
     }
 

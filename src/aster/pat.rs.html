@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/aster-0.16.0/src/pat.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/aster-0.17.0/src/pat.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>pat.rs.html -- source</title>
@@ -477,6 +477,20 @@
 <span id="433">433</span>
 <span id="434">434</span>
 <span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::<span class='ident'>IntoIterator</span>;
 
@@ -612,6 +626,7 @@
         <span class='ident'>PatTupleBuilder</span> {
             <span class='ident'>builder</span>: <span class='self'>self</span>,
             <span class='ident'>pats</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
+            <span class='ident'>wild</span>: <span class='prelude-val'>None</span>,
         }
     }
 }
@@ -682,6 +697,7 @@
             <span class='ident'>builder</span>: <span class='self'>self</span>.<span class='number'>0</span>,
             <span class='ident'>path</span>: <span class='ident'>path</span>,
             <span class='ident'>pats</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
+            <span class='ident'>wild</span>: <span class='prelude-val'>None</span>,
         }
     }
 }
@@ -692,6 +708,7 @@
     <span class='ident'>builder</span>: <span class='ident'>PatBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>,
     <span class='ident'>path</span>: <span class='ident'>ast</span>::<span class='ident'>Path</span>,
     <span class='ident'>pats</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>wild</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>PatEnumPathBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
@@ -724,8 +741,13 @@
         <span class='self'>self</span>.<span class='ident'>pat</span>().<span class='ident'>id</span>(<span class='ident'>id</span>)
     }
 
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>wild</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='self'>self</span>.<span class='ident'>wild</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>pats</span>.<span class='ident'>len</span>());
+        <span class='self'>self</span>
+    }
+
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span> {
-        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>TupleStruct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>pats</span>)))
+        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>TupleStruct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='self'>self</span>.<span class='ident'>pats</span>, <span class='self'>self</span>.<span class='ident'>wild</span>))
     }
 }
 
@@ -811,7 +833,7 @@
         <span class='self'>self</span>.<span class='ident'>with_field_pat</span>(<span class='ident'>ast</span>::<span class='ident'>FieldPat</span> {
             <span class='ident'>ident</span>: <span class='ident'>id</span>,
             <span class='ident'>pat</span>: <span class='ident'>pat</span>,
-            <span class='ident'>is_shorthand</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>is_shorthand</span>: <span class='bool-val'>true</span>,
         })
     }
 
@@ -825,16 +847,16 @@
         <span class='self'>self</span>.<span class='ident'>with_field_pat</span>(<span class='ident'>ast</span>::<span class='ident'>FieldPat</span> {
             <span class='ident'>ident</span>: <span class='ident'>id</span>,
             <span class='ident'>pat</span>: <span class='ident'>pat</span>,
-            <span class='ident'>is_shorthand</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>is_shorthand</span>: <span class='bool-val'>true</span>,
         })
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>etc</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span> {
-        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Struct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='self'>self</span>.<span class='ident'>pats</span>, <span class='boolvalue'>true</span>))
+        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Struct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='self'>self</span>.<span class='ident'>pats</span>, <span class='bool-val'>true</span>))
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span> {
-        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Struct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='self'>self</span>.<span class='ident'>pats</span>, <span class='boolvalue'>false</span>))
+        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Struct</span>(<span class='self'>self</span>.<span class='ident'>path</span>, <span class='self'>self</span>.<span class='ident'>pats</span>, <span class='bool-val'>false</span>))
     }
 }
 
@@ -854,7 +876,7 @@
         <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>with_field_pat</span>(<span class='ident'>ast</span>::<span class='ident'>FieldPat</span> {
             <span class='ident'>ident</span>: <span class='self'>self</span>.<span class='ident'>id</span>,
             <span class='ident'>pat</span>: <span class='ident'>pat</span>,
-            <span class='ident'>is_shorthand</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>is_shorthand</span>: <span class='bool-val'>false</span>,
         })
     }
 }
@@ -878,6 +900,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>PatTupleBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> {
     <span class='ident'>builder</span>: <span class='ident'>PatBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>,
     <span class='ident'>pats</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>wild</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span>: <span class='ident'>Invoke</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Pat</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> <span class='ident'>PatTupleBuilder</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>
@@ -899,8 +922,13 @@
         <span class='ident'>PatBuilder</span>::<span class='ident'>with_callback</span>(<span class='self'>self</span>)
     }
 
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>wild</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='self'>self</span>.<span class='ident'>wild</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>pats</span>.<span class='ident'>len</span>());
+        <span class='self'>self</span>
+    }
+
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>F</span>::<span class='prelude-ty'>Result</span> {
-        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Tup</span>(<span class='self'>self</span>.<span class='ident'>pats</span>))
+        <span class='self'>self</span>.<span class='ident'>builder</span>.<span class='ident'>build_pat_kind</span>(<span class='ident'>ast</span>::<span class='ident'>PatKind</span>::<span class='ident'>Tuple</span>(<span class='self'>self</span>.<span class='ident'>pats</span>, <span class='self'>self</span>.<span class='ident'>wild</span>))
     }
 }
 

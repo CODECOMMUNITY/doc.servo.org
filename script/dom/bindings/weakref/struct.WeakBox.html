@@ -48,17 +48,16 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-4484' class='srclink' href='../../../../src/script/dom/bindings/weakref.rs.html#40-46' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct WeakBox&lt;T: <a class='trait' href='../../../../script/dom/bindings/weakref/trait.WeakReferenceable.html' title='script::dom::bindings::weakref::WeakReferenceable'>WeakReferenceable</a>&gt; {
+<pre class='rust struct'>pub struct WeakBox&lt;T:&nbsp;<a class='trait' href='../../../../script/dom/bindings/weakref/trait.WeakReferenceable.html' title='script::dom::bindings::weakref::WeakReferenceable'>WeakReferenceable</a>&gt; {
     pub count: <a class='struct' href='../../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../../std/primitive.usize.html'>usize</a>&gt;,
     pub value: <a class='struct' href='../../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../../core/nonzero/struct.NonZero.html' title='core::nonzero::NonZero'>NonZero</a>&lt;<a class='primitive' href='../../../../std/primitive.pointer.html'>*const T</a>&gt;&gt;&gt;,
 }</pre><div class='docblock'><p>The inner box of weak references, public for the finalization in codegen.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.count'><code>count</code></td><td><div class='docblock'><p>The reference count. When it reaches zero, the <code>value</code> field should
+</div><h2 class='fields'>Fields</h2><span id='structfield.count'><code>count: <a class='struct' href='../../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='primitive' href='../../../../std/primitive.usize.html'>usize</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The reference count. When it reaches zero, the <code>value</code> field should
 have already been set to <code>None</code>. The pointee contributes one to the count.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.value'><code>value</code></td><td><div class='docblock'><p>The pointer to the JS-managed object, set to None when it is collected.</p>
-</div></td></tr></table></section>
+</div><span id='structfield.value'><code>value: <a class='struct' href='../../../../core/cell/struct.Cell.html' title='core::cell::Cell'>Cell</a>&lt;<a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../../core/nonzero/struct.NonZero.html' title='core::nonzero::NonZero'>NonZero</a>&lt;<a class='primitive' href='../../../../std/primitive.pointer.html'>*const T</a>&gt;&gt;&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The pointer to the JS-managed object, set to None when it is collected.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

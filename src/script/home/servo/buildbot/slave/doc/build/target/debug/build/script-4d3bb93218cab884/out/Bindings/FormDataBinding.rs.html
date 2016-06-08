@@ -888,7 +888,7 @@
         <span class='number'>2</span> <span class='op'>=&gt;</span> {
             <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
                 <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
             };
             <span class='kw'>if</span> <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>1</span>).<span class='ident'>get</span>().<span class='ident'>is_object</span>() {
                 <span class='kw'>loop</span> {
@@ -903,57 +903,57 @@
                 } <span class='kw'>else</span> {
                     <span class='prelude-val'>Some</span>(<span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>2</span>), ()) {
                         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-                        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+                        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
                     })
                 };
                 <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Append_</span>(<span class='ident'>arg0</span>, <span class='ident'>arg1</span>.<span class='ident'>r</span>(), <span class='ident'>arg2</span>);
 
                 (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-                <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+                <span class='kw'>return</span> <span class='bool-val'>true</span>;
                 }
             }
             <span class='kw'>let</span> <span class='ident'>arg1</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>1</span>), ()) {
                 <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
             };
             <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Append</span>(<span class='ident'>arg0</span>, <span class='ident'>arg1</span>);
 
             (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-            <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+            <span class='kw'>return</span> <span class='bool-val'>true</span>;
         }
         <span class='number'>3</span> <span class='op'>=&gt;</span> {
             <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
                 <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
             };
             <span class='kw'>let</span> <span class='ident'>arg1</span>: <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Blob</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>1</span>).<span class='ident'>get</span>().<span class='ident'>is_object</span>() {
                 <span class='kw'>match</span> <span class='ident'>root_from_handlevalue</span>(<span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>1</span>)) {
                     <span class='prelude-val'>Ok</span>(<span class='ident'>val</span>) <span class='op'>=&gt;</span> <span class='ident'>val</span>,
                     <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> {
                         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;value does not implement interface Blob.&quot;</span>);
-                        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                        <span class='kw'>return</span> <span class='bool-val'>false</span>;
                     }
                 }
             } <span class='kw'>else</span> {
                 <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Value is not an object.&quot;</span>);
-                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                <span class='kw'>return</span> <span class='bool-val'>false</span>;
             };
             <span class='kw'>let</span> <span class='ident'>arg2</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>USVString</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>2</span>).<span class='ident'>is_undefined</span>() {
                 <span class='prelude-val'>None</span>
             } <span class='kw'>else</span> {
                 <span class='prelude-val'>Some</span>(<span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>2</span>), ()) {
                     <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-                    <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+                    <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
                 })
             };
             <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Append_</span>(<span class='ident'>arg0</span>, <span class='ident'>arg1</span>.<span class='ident'>r</span>(), <span class='ident'>arg2</span>);
 
             (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-            <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+            <span class='kw'>return</span> <span class='bool-val'>true</span>;
         }
         _ <span class='op'>=&gt;</span> {
             <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;FormData.append\&quot;.&quot;</span>);
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>return</span> <span class='bool-val'>false</span>;
         }
     }
 }
@@ -968,12 +968,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -985,16 +985,16 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;FormData.delete\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Delete</span>(<span class='ident'>arg0</span>);
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+    <span class='kw'>return</span> <span class='bool-val'>true</span>;
 }
 
 
@@ -1007,12 +1007,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1024,16 +1024,16 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;FormData.get\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>UnionTypes</span>::<span class='ident'>BlobOrUSVString</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Get</span>(<span class='ident'>arg0</span>);
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+    <span class='kw'>return</span> <span class='bool-val'>true</span>;
 }
 
 
@@ -1046,12 +1046,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNKNOWN</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1063,16 +1063,16 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;FormData.getAll\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>UnionTypes</span>::<span class='ident'>BlobOrUSVString</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>GetAll</span>(<span class='ident'>arg0</span>);
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+    <span class='kw'>return</span> <span class='bool-val'>true</span>;
 }
 
 
@@ -1085,12 +1085,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_OBJECT</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1102,16 +1102,16 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>1</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;FormData.has\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Has</span>(<span class='ident'>arg0</span>);
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+    <span class='kw'>return</span> <span class='bool-val'>true</span>;
 }
 
 
@@ -1124,12 +1124,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_BOOLEAN</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1141,20 +1141,20 @@
 
     <span class='kw'>if</span> <span class='ident'>argc</span> <span class='op'>&lt;</span> <span class='number'>2</span> {
         <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Not enough arguments to \&quot;FormData.set\&quot;.&quot;</span>);
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
     <span class='kw'>let</span> <span class='ident'>arg0</span>: <span class='ident'>USVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>0</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
-        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>arg1</span>: <span class='ident'>UnionTypes</span>::<span class='ident'>BlobOrUSVString</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>get</span>(<span class='number'>1</span>), ()) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=&gt;</span> <span class='ident'>value</span>,
-        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; },
+        <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='bool-val'>false</span>; },
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: () <span class='op'>=</span> <span class='ident'>this</span>.<span class='ident'>Set</span>(<span class='ident'>arg0</span>, <span class='ident'>arg1</span>);
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+    <span class='kw'>return</span> <span class='bool-val'>true</span>;
 }
 
 
@@ -1167,12 +1167,12 @@
             <span class='ident'>JSJitInfo_OpType</span>::<span class='ident'>Method</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSJitInfo_AliasSet</span>::<span class='ident'>AliasEverything</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
             <span class='ident'>JSValueType</span>::<span class='ident'>JSVAL_TYPE_UNDEFINED</span> <span class='kw'>as</span> <span class='ident'>u8</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
-            <span class='boolvalue'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
+            <span class='bool-val'>false</span>,
             <span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>u16</span>,
         )
 };
@@ -1205,12 +1205,12 @@
                 <span class='prelude-val'>Ok</span>(<span class='ident'>val</span>) <span class='op'>=&gt;</span> <span class='ident'>val</span>,
                 <span class='prelude-val'>Err</span>(()) <span class='op'>=&gt;</span> {
                     <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;value does not implement interface HTMLFormElement.&quot;</span>);
-                    <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                    <span class='kw'>return</span> <span class='bool-val'>false</span>;
                 }
             }
         } <span class='kw'>else</span> {
             <span class='ident'>throw_type_error</span>(<span class='ident'>cx</span>, <span class='string'>&quot;Value is not an object.&quot;</span>);
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>return</span> <span class='bool-val'>false</span>;
         })
     };
     <span class='kw'>let</span> <span class='ident'>result</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>FormData</span><span class='op'>&gt;</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>FormData</span>::<span class='ident'>Constructor</span>(<span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>arg0</span>.<span class='ident'>r</span>());
@@ -1218,12 +1218,12 @@
         <span class='prelude-val'>Ok</span>(<span class='ident'>result</span>) <span class='op'>=&gt;</span> <span class='ident'>result</span>,
         <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
             <span class='ident'>throw_dom_exception</span>(<span class='ident'>cx</span>, <span class='ident'>global</span>.<span class='ident'>r</span>(), <span class='ident'>e</span>);
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>return</span> <span class='bool-val'>false</span>;
         },
     };
 
     (<span class='ident'>result</span>).<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>args</span>.<span class='ident'>rval</span>());
-    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+    <span class='kw'>return</span> <span class='bool-val'>true</span>;
 }
 
 <span class='kw'>static</span> <span class='ident'>InterfaceObjectClass</span>: <span class='ident'>NonCallbackInterfaceObjectClass</span> <span class='op'>=</span>
@@ -1292,7 +1292,7 @@
         },
 
         <span class='ident'>ext</span>: <span class='ident'>js</span>::<span class='ident'>jsapi</span>::<span class='ident'>ClassExtension</span> {
-            <span class='ident'>isWrappedNative</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>isWrappedNative</span>: <span class='bool-val'>false</span>,
             <span class='ident'>weakmapKeyDelegateOp</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>objectMovedOp</span>: <span class='prelude-val'>None</span>,
         },

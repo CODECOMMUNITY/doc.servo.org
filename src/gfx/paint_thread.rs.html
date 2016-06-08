@@ -952,7 +952,7 @@
             },
             <span class='ident'>starting_stacking_context_id</span>: <span class='ident'>stacking_context</span>.<span class='ident'>id</span>,
             <span class='ident'>display_list_indices</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>single_item</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>single_item</span>: <span class='bool-val'>false</span>,
             <span class='ident'>display_list_origin</span>: <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>stacking_context</span>.<span class='ident'>overflow</span>.<span class='ident'>origin</span>.<span class='ident'>x</span>.<span class='ident'>to_f32_px</span>(),
                                               <span class='ident'>stacking_context</span>.<span class='ident'>overflow</span>.<span class='ident'>origin</span>.<span class='ident'>y</span>.<span class='ident'>to_f32_px</span>()),
         }
@@ -983,13 +983,13 @@
                 <span class='ident'>scroll_policy</span>: <span class='ident'>layer_info</span>.<span class='ident'>scroll_policy</span>,
                 <span class='ident'>transform</span>: <span class='op'>*</span><span class='ident'>transform</span>,
                 <span class='ident'>perspective</span>: <span class='op'>*</span><span class='ident'>perspective</span>,
-                <span class='ident'>establishes_3d_context</span>: <span class='boolvalue'>false</span>,
-                <span class='ident'>scrolls_overflow_area</span>: <span class='boolvalue'>false</span>,
+                <span class='ident'>establishes_3d_context</span>: <span class='bool-val'>false</span>,
+                <span class='ident'>scrolls_overflow_area</span>: <span class='bool-val'>false</span>,
                 <span class='ident'>subpage_pipeline_id</span>: <span class='ident'>layer_info</span>.<span class='ident'>subpage_pipeline_id</span>,
             },
             <span class='ident'>starting_stacking_context_id</span>: <span class='ident'>stacking_context_id</span>,
             <span class='ident'>display_list_indices</span>: <span class='prelude-val'>Some</span>((<span class='ident'>item_index</span>, <span class='ident'>item_index</span>)),
-            <span class='ident'>single_item</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>single_item</span>: <span class='bool-val'>true</span>,
             <span class='ident'>display_list_origin</span>: <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='ident'>bounds</span>.<span class='ident'>origin</span>.<span class='ident'>x</span>.<span class='ident'>to_f32_px</span>(),
                                               <span class='ident'>bounds</span>.<span class='ident'>origin</span>.<span class='ident'>y</span>.<span class='ident'>to_f32_px</span>()),
         }
@@ -1268,7 +1268,7 @@
                 <span class='ident'>time_profiler_chan</span>: <span class='ident'>time_profiler_chan</span>,
                 <span class='ident'>root_display_list</span>: <span class='prelude-val'>None</span>,
                 <span class='ident'>layer_map</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
-                <span class='ident'>paint_permission</span>: <span class='boolvalue'>false</span>,
+                <span class='ident'>paint_permission</span>: <span class='bool-val'>false</span>,
                 <span class='ident'>current_epoch</span>: <span class='prelude-val'>None</span>,
                 <span class='ident'>worker_threads</span>: <span class='ident'>worker_threads</span>,
             };
@@ -1333,14 +1333,14 @@
                     }
                 }
                 <span class='ident'>Msg</span>::<span class='ident'>FromChrome</span>(<span class='ident'>ChromeToPaintMsg</span>::<span class='ident'>PaintPermissionGranted</span>) <span class='op'>=&gt;</span> {
-                    <span class='self'>self</span>.<span class='ident'>paint_permission</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                    <span class='self'>self</span>.<span class='ident'>paint_permission</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
 
                     <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>root_display_list</span>.<span class='ident'>is_some</span>() {
                         <span class='self'>self</span>.<span class='ident'>initialize_layers</span>();
                     }
                 }
                 <span class='ident'>Msg</span>::<span class='ident'>FromChrome</span>(<span class='ident'>ChromeToPaintMsg</span>::<span class='ident'>PaintPermissionRevoked</span>) <span class='op'>=&gt;</span> {
-                    <span class='self'>self</span>.<span class='ident'>paint_permission</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+                    <span class='self'>self</span>.<span class='ident'>paint_permission</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
                 }
                 <span class='ident'>Msg</span>::<span class='ident'>FromChrome</span>(<span class='ident'>ChromeToPaintMsg</span>::<span class='ident'>CollectReports</span>(<span class='kw-2'>ref</span> <span class='ident'>channel</span>)) <span class='op'>=&gt;</span> {
                     <span class='comment'>// FIXME(njn): should eventually measure the paint thread.</span>
@@ -1636,7 +1636,7 @@
             <span class='ident'>rect</span>: <span class='ident'>tile</span>.<span class='ident'>page_rect</span>,
             <span class='ident'>screen_pos</span>: <span class='ident'>tile</span>.<span class='ident'>screen_rect</span>,
             <span class='ident'>resolution</span>: <span class='ident'>scale</span>,
-            <span class='ident'>painted_with_cpu</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>painted_with_cpu</span>: <span class='bool-val'>true</span>,
             <span class='ident'>content_age</span>: <span class='ident'>tile</span>.<span class='ident'>content_age</span>,
         }
     }

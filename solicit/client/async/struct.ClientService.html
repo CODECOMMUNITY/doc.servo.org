@@ -52,8 +52,8 @@
     next_stream_id: <a class='type' href='../../../solicit/http/type.StreamId.html' title='solicit::http::StreamId'>StreamId</a>,
     outstanding_reqs: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a>,
     limit: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a>,
-    conn: <a class='struct' href='../../../solicit/http/client/struct.ClientConnection.html' title='solicit::http::client::ClientConnection'>ClientConnection</a>&lt;<a class='struct' href='../../../solicit/client/async/struct.ChannelFrameSenderHandle.html' title='solicit::client::async::ChannelFrameSenderHandle'>ChannelFrameSenderHandle</a>, <a class='struct' href='../../../solicit/client/async/struct.ChannelFrameReceiverHandle.html' title='solicit::client::async::ChannelFrameReceiverHandle'>ChannelFrameReceiverHandle</a>&gt;,
-    chans: <a class='struct' href='../../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='type' href='../../../solicit/http/type.StreamId.html' title='solicit::http::StreamId'>StreamId</a>, <a class='struct' href='../../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='struct' href='../../../solicit/http/struct.Response.html' title='solicit::http::Response'>Response</a>&gt;&gt;,
+    conn: <a class='struct' href='../../../solicit/http/client/struct.ClientConnection.html' title='solicit::http::client::ClientConnection'>ClientConnection</a>&lt;<a class='struct' href='../../../solicit/client/async/struct.ChannelFrameSenderHandle.html' title='solicit::client::async::ChannelFrameSenderHandle'>ChannelFrameSenderHandle</a>,&nbsp;<a class='struct' href='../../../solicit/client/async/struct.ChannelFrameReceiverHandle.html' title='solicit::client::async::ChannelFrameReceiverHandle'>ChannelFrameReceiverHandle</a>&gt;,
+    chans: <a class='struct' href='../../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='type' href='../../../solicit/http/type.StreamId.html' title='solicit::http::StreamId'>StreamId</a>,&nbsp;<a class='struct' href='../../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='struct' href='../../../solicit/http/struct.Response.html' title='solicit::http::Response'>Response</a>&gt;&gt;,
     work_queue: <a class='struct' href='../../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../../solicit/client/async/enum.WorkItem.html' title='solicit::client::async::WorkItem'>WorkItem</a>&gt;,
     request_queue: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../solicit/client/async/struct.AsyncRequest.html' title='solicit::client::async::AsyncRequest'>AsyncRequest</a>&gt;,
     client_count: <a class='primitive' href='../../../std/primitive.i32.html'>i32</a>,
@@ -89,32 +89,31 @@ calling the <code>send_next</code> or <code>read_next</code> methods of the <cod
       of a real event loop, which is slightly out of scope of the <code>solicit</code> library, as
       imagined; the async client is (for now) supposed to be a proof-of-concept
       implementation of a high-level async/concurrent HTTP/2 client.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.next_stream_id'><code>next_stream_id</code></td><td><div class='docblock'><p>The ID that will be assigned to the next client-initiated stream.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.outstanding_reqs'><code>outstanding_reqs</code></td><td><div class='docblock'><p>The number of requests that have been sent, but are yet unanswered.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.limit'><code>limit</code></td><td><div class='docblock'><p>The limit to the number of requests that can be pending (unanswered,
+</div><h2 class='fields'>Fields</h2><span id='structfield.next_stream_id'><code>next_stream_id: <a class='type' href='../../../solicit/http/type.StreamId.html' title='solicit::http::StreamId'>StreamId</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The ID that will be assigned to the next client-initiated stream.</p>
+</div><span id='structfield.outstanding_reqs'><code>outstanding_reqs: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The number of requests that have been sent, but are yet unanswered.</p>
+</div><span id='structfield.limit'><code>limit: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The limit to the number of requests that can be pending (unanswered,
 but sent).</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.conn'><code>conn</code></td><td><div class='docblock'><p>The connection that is used for underlying HTTP/2 communication.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.chans'><code>chans</code></td><td><div class='docblock'><p>A mapping of stream IDs to the sender side of a channel that is
+</div><span id='structfield.conn'><code>conn: <a class='struct' href='../../../solicit/http/client/struct.ClientConnection.html' title='solicit::http::client::ClientConnection'>ClientConnection</a>&lt;<a class='struct' href='../../../solicit/client/async/struct.ChannelFrameSenderHandle.html' title='solicit::client::async::ChannelFrameSenderHandle'>ChannelFrameSenderHandle</a>,&nbsp;<a class='struct' href='../../../solicit/client/async/struct.ChannelFrameReceiverHandle.html' title='solicit::client::async::ChannelFrameReceiverHandle'>ChannelFrameReceiverHandle</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The connection that is used for underlying HTTP/2 communication.</p>
+</div><span id='structfield.chans'><code>chans: <a class='struct' href='../../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='type' href='../../../solicit/http/type.StreamId.html' title='solicit::http::StreamId'>StreamId</a>,&nbsp;<a class='struct' href='../../../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='struct' href='../../../solicit/http/struct.Response.html' title='solicit::http::Response'>Response</a>&gt;&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A mapping of stream IDs to the sender side of a channel that is
 expecting a response to the request that is to arrive on that stream.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.work_queue'><code>work_queue</code></td><td><div class='docblock'><p>The receiver end of a channel to which work items for the service are
+</div><span id='structfield.work_queue'><code>work_queue: <a class='struct' href='../../../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../../../solicit/client/async/enum.WorkItem.html' title='solicit::client::async::WorkItem'>WorkItem</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The receiver end of a channel to which work items for the service are
 queued. Work items include the variants of the <code>WorkItem</code> enum.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.request_queue'><code>request_queue</code></td><td><div class='docblock'><p>The queue of <code>AsyncRequest</code>s that haven&#39;t yet been sent to the server.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.client_count'><code>client_count</code></td><td><div class='docblock'><p>Tracks the number of currently connected clients -- once it reaches 0, the <code>run_once</code>
+</div><span id='structfield.request_queue'><code>request_queue: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../solicit/client/async/struct.AsyncRequest.html' title='solicit::client::async::AsyncRequest'>AsyncRequest</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The queue of <code>AsyncRequest</code>s that haven&#39;t yet been sent to the server.</p>
+</div><span id='structfield.client_count'><code>client_count: <a class='primitive' href='../../../std/primitive.i32.html'>i32</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Tracks the number of currently connected clients -- once it reaches 0, the <code>run_once</code>
 method returns an error.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.host'><code>host</code></td><td><div class='docblock'><p>The name of the host the connection is established to.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.initialized'><code>initialized</code></td><td><div class='docblock'><p>Whether the connection has already been initialized.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../solicit/client/async/struct.ClientService.html' title='solicit::client::async::ClientService'>ClientService</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1823' class='srclink' href='../../../src/solicit/client/async.rs.html#276-531' title='goto source code'>[src]</a></span></h3>
+</div><span id='structfield.host'><code>host: <a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../../std/primitive.u8.html'>u8</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The name of the host the connection is established to.</p>
+</div><span id='structfield.initialized'><code>initialized: <a class='primitive' href='../../../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Whether the connection has already been initialized.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../solicit/client/async/struct.ClientService.html' title='solicit::client::async::ClientService'>ClientService</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1823' class='srclink' href='../../../src/solicit/client/async.rs.html#276-531' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;S&gt;(client_stream: <a class='struct' href='../../../solicit/http/client/struct.ClientStream.html' title='solicit::http::client::ClientStream'>ClientStream</a>&lt;S&gt;) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../solicit/client/async/struct.Service.html' title='solicit::client::async::Service'>Service</a>&lt;S&gt;&gt; <span class='where'>where S: <a class='trait' href='../../../solicit/http/transport/trait.TransportStream.html' title='solicit::http::transport::TransportStream'>TransportStream</a></span></code></h4>
 <div class='docblock'><p>Creates a new <code>ClientService</code> that will use the provided <code>ClientStream</code> for its underlying
 network communication. A handle is returned for both the read, as well as the write end of
@@ -139,7 +138,7 @@ a separate thread).</li>
 
 <p>If no HTTP/2 connection can be established to the given host on the
 given port, returns <code>None</code>.</p>
-</div><h4 id='method.run_once' class='method'><code>fn <a href='#method.run_once' class='fnname'>run_once</a>(&amp;mut self) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../std/primitive.tuple.html'>()</a>, <a class='enum' href='../../../solicit/client/async/enum.ClientServiceErr.html' title='solicit::client::async::ClientServiceErr'>ClientServiceErr</a>&gt;</code></h4>
+</div><h4 id='method.run_once' class='method'><code>fn <a href='#method.run_once' class='fnname'>run_once</a>(&amp;mut self) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../std/primitive.tuple.html'>()</a>,&nbsp;<a class='enum' href='../../../solicit/client/async/enum.ClientServiceErr.html' title='solicit::client::async::ClientServiceErr'>ClientServiceErr</a>&gt;</code></h4>
 <div class='docblock'><p>Performs one iteration of the service.</p>
 
 <p>One iteration corresponds to running the next <code>WorkItem</code> that the service
@@ -171,7 +170,7 @@ corresponds to the <code>ClientServiceErr::Done</code> variant.</p>
 
 <p>Any HTTP/2 error is propagated (wrapped into a ClientServiceErr::Http
 variant).</p>
-</div><h4 id='method.handle_frame' class='method'><code>fn <a href='#method.handle_frame' class='fnname'>handle_frame</a>(&amp;mut self) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../std/primitive.tuple.html'>()</a>, <a class='enum' href='../../../solicit/client/async/enum.ClientServiceErr.html' title='solicit::client::async::ClientServiceErr'>ClientServiceErr</a>&gt;</code></h4>
+</div><h4 id='method.handle_frame' class='method'><code>fn <a href='#method.handle_frame' class='fnname'>handle_frame</a>(&amp;mut self) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../../std/primitive.tuple.html'>()</a>,&nbsp;<a class='enum' href='../../../solicit/client/async/enum.ClientServiceErr.html' title='solicit::client::async::ClientServiceErr'>ClientServiceErr</a>&gt;</code></h4>
 <div class='docblock'><p>A private convenience method that performs the handling of the next received frame.</p>
 
 <p>It calls the underlying connection&#39;s <code>handle_next_frame</code> method and then inspects the

@@ -328,7 +328,7 @@
         };
 
         <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>channel</span>();
-        <span class='kw'>let</span> <span class='ident'>closing</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicBool</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>));
+        <span class='kw'>let</span> <span class='ident'>closing</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicBool</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>));
         <span class='kw'>let</span> <span class='ident'>worker</span> <span class='op'>=</span> <span class='ident'>Worker</span>::<span class='ident'>new</span>(<span class='ident'>global</span>, <span class='ident'>sender</span>.<span class='ident'>clone</span>(), <span class='ident'>closing</span>.<span class='ident'>clone</span>());
         <span class='kw'>let</span> <span class='ident'>worker_ref</span> <span class='op'>=</span> <span class='ident'>Trusted</span>::<span class='ident'>new</span>(<span class='ident'>worker</span>.<span class='ident'>r</span>());
 
@@ -408,7 +408,7 @@
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#terminate-a-worker</span>
     <span class='kw'>fn</span> <span class='ident'>Terminate</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='comment'>// Step 1</span>
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>closing</span>.<span class='ident'>swap</span>(<span class='boolvalue'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>) {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>closing</span>.<span class='ident'>swap</span>(<span class='bool-val'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>) {
             <span class='kw'>return</span>;
         }
 

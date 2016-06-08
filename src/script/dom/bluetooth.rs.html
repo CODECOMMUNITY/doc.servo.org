@@ -203,7 +203,6 @@
 <span id="159">159</span>
 <span id="160">160</span>
 <span id="161">161</span>
-<span id="162">162</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -332,10 +331,9 @@
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>opt_services</span>) <span class='op'>=</span> <span class='ident'>options</span>.<span class='ident'>optionalServices</span> {
         <span class='kw'>for</span> <span class='ident'>opt_service</span> <span class='kw'>in</span> <span class='ident'>opt_services</span> {
             <span class='kw'>let</span> <span class='ident'>uuid</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>BluetoothUUID</span>::<span class='ident'>GetService</span>(<span class='ident'>global</span>, <span class='ident'>opt_service</span>.<span class='ident'>clone</span>())).<span class='ident'>to_string</span>();
-            <span class='kw'>if</span> <span class='ident'>uuid_is_blacklisted</span>(<span class='ident'>uuid</span>.<span class='ident'>as_ref</span>(), <span class='ident'>Blacklist</span>::<span class='ident'>All</span>) {
-                <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Security</span>)
+            <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>uuid_is_blacklisted</span>(<span class='ident'>uuid</span>.<span class='ident'>as_ref</span>(), <span class='ident'>Blacklist</span>::<span class='ident'>All</span>) {
+                <span class='ident'>optional_services</span>.<span class='ident'>push</span>(<span class='ident'>uuid</span>);
             }
-            <span class='ident'>optional_services</span>.<span class='ident'>push</span>(<span class='ident'>uuid</span>);
         }
     }
 

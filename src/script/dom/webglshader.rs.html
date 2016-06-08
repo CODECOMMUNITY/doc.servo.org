@@ -288,7 +288,7 @@
             <span class='ident'>gl_type</span>: <span class='ident'>shader_type</span>,
             <span class='ident'>source</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
             <span class='ident'>info_log</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
-            <span class='ident'>is_deleted</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>is_deleted</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>attached_counter</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>compilation_status</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>ShaderCompilationStatus</span>::<span class='ident'>NotCompiled</span>),
             <span class='ident'>renderer</span>: <span class='ident'>renderer</span>,
@@ -364,7 +364,7 @@
     <span class='doccomment'>/// Currently does not check if shader is attached</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>delete</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>get</span>() {
-            <span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
+            <span class='self'>self</span>.<span class='ident'>is_deleted</span>.<span class='ident'>set</span>(<span class='bool-val'>true</span>);
             <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>CanvasMsg</span>::<span class='ident'>WebGL</span>(<span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteShader</span>(<span class='self'>self</span>.<span class='ident'>id</span>)));
         }
     }

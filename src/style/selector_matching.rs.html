@@ -679,8 +679,8 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stylist</span> <span class='op'>=</span> <span class='ident'>Stylist</span> {
             <span class='ident'>viewport_constraints</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>device</span>: <span class='ident'>device</span>,
-            <span class='ident'>is_device_dirty</span>: <span class='boolvalue'>true</span>,
-            <span class='ident'>quirks_mode</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>is_device_dirty</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>quirks_mode</span>: <span class='bool-val'>false</span>,
 
             <span class='ident'>element_map</span>: <span class='ident'>PerPseudoElementSelectorMap</span>::<span class='ident'>new</span>(),
             <span class='ident'>pseudos_map</span>: <span class='ident'>HashMap</span>::<span class='ident'>with_hasher</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>()),
@@ -702,7 +702,7 @@
                   <span class='ident'>stylesheets_changed</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
                   <span class='kw'>where</span> <span class='ident'>Impl</span>: <span class='lifetime'>&#39;static</span> {
         <span class='kw'>if</span> <span class='op'>!</span>(<span class='self'>self</span>.<span class='ident'>is_device_dirty</span> <span class='op'>||</span> <span class='ident'>stylesheets_changed</span>) {
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>return</span> <span class='bool-val'>false</span>;
         }
 
         <span class='self'>self</span>.<span class='ident'>element_map</span> <span class='op'>=</span> <span class='ident'>PerPseudoElementSelectorMap</span>::<span class='ident'>new</span>();
@@ -729,8 +729,8 @@
             <span class='self'>self</span>.<span class='ident'>add_stylesheet</span>(<span class='ident'>stylesheet</span>);
         }
 
-        <span class='self'>self</span>.<span class='ident'>is_device_dirty</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
-        <span class='boolvalue'>true</span>
+        <span class='self'>self</span>.<span class='ident'>is_device_dirty</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+        <span class='bool-val'>true</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>add_stylesheet</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>stylesheet</span>: <span class='kw-2'>&amp;</span><span class='ident'>Stylesheet</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span>) {
@@ -803,7 +803,7 @@
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>declarations</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>precomputed_pseudo_element_decls</span>.<span class='ident'>get</span>(<span class='ident'>pseudo</span>) {
             <span class='kw'>let</span> (<span class='ident'>computed</span>, _) <span class='op'>=</span>
                 <span class='ident'>properties</span>::<span class='ident'>cascade</span>(<span class='self'>self</span>.<span class='ident'>device</span>.<span class='ident'>au_viewport_size</span>(),
-                                    <span class='kw-2'>&amp;</span><span class='ident'>declarations</span>, <span class='boolvalue'>false</span>,
+                                    <span class='kw-2'>&amp;</span><span class='ident'>declarations</span>, <span class='bool-val'>false</span>,
                                     <span class='ident'>parent</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>p</span>), <span class='prelude-val'>None</span>,
                                     <span class='kw'>box</span> <span class='ident'>StdoutErrorReporter</span>);
             <span class='prelude-val'>Some</span>(<span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>computed</span>))
@@ -836,7 +836,7 @@
 
         <span class='kw'>let</span> (<span class='ident'>computed</span>, _) <span class='op'>=</span>
             <span class='ident'>properties</span>::<span class='ident'>cascade</span>(<span class='self'>self</span>.<span class='ident'>device</span>.<span class='ident'>au_viewport_size</span>(),
-                                <span class='kw-2'>&amp;</span><span class='ident'>declarations</span>, <span class='boolvalue'>false</span>,
+                                <span class='kw-2'>&amp;</span><span class='ident'>declarations</span>, <span class='bool-val'>false</span>,
                                 <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>parent</span>), <span class='prelude-val'>None</span>,
                                 <span class='kw'>box</span> <span class='ident'>StdoutErrorReporter</span>);
         <span class='prelude-val'>Some</span>(<span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>computed</span>))
@@ -908,7 +908,7 @@
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>element_map</span>,
         };
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>shareable</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>shareable</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
 
         <span class='comment'>// Step 1: Normal user-agent rules.</span>
         <span class='ident'>map</span>.<span class='ident'>user_agent</span>.<span class='ident'>normal</span>.<span class='ident'>get_all_matching_rules</span>(<span class='ident'>element</span>,
@@ -921,7 +921,7 @@
         <span class='ident'>element</span>.<span class='ident'>synthesize_presentational_hints_for_legacy_attributes</span>(<span class='ident'>applicable_declarations</span>);
         <span class='kw'>if</span> <span class='ident'>applicable_declarations</span>.<span class='ident'>len</span>() <span class='op'>!=</span> <span class='ident'>length</span> {
             <span class='comment'>// Never share style for elements with preshints</span>
-            <span class='ident'>shareable</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+            <span class='ident'>shareable</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
         }
 
         <span class='comment'>// Step 3: User and author normal rules.</span>
@@ -936,7 +936,7 @@
 
         <span class='comment'>// Step 4: Normal style attributes.</span>
         <span class='ident'>style_attribute</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>sa</span><span class='op'>|</span> {
-            <span class='ident'>shareable</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+            <span class='ident'>shareable</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
             <span class='ident'>applicable_declarations</span>.<span class='ident'>push</span>(
                 <span class='ident'>GenericDeclarationBlock</span>::<span class='ident'>from_declarations</span>(<span class='ident'>sa</span>.<span class='ident'>normal</span>.<span class='ident'>clone</span>()))
         });
@@ -949,7 +949,7 @@
 
         <span class='comment'>// Step 6: `!important` style attributes.</span>
         <span class='ident'>style_attribute</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>sa</span><span class='op'>|</span> {
-            <span class='ident'>shareable</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+            <span class='ident'>shareable</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
             <span class='ident'>applicable_declarations</span>.<span class='ident'>push</span>(
                 <span class='ident'>GenericDeclarationBlock</span>::<span class='ident'>from_declarations</span>(<span class='ident'>sa</span>.<span class='ident'>important</span>.<span class='ident'>clone</span>()))
         });

@@ -49,17 +49,17 @@
                    </a>
                </span><a id='src-212' class='srclink' href='../src/cssparser/tokenizer.rs.html#23-158' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum Token&lt;'a&gt; {
-    Ident(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
-    AtKeyword(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
-    Hash(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
-    IDHash(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
-    QuotedString(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
-    UnquotedUrl(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
+    Ident(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
+    AtKeyword(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
+    Hash(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
+    IDHash(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
+    QuotedString(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
+    UnquotedUrl(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
     Delim(<a class='primitive' href='../std/primitive.char.html'>char</a>),
     Number(<a class='struct' href='../cssparser/struct.NumericValue.html' title='cssparser::NumericValue'>NumericValue</a>),
     Percentage(<a class='struct' href='../cssparser/struct.PercentageValue.html' title='cssparser::PercentageValue'>PercentageValue</a>),
-    Dimension(<a class='struct' href='../cssparser/struct.NumericValue.html' title='cssparser::NumericValue'>NumericValue</a>, <a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
-    UnicodeRange(<a class='primitive' href='../std/primitive.u32.html'>u32</a>, <a class='primitive' href='../std/primitive.u32.html'>u32</a>),
+    Dimension(<a class='struct' href='../cssparser/struct.NumericValue.html' title='cssparser::NumericValue'>NumericValue</a>,&nbsp;<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
+    UnicodeRange(<a class='primitive' href='../std/primitive.u32.html'>u32</a>,&nbsp;<a class='primitive' href='../std/primitive.u32.html'>u32</a>),
     WhiteSpace(&amp;'a <a class='primitive' href='../std/primitive.str.html'>str</a>),
     Comment(&amp;'a <a class='primitive' href='../std/primitive.str.html'>str</a>),
     Colon,
@@ -73,7 +73,7 @@
     Column,
     CDO,
     CDC,
-    Function(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
+    Function(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;),
     ParenthesisBlock,
     SquareBracketBlock,
     CurlyBracketBlock,
@@ -87,75 +87,75 @@
 <p>Some components use <code>CowString</code> in order to borrow from the original input string
 and avoid allocating/copying when possible.</p>
 </div><h2 class='variants'>Variants</h2>
-<table class='variants_table'><tr><td id='variant.Ident'><code>Ident</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#ident-token-diagram"><code>&lt;ident-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.AtKeyword'><code>AtKeyword</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#at-keyword-token-diagram"><code>&lt;at-keyword-token&gt;</code></a></p>
+<span id='variant.Ident' class='variant'><code>Ident(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#ident-token-diagram"><code>&lt;ident-token&gt;</code></a></p>
+</div><span id='variant.AtKeyword' class='variant'><code>AtKeyword(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#at-keyword-token-diagram"><code>&lt;at-keyword-token&gt;</code></a></p>
 
 <p>The value does not include the <code>@</code> marker.</p>
-</div></td><td></td></tr><tr><td id='variant.Hash'><code>Hash</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#hash-token-diagram"><code>&lt;hash-token&gt;</code></a> with the type flag set to &quot;unrestricted&quot;</p>
+</div><span id='variant.Hash' class='variant'><code>Hash(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#hash-token-diagram"><code>&lt;hash-token&gt;</code></a> with the type flag set to &quot;unrestricted&quot;</p>
 
 <p>The value does not include the <code>#</code> marker.</p>
-</div></td><td></td></tr><tr><td id='variant.IDHash'><code>IDHash</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#hash-token-diagram"><code>&lt;hash-token&gt;</code></a> with the type flag set to &quot;id&quot;</p>
+</div><span id='variant.IDHash' class='variant'><code>IDHash(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#hash-token-diagram"><code>&lt;hash-token&gt;</code></a> with the type flag set to &quot;id&quot;</p>
 
 <p>The value does not include the <code>#</code> marker.</p>
-</div></td><td></td></tr><tr><td id='variant.QuotedString'><code>QuotedString</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#string-token-diagram"><code>&lt;string-token&gt;</code></a></p>
+</div><span id='variant.QuotedString' class='variant'><code>QuotedString(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#string-token-diagram"><code>&lt;string-token&gt;</code></a></p>
 
 <p>The value does not include the quotes.</p>
-</div></td><td></td></tr><tr><td id='variant.UnquotedUrl'><code>UnquotedUrl</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#url-token-diagram"><code>&lt;url-token&gt;</code></a> or <code>url( &lt;string-token&gt; )</code> function</p>
+</div><span id='variant.UnquotedUrl' class='variant'><code>UnquotedUrl(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#url-token-diagram"><code>&lt;url-token&gt;</code></a> or <code>url( &lt;string-token&gt; )</code> function</p>
 
 <p>The value does not include the <code>url(</code> <code>)</code> markers or the quotes.</p>
-</div></td><td></td></tr><tr><td id='variant.Delim'><code>Delim</code></td><td><div class='docblock'><p>A <code>&lt;delim-token&gt;</code></p>
-</div></td><td></td></tr><tr><td id='variant.Number'><code>Number</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#number-token-diagram"><code>&lt;number-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.Percentage'><code>Percentage</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#percentage-token-diagram"><code>&lt;percentage-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.Dimension'><code>Dimension</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#dimension-token-diagram"><code>&lt;dimension-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.UnicodeRange'><code>UnicodeRange</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#unicode-range-token-diagram"><code>&lt;unicode-range-token&gt;</code></a></p>
+</div><span id='variant.Delim' class='variant'><code>Delim(<a class='primitive' href='../std/primitive.char.html'>char</a>)</code></span><div class='docblock'><p>A <code>&lt;delim-token&gt;</code></p>
+</div><span id='variant.Number' class='variant'><code>Number(<a class='struct' href='../cssparser/struct.NumericValue.html' title='cssparser::NumericValue'>NumericValue</a>)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#number-token-diagram"><code>&lt;number-token&gt;</code></a></p>
+</div><span id='variant.Percentage' class='variant'><code>Percentage(<a class='struct' href='../cssparser/struct.PercentageValue.html' title='cssparser::PercentageValue'>PercentageValue</a>)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#percentage-token-diagram"><code>&lt;percentage-token&gt;</code></a></p>
+</div><span id='variant.Dimension' class='variant'><code>Dimension(<a class='struct' href='../cssparser/struct.NumericValue.html' title='cssparser::NumericValue'>NumericValue</a>,&nbsp;<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#dimension-token-diagram"><code>&lt;dimension-token&gt;</code></a></p>
+</div><span id='variant.UnicodeRange' class='variant'><code>UnicodeRange(<a class='primitive' href='../std/primitive.u32.html'>u32</a>,&nbsp;<a class='primitive' href='../std/primitive.u32.html'>u32</a>)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#unicode-range-token-diagram"><code>&lt;unicode-range-token&gt;</code></a></p>
 
 <p>Components are the start and end code points, respectively.</p>
 
 <p>The tokenizer only reads up to 6 hex digit (up to 0xFF_FFFF),
 but does not check that code points are within the range of Unicode (up to U+10_FFFF).</p>
-</div></td><td></td></tr><tr><td id='variant.WhiteSpace'><code>WhiteSpace</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#whitespace-token-diagram"><code>&lt;whitespace-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.Comment'><code>Comment</code></td><td><div class='docblock'><p>A comment.</p>
+</div><span id='variant.WhiteSpace' class='variant'><code>WhiteSpace(&amp;'a <a class='primitive' href='../std/primitive.str.html'>str</a>)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#whitespace-token-diagram"><code>&lt;whitespace-token&gt;</code></a></p>
+</div><span id='variant.Comment' class='variant'><code>Comment(&amp;'a <a class='primitive' href='../std/primitive.str.html'>str</a>)</code></span><div class='docblock'><p>A comment.</p>
 
 <p>The CSS Syntax spec does not generate tokens for comments,
 But we do, because we can (borrowed &amp;str makes it cheap).</p>
 
 <p>The value does not include the <code>/*</code> <code>*/</code> markers.</p>
-</div></td><td></td></tr><tr><td id='variant.Colon'><code>Colon</code></td><td><div class='docblock'><p>A <code>:</code> <code>&lt;colon-token&gt;</code></p>
-</div></td><td></td></tr><tr><td id='variant.Semicolon'><code>Semicolon</code></td><td><div class='docblock'><p>A <code>;</code> <code>&lt;semicolon-token&gt;</code></p>
-</div></td><td></td></tr><tr><td id='variant.Comma'><code>Comma</code></td><td><div class='docblock'><p>A <code>,</code> <code>&lt;comma-token&gt;</code></p>
-</div></td><td></td></tr><tr><td id='variant.IncludeMatch'><code>IncludeMatch</code></td><td><div class='docblock'><p>A <code>~=</code> <a href="https://drafts.csswg.org/css-syntax/#include-match-token-diagram"><code>&lt;include-match-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.DashMatch'><code>DashMatch</code></td><td><div class='docblock'><p>A <code>|=</code> <a href="https://drafts.csswg.org/css-syntax/#dash-match-token-diagram"><code>&lt;dash-match-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.PrefixMatch'><code>PrefixMatch</code></td><td><div class='docblock'><p>A <code>^=</code> <a href="https://drafts.csswg.org/css-syntax/#prefix-match-token-diagram"><code>&lt;prefix-match-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.SuffixMatch'><code>SuffixMatch</code></td><td><div class='docblock'><p>A <code>$=</code> <a href="https://drafts.csswg.org/css-syntax/#suffix-match-token-diagram"><code>&lt;suffix-match-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.SubstringMatch'><code>SubstringMatch</code></td><td><div class='docblock'><p>A <code>*=</code> <a href="https://drafts.csswg.org/css-syntax/#substring-match-token-diagram"><code>&lt;substring-match-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.Column'><code>Column</code></td><td><div class='docblock'><p>A <code>||</code> <a href="https://drafts.csswg.org/css-syntax/#column-token-diagram"><code>&lt;column-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.CDO'><code>CDO</code></td><td><div class='docblock'><p>A <code>&lt;!--</code> <a href="https://drafts.csswg.org/css-syntax/#CDO-token-diagram"><code>&lt;CDO-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.CDC'><code>CDC</code></td><td><div class='docblock'><p>A <code>--&gt;</code> <a href="https://drafts.csswg.org/css-syntax/#CDC-token-diagram"><code>&lt;CDC-token&gt;</code></a></p>
-</div></td><td></td></tr><tr><td id='variant.Function'><code>Function</code></td><td><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#function-token-diagram"><code>&lt;function-token&gt;</code></a></p>
+</div><span id='variant.Colon' class='variant'><code>Colon</code></span><div class='docblock'><p>A <code>:</code> <code>&lt;colon-token&gt;</code></p>
+</div><span id='variant.Semicolon' class='variant'><code>Semicolon</code></span><div class='docblock'><p>A <code>;</code> <code>&lt;semicolon-token&gt;</code></p>
+</div><span id='variant.Comma' class='variant'><code>Comma</code></span><div class='docblock'><p>A <code>,</code> <code>&lt;comma-token&gt;</code></p>
+</div><span id='variant.IncludeMatch' class='variant'><code>IncludeMatch</code></span><div class='docblock'><p>A <code>~=</code> <a href="https://drafts.csswg.org/css-syntax/#include-match-token-diagram"><code>&lt;include-match-token&gt;</code></a></p>
+</div><span id='variant.DashMatch' class='variant'><code>DashMatch</code></span><div class='docblock'><p>A <code>|=</code> <a href="https://drafts.csswg.org/css-syntax/#dash-match-token-diagram"><code>&lt;dash-match-token&gt;</code></a></p>
+</div><span id='variant.PrefixMatch' class='variant'><code>PrefixMatch</code></span><div class='docblock'><p>A <code>^=</code> <a href="https://drafts.csswg.org/css-syntax/#prefix-match-token-diagram"><code>&lt;prefix-match-token&gt;</code></a></p>
+</div><span id='variant.SuffixMatch' class='variant'><code>SuffixMatch</code></span><div class='docblock'><p>A <code>$=</code> <a href="https://drafts.csswg.org/css-syntax/#suffix-match-token-diagram"><code>&lt;suffix-match-token&gt;</code></a></p>
+</div><span id='variant.SubstringMatch' class='variant'><code>SubstringMatch</code></span><div class='docblock'><p>A <code>*=</code> <a href="https://drafts.csswg.org/css-syntax/#substring-match-token-diagram"><code>&lt;substring-match-token&gt;</code></a></p>
+</div><span id='variant.Column' class='variant'><code>Column</code></span><div class='docblock'><p>A <code>||</code> <a href="https://drafts.csswg.org/css-syntax/#column-token-diagram"><code>&lt;column-token&gt;</code></a></p>
+</div><span id='variant.CDO' class='variant'><code>CDO</code></span><div class='docblock'><p>A <code>&lt;!--</code> <a href="https://drafts.csswg.org/css-syntax/#CDO-token-diagram"><code>&lt;CDO-token&gt;</code></a></p>
+</div><span id='variant.CDC' class='variant'><code>CDC</code></span><div class='docblock'><p>A <code>--&gt;</code> <a href="https://drafts.csswg.org/css-syntax/#CDC-token-diagram"><code>&lt;CDC-token&gt;</code></a></p>
+</div><span id='variant.Function' class='variant'><code>Function(<a class='enum' href='../collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a,&nbsp;<a class='primitive' href='../std/primitive.str.html'>str</a>&gt;)</code></span><div class='docblock'><p>A <a href="https://drafts.csswg.org/css-syntax/#function-token-diagram"><code>&lt;function-token&gt;</code></a></p>
 
 <p>The value (name) does not include the <code>(</code> marker.</p>
-</div></td><td></td></tr><tr><td id='variant.ParenthesisBlock'><code>ParenthesisBlock</code></td><td><div class='docblock'><p>A <code>&lt;(-token&gt;</code></p>
-</div></td><td></td></tr><tr><td id='variant.SquareBracketBlock'><code>SquareBracketBlock</code></td><td><div class='docblock'><p>A <code>&lt;[-token&gt;</code></p>
-</div></td><td></td></tr><tr><td id='variant.CurlyBracketBlock'><code>CurlyBracketBlock</code></td><td><div class='docblock'><p>A <code>&lt;{-token&gt;</code></p>
-</div></td><td></td></tr><tr><td id='variant.BadUrl'><code>BadUrl</code></td><td><div class='docblock'><p>A <code>&lt;bad-url-token&gt;</code></p>
+</div><span id='variant.ParenthesisBlock' class='variant'><code>ParenthesisBlock</code></span><div class='docblock'><p>A <code>&lt;(-token&gt;</code></p>
+</div><span id='variant.SquareBracketBlock' class='variant'><code>SquareBracketBlock</code></span><div class='docblock'><p>A <code>&lt;[-token&gt;</code></p>
+</div><span id='variant.CurlyBracketBlock' class='variant'><code>CurlyBracketBlock</code></span><div class='docblock'><p>A <code>&lt;{-token&gt;</code></p>
+</div><span id='variant.BadUrl' class='variant'><code>BadUrl</code></span><div class='docblock'><p>A <code>&lt;bad-url-token&gt;</code></p>
 
 <p>This token always indicates a parse error.</p>
-</div></td><td></td></tr><tr><td id='variant.BadString'><code>BadString</code></td><td><div class='docblock'><p>A <code>&lt;bad-string-token&gt;</code></p>
+</div><span id='variant.BadString' class='variant'><code>BadString</code></span><div class='docblock'><p>A <code>&lt;bad-string-token&gt;</code></p>
 
 <p>This token always indicates a parse error.</p>
-</div></td><td></td></tr><tr><td id='variant.CloseParenthesis'><code>CloseParenthesis</code></td><td><div class='docblock'><p>A <code>&lt;)-token&gt;</code></p>
+</div><span id='variant.CloseParenthesis' class='variant'><code>CloseParenthesis</code></span><div class='docblock'><p>A <code>&lt;)-token&gt;</code></p>
 
 <p>When obtained from one of the <code>Parser::next*</code> methods,
 this token is always unmatched and indicates a parse error.</p>
-</div></td><td></td></tr><tr><td id='variant.CloseSquareBracket'><code>CloseSquareBracket</code></td><td><div class='docblock'><p>A <code>&lt;]-token&gt;</code></p>
+</div><span id='variant.CloseSquareBracket' class='variant'><code>CloseSquareBracket</code></span><div class='docblock'><p>A <code>&lt;]-token&gt;</code></p>
 
 <p>When obtained from one of the <code>Parser::next*</code> methods,
 this token is always unmatched and indicates a parse error.</p>
-</div></td><td></td></tr><tr><td id='variant.CloseCurlyBracket'><code>CloseCurlyBracket</code></td><td><div class='docblock'><p>A <code>&lt;}-token&gt;</code></p>
+</div><span id='variant.CloseCurlyBracket' class='variant'><code>CloseCurlyBracket</code></span><div class='docblock'><p>A <code>&lt;}-token&gt;</code></p>
 
 <p>When obtained from one of the <code>Parser::next*</code> methods,
 this token is always unmatched and indicates a parse error.</p>
-</div></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='enum' href='../cssparser/enum.Token.html' title='cssparser::Token'>Token</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-413' class='srclink' href='../src/cssparser/tokenizer.rs.html#161-174' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='enum' href='../cssparser/enum.Token.html' title='cssparser::Token'>Token</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-413' class='srclink' href='../src/cssparser/tokenizer.rs.html#161-174' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.is_parse_error' class='method'><code>fn <a href='#method.is_parse_error' class='fnname'>is_parse_error</a>(&amp;self) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Return whether this token represents a parse error.</p>
 

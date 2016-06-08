@@ -56,26 +56,25 @@
     pub minimum_depth_below_baseline: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>,
     pub first_line_indentation: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>,
 }</pre><div class='docblock'><p>Flows for inline layout.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.base'><code>base</code></td><td><div class='docblock'><p>Data common to all flows.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.fragments'><code>fragments</code></td><td><div class='docblock'><p>A vector of all inline fragments. Several fragments may correspond to one node/element.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.lines'><code>lines</code></td><td><div class='docblock'><p>A vector of ranges into fragments that represents line positions. These ranges are disjoint
+</div><h2 class='fields'>Fields</h2><span id='structfield.base'><code>base: <a class='struct' href='../../layout/flow/struct.BaseFlow.html' title='layout::flow::BaseFlow'>BaseFlow</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Data common to all flows.</p>
+</div><span id='structfield.fragments'><code>fragments: <a class='struct' href='../../layout/inline/struct.InlineFragments.html' title='layout::inline::InlineFragments'>InlineFragments</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>A vector of all inline fragments. Several fragments may correspond to one node/element.</p>
+</div><span id='structfield.lines'><code>lines: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../layout/inline/struct.Line.html' title='layout::inline::Line'>Line</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A vector of ranges into fragments that represents line positions. These ranges are disjoint
 and are the result of inline layout. This also includes some metadata used for positioning
 lines.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.minimum_block_size_above_baseline'><code>minimum_block_size_above_baseline</code></td><td><div class='docblock'><p>The minimum block-size above the baseline for each line, as specified by the line height
+</div><span id='structfield.minimum_block_size_above_baseline'><code>minimum_block_size_above_baseline: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The minimum block-size above the baseline for each line, as specified by the line height
 and font style.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.minimum_depth_below_baseline'><code>minimum_depth_below_baseline</code></td><td><div class='docblock'><p>The minimum depth below the baseline for each line, as specified by the line height and
+</div><span id='structfield.minimum_depth_below_baseline'><code>minimum_depth_below_baseline: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The minimum depth below the baseline for each line, as specified by the line height and
 font style.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.first_line_indentation'><code>first_line_indentation</code></td><td><div class='docblock'><p>The amount of indentation to use on the first line. This is determined by our block parent
+</div><span id='structfield.first_line_indentation'><code>first_line_indentation: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The amount of indentation to use on the first line. This is determined by our block parent
 (because percentages are relative to the containing block, and we aren&#39;t in a position to
 compute things relative to our parent&#39;s containing block).</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-7892' class='srclink' href='../../src/layout/inline.rs.html#837-1249' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-7892' class='srclink' href='../../src/layout/inline.rs.html#837-1249' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.from_fragments' class='method'><code>fn <a href='#method.from_fragments' class='fnname'>from_fragments</a>(fragments: <a class='struct' href='../../layout/inline/struct.InlineFragments.html' title='layout::inline::InlineFragments'>InlineFragments</a>, writing_mode: <a class='struct' href='../../style/logical_geometry/struct.WritingMode.html' title='style::logical_geometry::WritingMode'>WritingMode</a>) -&gt; <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></h4>
 <h4 id='method.set_inline_fragment_positions' class='method'><code>fn <a href='#method.set_inline_fragment_positions' class='fnname'>set_inline_fragment_positions</a>(fragments: &amp;mut <a class='struct' href='../../layout/inline/struct.InlineFragments.html' title='layout::inline::InlineFragments'>InlineFragments</a>, line: &amp;<a class='struct' href='../../layout/inline/struct.Line.html' title='layout::inline::Line'>Line</a>, line_align: <a class='enum' href='../../style/properties/longhands/text_align/computed_value/enum.T.html' title='style::properties::longhands::text_align::computed_value::T'>T</a>, indentation: <a class='struct' href='../../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>, is_last_line: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>)</code></h4>
 <div class='docblock'><p>Sets fragment positions in the inline direction based on alignment for one line. This
@@ -195,7 +194,7 @@ When called on this context, the context has had its inline-size set by the pare
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../layout/inline/struct.InlineFlow.html' title='layout::inline::InlineFlow'>InlineFlow</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-7857' class='srclink' href='../../src/layout/inline.rs.html#810' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;__S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>, __S::Error&gt;</code></h4>
+<div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;__S:&nbsp;<a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>()</a>,&nbsp;__S::Error&gt;</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

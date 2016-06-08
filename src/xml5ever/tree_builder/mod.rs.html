@@ -738,7 +738,7 @@
     <span class='comment'>// Returns false if the attribute is a duplicate, returns true otherwise.</span>
     <span class='kw'>fn</span> <span class='ident'>bind_attr_qname</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>QName</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='comment'>// Attributes don&#39;t have default namespace</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>not_duplicate</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>not_duplicate</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
 
         <span class='kw'>if</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>name</span>.<span class='ident'>prefix</span> <span class='op'>!=</span> <span class='string'>&quot;&quot;</span> {
             <span class='self'>self</span>.<span class='ident'>bind_qname</span>(<span class='ident'>name</span>);
@@ -751,10 +751,10 @@
         <span class='kw'>let</span> <span class='ident'>pair</span> <span class='op'>=</span> (<span class='ident'>name</span>.<span class='ident'>namespace_url</span>.<span class='ident'>clone</span>(), <span class='ident'>name</span>.<span class='ident'>local</span>.<span class='ident'>clone</span>());
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>present_attrs</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>pair</span>) {
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>return</span> <span class='bool-val'>false</span>;
         }
         <span class='self'>self</span>.<span class='ident'>present_attrs</span>.<span class='ident'>insert</span>(<span class='ident'>pair</span>);
-        <span class='boolvalue'>true</span>
+        <span class='bool-val'>true</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>process_namespaces</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>tag</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Tag</span>) {

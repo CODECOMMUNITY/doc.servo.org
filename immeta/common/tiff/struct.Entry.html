@@ -48,33 +48,32 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-882' class='srclink' href='../../../src/immeta/common/tiff.rs.html#281-287' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Entry&lt;'a, R: <a class='trait' href='../../../std/io/trait.Read.html' title='std::io::Read'>Read</a> + <a class='trait' href='../../../std/io/trait.Seek.html' title='std::io::Seek'>Seek</a> + 'a&gt; {
+<pre class='rust struct'>pub struct Entry&lt;'a,&nbsp;R:&nbsp;<a class='trait' href='../../../std/io/trait.Read.html' title='std::io::Read'>Read</a> + <a class='trait' href='../../../std/io/trait.Seek.html' title='std::io::Seek'>Seek</a> + 'a&gt; {
     ifds: &amp;'a <a class='struct' href='../../../immeta/common/tiff/struct.LazyIfds.html' title='immeta::common::tiff::LazyIfds'>LazyIfds</a>&lt;R&gt;,
     tag: <a class='primitive' href='../../../std/primitive.u16.html'>u16</a>,
     entry_type: <a class='enum' href='../../../immeta/common/tiff/enum.EntryType.html' title='immeta::common::tiff::EntryType'>EntryType</a>,
     count: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a>,
     offset: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a>,
 }</pre><div class='docblock'><p>Represents a single TIFF IFD entry.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.ifds'><code>ifds</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.tag'><code>tag</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.entry_type'><code>entry_type</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.count'><code>count</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.offset'><code>offset</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, R: <a class='trait' href='../../../std/io/trait.Read.html' title='std::io::Read'>Read</a> + <a class='trait' href='../../../std/io/trait.Seek.html' title='std::io::Seek'>Seek</a> + 'a&gt; <a class='struct' href='../../../immeta/common/tiff/struct.Entry.html' title='immeta::common::tiff::Entry'>Entry</a>&lt;'a, R&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-890' class='srclink' href='../../../src/immeta/common/tiff.rs.html#289-393' title='goto source code'>[src]</a></span></h3>
+</div><h2 class='fields'>Fields</h2><span id='structfield.ifds'><code>ifds: &amp;'a <a class='struct' href='../../../immeta/common/tiff/struct.LazyIfds.html' title='immeta::common::tiff::LazyIfds'>LazyIfds</a>&lt;R&gt;</code></span>
+                           <span class='stab '></span><span id='structfield.tag'><code>tag: <a class='primitive' href='../../../std/primitive.u16.html'>u16</a></code></span>
+                           <span class='stab '></span><span id='structfield.entry_type'><code>entry_type: <a class='enum' href='../../../immeta/common/tiff/enum.EntryType.html' title='immeta::common::tiff::EntryType'>EntryType</a></code></span>
+                           <span class='stab '></span><span id='structfield.count'><code>count: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a></code></span>
+                           <span class='stab '></span><span id='structfield.offset'><code>offset: <a class='primitive' href='../../../std/primitive.u32.html'>u32</a></code></span>
+                           <span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a,&nbsp;R:&nbsp;<a class='trait' href='../../../std/io/trait.Read.html' title='std::io::Read'>Read</a> + <a class='trait' href='../../../std/io/trait.Seek.html' title='std::io::Seek'>Seek</a> + 'a&gt; <a class='struct' href='../../../immeta/common/tiff/struct.Entry.html' title='immeta::common::tiff::Entry'>Entry</a>&lt;'a,&nbsp;R&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-890' class='srclink' href='../../../src/immeta/common/tiff.rs.html#289-393' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.tag' class='method'><code>fn <a href='#method.tag' class='fnname'>tag</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.u16.html'>u16</a></code></h4>
 <div class='docblock'><p>Returns the tag of the entry.</p>
 </div><h4 id='method.entry_type' class='method'><code>fn <a href='#method.entry_type' class='fnname'>entry_type</a>(&amp;self) -&gt; <a class='enum' href='../../../immeta/common/tiff/enum.EntryType.html' title='immeta::common::tiff::EntryType'>EntryType</a></code></h4>
 <div class='docblock'><p>Returns entry type.</p>
 </div><h4 id='method.count' class='method'><code>fn <a href='#method.count' class='fnname'>count</a>(&amp;self) -&gt; <a class='primitive' href='../../../std/primitive.u32.html'>u32</a></code></h4>
 <div class='docblock'><p>Returns the number of items this entry contains.</p>
-</div><h4 id='method.values' class='method'><code>fn <a href='#method.values' class='fnname'>values</a>&lt;T: <a class='trait' href='../../../immeta/common/tiff/trait.EntryTypeRepr.html' title='immeta::common::tiff::EntryTypeRepr'>EntryTypeRepr</a>&gt;(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../../immeta/common/tiff/enum.EntryValues.html' title='immeta::common::tiff::EntryValues'>EntryValues</a>&lt;'a, T, R&gt;&gt;</code></h4>
+</div><h4 id='method.values' class='method'><code>fn <a href='#method.values' class='fnname'>values</a>&lt;T:&nbsp;<a class='trait' href='../../../immeta/common/tiff/trait.EntryTypeRepr.html' title='immeta::common::tiff::EntryTypeRepr'>EntryTypeRepr</a>&gt;(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../../immeta/common/tiff/enum.EntryValues.html' title='immeta::common::tiff::EntryValues'>EntryValues</a>&lt;'a,&nbsp;T,&nbsp;R&gt;&gt;</code></h4>
 <div class='docblock'><p>Returns an iterator for elements of the specified representation type.</p>
 
 <p>This method returns <code>None</code> if the requested representation type does not correspond
 to the actual type of the entry. Also it returns <code>None</code> if the entry type is
 unknown.</p>
-</div><h4 id='method.all_values' class='method'><code>fn <a href='#method.all_values' class='fnname'>all_values</a>&lt;T: <a class='trait' href='../../../immeta/common/tiff/trait.EntryTypeRepr.html' title='immeta::common::tiff::EntryTypeRepr'>EntryTypeRepr</a>&gt;(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../../immeta/types/type.Result.html' title='immeta::types::Result'>Result</a>&lt;<a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;T::Repr&gt;&gt;&gt;</code></h4>
+</div><h4 id='method.all_values' class='method'><code>fn <a href='#method.all_values' class='fnname'>all_values</a>&lt;T:&nbsp;<a class='trait' href='../../../immeta/common/tiff/trait.EntryTypeRepr.html' title='immeta::common::tiff::EntryTypeRepr'>EntryTypeRepr</a>&gt;(&amp;self) -&gt; <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../../immeta/types/type.Result.html' title='immeta::types::Result'>Result</a>&lt;<a class='struct' href='../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;T::Repr&gt;&gt;&gt;</code></h4>
 <div class='docblock'><p>Returns a vector containing all of the items of this entry, loaded with the specified
 representation type.</p>
 

@@ -720,7 +720,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Always true if no associated MediaQueryList exists.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_effective_for_device</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>device</span>: <span class='kw-2'>&amp;</span><span class='ident'>Device</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>media</span>.<span class='ident'>as_ref</span>().<span class='ident'>map_or</span>(<span class='boolvalue'>true</span>, <span class='op'>|</span><span class='kw-2'>ref</span> <span class='ident'>media</span><span class='op'>|</span> <span class='ident'>media</span>.<span class='ident'>evaluate</span>(<span class='ident'>device</span>))
+        <span class='self'>self</span>.<span class='ident'>media</span>.<span class='ident'>as_ref</span>().<span class='ident'>map_or</span>(<span class='bool-val'>true</span>, <span class='op'>|</span><span class='kw-2'>ref</span> <span class='ident'>media</span><span class='op'>|</span> <span class='ident'>media</span>.<span class='ident'>evaluate</span>(<span class='ident'>device</span>))
     }
 
     <span class='doccomment'>/// Return an iterator over all the rules within the style-sheet.</span>
@@ -1021,7 +1021,7 @@
                 <span class='prelude-val'>Ok</span>(<span class='ident'>AtRuleType</span>::<span class='ident'>WithBlock</span>(<span class='ident'>AtRulePrelude</span>::<span class='ident'>FontFace</span>))
             },
             <span class='string'>&quot;viewport&quot;</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> ::<span class='ident'>util</span>::<span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;layout.viewport.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) {
+                <span class='kw'>if</span> ::<span class='ident'>util</span>::<span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;layout.viewport.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>) {
                     <span class='prelude-val'>Ok</span>(<span class='ident'>AtRuleType</span>::<span class='ident'>WithBlock</span>(<span class='ident'>AtRulePrelude</span>::<span class='ident'>Viewport</span>))
                 } <span class='kw'>else</span> {
                     <span class='prelude-val'>Err</span>(())

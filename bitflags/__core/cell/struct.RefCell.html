@@ -47,17 +47,16 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-30511' class='srclink' href='../../../core/cell/struct.RefCell.html?gotosrc=30511' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-30512' class='srclink' href='../../../core/cell/struct.RefCell.html?gotosrc=30512' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct RefCell&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span> {
     borrow: <a class='struct' href='../../../bitflags/__core/cell/struct.Cell.html' title='bitflags::__core::cell::Cell'>Cell</a>&lt;usize&gt;,
     value: <a class='struct' href='../../../bitflags/__core/cell/struct.UnsafeCell.html' title='bitflags::__core::cell::UnsafeCell'>UnsafeCell</a>&lt;T&gt;,
 }</pre><div class='docblock'><p>A mutable memory location with dynamically checked borrow rules</p>
 
 <p>See the <a href="index.html">module-level documentation</a> for more.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.borrow'><code>borrow</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.value'><code>value</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class='struct' href='../../../bitflags/__core/cell/struct.RefCell.html' title='bitflags::__core::cell::RefCell'>RefCell</a>&lt;T&gt;</code></span><span class='out-of-band'></span></h3>
+</div><h2 class='fields'>Fields</h2><span id='structfield.borrow'><code>borrow: <a class='struct' href='../../../bitflags/__core/cell/struct.Cell.html' title='bitflags::__core::cell::Cell'>Cell</a>&lt;usize&gt;</code></span>
+                           <span class='stab '></span><span id='structfield.value'><code>value: <a class='struct' href='../../../bitflags/__core/cell/struct.UnsafeCell.html' title='bitflags::__core::cell::UnsafeCell'>UnsafeCell</a>&lt;T&gt;</code></span>
+                           <span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class='struct' href='../../../bitflags/__core/cell/struct.RefCell.html' title='bitflags::__core::cell::RefCell'>RefCell</a>&lt;T&gt;</code></span><span class='out-of-band'></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>const fn <a href='#method.new' class='fnname'>new</a>(value: T) -&gt; <a class='struct' href='../../../bitflags/__core/cell/struct.RefCell.html' title='bitflags::__core::cell::RefCell'>RefCell</a>&lt;T&gt;</code></h4>
 <div class='docblock'><p>Creates a new <code>RefCell</code> containing <code>value</code>.</p>
 
@@ -190,7 +189,7 @@ need for dynamic checks.</p>
 <div class='impl-items'><h4 id='method.cmp' class='method'><code>fn <a href='../../../bitflags/__core/cmp/trait.Ord.html#tymethod.cmp' class='fnname'>cmp</a>(&amp;self, other: &amp;<a class='struct' href='../../../bitflags/__core/cell/struct.RefCell.html' title='bitflags::__core::cell::RefCell'>RefCell</a>&lt;T&gt;) -&gt; <a class='enum' href='../../../bitflags/__core/cmp/enum.Ordering.html' title='bitflags::__core::cmp::Ordering'>Ordering</a></code></h4>
 <div class='docblock'><p>This method returns an <code>Ordering</code> between <code>self</code> and <code>other</code>. <a href="../../../bitflags/__core/cmp/trait.Ord.html#tymethod.cmp">Read more</a></p>
 </div></div><h3 class='impl'><span class='in-band'><code>impl&lt;T&gt; <a class='trait' href='../../../bitflags/__core/fmt/trait.Debug.html' title='bitflags::__core::fmt::Debug'>Debug</a> for <a class='struct' href='../../../bitflags/__core/cell/struct.RefCell.html' title='bitflags::__core::cell::RefCell'>RefCell</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='../../../bitflags/__core/fmt/trait.Debug.html' title='bitflags::__core::fmt::Debug'>Debug</a> + ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></span><span class='out-of-band'></span></h3>
-<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../../bitflags/__core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../../bitflags/__core/fmt/struct.Formatter.html' title='bitflags::__core::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;(), <a class='struct' href='../../../bitflags/__core/fmt/struct.Error.html' title='bitflags::__core::fmt::Error'>Error</a>&gt;</code></h4>
+<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../../bitflags/__core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../../../bitflags/__core/fmt/struct.Formatter.html' title='bitflags::__core::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;(),&nbsp;<a class='struct' href='../../../bitflags/__core/fmt/struct.Error.html' title='bitflags::__core::fmt::Error'>Error</a>&gt;</code></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>

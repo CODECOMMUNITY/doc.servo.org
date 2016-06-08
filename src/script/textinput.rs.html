@@ -849,8 +849,8 @@
         <span class='ident'>Key</span>::<span class='ident'>RightBracket</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>Kp0</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>Kp1</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>Kp2</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>Kp3</span> <span class='op'>|</span>
         <span class='ident'>Key</span>::<span class='ident'>Kp4</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>Kp5</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>Kp6</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>Kp7</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>Kp8</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>Kp9</span> <span class='op'>|</span>
         <span class='ident'>Key</span>::<span class='ident'>KpDecimal</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>KpDivide</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>KpMultiply</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>KpSubtract</span> <span class='op'>|</span>
-        <span class='ident'>Key</span>::<span class='ident'>KpAdd</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>KpEqual</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
-        _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+        <span class='ident'>Key</span>::<span class='ident'>KpAdd</span> <span class='op'>|</span> <span class='ident'>Key</span>::<span class='ident'>KpEqual</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
+        _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
     }
 }
 
@@ -1129,10 +1129,10 @@
                     <span class='ident'>Direction</span>::<span class='ident'>Forward</span> <span class='op'>=&gt;</span> <span class='ident'>end</span>,
                 };
                 <span class='self'>self</span>.<span class='ident'>clear_selection</span>();
-                <span class='kw'>return</span> <span class='boolvalue'>true</span>
+                <span class='kw'>return</span> <span class='bool-val'>true</span>
             }
         }
-        <span class='boolvalue'>false</span>
+        <span class='bool-val'>false</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>perform_horizontal_adjustment</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>adjust</span>: <span class='ident'>isize</span>, <span class='ident'>select</span>: <span class='ident'>Selection</span>) {
@@ -1267,7 +1267,7 @@
 
     <span class='doccomment'>/// Whether the content is empty.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_empty</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>len</span>() <span class='op'>&lt;=</span> <span class='number'>1</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>get</span>(<span class='number'>0</span>).<span class='ident'>map_or</span>(<span class='boolvalue'>true</span>, <span class='op'>|</span><span class='ident'>line</span><span class='op'>|</span> <span class='ident'>line</span>.<span class='ident'>is_empty</span>())
+        <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>len</span>() <span class='op'>&lt;=</span> <span class='number'>1</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>get</span>(<span class='number'>0</span>).<span class='ident'>map_or</span>(<span class='bool-val'>true</span>, <span class='op'>|</span><span class='ident'>line</span><span class='op'>|</span> <span class='ident'>line</span>.<span class='ident'>is_empty</span>())
     }
 
     <span class='doccomment'>/// The length of the content in bytes.</span>

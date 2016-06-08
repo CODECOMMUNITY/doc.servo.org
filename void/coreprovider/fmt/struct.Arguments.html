@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-37850' class='srclink' href='../../../core/fmt/struct.Arguments.html?gotosrc=37850' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-37796' class='srclink' href='../../../core/fmt/struct.Arguments.html?gotosrc=37796' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Arguments&lt;'a&gt; {
     pieces: &amp;'a [&amp;'a str],
     fmt: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a [Argument]&gt;,
@@ -61,11 +61,10 @@ to prevent modification.</p>
 and pass it to a function or closure, passed as the first argument. The
 macro validates the format string at compile-time so usage of the <code>write</code>
 and <code>format</code> functions can be safely performed.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.pieces'><code>pieces</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.fmt'><code>fmt</code></td><td></td></tr><tr class='stab '>
-                             <td id='structfield.args'><code>args</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../../void/coreprovider/fmt/struct.Arguments.html' title='void::coreprovider::fmt::Arguments'>Arguments</a>&lt;'a&gt;</code></span><span class='out-of-band'></span></h3>
+</div><h2 class='fields'>Fields</h2><span id='structfield.pieces'><code>pieces: &amp;'a [&amp;'a str]</code></span>
+                           <span class='stab '></span><span id='structfield.fmt'><code>fmt: <a class='enum' href='../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a [Argument]&gt;</code></span>
+                           <span class='stab '></span><span id='structfield.args'><code>args: &amp;'a [ArgumentV1&lt;'a&gt;]</code></span>
+                           <span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../../void/coreprovider/fmt/struct.Arguments.html' title='void::coreprovider::fmt::Arguments'>Arguments</a>&lt;'a&gt;</code></span><span class='out-of-band'></span></h3>
 <div class='impl-items'><h4 id='method.new_v1' class='method'><code>fn <a href='#method.new_v1' class='fnname'>new_v1</a>(pieces: &amp;'a [&amp;'a str], args: &amp;'a [ArgumentV1&lt;'a&gt;]) -&gt; <a class='struct' href='../../../void/coreprovider/fmt/struct.Arguments.html' title='void::coreprovider::fmt::Arguments'>Arguments</a>&lt;'a&gt;</code></h4>
 <div class='stability'><em class='stab unstable'>Unstable (<code>fmt_internals</code>)<p>: internal to format_args!</p>
 </em></div><div class='docblock'><p>When using the format_args!() macro, this function is used to generate the
@@ -79,10 +78,10 @@ a valid Arguments structure. Also, any <code>Count</code> within <code>fmt</code
 created with <code>argumentusize</code>. However, failing to do so doesn&#39;t cause
 unsafety, but will ignore invalid .</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='../../../void/coreprovider/fmt/trait.Debug.html' title='void::coreprovider::fmt::Debug'>Debug</a> for <a class='struct' href='../../../void/coreprovider/fmt/struct.Arguments.html' title='void::coreprovider::fmt::Arguments'>Arguments</a>&lt;'a&gt;</code></span><span class='out-of-band'></span></h3>
-<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../../void/coreprovider/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, fmt: &amp;mut <a class='struct' href='../../../void/coreprovider/fmt/struct.Formatter.html' title='void::coreprovider::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;(), <a class='struct' href='../../../void/coreprovider/fmt/struct.Error.html' title='void::coreprovider::fmt::Error'>Error</a>&gt;</code></h4>
+<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../../void/coreprovider/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, fmt: &amp;mut <a class='struct' href='../../../void/coreprovider/fmt/struct.Formatter.html' title='void::coreprovider::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;(),&nbsp;<a class='struct' href='../../../void/coreprovider/fmt/struct.Error.html' title='void::coreprovider::fmt::Error'>Error</a>&gt;</code></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='../../../void/coreprovider/fmt/trait.Display.html' title='void::coreprovider::fmt::Display'>Display</a> for <a class='struct' href='../../../void/coreprovider/fmt/struct.Arguments.html' title='void::coreprovider::fmt::Arguments'>Arguments</a>&lt;'a&gt;</code></span><span class='out-of-band'></span></h3>
-<div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='../../../void/coreprovider/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, fmt: &amp;mut <a class='struct' href='../../../void/coreprovider/fmt/struct.Formatter.html' title='void::coreprovider::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;(), <a class='struct' href='../../../void/coreprovider/fmt/struct.Error.html' title='void::coreprovider::fmt::Error'>Error</a>&gt;</code></h4>
+<div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='../../../void/coreprovider/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, fmt: &amp;mut <a class='struct' href='../../../void/coreprovider/fmt/struct.Formatter.html' title='void::coreprovider::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../../core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;(),&nbsp;<a class='struct' href='../../../void/coreprovider/fmt/struct.Error.html' title='void::coreprovider::fmt::Error'>Error</a>&gt;</code></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='../../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../../void/coreprovider/fmt/struct.Arguments.html' title='void::coreprovider::fmt::Arguments'>Arguments</a>&lt;'a&gt;</code></span><span class='out-of-band'></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../../void/coreprovider/fmt/struct.Arguments.html' title='void::coreprovider::fmt::Arguments'>Arguments</a>&lt;'a&gt;</code></h4>

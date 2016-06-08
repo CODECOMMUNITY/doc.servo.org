@@ -193,16 +193,16 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_lang_ty</span>(<span class='ident'>cx</span>: <span class='kw-2'>&amp;</span><span class='ident'>LateContext</span>, <span class='ident'>ty</span>: <span class='kw-2'>&amp;</span><span class='ident'>hir</span>::<span class='ident'>Ty</span>, <span class='ident'>value</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>match</span> <span class='ident'>ty</span>.<span class='ident'>node</span> {
         <span class='ident'>hir</span>::<span class='ident'>TyPath</span>(..) <span class='op'>=&gt;</span> {},
-        _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='boolvalue'>false</span>,
+        _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='bool-val'>false</span>,
     }
 
     <span class='kw'>let</span> <span class='ident'>def</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>def_map</span>.<span class='ident'>borrow</span>().<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>ty</span>.<span class='ident'>id</span>) {
         <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>def</span>::<span class='ident'>PathResolution</span> { <span class='ident'>base_def</span>: <span class='ident'>def</span>, .. }) <span class='op'>=&gt;</span> <span class='ident'>def</span>,
-        _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='boolvalue'>false</span>,
+        _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='bool-val'>false</span>,
     };
 
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>def</span>::<span class='ident'>Def</span>::<span class='ident'>PrimTy</span>(_) <span class='op'>=</span> <span class='ident'>def</span> {
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
 
     <span class='ident'>match_lang_did</span>(<span class='ident'>cx</span>, <span class='ident'>def</span>.<span class='ident'>def_id</span>(), <span class='ident'>value</span>)
@@ -215,12 +215,12 @@
                 <span class='kw'>match</span> <span class='ident'>val</span>.<span class='ident'>node</span> {
                     <span class='ident'>ast</span>::<span class='ident'>LitKind</span>::<span class='ident'>Str</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>, _) <span class='kw'>if</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>v</span> <span class='op'>==</span> <span class='ident'>value</span> <span class='op'>=&gt;</span> {
                         <span class='ident'>mark_used</span>(<span class='ident'>attr</span>);
-                        <span class='boolvalue'>true</span>
+                        <span class='bool-val'>true</span>
                     },
-                    _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+                    _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
                 }
             }
-            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+            _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
         }
     })
 }
@@ -231,14 +231,14 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_def_path</span>(<span class='ident'>cx</span>: <span class='kw-2'>&amp;</span><span class='ident'>LateContext</span>, <span class='ident'>def_id</span>: <span class='ident'>DefId</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>]) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>krate</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>crate_name</span>(<span class='ident'>def_id</span>.<span class='ident'>krate</span>);
     <span class='kw'>if</span> <span class='ident'>krate</span> <span class='op'>!=</span> <span class='kw-2'>&amp;</span><span class='ident'>path</span>[<span class='number'>0</span>] {
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
 
     <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>path</span>[<span class='number'>1</span>..];
     <span class='kw'>let</span> <span class='ident'>other</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>tcx</span>.<span class='ident'>def_path</span>(<span class='ident'>def_id</span>).<span class='ident'>data</span>;
 
     <span class='kw'>if</span> <span class='ident'>other</span>.<span class='ident'>len</span>() <span class='op'>!=</span> <span class='ident'>path</span>.<span class='ident'>len</span>() {
-        <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+        <span class='kw'>return</span> <span class='bool-val'>false</span>;
     }
 
     <span class='ident'>other</span>.<span class='ident'>into_iter</span>()
@@ -253,10 +253,10 @@
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>i</span>) <span class='op'>=</span> <span class='ident'>info</span> {
                     <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>ExpnFormat</span>::<span class='ident'>MacroAttribute</span>(<span class='ident'>n</span>) <span class='op'>=</span> <span class='ident'>i</span>.<span class='ident'>callee</span>.<span class='ident'>format</span> {
                         <span class='kw'>if</span> <span class='ident'>n</span>.<span class='ident'>as_str</span>().<span class='ident'>contains</span>(<span class='string'>&quot;derive&quot;</span>) {
-                            <span class='boolvalue'>true</span>
-                        } <span class='kw'>else</span> { <span class='boolvalue'>false</span> }
-                    } <span class='kw'>else</span> { <span class='boolvalue'>false</span> }
-                } <span class='kw'>else</span> { <span class='boolvalue'>false</span> }
+                            <span class='bool-val'>true</span>
+                        } <span class='kw'>else</span> { <span class='bool-val'>false</span> }
+                    } <span class='kw'>else</span> { <span class='bool-val'>false</span> }
+                } <span class='kw'>else</span> { <span class='bool-val'>false</span> }
             })
 }
 </pre>

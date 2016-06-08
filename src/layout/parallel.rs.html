@@ -436,7 +436,7 @@
                            <span class='ident'>bottom_up_func</span>: <span class='ident'>FlowTraversalFunction</span>) {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>discovered_child_flows</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
         <span class='kw'>for</span> <span class='ident'>unsafe_flow</span> <span class='kw'>in</span> <span class='op'>*</span><span class='ident'>unsafe_flows</span>.<span class='number'>0</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>had_children</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>had_children</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
             <span class='kw'>unsafe</span> {
                 <span class='comment'>// Get a real flow.</span>
                 <span class='kw'>let</span> <span class='ident'>flow</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Flow</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>unsafe_flow</span>);
@@ -452,7 +452,7 @@
 
                 <span class='comment'>// Possibly enqueue the children.</span>
                 <span class='kw'>for</span> <span class='ident'>kid</span> <span class='kw'>in</span> <span class='ident'>flow</span>::<span class='ident'>child_iter_mut</span>(<span class='ident'>flow</span>) {
-                    <span class='ident'>had_children</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                    <span class='ident'>had_children</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                     <span class='ident'>discovered_child_flows</span>.<span class='ident'>push</span>(<span class='ident'>borrowed_flow_to_unsafe_flow</span>(<span class='ident'>kid</span>));
                 }
             }
@@ -483,7 +483,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>should_record_thread_ids</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolvalue'>true</span>
+        <span class='bool-val'>true</span>
     }
 }
 

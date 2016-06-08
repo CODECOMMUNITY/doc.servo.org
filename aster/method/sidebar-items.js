@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["MethodSigBuilder",""],["SelfBuilder",""]]});
+initSidebarItems({"struct":[["MethodSigBuilder",""]]});

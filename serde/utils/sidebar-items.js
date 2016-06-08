@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["MAX_ONE_B",""],["MAX_THREE_B",""],["MAX_TWO_B",""],["Pattern_White_Space_table",""],["TAG_CONT",""],["TAG_FOUR_B",""],["TAG_THREE_B",""],["TAG_TWO_B",""]],"fn":[["Pattern_White_Space",""],["bsearch_range_table",""],["encode_utf8",""]],"struct":[["EncodeUtf8",""]]});

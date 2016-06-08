@@ -88,6 +88,10 @@
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -95,6 +99,7 @@
 
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>LoadConsumer</span>, <span class='ident'>LoadData</span>};
 <span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
@@ -119,6 +124,9 @@
 
     <span class='doccomment'>/// Delete the FileID entry</span>
     <span class='ident'>DeleteFileID</span>(<span class='ident'>Uuid</span>),
+
+    <span class='doccomment'>/// Load resource by Blob URL</span>
+    <span class='ident'>LoadBlob</span>(<span class='ident'>LoadData</span>, <span class='ident'>LoadConsumer</span>),
 
     <span class='doccomment'>/// Shut down this thread</span>
     <span class='ident'>Exit</span>,

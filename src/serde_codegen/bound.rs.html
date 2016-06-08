@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_codegen-0.7.5/src/bound.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_codegen-0.7.7/src/bound.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>bound.rs.html -- source</title>
@@ -286,7 +286,7 @@
             <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>path</span>.<span class='ident'>global</span>
                     <span class='op'>&amp;&amp;</span> <span class='ident'>path</span>.<span class='ident'>segments</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>1</span>
                     <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>generic_names</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>.<span class='ident'>segments</span>[<span class='number'>0</span>].<span class='ident'>identifier</span>.<span class='ident'>name</span>) {
-                <span class='self'>self</span>.<span class='ident'>found_generic</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                <span class='self'>self</span>.<span class='ident'>found_generic</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
             } <span class='kw'>else</span> {
                 <span class='ident'>visit</span>::<span class='ident'>walk_path</span>(<span class='self'>self</span>, <span class='ident'>path</span>);
             }
@@ -299,7 +299,7 @@
 
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>visitor</span> <span class='op'>=</span> <span class='ident'>FindGeneric</span> {
         <span class='ident'>generic_names</span>: <span class='kw-2'>&amp;</span><span class='ident'>generic_names</span>,
-        <span class='ident'>found_generic</span>: <span class='boolvalue'>false</span>,
+        <span class='ident'>found_generic</span>: <span class='bool-val'>false</span>,
     };
     <span class='ident'>visit</span>::<span class='ident'>walk_ty</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>visitor</span>, <span class='ident'>ty</span>);
     <span class='ident'>visitor</span>.<span class='ident'>found_generic</span>
@@ -331,11 +331,11 @@
 <span class='comment'>//</span>
 <span class='comment'>//    impl&lt;&#39;a, T&gt; Serialize for Test&lt;&#39;a, T&gt;</span>
 <span class='comment'>//        where T: Serialize { ... }</span>
-<span class='kw'>fn</span> <span class='ident'>strip_reference</span>(<span class='ident'>ty</span>: <span class='kw-2'>&amp;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Ty</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Ty</span><span class='op'>&gt;</span> {
-    <span class='kw'>match</span> <span class='ident'>ty</span>.<span class='ident'>node</span> {
-        <span class='ident'>ast</span>::<span class='ident'>TyKind</span>::<span class='ident'>Rptr</span>(_, <span class='kw-2'>ref</span> <span class='ident'>mut_ty</span>) <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>mut_ty</span>.<span class='ident'>ty</span>,
-        _ <span class='op'>=&gt;</span> <span class='ident'>ty</span>
+<span class='kw'>fn</span> <span class='ident'>strip_reference</span>(<span class='kw-2'>mut</span> <span class='ident'>ty</span>: <span class='kw-2'>&amp;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Ty</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Ty</span><span class='op'>&gt;</span> {
+    <span class='kw'>while</span> <span class='kw'>let</span> <span class='ident'>ast</span>::<span class='ident'>TyKind</span>::<span class='ident'>Rptr</span>(_, <span class='kw-2'>ref</span> <span class='ident'>mut_ty</span>) <span class='op'>=</span> <span class='ident'>ty</span>.<span class='ident'>node</span> {
+        <span class='ident'>ty</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>mut_ty</span>.<span class='ident'>ty</span>;
     }
+    <span class='ident'>ty</span>
 }
 </pre>
 </section>

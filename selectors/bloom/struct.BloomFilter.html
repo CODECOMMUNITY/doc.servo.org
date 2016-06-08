@@ -96,9 +96,8 @@ KeySize of 12 gives false positive rates on the order of 0.25-4%.</p>
 <p>Similarly, using a KeySize of 10 would lead to a 4% false
 positive rate for N == 100 and to quite bad false positive
 rates for larger N.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.counters'><code>counters</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../selectors/bloom/struct.BloomFilter.html' title='selectors::bloom::BloomFilter'>BloomFilter</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-25' class='srclink' href='../../src/selectors/bloom.rs.html#73-165' title='goto source code'>[src]</a></span></h3>
+</div><h2 class='fields'>Fields</h2><span id='structfield.counters'><code>counters: <a class='primitive' href='../../std/primitive.array.html'>[</a><a class='primitive' href='../../std/primitive.u8.html'>u8</a><a class='primitive' href='../../std/primitive.array.html'>; ARRAY_SIZE]</a></code></span>
+                           <span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../selectors/bloom/struct.BloomFilter.html' title='selectors::bloom::BloomFilter'>BloomFilter</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-25' class='srclink' href='../../src/selectors/bloom.rs.html#73-165' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../selectors/bloom/struct.BloomFilter.html' title='selectors::bloom::BloomFilter'>BloomFilter</a></code></h4>
 <div class='docblock'><p>Creates a new bloom filter.</p>
 </div><h4 id='method.first_slot' class='method'><code>fn <a href='#method.first_slot' class='fnname'>first_slot</a>(&amp;self, hash: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>) -&gt; &amp;<a class='primitive' href='../../std/primitive.u8.html'>u8</a></code></h4>
@@ -107,13 +106,13 @@ rates for larger N.</p>
 <h4 id='method.second_mut_slot' class='method'><code>fn <a href='#method.second_mut_slot' class='fnname'>second_mut_slot</a>(&amp;mut self, hash: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>) -&gt; &amp;mut <a class='primitive' href='../../std/primitive.u8.html'>u8</a></code></h4>
 <h4 id='method.clear' class='method'><code>fn <a href='#method.clear' class='fnname'>clear</a>(&amp;mut self)</code></h4>
 <h4 id='method.insert_hash' class='method'><code>fn <a href='#method.insert_hash' class='fnname'>insert_hash</a>(&amp;mut self, hash: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>)</code></h4>
-<h4 id='method.insert' class='method'><code>fn <a href='#method.insert' class='fnname'>insert</a>&lt;T: <a class='trait' href='../../selectors/bloom/trait.BloomHash.html' title='selectors::bloom::BloomHash'>BloomHash</a>&gt;(&amp;mut self, elem: &amp;T)</code></h4>
+<h4 id='method.insert' class='method'><code>fn <a href='#method.insert' class='fnname'>insert</a>&lt;T:&nbsp;<a class='trait' href='../../selectors/bloom/trait.BloomHash.html' title='selectors::bloom::BloomHash'>BloomHash</a>&gt;(&amp;mut self, elem: &amp;T)</code></h4>
 <div class='docblock'><p>Inserts an item into the bloom filter.</p>
 </div><h4 id='method.remove_hash' class='method'><code>fn <a href='#method.remove_hash' class='fnname'>remove_hash</a>(&amp;mut self, hash: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>)</code></h4>
-<h4 id='method.remove' class='method'><code>fn <a href='#method.remove' class='fnname'>remove</a>&lt;T: <a class='trait' href='../../selectors/bloom/trait.BloomHash.html' title='selectors::bloom::BloomHash'>BloomHash</a>&gt;(&amp;mut self, elem: &amp;T)</code></h4>
+<h4 id='method.remove' class='method'><code>fn <a href='#method.remove' class='fnname'>remove</a>&lt;T:&nbsp;<a class='trait' href='../../selectors/bloom/trait.BloomHash.html' title='selectors::bloom::BloomHash'>BloomHash</a>&gt;(&amp;mut self, elem: &amp;T)</code></h4>
 <div class='docblock'><p>Removes an item from the bloom filter.</p>
 </div><h4 id='method.might_contain_hash' class='method'><code>fn <a href='#method.might_contain_hash' class='fnname'>might_contain_hash</a>(&amp;self, hash: <a class='primitive' href='../../std/primitive.u32.html'>u32</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
-<h4 id='method.might_contain' class='method'><code>fn <a href='#method.might_contain' class='fnname'>might_contain</a>&lt;T: <a class='trait' href='../../selectors/bloom/trait.BloomHash.html' title='selectors::bloom::BloomHash'>BloomHash</a>&gt;(&amp;self, elem: &amp;T) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.might_contain' class='method'><code>fn <a href='#method.might_contain' class='fnname'>might_contain</a>&lt;T:&nbsp;<a class='trait' href='../../selectors/bloom/trait.BloomHash.html' title='selectors::bloom::BloomHash'>BloomHash</a>&gt;(&amp;self, elem: &amp;T) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Check whether the filter might contain an item.  This can
 sometimes return true even if the item is not in the filter,
 but will never return false for items that are actually in the

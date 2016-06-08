@@ -49,7 +49,7 @@
                    </a>
                </span><a id='src-932' class='srclink' href='../../src/regex/dfa.rs.html#111-155' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>struct CacheInner {
-    compiled: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../regex/dfa/struct.State.html' title='regex::dfa::State'>State</a>, <a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;,
+    compiled: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../regex/dfa/struct.State.html' title='regex::dfa::State'>State</a>,&nbsp;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;,
     trans: <a class='struct' href='../../regex/dfa/struct.Transitions.html' title='regex::dfa::Transitions'>Transitions</a>,
     states: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../regex/dfa/struct.State.html' title='regex::dfa::State'>State</a>&gt;,
     start_states: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;,
@@ -58,9 +58,8 @@
 }</pre><div class='docblock'><p>CacheInner is logically just a part of Cache, but groups together fields
 that aren&#39;t passed as function parameters throughout search. (This split
 is mostly an artifact of the borrow checker. It is happily paid.)</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.compiled'><code>compiled</code></td><td><div class='docblock'><p>A cache of pre-compiled DFA states, keyed by the set of NFA states
+</div><h2 class='fields'>Fields</h2><span id='structfield.compiled'><code>compiled: <a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../regex/dfa/struct.State.html' title='regex::dfa::State'>State</a>,&nbsp;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A cache of pre-compiled DFA states, keyed by the set of NFA states
 and the set of empty-width flags set at the byte in the input when the
 state was observed.</p>
 
@@ -68,8 +67,8 @@ state was observed.</p>
 things, we just pass indexes around manually. The performance impact of
 this is probably an instruction or two in the inner loop. However, on
 64 bit, each StatePtr is half the size of a *State.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.trans'><code>trans</code></td><td><div class='docblock'><p>The transition table.</p>
+</div><span id='structfield.trans'><code>trans: <a class='struct' href='../../regex/dfa/struct.Transitions.html' title='regex::dfa::Transitions'>Transitions</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The transition table.</p>
 
 <p>The transition table is laid out in row-major order, where states are
 rows and the transitions for each state are columns. At a high level,
@@ -84,25 +83,25 @@ stride is rarely 256 since we define transitions in terms of
 <em>equivalence classes</em> of bytes. Each class corresponds to a set of
 bytes that never discriminate a distinct path through the DFA from each
 other.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.states'><code>states</code></td><td><div class='docblock'><p>Our set of states. Note that <code>StatePtr / num_byte_classes</code> indexes
+</div><span id='structfield.states'><code>states: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../regex/dfa/struct.State.html' title='regex::dfa::State'>State</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>Our set of states. Note that <code>StatePtr / num_byte_classes</code> indexes
 this Vec rather than just a <code>StatePtr</code>.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.start_states'><code>start_states</code></td><td><div class='docblock'><p>A set of cached start states, which are limited to the number of
+</div><span id='structfield.start_states'><code>start_states: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../regex/dfa/type.StatePtr.html' title='regex::dfa::StatePtr'>StatePtr</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A set of cached start states, which are limited to the number of
 permutations of flags set just before the initial byte of input. (The
 index into this vec is a <code>EmptyFlags</code>.)</p>
 
 <p>N.B. A start state can be &quot;dead&quot; (i.e., no possible match), so we
 represent it with a StatePtr.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.stack'><code>stack</code></td><td><div class='docblock'><p>Stack scratch space used to follow epsilon transitions in the NFA.
+</div><span id='structfield.stack'><code>stack: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../regex/dfa/type.InstPtr.html' title='regex::dfa::InstPtr'>InstPtr</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>Stack scratch space used to follow epsilon transitions in the NFA.
 (This permits us to avoid recursion.)</p>
 
 <p>The maximum stack size is the number of NFA states.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.flush_count'><code>flush_count</code></td><td><div class='docblock'><p>The total number of times this cache has been flushed by the DFA
+</div><span id='structfield.flush_count'><code>flush_count: <a class='primitive' href='../../std/primitive.u64.html'>u64</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The total number of times this cache has been flushed by the DFA
 because of space constraints.</p>
-</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-939' class='srclink' href='../../src/regex/dfa.rs.html#110' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-939' class='srclink' href='../../src/regex/dfa.rs.html#110' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../../core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-950' class='srclink' href='../../src/regex/dfa.rs.html#110' title='goto source code'>[src]</a></span></h3>

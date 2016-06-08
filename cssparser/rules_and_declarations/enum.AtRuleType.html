@@ -48,7 +48,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-27' class='srclink' href='../../src/cssparser/rules_and_declarations.rs.html#25-43' title='goto source code'>[src]</a></span></h1>
-<pre class='rust enum'>pub enum AtRuleType&lt;P, R&gt; {
+<pre class='rust enum'>pub enum AtRuleType&lt;P,&nbsp;R&gt; {
     WithoutBlock(R),
     WithBlock(P),
     OptionalBlock(P),
@@ -56,19 +56,19 @@
 Indicates whether the at-rule is expected to have a <code>{ /* ... */ }</code> block
 or end with a <code>;</code> semicolon.</p>
 </div><h2 class='variants'>Variants</h2>
-<table class='variants_table'><tr><td id='variant.WithoutBlock'><code>WithoutBlock</code></td><td><div class='docblock'><p>The at-rule is expected to end with a <code>;</code> semicolon. Example: <code>@import</code>.</p>
+<span id='variant.WithoutBlock' class='variant'><code>WithoutBlock(R)</code></span><div class='docblock'><p>The at-rule is expected to end with a <code>;</code> semicolon. Example: <code>@import</code>.</p>
 
 <p>The value is the finished representation of an at-rule
 as returned by <code>RuleListParser::next</code> or <code>DeclarationListParser::next</code>.</p>
-</div></td><td></td></tr><tr><td id='variant.WithBlock'><code>WithBlock</code></td><td><div class='docblock'><p>The at-rule is expected to have a a <code>{ /* ... */ }</code> block. Example: <code>@media</code></p>
+</div><span id='variant.WithBlock' class='variant'><code>WithBlock(P)</code></span><div class='docblock'><p>The at-rule is expected to have a a <code>{ /* ... */ }</code> block. Example: <code>@media</code></p>
 
 <p>The value is the representation of the &quot;prelude&quot; part of the rule.</p>
-</div></td><td></td></tr><tr><td id='variant.OptionalBlock'><code>OptionalBlock</code></td><td><div class='docblock'><p>The at-rule may either have a block or end with a semicolon.</p>
+</div><span id='variant.OptionalBlock' class='variant'><code>OptionalBlock(P)</code></span><div class='docblock'><p>The at-rule may either have a block or end with a semicolon.</p>
 
 <p>This is mostly for testing. As of this writing no real CSS at-rule behaves like this.</p>
 
 <p>The value is the representation of the &quot;prelude&quot; part of the rule.</p>
-</div></td><td></td></tr></table></section>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

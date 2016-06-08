@@ -282,7 +282,7 @@
 <span class='kw'>use</span> <span class='ident'>ws</span>::<span class='ident'>util</span>::<span class='ident'>bytes_to_string</span>;
 <span class='kw'>use</span> <span class='ident'>ws</span>;
 
-<span class='kw'>const</span> <span class='ident'>FALSE_RESERVED_BITS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>bool</span>; <span class='number'>3</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='boolvalue'>false</span>; <span class='number'>3</span>];
+<span class='kw'>const</span> <span class='ident'>FALSE_RESERVED_BITS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>bool</span>; <span class='number'>3</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='bool-val'>false</span>; <span class='number'>3</span>];
 
 <span class='doccomment'>/// Valid types of messages (in the default implementation)</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Clone</span>, <span class='ident'>Copy</span>)]</span>
@@ -388,7 +388,7 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>ws</span>::<span class='ident'>dataframe</span>::<span class='ident'>DataFrame</span> <span class='kw'>for</span> <span class='ident'>Message</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
 	<span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>is_last</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolvalue'>true</span>
+        <span class='bool-val'>true</span>
     }
 
 	<span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
@@ -448,7 +448,7 @@
 					<span class='string'>&quot;Unexpected non-continuation data frame&quot;</span>
 				));
 			}
-			<span class='kw'>if</span> <span class='op'>*</span><span class='ident'>dataframe</span>.<span class='ident'>reserved</span>() <span class='op'>!=</span> [<span class='boolvalue'>false</span>; <span class='number'>3</span>] {
+			<span class='kw'>if</span> <span class='op'>*</span><span class='ident'>dataframe</span>.<span class='ident'>reserved</span>() <span class='op'>!=</span> [<span class='bool-val'>false</span>; <span class='number'>3</span>] {
 				<span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>WebSocketError</span>::<span class='ident'>ProtocolError</span>(
 					<span class='string'>&quot;Unsupported reserved bits received&quot;</span>
 				));

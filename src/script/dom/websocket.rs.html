@@ -805,7 +805,7 @@
                                       <span class='ident'>reason</span>: <span class='ident'>String</span>) {
     <span class='kw'>let</span> <span class='ident'>close_task</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>CloseTask</span> {
         <span class='ident'>address</span>: <span class='ident'>address</span>,
-        <span class='ident'>failed</span>: <span class='boolvalue'>false</span>,
+        <span class='ident'>failed</span>: <span class='bool-val'>false</span>,
         <span class='ident'>code</span>: <span class='ident'>code</span>,
         <span class='ident'>reason</span>: <span class='prelude-val'>Some</span>(<span class='ident'>reason</span>),
     };
@@ -815,7 +815,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fail_the_websocket_connection</span>(<span class='ident'>address</span>: <span class='ident'>Trusted</span><span class='op'>&lt;</span><span class='ident'>WebSocket</span><span class='op'>&gt;</span>, <span class='ident'>sender</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span><span class='op'>&gt;</span>) {
     <span class='kw'>let</span> <span class='ident'>close_task</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>CloseTask</span> {
         <span class='ident'>address</span>: <span class='ident'>address</span>,
-        <span class='ident'>failed</span>: <span class='boolvalue'>true</span>,
+        <span class='ident'>failed</span>: <span class='bool-val'>true</span>,
         <span class='ident'>code</span>: <span class='prelude-val'>Some</span>(<span class='ident'>close_code</span>::<span class='ident'>ABNORMAL</span>),
         <span class='ident'>reason</span>: <span class='prelude-val'>None</span>,
     };
@@ -842,7 +842,7 @@
             <span class='ident'>url</span>: <span class='ident'>url</span>,
             <span class='ident'>ready_state</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>WebSocketRequestState</span>::<span class='ident'>Connecting</span>),
             <span class='ident'>buffered_amount</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
-            <span class='ident'>clearing_buffer</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>clearing_buffer</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>sender</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
             <span class='ident'>binary_type</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>BinaryType</span>::<span class='ident'>Blob</span>),
             <span class='ident'>protocol</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_owned</span>()),
@@ -965,8 +965,8 @@
             <span class='ident'>WebSocketRequestState</span>::<span class='ident'>Connecting</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidState</span>);
             },
-            <span class='ident'>WebSocketRequestState</span>::<span class='ident'>Open</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
-            <span class='ident'>WebSocketRequestState</span>::<span class='ident'>Closing</span> <span class='op'>|</span> <span class='ident'>WebSocketRequestState</span>::<span class='ident'>Closed</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='ident'>WebSocketRequestState</span>::<span class='ident'>Open</span> <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+            <span class='ident'>WebSocketRequestState</span>::<span class='ident'>Closing</span> <span class='op'>|</span> <span class='ident'>WebSocketRequestState</span>::<span class='ident'>Closed</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
         };
 
         <span class='kw'>let</span> <span class='ident'>address</span> <span class='op'>=</span> <span class='ident'>Trusted</span>::<span class='ident'>new</span>(<span class='self'>self</span>);
@@ -977,11 +977,11 @@
         };
 
         <span class='kw'>if</span> <span class='ident'>return_after_buffer</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='boolvalue'>false</span>);
+            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='bool-val'>false</span>);
         }
 
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>clearing_buffer</span>.<span class='ident'>get</span>() <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>ready_state</span>.<span class='ident'>get</span>() <span class='op'>==</span> <span class='ident'>WebSocketRequestState</span>::<span class='ident'>Open</span> {
-            <span class='self'>self</span>.<span class='ident'>clearing_buffer</span>.<span class='ident'>set</span>(<span class='boolvalue'>true</span>);
+            <span class='self'>self</span>.<span class='ident'>clearing_buffer</span>.<span class='ident'>set</span>(<span class='bool-val'>true</span>);
 
             <span class='kw'>let</span> <span class='ident'>task</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>BufferedAmountTask</span> {
                 <span class='ident'>address</span>: <span class='ident'>address</span>,
@@ -991,7 +991,7 @@
             <span class='ident'>global</span>.<span class='ident'>r</span>().<span class='ident'>script_chan</span>().<span class='ident'>send</span>(<span class='ident'>CommonScriptMsg</span>::<span class='ident'>RunnableMsg</span>(<span class='ident'>WebSocketEvent</span>, <span class='ident'>task</span>)).<span class='ident'>unwrap</span>();
         }
 
-        <span class='prelude-val'>Ok</span>(<span class='boolvalue'>true</span>)
+        <span class='prelude-val'>Ok</span>(<span class='bool-val'>true</span>)
     }
 }
 
@@ -1173,7 +1173,7 @@
         <span class='kw'>let</span> <span class='ident'>ws</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>address</span>.<span class='ident'>root</span>();
 
         <span class='ident'>ws</span>.<span class='ident'>buffered_amount</span>.<span class='ident'>set</span>(<span class='number'>0</span>);
-        <span class='ident'>ws</span>.<span class='ident'>clearing_buffer</span>.<span class='ident'>set</span>(<span class='boolvalue'>false</span>);
+        <span class='ident'>ws</span>.<span class='ident'>clearing_buffer</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
     }
 }
 
@@ -1257,7 +1257,7 @@
                         <span class='ident'>BinaryType</span>::<span class='ident'>Arraybuffer</span> <span class='op'>=&gt;</span> {
                             <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>uint32_t</span>;
                             <span class='kw'>let</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>JS_NewArrayBuffer</span>(<span class='ident'>cx</span>, <span class='ident'>len</span>);
-                            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_shared</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+                            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_shared</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
                             <span class='kw'>let</span> <span class='ident'>buf_data</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>uint8_t</span> <span class='op'>=</span> <span class='ident'>JS_GetArrayBufferData</span>(<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>is_shared</span>, <span class='ident'>ptr</span>::<span class='ident'>null</span>());
                             <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>is_shared</span>);
                             <span class='ident'>ptr</span>::<span class='ident'>copy_nonoverlapping</span>(<span class='ident'>data</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>buf_data</span>, <span class='ident'>len</span> <span class='kw'>as</span> <span class='ident'>usize</span>);

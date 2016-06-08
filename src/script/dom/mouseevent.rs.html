@@ -293,10 +293,10 @@
             <span class='ident'>screen_y</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>client_x</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>client_y</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
-            <span class='ident'>ctrl_key</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
-            <span class='ident'>shift_key</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
-            <span class='ident'>alt_key</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
-            <span class='ident'>meta_key</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>ctrl_key</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
+            <span class='ident'>shift_key</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
+            <span class='ident'>alt_key</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
+            <span class='ident'>meta_key</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>button</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>related_target</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
         }
@@ -408,7 +408,7 @@
     <span class='comment'>// This returns the same result as current gecko.</span>
     <span class='comment'>// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/which</span>
     <span class='kw'>fn</span> <span class='ident'>Which</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
-        <span class='kw'>if</span> <span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mouseevent.which.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>) {
+        <span class='kw'>if</span> <span class='ident'>prefs</span>::<span class='ident'>get_pref</span>(<span class='string'>&quot;dom.mouseevent.which.enabled&quot;</span>).<span class='ident'>as_boolean</span>().<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>) {
             (<span class='self'>self</span>.<span class='ident'>button</span>.<span class='ident'>get</span>() <span class='op'>+</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>i32</span>
         } <span class='kw'>else</span> {
             <span class='number'>0</span>

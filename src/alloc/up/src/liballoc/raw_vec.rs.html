@@ -1146,7 +1146,7 @@
             <span class='comment'>// reallocate in place.</span>
             <span class='comment'>// Wrapping in case they give a bad `used_cap`</span>
             <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>cap</span>().<span class='ident'>wrapping_sub</span>(<span class='ident'>used_cap</span>) <span class='op'>&gt;=</span> <span class='ident'>needed_extra_cap</span> <span class='op'>||</span> <span class='self'>self</span>.<span class='ident'>cap</span> <span class='op'>==</span> <span class='number'>0</span> {
-                <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+                <span class='kw'>return</span> <span class='bool-val'>false</span>;
             }
 
             <span class='kw'>let</span> (_, <span class='ident'>new_alloc_size</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>amortized_new_size</span>(<span class='ident'>used_cap</span>, <span class='ident'>needed_extra_cap</span>);
@@ -1253,9 +1253,9 @@
 <span class='comment'>// * We don&#39;t overflow `usize::MAX` and actually allocate too little</span>
 <span class='comment'>//</span>
 <span class='comment'>// On 64-bit we just need to check for overflow since trying to allocate</span>
-<span class='comment'>// `&gt; isize::MAX` bytes will surely fail. On 32-bit we need to add an extra</span>
-<span class='comment'>// guard for this in case we&#39;re running on a platform which can use all 4GB in</span>
-<span class='comment'>// user-space. e.g. PAE or x32</span>
+<span class='comment'>// `&gt; isize::MAX` bytes will surely fail. On 32-bit and 16-bit we need to add</span>
+<span class='comment'>// an extra guard for this in case we&#39;re running on a platform which can use</span>
+<span class='comment'>// all 4GB in user-space. e.g. PAE or x32</span>
 
 <span class='attribute'>#[<span class='ident'>inline</span>]</span>
 <span class='kw'>fn</span> <span class='ident'>alloc_guard</span>(<span class='ident'>alloc_size</span>: <span class='ident'>usize</span>) {

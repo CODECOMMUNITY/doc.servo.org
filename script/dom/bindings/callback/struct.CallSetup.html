@@ -55,19 +55,18 @@
     handling: <a class='enum' href='../../../../script/dom/bindings/callback/enum.ExceptionHandling.html' title='script::dom::bindings::callback::ExceptionHandling'>ExceptionHandling</a>,
 }</pre><div class='docblock'><p>A class that performs whatever setup we need to safely make a call while
 this class is on the stack. After <code>new</code> returns, the call is safe to make.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.exception_compartment'><code>exception_compartment</code></td><td><div class='docblock'><p>The compartment for reporting exceptions.
+</div><h2 class='fields'>Fields</h2><span id='structfield.exception_compartment'><code>exception_compartment: <a class='type' href='../../../../js/jsapi/type.RootedObject.html' title='js::jsapi::RootedObject'>RootedObject</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The compartment for reporting exceptions.
 As a RootedObject, this must be the first field in order to
 determine the final address on the stack correctly.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.cx'><code>cx</code></td><td><div class='docblock'><p>The <code>JSContext</code> used for the call.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.old_compartment'><code>old_compartment</code></td><td><div class='docblock'><p>The compartment we were in before the call.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.handling'><code>handling</code></td><td><div class='docblock'><p>The exception handling used for the call.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../../script/dom/bindings/callback/struct.CallSetup.html' title='script::dom::bindings::callback::CallSetup'>CallSetup</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1805' class='srclink' href='../../../../src/script/dom/bindings/callback.rs.html#163-187' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;T: <a class='trait' href='../../../../script/dom/bindings/callback/trait.CallbackContainer.html' title='script::dom::bindings::callback::CallbackContainer'>CallbackContainer</a>&gt;(callback: &amp;T, handling: <a class='enum' href='../../../../script/dom/bindings/callback/enum.ExceptionHandling.html' title='script::dom::bindings::callback::ExceptionHandling'>ExceptionHandling</a>) -&gt; <a class='struct' href='../../../../script/dom/bindings/callback/struct.CallSetup.html' title='script::dom::bindings::callback::CallSetup'>CallSetup</a></code></h4>
+</div><span id='structfield.cx'><code>cx: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The <code>JSContext</code> used for the call.</p>
+</div><span id='structfield.old_compartment'><code>old_compartment: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../js/jsapi/enum.JSCompartment.html' title='js::jsapi::JSCompartment'>JSCompartment</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The compartment we were in before the call.</p>
+</div><span id='structfield.handling'><code>handling: <a class='enum' href='../../../../script/dom/bindings/callback/enum.ExceptionHandling.html' title='script::dom::bindings::callback::ExceptionHandling'>ExceptionHandling</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The exception handling used for the call.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../../script/dom/bindings/callback/struct.CallSetup.html' title='script::dom::bindings::callback::CallSetup'>CallSetup</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1805' class='srclink' href='../../../../src/script/dom/bindings/callback.rs.html#163-187' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;T:&nbsp;<a class='trait' href='../../../../script/dom/bindings/callback/trait.CallbackContainer.html' title='script::dom::bindings::callback::CallbackContainer'>CallbackContainer</a>&gt;(callback: &amp;T, handling: <a class='enum' href='../../../../script/dom/bindings/callback/enum.ExceptionHandling.html' title='script::dom::bindings::callback::ExceptionHandling'>ExceptionHandling</a>) -&gt; <a class='struct' href='../../../../script/dom/bindings/callback/struct.CallSetup.html' title='script::dom::bindings::callback::CallSetup'>CallSetup</a></code></h4>
 <div class='docblock'><p>Performs the setup needed to make a call.</p>
 </div><h4 id='method.get_context' class='method'><code>fn <a href='#method.get_context' class='fnname'>get_context</a>(&amp;self) -&gt; <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../../js/jsapi/enum.JSContext.html' title='js::jsapi::JSContext'>JSContext</a></code></h4>
 <div class='docblock'><p>Returns the <code>JSContext</code> used for the call.</p>

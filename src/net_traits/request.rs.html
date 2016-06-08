@@ -459,34 +459,34 @@
                <span class='ident'>is_service_worker_global_scope</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Request</span> {
         <span class='ident'>Request</span> {
             <span class='ident'>method</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Method</span>::<span class='ident'>Get</span>),
-            <span class='ident'>local_urls_only</span>: <span class='boolvalue'>false</span>,
-            <span class='ident'>sandboxed_storage_area_urls</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>local_urls_only</span>: <span class='bool-val'>false</span>,
+            <span class='ident'>sandboxed_storage_area_urls</span>: <span class='bool-val'>false</span>,
             <span class='ident'>headers</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Headers</span>::<span class='ident'>new</span>()),
-            <span class='ident'>unsafe_request</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>unsafe_request</span>: <span class='bool-val'>false</span>,
             <span class='ident'>body</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
             <span class='ident'>is_service_worker_global_scope</span>: <span class='ident'>is_service_worker_global_scope</span>,
             <span class='ident'>window</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>Window</span>::<span class='ident'>Client</span>),
-            <span class='ident'>keep_alive</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
-            <span class='ident'>skip_service_worker</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>keep_alive</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
+            <span class='ident'>skip_service_worker</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>initiator</span>: <span class='ident'>Initiator</span>::<span class='prelude-val'>None</span>,
             <span class='ident'>type_</span>: <span class='ident'>Type</span>::<span class='prelude-val'>None</span>,
             <span class='ident'>destination</span>: <span class='ident'>Destination</span>::<span class='prelude-val'>None</span>,
             <span class='ident'>origin</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>origin</span>.<span class='ident'>unwrap_or</span>(<span class='ident'>Origin</span>::<span class='ident'>Client</span>)),
-            <span class='ident'>omit_origin_header</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
-            <span class='ident'>same_origin_data</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>omit_origin_header</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
+            <span class='ident'>same_origin_data</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>referer</span>: <span class='ident'>Referer</span>::<span class='ident'>Client</span>,
-            <span class='ident'>synchronous</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>synchronous</span>: <span class='bool-val'>false</span>,
             <span class='ident'>mode</span>: <span class='ident'>RequestMode</span>::<span class='ident'>NoCORS</span>,
-            <span class='ident'>use_cors_preflight</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>use_cors_preflight</span>: <span class='bool-val'>false</span>,
             <span class='ident'>credentials_mode</span>: <span class='ident'>CredentialsMode</span>::<span class='ident'>Omit</span>,
-            <span class='ident'>use_url_credentials</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>use_url_credentials</span>: <span class='bool-val'>false</span>,
             <span class='ident'>cache_mode</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>CacheMode</span>::<span class='ident'>Default</span>),
             <span class='ident'>redirect_mode</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>RedirectMode</span>::<span class='ident'>Follow</span>),
             <span class='ident'>integrity_metadata</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>String</span>::<span class='ident'>new</span>()),
             <span class='ident'>url_list</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>url</span>]),
             <span class='ident'>redirect_count</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>response_tainting</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>ResponseTainting</span>::<span class='ident'>Basic</span>),
-            <span class='ident'>done</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>)
+            <span class='ident'>done</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>)
         }
     }
 
@@ -497,43 +497,43 @@
                                   <span class='ident'>same_origin_fallback</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>Request</span> {
         <span class='ident'>Request</span> {
             <span class='ident'>method</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Method</span>::<span class='ident'>Get</span>),
-            <span class='ident'>local_urls_only</span>: <span class='boolvalue'>false</span>,
-            <span class='ident'>sandboxed_storage_area_urls</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>local_urls_only</span>: <span class='bool-val'>false</span>,
+            <span class='ident'>sandboxed_storage_area_urls</span>: <span class='bool-val'>false</span>,
             <span class='ident'>headers</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Headers</span>::<span class='ident'>new</span>()),
-            <span class='ident'>unsafe_request</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>unsafe_request</span>: <span class='bool-val'>false</span>,
             <span class='ident'>body</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
             <span class='ident'>is_service_worker_global_scope</span>: <span class='ident'>is_service_worker_global_scope</span>,
             <span class='ident'>window</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>Window</span>::<span class='ident'>Client</span>),
-            <span class='ident'>keep_alive</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
-            <span class='ident'>skip_service_worker</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>keep_alive</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
+            <span class='ident'>skip_service_worker</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>initiator</span>: <span class='ident'>Initiator</span>::<span class='prelude-val'>None</span>,
             <span class='ident'>type_</span>: <span class='ident'>Type</span>::<span class='prelude-val'>None</span>,
             <span class='ident'>destination</span>: <span class='ident'>Destination</span>::<span class='prelude-val'>None</span>,
             <span class='ident'>origin</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Origin</span>::<span class='ident'>Client</span>),
-            <span class='ident'>omit_origin_header</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
-            <span class='ident'>same_origin_data</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>omit_origin_header</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
+            <span class='ident'>same_origin_data</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>referer</span>: <span class='ident'>Referer</span>::<span class='ident'>Client</span>,
-            <span class='ident'>synchronous</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>synchronous</span>: <span class='bool-val'>false</span>,
             <span class='comment'>// Step 1-2</span>
             <span class='ident'>mode</span>: <span class='kw'>match</span> <span class='ident'>cors_attribute_state</span> {
                 <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='ident'>RequestMode</span>::<span class='ident'>CORSMode</span>,
                 <span class='prelude-val'>None</span> <span class='kw'>if</span> <span class='ident'>same_origin_fallback</span> <span class='op'>=&gt;</span> <span class='ident'>RequestMode</span>::<span class='ident'>SameOrigin</span>,
                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>RequestMode</span>::<span class='ident'>NoCORS</span>
             },
-            <span class='ident'>use_cors_preflight</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>use_cors_preflight</span>: <span class='bool-val'>false</span>,
             <span class='comment'>// Step 3-4</span>
             <span class='ident'>credentials_mode</span>: <span class='kw'>match</span> <span class='ident'>cors_attribute_state</span> {
                 <span class='prelude-val'>Some</span>(<span class='ident'>CORSSettings</span>::<span class='ident'>Anonymous</span>) <span class='op'>=&gt;</span> <span class='ident'>CredentialsMode</span>::<span class='ident'>CredentialsSameOrigin</span>,
                 _ <span class='op'>=&gt;</span> <span class='ident'>CredentialsMode</span>::<span class='ident'>Include</span>,
             },
-            <span class='ident'>use_url_credentials</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>use_url_credentials</span>: <span class='bool-val'>true</span>,
             <span class='ident'>cache_mode</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>CacheMode</span>::<span class='ident'>Default</span>),
             <span class='ident'>redirect_mode</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>RedirectMode</span>::<span class='ident'>Follow</span>),
             <span class='ident'>integrity_metadata</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>String</span>::<span class='ident'>new</span>()),
             <span class='ident'>url_list</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>url</span>]),
             <span class='ident'>redirect_count</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>response_tainting</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>ResponseTainting</span>::<span class='ident'>Basic</span>),
-            <span class='ident'>done</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>)
+            <span class='ident'>done</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>)
         }
     }
 
@@ -558,8 +558,8 @@
             <span class='ident'>Destination</span>::<span class='ident'>Font</span> <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='ident'>Image</span> <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='ident'>Manifest</span>
                 <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='ident'>Media</span> <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='ident'>Script</span>
                 <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='ident'>Style</span> <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='ident'>XSLT</span>
-                <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
+                <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
+            _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
         }
     }
 }

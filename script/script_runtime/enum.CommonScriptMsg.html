@@ -47,18 +47,18 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-117087' class='srclink' href='../../src/script/script_runtime.rs.html#33-41' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-117145' class='srclink' href='../../src/script/script_runtime.rs.html#33-41' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum CommonScriptMsg {
     CollectReports(<a class='struct' href='../../profile_traits/mem/struct.ReportsChan.html' title='profile_traits::mem::ReportsChan'>ReportsChan</a>),
     RefcountCleanup(<a class='struct' href='../../script/dom/bindings/refcounted/struct.TrustedReference.html' title='script::dom::bindings::refcounted::TrustedReference'>TrustedReference</a>),
-    RunnableMsg(<a class='enum' href='../../script/script_runtime/enum.ScriptThreadEventCategory.html' title='script::script_runtime::ScriptThreadEventCategory'>ScriptThreadEventCategory</a>, <a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../script/script_thread/trait.Runnable.html' title='script::script_thread::Runnable'>Runnable</a> + <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;),
+    RunnableMsg(<a class='enum' href='../../script/script_runtime/enum.ScriptThreadEventCategory.html' title='script::script_runtime::ScriptThreadEventCategory'>ScriptThreadEventCategory</a>,&nbsp;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../script/script_thread/trait.Runnable.html' title='script::script_thread::Runnable'>Runnable</a> + <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;),
 }</pre><div class='docblock'><p>Common messages used to control the event loops in both the script and the worker</p>
 </div><h2 class='variants'>Variants</h2>
-<table class='variants_table'><tr><td id='variant.CollectReports'><code>CollectReports</code></td><td><div class='docblock'><p>Requests that the script thread measure its memory usage. The results are sent back via the
+<span id='variant.CollectReports' class='variant'><code>CollectReports(<a class='struct' href='../../profile_traits/mem/struct.ReportsChan.html' title='profile_traits::mem::ReportsChan'>ReportsChan</a>)</code></span><div class='docblock'><p>Requests that the script thread measure its memory usage. The results are sent back via the
 supplied channel.</p>
-</div></td><td></td></tr><tr><td id='variant.RefcountCleanup'><code>RefcountCleanup</code></td><td><div class='docblock'><p>A DOM object&#39;s last pinned reference was removed (dispatched to all threads).</p>
-</div></td><td></td></tr><tr><td id='variant.RunnableMsg'><code>RunnableMsg</code></td><td><div class='docblock'><p>Generic message that encapsulates event handling.</p>
-</div></td><td></td></tr></table></section>
+</div><span id='variant.RefcountCleanup' class='variant'><code>RefcountCleanup(<a class='struct' href='../../script/dom/bindings/refcounted/struct.TrustedReference.html' title='script::dom::bindings::refcounted::TrustedReference'>TrustedReference</a>)</code></span><div class='docblock'><p>A DOM object&#39;s last pinned reference was removed (dispatched to all threads).</p>
+</div><span id='variant.RunnableMsg' class='variant'><code>RunnableMsg(<a class='enum' href='../../script/script_runtime/enum.ScriptThreadEventCategory.html' title='script::script_runtime::ScriptThreadEventCategory'>ScriptThreadEventCategory</a>,&nbsp;<a class='struct' href='../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../script/script_thread/trait.Runnable.html' title='script::script_thread::Runnable'>Runnable</a> + <a class='trait' href='../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;)</code></span><div class='docblock'><p>Generic message that encapsulates event handling.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

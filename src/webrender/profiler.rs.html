@@ -655,7 +655,7 @@
         <span class='ident'>BackendProfileCounters</span> {
             <span class='ident'>font_templates</span>: <span class='ident'>ResourceProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;Font Templates&quot;</span>),
             <span class='ident'>image_templates</span>: <span class='ident'>ResourceProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;Image Templates&quot;</span>),
-            <span class='ident'>total_time</span>: <span class='ident'>TimeProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;Backend CPU Time&quot;</span>, <span class='boolvalue'>false</span>),
+            <span class='ident'>total_time</span>: <span class='ident'>TimeProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;Backend CPU Time&quot;</span>, <span class='bool-val'>false</span>),
         }
     }
 
@@ -681,7 +681,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>RendererProfileCounters</span> {
         <span class='ident'>RendererProfileCounters</span> {
             <span class='ident'>frame_counter</span>: <span class='ident'>IntProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;Frame&quot;</span>),
-            <span class='ident'>frame_time</span>: <span class='ident'>TimeProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;FPS&quot;</span>, <span class='boolvalue'>true</span>),
+            <span class='ident'>frame_time</span>: <span class='ident'>TimeProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;FPS&quot;</span>, <span class='bool-val'>true</span>),
             <span class='ident'>draw_calls</span>: <span class='ident'>IntProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;Draw Calls&quot;</span>),
             <span class='ident'>vertices</span>: <span class='ident'>IntProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;Vertices&quot;</span>),
             <span class='ident'>vao_count_and_size</span>: <span class='ident'>ResourceProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;VAO&quot;</span>),
@@ -697,8 +697,8 @@
 <span class='kw'>impl</span> <span class='ident'>RendererProfileTimers</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>RendererProfileTimers</span> {
         <span class='ident'>RendererProfileTimers</span> {
-            <span class='ident'>cpu_time</span>: <span class='ident'>TimeProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;Compositor CPU Time&quot;</span>, <span class='boolvalue'>false</span>),
-            <span class='ident'>gpu_time</span>: <span class='ident'>TimeProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;GPU Time&quot;</span>, <span class='boolvalue'>false</span>),
+            <span class='ident'>cpu_time</span>: <span class='ident'>TimeProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;Compositor CPU Time&quot;</span>, <span class='bool-val'>false</span>),
+            <span class='ident'>gpu_time</span>: <span class='ident'>TimeProfileCounter</span>::<span class='ident'>new</span>(<span class='string'>&quot;GPU Time&quot;</span>, <span class='bool-val'>false</span>),
         }
     }
 }
@@ -927,23 +927,23 @@
         <span class='self'>self</span>.<span class='ident'>draw_counters</span>(<span class='kw-2'>&amp;</span>[
             <span class='kw-2'>&amp;</span><span class='ident'>renderer_profile</span>.<span class='ident'>frame_counter</span>,
             <span class='kw-2'>&amp;</span><span class='ident'>renderer_profile</span>.<span class='ident'>frame_time</span>,
-        ], <span class='ident'>debug_renderer</span>, <span class='boolvalue'>true</span>);
+        ], <span class='ident'>debug_renderer</span>, <span class='bool-val'>true</span>);
 
         <span class='self'>self</span>.<span class='ident'>draw_counters</span>(<span class='kw-2'>&amp;</span>[
             <span class='kw-2'>&amp;</span><span class='ident'>backend_profile</span>.<span class='ident'>font_templates</span>,
             <span class='kw-2'>&amp;</span><span class='ident'>backend_profile</span>.<span class='ident'>image_templates</span>,
-        ], <span class='ident'>debug_renderer</span>, <span class='boolvalue'>true</span>);
+        ], <span class='ident'>debug_renderer</span>, <span class='bool-val'>true</span>);
 
         <span class='self'>self</span>.<span class='ident'>draw_counters</span>(<span class='kw-2'>&amp;</span>[
             <span class='kw-2'>&amp;</span><span class='ident'>backend_profile</span>.<span class='ident'>total_time</span>,
             <span class='kw-2'>&amp;</span><span class='ident'>renderer_timers</span>.<span class='ident'>cpu_time</span>,
             <span class='kw-2'>&amp;</span><span class='ident'>renderer_timers</span>.<span class='ident'>gpu_time</span>,
-        ], <span class='ident'>debug_renderer</span>, <span class='boolvalue'>false</span>);
+        ], <span class='ident'>debug_renderer</span>, <span class='bool-val'>false</span>);
 
         <span class='self'>self</span>.<span class='ident'>draw_counters</span>(<span class='kw-2'>&amp;</span>[
             <span class='kw-2'>&amp;</span><span class='ident'>renderer_profile</span>.<span class='ident'>draw_calls</span>,
             <span class='kw-2'>&amp;</span><span class='ident'>renderer_profile</span>.<span class='ident'>vertices</span>,
-        ], <span class='ident'>debug_renderer</span>, <span class='boolvalue'>false</span>);
+        ], <span class='ident'>debug_renderer</span>, <span class='bool-val'>false</span>);
 
         <span class='self'>self</span>.<span class='ident'>backend_time</span>.<span class='ident'>push</span>(<span class='ident'>backend_profile</span>.<span class='ident'>total_time</span>.<span class='ident'>nanoseconds</span>);
         <span class='self'>self</span>.<span class='ident'>compositor_time</span>.<span class='ident'>push</span>(<span class='ident'>renderer_timers</span>.<span class='ident'>cpu_time</span>.<span class='ident'>nanoseconds</span>);

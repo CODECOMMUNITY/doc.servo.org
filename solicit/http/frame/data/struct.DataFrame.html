@@ -55,20 +55,19 @@
     padding_len: <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../../../std/primitive.u8.html'>u8</a>&gt;,
 }</pre><div class='docblock'><p>A struct representing the DATA frames of HTTP/2, as defined in the HTTP/2
 spec, section 6.1.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr class='stab '>
-                             <td id='structfield.data'><code>data</code></td><td><div class='docblock'><p>The data found in the frame as an opaque byte sequence. It never
+</div><h2 class='fields'>Fields</h2><span id='structfield.data'><code>data: <a class='struct' href='../../../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../../../std/primitive.u8.html'>u8</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The data found in the frame as an opaque byte sequence. It never
 includes padding bytes.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.flags'><code>flags</code></td><td><div class='docblock'><p>Represents the flags currently set on the <code>DataFrame</code>, packed into a
+</div><span id='structfield.flags'><code>flags: <a class='primitive' href='../../../../std/primitive.u8.html'>u8</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Represents the flags currently set on the <code>DataFrame</code>, packed into a
 single byte.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.stream_id'><code>stream_id</code></td><td><div class='docblock'><p>The ID of the stream with which the frame is associated.</p>
-</div></td></tr><tr class='stab '>
-                             <td id='structfield.padding_len'><code>padding_len</code></td><td><div class='docblock'><p>The length of the padding applied to the data. Since the spec defines
+</div><span id='structfield.stream_id'><code>stream_id: <a class='type' href='../../../../solicit/http/type.StreamId.html' title='solicit::http::StreamId'>StreamId</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The ID of the stream with which the frame is associated.</p>
+</div><span id='structfield.padding_len'><code>padding_len: <a class='enum' href='../../../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../../../std/primitive.u8.html'>u8</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The length of the padding applied to the data. Since the spec defines
 that the padding length is at most an unsigned integer value, we also
 keep a <code>u8</code>, instead of a <code>usize</code>.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../../solicit/http/frame/data/struct.DataFrame.html' title='solicit::http::frame::data::DataFrame'>DataFrame</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-89' class='srclink' href='../../../../src/solicit/http/frame/data.rs.html#54-122' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../../solicit/http/frame/data/struct.DataFrame.html' title='solicit::http::frame::data::DataFrame'>DataFrame</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-89' class='srclink' href='../../../../src/solicit/http/frame/data.rs.html#54-122' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(stream_id: <a class='type' href='../../../../solicit/http/type.StreamId.html' title='solicit::http::StreamId'>StreamId</a>) -&gt; <a class='struct' href='../../../../solicit/http/frame/data/struct.DataFrame.html' title='solicit::http::frame::data::DataFrame'>DataFrame</a></code></h4>
 <div class='docblock'><p>Creates a new empty <code>DataFrame</code>, associated to the stream with the
 given ID.</p>

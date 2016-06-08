@@ -641,6 +641,7 @@
 <span id="597">597</span>
 <span id="598">598</span>
 <span id="599">599</span>
+<span id="600">600</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -687,6 +688,7 @@
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>header</span>;
 
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>blob_url_store</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bluetooth_scanfilter</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bluetooth_thread</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>filemanager_thread</span>;
@@ -781,7 +783,7 @@
             <span class='ident'>data</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>cors</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>pipeline_id</span>: <span class='ident'>load_origin</span>.<span class='ident'>pipeline_id</span>(),
-            <span class='ident'>credentials_flag</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>credentials_flag</span>: <span class='bool-val'>true</span>,
             <span class='ident'>context</span>: <span class='ident'>context</span>,
             <span class='ident'>referrer_policy</span>: <span class='ident'>load_origin</span>.<span class='ident'>referrer_policy</span>(),
             <span class='ident'>referrer_url</span>: <span class='ident'>load_origin</span>.<span class='ident'>referrer_url</span>().<span class='ident'>clone</span>(),
@@ -1009,7 +1011,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>PendingLoadGuard</span> {
     <span class='kw'>fn</span> <span class='ident'>neuter</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='self'>self</span>.<span class='ident'>loaded</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+        <span class='self'>self</span>.<span class='ident'>loaded</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
     }
 }
 
@@ -1049,7 +1051,7 @@
             <span class='ident'>core_resource_thread</span>: <span class='ident'>core_resource_thread</span>,
             <span class='ident'>url</span>: <span class='ident'>url</span>,
             <span class='ident'>pipeline</span>: <span class='ident'>pipeline</span>,
-            <span class='ident'>guard</span>: <span class='ident'>PendingLoadGuard</span> { <span class='ident'>loaded</span>: <span class='boolvalue'>false</span>, },
+            <span class='ident'>guard</span>: <span class='ident'>PendingLoadGuard</span> { <span class='ident'>loaded</span>: <span class='bool-val'>false</span>, },
             <span class='ident'>context</span>: <span class='ident'>context</span>,
             <span class='ident'>referrer_policy</span>: <span class='ident'>referrer_policy</span>,
             <span class='ident'>referrer_url</span>: <span class='ident'>referrer_url</span>,

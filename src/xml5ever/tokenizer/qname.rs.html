@@ -175,9 +175,9 @@
     <span class='kw'>fn</span> <span class='ident'>incr</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>curr_ind</span> <span class='op'>+</span> <span class='number'>1</span> <span class='op'>&lt;</span> <span class='self'>self</span>.<span class='ident'>slice</span>.<span class='ident'>len</span>() {
             <span class='self'>self</span>.<span class='ident'>curr_ind</span> <span class='op'>+=</span> <span class='number'>1</span>;
-            <span class='kw'>return</span> <span class='boolvalue'>true</span>;
+            <span class='kw'>return</span> <span class='bool-val'>true</span>;
         }
-        <span class='boolvalue'>false</span>
+        <span class='bool-val'>false</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>step</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -190,7 +190,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>do_before_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>slice</span>[<span class='self'>self</span>.<span class='ident'>curr_ind</span>] <span class='op'>==</span> <span class='string'>b&#39;:&#39;</span> {
-            <span class='boolvalue'>false</span>
+            <span class='bool-val'>false</span>
         } <span class='kw'>else</span> {
             <span class='self'>self</span>.<span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>QNameState</span>::<span class='ident'>InName</span>;
             <span class='self'>self</span>.<span class='ident'>incr</span>()
@@ -208,7 +208,7 @@
     <span class='kw'>fn</span> <span class='ident'>do_after_colon</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>slice</span>[<span class='self'>self</span>.<span class='ident'>curr_ind</span>] <span class='op'>==</span> <span class='string'>b&#39;:&#39;</span> {
             <span class='self'>self</span>.<span class='ident'>valid_index</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
-            <span class='kw'>return</span> <span class='boolvalue'>false</span>;
+            <span class='kw'>return</span> <span class='bool-val'>false</span>;
         }
         <span class='self'>self</span>.<span class='ident'>incr</span>()
     }
