@@ -47,12 +47,46 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-2734' class='srclink' href='../../src/net/pub_domains.rs.html#5-5959' title='goto source code'>[src]</a></span></h1>
-<h2 id='statics' class='section-header'><a href="#statics">Statics</a></h2>
+               </span><a id='src-2730' class='srclink' href='../../src/net/pub_domains.rs.html#5-72' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Implementation of public domain matching.</p>
+
+<p>The list is a file located on the <code>resources</code> folder and loaded once on first need.</p>
+
+<p>The list can be updated with <code>./mach update-pub-domains</code> from this source:
+<a href="https://publicsuffix.org/list/">https://publicsuffix.org/list/</a></p>
+
+<p>This implementation is not strictly following the specification of the list. Wildcards are not
+restricted to appear only in the leftmost position, but the current list has no such cases so
+we don&#39;t need to make the code more complex for it. The <code>mach</code> update command makes sure that
+those cases are not present.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.PUB_DOMAINS.html'
+                                  title='net::pub_domains::PUB_DOMAINS'>PUB_DOMAINS</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='statics' class='section-header'><a href="#statics">Statics</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='static' href='static.PUB_DOMAINS.html'
                                   title='net::pub_domains::PUB_DOMAINS'>PUB_DOMAINS</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.is_pub_domain.html'
+                                  title='net::pub_domains::is_pub_domain'>is_pub_domain</a></td>
+                           <td class='docblock short'>
+                                <p>Match the given domain against a static list of known public domains</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.load_pub_domains.html'
+                                  title='net::pub_domains::load_pub_domains'>load_pub_domains</a></td>
                            <td class='docblock short'>
                                 
                            </td>

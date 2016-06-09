@@ -2125,6 +2125,8 @@
 <span id="2081">2081</span>
 <span id="2082">2082</span>
 <span id="2083">2083</span>
+<span id="2084">2084</span>
+<span id="2085">2085</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2550,8 +2552,10 @@
             <span class='prelude-val'>Some</span>(<span class='ident'>owner</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>owner</span>.<span class='ident'>browsing_context</span>.<span class='ident'>get</span>();
                 <span class='kw'>for</span> <span class='ident'>context</span> <span class='kw'>in</span> <span class='ident'>context</span>.<span class='ident'>iter</span>() {
-                    <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_window</span>();
-                    <span class='ident'>window</span>.<span class='ident'>clear_js_runtime_for_script_deallocation</span>();
+                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>document</span>) <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>maybe_active_document</span>() {
+                        <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>window</span>();
+                        <span class='ident'>window</span>.<span class='ident'>clear_js_runtime_for_script_deallocation</span>();
+                    }
                 }
             }
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (),

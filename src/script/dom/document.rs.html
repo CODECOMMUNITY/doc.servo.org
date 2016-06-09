@@ -2928,6 +2928,10 @@
 <span id="2884">2884</span>
 <span id="2885">2885</span>
 <span id="2886">2886</span>
+<span id="2887">2887</span>
+<span id="2888">2888</span>
+<span id="2889">2889</span>
+<span id="2890">2890</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -5482,8 +5486,12 @@
     }
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-document-defaultview</span>
-    <span class='kw'>fn</span> <span class='ident'>DefaultView</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;</span> {
-        <span class='ident'>Root</span>::<span class='ident'>from_ref</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>window</span>)
+    <span class='kw'>fn</span> <span class='ident'>GetDefaultView</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;&gt;</span> {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>browsing_context</span>.<span class='ident'>is_none</span>() {
+            <span class='prelude-val'>None</span>
+        } <span class='kw'>else</span> {
+            <span class='prelude-val'>Some</span>(<span class='ident'>Root</span>::<span class='ident'>from_ref</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>window</span>))
+        }
     }
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-document-cookie</span>

@@ -1,1 +1,1 @@
-initSidebarItems({"static":[["PUB_DOMAINS",""]]});
+initSidebarItems({"fn":[["is_pub_domain","Match the given domain against a static list of known public domains"],["load_pub_domains",""]],"static":[["PUB_DOMAINS",""]],"struct":[["PUB_DOMAINS",""]]});
