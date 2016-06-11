@@ -561,6 +561,36 @@
 <span id="517">517</span>
 <span id="518">518</span>
 <span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -604,6 +634,7 @@
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>Epoch</span>;
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>LayerId</span>;
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>StackingContextId</span>;
+<span class='kw'>use</span> <span class='ident'>heapsize</span>::<span class='ident'>HeapSizeOf</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>libc</span>::<span class='ident'>c_void</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameId</span>, <span class='ident'>FrameType</span>, <span class='ident'>Key</span>, <span class='ident'>KeyModifiers</span>, <span class='ident'>KeyState</span>, <span class='ident'>LoadData</span>};
@@ -616,6 +647,7 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::<span class='ident'>ImageCacheThread</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>response</span>::<span class='ident'>HttpsState</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>;
+<span class='kw'>use</span> <span class='ident'>serde</span>::{<span class='ident'>Deserialize</span>, <span class='ident'>Deserializer</span>, <span class='ident'>Serialize</span>, <span class='ident'>Serializer</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>Sender</span>, <span class='ident'>Receiver</span>};
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
@@ -625,10 +657,38 @@
 
 <span class='doccomment'>/// The address of a node. Layout sends these back. They must be validated via</span>
 <span class='doccomment'>/// `from_untrusted_node_address` before they can be used, because we do not trust layout.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>UntrustedNodeAddress</span>(<span class='kw'>pub</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>);
+
+<span class='kw'>impl</span> <span class='ident'>HeapSizeOf</span> <span class='kw'>for</span> <span class='ident'>UntrustedNodeAddress</span> {
+    <span class='kw'>fn</span> <span class='ident'>heap_size_of_children</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='number'>0</span>
+    }
+}
+
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
 <span class='kw'>unsafe</span> <span class='kw'>impl</span> <span class='ident'>Send</span> <span class='kw'>for</span> <span class='ident'>UntrustedNodeAddress</span> {}
+
+<span class='kw'>impl</span> <span class='ident'>Serialize</span> <span class='kw'>for</span> <span class='ident'>UntrustedNodeAddress</span> {
+    <span class='kw'>fn</span> <span class='ident'>serialize</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Serializer</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
+        (<span class='self'>self</span>.<span class='number'>0</span> <span class='kw'>as</span> <span class='ident'>usize</span>).<span class='ident'>serialize</span>(<span class='ident'>s</span>)
+    }
+}
+
+<span class='kw'>impl</span> <span class='ident'>Deserialize</span> <span class='kw'>for</span> <span class='ident'>UntrustedNodeAddress</span> {
+    <span class='kw'>fn</span> <span class='ident'>deserialize</span><span class='op'>&lt;</span><span class='ident'>D</span>: <span class='ident'>Deserializer</span><span class='op'>&gt;</span>(<span class='ident'>d</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>UntrustedNodeAddress</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>value</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Deserialize</span>::<span class='ident'>deserialize</span>(<span class='ident'>d</span>));
+        <span class='prelude-val'>Ok</span>(<span class='ident'>UntrustedNodeAddress</span>::<span class='ident'>from_id</span>(<span class='ident'>value</span>))
+    }
+}
+
+<span class='kw'>impl</span> <span class='ident'>UntrustedNodeAddress</span> {
+    <span class='doccomment'>/// Creates an `UntrustedNodeAddress` from the given pointer address value.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_id</span>(<span class='ident'>id</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>UntrustedNodeAddress</span> {
+        <span class='ident'>UntrustedNodeAddress</span>(<span class='ident'>id</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>)
+    }
+}
 
 <span class='doccomment'>/// Messages sent to the layout thread from the constellation and/or compositor.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
@@ -689,8 +749,8 @@
     <span class='ident'>SendEvent</span>(<span class='ident'>PipelineId</span>, <span class='ident'>CompositorEvent</span>),
     <span class='doccomment'>/// Notifies script of the viewport.</span>
     <span class='ident'>Viewport</span>(<span class='ident'>PipelineId</span>, <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>),
-    <span class='doccomment'>/// Notifies script of a new scroll offset.</span>
-    <span class='ident'>SetScrollState</span>(<span class='ident'>PipelineId</span>, <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>),
+    <span class='doccomment'>/// Notifies script of a new set of scroll offsets.</span>
+    <span class='ident'>SetScrollState</span>(<span class='ident'>PipelineId</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>UntrustedNodeAddress</span>, <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>),
     <span class='doccomment'>/// Requests that the script thread immediately send the constellation the title of a pipeline.</span>
     <span class='ident'>GetTitle</span>(<span class='ident'>PipelineId</span>),
     <span class='doccomment'>/// Notifies script thread to suspend all its timers</span>

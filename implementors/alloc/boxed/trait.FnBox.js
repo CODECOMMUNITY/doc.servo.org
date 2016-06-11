@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["alloc"] = [];implementors["regex_syntax"] = [];implementors["gleam"] = [];implementors["shared_library"] = [];implementors["glx"] = [];implementors["libloading"] = [];implementors["openssl"] = [];implementors["tempfile"] = [];implementors["serde"] = [];implementors["string_cache"] = [];implementors["xml5ever"] = [];implementors["offscreen_gl_context"] = [];implementors["html5ever"] = [];implementors["util"] = [];implementors["websocket"] = [];implementors["glutin"] = [];implementors["style"] = [];implementors["net"] = [];implementors["gfx"] = [];implementors["script"] = [];
+implementors["alloc"] = [];implementors["regex_syntax"] = [];implementors["openssl"] = [];implementors["glx"] = [];implementors["serde"] = [];implementors["libloading"] = [];implementors["gleam"] = [];implementors["shared_library"] = [];implementors["tempfile"] = [];implementors["string_cache"] = [];implementors["xml5ever"] = [];implementors["html5ever"] = [];implementors["offscreen_gl_context"] = [];implementors["websocket"] = [];implementors["util"] = [];implementors["glutin"] = [];implementors["style"] = [];implementors["net"] = [];implementors["gfx"] = [];implementors["script"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

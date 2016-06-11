@@ -92,6 +92,8 @@
 <span id="48">48</span>
 <span id="49">49</span>
 <span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -100,11 +102,13 @@
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>LoadConsumer</span>, <span class='ident'>LoadData</span>};
-<span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SelectedFileId</span>(<span class='kw'>pub</span> <span class='ident'>String</span>);
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SelectedFile</span> {
-    <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>Uuid</span>,
+    <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>SelectedFileId</span>,
     <span class='kw'>pub</span> <span class='ident'>filename</span>: <span class='ident'>PathBuf</span>,
     <span class='kw'>pub</span> <span class='ident'>modified</span>: <span class='ident'>u64</span>,
     <span class='comment'>// https://w3c.github.io/FileAPI/#dfn-type</span>
@@ -120,10 +124,10 @@
     <span class='ident'>SelectFiles</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
 
     <span class='doccomment'>/// Read file, return the bytes</span>
-    <span class='ident'>ReadFile</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>, <span class='ident'>Uuid</span>),
+    <span class='ident'>ReadFile</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>, <span class='ident'>SelectedFileId</span>),
 
     <span class='doccomment'>/// Delete the FileID entry</span>
-    <span class='ident'>DeleteFileID</span>(<span class='ident'>Uuid</span>),
+    <span class='ident'>DeleteFileID</span>(<span class='ident'>SelectedFileId</span>),
 
     <span class='doccomment'>/// Load resource by Blob URL</span>
     <span class='ident'>LoadBlob</span>(<span class='ident'>LoadData</span>, <span class='ident'>LoadConsumer</span>),

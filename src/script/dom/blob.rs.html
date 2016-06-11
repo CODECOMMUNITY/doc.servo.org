@@ -337,7 +337,6 @@
 <span id="293">293</span>
 <span id="294">294</span>
 <span id="295">295</span>
-<span id="296">296</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -355,14 +354,13 @@
 <span class='kw'>use</span> <span class='ident'>encoding</span>::<span class='ident'>all</span>::<span class='ident'>UTF_8</span>;
 <span class='kw'>use</span> <span class='ident'>encoding</span>::<span class='ident'>types</span>::{<span class='ident'>EncoderTrap</span>, <span class='ident'>Encoding</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>;
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::<span class='ident'>FileManagerThreadMsg</span>;
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::{<span class='ident'>FileManagerThreadMsg</span>, <span class='ident'>SelectedFileId</span>};
 <span class='kw'>use</span> <span class='ident'>num_traits</span>::<span class='ident'>ToPrimitive</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::{<span class='ident'>max</span>, <span class='ident'>min</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
-<span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>JSTraceable</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DataSlice</span> {
@@ -436,7 +434,7 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>JSTraceable</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>BlobImpl</span> {
     <span class='doccomment'>/// File-based, cached backend</span>
-    <span class='ident'>File</span>(<span class='ident'>Uuid</span>, <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DataSlice</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>File</span>(<span class='ident'>SelectedFileId</span>, <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DataSlice</span><span class='op'>&gt;&gt;</span>),
     <span class='doccomment'>/// Memory-based backend</span>
     <span class='ident'>Memory</span>(<span class='ident'>DataSlice</span>),
 }
@@ -448,7 +446,7 @@
     }
 
     <span class='doccomment'>/// Construct file-backed BlobImpl from File ID</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_from_file</span>(<span class='ident'>file_id</span>: <span class='ident'>Uuid</span>) <span class='op'>-&gt;</span> <span class='ident'>BlobImpl</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_from_file</span>(<span class='ident'>file_id</span>: <span class='ident'>SelectedFileId</span>) <span class='op'>-&gt;</span> <span class='ident'>BlobImpl</span> {
         <span class='ident'>BlobImpl</span>::<span class='ident'>File</span>(<span class='ident'>file_id</span>, <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>))
     }
 
@@ -525,7 +523,7 @@
     }
 }
 
-<span class='kw'>fn</span> <span class='ident'>read_file</span>(<span class='ident'>global</span>: <span class='ident'>GlobalRef</span>, <span class='ident'>id</span>: <span class='ident'>Uuid</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>DataSlice</span>, ()<span class='op'>&gt;</span> {
+<span class='kw'>fn</span> <span class='ident'>read_file</span>(<span class='ident'>global</span>: <span class='ident'>GlobalRef</span>, <span class='ident'>id</span>: <span class='ident'>SelectedFileId</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>DataSlice</span>, ()<span class='op'>&gt;</span> {
     <span class='kw'>let</span> <span class='ident'>file_manager</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>filemanager_thread</span>();
     <span class='kw'>let</span> (<span class='ident'>chan</span>, <span class='ident'>recv</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>map_err</span>(<span class='op'>|</span>_<span class='op'>|</span>())?;
     <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>file_manager</span>.<span class='ident'>send</span>(<span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>ReadFile</span>(<span class='ident'>chan</span>, <span class='ident'>id</span>));

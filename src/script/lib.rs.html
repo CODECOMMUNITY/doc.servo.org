@@ -212,6 +212,18 @@
 <span id="168">168</span>
 <span id="169">169</span>
 <span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -327,8 +339,9 @@
 <span class='kw'>mod</span> <span class='ident'>webdriver_handlers</span>;
 
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>RegisterBindings</span>;
-<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::<span class='ident'>SetDOMProxyInformation</span>;
+<span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>Handle</span>, <span class='ident'>JSContext</span>, <span class='ident'>JSObject</span>, <span class='ident'>SetDOMProxyInformation</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ptr</span>;
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>opts</span>;
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>)]</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
@@ -383,6 +396,17 @@
 
     <span class='ident'>perform_platform_specific_initialization</span>();
 }
+
+<span class='doccomment'>/// FIXME(pcwalton): Currently WebRender cannot handle DOM-initiated scrolls. Remove this when it</span>
+<span class='doccomment'>/// can. See PR #11680 for details.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This function is only marked `unsafe` because the `[Func=foo]` WebIDL attribute requires it. It</span>
+<span class='doccomment'>/// shouldn&#39;t actually do anything unsafe.</span>
+<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>script_can_initiate_scroll</span>(_: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, _: <span class='ident'>Handle</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSObject</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='op'>!</span><span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>use_webrender</span>
+}
+
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

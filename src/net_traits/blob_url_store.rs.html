@@ -84,20 +84,11 @@
 <span id="40">40</span>
 <span id="41">41</span>
 <span id="42">42</span>
-<span id="43">43</span>
-<span id="44">44</span>
-<span id="45">45</span>
-<span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
-<span id="49">49</span>
-<span id="50">50</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
@@ -122,13 +113,6 @@
     <span class='kw'>pub</span> <span class='ident'>size</span>: <span class='ident'>u64</span>,
     <span class='doccomment'>/// Content of blob</span>
     <span class='kw'>pub</span> <span class='ident'>bytes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
-}
-
-<span class='doccomment'>/// Message-passing style interface between store and loader</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>BlobURLStoreMsg</span> {
-    <span class='doccomment'>/// Request for an blob entry identified by uuid</span>
-    <span class='ident'>Request</span>(<span class='ident'>Uuid</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>BlobURLStoreEntry</span>, <span class='ident'>BlobURLStoreError</span><span class='op'>&gt;&gt;</span>),
 }
 
 <span class='doccomment'>/// Parse URL as Blob URL scheme&#39;s definition</span>

@@ -650,6 +650,14 @@
 <span id="606">606</span>
 <span id="607">607</span>
 <span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -675,6 +683,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::{<span class='ident'>Root</span>, <span class='ident'>LayoutJS</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>reflector</span>::<span class='ident'>Reflectable</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>str</span>::<span class='ident'>DOMString</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>browsingcontext</span>::<span class='ident'>BrowsingContext</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>customevent</span>::<span class='ident'>CustomEvent</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>document</span>::<span class='ident'>Document</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>element</span>::{<span class='ident'>AttributeMutation</span>, <span class='ident'>Element</span>, <span class='ident'>RawLayoutElementHelpers</span>};
@@ -909,6 +918,15 @@
         }
     }
 
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_content_window</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>subpage_id</span>.<span class='ident'>get</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>subpage_id</span><span class='op'>|</span> {
+            <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>);
+            <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>r</span>();
+            <span class='kw'>let</span> <span class='ident'>browsing_context</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>browsing_context</span>();
+            <span class='ident'>browsing_context</span>.<span class='ident'>find_child_by_subpage</span>(<span class='ident'>subpage_id</span>)
+        })
+    }
+
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>HTMLIFrameElementLayoutMethods</span> {
@@ -1075,18 +1093,16 @@
     }
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-iframe-contentwindow</span>
-    <span class='kw'>fn</span> <span class='ident'>GetContentWindow</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Window</span><span class='op'>&gt;&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>subpage_id</span>.<span class='ident'>get</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>subpage_id</span><span class='op'>|</span> {
-            <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>);
-            <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>r</span>();
-            <span class='kw'>let</span> <span class='ident'>browsing_context</span> <span class='op'>=</span> <span class='ident'>window</span>.<span class='ident'>browsing_context</span>();
-            <span class='ident'>browsing_context</span>.<span class='ident'>find_child_by_subpage</span>(<span class='ident'>subpage_id</span>)
-        })
+    <span class='kw'>fn</span> <span class='ident'>GetContentWindow</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>BrowsingContext</span><span class='op'>&gt;&gt;</span> {
+        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_content_window</span>() {
+            <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>window</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>window</span>.<span class='ident'>browsing_context</span>()),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+        }
     }
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-iframe-contentdocument</span>
     <span class='kw'>fn</span> <span class='ident'>GetContentDocument</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>Document</span><span class='op'>&gt;&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>GetContentWindow</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>window</span><span class='op'>|</span> {
+        <span class='self'>self</span>.<span class='ident'>get_content_window</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>window</span><span class='op'>|</span> {
             <span class='comment'>// FIXME(#10964): this should use the Document&#39;s origin and the</span>
             <span class='comment'>//                origin of the incumbent settings object.</span>
             <span class='kw'>let</span> <span class='ident'>self_url</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_url</span>();

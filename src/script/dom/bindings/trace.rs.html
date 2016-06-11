@@ -599,6 +599,10 @@
 <span id="555">555</span>
 <span id="556">556</span>
 <span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -645,6 +649,7 @@
 <span class='kw'>use</span> <span class='ident'>encoding</span>::<span class='ident'>types</span>::<span class='ident'>EncodingRef</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>length</span>::<span class='ident'>Length</span> <span class='kw'>as</span> <span class='ident'>EuclidLength</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>matrix2d</span>::<span class='ident'>Matrix2D</span>;
+<span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>point</span>::<span class='ident'>Point2D</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>rect</span>::<span class='ident'>Rect</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::<span class='ident'>Size2D</span>;
 <span class='kw'>use</span> <span class='ident'>html5ever</span>::<span class='ident'>tree_builder</span>::<span class='ident'>QuirksMode</span>;
@@ -659,6 +664,7 @@
 <span class='kw'>use</span> <span class='ident'>layout_interface</span>::<span class='ident'>LayoutRPC</span>;
 <span class='kw'>use</span> <span class='ident'>libc</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameType</span>, <span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>WindowSizeData</span>, <span class='ident'>WindowSizeType</span>, <span class='ident'>ReferrerPolicy</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::<span class='ident'>SelectedFileId</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image</span>::<span class='ident'>base</span>::{<span class='ident'>Image</span>, <span class='ident'>ImageMetadata</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::{<span class='ident'>ImageCacheChan</span>, <span class='ident'>ImageCacheThread</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>response</span>::<span class='ident'>HttpsState</span>;
@@ -880,6 +886,7 @@
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>isize</span>, <span class='ident'>i8</span>, <span class='ident'>i16</span>, <span class='ident'>i32</span>, <span class='ident'>i64</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>Receiver</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>);
@@ -926,6 +933,7 @@
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>ReferrerPolicy</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>ResourceThreads</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>SystemTime</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>SelectedFileId</span>);
 
 <span class='kw'>impl</span> <span class='ident'>JSTraceable</span> <span class='kw'>for</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>

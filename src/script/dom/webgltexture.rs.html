@@ -441,6 +441,15 @@
 <span id="397">397</span>
 <span id="398">398</span>
 <span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -553,13 +562,15 @@
                       <span class='ident'>height</span>: <span class='ident'>u32</span>,
                       <span class='ident'>depth</span>: <span class='ident'>u32</span>,
                       <span class='ident'>internal_format</span>: <span class='ident'>u32</span>,
-                      <span class='ident'>level</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+                      <span class='ident'>level</span>: <span class='ident'>u32</span>,
+                      <span class='ident'>data_type</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>image_info</span> <span class='op'>=</span> <span class='ident'>ImageInfo</span> {
             <span class='ident'>width</span>: <span class='ident'>width</span>,
             <span class='ident'>height</span>: <span class='ident'>height</span>,
             <span class='ident'>depth</span>: <span class='ident'>depth</span>,
             <span class='ident'>internal_format</span>: <span class='prelude-val'>Some</span>(<span class='ident'>internal_format</span>),
             <span class='ident'>is_initialized</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>data_type</span>: <span class='ident'>data_type</span>,
         };
 
         <span class='kw'>let</span> <span class='ident'>face</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>target</span> {
@@ -718,6 +729,7 @@
                 <span class='ident'>depth</span>: <span class='number'>0</span>,
                 <span class='ident'>internal_format</span>: <span class='ident'>base_image_info</span>.<span class='ident'>internal_format</span>,
                 <span class='ident'>is_initialized</span>: <span class='ident'>base_image_info</span>.<span class='ident'>is_initialized</span>(),
+                <span class='ident'>data_type</span>: <span class='ident'>base_image_info</span>.<span class='ident'>data_type</span>,
             };
 
             <span class='self'>self</span>.<span class='ident'>set_image_infos_at_level</span>(<span class='ident'>level</span>, <span class='ident'>image_info</span>);
@@ -790,6 +802,7 @@
     <span class='ident'>depth</span>: <span class='ident'>u32</span>,
     <span class='ident'>internal_format</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>,
     <span class='ident'>is_initialized</span>: <span class='ident'>bool</span>,
+    <span class='ident'>data_type</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>ImageInfo</span> {
@@ -800,6 +813,7 @@
             <span class='ident'>depth</span>: <span class='number'>0</span>,
             <span class='ident'>internal_format</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>is_initialized</span>: <span class='bool-val'>false</span>,
+            <span class='ident'>data_type</span>: <span class='prelude-val'>None</span>,
         }
     }
 
@@ -813,6 +827,10 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>internal_format</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>internal_format</span>
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>data_type</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>data_type</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>is_power_of_two</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {

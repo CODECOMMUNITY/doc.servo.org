@@ -362,7 +362,6 @@
 <span id="318">318</span>
 <span id="319">319</span>
 <span id="320">320</span>
-<span id="321">321</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -372,7 +371,6 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>DocumentBinding</span>::<span class='ident'>DocumentMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>ElementBinding</span>::<span class='ident'>ElementMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>HTMLElementBinding</span>::<span class='ident'>HTMLElementMethods</span>;
-<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>HTMLIFrameElementBinding</span>::<span class='ident'>HTMLIFrameElementMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>HTMLInputElementBinding</span>::<span class='ident'>HTMLInputElementMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>HTMLOptionElementBinding</span>::<span class='ident'>HTMLOptionElementMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>NodeBinding</span>::<span class='ident'>NodeMethods</span>;
@@ -471,7 +469,7 @@
             <span class='kw'>match</span> <span class='ident'>find_node_by_unique_id</span>(<span class='ident'>context</span>, <span class='ident'>pipeline</span>, <span class='ident'>x</span>) {
                 <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>node</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>match</span> <span class='ident'>node</span>.<span class='ident'>downcast</span>::<span class='op'>&lt;</span><span class='ident'>HTMLIFrameElement</span><span class='op'>&gt;</span>() {
-                        <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>elem</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>elem</span>.<span class='ident'>GetContentWindow</span>()),
+                        <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>elem</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>elem</span>.<span class='ident'>get_content_window</span>()),
                         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(())
                     }
                 },

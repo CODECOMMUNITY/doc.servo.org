@@ -2688,6 +2688,10 @@
 <span id="2644">2644</span>
 <span id="2645">2645</span>
 <span id="2646">2646</span>
+<span id="2647">2647</span>
+<span id="2648">2648</span>
+<span id="2649">2649</span>
+<span id="2650">2650</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2988,6 +2992,10 @@
 
         <span class='self'>self</span>.<span class='ident'>owner_doc</span>().<span class='ident'>content_and_heritage_changed</span>(<span class='self'>self</span>, <span class='ident'>NodeDamage</span>::<span class='ident'>OtherNodeDamage</span>);
         <span class='ident'>child</span>.<span class='ident'>owner_doc</span>().<span class='ident'>content_and_heritage_changed</span>(<span class='ident'>child</span>, <span class='ident'>NodeDamage</span>::<span class='ident'>OtherNodeDamage</span>);
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_untrusted_node_address</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>UntrustedNodeAddress</span> {
+        <span class='ident'>UntrustedNodeAddress</span>(<span class='self'>self</span>.<span class='ident'>reflector</span>().<span class='ident'>get_jsobject</span>().<span class='ident'>get</span>() <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>)
     }
 }
 
@@ -3313,7 +3321,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scroll_offset</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>owner_doc</span>();
         <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>window</span>();
-        <span class='ident'>window</span>.<span class='ident'>scroll_offset_query</span>(<span class='self'>self</span>.<span class='ident'>to_trusted_node_address</span>())
+        <span class='ident'>window</span>.<span class='ident'>scroll_offset_query</span>(<span class='self'>self</span>)
     }
 
     <span class='comment'>// https://dom.spec.whatwg.org/#dom-childnode-before</span>

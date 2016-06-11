@@ -248,6 +248,57 @@
 <span id="204">204</span>
 <span id="205">205</span>
 <span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -277,6 +328,20 @@
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>rect</span>::<span class='ident'>Rect</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::<span class='ident'>PipelineId</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='self'>self</span>, <span class='ident'>Debug</span>, <span class='ident'>Formatter</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>ATOMIC_USIZE_INIT</span>, <span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};
+
+<span class='doccomment'>/// The next ID that will be used for a special stacking context.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// A special stacking context is a stacking context that is one of (a) the outer stacking context</span>
+<span class='doccomment'>/// of an element with `overflow: scroll`; (b) generated content; (c) both (a) and (b).</span>
+<span class='kw'>static</span> <span class='ident'>NEXT_SPECIAL_STACKING_CONTEXT_ID</span>: <span class='ident'>AtomicUsize</span> <span class='op'>=</span> <span class='ident'>ATOMIC_USIZE_INIT</span>;
+
+<span class='doccomment'>/// If none of the bits outside this mask are set, the stacking context is a special stacking</span>
+<span class='doccomment'>/// context.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Note that we assume that the top 16 bits of the address space are unused on the platform.</span>
+<span class='kw'>const</span> <span class='ident'>SPECIAL_STACKING_CONTEXT_ID_MASK</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0xffff</span>;
+
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LayerKind</span> {
@@ -410,15 +475,33 @@
 );
 
 <span class='kw'>impl</span> <span class='ident'>StackingContextId</span> {
-    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>id</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>StackingContextId</span> {
         <span class='ident'>StackingContextId</span>::<span class='ident'>new_of_type</span>(<span class='ident'>id</span>, <span class='ident'>FragmentType</span>::<span class='ident'>FragmentBody</span>)
     }
 
-    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
+    <span class='doccomment'>/// Returns a new stacking context ID for a special stacking context.</span>
+    <span class='kw'>fn</span> <span class='ident'>next_special_id</span>() <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='comment'>// We shift this left by 2 to make room for the fragment type ID.</span>
+        ((<span class='ident'>NEXT_SPECIAL_STACKING_CONTEXT_ID</span>.<span class='ident'>fetch_add</span>(<span class='number'>1</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>) <span class='op'>+</span> <span class='number'>1</span>) <span class='op'>&lt;&lt;</span> <span class='number'>2</span>) <span class='kw-2'>&amp;</span>
+            <span class='ident'>SPECIAL_STACKING_CONTEXT_ID_MASK</span>
+    }
+
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_of_type</span>(<span class='ident'>id</span>: <span class='ident'>usize</span>, <span class='ident'>fragment_type</span>: <span class='ident'>FragmentType</span>) <span class='op'>-&gt;</span> <span class='ident'>StackingContextId</span> {
-        <span class='macro'>debug_assert_eq</span><span class='macro'>!</span>(<span class='ident'>id</span> <span class='kw-2'>&amp;</span> <span class='ident'>fragment_type</span> <span class='kw'>as</span> <span class='ident'>usize</span>, <span class='number'>0</span>);
-        <span class='ident'>StackingContextId</span>(<span class='ident'>id</span> <span class='op'>|</span> <span class='ident'>fragment_type</span> <span class='kw'>as</span> <span class='ident'>usize</span>)
+        <span class='macro'>debug_assert_eq</span><span class='macro'>!</span>(<span class='ident'>id</span> <span class='kw-2'>&amp;</span> (<span class='ident'>fragment_type</span> <span class='kw'>as</span> <span class='ident'>usize</span>), <span class='number'>0</span>);
+        <span class='kw'>if</span> <span class='ident'>fragment_type</span> <span class='op'>==</span> <span class='ident'>FragmentType</span>::<span class='ident'>FragmentBody</span> {
+            <span class='ident'>StackingContextId</span>(<span class='ident'>id</span>)
+        } <span class='kw'>else</span> {
+            <span class='ident'>StackingContextId</span>(<span class='ident'>StackingContextId</span>::<span class='ident'>next_special_id</span>() <span class='op'>|</span> (<span class='ident'>fragment_type</span> <span class='kw'>as</span> <span class='ident'>usize</span>))
+        }
+    }
+
+    <span class='doccomment'>/// Returns an ID for the stacking context that forms the outer stacking context of an element</span>
+    <span class='doccomment'>/// with `overflow: scroll`.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_outer</span>(<span class='ident'>fragment_type</span>: <span class='ident'>FragmentType</span>) <span class='op'>-&gt;</span> <span class='ident'>StackingContextId</span> {
+        <span class='ident'>StackingContextId</span>(<span class='ident'>StackingContextId</span>::<span class='ident'>next_special_id</span>() <span class='op'>|</span> (<span class='ident'>fragment_type</span> <span class='kw'>as</span> <span class='ident'>usize</span>))
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -430,9 +513,28 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
         <span class='self'>self</span>.<span class='number'>0</span> <span class='kw-2'>&amp;</span> <span class='op'>!</span><span class='number'>3</span>
     }
+
+    <span class='doccomment'>/// Returns the stacking context ID for the outer document/layout root.</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>root</span>() <span class='op'>-&gt;</span> <span class='ident'>StackingContextId</span> {
+        <span class='ident'>StackingContextId</span>(<span class='number'>0</span>)
+    }
+
+    <span class='doccomment'>/// Returns true if this is a special stacking context.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// A special stacking context is a stacking context that is one of (a) the outer stacking</span>
+    <span class='doccomment'>/// context of an element with `overflow: scroll`; (b) generated content; (c) both (a) and (b).</span>
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_special</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        (<span class='self'>self</span>.<span class='number'>0</span> <span class='kw-2'>&amp;</span> <span class='op'>!</span><span class='ident'>SPECIAL_STACKING_CONTEXT_ID_MASK</span>) <span class='op'>==</span> <span class='number'>0</span>
+    }
 }
 
-
+<span class='doccomment'>/// The type of fragment that a stacking context represents.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This can only ever grow to maximum 4 entries. That&#39;s because we cram the value of this enum</span>
+<span class='doccomment'>/// into the lower 2 bits of the `StackingContextId`, which otherwise contains a 32-bit-aligned</span>
+<span class='doccomment'>/// heap address.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Hash</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>, <span class='ident'>HeapSizeOf</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FragmentType</span> {
     <span class='doccomment'>/// A StackingContext for the fragment body itself.</span>

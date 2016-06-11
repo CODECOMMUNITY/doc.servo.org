@@ -2103,6 +2103,11 @@
 <span id="2059">2059</span>
 <span id="2060">2060</span>
 <span id="2061">2061</span>
+<span id="2062">2062</span>
+<span id="2063">2063</span>
+<span id="2064">2064</span>
+<span id="2065">2065</span>
+<span id="2066">2066</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -3792,13 +3797,18 @@
             <span class='kw'>return</span> <span class='ident'>parent_id</span>;
         }
 
-        <span class='kw'>let</span> <span class='ident'>stacking_context_id</span> <span class='op'>=</span>
+        <span class='kw'>let</span> <span class='ident'>has_scrolling_overflow</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>has_scrolling_overflow</span>();
+        <span class='kw'>let</span> <span class='ident'>stacking_context_id</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>has_scrolling_overflow</span> {
+            <span class='ident'>StackingContextId</span>::<span class='ident'>new_outer</span>(<span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>fragment_type</span>())
+        } <span class='kw'>else</span> {
             <span class='ident'>StackingContextId</span>::<span class='ident'>new_of_type</span>(<span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>node</span>.<span class='ident'>id</span>() <span class='kw'>as</span> <span class='ident'>usize</span>,
-                                           <span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>fragment_type</span>());
+                                           <span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>fragment_type</span>())
+        };
         <span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>stacking_context_id</span> <span class='op'>=</span> <span class='ident'>stacking_context_id</span>;
 
-        <span class='kw'>let</span> <span class='ident'>inner_stacking_context_id</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>has_scrolling_overflow</span>() {
-            <span class='ident'>StackingContextId</span>::<span class='ident'>new_of_type</span>(<span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>flow_id</span>(), <span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>fragment_type</span>())
+        <span class='kw'>let</span> <span class='ident'>inner_stacking_context_id</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>has_scrolling_overflow</span> {
+            <span class='ident'>StackingContextId</span>::<span class='ident'>new_of_type</span>(<span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>node</span>.<span class='ident'>id</span>() <span class='kw'>as</span> <span class='ident'>usize</span>,
+                                           <span class='self'>self</span>.<span class='ident'>fragment</span>.<span class='ident'>fragment_type</span>())
         } <span class='kw'>else</span> {
             <span class='ident'>stacking_context_id</span>
         };
