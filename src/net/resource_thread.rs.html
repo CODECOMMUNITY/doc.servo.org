@@ -530,6 +530,32 @@
 <span id="486">486</span>
 <span id="487">487</span>
 <span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -544,6 +570,7 @@
 <span class='kw'>use</span> <span class='ident'>cookie_storage</span>::<span class='ident'>CookieStorage</span>;
 <span class='kw'>use</span> <span class='ident'>data_loader</span>;
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::<span class='ident'>DevtoolsControlMsg</span>;
+<span class='kw'>use</span> <span class='ident'>fetch</span>::<span class='ident'>methods</span>::{<span class='ident'>fetch</span>, <span class='ident'>FetchContext</span>};
 <span class='kw'>use</span> <span class='ident'>file_loader</span>;
 <span class='kw'>use</span> <span class='ident'>filemanager_thread</span>::<span class='ident'>FileManagerThreadFactory</span>;
 <span class='kw'>use</span> <span class='ident'>hsts</span>::<span class='ident'>HstsList</span>;
@@ -555,9 +582,11 @@
 <span class='kw'>use</span> <span class='ident'>mime_classifier</span>::{<span class='ident'>ApacheBugFlag</span>, <span class='ident'>MIMEClassifier</span>, <span class='ident'>NoSniffFlag</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>LoadContext</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>ProgressMsg</span>::<span class='ident'>Done</span>;
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>request</span>::{<span class='ident'>Request</span>, <span class='ident'>RequestInit</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>Metadata</span>, <span class='ident'>ProgressMsg</span>, <span class='ident'>ResponseAction</span>, <span class='ident'>CoreResourceThread</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>CoreResourceMsg</span>, <span class='ident'>CookieSource</span>, <span class='ident'>LoadConsumer</span>, <span class='ident'>LoadData</span>, <span class='ident'>LoadResponse</span>, <span class='ident'>ResourceId</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>NetworkError</span>, <span class='ident'>WebSocketCommunicate</span>, <span class='ident'>WebSocketConnectData</span>, <span class='ident'>ResourceThreads</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>CoreResourceMsg</span>, <span class='ident'>CookieSource</span>, <span class='ident'>FetchResponseMsg</span>, <span class='ident'>FetchTaskTarget</span>, <span class='ident'>LoadConsumer</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>LoadData</span>, <span class='ident'>LoadResponse</span>, <span class='ident'>NetworkError</span>, <span class='ident'>ResourceId</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>WebSocketCommunicate</span>, <span class='ident'>WebSocketConnectData</span>, <span class='ident'>ResourceThreads</span>};
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>json</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::{<span class='ident'>Decodable</span>, <span class='ident'>Encodable</span>};
@@ -569,6 +598,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::{<span class='ident'>Receiver</span>, <span class='ident'>Sender</span>, <span class='ident'>channel</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>RwLock</span>};
 <span class='kw'>use</span> <span class='ident'>storage_thread</span>::<span class='ident'>StorageThreadFactory</span>;
@@ -726,6 +756,8 @@
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>from_client</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>() {
                 <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Load</span>(<span class='ident'>load_data</span>, <span class='ident'>consumer</span>, <span class='ident'>id_sender</span>) <span class='op'>=&gt;</span>
                     <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>load</span>(<span class='ident'>load_data</span>, <span class='ident'>consumer</span>, <span class='ident'>id_sender</span>, <span class='ident'>control_sender</span>.<span class='ident'>clone</span>()),
+                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Fetch</span>(<span class='ident'>init</span>, <span class='ident'>sender</span>) <span class='op'>=&gt;</span>
+                    <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>fetch</span>(<span class='ident'>init</span>, <span class='ident'>sender</span>),
                 <span class='ident'>CoreResourceMsg</span>::<span class='ident'>WebsocketConnect</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>) <span class='op'>=&gt;</span>
                     <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>websocket_connect</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>),
                 <span class='ident'>CoreResourceMsg</span>::<span class='ident'>SetCookiesForUrl</span>(<span class='ident'>request</span>, <span class='ident'>cookie_list</span>, <span class='ident'>source</span>) <span class='op'>=&gt;</span>
@@ -1011,6 +1043,26 @@
                          <span class='ident'>consumer</span>,
                          <span class='self'>self</span>.<span class='ident'>mime_classifier</span>.<span class='ident'>clone</span>(),
                          <span class='ident'>cancel_listener</span>));
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>fetch</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>init</span>: <span class='ident'>RequestInit</span>, <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FetchResponseMsg</span><span class='op'>&gt;</span>) {
+        <span class='kw'>let</span> <span class='ident'>http_state</span> <span class='op'>=</span> <span class='ident'>HttpState</span> {
+            <span class='ident'>hsts_list</span>: <span class='self'>self</span>.<span class='ident'>hsts_list</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>cookie_jar</span>: <span class='self'>self</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>auth_cache</span>: <span class='self'>self</span>.<span class='ident'>auth_cache</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>blocked_content</span>: <span class='ident'>BLOCKED_CONTENT_RULES</span>.<span class='ident'>clone</span>(),
+        };
+        <span class='kw'>let</span> <span class='ident'>ua</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>user_agent</span>.<span class='ident'>clone</span>();
+        <span class='ident'>spawn_named</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;fetch thread for {}&quot;</span>, <span class='ident'>init</span>.<span class='ident'>url</span>), <span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>Request</span>::<span class='ident'>from_init</span>(<span class='ident'>init</span>);
+            <span class='comment'>// XXXManishearth: Check origin against pipeline id (also ensure that the mode is allowed)</span>
+            <span class='comment'>// todo load context / mimesniff in fetch</span>
+            <span class='comment'>// todo referrer policy?</span>
+            <span class='comment'>// todo service worker stuff</span>
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>target</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>sender</span>) <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>FetchTaskTarget</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>);
+            <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>FetchContext</span> { <span class='ident'>state</span>: <span class='ident'>http_state</span>, <span class='ident'>user_agent</span>: <span class='ident'>ua</span> };
+            <span class='ident'>fetch</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>request</span>), <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>target</span>, <span class='ident'>context</span>);
+        })
     }
 
     <span class='kw'>fn</span> <span class='ident'>websocket_connect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,

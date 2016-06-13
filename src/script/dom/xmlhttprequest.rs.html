@@ -1501,63 +1501,11 @@
 <span id="1457">1457</span>
 <span id="1458">1458</span>
 <span id="1459">1459</span>
-<span id="1460">1460</span>
-<span id="1461">1461</span>
-<span id="1462">1462</span>
-<span id="1463">1463</span>
-<span id="1464">1464</span>
-<span id="1465">1465</span>
-<span id="1466">1466</span>
-<span id="1467">1467</span>
-<span id="1468">1468</span>
-<span id="1469">1469</span>
-<span id="1470">1470</span>
-<span id="1471">1471</span>
-<span id="1472">1472</span>
-<span id="1473">1473</span>
-<span id="1474">1474</span>
-<span id="1475">1475</span>
-<span id="1476">1476</span>
-<span id="1477">1477</span>
-<span id="1478">1478</span>
-<span id="1479">1479</span>
-<span id="1480">1480</span>
-<span id="1481">1481</span>
-<span id="1482">1482</span>
-<span id="1483">1483</span>
-<span id="1484">1484</span>
-<span id="1485">1485</span>
-<span id="1486">1486</span>
-<span id="1487">1487</span>
-<span id="1488">1488</span>
-<span id="1489">1489</span>
-<span id="1490">1490</span>
-<span id="1491">1491</span>
-<span id="1492">1492</span>
-<span id="1493">1493</span>
-<span id="1494">1494</span>
-<span id="1495">1495</span>
-<span id="1496">1496</span>
-<span id="1497">1497</span>
-<span id="1498">1498</span>
-<span id="1499">1499</span>
-<span id="1500">1500</span>
-<span id="1501">1501</span>
-<span id="1502">1502</span>
-<span id="1503">1503</span>
-<span id="1504">1504</span>
-<span id="1505">1505</span>
-<span id="1506">1506</span>
-<span id="1507">1507</span>
-<span id="1508">1508</span>
-<span id="1509">1509</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>cors</span>::<span class='ident'>CORSResponse</span>;
-<span class='kw'>use</span> <span class='ident'>cors</span>::{<span class='ident'>AsyncCORSResponseListener</span>, <span class='ident'>CORSRequest</span>, <span class='ident'>RequestMode</span>, <span class='ident'>allow_cross_origin_request</span>};
 <span class='kw'>use</span> <span class='ident'>document_loader</span>::<span class='ident'>DocumentLoader</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>cell</span>::<span class='ident'>DOMRefCell</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>BlobBinding</span>::<span class='ident'>BlobMethods</span>;
@@ -1589,27 +1537,28 @@
 <span class='kw'>use</span> <span class='ident'>encoding</span>::<span class='ident'>types</span>::{<span class='ident'>DecoderTrap</span>, <span class='ident'>EncoderTrap</span>, <span class='ident'>Encoding</span>, <span class='ident'>EncodingRef</span>};
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>length</span>::<span class='ident'>Length</span>;
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::<span class='ident'>Headers</span>;
-<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::{<span class='ident'>Accept</span>, <span class='ident'>ContentLength</span>, <span class='ident'>ContentType</span>, <span class='ident'>qitem</span>};
+<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::{<span class='ident'>ContentLength</span>, <span class='ident'>ContentType</span>};
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>http</span>::<span class='ident'>RawStatus</span>;
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>method</span>::<span class='ident'>Method</span>;
-<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>mime</span>::{<span class='self'>self</span>, <span class='ident'>Mime</span>};
+<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>mime</span>::{<span class='self'>self</span>, <span class='ident'>Mime</span>, <span class='ident'>Attr</span> <span class='kw'>as</span> <span class='ident'>MimeAttr</span>, <span class='ident'>Value</span> <span class='kw'>as</span> <span class='ident'>MimeValue</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>router</span>::<span class='ident'>ROUTER</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::<span class='ident'>JS_ClearPendingException</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>JSContext</span>, <span class='ident'>JS_ParseJSON</span>, <span class='ident'>RootedValue</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::{<span class='ident'>JSVal</span>, <span class='ident'>NullValue</span>, <span class='ident'>UndefinedValue</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PipelineId</span>, <span class='ident'>ReferrerPolicy</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>CoreResourceMsg</span>::<span class='ident'>Load</span>;
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>CoreResourceMsg</span>::<span class='ident'>Fetch</span>;
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>request</span>::{<span class='ident'>CredentialsMode</span>, <span class='ident'>Destination</span>, <span class='ident'>RequestInit</span>, <span class='ident'>RequestMode</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>trim_http_whitespace</span>;
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseListener</span>, <span class='ident'>AsyncResponseTarget</span>, <span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span>, <span class='ident'>RequestSource</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>LoadConsumer</span>, <span class='ident'>LoadContext</span>, <span class='ident'>LoadData</span>, <span class='ident'>ResourceCORSData</span>, <span class='ident'>CoreResourceThread</span>, <span class='ident'>LoadOrigin</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>CoreResourceThread</span>, <span class='ident'>LoadOrigin</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>FetchResponseListener</span>, <span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span>, <span class='ident'>RequestSource</span>};
 <span class='kw'>use</span> <span class='ident'>network_listener</span>::{<span class='ident'>NetworkListener</span>, <span class='ident'>PreInvoke</span>};
 <span class='kw'>use</span> <span class='ident'>parse</span>::<span class='ident'>html</span>::{<span class='ident'>ParseContext</span>, <span class='ident'>parse_html</span>};
 <span class='kw'>use</span> <span class='ident'>parse</span>::<span class='ident'>xml</span>::{<span class='self'>self</span>, <span class='ident'>parse_xml</span>};
 <span class='kw'>use</span> <span class='ident'>script_runtime</span>::<span class='ident'>ScriptChan</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::{<span class='ident'>Cell</span>, <span class='ident'>RefCell</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>default</span>::<span class='ident'>Default</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>};
@@ -1636,7 +1585,6 @@
 <span class='kw'>struct</span> <span class='ident'>XHRContext</span> {
     <span class='ident'>xhr</span>: <span class='ident'>TrustedXHRAddress</span>,
     <span class='ident'>gen_id</span>: <span class='ident'>GenerationId</span>,
-    <span class='ident'>cors_request</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CORSRequest</span><span class='op'>&gt;</span>,
     <span class='ident'>buf</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>sync_status</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ErrorResult</span><span class='op'>&gt;&gt;</span>,
 }
@@ -1696,7 +1644,6 @@
     <span class='ident'>request_body_len</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
     <span class='ident'>sync</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
     <span class='ident'>upload_complete</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
-    <span class='ident'>upload_events</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
     <span class='ident'>send_flag</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
 
     <span class='ident'>timeout_cancel</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>OneshotTimerHandle</span><span class='op'>&gt;&gt;</span>,
@@ -1741,7 +1688,6 @@
             <span class='ident'>request_body_len</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>0</span>),
             <span class='ident'>sync</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>upload_complete</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
-            <span class='ident'>upload_events</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>send_flag</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
 
             <span class='ident'>timeout_cancel</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
@@ -1770,75 +1716,40 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>check_cors</span>(<span class='ident'>context</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>XHRContext</span><span class='op'>&gt;&gt;</span>,
-                  <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>,
-                  <span class='ident'>req</span>: <span class='ident'>CORSRequest</span>,
-                  <span class='ident'>script_chan</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
-                  <span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>) {
-        <span class='kw'>struct</span> <span class='ident'>CORSContext</span> {
-            <span class='ident'>xhr</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>XHRContext</span><span class='op'>&gt;&gt;</span>,
-            <span class='ident'>load_data</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>LoadData</span><span class='op'>&gt;&gt;</span>,
-            <span class='ident'>req</span>: <span class='ident'>CORSRequest</span>,
-            <span class='ident'>script_chan</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
-            <span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
-        }
-
-        <span class='kw'>impl</span> <span class='ident'>AsyncCORSResponseListener</span> <span class='kw'>for</span> <span class='ident'>CORSContext</span> {
-            <span class='kw'>fn</span> <span class='ident'>response_available</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>response</span>: <span class='ident'>CORSResponse</span>) {
-                <span class='kw'>if</span> <span class='ident'>response</span>.<span class='ident'>network_error</span> {
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
-                    <span class='kw'>let</span> <span class='ident'>xhr</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>xhr</span>.<span class='ident'>root</span>();
-                    <span class='ident'>xhr</span>.<span class='ident'>process_partial_response</span>(<span class='ident'>XHRProgress</span>::<span class='ident'>Errored</span>(<span class='ident'>context</span>.<span class='ident'>gen_id</span>, <span class='ident'>Error</span>::<span class='ident'>Network</span>));
-                    <span class='op'>*</span><span class='ident'>context</span>.<span class='ident'>sync_status</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Network</span>));
-                    <span class='kw'>return</span>;
-                }
-
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>load_data</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>load_data</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>take</span>().<span class='ident'>unwrap</span>();
-                <span class='ident'>load_data</span>.<span class='ident'>cors</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>ResourceCORSData</span> {
-                    <span class='ident'>preflight</span>: <span class='self'>self</span>.<span class='ident'>req</span>.<span class='ident'>preflight_flag</span>,
-                    <span class='ident'>origin</span>: <span class='self'>self</span>.<span class='ident'>req</span>.<span class='ident'>origin</span>.<span class='ident'>clone</span>()
-                });
-
-                <span class='ident'>XMLHttpRequest</span>::<span class='ident'>initiate_async_xhr</span>(<span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='ident'>script_chan</span>.<span class='ident'>clone</span>(),
-                                                   <span class='self'>self</span>.<span class='ident'>core_resource_thread</span>.<span class='ident'>clone</span>(), <span class='ident'>load_data</span>);
-            }
-        }
-
-        <span class='kw'>let</span> <span class='ident'>cors_context</span> <span class='op'>=</span> <span class='ident'>CORSContext</span> {
-            <span class='ident'>xhr</span>: <span class='ident'>context</span>,
-            <span class='ident'>load_data</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>Some</span>(<span class='ident'>load_data</span>)),
-            <span class='ident'>req</span>: <span class='ident'>req</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>script_chan</span>: <span class='ident'>script_chan</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>core_resource_thread</span>: <span class='ident'>core_resource_thread</span>,
-        };
-
-        <span class='ident'>req</span>.<span class='ident'>http_fetch_async</span>(<span class='kw'>box</span> <span class='ident'>cors_context</span>, <span class='ident'>script_chan</span>);
-    }
-
     <span class='kw'>fn</span> <span class='ident'>initiate_async_xhr</span>(<span class='ident'>context</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>XHRContext</span><span class='op'>&gt;&gt;</span>,
                           <span class='ident'>script_chan</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
                           <span class='ident'>core_resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
-                          <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>) {
-        <span class='kw'>impl</span> <span class='ident'>AsyncResponseListener</span> <span class='kw'>for</span> <span class='ident'>XHRContext</span> {
-            <span class='kw'>fn</span> <span class='ident'>headers_available</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>metadata</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span><span class='op'>&gt;</span>) {
-                <span class='kw'>let</span> <span class='ident'>xhr</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>root</span>();
-                <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='ident'>xhr</span>.<span class='ident'>process_headers_available</span>(<span class='self'>self</span>.<span class='ident'>cors_request</span>.<span class='ident'>clone</span>(),
-                                                       <span class='self'>self</span>.<span class='ident'>gen_id</span>,
-                                                       <span class='ident'>metadata</span>);
-                <span class='kw'>if</span> <span class='ident'>rv</span>.<span class='ident'>is_err</span>() {
+                          <span class='ident'>init</span>: <span class='ident'>RequestInit</span>) {
+        <span class='kw'>impl</span> <span class='ident'>FetchResponseListener</span> <span class='kw'>for</span> <span class='ident'>XHRContext</span> {
+                <span class='kw'>fn</span> <span class='ident'>process_request_body</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+                    <span class='comment'>// todo</span>
+                }
+                <span class='kw'>fn</span> <span class='ident'>process_request_eof</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+                    <span class='comment'>// todo</span>
+                }
+                <span class='kw'>fn</span> <span class='ident'>process_response</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>metadata</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span><span class='op'>&gt;</span>) {
+                    <span class='kw'>let</span> <span class='ident'>xhr</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>root</span>();
+                    <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='ident'>xhr</span>.<span class='ident'>process_headers_available</span>(<span class='self'>self</span>.<span class='ident'>gen_id</span>,
+                                                           <span class='ident'>metadata</span>);
+                    <span class='kw'>if</span> <span class='ident'>rv</span>.<span class='ident'>is_err</span>() {
+                        <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>sync_status</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>rv</span>);
+                    }
+                }
+                <span class='kw'>fn</span> <span class='ident'>process_response_chunk</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>chunk</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) {
+                    <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>append</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>chunk</span>);
+                    <span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>root</span>().<span class='ident'>process_data_available</span>(<span class='self'>self</span>.<span class='ident'>gen_id</span>, <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>());
+                }
+                <span class='kw'>fn</span> <span class='ident'>process_response_eof</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>response</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>NetworkError</span><span class='op'>&gt;</span>) {
+                    <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>response</span> {
+                        <span class='prelude-val'>Ok</span>(()) <span class='op'>=&gt;</span> {
+                            <span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>root</span>().<span class='ident'>process_response_complete</span>(<span class='self'>self</span>.<span class='ident'>gen_id</span>, <span class='prelude-val'>Ok</span>(()))
+                        }
+                        <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
+                            <span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>root</span>().<span class='ident'>process_response_complete</span>(<span class='self'>self</span>.<span class='ident'>gen_id</span>, <span class='prelude-val'>Err</span>(<span class='ident'>e</span>))
+                        }
+                    };
                     <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>sync_status</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>rv</span>);
                 }
-            }
-
-            <span class='kw'>fn</span> <span class='ident'>data_available</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>payload</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) {
-                <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>extend_from_slice</span>(<span class='kw-2'>&amp;</span><span class='ident'>payload</span>);
-                <span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>root</span>().<span class='ident'>process_data_available</span>(<span class='self'>self</span>.<span class='ident'>gen_id</span>, <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>());
-            }
-
-            <span class='kw'>fn</span> <span class='ident'>response_complete</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>status</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>NetworkError</span><span class='op'>&gt;</span>) {
-                <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>xhr</span>.<span class='ident'>root</span>().<span class='ident'>process_response_complete</span>(<span class='self'>self</span>.<span class='ident'>gen_id</span>, <span class='ident'>status</span>);
-                <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>sync_status</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>rv</span>);
-            }
         }
 
         <span class='kw'>impl</span> <span class='ident'>PreInvoke</span> <span class='kw'>for</span> <span class='ident'>XHRContext</span> {
@@ -1852,13 +1763,10 @@
             <span class='ident'>context</span>: <span class='ident'>context</span>,
             <span class='ident'>script_chan</span>: <span class='ident'>script_chan</span>,
         };
-        <span class='kw'>let</span> <span class='ident'>response_target</span> <span class='op'>=</span> <span class='ident'>AsyncResponseTarget</span> {
-            <span class='ident'>sender</span>: <span class='ident'>action_sender</span>,
-        };
         <span class='ident'>ROUTER</span>.<span class='ident'>add_route</span>(<span class='ident'>action_receiver</span>.<span class='ident'>to_opaque</span>(), <span class='kw'>box</span> <span class='kw'>move</span> <span class='op'>|</span><span class='ident'>message</span><span class='op'>|</span> {
-            <span class='ident'>listener</span>.<span class='ident'>notify</span>(<span class='ident'>message</span>.<span class='ident'>to</span>().<span class='ident'>unwrap</span>());
+            <span class='ident'>listener</span>.<span class='ident'>notify_fetch</span>(<span class='ident'>message</span>.<span class='ident'>to</span>().<span class='ident'>unwrap</span>());
         });
-        <span class='ident'>core_resource_thread</span>.<span class='ident'>send</span>(<span class='ident'>Load</span>(<span class='ident'>load_data</span>, <span class='ident'>LoadConsumer</span>::<span class='ident'>Listener</span>(<span class='ident'>response_target</span>), <span class='prelude-val'>None</span>)).<span class='ident'>unwrap</span>();
+        <span class='ident'>core_resource_thread</span>.<span class='ident'>send</span>(<span class='ident'>Fetch</span>(<span class='ident'>init</span>, <span class='ident'>action_sender</span>)).<span class='ident'>unwrap</span>();
     }
 }
 
@@ -2117,12 +2025,15 @@
             <span class='ident'>Method</span>::<span class='ident'>Get</span> <span class='op'>|</span> <span class='ident'>Method</span>::<span class='ident'>Head</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
             _ <span class='op'>=&gt;</span> <span class='ident'>data</span>
         };
-        <span class='comment'>// Step 4</span>
+        <span class='comment'>// Step 4 (first half)</span>
         <span class='kw'>let</span> <span class='ident'>extracted</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>d</span><span class='op'>|</span> <span class='ident'>d</span>.<span class='ident'>extract</span>());
+
         <span class='self'>self</span>.<span class='ident'>request_body_len</span>.<span class='ident'>set</span>(<span class='ident'>extracted</span>.<span class='ident'>as_ref</span>().<span class='ident'>map_or</span>(<span class='number'>0</span>, <span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='number'>0</span>.<span class='ident'>len</span>()));
 
+        <span class='comment'>// todo preserved headers?</span>
+
         <span class='comment'>// Step 6</span>
-        <span class='self'>self</span>.<span class='ident'>upload_events</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
+        <span class='self'>self</span>.<span class='ident'>upload_complete</span>.<span class='ident'>set</span>(<span class='bool-val'>false</span>);
         <span class='comment'>// Step 7</span>
         <span class='self'>self</span>.<span class='ident'>upload_complete</span>.<span class='ident'>set</span>(<span class='kw'>match</span> <span class='ident'>extracted</span> {
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
@@ -2134,11 +2045,6 @@
 
         <span class='comment'>// Step 9</span>
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>sync</span>.<span class='ident'>get</span>() {
-            <span class='kw'>let</span> <span class='ident'>event_target</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upload</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>EventTarget</span><span class='op'>&gt;</span>();
-            <span class='kw'>if</span> <span class='ident'>event_target</span>.<span class='ident'>has_handlers</span>() {
-                <span class='self'>self</span>.<span class='ident'>upload_events</span>.<span class='ident'>set</span>(<span class='bool-val'>true</span>);
-            }
-
             <span class='comment'>// If one of the event handlers below aborts the fetch by calling</span>
             <span class='comment'>// abort or open we will need the current generation id to detect it.</span>
             <span class='comment'>// Substep 1</span>
@@ -2158,67 +2064,108 @@
         }
 
         <span class='comment'>// Step 5</span>
-        <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>global</span>();
+        <span class='comment'>//TODO - set referrer_policy/referrer_url in request</span>
+        <span class='kw'>let</span> <span class='ident'>has_handlers</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>upload</span>.<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>EventTarget</span><span class='op'>&gt;</span>().<span class='ident'>has_handlers</span>();
+        <span class='kw'>let</span> <span class='ident'>credentials_mode</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>with_credentials</span>.<span class='ident'>get</span>() {
+            <span class='ident'>CredentialsMode</span>::<span class='ident'>Include</span>
+        } <span class='kw'>else</span> {
+            <span class='ident'>CredentialsMode</span>::<span class='ident'>CredentialsSameOrigin</span>
+        };
+        <span class='kw'>let</span> <span class='ident'>use_url_credentials</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>url</span>) <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>request_url</span>.<span class='ident'>borrow</span>() {
+            <span class='op'>!</span><span class='ident'>url</span>.<span class='ident'>username</span>().<span class='ident'>is_empty</span>() <span class='op'>||</span> <span class='ident'>url</span>.<span class='ident'>password</span>().<span class='ident'>is_some</span>()
+        } <span class='kw'>else</span> {
+            <span class='macro'>unreachable</span><span class='macro'>!</span>()
+        };
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>load_data</span> <span class='op'>=</span>
-            <span class='ident'>LoadData</span>::<span class='ident'>new</span>(<span class='ident'>LoadContext</span>::<span class='ident'>Browsing</span>,
-                          <span class='self'>self</span>.<span class='ident'>request_url</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>().<span class='ident'>unwrap</span>(),
-                          <span class='self'>self</span>);
+        <span class='kw'>let</span> <span class='ident'>bypass_cross_origin_check</span> <span class='op'>=</span> {
+            <span class='comment'>// We want to be able to do cross-origin requests in browser.html.</span>
+            <span class='comment'>// If the XHR happens in a top level window and the mozbrowser</span>
+            <span class='comment'>// preference is enabled, we allow bypassing the CORS check.</span>
+            <span class='comment'>// This is a temporary measure until we figure out Servo privilege</span>
+            <span class='comment'>// story. See https://github.com/servo/servo/issues/9582</span>
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>GlobalRoot</span>::<span class='ident'>Window</span>(<span class='ident'>win</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>global</span>() {
+                <span class='kw'>let</span> <span class='ident'>is_root_pipeline</span> <span class='op'>=</span> <span class='ident'>win</span>.<span class='ident'>parent_info</span>().<span class='ident'>is_none</span>();
+                <span class='kw'>let</span> <span class='ident'>is_mozbrowser_enabled</span> <span class='op'>=</span> <span class='ident'>mozbrowser_enabled</span>();
+                <span class='ident'>is_root_pipeline</span> <span class='op'>&amp;&amp;</span> <span class='ident'>is_mozbrowser_enabled</span>
+            } <span class='kw'>else</span> {
+                <span class='bool-val'>false</span>
+            }
+        };
 
-        <span class='kw'>if</span> <span class='ident'>load_data</span>.<span class='ident'>url</span>.<span class='ident'>origin</span>().<span class='ident'>ne</span>(<span class='kw-2'>&amp;</span><span class='ident'>global</span>.<span class='ident'>r</span>().<span class='ident'>get_url</span>().<span class='ident'>origin</span>()) {
-            <span class='ident'>load_data</span>.<span class='ident'>credentials_flag</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>WithCredentials</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>RequestInit</span> {
+            <span class='ident'>method</span>: <span class='self'>self</span>.<span class='ident'>request_method</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>(),
+            <span class='ident'>url</span>: <span class='self'>self</span>.<span class='ident'>request_url</span>.<span class='ident'>borrow</span>().<span class='ident'>clone</span>().<span class='ident'>unwrap</span>(),
+            <span class='ident'>headers</span>: (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>request_headers</span>.<span class='ident'>borrow</span>()).<span class='ident'>clone</span>(),
+            <span class='ident'>unsafe_request</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>same_origin_data</span>: <span class='bool-val'>true</span>,
+            <span class='comment'>// XXXManishearth figure out how to avoid this clone</span>
+            <span class='ident'>body</span>: <span class='ident'>extracted</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='number'>0</span>.<span class='ident'>clone</span>()),
+            <span class='comment'>// XXXManishearth actually &quot;subresource&quot;, but it doesn&#39;t exist</span>
+            <span class='comment'>// https://github.com/whatwg/xhr/issues/71</span>
+            <span class='ident'>destination</span>: <span class='ident'>Destination</span>::<span class='prelude-val'>None</span>,
+            <span class='ident'>synchronous</span>: <span class='self'>self</span>.<span class='ident'>sync</span>.<span class='ident'>get</span>(),
+            <span class='ident'>mode</span>: <span class='ident'>RequestMode</span>::<span class='ident'>CORSMode</span>,
+            <span class='ident'>use_cors_preflight</span>: <span class='ident'>has_handlers</span>,
+            <span class='ident'>credentials_mode</span>: <span class='ident'>credentials_mode</span>,
+            <span class='ident'>use_url_credentials</span>: <span class='ident'>use_url_credentials</span>,
+            <span class='ident'>origin</span>: <span class='self'>self</span>.<span class='ident'>global</span>().<span class='ident'>r</span>().<span class='ident'>get_url</span>(),
+            <span class='ident'>referer_url</span>: <span class='self'>self</span>.<span class='ident'>referrer_url</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>referrer_policy</span>: <span class='self'>self</span>.<span class='ident'>referrer_policy</span>.<span class='ident'>clone</span>(),
+        };
+
+        <span class='kw'>if</span> <span class='ident'>bypass_cross_origin_check</span> {
+            <span class='ident'>request</span>.<span class='ident'>mode</span> <span class='op'>=</span> <span class='ident'>RequestMode</span>::<span class='ident'>Navigate</span>;
         }
-        <span class='ident'>load_data</span>.<span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>extracted</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='number'>0</span>.<span class='ident'>clone</span>());
 
-        <span class='comment'>// XHR spec differs from http, and says UTF-8 should be in capitals,</span>
-        <span class='comment'>// instead of &quot;utf-8&quot;, which is what Hyper defaults to. So not</span>
-        <span class='comment'>// using content types provided by Hyper.</span>
-        <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='string'>&quot;content-type&quot;</span>;
+        <span class='comment'>// step 4 (second half)</span>
         <span class='kw'>match</span> <span class='ident'>extracted</span> {
-            <span class='prelude-val'>Some</span>((_, <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>content_type</span>))) <span class='op'>=&gt;</span>
-                <span class='ident'>load_data</span>.<span class='ident'>headers</span>.<span class='ident'>set_raw</span>(<span class='ident'>n</span>.<span class='ident'>to_owned</span>(), <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>content_type</span>.<span class='ident'>bytes</span>().<span class='ident'>collect</span>()]),
+            <span class='prelude-val'>Some</span>((_, <span class='kw-2'>ref</span> <span class='ident'>content_type</span>)) <span class='op'>=&gt;</span> {
+                <span class='comment'>// this should handle Document bodies too, not just BodyInit</span>
+                <span class='kw'>let</span> <span class='ident'>encoding</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>BodyInit</span>::<span class='ident'>String</span>(_)) <span class='op'>=</span> <span class='ident'>data</span> {
+                    <span class='comment'>// XHR spec differs from http, and says UTF-8 should be in capitals,</span>
+                    <span class='comment'>// instead of &quot;utf-8&quot;, which is what Hyper defaults to. So not</span>
+                    <span class='comment'>// using content types provided by Hyper.</span>
+                    <span class='prelude-val'>Some</span>(<span class='ident'>MimeValue</span>::<span class='ident'>Ext</span>(<span class='string'>&quot;UTF-8&quot;</span>.<span class='ident'>to_string</span>()))
+                } <span class='kw'>else</span> {
+                    <span class='prelude-val'>None</span>
+                };
+
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>content_type_set</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>ct</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>content_type</span> {
+                    <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>request</span>.<span class='ident'>headers</span>.<span class='ident'>has</span>::<span class='op'>&lt;</span><span class='ident'>ContentType</span><span class='op'>&gt;</span>() {
+                        <span class='ident'>request</span>.<span class='ident'>headers</span>.<span class='ident'>set_raw</span>(<span class='string'>&quot;content-type&quot;</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>ct</span>.<span class='ident'>bytes</span>().<span class='ident'>collect</span>()]);
+                        <span class='ident'>content_type_set</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+                    }
+                }
+
+                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>content_type_set</span> {
+                    <span class='kw'>let</span> <span class='ident'>ct</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>::<span class='op'>&lt;</span><span class='ident'>ContentType</span><span class='op'>&gt;</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>clone</span>());
+                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>mut</span> <span class='ident'>ct</span>) <span class='op'>=</span> <span class='ident'>ct</span> {
+                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>encoding</span>) <span class='op'>=</span> <span class='ident'>encoding</span> {
+                            <span class='kw'>for</span> <span class='ident'>param</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> (<span class='ident'>ct</span>.<span class='number'>0</span>).<span class='number'>2</span> {
+                                <span class='kw'>if</span> <span class='ident'>param</span>.<span class='number'>0</span> <span class='op'>==</span> <span class='ident'>MimeAttr</span>::<span class='ident'>Charset</span> {
+                                    <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>param</span>.<span class='number'>0</span>.<span class='ident'>as_str</span>().<span class='ident'>eq_ignore_ascii_case</span>(<span class='ident'>encoding</span>.<span class='ident'>as_str</span>()) {
+                                        <span class='op'>*</span><span class='ident'>param</span> <span class='op'>=</span> (<span class='ident'>MimeAttr</span>::<span class='ident'>Charset</span>, <span class='ident'>encoding</span>.<span class='ident'>clone</span>());
+                                    }
+                                }
+                            }
+                        }
+                        <span class='comment'>// remove instead of mutate in place</span>
+                        <span class='comment'>// https://github.com/hyperium/hyper/issues/821</span>
+                        <span class='ident'>request</span>.<span class='ident'>headers</span>.<span class='ident'>remove_raw</span>(<span class='string'>&quot;content-type&quot;</span>);
+                        <span class='ident'>request</span>.<span class='ident'>headers</span>.<span class='ident'>set</span>(<span class='ident'>ct</span>);
+                    }
+                }
+
+            }
             _ <span class='op'>=&gt;</span> (),
         }
 
-        <span class='ident'>load_data</span>.<span class='ident'>preserved_headers</span> <span class='op'>=</span> (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>request_headers</span>.<span class='ident'>borrow</span>()).<span class='ident'>clone</span>();
-
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>load_data</span>.<span class='ident'>preserved_headers</span>.<span class='ident'>has</span>::<span class='op'>&lt;</span><span class='ident'>Accept</span><span class='op'>&gt;</span>() {
-            <span class='kw'>let</span> <span class='ident'>mime</span> <span class='op'>=</span> <span class='ident'>Mime</span>(<span class='ident'>mime</span>::<span class='ident'>TopLevel</span>::<span class='ident'>Star</span>, <span class='ident'>mime</span>::<span class='ident'>SubLevel</span>::<span class='ident'>Star</span>, <span class='macro'>vec</span><span class='macro'>!</span>[]);
-            <span class='ident'>load_data</span>.<span class='ident'>preserved_headers</span>.<span class='ident'>set</span>(<span class='ident'>Accept</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>qitem</span>(<span class='ident'>mime</span>)]));
-        }
-
-        <span class='ident'>load_data</span>.<span class='ident'>method</span> <span class='op'>=</span> (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>request_method</span>.<span class='ident'>borrow</span>()).<span class='ident'>clone</span>();
-
-        <span class='comment'>// CORS stuff</span>
-        <span class='kw'>let</span> <span class='ident'>global</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>global</span>();
-        <span class='kw'>let</span> <span class='ident'>referer_url</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>global</span>().<span class='ident'>r</span>().<span class='ident'>get_url</span>();
-        <span class='kw'>let</span> <span class='ident'>mode</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>upload_events</span>.<span class='ident'>get</span>() {
-            <span class='ident'>RequestMode</span>::<span class='ident'>ForcedPreflight</span>
-        } <span class='kw'>else</span> {
-            <span class='ident'>RequestMode</span>::<span class='ident'>CORS</span>
-        };
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>combined_headers</span> <span class='op'>=</span> <span class='ident'>load_data</span>.<span class='ident'>headers</span>.<span class='ident'>clone</span>();
-        <span class='ident'>combined_headers</span>.<span class='ident'>extend</span>(<span class='ident'>load_data</span>.<span class='ident'>preserved_headers</span>.<span class='ident'>iter</span>());
-        <span class='kw'>let</span> <span class='ident'>cors_request</span> <span class='op'>=</span> <span class='ident'>CORSRequest</span>::<span class='ident'>maybe_new</span>(<span class='ident'>referer_url</span>.<span class='ident'>clone</span>(),
-                                                  <span class='ident'>load_data</span>.<span class='ident'>url</span>.<span class='ident'>clone</span>(),
-                                                  <span class='ident'>mode</span>,
-                                                  <span class='ident'>load_data</span>.<span class='ident'>method</span>.<span class='ident'>clone</span>(),
-                                                  <span class='ident'>combined_headers</span>,
-                                                  <span class='bool-val'>true</span>);
-        <span class='kw'>match</span> <span class='ident'>cors_request</span> {
-            <span class='prelude-val'>Ok</span>(<span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='ident'>referer_url</span>[..<span class='ident'>Position</span>::<span class='ident'>AfterPath</span>].<span class='ident'>as_bytes</span>().<span class='ident'>to_vec</span>();
-                <span class='self'>self</span>.<span class='ident'>request_headers</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>set_raw</span>(<span class='string'>&quot;Referer&quot;</span>.<span class='ident'>to_owned</span>(), <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>bytes</span>]);
-            },
-            <span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>req</span>)) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>insert_trusted_header</span>(<span class='string'>&quot;origin&quot;</span>.<span class='ident'>to_owned</span>(),
-                                                            <span class='ident'>req</span>.<span class='ident'>origin</span>.<span class='ident'>to_string</span>()),
-            _ <span class='op'>=&gt;</span> {}
-        }
-
-        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;request_headers = {:?}&quot;</span>, <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>request_headers</span>.<span class='ident'>borrow</span>());
+        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;request.headers = {:?}&quot;</span>, <span class='ident'>request</span>.<span class='ident'>headers</span>);
 
         <span class='self'>self</span>.<span class='ident'>fetch_time</span>.<span class='ident'>set</span>(<span class='ident'>time</span>::<span class='ident'>now</span>().<span class='ident'>to_timespec</span>().<span class='ident'>sec</span>);
-        <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>fetch</span>(<span class='ident'>load_data</span>, <span class='ident'>cors_request</span>, <span class='ident'>global</span>.<span class='ident'>r</span>());
+
+        <span class='kw'>let</span> <span class='ident'>rv</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>fetch</span>(<span class='ident'>request</span>, <span class='self'>self</span>.<span class='ident'>global</span>().<span class='ident'>r</span>());
         <span class='comment'>// Step 10</span>
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>sync</span>.<span class='ident'>get</span>() {
             <span class='kw'>return</span> <span class='ident'>rv</span>;
@@ -2433,7 +2380,7 @@
         <span class='ident'>event</span>.<span class='ident'>fire</span>(<span class='self'>self</span>.<span class='ident'>upcast</span>());
     }
 
-    <span class='kw'>fn</span> <span class='ident'>process_headers_available</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>cors_request</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CORSRequest</span><span class='op'>&gt;</span>,
+    <span class='kw'>fn</span> <span class='ident'>process_headers_available</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
                                  <span class='ident'>gen_id</span>: <span class='ident'>GenerationId</span>, <span class='ident'>metadata</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span><span class='op'>&gt;</span>)
                                  <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>Error</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>metadata</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>metadata</span> {
@@ -2443,35 +2390,6 @@
                 <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Network</span>);
             },
         };
-
-        <span class='kw'>let</span> <span class='ident'>bypass_cross_origin_check</span> <span class='op'>=</span> {
-            <span class='comment'>// We want to be able to do cross-origin requests in browser.html.</span>
-            <span class='comment'>// If the XHR happens in a top level window and the mozbrowser</span>
-            <span class='comment'>// preference is enabled, we allow bypassing the CORS check.</span>
-            <span class='comment'>// This is a temporary measure until we figure out Servo privilege</span>
-            <span class='comment'>// story. See https://github.com/servo/servo/issues/9582</span>
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>GlobalRoot</span>::<span class='ident'>Window</span>(<span class='ident'>win</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>global</span>() {
-                <span class='kw'>let</span> <span class='ident'>is_root_pipeline</span> <span class='op'>=</span> <span class='ident'>win</span>.<span class='ident'>parent_info</span>().<span class='ident'>is_none</span>();
-                <span class='kw'>let</span> <span class='ident'>is_mozbrowser_enabled</span> <span class='op'>=</span> <span class='ident'>mozbrowser_enabled</span>();
-                <span class='ident'>is_root_pipeline</span> <span class='op'>&amp;&amp;</span> <span class='ident'>is_mozbrowser_enabled</span>
-            } <span class='kw'>else</span> {
-                <span class='bool-val'>false</span>
-            }
-        };
-
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>bypass_cross_origin_check</span> {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>req</span>) <span class='op'>=</span> <span class='ident'>cors_request</span> {
-                <span class='kw'>match</span> <span class='ident'>metadata</span>.<span class='ident'>headers</span> {
-                    <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>h</span>) <span class='kw'>if</span> <span class='ident'>allow_cross_origin_request</span>(<span class='ident'>req</span>, <span class='ident'>h</span>) <span class='op'>=&gt;</span> {},
-                    _ <span class='op'>=&gt;</span> {
-                        <span class='self'>self</span>.<span class='ident'>process_partial_response</span>(<span class='ident'>XHRProgress</span>::<span class='ident'>Errored</span>(<span class='ident'>gen_id</span>, <span class='ident'>Error</span>::<span class='ident'>Network</span>));
-                        <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Network</span>);
-                    }
-                }
-            }
-        } <span class='kw'>else</span> {
-            <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Bypassing cross origin check&quot;</span>);
-        }
 
         <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>response_url</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='ident'>metadata</span>.<span class='ident'>final_url</span>[..<span class='ident'>Position</span>::<span class='ident'>AfterQuery</span>].<span class='ident'>to_owned</span>();
 
@@ -2872,25 +2790,12 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>fetch</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-              <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>,
-              <span class='ident'>cors_request</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CORSRequest</span><span class='op'>&gt;</span>, ()<span class='op'>&gt;</span>,
+              <span class='ident'>init</span>: <span class='ident'>RequestInit</span>,
               <span class='ident'>global</span>: <span class='ident'>GlobalRef</span>) <span class='op'>-&gt;</span> <span class='ident'>ErrorResult</span> {
-        <span class='kw'>let</span> <span class='ident'>cors_request</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>cors_request</span> {
-            <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> {
-                <span class='comment'>// Happens in case of unsupported cross-origin URI schemes.</span>
-                <span class='comment'>// Supported schemes are http, https, data, and about.</span>
-                <span class='self'>self</span>.<span class='ident'>process_partial_response</span>(<span class='ident'>XHRProgress</span>::<span class='ident'>Errored</span>(
-                    <span class='self'>self</span>.<span class='ident'>generation_id</span>.<span class='ident'>get</span>(), <span class='ident'>Error</span>::<span class='ident'>Network</span>));
-                <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>Network</span>);
-            }
-            <span class='prelude-val'>Ok</span>(<span class='ident'>req</span>) <span class='op'>=&gt;</span> <span class='ident'>req</span>,
-        };
-
         <span class='kw'>let</span> <span class='ident'>xhr</span> <span class='op'>=</span> <span class='ident'>Trusted</span>::<span class='ident'>new</span>(<span class='self'>self</span>);
 
         <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>XHRContext</span> {
             <span class='ident'>xhr</span>: <span class='ident'>xhr</span>,
-            <span class='ident'>cors_request</span>: <span class='ident'>cors_request</span>.<span class='ident'>clone</span>(),
             <span class='ident'>gen_id</span>: <span class='self'>self</span>.<span class='ident'>generation_id</span>.<span class='ident'>get</span>(),
             <span class='ident'>buf</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>()),
             <span class='ident'>sync_status</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
@@ -2904,13 +2809,8 @@
         };
 
         <span class='kw'>let</span> <span class='ident'>core_resource_thread</span> <span class='op'>=</span> <span class='ident'>global</span>.<span class='ident'>core_resource_thread</span>();
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>req</span>) <span class='op'>=</span> <span class='ident'>cors_request</span> {
-            <span class='ident'>XMLHttpRequest</span>::<span class='ident'>check_cors</span>(<span class='ident'>context</span>.<span class='ident'>clone</span>(), <span class='ident'>load_data</span>, <span class='ident'>req</span>.<span class='ident'>clone</span>(),
-                                       <span class='ident'>script_chan</span>.<span class='ident'>clone</span>(), <span class='ident'>core_resource_thread</span>);
-        } <span class='kw'>else</span> {
-            <span class='ident'>XMLHttpRequest</span>::<span class='ident'>initiate_async_xhr</span>(<span class='ident'>context</span>.<span class='ident'>clone</span>(), <span class='ident'>script_chan</span>,
-                                               <span class='ident'>core_resource_thread</span>, <span class='ident'>load_data</span>);
-        }
+        <span class='ident'>XMLHttpRequest</span>::<span class='ident'>initiate_async_xhr</span>(<span class='ident'>context</span>.<span class='ident'>clone</span>(), <span class='ident'>script_chan</span>,
+                                           <span class='ident'>core_resource_thread</span>, <span class='ident'>init</span>);
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>script_port</span>) <span class='op'>=</span> <span class='ident'>script_port</span> {
             <span class='kw'>loop</span> {

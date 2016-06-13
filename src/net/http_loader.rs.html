@@ -1183,7 +1183,6 @@
 <span id="1139">1139</span>
 <span id="1140">1140</span>
 <span id="1141">1141</span>
-<span id="1142">1142</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1557,7 +1556,7 @@
     }
 }
 
-<span class='kw'>fn</span> <span class='ident'>set_default_accept_encoding</span>(<span class='ident'>headers</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Headers</span>) {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_default_accept_encoding</span>(<span class='ident'>headers</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Headers</span>) {
     <span class='kw'>if</span> <span class='ident'>headers</span>.<span class='ident'>has</span>::<span class='op'>&lt;</span><span class='ident'>AcceptEncoding</span><span class='op'>&gt;</span>() {
         <span class='kw'>return</span>
     }
@@ -1621,10 +1620,10 @@
 }
 
 <span class='doccomment'>/// https://w3c.github.io/webappsec-referrer-policy/#determine-requests-referrer</span>
-<span class='kw'>fn</span> <span class='ident'>determine_request_referrer</span>(<span class='ident'>headers</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Headers</span>,
-                              <span class='ident'>referrer_policy</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ReferrerPolicy</span><span class='op'>&gt;</span>,
-                              <span class='ident'>referrer_url</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span>,
-                              <span class='ident'>url</span>: <span class='ident'>Url</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>determine_request_referrer</span>(<span class='ident'>headers</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Headers</span>,
+                                  <span class='ident'>referrer_policy</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ReferrerPolicy</span><span class='op'>&gt;</span>,
+                                  <span class='ident'>referrer_url</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span>,
+                                  <span class='ident'>url</span>: <span class='ident'>Url</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span> {
     <span class='comment'>//TODO - algorithm step 2 not addressed</span>
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>headers</span>.<span class='ident'>has</span>::<span class='op'>&lt;</span><span class='ident'>Referer</span><span class='op'>&gt;</span>());
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>ref_url</span>) <span class='op'>=</span> <span class='ident'>referrer_url</span> {
@@ -1640,9 +1639,9 @@
     <span class='kw'>return</span> <span class='prelude-val'>None</span>;
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_request_cookies</span>(<span class='ident'>url</span>: <span class='ident'>Url</span>, <span class='ident'>headers</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Headers</span>, <span class='ident'>cookie_jar</span>: <span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>CookieStorage</span><span class='op'>&gt;&gt;</span>) {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_request_cookies</span>(<span class='ident'>url</span>: <span class='kw-2'>&amp;</span><span class='ident'>Url</span>, <span class='ident'>headers</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Headers</span>, <span class='ident'>cookie_jar</span>: <span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>CookieStorage</span><span class='op'>&gt;&gt;</span>) {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cookie_jar</span> <span class='op'>=</span> <span class='ident'>cookie_jar</span>.<span class='ident'>write</span>().<span class='ident'>unwrap</span>();
-    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>cookie_list</span>) <span class='op'>=</span> <span class='ident'>cookie_jar</span>.<span class='ident'>cookies_for_url</span>(<span class='kw-2'>&amp;</span><span class='ident'>url</span>, <span class='ident'>CookieSource</span>::<span class='ident'>HTTP</span>) {
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>cookie_list</span>) <span class='op'>=</span> <span class='ident'>cookie_jar</span>.<span class='ident'>cookies_for_url</span>(<span class='ident'>url</span>, <span class='ident'>CookieSource</span>::<span class='ident'>HTTP</span>) {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
         <span class='ident'>v</span>.<span class='ident'>push</span>(<span class='ident'>cookie_list</span>.<span class='ident'>into_bytes</span>());
         <span class='ident'>headers</span>.<span class='ident'>set_raw</span>(<span class='string'>&quot;Cookie&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>v</span>);
@@ -1727,7 +1726,7 @@
         <span class='ident'>StreamedResponse</span> { <span class='ident'>metadata</span>: <span class='ident'>m</span>, <span class='ident'>decoder</span>: <span class='ident'>d</span> }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>from_http_response</span>(<span class='ident'>response</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>HttpResponse</span><span class='op'>&gt;</span>, <span class='ident'>m</span>: <span class='ident'>Metadata</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>StreamedResponse</span>, <span class='ident'>LoadError</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_http_response</span>(<span class='ident'>response</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>HttpResponse</span><span class='op'>&gt;</span>, <span class='ident'>m</span>: <span class='ident'>Metadata</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>StreamedResponse</span>, <span class='ident'>LoadError</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>decoder</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>response</span>.<span class='ident'>content_encoding</span>() {
             <span class='prelude-val'>Some</span>(<span class='ident'>Encoding</span>::<span class='ident'>Gzip</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>GzDecoder</span>::<span class='ident'>new</span>(<span class='ident'>response</span>);
@@ -1814,10 +1813,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>modify_request_headers</span>(<span class='ident'>headers</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Headers</span>,
                               <span class='ident'>url</span>: <span class='kw-2'>&amp;</span><span class='ident'>Url</span>,
                               <span class='ident'>user_agent</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                              <span class='ident'>cookie_jar</span>: <span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>CookieStorage</span><span class='op'>&gt;&gt;</span>,
-                              <span class='ident'>auth_cache</span>: <span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>AuthCache</span><span class='op'>&gt;&gt;</span>,
-                              <span class='ident'>load_data</span>: <span class='kw-2'>&amp;</span><span class='ident'>LoadData</span>,
-                              <span class='ident'>block_cookies</span>: <span class='ident'>bool</span>,
+                              <span class='ident'>referrer_policy</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ReferrerPolicy</span><span class='op'>&gt;</span>,
                               <span class='ident'>referrer_url</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span>) {
     <span class='comment'>// Ensure that the host header is set from the original url</span>
     <span class='kw'>let</span> <span class='ident'>host</span> <span class='op'>=</span> <span class='ident'>Host</span> {
@@ -1841,22 +1837,12 @@
     <span class='ident'>set_default_accept_encoding</span>(<span class='ident'>headers</span>);
 
     <span class='op'>*</span><span class='ident'>referrer_url</span> <span class='op'>=</span> <span class='ident'>determine_request_referrer</span>(<span class='ident'>headers</span>,
-                                               <span class='ident'>load_data</span>.<span class='ident'>referrer_policy</span>.<span class='ident'>clone</span>(),
+                                               <span class='ident'>referrer_policy</span>.<span class='ident'>clone</span>(),
                                                <span class='ident'>referrer_url</span>.<span class='ident'>clone</span>(),
                                                <span class='ident'>url</span>.<span class='ident'>clone</span>());
 
     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>referer_val</span>) <span class='op'>=</span> <span class='ident'>referrer_url</span>.<span class='ident'>clone</span>() {
         <span class='ident'>headers</span>.<span class='ident'>set</span>(<span class='ident'>Referer</span>(<span class='ident'>referer_val</span>.<span class='ident'>into_string</span>()));
-    }
-
-    <span class='comment'>// https://fetch.spec.whatwg.org/#concept-http-network-or-cache-fetch step 11</span>
-    <span class='kw'>if</span> <span class='ident'>load_data</span>.<span class='ident'>credentials_flag</span> {
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>block_cookies</span> {
-            <span class='ident'>set_request_cookies</span>(<span class='ident'>url</span>.<span class='ident'>clone</span>(), <span class='ident'>headers</span>, <span class='ident'>cookie_jar</span>);
-        }
-
-        <span class='comment'>// https://fetch.spec.whatwg.org/#http-network-or-cache-fetch step 12</span>
-        <span class='ident'>set_auth_header</span>(<span class='ident'>headers</span>, <span class='ident'>url</span>, <span class='ident'>auth_cache</span>);
     }
 }
 
@@ -1867,18 +1853,21 @@
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>auth</span>) <span class='op'>=</span> <span class='ident'>auth_from_url</span>(<span class='ident'>url</span>) {
             <span class='ident'>headers</span>.<span class='ident'>set</span>(<span class='ident'>auth</span>);
         } <span class='kw'>else</span> {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>auth_entry</span>) <span class='op'>=</span> <span class='ident'>auth_cache</span>.<span class='ident'>read</span>().<span class='ident'>unwrap</span>().<span class='ident'>entries</span>.<span class='ident'>get</span>(<span class='ident'>url</span>) {
-                <span class='ident'>auth_from_entry</span>(<span class='kw-2'>&amp;</span><span class='ident'>auth_entry</span>, <span class='ident'>headers</span>);
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>basic</span>) <span class='op'>=</span> <span class='ident'>auth_from_cache</span>(<span class='ident'>auth_cache</span>, <span class='ident'>url</span>) {
+                <span class='ident'>headers</span>.<span class='ident'>set</span>(<span class='ident'>Authorization</span>(<span class='ident'>basic</span>));
             }
         }
     }
 }
 
-<span class='kw'>fn</span> <span class='ident'>auth_from_entry</span>(<span class='ident'>auth_entry</span>: <span class='kw-2'>&amp;</span><span class='ident'>AuthCacheEntry</span>, <span class='ident'>headers</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Headers</span>) {
-    <span class='kw'>let</span> <span class='ident'>user_name</span> <span class='op'>=</span> <span class='ident'>auth_entry</span>.<span class='ident'>user_name</span>.<span class='ident'>clone</span>();
-    <span class='kw'>let</span> <span class='ident'>password</span>  <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>auth_entry</span>.<span class='ident'>password</span>.<span class='ident'>clone</span>());
-
-    <span class='ident'>headers</span>.<span class='ident'>set</span>(<span class='ident'>Authorization</span>(<span class='ident'>Basic</span> { <span class='ident'>username</span>: <span class='ident'>user_name</span>, <span class='ident'>password</span>: <span class='ident'>password</span> }));
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>auth_from_cache</span>(<span class='ident'>auth_cache</span>: <span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>AuthCache</span><span class='op'>&gt;&gt;</span>, <span class='ident'>url</span>: <span class='kw-2'>&amp;</span><span class='ident'>Url</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Basic</span><span class='op'>&gt;</span> {
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>auth_entry</span>) <span class='op'>=</span> <span class='ident'>auth_cache</span>.<span class='ident'>read</span>().<span class='ident'>unwrap</span>().<span class='ident'>entries</span>.<span class='ident'>get</span>(<span class='ident'>url</span>) {
+        <span class='kw'>let</span> <span class='ident'>user_name</span> <span class='op'>=</span> <span class='ident'>auth_entry</span>.<span class='ident'>user_name</span>.<span class='ident'>clone</span>();
+        <span class='kw'>let</span> <span class='ident'>password</span>  <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>auth_entry</span>.<span class='ident'>password</span>.<span class='ident'>clone</span>());
+        <span class='prelude-val'>Some</span>(<span class='ident'>Basic</span> { <span class='ident'>username</span>: <span class='ident'>user_name</span>, <span class='ident'>password</span>: <span class='ident'>password</span> })
+    } <span class='kw'>else</span> {
+        <span class='prelude-val'>None</span>
+    }
 }
 
 <span class='kw'>fn</span> <span class='ident'>auth_from_url</span>(<span class='ident'>doc_url</span>: <span class='kw-2'>&amp;</span><span class='ident'>Url</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Authorization</span><span class='op'>&lt;</span><span class='ident'>Basic</span><span class='op'>&gt;&gt;</span> {
@@ -2143,9 +2132,18 @@
         <span class='kw'>let</span> <span class='ident'>request_id</span> <span class='op'>=</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>::<span class='ident'>new_v4</span>().<span class='ident'>simple</span>().<span class='ident'>to_string</span>();
 
         <span class='ident'>modify_request_headers</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>request_headers</span>, <span class='kw-2'>&amp;</span><span class='ident'>doc_url</span>,
-                               <span class='kw-2'>&amp;</span><span class='ident'>user_agent</span>, <span class='kw-2'>&amp;</span><span class='ident'>http_state</span>.<span class='ident'>cookie_jar</span>,
-                               <span class='kw-2'>&amp;</span><span class='ident'>http_state</span>.<span class='ident'>auth_cache</span>, <span class='kw-2'>&amp;</span><span class='ident'>load_data</span>,
-                               <span class='ident'>block_cookies</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>referrer_url</span>);
+                               <span class='kw-2'>&amp;</span><span class='ident'>user_agent</span>, <span class='ident'>load_data</span>.<span class='ident'>referrer_policy</span>,
+                               <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>referrer_url</span>);
+
+        <span class='comment'>// https://fetch.spec.whatwg.org/#concept-http-network-or-cache-fetch step 11</span>
+        <span class='kw'>if</span> <span class='ident'>load_data</span>.<span class='ident'>credentials_flag</span> {
+            <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>block_cookies</span> {
+                <span class='ident'>set_request_cookies</span>(<span class='kw-2'>&amp;</span><span class='ident'>doc_url</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>request_headers</span>, <span class='kw-2'>&amp;</span><span class='ident'>http_state</span>.<span class='ident'>cookie_jar</span>);
+            }
+
+            <span class='comment'>// https://fetch.spec.whatwg.org/#http-network-or-cache-fetch step 12</span>
+            <span class='ident'>set_auth_header</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>request_headers</span>, <span class='kw-2'>&amp;</span><span class='ident'>doc_url</span>, <span class='kw-2'>&amp;</span><span class='ident'>http_state</span>.<span class='ident'>auth_cache</span>);
+        }
 
         <span class='comment'>//if there is a new auth header then set the request headers with it</span>
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>auth_header</span>) <span class='op'>=</span> <span class='ident'>new_auth_header</span> {

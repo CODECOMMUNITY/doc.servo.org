@@ -1000,7 +1000,7 @@
                     <span class='ident'>sender</span>: <span class='ident'>action_sender</span>,
                 };
                 <span class='ident'>ROUTER</span>.<span class='ident'>add_route</span>(<span class='ident'>action_receiver</span>.<span class='ident'>to_opaque</span>(), <span class='kw'>box</span> <span class='kw'>move</span> <span class='op'>|</span><span class='ident'>message</span><span class='op'>|</span> {
-                    <span class='ident'>listener</span>.<span class='ident'>notify</span>(<span class='ident'>message</span>.<span class='ident'>to</span>().<span class='ident'>unwrap</span>());
+                    <span class='ident'>listener</span>.<span class='ident'>notify_action</span>(<span class='ident'>message</span>.<span class='ident'>to</span>().<span class='ident'>unwrap</span>());
                 });
 
                 <span class='ident'>doc</span>.<span class='ident'>load_async</span>(<span class='ident'>LoadType</span>::<span class='ident'>Script</span>(<span class='ident'>url</span>), <span class='ident'>response_target</span>);

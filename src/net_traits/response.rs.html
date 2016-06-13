@@ -273,6 +273,20 @@
 <span id="229">229</span>
 <span id="230">230</span>
 <span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -280,15 +294,17 @@
 
 <span class='doccomment'>//! The [Response](https://fetch.spec.whatwg.org/#responses) object</span>
 <span class='doccomment'>//! resulting from a [fetch operation](https://fetch.spec.whatwg.org/#concept-fetch)</span>
-<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::{<span class='ident'>AccessControlExposeHeaders</span>, <span class='ident'>Headers</span>};
+<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::{<span class='ident'>AccessControlExposeHeaders</span>, <span class='ident'>ContentType</span>, <span class='ident'>Headers</span>};
+<span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>http</span>::<span class='ident'>RawStatus</span>;
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>status</span>::<span class='ident'>StatusCode</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::{<span class='ident'>Cell</span>, <span class='ident'>RefCell</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>};
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
+<span class='kw'>use</span> {<span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span>};
 
 <span class='doccomment'>/// [Response type](https://fetch.spec.whatwg.org/#concept-response-type)</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ResponseType</span> {
     <span class='ident'>Basic</span>,
     <span class='ident'>CORS</span>,
@@ -299,7 +315,7 @@
 }
 
 <span class='doccomment'>/// [Response termination reason](https://fetch.spec.whatwg.org/#concept-response-termination-reason)</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>TerminationReason</span> {
     <span class='ident'>EndUserAbort</span>,
     <span class='ident'>Fatal</span>,
@@ -326,7 +342,7 @@
 
 
 <span class='doccomment'>/// [Cache state](https://fetch.spec.whatwg.org/#concept-response-cache-state)</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>CacheState</span> {
     <span class='prelude-val'>None</span>,
     <span class='ident'>Local</span>,
@@ -357,6 +373,7 @@
     <span class='kw'>pub</span> <span class='ident'>url_list</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;&gt;</span>,
     <span class='doccomment'>/// `None` can be considered a StatusCode of `0`.</span>
     <span class='kw'>pub</span> <span class='ident'>status</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>StatusCode</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>raw_status</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>RawStatus</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>headers</span>: <span class='ident'>Headers</span>,
     <span class='kw'>pub</span> <span class='ident'>body</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>ResponseBody</span><span class='op'>&gt;&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>cache_state</span>: <span class='ident'>CacheState</span>,
@@ -376,6 +393,7 @@
             <span class='ident'>url</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>url_list</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Vec</span>::<span class='ident'>new</span>()),
             <span class='ident'>status</span>: <span class='prelude-val'>Some</span>(<span class='ident'>StatusCode</span>::<span class='prelude-val'>Ok</span>),
+            <span class='ident'>raw_status</span>: <span class='prelude-val'>Some</span>(<span class='ident'>RawStatus</span>(<span class='number'>200</span>, <span class='string'>&quot;OK&quot;</span>.<span class='ident'>into</span>())),
             <span class='ident'>headers</span>: <span class='ident'>Headers</span>::<span class='ident'>new</span>(),
             <span class='ident'>body</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>ResponseBody</span>::<span class='ident'>Empty</span>)),
             <span class='ident'>cache_state</span>: <span class='ident'>CacheState</span>::<span class='prelude-val'>None</span>,
@@ -392,6 +410,7 @@
             <span class='ident'>url</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>url_list</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[]),
             <span class='ident'>status</span>: <span class='prelude-val'>None</span>,
+            <span class='ident'>raw_status</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>headers</span>: <span class='ident'>Headers</span>::<span class='ident'>new</span>(),
             <span class='ident'>body</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>ResponseBody</span>::<span class='ident'>Empty</span>)),
             <span class='ident'>cache_state</span>: <span class='ident'>CacheState</span>::<span class='prelude-val'>None</span>,
@@ -405,18 +424,6 @@
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>response_type</span> {
             <span class='ident'>ResponseType</span>::<span class='ident'>Error</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
-        }
-    }
-
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>wait_until_done</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>response_type</span> {
-            <span class='comment'>// since these response types can&#39;t hold a body, they should be considered done</span>
-            <span class='ident'>ResponseType</span>::<span class='ident'>Error</span> <span class='op'>|</span> <span class='ident'>ResponseType</span>::<span class='ident'>Opaque</span> <span class='op'>|</span> <span class='ident'>ResponseType</span>::<span class='ident'>OpaqueRedirect</span> <span class='op'>=&gt;</span> {},
-            _ <span class='op'>=&gt;</span> {
-                <span class='kw'>while</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>body</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>().<span class='ident'>is_done</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>is_network_error</span>() {
-                    <span class='comment'>// loop until done</span>
-                }
-            }
         }
     }
 
@@ -503,6 +510,27 @@
         }
 
         <span class='ident'>response</span>
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>metadata</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Metadata</span>, <span class='ident'>NetworkError</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>metadata</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>url</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>url</span> {
+            <span class='ident'>Metadata</span>::<span class='ident'>default</span>(<span class='ident'>url</span>.<span class='ident'>clone</span>())
+        } <span class='kw'>else</span> {
+            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>NetworkError</span>::<span class='ident'>Internal</span>(<span class='string'>&quot;No url found in response&quot;</span>.<span class='ident'>to_string</span>()));
+        };
+
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_network_error</span>() {
+            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>NetworkError</span>::<span class='ident'>Internal</span>(<span class='string'>&quot;Cannot extract metadata from network error&quot;</span>.<span class='ident'>to_string</span>()));
+        }
+
+        <span class='ident'>metadata</span>.<span class='ident'>set_content_type</span>(<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>() {
+            <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>ContentType</span>(<span class='kw-2'>ref</span> <span class='ident'>mime</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>mime</span>),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+        });
+        <span class='ident'>metadata</span>.<span class='ident'>headers</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>clone</span>());
+        <span class='ident'>metadata</span>.<span class='ident'>status</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>raw_status</span>.<span class='ident'>clone</span>();
+        <span class='ident'>metadata</span>.<span class='ident'>https_state</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>https_state</span>;
+        <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>metadata</span>);
     }
 }
 </pre>

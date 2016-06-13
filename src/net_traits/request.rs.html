@@ -302,6 +302,83 @@
 <span id="258">258</span>
 <span id="259">259</span>
 <span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -309,7 +386,9 @@
 
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::<span class='ident'>Headers</span>;
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>method</span>::<span class='ident'>Method</span>;
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::<span class='ident'>ReferrerPolicy</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::{<span class='ident'>Cell</span>, <span class='ident'>RefCell</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>swap</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::{<span class='ident'>Origin</span> <span class='kw'>as</span> <span class='ident'>UrlOrigin</span>, <span class='ident'>Url</span>};
 
 <span class='doccomment'>/// An [initiator](https://fetch.spec.whatwg.org/#concept-request-initiator)</span>
@@ -330,7 +409,7 @@
 }
 
 <span class='doccomment'>/// A request [destination](https://fetch.spec.whatwg.org/#concept-request-destination)</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Destination</span> {
     <span class='prelude-val'>None</span>, <span class='ident'>Document</span>, <span class='ident'>Embed</span>, <span class='ident'>Font</span>, <span class='ident'>Image</span>, <span class='ident'>Manifest</span>,
     <span class='ident'>Media</span>, <span class='ident'>Object</span>, <span class='ident'>Report</span>, <span class='ident'>Script</span>, <span class='ident'>ServiceWorker</span>,
@@ -348,12 +427,13 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Referer</span> {
     <span class='ident'>NoReferer</span>,
+    <span class='doccomment'>/// Default referer if nothing is specified</span>
     <span class='ident'>Client</span>,
     <span class='ident'>RefererUrl</span>(<span class='ident'>Url</span>)
 }
 
 <span class='doccomment'>/// A [request mode](https://fetch.spec.whatwg.org/#concept-request-mode)</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>RequestMode</span> {
     <span class='ident'>Navigate</span>,
     <span class='ident'>SameOrigin</span>,
@@ -362,7 +442,7 @@
 }
 
 <span class='doccomment'>/// Request [credentials mode](https://fetch.spec.whatwg.org/#concept-request-credentials-mode)</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>CredentialsMode</span> {
     <span class='ident'>Omit</span>,
     <span class='ident'>CredentialsSameOrigin</span>,
@@ -411,6 +491,29 @@
     <span class='ident'>UseCredentials</span>
 }
 
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Clone</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RequestInit</span> {
+    <span class='kw'>pub</span> <span class='ident'>method</span>: <span class='ident'>Method</span>,
+    <span class='kw'>pub</span> <span class='ident'>url</span>: <span class='ident'>Url</span>,
+    <span class='kw'>pub</span> <span class='ident'>headers</span>: <span class='ident'>Headers</span>,
+    <span class='kw'>pub</span> <span class='ident'>unsafe_request</span>: <span class='ident'>bool</span>,
+    <span class='kw'>pub</span> <span class='ident'>same_origin_data</span>: <span class='ident'>bool</span>,
+    <span class='kw'>pub</span> <span class='ident'>body</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>,
+    <span class='comment'>// TODO: client object</span>
+    <span class='kw'>pub</span> <span class='ident'>destination</span>: <span class='ident'>Destination</span>,
+    <span class='kw'>pub</span> <span class='ident'>synchronous</span>: <span class='ident'>bool</span>,
+    <span class='kw'>pub</span> <span class='ident'>mode</span>: <span class='ident'>RequestMode</span>,
+    <span class='kw'>pub</span> <span class='ident'>use_cors_preflight</span>: <span class='ident'>bool</span>,
+    <span class='kw'>pub</span> <span class='ident'>credentials_mode</span>: <span class='ident'>CredentialsMode</span>,
+    <span class='kw'>pub</span> <span class='ident'>use_url_credentials</span>: <span class='ident'>bool</span>,
+    <span class='comment'>// this should actually be set by fetch, but fetch</span>
+    <span class='comment'>// doesn&#39;t have info about the client right now</span>
+    <span class='kw'>pub</span> <span class='ident'>origin</span>: <span class='ident'>Url</span>,
+    <span class='comment'>// XXXManishearth these should be part of the client object</span>
+    <span class='kw'>pub</span> <span class='ident'>referer_url</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>referrer_policy</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ReferrerPolicy</span><span class='op'>&gt;</span>,
+}
+
 <span class='doccomment'>/// A [Request](https://fetch.spec.whatwg.org/#requests) as defined by the Fetch spec</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Request</span> {
@@ -435,8 +538,9 @@
     <span class='kw'>pub</span> <span class='ident'>origin</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Origin</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>omit_origin_header</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>same_origin_data</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>referer</span>: <span class='ident'>Referer</span>,
-    <span class='comment'>// TODO: referrer policy</span>
+    <span class='doccomment'>/// https://fetch.spec.whatwg.org/#concept-request-referrer</span>
+    <span class='kw'>pub</span> <span class='ident'>referer</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Referer</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>referrer_policy</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ReferrerPolicy</span><span class='op'>&gt;&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>synchronous</span>: <span class='ident'>bool</span>,
     <span class='kw'>pub</span> <span class='ident'>mode</span>: <span class='ident'>RequestMode</span>,
     <span class='kw'>pub</span> <span class='ident'>use_cors_preflight</span>: <span class='ident'>bool</span>,
@@ -450,7 +554,7 @@
     <span class='kw'>pub</span> <span class='ident'>url_list</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>redirect_count</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>response_tainting</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>ResponseTainting</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>done</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>
+    <span class='kw'>pub</span> <span class='ident'>done</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>Request</span> {
@@ -474,7 +578,8 @@
             <span class='ident'>origin</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>origin</span>.<span class='ident'>unwrap_or</span>(<span class='ident'>Origin</span>::<span class='ident'>Client</span>)),
             <span class='ident'>omit_origin_header</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>same_origin_data</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
-            <span class='ident'>referer</span>: <span class='ident'>Referer</span>::<span class='ident'>Client</span>,
+            <span class='ident'>referer</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Referer</span>::<span class='ident'>Client</span>),
+            <span class='ident'>referrer_policy</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
             <span class='ident'>synchronous</span>: <span class='bool-val'>false</span>,
             <span class='ident'>mode</span>: <span class='ident'>RequestMode</span>::<span class='ident'>NoCORS</span>,
             <span class='ident'>use_cors_preflight</span>: <span class='bool-val'>false</span>,
@@ -488,6 +593,30 @@
             <span class='ident'>response_tainting</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='ident'>ResponseTainting</span>::<span class='ident'>Basic</span>),
             <span class='ident'>done</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>)
         }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_init</span>(<span class='ident'>init</span>: <span class='ident'>RequestInit</span>) <span class='op'>-&gt;</span> <span class='ident'>Request</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>req</span> <span class='op'>=</span> <span class='ident'>Request</span>::<span class='ident'>new</span>(<span class='ident'>init</span>.<span class='ident'>url</span>,
+                                   <span class='prelude-val'>Some</span>(<span class='ident'>Origin</span>::<span class='ident'>Origin</span>(<span class='ident'>init</span>.<span class='ident'>origin</span>.<span class='ident'>origin</span>())),
+                                   <span class='bool-val'>false</span>);
+        <span class='op'>*</span><span class='ident'>req</span>.<span class='ident'>method</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>method</span>;
+        <span class='op'>*</span><span class='ident'>req</span>.<span class='ident'>headers</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>headers</span>;
+        <span class='ident'>req</span>.<span class='ident'>unsafe_request</span> <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>unsafe_request</span>;
+        <span class='ident'>req</span>.<span class='ident'>same_origin_data</span>.<span class='ident'>set</span>(<span class='ident'>init</span>.<span class='ident'>same_origin_data</span>);
+        <span class='op'>*</span><span class='ident'>req</span>.<span class='ident'>body</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>body</span>;
+        <span class='ident'>req</span>.<span class='ident'>destination</span> <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>destination</span>;
+        <span class='ident'>req</span>.<span class='ident'>synchronous</span> <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>synchronous</span>;
+        <span class='ident'>req</span>.<span class='ident'>mode</span> <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>mode</span>;
+        <span class='ident'>req</span>.<span class='ident'>use_cors_preflight</span> <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>use_cors_preflight</span>;
+        <span class='ident'>req</span>.<span class='ident'>credentials_mode</span> <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>credentials_mode</span>;
+        <span class='ident'>req</span>.<span class='ident'>use_url_credentials</span> <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>use_url_credentials</span>;
+        <span class='op'>*</span><span class='ident'>req</span>.<span class='ident'>referer</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>url</span>) <span class='op'>=</span> <span class='ident'>init</span>.<span class='ident'>referer_url</span> {
+            <span class='ident'>Referer</span>::<span class='ident'>RefererUrl</span>(<span class='ident'>url</span>)
+        } <span class='kw'>else</span> {
+            <span class='ident'>Referer</span>::<span class='ident'>NoReferer</span>
+        };
+        <span class='ident'>req</span>.<span class='ident'>referrer_policy</span>.<span class='ident'>set</span>(<span class='ident'>init</span>.<span class='ident'>referrer_policy</span>);
+        <span class='ident'>req</span>
     }
 
     <span class='doccomment'>/// https://html.spec.whatwg.org/multipage/#create-a-potential-cors-request</span>
@@ -512,7 +641,8 @@
             <span class='ident'>origin</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Origin</span>::<span class='ident'>Client</span>),
             <span class='ident'>omit_origin_header</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
             <span class='ident'>same_origin_data</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>),
-            <span class='ident'>referer</span>: <span class='ident'>Referer</span>::<span class='ident'>Client</span>,
+            <span class='ident'>referer</span>: <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Referer</span>::<span class='ident'>Client</span>),
+            <span class='ident'>referrer_policy</span>: <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
             <span class='ident'>synchronous</span>: <span class='bool-val'>false</span>,
             <span class='comment'>// Step 1-2</span>
             <span class='ident'>mode</span>: <span class='kw'>match</span> <span class='ident'>cors_attribute_state</span> {
@@ -560,6 +690,30 @@
                 <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='ident'>Style</span> <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='ident'>XSLT</span>
                 <span class='op'>|</span> <span class='ident'>Destination</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
+        }
+    }
+}
+
+<span class='kw'>impl</span> <span class='ident'>Referer</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_url</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>Url</span><span class='op'>&gt;</span> {
+        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+            <span class='ident'>Referer</span>::<span class='ident'>NoReferer</span> <span class='op'>|</span> <span class='ident'>Referer</span>::<span class='ident'>Client</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+            <span class='ident'>Referer</span>::<span class='ident'>RefererUrl</span>(<span class='kw-2'>ref</span> <span class='ident'>url</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>url</span>)
+        }
+    }
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_url</span>(<span class='ident'>url</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>url</span>) <span class='op'>=</span> <span class='ident'>url</span> {
+            <span class='ident'>Referer</span>::<span class='ident'>RefererUrl</span>(<span class='ident'>url</span>)
+        } <span class='kw'>else</span> {
+            <span class='ident'>Referer</span>::<span class='ident'>NoReferer</span>
+        }
+    }
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>take</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Url</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new</span> <span class='op'>=</span> <span class='ident'>Referer</span>::<span class='ident'>Client</span>;
+        <span class='ident'>swap</span>(<span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>new</span>);
+        <span class='kw'>match</span> <span class='ident'>new</span> {
+            <span class='ident'>Referer</span>::<span class='ident'>NoReferer</span> <span class='op'>|</span> <span class='ident'>Referer</span>::<span class='ident'>Client</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+            <span class='ident'>Referer</span>::<span class='ident'>RefererUrl</span>(<span class='ident'>url</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>url</span>)
         }
     }
 }
