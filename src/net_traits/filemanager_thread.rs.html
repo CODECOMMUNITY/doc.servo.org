@@ -94,6 +94,11 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -115,13 +120,16 @@
     <span class='kw'>pub</span> <span class='ident'>type_string</span>: <span class='ident'>String</span>,
 }
 
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FilterPattern</span>(<span class='kw'>pub</span> <span class='ident'>String</span>);
+
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FileManagerThreadMsg</span> {
     <span class='doccomment'>/// Select a single file, return triple (FileID, FileName, lastModified)</span>
-    <span class='ident'>SelectFile</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>SelectFile</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span>),
 
     <span class='doccomment'>/// Select multiple files, return a vector of triples</span>
-    <span class='ident'>SelectFiles</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
+    <span class='ident'>SelectFiles</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
 
     <span class='doccomment'>/// Read file, return the bytes</span>
     <span class='ident'>ReadFile</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>, <span class='ident'>SelectedFileId</span>),
@@ -140,8 +148,10 @@
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>FileManagerThreadError</span> {
-    <span class='doccomment'>/// The selection action is invalid, nothing is selected</span>
+    <span class='doccomment'>/// The selection action is invalid due to exceptional reason</span>
     <span class='ident'>InvalidSelection</span>,
+    <span class='doccomment'>/// The selection action is cancelled by user</span>
+    <span class='ident'>UserCancelled</span>,
     <span class='doccomment'>/// Failure to process file information such as file name, modified time etc.</span>
     <span class='ident'>FileInfoProcessingError</span>,
     <span class='doccomment'>/// Failure to read the file content</span>

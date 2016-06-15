@@ -47,13 +47,13 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-225' class='srclink' href='../../encoding/types/enum.EncoderTrap.html?gotosrc=225' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-223' class='srclink' href='../../encoding/types/enum.EncoderTrap.html?gotosrc=223' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum EncoderTrap {
     Strict,
     Replace,
     Ignore,
     NcrEscape,
-    Call(fn(&amp;mut <a class='trait' href='../../html5ever/encoding/trait.RawEncoder.html' title='html5ever::encoding::RawEncoder'>RawEncoder</a> + 'static, &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, &amp;mut <a class='trait' href='../../html5ever/encoding/types/trait.ByteWriter.html' title='html5ever::encoding::types::ByteWriter'>ByteWriter</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>),
+    Call(fn(&amp;mut <a class='trait' href='../../html5ever/encoding/trait.RawEncoder.html' title='html5ever::encoding::RawEncoder'>RawEncoder</a> + 'static, &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, &amp;mut <a class='trait' href='../../html5ever/encoding/trait.ByteWriter.html' title='html5ever::encoding::ByteWriter'>ByteWriter</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>),
 }</pre><h2 class='variants'>Variants</h2>
 <span id='variant.Strict' class='variant'><code>Strict</code></span><div class='docblock'><p>Immediately fails on errors.
 Corresponds to WHATWG &quot;fatal&quot; error algorithm.</p>
@@ -64,11 +64,11 @@ Corresponds to WHATWG &quot;URL&quot; error algorithms.</p>
 </div><span id='variant.NcrEscape' class='variant'><code>NcrEscape</code></span><div class='docblock'><p>Replaces an error with XML numeric character references (e.g. <code>&amp;#1234;</code>).
 The encoder trap fails when NCRs cannot be represented in given encoding.
 Corresponds to WHATWG &quot;<form>&quot; error algorithms.</p>
-</div><span id='variant.Call' class='variant'><code>Call(fn(&amp;mut <a class='trait' href='../../html5ever/encoding/trait.RawEncoder.html' title='html5ever::encoding::RawEncoder'>RawEncoder</a> + 'static, &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, &amp;mut <a class='trait' href='../../html5ever/encoding/types/trait.ByteWriter.html' title='html5ever::encoding::types::ByteWriter'>ByteWriter</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>)</code></span><div class='docblock'><p>Calls given function to handle encoder errors.
+</div><span id='variant.Call' class='variant'><code>Call(fn(&amp;mut <a class='trait' href='../../html5ever/encoding/trait.RawEncoder.html' title='html5ever::encoding::RawEncoder'>RawEncoder</a> + 'static, &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, &amp;mut <a class='trait' href='../../html5ever/encoding/trait.ByteWriter.html' title='html5ever::encoding::ByteWriter'>ByteWriter</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a>)</code></span><div class='docblock'><p>Calls given function to handle encoder errors.
 The function is given the current encoder, input and output writer,
 and should return true only when it is fine to keep going.</p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='enum' href='../../html5ever/encoding/enum.EncoderTrap.html' title='html5ever::encoding::EncoderTrap'>EncoderTrap</a></code></span><span class='out-of-band'></span></h3>
-<div class='impl-items'><h4 id='method.trap' class='method'><code>fn <a href='#method.trap' class='fnname'>trap</a>(&amp;self, encoder: &amp;mut <a class='trait' href='../../html5ever/encoding/trait.RawEncoder.html' title='html5ever::encoding::RawEncoder'>RawEncoder</a> + 'static, input: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, output: &amp;mut <a class='trait' href='../../html5ever/encoding/types/trait.ByteWriter.html' title='html5ever::encoding::types::ByteWriter'>ByteWriter</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='impl-items'><h4 id='method.trap' class='method'><code>fn <a href='#method.trap' class='fnname'>trap</a>(&amp;self, encoder: &amp;mut <a class='trait' href='../../html5ever/encoding/trait.RawEncoder.html' title='html5ever::encoding::RawEncoder'>RawEncoder</a> + 'static, input: &amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>, output: &amp;mut <a class='trait' href='../../html5ever/encoding/trait.ByteWriter.html' title='html5ever::encoding::ByteWriter'>ByteWriter</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Handles an encoder error. May write to the output writer.
 Returns true only when it is fine to keep going.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../../html5ever/encoding/enum.EncoderTrap.html' title='html5ever::encoding::EncoderTrap'>EncoderTrap</a></code></span><span class='out-of-band'></span></h3>

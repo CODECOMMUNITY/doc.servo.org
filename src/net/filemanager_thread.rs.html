@@ -240,6 +240,63 @@
 <span id="196">196</span>
 <span id="197">197</span>
 <span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -250,48 +307,88 @@
 <span class='kw'>use</span> <span class='ident'>mime_classifier</span>::<span class='ident'>MIMEClassifier</span>;
 <span class='kw'>use</span> <span class='ident'>mime_guess</span>::<span class='ident'>guess_mime_type_opt</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>blob_url_store</span>::{<span class='ident'>BlobURLStoreEntry</span>, <span class='ident'>BlobURLStoreError</span>};
-<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::{<span class='ident'>FileManagerThreadMsg</span>, <span class='ident'>FileManagerResult</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::{<span class='ident'>FileManagerThreadMsg</span>, <span class='ident'>FileManagerResult</span>, <span class='ident'>FilterPattern</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::{<span class='ident'>SelectedFile</span>, <span class='ident'>FileManagerThreadError</span>, <span class='ident'>SelectedFileId</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Read</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::{<span class='ident'>Path</span>, <span class='ident'>PathBuf</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>RwLock</span>};
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>))]</span>
+<span class='kw'>use</span> <span class='ident'>tinyfiledialogs</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Origin</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>thread</span>::<span class='ident'>spawn_named</span>;
 <span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>FileManagerThreadFactory</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>FileManagerThreadFactory</span><span class='op'>&lt;</span><span class='ident'>UI</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>UIProvider</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>UI</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 
-<span class='kw'>impl</span> <span class='ident'>FileManagerThreadFactory</span> <span class='kw'>for</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>UIProvider</span> <span class='kw'>where</span> <span class='self'>Self</span>: <span class='ident'>Sync</span> {
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+                        <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog_multi</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+                              <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>;
+}
+
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TFDProvider</span>;
+
+<span class='kw'>impl</span> <span class='ident'>UIProvider</span> <span class='kw'>for</span> <span class='ident'>TFDProvider</span> {
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>))]</span>
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+                        <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
+        <span class='ident'>tinyfiledialogs</span>::<span class='ident'>open_file_dialog</span>(<span class='string'>&quot;Pick a file&quot;</span>, <span class='ident'>path</span>, <span class='ident'>filter</span>)
+    }
+
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>))]</span>
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog_multi</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+                              <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
+        <span class='ident'>tinyfiledialogs</span>::<span class='ident'>open_file_dialog_multi</span>(<span class='string'>&quot;Pick files&quot;</span>, <span class='ident'>path</span>, <span class='ident'>filter</span>)
+    }
+
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>)))]</span>
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+                        <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
+        <span class='prelude-val'>None</span>
+    }
+
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>)))]</span>
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog_multi</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+                              <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
+        <span class='prelude-val'>None</span>
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>UI</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>UIProvider</span><span class='op'>&gt;</span> <span class='ident'>FileManagerThreadFactory</span><span class='op'>&lt;</span><span class='ident'>UI</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// Create a FileManagerThread</span>
-    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>ui</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>UI</span>) <span class='op'>-&gt;</span> <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> (<span class='ident'>chan</span>, <span class='ident'>recv</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
 
         <span class='ident'>spawn_named</span>(<span class='string'>&quot;FileManager&quot;</span>.<span class='ident'>to_owned</span>(), <span class='kw'>move</span> <span class='op'>||</span> {
-            <span class='ident'>FileManager</span>::<span class='ident'>new</span>(<span class='ident'>recv</span>).<span class='ident'>start</span>();
+            <span class='ident'>FileManager</span>::<span class='ident'>new</span>(<span class='ident'>recv</span>, <span class='ident'>ui</span>).<span class='ident'>start</span>();
         });
 
         <span class='ident'>chan</span>
     }
 }
 
-<span class='kw'>struct</span> <span class='ident'>FileManager</span> {
+<span class='kw'>struct</span> <span class='ident'>FileManager</span><span class='op'>&lt;</span><span class='ident'>UI</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>UIProvider</span><span class='op'>&gt;</span> {
     <span class='ident'>receiver</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span>,
     <span class='ident'>idmap</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>Uuid</span>, <span class='ident'>PathBuf</span><span class='op'>&gt;</span>,
     <span class='ident'>classifier</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>MIMEClassifier</span><span class='op'>&gt;</span>,
     <span class='ident'>blob_url_store</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>BlobURLStore</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>ui</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>UI</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>FileManager</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>recv</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>FileManager</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>UI</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>UIProvider</span><span class='op'>&gt;</span> <span class='ident'>FileManager</span><span class='op'>&lt;</span><span class='ident'>UI</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>recv</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span>, <span class='ident'>ui</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>UI</span>) <span class='op'>-&gt;</span> <span class='ident'>FileManager</span><span class='op'>&lt;</span><span class='ident'>UI</span><span class='op'>&gt;</span> {
         <span class='ident'>FileManager</span> {
             <span class='ident'>receiver</span>: <span class='ident'>recv</span>,
             <span class='ident'>idmap</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
             <span class='ident'>classifier</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>MIMEClassifier</span>::<span class='ident'>new</span>()),
             <span class='ident'>blob_url_store</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>BlobURLStore</span>::<span class='ident'>new</span>())),
+            <span class='ident'>ui</span>: <span class='ident'>ui</span>
         }
     }
 
@@ -299,8 +396,8 @@
     <span class='kw'>fn</span> <span class='ident'>start</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>loop</span> {
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>() {
-                <span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>SelectFile</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>select_file</span>(<span class='ident'>sender</span>),
-                <span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>SelectFiles</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>select_files</span>(<span class='ident'>sender</span>),
+                <span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>SelectFile</span>(<span class='ident'>filter</span>, <span class='ident'>sender</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>select_file</span>(<span class='ident'>filter</span>, <span class='ident'>sender</span>),
+                <span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>SelectFiles</span>(<span class='ident'>filter</span>, <span class='ident'>sender</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>select_files</span>(<span class='ident'>filter</span>, <span class='ident'>sender</span>),
                 <span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>ReadFile</span>(<span class='ident'>sender</span>, <span class='ident'>id</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>try_read_file</span>(<span class='ident'>id</span>) {
                         <span class='prelude-val'>Ok</span>(<span class='ident'>buffer</span>) <span class='op'>=&gt;</span> { <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>buffer</span>)); }
@@ -317,33 +414,51 @@
             };
         }
     }
-}
 
-<span class='kw'>impl</span> <span class='ident'>FileManager</span> {
-    <span class='kw'>fn</span> <span class='ident'>select_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span>) {
-        <span class='comment'>// TODO: Pull the dialog UI in and get selected</span>
-        <span class='comment'>// XXX: &quot;test.txt&quot; is &quot;tests/unit/net/test.txt&quot;, for temporary testing purpose</span>
-        <span class='kw'>let</span> <span class='ident'>selected_path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;test.txt&quot;</span>);
+    <span class='kw'>fn</span> <span class='ident'>select_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_filter</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>,
+                   <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span>) {
+        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>ui</span>.<span class='ident'>open_file_dialog</span>(<span class='string'>&quot;&quot;</span>, <span class='prelude-val'>None</span>) {
+            <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='ident'>selected_path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>);
 
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>create_entry</span>(<span class='ident'>selected_path</span>) {
-            <span class='prelude-val'>Some</span>(<span class='ident'>triple</span>) <span class='op'>=&gt;</span> { <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>triple</span>)); }
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>FileManagerThreadError</span>::<span class='ident'>InvalidSelection</span>)); }
-        };
+                <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>create_entry</span>(<span class='ident'>selected_path</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>triple</span>) <span class='op'>=&gt;</span> { <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>triple</span>)); }
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>FileManagerThreadError</span>::<span class='ident'>InvalidSelection</span>)); }
+                };
+            }
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>FileManagerThreadError</span>::<span class='ident'>UserCancelled</span>));
+                <span class='kw'>return</span>;
+            }
+        }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>select_files</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>selected_paths</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;test.txt&quot;</span>)];
+    <span class='kw'>fn</span> <span class='ident'>select_files</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_filter</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>,
+                    <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
+        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>ui</span>.<span class='ident'>open_file_dialog_multi</span>(<span class='string'>&quot;&quot;</span>, <span class='prelude-val'>None</span>) {
+            <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>selected_paths</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>replies</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
+                <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>v</span> {
+                    <span class='ident'>selected_paths</span>.<span class='ident'>push</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='ident'>s</span>));
+                }
 
-        <span class='kw'>for</span> <span class='ident'>path</span> <span class='kw'>in</span> <span class='ident'>selected_paths</span> {
-            <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>create_entry</span>(<span class='ident'>path</span>) {
-                <span class='prelude-val'>Some</span>(<span class='ident'>triple</span>) <span class='op'>=&gt;</span> <span class='ident'>replies</span>.<span class='ident'>push</span>(<span class='ident'>triple</span>),
-                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>FileManagerThreadError</span>::<span class='ident'>InvalidSelection</span>)); }
-            };
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>replies</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
+
+                <span class='kw'>for</span> <span class='ident'>path</span> <span class='kw'>in</span> <span class='ident'>selected_paths</span> {
+                    <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>create_entry</span>(<span class='ident'>path</span>) {
+                        <span class='prelude-val'>Some</span>(<span class='ident'>triple</span>) <span class='op'>=&gt;</span> <span class='ident'>replies</span>.<span class='ident'>push</span>(<span class='ident'>triple</span>),
+                        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>FileManagerThreadError</span>::<span class='ident'>InvalidSelection</span>)); }
+                    };
+                }
+
+                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>replies</span>));
+            }
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>FileManagerThreadError</span>::<span class='ident'>UserCancelled</span>));
+                <span class='kw'>return</span>;
+            }
         }
-
-        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>replies</span>));
     }
 
     <span class='kw'>fn</span> <span class='ident'>create_entry</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>file_path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;</span> {
@@ -438,7 +553,6 @@
         <span class='self'>self</span>.<span class='ident'>entries</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>id</span>);
     }
 }
-
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

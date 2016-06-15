@@ -280,6 +280,13 @@
 <span id="236">236</span>
 <span id="237">237</span>
 <span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -348,7 +355,14 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>process_preorder</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='ident'>ServoLayoutNode</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ln</span><span class='op'>&gt;</span>) { <span class='ident'>recalc_style_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>context</span>, <span class='self'>self</span>.<span class='ident'>root</span>, <span class='ident'>node</span>); }
+    <span class='kw'>fn</span> <span class='ident'>process_preorder</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='ident'>ServoLayoutNode</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ln</span><span class='op'>&gt;</span>) {
+        <span class='comment'>// FIXME(pcwalton): Stop allocating here. Ideally this should just be done by the HTML</span>
+        <span class='comment'>// parser.</span>
+        <span class='ident'>node</span>.<span class='ident'>initialize_data</span>();
+
+        <span class='ident'>recalc_style_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>context</span>, <span class='self'>self</span>.<span class='ident'>root</span>, <span class='ident'>node</span>);
+    }
+
     <span class='kw'>fn</span> <span class='ident'>process_postorder</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='ident'>ServoLayoutNode</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ln</span><span class='op'>&gt;</span>) { <span class='ident'>construct_flows_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>context</span>, <span class='self'>self</span>.<span class='ident'>root</span>, <span class='ident'>node</span>); }
 }
 

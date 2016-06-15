@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_GLContextAttributes",""],["_IMPL_SERIALIZE_FOR_GLContextAttributes",""]],"struct":[["GLContextAttributes","This structure represents the attributes the context must support It's almost (if not) identical to WebGLGLContextAttributes"]]});
+initSidebarItems({"struct":[["GLContextAttributes","This structure represents the attributes the context must support It's almost (if not) identical to WebGLGLContextAttributes"]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["BlobURLStore",""],["FileManager",""]],"trait":[["FileManagerThreadFactory",""]]});
+initSidebarItems({"struct":[["BlobURLStore",""],["FileManager",""],["TFDProvider",""]],"trait":[["FileManagerThreadFactory",""],["UIProvider",""]]});

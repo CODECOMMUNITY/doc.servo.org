@@ -556,6 +556,8 @@
 <span id="512">512</span>
 <span id="513">513</span>
 <span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -572,7 +574,7 @@
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::<span class='ident'>DevtoolsControlMsg</span>;
 <span class='kw'>use</span> <span class='ident'>fetch</span>::<span class='ident'>methods</span>::{<span class='ident'>fetch</span>, <span class='ident'>FetchContext</span>};
 <span class='kw'>use</span> <span class='ident'>file_loader</span>;
-<span class='kw'>use</span> <span class='ident'>filemanager_thread</span>::<span class='ident'>FileManagerThreadFactory</span>;
+<span class='kw'>use</span> <span class='ident'>filemanager_thread</span>::{<span class='ident'>FileManagerThreadFactory</span>, <span class='ident'>TFDProvider</span>};
 <span class='kw'>use</span> <span class='ident'>hsts</span>::<span class='ident'>HstsList</span>;
 <span class='kw'>use</span> <span class='ident'>http_loader</span>::{<span class='self'>self</span>, <span class='ident'>HttpState</span>};
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>client</span>::<span class='ident'>pool</span>::<span class='ident'>Pool</span>;
@@ -607,6 +609,8 @@
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>thread</span>::<span class='ident'>spawn_named</span>;
 <span class='kw'>use</span> <span class='ident'>websocket_loader</span>;
+
+<span class='kw'>const</span> <span class='ident'>TFD_PROVIDER</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>TFDProvider</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>TFDProvider</span>;
 
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ProgressSender</span> {
     <span class='ident'>Channel</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ProgressMsg</span><span class='op'>&gt;</span>),
@@ -720,7 +724,7 @@
                             <span class='ident'>profiler_chan</span>: <span class='ident'>ProfilerChan</span>) <span class='op'>-&gt;</span> <span class='ident'>ResourceThreads</span> {
     <span class='ident'>ResourceThreads</span>::<span class='ident'>new</span>(<span class='ident'>new_core_resource_thread</span>(<span class='ident'>user_agent</span>, <span class='ident'>devtools_chan</span>, <span class='ident'>profiler_chan</span>),
                          <span class='ident'>StorageThreadFactory</span>::<span class='ident'>new</span>(),
-                         <span class='ident'>FileManagerThreadFactory</span>::<span class='ident'>new</span>())
+                         <span class='ident'>FileManagerThreadFactory</span>::<span class='ident'>new</span>(<span class='ident'>TFD_PROVIDER</span>))
 }
 
 

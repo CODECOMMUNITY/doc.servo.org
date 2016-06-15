@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["all_struct_fields",""],["all_variants",""],["contains_generic",""],["strip_reference",""],["with_bound",""],["without_defaults",""]]});
+initSidebarItems({"fn":[["all_fields_with_attrs",""],["all_struct_fields",""],["all_variants",""],["contains_generic",""],["contains_recursion",""],["strip_reference",""],["with_bound",""],["with_where_predicates",""],["with_where_predicates_from_fields",""],["without_defaults",""]]});
