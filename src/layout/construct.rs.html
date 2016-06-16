@@ -1955,7 +1955,6 @@
 <span id="1911">1911</span>
 <span id="1912">1912</span>
 <span id="1913">1913</span>
-<span id="1914">1914</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2685,7 +2684,6 @@
             <span class='kw'>return</span>
         }
 
-        <span class='kw'>let</span> <span class='ident'>selection</span> <span class='op'>=</span> <span class='ident'>node</span>.<span class='ident'>selection</span>();
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>style</span> <span class='op'>=</span> (<span class='op'>*</span><span class='ident'>style</span>).<span class='ident'>clone</span>();
         <span class='ident'>properties</span>::<span class='ident'>modify_style_for_text</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>style</span>);
 
@@ -2693,7 +2691,7 @@
 
         <span class='kw'>match</span> <span class='ident'>text_content</span> {
             <span class='ident'>TextContent</span>::<span class='ident'>Text</span>(<span class='ident'>string</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>info</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>UnscannedTextFragmentInfo</span>::<span class='ident'>new</span>(<span class='ident'>string</span>, <span class='ident'>selection</span>);
+                <span class='kw'>let</span> <span class='ident'>info</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>UnscannedTextFragmentInfo</span>::<span class='ident'>new</span>(<span class='ident'>string</span>, <span class='ident'>node</span>.<span class='ident'>selection</span>());
                 <span class='kw'>let</span> <span class='ident'>specific_fragment_info</span> <span class='op'>=</span> <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>UnscannedText</span>(<span class='ident'>info</span>);
                 <span class='ident'>fragments</span>.<span class='ident'>fragments</span>.<span class='ident'>push_back</span>(<span class='ident'>Fragment</span>::<span class='ident'>from_opaque_node_and_style</span>(
                         <span class='ident'>node</span>.<span class='ident'>opaque</span>(),
