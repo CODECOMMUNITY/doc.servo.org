@@ -551,6 +551,32 @@
 <span id="507">507</span>
 <span id="508">508</span>
 <span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -619,6 +645,9 @@
     <span class='kw'>pub</span> <span class='ident'>running_animations</span>: <span class='ident'>bool</span>,
     <span class='kw'>pub</span> <span class='ident'>children</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FrameId</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>is_private</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Whether this pipeline should be treated as visible for the purposes of scheduling and</span>
+    <span class='doccomment'>/// resource management.</span>
+    <span class='kw'>pub</span> <span class='ident'>visible</span>: <span class='ident'>bool</span>,
 }
 
 <span class='doccomment'>/// Initial setup data needed to construct a pipeline.</span>
@@ -666,6 +695,8 @@
     <span class='kw'>pub</span> <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>,
     <span class='doccomment'>/// The ID of the pipeline namespace for this script thread.</span>
     <span class='kw'>pub</span> <span class='ident'>pipeline_namespace_id</span>: <span class='ident'>PipelineNamespaceId</span>,
+    <span class='doccomment'>/// Pipeline visibility is inherited from parent</span>
+    <span class='kw'>pub</span> <span class='ident'>parent_visibility</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// Optional webrender api (if enabled).</span>
     <span class='kw'>pub</span> <span class='ident'>webrender_api_sender</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApiSender</span><span class='op'>&gt;</span>,
 }
@@ -804,7 +835,10 @@
                                      <span class='ident'>state</span>.<span class='ident'>compositor_proxy</span>,
                                      <span class='ident'>chrome_to_paint_chan</span>,
                                      <span class='ident'>state</span>.<span class='ident'>load_data</span>.<span class='ident'>url</span>,
-                                     <span class='ident'>state</span>.<span class='ident'>window_size</span>);
+                                     <span class='ident'>state</span>.<span class='ident'>window_size</span>,
+                                     <span class='ident'>state</span>.<span class='ident'>parent_visibility</span>.<span class='ident'>unwrap_or</span>(<span class='bool-val'>true</span>));
+
+        <span class='ident'>pipeline</span>.<span class='ident'>notify_visibility</span>();
 
         <span class='prelude-val'>Ok</span>((<span class='ident'>pipeline</span>, <span class='ident'>child_process</span>))
     }
@@ -816,7 +850,8 @@
            <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
            <span class='ident'>chrome_to_paint_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ChromeToPaintMsg</span><span class='op'>&gt;</span>,
            <span class='ident'>url</span>: <span class='ident'>Url</span>,
-           <span class='ident'>size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>PagePx</span>, <span class='ident'>f32</span><span class='op'>&gt;&gt;</span>)
+           <span class='ident'>size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>PagePx</span>, <span class='ident'>f32</span><span class='op'>&gt;&gt;</span>,
+           <span class='ident'>visible</span>: <span class='ident'>bool</span>)
            <span class='op'>-&gt;</span> <span class='ident'>Pipeline</span> {
         <span class='ident'>Pipeline</span> {
             <span class='ident'>id</span>: <span class='ident'>id</span>,
@@ -831,6 +866,7 @@
             <span class='ident'>size</span>: <span class='ident'>size</span>,
             <span class='ident'>running_animations</span>: <span class='bool-val'>false</span>,
             <span class='ident'>is_private</span>: <span class='bool-val'>false</span>,
+            <span class='ident'>visible</span>: <span class='ident'>visible</span>,
         }
     }
 
@@ -921,6 +957,22 @@
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Sending mozbrowser event to script failed ({}).&quot;</span>, <span class='ident'>e</span>);
         }
     }
+
+    <span class='kw'>fn</span> <span class='ident'>notify_visibility</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='self'>self</span>.<span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationControlMsg</span>::<span class='ident'>ChangeFrameVisibilityStatus</span>(<span class='self'>self</span>.<span class='ident'>id</span>, <span class='self'>self</span>.<span class='ident'>visible</span>))
+                        .<span class='ident'>expect</span>(<span class='string'>&quot;Pipeline script chan&quot;</span>);
+
+        <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>CompositorMsg</span>::<span class='ident'>PipelineVisibilityChanged</span>(<span class='self'>self</span>.<span class='ident'>id</span>, <span class='self'>self</span>.<span class='ident'>visible</span>));
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>change_visibility</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>visible</span>: <span class='ident'>bool</span>) {
+        <span class='kw'>if</span> <span class='ident'>visible</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>visible</span> {
+            <span class='kw'>return</span>;
+        }
+        <span class='self'>self</span>.<span class='ident'>visible</span> <span class='op'>=</span> <span class='ident'>visible</span>;
+        <span class='self'>self</span>.<span class='ident'>notify_visibility</span>();
+    }
+
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>

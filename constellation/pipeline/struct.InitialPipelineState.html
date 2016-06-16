@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1516' class='srclink' href='../../src/constellation/pipeline.rs.html#74-117' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1560' class='srclink' href='../../src/constellation/pipeline.rs.html#77-122' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct InitialPipelineState {
     pub id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
     pub parent_info: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>, <a class='enum' href='../../msg/constellation_msg/enum.FrameType.html' title='msg::constellation_msg::FrameType'>FrameType</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;,
@@ -68,6 +68,7 @@
     pub script_chan: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;&gt;,
     pub load_data: <a class='struct' href='../../msg/constellation_msg/struct.LoadData.html' title='msg::constellation_msg::LoadData'>LoadData</a>,
     pub pipeline_namespace_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineNamespaceId.html' title='msg::constellation_msg::PipelineNamespaceId'>PipelineNamespaceId</a>,
+    pub parent_visibility: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
     pub webrender_api_sender: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender_traits/api/struct.RenderApiSender.html' title='webrender_traits::api::RenderApiSender'>RenderApiSender</a>&gt;,
 }</pre><div class='docblock'><p>Initial setup data needed to construct a pipeline.</p>
 
@@ -113,6 +114,8 @@ then <code>parent_info</code> must also be <code>Some</code>.</p>
                            <span class='stab '></span><div class='docblock'><p>Information about the page to load.</p>
 </div><span id='structfield.pipeline_namespace_id'><code>pipeline_namespace_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineNamespaceId.html' title='msg::constellation_msg::PipelineNamespaceId'>PipelineNamespaceId</a></code></span>
                            <span class='stab '></span><div class='docblock'><p>The ID of the pipeline namespace for this script thread.</p>
+</div><span id='structfield.parent_visibility'><code>parent_visibility: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>Pipeline visibility is inherited from parent</p>
 </div><span id='structfield.webrender_api_sender'><code>webrender_api_sender: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender_traits/api/struct.RenderApiSender.html' title='webrender_traits::api::RenderApiSender'>RenderApiSender</a>&gt;</code></span>
                            <span class='stab '></span><div class='docblock'><p>Optional webrender api (if enabled).</p>
 </div></section>

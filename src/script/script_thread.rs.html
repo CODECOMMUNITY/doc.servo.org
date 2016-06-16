@@ -2142,6 +2142,66 @@
 <span id="2098">2098</span>
 <span id="2099">2099</span>
 <span id="2100">2100</span>
+<span id="2101">2101</span>
+<span id="2102">2102</span>
+<span id="2103">2103</span>
+<span id="2104">2104</span>
+<span id="2105">2105</span>
+<span id="2106">2106</span>
+<span id="2107">2107</span>
+<span id="2108">2108</span>
+<span id="2109">2109</span>
+<span id="2110">2110</span>
+<span id="2111">2111</span>
+<span id="2112">2112</span>
+<span id="2113">2113</span>
+<span id="2114">2114</span>
+<span id="2115">2115</span>
+<span id="2116">2116</span>
+<span id="2117">2117</span>
+<span id="2118">2118</span>
+<span id="2119">2119</span>
+<span id="2120">2120</span>
+<span id="2121">2121</span>
+<span id="2122">2122</span>
+<span id="2123">2123</span>
+<span id="2124">2124</span>
+<span id="2125">2125</span>
+<span id="2126">2126</span>
+<span id="2127">2127</span>
+<span id="2128">2128</span>
+<span id="2129">2129</span>
+<span id="2130">2130</span>
+<span id="2131">2131</span>
+<span id="2132">2132</span>
+<span id="2133">2133</span>
+<span id="2134">2134</span>
+<span id="2135">2135</span>
+<span id="2136">2136</span>
+<span id="2137">2137</span>
+<span id="2138">2138</span>
+<span id="2139">2139</span>
+<span id="2140">2140</span>
+<span id="2141">2141</span>
+<span id="2142">2142</span>
+<span id="2143">2143</span>
+<span id="2144">2144</span>
+<span id="2145">2145</span>
+<span id="2146">2146</span>
+<span id="2147">2147</span>
+<span id="2148">2148</span>
+<span id="2149">2149</span>
+<span id="2150">2150</span>
+<span id="2151">2151</span>
+<span id="2152">2152</span>
+<span id="2153">2153</span>
+<span id="2154">2154</span>
+<span id="2155">2155</span>
+<span id="2156">2156</span>
+<span id="2157">2157</span>
+<span id="2158">2158</span>
+<span id="2159">2159</span>
+<span id="2160">2160</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2285,6 +2345,8 @@
     <span class='ident'>clip_rect</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;&gt;</span>,
     <span class='doccomment'>/// Window is frozen (navigated away while loading for example).</span>
     <span class='ident'>is_frozen</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Window is visible.</span>
+    <span class='ident'>is_visible</span>: <span class='ident'>bool</span>,
     <span class='doccomment'>/// The requested URL of the load.</span>
     <span class='ident'>url</span>: <span class='ident'>Url</span>,
 }
@@ -2303,6 +2365,7 @@
             <span class='ident'>window_size</span>: <span class='ident'>window_size</span>,
             <span class='ident'>clip_rect</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>is_frozen</span>: <span class='bool-val'>false</span>,
+            <span class='ident'>is_visible</span>: <span class='bool-val'>true</span>,
             <span class='ident'>url</span>: <span class='ident'>url</span>,
         }
     }
@@ -3064,6 +3127,10 @@
                 <span class='self'>self</span>.<span class='ident'>handle_freeze_msg</span>(<span class='ident'>pipeline_id</span>),
             <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>Thaw</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span>
                 <span class='self'>self</span>.<span class='ident'>handle_thaw_msg</span>(<span class='ident'>pipeline_id</span>),
+            <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>ChangeFrameVisibilityStatus</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>visible</span>) <span class='op'>=&gt;</span>
+                <span class='self'>self</span>.<span class='ident'>handle_visibility_change_msg</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>visible</span>),
+            <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>NotifyVisibilityChange</span>(<span class='ident'>containing_id</span>, <span class='ident'>pipeline_id</span>, <span class='ident'>visible</span>) <span class='op'>=&gt;</span>
+                <span class='self'>self</span>.<span class='ident'>handle_visibility_change_complete_msg</span>(<span class='ident'>containing_id</span>, <span class='ident'>pipeline_id</span>, <span class='ident'>visible</span>),
             <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>MozBrowserEvent</span>(<span class='ident'>parent_pipeline_id</span>,
                                                      <span class='ident'>subpage_id</span>,
                                                      <span class='ident'>event</span>) <span class='op'>=&gt;</span>
@@ -3375,6 +3442,55 @@
         <span class='kw'>let</span> <span class='ident'>path_seg</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;url({})&quot;</span>, <span class='ident'>urls</span>.<span class='ident'>join</span>(<span class='string'>&quot;, &quot;</span>));
         <span class='ident'>reports</span>.<span class='ident'>extend</span>(<span class='ident'>get_reports</span>(<span class='self'>self</span>.<span class='ident'>get_cx</span>(), <span class='ident'>path_seg</span>));
         <span class='ident'>reports_chan</span>.<span class='ident'>send</span>(<span class='ident'>reports</span>);
+    }
+
+    <span class='doccomment'>/// To slow/speed up timers and manage any other script thread resource based on visibility.</span>
+    <span class='doccomment'>/// Returns true if successful.</span>
+    <span class='kw'>fn</span> <span class='ident'>alter_resource_utilization</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>visible</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>root_context</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>browsing_context</span>.<span class='ident'>get</span>() {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>inner_context</span>) <span class='op'>=</span> <span class='ident'>root_context</span>.<span class='ident'>find</span>(<span class='ident'>id</span>) {
+                <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>inner_context</span>.<span class='ident'>active_window</span>();
+                <span class='kw'>if</span> <span class='ident'>visible</span> {
+                    <span class='ident'>window</span>.<span class='ident'>speed_up_timers</span>();
+                } <span class='kw'>else</span> {
+                    <span class='ident'>window</span>.<span class='ident'>slow_down_timers</span>();
+                }
+                <span class='kw'>return</span> <span class='bool-val'>true</span>;
+            }
+        }
+        <span class='bool-val'>false</span>
+    }
+
+    <span class='doccomment'>/// Updates iframe element after a change in visibility</span>
+    <span class='kw'>fn</span> <span class='ident'>handle_visibility_change_complete_msg</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>containing_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>visible</span>: <span class='ident'>bool</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>root_context</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>browsing_context</span>.<span class='ident'>get</span>() {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>inner_context</span>) <span class='op'>=</span> <span class='ident'>root_context</span>.<span class='ident'>find</span>(<span class='ident'>containing_id</span>) {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>iframe</span>) <span class='op'>=</span> <span class='ident'>inner_context</span>.<span class='ident'>active_document</span>().<span class='ident'>find_iframe_by_pipeline</span>(<span class='ident'>id</span>) {
+                    <span class='ident'>iframe</span>.<span class='ident'>change_visibility_status</span>(<span class='ident'>visible</span>);
+                }
+            }
+        }
+    }
+
+    <span class='doccomment'>/// Handle visibility change message</span>
+    <span class='kw'>fn</span> <span class='ident'>handle_visibility_change_msg</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>visible</span>: <span class='ident'>bool</span>) {
+        <span class='kw'>let</span> <span class='ident'>resources_altered</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>alter_resource_utilization</span>(<span class='ident'>id</span>, <span class='ident'>visible</span>);
+
+        <span class='comment'>// Separate message sent since parent script thread could be different (Iframe of different</span>
+        <span class='comment'>// domain)</span>
+        <span class='self'>self</span>.<span class='ident'>constellation_chan</span>.<span class='ident'>send</span>(<span class='ident'>ConstellationMsg</span>::<span class='ident'>VisibilityChangeComplete</span>(<span class='ident'>id</span>, <span class='ident'>visible</span>)).<span class='ident'>unwrap</span>();
+
+        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>resources_altered</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>loads</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>incomplete_loads</span>.<span class='ident'>borrow_mut</span>();
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>load</span>) <span class='op'>=</span> <span class='ident'>loads</span>.<span class='ident'>iter_mut</span>().<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>load</span><span class='op'>|</span> <span class='ident'>load</span>.<span class='ident'>pipeline_id</span> <span class='op'>==</span> <span class='ident'>id</span>) {
+                <span class='ident'>load</span>.<span class='ident'>is_visible</span> <span class='op'>=</span> <span class='ident'>visible</span>;
+                <span class='kw'>return</span>;
+            }
+        } <span class='kw'>else</span> {
+            <span class='kw'>return</span>;
+        }
+
+        <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;change visibility message sent to nonexistent pipeline&quot;</span>);
     }
 
     <span class='doccomment'>/// Handles freeze message</span>
@@ -3850,6 +3966,10 @@
 
         <span class='kw'>if</span> <span class='ident'>incomplete</span>.<span class='ident'>is_frozen</span> {
             <span class='ident'>window</span>.<span class='ident'>freeze</span>();
+        }
+
+        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>incomplete</span>.<span class='ident'>is_visible</span> {
+            <span class='self'>self</span>.<span class='ident'>alter_resource_utilization</span>(<span class='ident'>browsing_context</span>.<span class='ident'>pipeline</span>(), <span class='bool-val'>false</span>);
         }
 
         <span class='ident'>context_remover</span>.<span class='ident'>neuter</span>();

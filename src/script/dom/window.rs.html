@@ -1792,6 +1792,14 @@
 <span id="1748">1748</span>
 <span id="1749">1749</span>
 <span id="1750">1750</span>
+<span id="1751">1751</span>
+<span id="1752">1752</span>
+<span id="1753">1753</span>
+<span id="1754">1754</span>
+<span id="1755">1755</span>
+<span id="1756">1756</span>
+<span id="1757">1757</span>
+<span id="1758">1758</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -3302,6 +3310,14 @@
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>freeze</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
         <span class='self'>self</span>.<span class='ident'>timers</span>.<span class='ident'>suspend</span>();
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>slow_down_timers</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='self'>self</span>.<span class='ident'>timers</span>.<span class='ident'>slow_down</span>();
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>speed_up_timers</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='self'>self</span>.<span class='ident'>timers</span>.<span class='ident'>speed_up</span>();
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>need_emit_timeline_marker</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>timeline_type</span>: <span class='ident'>TimelineMarkerType</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
