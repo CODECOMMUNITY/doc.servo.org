@@ -3103,6 +3103,10 @@
 <span id="3059">3059</span>
 <span id="3060">3060</span>
 <span id="3061">3061</span>
+<span id="3062">3062</span>
+<span id="3063">3063</span>
+<span id="3064">3064</span>
+<span id="3065">3065</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -5948,8 +5952,9 @@
         <span class='kw'>let</span> <span class='ident'>opaque_block</span> <span class='op'>=</span> <span class='ident'>OpaqueFlow</span>::<span class='ident'>from_flow</span>(<span class='ident'>block</span>);
         <span class='kw'>let</span> <span class='ident'>containing_block_inline_size</span> <span class='op'>=</span>
             <span class='ident'>block</span>.<span class='ident'>containing_block_size</span>(<span class='kw-2'>&amp;</span><span class='ident'>layout_context</span>.<span class='ident'>shared_context</span>().<span class='ident'>viewport_size</span>, <span class='ident'>opaque_block</span>).<span class='ident'>inline</span>;
+        <span class='kw'>let</span> <span class='ident'>container_block_size</span> <span class='op'>=</span> <span class='ident'>block</span>.<span class='ident'>explicit_block_containing_size</span>(<span class='ident'>layout_context</span>);
         <span class='kw'>let</span> <span class='ident'>fragment</span> <span class='op'>=</span> <span class='ident'>block</span>.<span class='ident'>fragment</span>();
-        <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>containing_block_inline_size</span>);
+        <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>containing_block_inline_size</span>, <span class='ident'>container_block_size</span>);
         <span class='comment'>// For replaced absolute flow, the rest of the constraint solving will</span>
         <span class='comment'>// take inline-size to be specified as the value computed here.</span>
         <span class='ident'>MaybeAuto</span>::<span class='ident'>Specified</span>(<span class='ident'>fragment</span>.<span class='ident'>content_inline_size</span>())
@@ -6004,10 +6009,11 @@
     <span class='kw'>fn</span> <span class='ident'>initial_computed_inline_size</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
                                     <span class='ident'>block</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>BlockFlow</span>,
                                     <span class='ident'>parent_flow_inline_size</span>: <span class='ident'>Au</span>,
-                                    _: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>)
+                                    <span class='ident'>layout_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>)
                                     <span class='op'>-&gt;</span> <span class='ident'>MaybeAuto</span> {
+        <span class='kw'>let</span> <span class='ident'>container_block_size</span> <span class='op'>=</span> <span class='ident'>block</span>.<span class='ident'>explicit_block_containing_size</span>(<span class='ident'>layout_context</span>);
         <span class='kw'>let</span> <span class='ident'>fragment</span> <span class='op'>=</span> <span class='ident'>block</span>.<span class='ident'>fragment</span>();
-        <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>parent_flow_inline_size</span>);
+        <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>parent_flow_inline_size</span>, <span class='ident'>container_block_size</span>);
         <span class='comment'>// For replaced block flow, the rest of the constraint solving will</span>
         <span class='comment'>// take inline-size to be specified as the value computed here.</span>
         <span class='ident'>MaybeAuto</span>::<span class='ident'>Specified</span>(<span class='ident'>fragment</span>.<span class='ident'>content_inline_size</span>())
@@ -6061,10 +6067,11 @@
     <span class='kw'>fn</span> <span class='ident'>initial_computed_inline_size</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
                                     <span class='ident'>block</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>BlockFlow</span>,
                                     <span class='ident'>parent_flow_inline_size</span>: <span class='ident'>Au</span>,
-                                    _: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>)
+                                    <span class='ident'>layout_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>)
                                     <span class='op'>-&gt;</span> <span class='ident'>MaybeAuto</span> {
+        <span class='kw'>let</span> <span class='ident'>container_block_size</span> <span class='op'>=</span> <span class='ident'>block</span>.<span class='ident'>explicit_block_containing_size</span>(<span class='ident'>layout_context</span>);
         <span class='kw'>let</span> <span class='ident'>fragment</span> <span class='op'>=</span> <span class='ident'>block</span>.<span class='ident'>fragment</span>();
-        <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>parent_flow_inline_size</span>);
+        <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>parent_flow_inline_size</span>, <span class='ident'>container_block_size</span>);
         <span class='comment'>// For replaced block flow, the rest of the constraint solving will</span>
         <span class='comment'>// take inline-size to be specified as the value computed here.</span>
         <span class='ident'>MaybeAuto</span>::<span class='ident'>Specified</span>(<span class='ident'>fragment</span>.<span class='ident'>content_inline_size</span>())
@@ -6148,10 +6155,11 @@
     <span class='kw'>fn</span> <span class='ident'>initial_computed_inline_size</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
                                     <span class='ident'>block</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>BlockFlow</span>,
                                     <span class='ident'>parent_flow_inline_size</span>: <span class='ident'>Au</span>,
-                                    _: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>)
+                                    <span class='ident'>layout_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>)
                                     <span class='op'>-&gt;</span> <span class='ident'>MaybeAuto</span> {
+        <span class='kw'>let</span> <span class='ident'>container_block_size</span> <span class='op'>=</span> <span class='ident'>block</span>.<span class='ident'>explicit_block_containing_size</span>(<span class='ident'>layout_context</span>);
         <span class='kw'>let</span> <span class='ident'>fragment</span> <span class='op'>=</span> <span class='ident'>block</span>.<span class='ident'>fragment</span>();
-        <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>parent_flow_inline_size</span>);
+        <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>parent_flow_inline_size</span>, <span class='ident'>container_block_size</span>);
         <span class='comment'>// For replaced block flow, the rest of the constraint solving will</span>
         <span class='comment'>// take inline-size to be specified as the value computed here.</span>
         <span class='ident'>MaybeAuto</span>::<span class='ident'>Specified</span>(<span class='ident'>fragment</span>.<span class='ident'>content_inline_size</span>())

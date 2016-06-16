@@ -1897,6 +1897,7 @@
 <span id="1853">1853</span>
 <span id="1854">1854</span>
 <span id="1855">1855</span>
+<span id="1856">1856</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -3259,6 +3260,7 @@
 
         <span class='kw'>let</span> <span class='ident'>inline_size</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>block_container_inline_size</span>;
         <span class='kw'>let</span> <span class='ident'>container_mode</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>block_container_writing_mode</span>;
+        <span class='kw'>let</span> <span class='ident'>container_block_size</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>block_container_explicit_block_size</span>;
         <span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>position</span>.<span class='ident'>size</span>.<span class='ident'>inline</span> <span class='op'>=</span> <span class='ident'>inline_size</span>;
 
         {
@@ -3268,7 +3270,7 @@
                 <span class='ident'>fragment</span>.<span class='ident'>compute_border_and_padding</span>(<span class='ident'>inline_size</span>, <span class='ident'>border_collapse</span>);
                 <span class='ident'>fragment</span>.<span class='ident'>compute_block_direction_margins</span>(<span class='ident'>inline_size</span>);
                 <span class='ident'>fragment</span>.<span class='ident'>compute_inline_direction_margins</span>(<span class='ident'>inline_size</span>);
-                <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>inline_size</span>);
+                <span class='ident'>fragment</span>.<span class='ident'>assign_replaced_inline_size_if_necessary</span>(<span class='ident'>inline_size</span>, <span class='ident'>container_block_size</span>);
             }
         }
 
