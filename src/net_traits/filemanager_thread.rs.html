@@ -99,11 +99,16 @@
 <span id="55">55</span>
 <span id="56">56</span>
 <span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
+<span class='kw'>use</span> <span class='ident'>blob_url_store</span>::<span class='ident'>BlobURLStoreMsg</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>LoadConsumer</span>, <span class='ident'>LoadData</span>};
@@ -136,6 +141,9 @@
 
     <span class='doccomment'>/// Delete the FileID entry</span>
     <span class='ident'>DeleteFileID</span>(<span class='ident'>SelectedFileId</span>),
+
+    <span class='comment'>// Blob URL message</span>
+    <span class='ident'>BlobURLStoreMsg</span>(<span class='ident'>BlobURLStoreMsg</span>),
 
     <span class='doccomment'>/// Load resource by Blob URL</span>
     <span class='ident'>LoadBlob</span>(<span class='ident'>LoadData</span>, <span class='ident'>LoadConsumer</span>),

@@ -1418,19 +1418,11 @@
 <span id="1374">1374</span>
 <span id="1375">1375</span>
 <span id="1376">1376</span>
-<span id="1377">1377</span>
-<span id="1378">1378</span>
-<span id="1379">1379</span>
-<span id="1380">1380</span>
-<span id="1381">1381</span>
-<span id="1382">1382</span>
-<span id="1383">1383</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>canvas</span>::<span class='ident'>canvas_paint_thread</span>::<span class='ident'>RectToi32</span>;
 <span class='kw'>use</span> <span class='ident'>canvas_traits</span>::{<span class='ident'>Canvas2dMsg</span>, <span class='ident'>CanvasCommonMsg</span>, <span class='ident'>CanvasMsg</span>};
 <span class='kw'>use</span> <span class='ident'>canvas_traits</span>::{<span class='ident'>CompositionOrBlending</span>, <span class='ident'>LineCapStyle</span>, <span class='ident'>LineJoinStyle</span>};
 <span class='kw'>use</span> <span class='ident'>canvas_traits</span>::{<span class='ident'>FillOrStrokeStyle</span>, <span class='ident'>FillRule</span>, <span class='ident'>LinearGradientStyle</span>, <span class='ident'>RadialGradientStyle</span>, <span class='ident'>RepetitionStyle</span>};
@@ -1791,36 +1783,30 @@
 
         <span class='kw'>let</span> <span class='ident'>smoothing_enabled</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>borrow</span>().<span class='ident'>image_smoothing_enabled</span>;
 
-        <span class='comment'>// If the source and target canvas are the same</span>
-        <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>canvas</span> <span class='op'>==</span> <span class='ident'>canvas</span> {
-            <span class='ident'>CanvasMsg</span>::<span class='ident'>Canvas2d</span>(<span class='ident'>Canvas2dMsg</span>::<span class='ident'>DrawImageSelf</span>(<span class='ident'>image_size</span>,
-                                                           <span class='ident'>dest_rect</span>,
-                                                           <span class='ident'>source_rect</span>,
-                                                           <span class='ident'>smoothing_enabled</span>))
+        <span class='kw'>if</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>canvas</span> <span class='op'>==</span> <span class='ident'>canvas</span> {
+            <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>CanvasMsg</span>::<span class='ident'>Canvas2d</span>(<span class='ident'>Canvas2dMsg</span>::<span class='ident'>DrawImageSelf</span>(
+                <span class='ident'>image_size</span>, <span class='ident'>dest_rect</span>, <span class='ident'>source_rect</span>, <span class='ident'>smoothing_enabled</span>));
+            <span class='self'>self</span>.<span class='ident'>ipc_renderer</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
         } <span class='kw'>else</span> {
-            <span class='comment'>// Source and target canvases are different</span>
             <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>canvas</span>.<span class='ident'>get_or_init_2d_context</span>() {
                 <span class='prelude-val'>Some</span>(<span class='ident'>context</span>) <span class='op'>=&gt;</span> <span class='ident'>context</span>,
                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidState</span>),
             };
 
+            <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
+            <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>CanvasMsg</span>::<span class='ident'>Canvas2d</span>(<span class='ident'>Canvas2dMsg</span>::<span class='ident'>DrawImageInOther</span>(
+                <span class='self'>self</span>.<span class='ident'>ipc_renderer</span>.<span class='ident'>clone</span>(),
+                <span class='ident'>image_size</span>,
+                <span class='ident'>dest_rect</span>,
+                <span class='ident'>source_rect</span>,
+                <span class='ident'>smoothing_enabled</span>,
+                <span class='ident'>sender</span>));
+
             <span class='kw'>let</span> <span class='ident'>renderer</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>get_ipc_renderer</span>();
-            <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>().<span class='ident'>unwrap</span>();
-            <span class='comment'>// Reads pixels from source image</span>
-            <span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>CanvasMsg</span>::<span class='ident'>Canvas2d</span>(<span class='ident'>Canvas2dMsg</span>::<span class='ident'>GetImageData</span>(<span class='ident'>source_rect</span>.<span class='ident'>to_i32</span>(),
-                                                                        <span class='ident'>image_size</span>,
-                                                                        <span class='ident'>sender</span>)))
-                    .<span class='ident'>unwrap</span>();
-            <span class='kw'>let</span> <span class='ident'>imagedata</span> <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
-            <span class='comment'>// Writes pixels to destination canvas</span>
-            <span class='ident'>CanvasMsg</span>::<span class='ident'>Canvas2d</span>(<span class='ident'>Canvas2dMsg</span>::<span class='ident'>DrawImage</span>(<span class='ident'>imagedata</span>,
-                                                       <span class='ident'>source_rect</span>.<span class='ident'>size</span>,
-                                                       <span class='ident'>dest_rect</span>,
-                                                       <span class='ident'>source_rect</span>,
-                                                       <span class='ident'>smoothing_enabled</span>))
+            <span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
+            <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
         };
 
-        <span class='self'>self</span>.<span class='ident'>ipc_renderer</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
         <span class='self'>self</span>.<span class='ident'>mark_as_dirty</span>();
         <span class='prelude-val'>Ok</span>(())
     }

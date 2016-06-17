@@ -1495,12 +1495,6 @@
 <span id="1451">1451</span>
 <span id="1452">1452</span>
 <span id="1453">1453</span>
-<span id="1454">1454</span>
-<span id="1455">1455</span>
-<span id="1456">1456</span>
-<span id="1457">1457</span>
-<span id="1458">1458</span>
-<span id="1459">1459</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2543,12 +2537,6 @@
         <span class='kw'>let</span> <span class='ident'>GenerationId</span>(<span class='ident'>prev_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>generation_id</span>.<span class='ident'>get</span>();
         <span class='self'>self</span>.<span class='ident'>generation_id</span>.<span class='ident'>set</span>(<span class='ident'>GenerationId</span>(<span class='ident'>prev_id</span> <span class='op'>+</span> <span class='number'>1</span>));
         <span class='self'>self</span>.<span class='ident'>response_status</span>.<span class='ident'>set</span>(<span class='prelude-val'>Ok</span>(()));
-    }
-
-    <span class='kw'>fn</span> <span class='ident'>insert_trusted_header</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>String</span>, <span class='ident'>value</span>: <span class='ident'>String</span>) {
-        <span class='comment'>// Insert a header without checking spec-compliance</span>
-        <span class='comment'>// Use for hardcoded headers</span>
-        <span class='self'>self</span>.<span class='ident'>request_headers</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>set_raw</span>(<span class='ident'>name</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>value</span>.<span class='ident'>into_bytes</span>()]);
     }
 
     <span class='kw'>fn</span> <span class='ident'>dispatch_progress_event</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>upload</span>: <span class='ident'>bool</span>, <span class='ident'>type_</span>: <span class='ident'>Atom</span>, <span class='ident'>loaded</span>: <span class='ident'>u64</span>, <span class='ident'>total</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>) {

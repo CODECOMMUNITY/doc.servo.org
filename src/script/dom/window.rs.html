@@ -1795,18 +1795,12 @@
 <span id="1751">1751</span>
 <span id="1752">1752</span>
 <span id="1753">1753</span>
-<span id="1754">1754</span>
-<span id="1755">1755</span>
-<span id="1756">1756</span>
-<span id="1757">1757</span>
-<span id="1758">1758</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
 <span class='kw'>use</span> <span class='ident'>app_units</span>::<span class='ident'>Au</span>;
-<span class='kw'>use</span> <span class='ident'>blob_url_store</span>::<span class='ident'>BlobURLStore</span>;
 <span class='kw'>use</span> <span class='ident'>devtools_traits</span>::{<span class='ident'>ScriptToDevtoolsControlMsg</span>, <span class='ident'>TimelineMarker</span>, <span class='ident'>TimelineMarkerType</span>, <span class='ident'>WorkerId</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>callback</span>::<span class='ident'>ExceptionHandling</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>cell</span>::<span class='ident'>DOMRefCell</span>;
@@ -1969,9 +1963,6 @@
     <span class='attribute'>#[<span class='ident'>ignore_heap_size_of</span> <span class='op'>=</span> <span class='string'>&quot;channels are hard&quot;</span>]</span>
     <span class='ident'>scheduler_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>TimerEventRequest</span><span class='op'>&gt;</span>,
     <span class='ident'>timers</span>: <span class='ident'>OneshotTimers</span>,
-
-    <span class='doccomment'>/// Blob URL store</span>
-    <span class='ident'>blob_url_store</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='ident'>BlobURLStore</span><span class='op'>&gt;</span>,
 
     <span class='ident'>next_worker_id</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>WorkerId</span><span class='op'>&gt;</span>,
 
@@ -3444,7 +3435,6 @@
             <span class='ident'>console</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
             <span class='ident'>crypto</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
             <span class='ident'>navigator</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
-            <span class='ident'>blob_url_store</span>: <span class='ident'>DOMRefCell</span>::<span class='ident'>new</span>(<span class='ident'>BlobURLStore</span>::<span class='ident'>new</span>()),
             <span class='ident'>image_cache_thread</span>: <span class='ident'>image_cache_thread</span>,
             <span class='ident'>mem_profiler_chan</span>: <span class='ident'>mem_profiler_chan</span>,
             <span class='ident'>time_profiler_chan</span>: <span class='ident'>time_profiler_chan</span>,

@@ -251,6 +251,9 @@
 <span id="207">207</span>
 <span id="208">208</span>
 <span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -401,7 +404,10 @@
     <span class='kw'>fn</span> <span class='ident'>PostMessage</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>, <span class='ident'>message</span>: <span class='ident'>HandleValue</span>) <span class='op'>-&gt;</span> <span class='ident'>ErrorResult</span> {
         <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>StructuredCloneData</span>::<span class='ident'>write</span>(<span class='ident'>cx</span>, <span class='ident'>message</span>));
         <span class='kw'>let</span> <span class='ident'>address</span> <span class='op'>=</span> <span class='ident'>Trusted</span>::<span class='ident'>new</span>(<span class='self'>self</span>);
-        <span class='self'>self</span>.<span class='ident'>sender</span>.<span class='ident'>send</span>((<span class='ident'>address</span>, <span class='ident'>WorkerScriptMsg</span>::<span class='ident'>DOMMessage</span>(<span class='ident'>data</span>))).<span class='ident'>unwrap</span>();
+
+        <span class='comment'>// NOTE: step 9 of https://html.spec.whatwg.org/multipage/#dom-messageport-postmessage</span>
+        <span class='comment'>// indicates that a nonexistent communication channel should result in a silent error.</span>
+        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>sender</span>.<span class='ident'>send</span>((<span class='ident'>address</span>, <span class='ident'>WorkerScriptMsg</span>::<span class='ident'>DOMMessage</span>(<span class='ident'>data</span>)));
         <span class='prelude-val'>Ok</span>(())
     }
 
