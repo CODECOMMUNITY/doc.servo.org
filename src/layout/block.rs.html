@@ -3930,7 +3930,7 @@
                             <span class='ident'>flow</span>::<span class='ident'>base</span>(<span class='ident'>kid</span>).<span class='ident'>collapsible_margins</span>
                                            .<span class='ident'>block_start_margin_for_noncollapsible_context</span>()
                     }
-                    <span class='ident'>kid</span>.<span class='ident'>place_float_if_applicable</span>(<span class='ident'>layout_context</span>);
+                    <span class='ident'>kid</span>.<span class='ident'>place_float_if_applicable</span>();
                     <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>flow</span>::<span class='ident'>base</span>(<span class='ident'>kid</span>).<span class='ident'>flags</span>.<span class='ident'>is_float</span>() {
                         <span class='ident'>kid</span>.<span class='ident'>assign_block_size_for_inorder_child_if_necessary</span>(<span class='ident'>layout_context</span>,
                                                                              <span class='ident'>thread_id</span>);
@@ -3963,7 +3963,7 @@
                         <span class='kw'>let</span> <span class='ident'>float_ceiling</span> <span class='op'>=</span> <span class='ident'>margin_collapse_info</span>.<span class='ident'>current_float_ceiling</span>();
                         <span class='ident'>kid_block</span>.<span class='ident'>float</span>.<span class='ident'>as_mut</span>().<span class='ident'>unwrap</span>().<span class='ident'>float_ceiling</span> <span class='op'>=</span> <span class='ident'>float_ceiling</span>
                     }
-                    <span class='ident'>kid</span>.<span class='ident'>place_float_if_applicable</span>(<span class='ident'>layout_context</span>);
+                    <span class='ident'>kid</span>.<span class='ident'>place_float_if_applicable</span>();
 
                     <span class='kw'>let</span> <span class='ident'>kid_base</span> <span class='op'>=</span> <span class='ident'>flow</span>::<span class='ident'>mut_base</span>(<span class='ident'>kid</span>);
                     <span class='ident'>floats</span> <span class='op'>=</span> <span class='ident'>kid_base</span>.<span class='ident'>floats</span>.<span class='ident'>clone</span>();
@@ -4851,7 +4851,7 @@
                                                         <span class='op'>|</span>_, _, _, _, _, _<span class='op'>|</span> {});
     }
 
-    <span class='kw'>fn</span> <span class='ident'>place_float_if_applicable</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, _: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>LayoutContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>place_float_if_applicable</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>flags</span>.<span class='ident'>is_float</span>() {
             <span class='self'>self</span>.<span class='ident'>place_float</span>();
         }
