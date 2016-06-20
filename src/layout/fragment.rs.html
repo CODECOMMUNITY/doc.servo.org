@@ -4858,16 +4858,16 @@
                     <span class='ident'>ascent</span>: <span class='ident'>computed_block_size</span> <span class='op'>+</span> <span class='self'>self</span>.<span class='ident'>border_padding</span>.<span class='ident'>block_start</span>,
                 }
             }
-            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>ScannedText</span>(<span class='kw-2'>ref</span> <span class='ident'>text_fragment</span>) <span class='op'>=&gt;</span> {
+            <span class='ident'>SpecificFragmentInfo</span>::<span class='ident'>ScannedText</span>(<span class='kw-2'>ref</span> <span class='ident'>info</span>) <span class='op'>=&gt;</span> {
                 <span class='comment'>// Fragments with no glyphs don&#39;t contribute any inline metrics.</span>
                 <span class='comment'>// TODO: Filter out these fragments during flow construction?</span>
-                <span class='kw'>if</span> <span class='ident'>text_fragment</span>.<span class='ident'>content_size</span>.<span class='ident'>inline</span> <span class='op'>==</span> <span class='ident'>Au</span>(<span class='number'>0</span>) {
+                <span class='kw'>if</span> <span class='ident'>info</span>.<span class='ident'>insertion_point</span>.<span class='ident'>is_none</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>info</span>.<span class='ident'>content_size</span>.<span class='ident'>inline</span> <span class='op'>==</span> <span class='ident'>Au</span>(<span class='number'>0</span>) {
                     <span class='kw'>return</span> <span class='ident'>InlineMetrics</span>::<span class='ident'>new</span>(<span class='ident'>Au</span>(<span class='number'>0</span>), <span class='ident'>Au</span>(<span class='number'>0</span>), <span class='ident'>Au</span>(<span class='number'>0</span>));
                 }
                 <span class='comment'>// See CSS 2.1 § 10.8.1.</span>
                 <span class='kw'>let</span> <span class='ident'>line_height</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>calculate_line_height</span>(<span class='ident'>layout_context</span>);
                 <span class='kw'>let</span> <span class='ident'>font_derived_metrics</span> <span class='op'>=</span>
-                    <span class='ident'>InlineMetrics</span>::<span class='ident'>from_font_metrics</span>(<span class='kw-2'>&amp;</span><span class='ident'>text_fragment</span>.<span class='ident'>run</span>.<span class='ident'>font_metrics</span>, <span class='ident'>line_height</span>);
+                    <span class='ident'>InlineMetrics</span>::<span class='ident'>from_font_metrics</span>(<span class='kw-2'>&amp;</span><span class='ident'>info</span>.<span class='ident'>run</span>.<span class='ident'>font_metrics</span>, <span class='ident'>line_height</span>);
                 <span class='ident'>InlineMetrics</span> {
                     <span class='ident'>block_size_above_baseline</span>: <span class='ident'>font_derived_metrics</span>.<span class='ident'>block_size_above_baseline</span> <span class='op'>+</span>
                                                    <span class='self'>self</span>.<span class='ident'>border_padding</span>.<span class='ident'>block_start</span>,
