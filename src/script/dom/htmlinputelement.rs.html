@@ -1281,6 +1281,19 @@
 <span id="1237">1237</span>
 <span id="1238">1238</span>
 <span id="1239">1239</span>
+<span id="1240">1240</span>
+<span id="1241">1241</span>
+<span id="1242">1242</span>
+<span id="1243">1243</span>
+<span id="1244">1244</span>
+<span id="1245">1245</span>
+<span id="1246">1246</span>
+<span id="1247">1247</span>
+<span id="1248">1248</span>
+<span id="1249">1249</span>
+<span id="1250">1250</span>
+<span id="1251">1251</span>
+<span id="1252">1252</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1316,6 +1329,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>validation</span>::<span class='ident'>Validatable</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>virtualmethods</span>::<span class='ident'>VirtualMethods</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcSender</span>};
+<span class='kw'>use</span> <span class='ident'>mime_guess</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>IpcSend</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::{<span class='ident'>FileManagerThreadMsg</span>, <span class='ident'>FilterPattern</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>ScriptMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>;
@@ -1328,6 +1342,7 @@
 <span class='kw'>use</span> <span class='ident'>textinput</span>::<span class='ident'>KeyReaction</span>::{<span class='ident'>DispatchInput</span>, <span class='ident'>Nothing</span>, <span class='ident'>RedrawSelection</span>, <span class='ident'>TriggerDefaultAction</span>};
 <span class='kw'>use</span> <span class='ident'>textinput</span>::<span class='ident'>Lines</span>::<span class='ident'>Single</span>;
 <span class='kw'>use</span> <span class='ident'>textinput</span>::{<span class='ident'>TextInput</span>, <span class='ident'>SelectionDirection</span>};
+<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>str</span>::<span class='ident'>split_commas</span>;
 
 <span class='kw'>const</span> <span class='ident'>DEFAULT_SUBMIT_VALUE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;Submit&quot;</span>;
 <span class='kw'>const</span> <span class='ident'>DEFAULT_RESET_VALUE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;Reset&quot;</span>;
@@ -2424,7 +2439,7 @@
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>files</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>error</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 
-                <span class='kw'>let</span> <span class='ident'>filter</span> <span class='op'>=</span> <span class='ident'>filter_from_accept</span>(<span class='self'>self</span>.<span class='ident'>Accept</span>());
+                <span class='kw'>let</span> <span class='ident'>filter</span> <span class='op'>=</span> <span class='ident'>filter_from_accept</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>Accept</span>());
 
                 <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>Multiple</span>() {
                     <span class='kw'>let</span> (<span class='ident'>chan</span>, <span class='ident'>recv</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>expect</span>(<span class='string'>&quot;Error initializing channel&quot;</span>);
@@ -2515,12 +2530,23 @@
     }
 }
 
-<span class='kw'>fn</span> <span class='ident'>filter_from_accept</span>(<span class='ident'>_s</span>: <span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// TODO: it means not pattern restriction now</span>
-    <span class='doccomment'>/// Blocked by https://github.com/cybergeek94/mime_guess/issues/19</span>
-    <span class='macro'>vec</span><span class='macro'>!</span>[]
-}
+<span class='comment'>// https://html.spec.whatwg.org/multipage/#attr-input-accept</span>
+<span class='kw'>fn</span> <span class='ident'>filter_from_accept</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>DOMString</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span> {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>filter</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
+    <span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>split_commas</span>(<span class='ident'>s</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='string'>&#39;.&#39;</span>) <span class='op'>=</span> <span class='ident'>p</span>.<span class='ident'>chars</span>().<span class='ident'>nth</span>(<span class='number'>0</span>) {
+            <span class='ident'>filter</span>.<span class='ident'>push</span>(<span class='ident'>FilterPattern</span>(<span class='ident'>p</span>[<span class='number'>1</span>..].<span class='ident'>to_string</span>()));
+        } <span class='kw'>else</span> {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>exts</span>) <span class='op'>=</span> <span class='ident'>mime_guess</span>::<span class='ident'>get_mime_extensions_str</span>(<span class='ident'>p</span>) {
+                <span class='kw'>for</span> <span class='ident'>ext</span> <span class='kw'>in</span> <span class='ident'>exts</span> {
+                    <span class='ident'>filter</span>.<span class='ident'>push</span>(<span class='ident'>FilterPattern</span>(<span class='ident'>ext</span>.<span class='ident'>to_string</span>()));
+                }
+            }
+        }
+    }
 
+    <span class='ident'>filter</span>
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

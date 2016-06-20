@@ -321,6 +321,20 @@
 <span id="277">277</span>
 <span id="278">278</span>
 <span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -349,37 +363,51 @@
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>UIProvider</span> <span class='kw'>where</span> <span class='self'>Self</span>: <span class='ident'>Sync</span> {
-    <span class='kw'>fn</span> <span class='ident'>open_file_dialog</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                        <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>open_file_dialog_multi</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                              <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog_multi</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>;
 }
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TFDProvider</span>;
 
 <span class='kw'>impl</span> <span class='ident'>UIProvider</span> <span class='kw'>for</span> <span class='ident'>TFDProvider</span> {
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>))]</span>
-    <span class='kw'>fn</span> <span class='ident'>open_file_dialog</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                        <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
-        <span class='ident'>tinyfiledialogs</span>::<span class='ident'>open_file_dialog</span>(<span class='string'>&quot;Pick a file&quot;</span>, <span class='ident'>path</span>, <span class='ident'>filter</span>)
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>filter</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
+        <span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>patterns</span> {
+            <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;*.&quot;</span>.<span class='ident'>to_string</span>() <span class='op'>+</span> <span class='kw-2'>&amp;</span><span class='ident'>p</span>.<span class='number'>0</span>;
+            <span class='ident'>filter</span>.<span class='ident'>push</span>(<span class='ident'>s</span>)
+        }
+
+        <span class='kw'>let</span> <span class='ident'>filter_ref</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span>(<span class='ident'>filter</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>as_str</span>()).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span>()[..]);
+
+        <span class='kw'>let</span> <span class='ident'>filter_opt</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>filter</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> { <span class='prelude-val'>Some</span>((<span class='ident'>filter_ref</span>, <span class='string'>&quot;&quot;</span>)) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> };
+
+        <span class='ident'>tinyfiledialogs</span>::<span class='ident'>open_file_dialog</span>(<span class='string'>&quot;Pick a file&quot;</span>, <span class='ident'>path</span>, <span class='ident'>filter_opt</span>)
     }
 
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>))]</span>
-    <span class='kw'>fn</span> <span class='ident'>open_file_dialog_multi</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                              <span class='ident'>filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
-        <span class='ident'>tinyfiledialogs</span>::<span class='ident'>open_file_dialog_multi</span>(<span class='string'>&quot;Pick files&quot;</span>, <span class='ident'>path</span>, <span class='ident'>filter</span>)
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog_multi</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>filter</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
+        <span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>patterns</span> {
+            <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;*.&quot;</span>.<span class='ident'>to_string</span>() <span class='op'>+</span> <span class='kw-2'>&amp;</span><span class='ident'>p</span>.<span class='number'>0</span>;
+            <span class='ident'>filter</span>.<span class='ident'>push</span>(<span class='ident'>s</span>)
+        }
+
+        <span class='kw'>let</span> <span class='ident'>filter_ref</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span>(<span class='ident'>filter</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>as_str</span>()).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span>()[..]);
+
+        <span class='kw'>let</span> <span class='ident'>filter_opt</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>filter</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> { <span class='prelude-val'>Some</span>((<span class='ident'>filter_ref</span>, <span class='string'>&quot;&quot;</span>)) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> };
+
+        <span class='ident'>tinyfiledialogs</span>::<span class='ident'>open_file_dialog_multi</span>(<span class='string'>&quot;Pick files&quot;</span>, <span class='ident'>path</span>, <span class='ident'>filter_opt</span>)
     }
 
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>)))]</span>
-    <span class='kw'>fn</span> <span class='ident'>open_file_dialog</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                        <span class='ident'>_filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
         <span class='prelude-val'>None</span>
     }
 
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>)))]</span>
-    <span class='kw'>fn</span> <span class='ident'>open_file_dialog_multi</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                              <span class='ident'>_filter</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>], <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>open_file_dialog_multi</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
         <span class='prelude-val'>None</span>
     }
 }
@@ -440,9 +468,9 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>select_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_filter</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>,
+    <span class='kw'>fn</span> <span class='ident'>select_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>,
                    <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>ui</span>.<span class='ident'>open_file_dialog</span>(<span class='string'>&quot;&quot;</span>, <span class='prelude-val'>None</span>) {
+        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>ui</span>.<span class='ident'>open_file_dialog</span>(<span class='string'>&quot;&quot;</span>, <span class='ident'>patterns</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>selected_path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>);
 
@@ -458,9 +486,9 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>select_files</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_filter</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>,
+    <span class='kw'>fn</span> <span class='ident'>select_files</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FilterPattern</span><span class='op'>&gt;</span>,
                     <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerResult</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SelectedFile</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>ui</span>.<span class='ident'>open_file_dialog_multi</span>(<span class='string'>&quot;&quot;</span>, <span class='prelude-val'>None</span>) {
+        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>ui</span>.<span class='ident'>open_file_dialog_multi</span>(<span class='string'>&quot;&quot;</span>, <span class='ident'>patterns</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>selected_paths</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
 
