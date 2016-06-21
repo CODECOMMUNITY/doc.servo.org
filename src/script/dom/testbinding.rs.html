@@ -636,6 +636,15 @@
 <span id="592">592</span>
 <span id="593">593</span>
 <span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1210,6 +1219,15 @@
     <span class='kw'>fn</span> <span class='ident'>FuncControlledAttributeEnabled</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> { <span class='bool-val'>false</span> }
     <span class='kw'>fn</span> <span class='ident'>FuncControlledMethodDisabled</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {}
     <span class='kw'>fn</span> <span class='ident'>FuncControlledMethodEnabled</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {}
+
+    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
+    <span class='kw'>fn</span> <span class='ident'>CrashHard</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='kw'>static</span> <span class='ident'>READ_ONLY_VALUE</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='ident'>p</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u32</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>READ_ONLY_VALUE</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> _ <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> _;
+            <span class='ident'>ptr</span>::<span class='ident'>write_volatile</span>(<span class='ident'>p</span>, <span class='number'>0xbaadc0de</span>);
+        }
+    }
 }
 
 <span class='kw'>impl</span> <span class='ident'>TestBinding</span> {
