@@ -783,12 +783,6 @@
 <span id="739">739</span>
 <span id="740">740</span>
 <span id="741">741</span>
-<span id="742">742</span>
-<span id="743">743</span>
-<span id="744">744</span>
-<span id="745">745</span>
-<span id="746">746</span>
-<span id="747">747</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -802,6 +796,8 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::{<span class='ident'>Ordering</span>, <span class='ident'>PartialOrd</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>vec</span>::<span class='ident'>Vec</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::{<span class='ident'>fmt</span>, <span class='ident'>mem</span>, <span class='ident'>u16</span>};
+
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>ByteIndex</span>;
 
 <span class='doccomment'>/// GlyphEntry is a port of Gecko&#39;s CompressedGlyph scheme for storing glyph data compactly.</span>
 <span class='doccomment'>///</span>
@@ -1216,14 +1212,6 @@
     <span class='ident'>has_detailed_glyphs</span>: <span class='ident'>bool</span>,
     <span class='ident'>is_whitespace</span>: <span class='ident'>bool</span>,
     <span class='ident'>is_rtl</span>: <span class='ident'>bool</span>,
-}
-
-<span class='macro'>int_range_index</span><span class='macro'>!</span> {
-    <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>, <span class='ident'>RustcEncodable</span>)]</span>
-    <span class='attribute'>#[<span class='ident'>doc</span> <span class='op'>=</span> <span class='string'>&quot;An index that refers to a byte offset in a text run. This could \
-             point to the middle of a glyph.&quot;</span>]</span>
-    <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>)]</span>
-    <span class='kw'>struct</span> <span class='ident'>ByteIndex</span>(<span class='ident'>isize</span>)
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>GlyphStore</span> {

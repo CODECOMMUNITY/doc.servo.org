@@ -558,6 +558,68 @@
 <span id="514">514</span>
 <span id="515">515</span>
 <span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -580,11 +642,13 @@
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>client</span>::<span class='ident'>pool</span>::<span class='ident'>Pool</span>;
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::{<span class='ident'>ContentType</span>, <span class='ident'>Header</span>, <span class='ident'>SetCookie</span>};
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>mime</span>::{<span class='ident'>Mime</span>, <span class='ident'>SubLevel</span>, <span class='ident'>TopLevel</span>};
-<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>};
+<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcReceiver</span>, <span class='ident'>IpcSender</span>, <span class='ident'>IpcReceiverSet</span>};
 <span class='kw'>use</span> <span class='ident'>mime_classifier</span>::{<span class='ident'>ApacheBugFlag</span>, <span class='ident'>MIMEClassifier</span>, <span class='ident'>NoSniffFlag</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>LoadContext</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>ProgressMsg</span>::<span class='ident'>Done</span>;
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::<span class='ident'>FileManagerThreadMsg</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>request</span>::{<span class='ident'>Request</span>, <span class='ident'>RequestInit</span>};
+<span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>storage_thread</span>::<span class='ident'>StorageThreadMsg</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>AsyncResponseTarget</span>, <span class='ident'>Metadata</span>, <span class='ident'>ProgressMsg</span>, <span class='ident'>ResponseAction</span>, <span class='ident'>CoreResourceThread</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>CoreResourceMsg</span>, <span class='ident'>CookieSource</span>, <span class='ident'>FetchResponseMsg</span>, <span class='ident'>FetchTaskTarget</span>, <span class='ident'>LoadConsumer</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::{<span class='ident'>LoadData</span>, <span class='ident'>LoadResponse</span>, <span class='ident'>NetworkError</span>, <span class='ident'>ResourceId</span>};
@@ -615,6 +679,14 @@
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ProgressSender</span> {
     <span class='ident'>Channel</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ProgressMsg</span><span class='op'>&gt;</span>),
     <span class='ident'>Listener</span>(<span class='ident'>AsyncResponseTarget</span>),
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ResourceGroup</span> {
+    <span class='ident'>cookie_jar</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>CookieStorage</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>auth_cache</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>AuthCache</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>hsts_list</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>HstsList</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>connector</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Pool</span><span class='op'>&lt;</span><span class='ident'>Connector</span><span class='op'>&gt;&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>ProgressSender</span> {
@@ -719,88 +791,148 @@
     }
 }
 
+<span class='doccomment'>/// Returns a tuple of (public, private) senders to the new threads.</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_resource_threads</span>(<span class='ident'>user_agent</span>: <span class='ident'>String</span>,
                             <span class='ident'>devtools_chan</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>DevtoolsControlMsg</span><span class='op'>&gt;&gt;</span>,
-                            <span class='ident'>profiler_chan</span>: <span class='ident'>ProfilerChan</span>) <span class='op'>-&gt;</span> <span class='ident'>ResourceThreads</span> {
-    <span class='ident'>ResourceThreads</span>::<span class='ident'>new</span>(<span class='ident'>new_core_resource_thread</span>(<span class='ident'>user_agent</span>, <span class='ident'>devtools_chan</span>, <span class='ident'>profiler_chan</span>),
-                         <span class='ident'>StorageThreadFactory</span>::<span class='ident'>new</span>(),
-                         <span class='ident'>FileManagerThreadFactory</span>::<span class='ident'>new</span>(<span class='ident'>TFD_PROVIDER</span>))
+                            <span class='ident'>profiler_chan</span>: <span class='ident'>ProfilerChan</span>) <span class='op'>-&gt;</span> (<span class='ident'>ResourceThreads</span>, <span class='ident'>ResourceThreads</span>) {
+    <span class='kw'>let</span> (<span class='ident'>public_core</span>, <span class='ident'>private_core</span>) <span class='op'>=</span> <span class='ident'>new_core_resource_thread</span>(<span class='ident'>user_agent</span>, <span class='ident'>devtools_chan</span>, <span class='ident'>profiler_chan</span>);
+    <span class='kw'>let</span> <span class='ident'>storage</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>StorageThreadMsg</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>StorageThreadFactory</span>::<span class='ident'>new</span>();
+    <span class='kw'>let</span> <span class='ident'>filemanager</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FileManagerThreadMsg</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>FileManagerThreadFactory</span>::<span class='ident'>new</span>(<span class='ident'>TFD_PROVIDER</span>);
+    (<span class='ident'>ResourceThreads</span>::<span class='ident'>new</span>(<span class='ident'>public_core</span>, <span class='ident'>storage</span>.<span class='ident'>clone</span>(), <span class='ident'>filemanager</span>.<span class='ident'>clone</span>()),
+     <span class='ident'>ResourceThreads</span>::<span class='ident'>new</span>(<span class='ident'>private_core</span>, <span class='ident'>storage</span>, <span class='ident'>filemanager</span>))
 }
 
 
 <span class='doccomment'>/// Create a CoreResourceThread</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_core_resource_thread</span>(<span class='ident'>user_agent</span>: <span class='ident'>String</span>,
                                 <span class='ident'>devtools_chan</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>DevtoolsControlMsg</span><span class='op'>&gt;&gt;</span>,
-                                <span class='ident'>profiler_chan</span>: <span class='ident'>ProfilerChan</span>) <span class='op'>-&gt;</span> <span class='ident'>CoreResourceThread</span> {
-    <span class='kw'>let</span> <span class='ident'>hsts_preload</span> <span class='op'>=</span> <span class='ident'>HstsList</span>::<span class='ident'>from_servo_preload</span>();
-    <span class='kw'>let</span> (<span class='ident'>setup_chan</span>, <span class='ident'>setup_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
-    <span class='kw'>let</span> <span class='ident'>setup_chan_clone</span> <span class='op'>=</span> <span class='ident'>setup_chan</span>.<span class='ident'>clone</span>();
+                                <span class='ident'>profiler_chan</span>: <span class='ident'>ProfilerChan</span>)
+                                <span class='op'>-&gt;</span> (<span class='ident'>CoreResourceThread</span>, <span class='ident'>CoreResourceThread</span>) {
+    <span class='kw'>let</span> (<span class='ident'>public_setup_chan</span>, <span class='ident'>public_setup_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
+    <span class='kw'>let</span> (<span class='ident'>private_setup_chan</span>, <span class='ident'>private_setup_port</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
+    <span class='kw'>let</span> <span class='ident'>public_setup_chan_clone</span> <span class='op'>=</span> <span class='ident'>public_setup_chan</span>.<span class='ident'>clone</span>();
+    <span class='kw'>let</span> <span class='ident'>private_setup_chan_clone</span> <span class='op'>=</span> <span class='ident'>private_setup_chan</span>.<span class='ident'>clone</span>();
     <span class='ident'>spawn_named</span>(<span class='string'>&quot;ResourceManager&quot;</span>.<span class='ident'>to_owned</span>(), <span class='kw'>move</span> <span class='op'>||</span> {
         <span class='kw'>let</span> <span class='ident'>resource_manager</span> <span class='op'>=</span> <span class='ident'>CoreResourceManager</span>::<span class='ident'>new</span>(
-            <span class='ident'>user_agent</span>, <span class='ident'>hsts_preload</span>, <span class='ident'>devtools_chan</span>, <span class='ident'>profiler_chan</span>
+            <span class='ident'>user_agent</span>, <span class='ident'>devtools_chan</span>, <span class='ident'>profiler_chan</span>
         );
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>channel_manager</span> <span class='op'>=</span> <span class='ident'>ResourceChannelManager</span> {
-            <span class='ident'>from_client</span>: <span class='ident'>setup_port</span>,
-            <span class='ident'>resource_manager</span>: <span class='ident'>resource_manager</span>
+            <span class='ident'>resource_manager</span>: <span class='ident'>resource_manager</span>,
         };
-        <span class='ident'>channel_manager</span>.<span class='ident'>start</span>(<span class='ident'>setup_chan_clone</span>);
+        <span class='ident'>channel_manager</span>.<span class='ident'>start</span>(<span class='ident'>public_setup_chan_clone</span>,
+                              <span class='ident'>private_setup_chan_clone</span>,
+                              <span class='ident'>public_setup_port</span>,
+                              <span class='ident'>private_setup_port</span>);
     });
-    <span class='ident'>setup_chan</span>
+    (<span class='ident'>public_setup_chan</span>, <span class='ident'>private_setup_chan</span>)
 }
 
 <span class='kw'>struct</span> <span class='ident'>ResourceChannelManager</span> {
-    <span class='ident'>from_client</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>CoreResourceMsg</span><span class='op'>&gt;</span>,
-    <span class='ident'>resource_manager</span>: <span class='ident'>CoreResourceManager</span>
+    <span class='ident'>resource_manager</span>: <span class='ident'>CoreResourceManager</span>,
+}
+
+<span class='kw'>fn</span> <span class='ident'>create_resource_groups</span>() <span class='op'>-&gt;</span> (<span class='ident'>ResourceGroup</span>, <span class='ident'>ResourceGroup</span>) {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>hsts_list</span> <span class='op'>=</span> <span class='ident'>HstsList</span>::<span class='ident'>from_servo_preload</span>();
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auth_cache</span> <span class='op'>=</span> <span class='ident'>AuthCache</span>::<span class='ident'>new</span>();
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cookie_jar</span> <span class='op'>=</span> <span class='ident'>CookieStorage</span>::<span class='ident'>new</span>();
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>config_dir</span>) <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>config_dir</span> {
+        <span class='ident'>read_json_from_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>auth_cache</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;auth_cache.json&quot;</span>);
+        <span class='ident'>read_json_from_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hsts_list</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;hsts_list.json&quot;</span>);
+        <span class='ident'>read_json_from_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>cookie_jar</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;cookie_jar.json&quot;</span>);
+    }
+    <span class='kw'>let</span> <span class='ident'>resource_group</span> <span class='op'>=</span> <span class='ident'>ResourceGroup</span> {
+        <span class='ident'>cookie_jar</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>cookie_jar</span>)),
+        <span class='ident'>auth_cache</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>auth_cache</span>)),
+        <span class='ident'>hsts_list</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>hsts_list</span>.<span class='ident'>clone</span>())),
+        <span class='ident'>connector</span>: <span class='ident'>create_http_connector</span>(),
+    };
+    <span class='kw'>let</span> <span class='ident'>private_resource_group</span> <span class='op'>=</span> <span class='ident'>ResourceGroup</span> {
+        <span class='ident'>cookie_jar</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>CookieStorage</span>::<span class='ident'>new</span>())),
+        <span class='ident'>auth_cache</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>AuthCache</span>::<span class='ident'>new</span>())),
+        <span class='ident'>hsts_list</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>HstsList</span>::<span class='ident'>new</span>())),
+        <span class='ident'>connector</span>: <span class='ident'>create_http_connector</span>(),
+    };
+    (<span class='ident'>resource_group</span>, <span class='ident'>private_resource_group</span>)
 }
 
 <span class='kw'>impl</span> <span class='ident'>ResourceChannelManager</span> {
-    <span class='kw'>fn</span> <span class='ident'>start</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>control_sender</span>: <span class='ident'>CoreResourceThread</span>) {
-        <span class='kw'>loop</span> {
-            <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>from_client</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>() {
-                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Load</span>(<span class='ident'>load_data</span>, <span class='ident'>consumer</span>, <span class='ident'>id_sender</span>) <span class='op'>=&gt;</span>
-                    <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>load</span>(<span class='ident'>load_data</span>, <span class='ident'>consumer</span>, <span class='ident'>id_sender</span>, <span class='ident'>control_sender</span>.<span class='ident'>clone</span>()),
-                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Fetch</span>(<span class='ident'>init</span>, <span class='ident'>sender</span>) <span class='op'>=&gt;</span>
-                    <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>fetch</span>(<span class='ident'>init</span>, <span class='ident'>sender</span>),
-                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>WebsocketConnect</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>) <span class='op'>=&gt;</span>
-                    <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>websocket_connect</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>),
-                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>SetCookiesForUrl</span>(<span class='ident'>request</span>, <span class='ident'>cookie_list</span>, <span class='ident'>source</span>) <span class='op'>=&gt;</span>
-                    <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>set_cookies_for_url</span>(<span class='ident'>request</span>, <span class='ident'>cookie_list</span>, <span class='ident'>source</span>),
-                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>GetCookiesForUrl</span>(<span class='ident'>url</span>, <span class='ident'>consumer</span>, <span class='ident'>source</span>) <span class='op'>=&gt;</span> {
-                    <span class='kw'>let</span> <span class='ident'>cookie_jar</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>cookie_jar</span>;
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cookie_jar</span> <span class='op'>=</span> <span class='ident'>cookie_jar</span>.<span class='ident'>write</span>().<span class='ident'>unwrap</span>();
-                    <span class='ident'>consumer</span>.<span class='ident'>send</span>(<span class='ident'>cookie_jar</span>.<span class='ident'>cookies_for_url</span>(<span class='kw-2'>&amp;</span><span class='ident'>url</span>, <span class='ident'>source</span>)).<span class='ident'>unwrap</span>();
-                }
-                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Cancel</span>(<span class='ident'>res_id</span>) <span class='op'>=&gt;</span> {
-                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>cancel_sender</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>cancel_load_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>res_id</span>) {
-                        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>cancel_sender</span>.<span class='ident'>send</span>(());
-                    }
-                    <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>cancel_load_map</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>res_id</span>);
-                }
-                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Synchronize</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
-                    <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(());
-                }
-                <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Exit</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
-                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>config_dir</span>) <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>config_dir</span> {
-                        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>auth_cache</span>.<span class='ident'>read</span>() {
-                            <span class='prelude-val'>Ok</span>(<span class='ident'>auth_cache</span>) <span class='op'>=&gt;</span> <span class='ident'>write_json_to_file</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>auth_cache</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;auth_cache.json&quot;</span>),
-                            <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Error writing auth cache to disk&quot;</span>),
-                        }
-                        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>read</span>() {
-                            <span class='prelude-val'>Ok</span>(<span class='ident'>jar</span>) <span class='op'>=&gt;</span> <span class='ident'>write_json_to_file</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>jar</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;cookie_jar.json&quot;</span>),
-                            <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Error writing cookie jar to disk&quot;</span>),
-                        }
-                        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>hsts_list</span>.<span class='ident'>read</span>() {
-                            <span class='prelude-val'>Ok</span>(<span class='ident'>hsts</span>) <span class='op'>=&gt;</span> <span class='ident'>write_json_to_file</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>hsts</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;hsts_list.json&quot;</span>),
-                            <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Error writing hsts list to disk&quot;</span>),
-                        }
-                    }
-                    <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(());
-                    <span class='kw'>break</span>;
-                }
+    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
+    <span class='kw'>fn</span> <span class='ident'>start</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
+             <span class='ident'>public_control_sender</span>: <span class='ident'>CoreResourceThread</span>,
+             <span class='ident'>private_control_sender</span>: <span class='ident'>CoreResourceThread</span>,
+             <span class='ident'>public_receiver</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>CoreResourceMsg</span><span class='op'>&gt;</span>,
+             <span class='ident'>private_receiver</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>CoreResourceMsg</span><span class='op'>&gt;</span>) {
+        <span class='kw'>let</span> (<span class='ident'>public_resource_group</span>, <span class='ident'>private_resource_group</span>) <span class='op'>=</span> <span class='ident'>create_resource_groups</span>();
 
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rx_set</span> <span class='op'>=</span> <span class='ident'>IpcReceiverSet</span>::<span class='ident'>new</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>private_id</span> <span class='op'>=</span> <span class='ident'>rx_set</span>.<span class='ident'>add</span>(<span class='ident'>private_receiver</span>).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>public_id</span> <span class='op'>=</span> <span class='ident'>rx_set</span>.<span class='ident'>add</span>(<span class='ident'>public_receiver</span>).<span class='ident'>unwrap</span>();
+
+        <span class='kw'>loop</span> {
+            <span class='kw'>for</span> (<span class='ident'>id</span>, <span class='ident'>data</span>) <span class='kw'>in</span> <span class='ident'>rx_set</span>.<span class='ident'>select</span>().<span class='ident'>unwrap</span>().<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> <span class='ident'>m</span>.<span class='ident'>unwrap</span>()) {
+                <span class='kw'>let</span> (<span class='ident'>group</span>, <span class='ident'>sender</span>) <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>id</span> <span class='op'>==</span> <span class='ident'>private_id</span> {
+                    (<span class='kw-2'>&amp;</span><span class='ident'>private_resource_group</span>, <span class='kw-2'>&amp;</span><span class='ident'>private_control_sender</span>)
+                } <span class='kw'>else</span> {
+                    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>id</span>, <span class='ident'>public_id</span>);
+                    (<span class='kw-2'>&amp;</span><span class='ident'>public_resource_group</span>, <span class='kw-2'>&amp;</span><span class='ident'>public_control_sender</span>)
+                };
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>msg</span>) <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>to</span>() {
+                    <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>process_msg</span>(<span class='ident'>msg</span>, <span class='ident'>group</span>, <span class='kw-2'>&amp;</span><span class='ident'>sender</span>) {
+                        <span class='kw'>break</span>;
+                    }
+                }
             }
         }
+    }
+
+    <span class='doccomment'>/// Returns false if the thread should exit.</span>
+    <span class='kw'>fn</span> <span class='ident'>process_msg</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
+                   <span class='ident'>msg</span>: <span class='ident'>CoreResourceMsg</span>,
+                   <span class='ident'>group</span>: <span class='kw-2'>&amp;</span><span class='ident'>ResourceGroup</span>,
+                   <span class='ident'>control_sender</span>: <span class='kw-2'>&amp;</span><span class='ident'>CoreResourceThread</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='kw'>match</span> <span class='ident'>msg</span> {
+            <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Load</span>(<span class='ident'>load_data</span>, <span class='ident'>consumer</span>, <span class='ident'>id_sender</span>) <span class='op'>=&gt;</span>
+                <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>load</span>(<span class='ident'>load_data</span>, <span class='ident'>consumer</span>, <span class='ident'>id_sender</span>, <span class='ident'>control_sender</span>.<span class='ident'>clone</span>(), <span class='ident'>group</span>),
+            <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Fetch</span>(<span class='ident'>init</span>, <span class='ident'>sender</span>) <span class='op'>=&gt;</span>
+                <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>fetch</span>(<span class='ident'>init</span>, <span class='ident'>sender</span>, <span class='ident'>group</span>),
+            <span class='ident'>CoreResourceMsg</span>::<span class='ident'>WebsocketConnect</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>) <span class='op'>=&gt;</span>
+                <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>websocket_connect</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>, <span class='ident'>group</span>),
+            <span class='ident'>CoreResourceMsg</span>::<span class='ident'>SetCookiesForUrl</span>(<span class='ident'>request</span>, <span class='ident'>cookie_list</span>, <span class='ident'>source</span>) <span class='op'>=&gt;</span>
+                <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>set_cookies_for_url</span>(<span class='ident'>request</span>, <span class='ident'>cookie_list</span>, <span class='ident'>source</span>, <span class='ident'>group</span>),
+            <span class='ident'>CoreResourceMsg</span>::<span class='ident'>GetCookiesForUrl</span>(<span class='ident'>url</span>, <span class='ident'>consumer</span>, <span class='ident'>source</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cookie_jar</span> <span class='op'>=</span> <span class='ident'>group</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>write</span>().<span class='ident'>unwrap</span>();
+                <span class='ident'>consumer</span>.<span class='ident'>send</span>(<span class='ident'>cookie_jar</span>.<span class='ident'>cookies_for_url</span>(<span class='kw-2'>&amp;</span><span class='ident'>url</span>, <span class='ident'>source</span>)).<span class='ident'>unwrap</span>();
+            }
+            <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Cancel</span>(<span class='ident'>res_id</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>cancel_sender</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>cancel_load_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>res_id</span>) {
+                    <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>cancel_sender</span>.<span class='ident'>send</span>(());
+                }
+                <span class='self'>self</span>.<span class='ident'>resource_manager</span>.<span class='ident'>cancel_load_map</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>res_id</span>);
+            }
+            <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Synchronize</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(());
+            }
+            <span class='ident'>CoreResourceMsg</span>::<span class='ident'>Exit</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>config_dir</span>) <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>config_dir</span> {
+                    <span class='kw'>match</span> <span class='ident'>group</span>.<span class='ident'>auth_cache</span>.<span class='ident'>read</span>() {
+                        <span class='prelude-val'>Ok</span>(<span class='ident'>auth_cache</span>) <span class='op'>=&gt;</span> <span class='ident'>write_json_to_file</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>auth_cache</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;auth_cache.json&quot;</span>),
+                        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Error writing auth cache to disk&quot;</span>),
+                    }
+                    <span class='kw'>match</span> <span class='ident'>group</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>read</span>() {
+                        <span class='prelude-val'>Ok</span>(<span class='ident'>jar</span>) <span class='op'>=&gt;</span> <span class='ident'>write_json_to_file</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>jar</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;cookie_jar.json&quot;</span>),
+                        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Error writing cookie jar to disk&quot;</span>),
+                    }
+                    <span class='kw'>match</span> <span class='ident'>group</span>.<span class='ident'>hsts_list</span>.<span class='ident'>read</span>() {
+                        <span class='prelude-val'>Ok</span>(<span class='ident'>hsts</span>) <span class='op'>=&gt;</span> <span class='ident'>write_json_to_file</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>hsts</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;hsts_list.json&quot;</span>),
+                        <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Error writing hsts list to disk&quot;</span>),
+                    }
+                }
+                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send</span>(());
+                <span class='kw'>return</span> <span class='bool-val'>false</span>;
+            }
+        }
+        <span class='bool-val'>true</span>
     }
 }
 
@@ -942,50 +1074,37 @@
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>CoreResourceManager</span> {
     <span class='ident'>user_agent</span>: <span class='ident'>String</span>,
-    <span class='ident'>cookie_jar</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>CookieStorage</span><span class='op'>&gt;&gt;</span>,
-    <span class='ident'>auth_cache</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>AuthCache</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>mime_classifier</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>MIMEClassifier</span><span class='op'>&gt;</span>,
     <span class='ident'>devtools_chan</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>DevtoolsControlMsg</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>profiler_chan</span>: <span class='ident'>ProfilerChan</span>,
-    <span class='ident'>hsts_list</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>HstsList</span><span class='op'>&gt;&gt;</span>,
-    <span class='ident'>connector</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Pool</span><span class='op'>&lt;</span><span class='ident'>Connector</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>cancel_load_map</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>ResourceId</span>, <span class='ident'>Sender</span><span class='op'>&lt;</span>()<span class='op'>&gt;&gt;</span>,
     <span class='ident'>next_resource_id</span>: <span class='ident'>ResourceId</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>CoreResourceManager</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>user_agent</span>: <span class='ident'>String</span>,
-               <span class='kw-2'>mut</span> <span class='ident'>hsts_list</span>: <span class='ident'>HstsList</span>,
                <span class='ident'>devtools_channel</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>DevtoolsControlMsg</span><span class='op'>&gt;&gt;</span>,
                <span class='ident'>profiler_chan</span>: <span class='ident'>ProfilerChan</span>) <span class='op'>-&gt;</span> <span class='ident'>CoreResourceManager</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auth_cache</span> <span class='op'>=</span> <span class='ident'>AuthCache</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cookie_jar</span> <span class='op'>=</span> <span class='ident'>CookieStorage</span>::<span class='ident'>new</span>();
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>config_dir</span>) <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>config_dir</span> {
-            <span class='ident'>read_json_from_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>auth_cache</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;auth_cache.json&quot;</span>);
-            <span class='ident'>read_json_from_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hsts_list</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;hsts_list.json&quot;</span>);
-            <span class='ident'>read_json_from_file</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>cookie_jar</span>, <span class='ident'>config_dir</span>, <span class='string'>&quot;cookie_jar.json&quot;</span>);
-        }
         <span class='ident'>CoreResourceManager</span> {
             <span class='ident'>user_agent</span>: <span class='ident'>user_agent</span>,
-            <span class='ident'>cookie_jar</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>cookie_jar</span>)),
-            <span class='ident'>auth_cache</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>auth_cache</span>)),
             <span class='ident'>mime_classifier</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>MIMEClassifier</span>::<span class='ident'>new</span>()),
             <span class='ident'>devtools_chan</span>: <span class='ident'>devtools_channel</span>,
             <span class='ident'>profiler_chan</span>: <span class='ident'>profiler_chan</span>,
-            <span class='ident'>hsts_list</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='ident'>hsts_list</span>)),
-            <span class='ident'>connector</span>: <span class='ident'>create_http_connector</span>(),
             <span class='ident'>cancel_load_map</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
             <span class='ident'>next_resource_id</span>: <span class='ident'>ResourceId</span>(<span class='number'>0</span>),
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>set_cookies_for_url</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>request</span>: <span class='ident'>Url</span>, <span class='ident'>cookie_list</span>: <span class='ident'>String</span>, <span class='ident'>source</span>: <span class='ident'>CookieSource</span>) {
+    <span class='kw'>fn</span> <span class='ident'>set_cookies_for_url</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
+                           <span class='ident'>request</span>: <span class='ident'>Url</span>,
+                           <span class='ident'>cookie_list</span>: <span class='ident'>String</span>,
+                           <span class='ident'>source</span>: <span class='ident'>CookieSource</span>,
+                           <span class='ident'>resource_group</span>: <span class='kw-2'>&amp;</span><span class='ident'>ResourceGroup</span>) {
         <span class='kw'>let</span> <span class='ident'>header</span> <span class='op'>=</span> <span class='ident'>Header</span>::<span class='ident'>parse_header</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>cookie_list</span>.<span class='ident'>into_bytes</span>()]);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>SetCookie</span>(<span class='ident'>cookies</span>)) <span class='op'>=</span> <span class='ident'>header</span> {
             <span class='kw'>for</span> <span class='ident'>bare_cookie</span> <span class='kw'>in</span> <span class='ident'>cookies</span> {
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>cookie</span>) <span class='op'>=</span> <span class='ident'>cookie</span>::<span class='ident'>Cookie</span>::<span class='ident'>new_wrapped</span>(<span class='ident'>bare_cookie</span>, <span class='kw-2'>&amp;</span><span class='ident'>request</span>, <span class='ident'>source</span>) {
-                    <span class='kw'>let</span> <span class='ident'>cookie_jar</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>cookie_jar</span>;
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cookie_jar</span> <span class='op'>=</span> <span class='ident'>cookie_jar</span>.<span class='ident'>write</span>().<span class='ident'>unwrap</span>();
+                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cookie_jar</span> <span class='op'>=</span> <span class='ident'>resource_group</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>write</span>().<span class='ident'>unwrap</span>();
                     <span class='ident'>cookie_jar</span>.<span class='ident'>push</span>(<span class='ident'>cookie</span>, <span class='ident'>source</span>);
                 }
             }
@@ -996,7 +1115,8 @@
             <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>,
             <span class='ident'>consumer</span>: <span class='ident'>LoadConsumer</span>,
             <span class='ident'>id_sender</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ResourceId</span><span class='op'>&gt;&gt;</span>,
-            <span class='ident'>resource_thread</span>: <span class='ident'>CoreResourceThread</span>) {
+            <span class='ident'>resource_thread</span>: <span class='ident'>CoreResourceThread</span>,
+            <span class='ident'>resource_grp</span>: <span class='kw-2'>&amp;</span><span class='ident'>ResourceGroup</span>) {
         <span class='kw'>fn</span> <span class='ident'>from_factory</span>(<span class='ident'>factory</span>: <span class='kw'>fn</span>(<span class='ident'>LoadData</span>, <span class='ident'>LoadConsumer</span>, <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>MIMEClassifier</span><span class='op'>&gt;</span>, <span class='ident'>CancellationListener</span>))
                         <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>FnBox</span>(<span class='ident'>LoadData</span>,
                                      <span class='ident'>LoadConsumer</span>,
@@ -1022,16 +1142,16 @@
             <span class='string'>&quot;file&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>from_factory</span>(<span class='ident'>file_loader</span>::<span class='ident'>factory</span>),
             <span class='string'>&quot;http&quot;</span> <span class='op'>|</span> <span class='string'>&quot;https&quot;</span> <span class='op'>|</span> <span class='string'>&quot;view-source&quot;</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>http_state</span> <span class='op'>=</span> <span class='ident'>HttpState</span> {
-                    <span class='ident'>hsts_list</span>: <span class='self'>self</span>.<span class='ident'>hsts_list</span>.<span class='ident'>clone</span>(),
-                    <span class='ident'>cookie_jar</span>: <span class='self'>self</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>clone</span>(),
-                    <span class='ident'>auth_cache</span>: <span class='self'>self</span>.<span class='ident'>auth_cache</span>.<span class='ident'>clone</span>(),
                     <span class='ident'>blocked_content</span>: <span class='ident'>BLOCKED_CONTENT_RULES</span>.<span class='ident'>clone</span>(),
+                    <span class='ident'>hsts_list</span>: <span class='ident'>resource_grp</span>.<span class='ident'>hsts_list</span>.<span class='ident'>clone</span>(),
+                    <span class='ident'>cookie_jar</span>: <span class='ident'>resource_grp</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>clone</span>(),
+                    <span class='ident'>auth_cache</span>: <span class='ident'>resource_grp</span>.<span class='ident'>auth_cache</span>.<span class='ident'>clone</span>()
                 };
                 <span class='ident'>http_loader</span>::<span class='ident'>factory</span>(<span class='self'>self</span>.<span class='ident'>user_agent</span>.<span class='ident'>clone</span>(),
                                      <span class='ident'>http_state</span>,
                                      <span class='self'>self</span>.<span class='ident'>devtools_chan</span>.<span class='ident'>clone</span>(),
                                      <span class='self'>self</span>.<span class='ident'>profiler_chan</span>.<span class='ident'>clone</span>(),
-                                     <span class='self'>self</span>.<span class='ident'>connector</span>.<span class='ident'>clone</span>())
+                                     <span class='ident'>resource_grp</span>.<span class='ident'>connector</span>.<span class='ident'>clone</span>())
             },
             <span class='string'>&quot;data&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>from_factory</span>(<span class='ident'>data_loader</span>::<span class='ident'>factory</span>),
             <span class='string'>&quot;about&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>from_factory</span>(<span class='ident'>about_loader</span>::<span class='ident'>factory</span>),
@@ -1049,11 +1169,14 @@
                          <span class='ident'>cancel_listener</span>));
     }
 
-    <span class='kw'>fn</span> <span class='ident'>fetch</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>init</span>: <span class='ident'>RequestInit</span>, <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FetchResponseMsg</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>fetch</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
+             <span class='ident'>init</span>: <span class='ident'>RequestInit</span>,
+             <span class='ident'>sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>FetchResponseMsg</span><span class='op'>&gt;</span>,
+             <span class='ident'>group</span>: <span class='kw-2'>&amp;</span><span class='ident'>ResourceGroup</span>) {
         <span class='kw'>let</span> <span class='ident'>http_state</span> <span class='op'>=</span> <span class='ident'>HttpState</span> {
-            <span class='ident'>hsts_list</span>: <span class='self'>self</span>.<span class='ident'>hsts_list</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>cookie_jar</span>: <span class='self'>self</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>auth_cache</span>: <span class='self'>self</span>.<span class='ident'>auth_cache</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>hsts_list</span>: <span class='ident'>group</span>.<span class='ident'>hsts_list</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>cookie_jar</span>: <span class='ident'>group</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>auth_cache</span>: <span class='ident'>group</span>.<span class='ident'>auth_cache</span>.<span class='ident'>clone</span>(),
             <span class='ident'>blocked_content</span>: <span class='ident'>BLOCKED_CONTENT_RULES</span>.<span class='ident'>clone</span>(),
         };
         <span class='kw'>let</span> <span class='ident'>ua</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>user_agent</span>.<span class='ident'>clone</span>();
@@ -1071,8 +1194,9 @@
 
     <span class='kw'>fn</span> <span class='ident'>websocket_connect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
                          <span class='ident'>connect</span>: <span class='ident'>WebSocketCommunicate</span>,
-                         <span class='ident'>connect_data</span>: <span class='ident'>WebSocketConnectData</span>) {
-        <span class='ident'>websocket_loader</span>::<span class='ident'>init</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>, <span class='self'>self</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>clone</span>());
+                         <span class='ident'>connect_data</span>: <span class='ident'>WebSocketConnectData</span>,
+                         <span class='ident'>resource_grp</span>: <span class='kw-2'>&amp;</span><span class='ident'>ResourceGroup</span>) {
+        <span class='ident'>websocket_loader</span>::<span class='ident'>init</span>(<span class='ident'>connect</span>, <span class='ident'>connect_data</span>, <span class='ident'>resource_grp</span>.<span class='ident'>cookie_jar</span>.<span class='ident'>clone</span>());
     }
 }
 </pre>

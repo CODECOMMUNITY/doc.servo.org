@@ -1898,6 +1898,7 @@
 <span id="1854">1854</span>
 <span id="1855">1855</span>
 <span id="1856">1856</span>
+<span id="1857">1857</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1922,10 +1923,12 @@
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>font</span>::<span class='ident'>FontMetrics</span>;
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>font_context</span>::<span class='ident'>FontContext</span>;
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>StackingContextId</span>;
-<span class='kw'>use</span> <span class='ident'>incremental</span>::{<span class='ident'>BUBBLE_ISIZES</span>, <span class='ident'>REFLOW</span>, <span class='ident'>REFLOW_OUT_OF_FLOW</span>, <span class='ident'>REPAINT</span>, <span class='ident'>RESOLVE_GENERATED_CONTENT</span>};
 <span class='kw'>use</span> <span class='ident'>layout_debug</span>;
 <span class='kw'>use</span> <span class='ident'>model</span>::<span class='ident'>IntrinsicISizesContribution</span>;
 <span class='kw'>use</span> <span class='ident'>range</span>::{<span class='ident'>Range</span>, <span class='ident'>RangeIndex</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>restyle_damage</span>::{<span class='ident'>BUBBLE_ISIZES</span>, <span class='ident'>REFLOW</span>, <span class='ident'>REFLOW_OUT_OF_FLOW</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>restyle_damage</span>::{<span class='ident'>REPAINT</span>, <span class='ident'>RESOLVE_GENERATED_CONTENT</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>wrapper_traits</span>::<span class='ident'>PseudoElementType</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>VecDeque</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
@@ -1939,7 +1942,6 @@
 <span class='kw'>use</span> <span class='ident'>unicode_bidi</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>print_tree</span>::<span class='ident'>PrintTree</span>;
-<span class='kw'>use</span> <span class='ident'>wrapper</span>::<span class='ident'>PseudoElementType</span>;
 
 <span class='comment'>// From gfxFontConstants.h in Firefox</span>
 <span class='kw'>static</span> <span class='ident'>FONT_SUBSCRIPT_OFFSET_RATIO</span>: <span class='ident'>f32</span> <span class='op'>=</span> <span class='number'>0.20</span>;

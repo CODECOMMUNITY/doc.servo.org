@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["is_image_data",""]],"struct":[["HTMLObjectElement",""]],"trait":[["ProcessDataURL",""]]});
+initSidebarItems({"struct":[["HTMLObjectElement",""]],"trait":[["ProcessDataURL",""]]});

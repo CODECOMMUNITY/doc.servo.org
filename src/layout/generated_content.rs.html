@@ -655,7 +655,8 @@
 <span class='kw'>use</span> <span class='ident'>flow</span>::{<span class='self'>self</span>, <span class='ident'>AFFECTS_COUNTERS</span>, <span class='ident'>Flow</span>, <span class='ident'>HAS_COUNTER_AFFECTING_CHILDREN</span>, <span class='ident'>ImmutableFlowUtils</span>};
 <span class='kw'>use</span> <span class='ident'>fragment</span>::{<span class='ident'>Fragment</span>, <span class='ident'>GeneratedContentInfo</span>, <span class='ident'>SpecificFragmentInfo</span>, <span class='ident'>UnscannedTextFragmentInfo</span>};
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>display_list</span>::<span class='ident'>OpaqueNode</span>;
-<span class='kw'>use</span> <span class='ident'>incremental</span>::{<span class='ident'>RESOLVE_GENERATED_CONTENT</span>, <span class='ident'>RestyleDamage</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>restyle_damage</span>::{<span class='ident'>RESOLVE_GENERATED_CONTENT</span>, <span class='ident'>RestyleDamage</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>wrapper_traits</span>::<span class='ident'>PseudoElementType</span>;
 <span class='kw'>use</span> <span class='ident'>smallvec</span>::<span class='ident'>SmallVec</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::{<span class='ident'>HashMap</span>, <span class='ident'>LinkedList</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
@@ -664,7 +665,6 @@
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>dom</span>::<span class='ident'>TRestyleDamage</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::{<span class='ident'>ComputedValues</span>, <span class='ident'>ServoComputedValues</span>};
 <span class='kw'>use</span> <span class='ident'>text</span>::<span class='ident'>TextRunScanner</span>;
-<span class='kw'>use</span> <span class='ident'>wrapper</span>::<span class='ident'>PseudoElementType</span>;
 
 <span class='comment'>// Decimal styles per CSS-COUNTER-STYLES § 6.1:</span>
 <span class='kw'>static</span> <span class='ident'>DECIMAL</span>: [<span class='ident'>char</span>; <span class='number'>10</span>] <span class='op'>=</span> [ <span class='string'>&#39;0&#39;</span>, <span class='string'>&#39;1&#39;</span>, <span class='string'>&#39;2&#39;</span>, <span class='string'>&#39;3&#39;</span>, <span class='string'>&#39;4&#39;</span>, <span class='string'>&#39;5&#39;</span>, <span class='string'>&#39;6&#39;</span>, <span class='string'>&#39;7&#39;</span>, <span class='string'>&#39;8&#39;</span>, <span class='string'>&#39;9&#39;</span> ];

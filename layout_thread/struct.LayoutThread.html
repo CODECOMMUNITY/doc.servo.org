@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `LayoutThread` struct in crate `layout_thread`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, LayoutThread">
+
+    <title>layout_thread::LayoutThread - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>layout_thread</a></p><script>window.sidebarCurrent = {name: 'LayoutThread', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>layout_thread</a>::<wbr><a class='struct' href=''>LayoutThread</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-106' class='srclink' href='../src/layout_thread/lib.rs.html#126-230' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct LayoutThread {
+    id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
+    url: <a class='struct' href='../url/struct.Url.html' title='url::Url'>Url</a>,
+    is_iframe: <a class='primitive' href='../std/primitive.bool.html'>bool</a>,
+    port: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../script_layout_interface/message/enum.Msg.html' title='script_layout_interface::message::Msg'>Msg</a>&gt;,
+    pipeline_port: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../script_traits/enum.LayoutControlMsg.html' title='script_traits::LayoutControlMsg'>LayoutControlMsg</a>&gt;,
+    image_cache_receiver: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheResult.html' title='net_traits::image_cache_thread::ImageCacheResult'>ImageCacheResult</a>&gt;,
+    image_cache_sender: <a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheChan.html' title='net_traits::image_cache_thread::ImageCacheChan'>ImageCacheChan</a>,
+    font_cache_receiver: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;,
+    font_cache_sender: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;,
+    constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/script_msg/enum.LayoutMsg.html' title='script_traits::script_msg::LayoutMsg'>ConstellationMsg</a>&gt;,
+    script_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;,
+    paint_chan: <a class='enum' href='../util/ipc/enum.OptionalIpcSender.html' title='util::ipc::OptionalIpcSender'>OptionalIpcSender</a>&lt;<a class='enum' href='../gfx/paint_thread/enum.LayoutToPaintMsg.html' title='gfx::paint_thread::LayoutToPaintMsg'>LayoutToPaintMsg</a>&gt;,
+    time_profiler_chan: <a class='struct' href='../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a>,
+    mem_profiler_chan: <a class='struct' href='../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a>,
+    image_cache_thread: <a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a>,
+    font_cache_thread: <a class='struct' href='../gfx/font_cache_thread/struct.FontCacheThread.html' title='gfx::font_cache_thread::FontCacheThread'>FontCacheThread</a>,
+    first_reflow: <a class='primitive' href='../std/primitive.bool.html'>bool</a>,
+    parallel_traversal: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../util/workqueue/struct.WorkQueue.html' title='util::workqueue::WorkQueue'>WorkQueue</a>&lt;<a class='struct' href='../layout/context/struct.SharedLayoutContext.html' title='layout::context::SharedLayoutContext'>SharedLayoutContext</a>,&nbsp;<a class='struct' href='../style/parallel/struct.WorkQueueData.html' title='style::parallel::WorkQueueData'>WorkQueueData</a>&gt;&gt;,
+    generation: <a class='primitive' href='../std/primitive.u32.html'>u32</a>,
+    new_animations_sender: <a class='struct' href='../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='struct' href='../style/animation/struct.Animation.html' title='style::animation::Animation'>Animation</a>&gt;,
+    new_animations_receiver: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='struct' href='../style/animation/struct.Animation.html' title='style::animation::Animation'>Animation</a>&gt;,
+    outstanding_web_fonts: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../core/sync/atomic/struct.AtomicUsize.html' title='core::sync::atomic::AtomicUsize'>AtomicUsize</a>&gt;,
+    root_flow: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;,
+    visible_rects: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>,&nbsp;<a class='struct' href='../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;,&nbsp;<a class='struct' href='../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;&gt;,
+    running_animations: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/sync/rwlock/struct.RwLock.html' title='std::sync::rwlock::RwLock'>RwLock</a>&lt;<a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../style/dom/struct.OpaqueNode.html' title='style::dom::OpaqueNode'>OpaqueNode</a>,&nbsp;<a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../style/animation/struct.Animation.html' title='style::animation::Animation'>Animation</a>&gt;&gt;&gt;&gt;,
+    expired_animations: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/sync/rwlock/struct.RwLock.html' title='std::sync::rwlock::RwLock'>RwLock</a>&lt;<a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../style/dom/struct.OpaqueNode.html' title='style::dom::OpaqueNode'>OpaqueNode</a>,&nbsp;<a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../style/animation/struct.Animation.html' title='style::animation::Animation'>Animation</a>&gt;&gt;&gt;&gt;,
+    epoch: <a class='struct' href='../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a>,
+    viewport_size: <a class='struct' href='../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;,
+    rw_data: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='struct' href='../layout/query/struct.LayoutThreadData.html' title='layout::query::LayoutThreadData'>LayoutThreadData</a>&gt;&gt;,
+    error_reporter: <a class='struct' href='../script_layout_interface/reporter/struct.CSSErrorReporter.html' title='script_layout_interface::reporter::CSSErrorReporter'>CSSErrorReporter</a>,
+    webrender_image_cache: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/sync/rwlock/struct.RwLock.html' title='std::sync::rwlock::RwLock'>RwLock</a>&lt;<a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='struct' href='../url/struct.Url.html' title='url::Url'>Url</a>, <a class='enum' href='../net_traits/image_cache_thread/enum.UsePlaceholder.html' title='net_traits::image_cache_thread::UsePlaceholder'>UsePlaceholder</a><a class='primitive' href='../std/primitive.tuple.html'>)</a>,&nbsp;<a class='struct' href='../gfx/display_list/struct.WebRenderImageInfo.html' title='gfx::display_list::WebRenderImageInfo'>WebRenderImageInfo</a>,&nbsp;<a class='struct' href='../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;&gt;&gt;,
+    webrender_api: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../webrender_traits/api/struct.RenderApi.html' title='webrender_traits::api::RenderApi'>RenderApi</a>&gt;,
+}</pre><div class='docblock'><p>Information needed by the layout thread.</p>
+</div><h2 class='fields'>Fields</h2><span id='structfield.id'><code>id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The ID of the pipeline that we belong to.</p>
+</div><span id='structfield.url'><code>url: <a class='struct' href='../url/struct.Url.html' title='url::Url'>Url</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The URL of the pipeline that we belong to.</p>
+</div><span id='structfield.is_iframe'><code>is_iframe: <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Is the current reflow of an iframe, as opposed to a root window?</p>
+</div><span id='structfield.port'><code>port: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../script_layout_interface/message/enum.Msg.html' title='script_layout_interface::message::Msg'>Msg</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The port on which we receive messages from the script thread.</p>
+</div><span id='structfield.pipeline_port'><code>pipeline_port: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../script_traits/enum.LayoutControlMsg.html' title='script_traits::LayoutControlMsg'>LayoutControlMsg</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The port on which we receive messages from the constellation.</p>
+</div><span id='structfield.image_cache_receiver'><code>image_cache_receiver: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheResult.html' title='net_traits::image_cache_thread::ImageCacheResult'>ImageCacheResult</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The port on which we receive messages from the image cache</p>
+</div><span id='structfield.image_cache_sender'><code>image_cache_sender: <a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheChan.html' title='net_traits::image_cache_thread::ImageCacheChan'>ImageCacheChan</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The channel on which the image cache can send messages to ourself.</p>
+</div><span id='structfield.font_cache_receiver'><code>font_cache_receiver: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The port on which we receive messages from the font cache thread.</p>
+</div><span id='structfield.font_cache_sender'><code>font_cache_sender: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The channel on which the font cache can send messages to us.</p>
+</div><span id='structfield.constellation_chan'><code>constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/script_msg/enum.LayoutMsg.html' title='script_traits::script_msg::LayoutMsg'>ConstellationMsg</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The channel on which messages can be sent to the constellation.</p>
+</div><span id='structfield.script_chan'><code>script_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The channel on which messages can be sent to the script thread.</p>
+</div><span id='structfield.paint_chan'><code>paint_chan: <a class='enum' href='../util/ipc/enum.OptionalIpcSender.html' title='util::ipc::OptionalIpcSender'>OptionalIpcSender</a>&lt;<a class='enum' href='../gfx/paint_thread/enum.LayoutToPaintMsg.html' title='gfx::paint_thread::LayoutToPaintMsg'>LayoutToPaintMsg</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The channel on which messages can be sent to the painting thread.</p>
+</div><span id='structfield.time_profiler_chan'><code>time_profiler_chan: <a class='struct' href='../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The channel on which messages can be sent to the time profiler.</p>
+</div><span id='structfield.mem_profiler_chan'><code>mem_profiler_chan: <a class='struct' href='../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The channel on which messages can be sent to the memory profiler.</p>
+</div><span id='structfield.image_cache_thread'><code>image_cache_thread: <a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The channel on which messages can be sent to the image cache.</p>
+</div><span id='structfield.font_cache_thread'><code>font_cache_thread: <a class='struct' href='../gfx/font_cache_thread/struct.FontCacheThread.html' title='gfx::font_cache_thread::FontCacheThread'>FontCacheThread</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Public interface to the font cache thread.</p>
+</div><span id='structfield.first_reflow'><code>first_reflow: <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Is this the first reflow in this LayoutThread?</p>
+</div><span id='structfield.parallel_traversal'><code>parallel_traversal: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../util/workqueue/struct.WorkQueue.html' title='util::workqueue::WorkQueue'>WorkQueue</a>&lt;<a class='struct' href='../layout/context/struct.SharedLayoutContext.html' title='layout::context::SharedLayoutContext'>SharedLayoutContext</a>,&nbsp;<a class='struct' href='../style/parallel/struct.WorkQueueData.html' title='style::parallel::WorkQueueData'>WorkQueueData</a>&gt;&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The workers that we use for parallel operation.</p>
+</div><span id='structfield.generation'><code>generation: <a class='primitive' href='../std/primitive.u32.html'>u32</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Starts at zero, and increased by one every time a layout completes.
+This can be used to easily check for invalid stale data.</p>
+</div><span id='structfield.new_animations_sender'><code>new_animations_sender: <a class='struct' href='../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='struct' href='../style/animation/struct.Animation.html' title='style::animation::Animation'>Animation</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A channel on which new animations that have been triggered by style recalculation can be
+sent.</p>
+</div><span id='structfield.new_animations_receiver'><code>new_animations_receiver: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='struct' href='../style/animation/struct.Animation.html' title='style::animation::Animation'>Animation</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>Receives newly-discovered animations.</p>
+</div><span id='structfield.outstanding_web_fonts'><code>outstanding_web_fonts: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../core/sync/atomic/struct.AtomicUsize.html' title='core::sync::atomic::AtomicUsize'>AtomicUsize</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The number of Web fonts that have been requested but not yet loaded.</p>
+</div><span id='structfield.root_flow'><code>root_flow: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The root of the flow tree.</p>
+</div><span id='structfield.visible_rects'><code>visible_rects: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>,&nbsp;<a class='struct' href='../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;,&nbsp;<a class='struct' href='../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The position and size of the visible rect for each layer. We do not build display lists
+for any areas more than <code>DISPLAY_PORT_SIZE_FACTOR</code> screens away from this area.</p>
+</div><span id='structfield.running_animations'><code>running_animations: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/sync/rwlock/struct.RwLock.html' title='std::sync::rwlock::RwLock'>RwLock</a>&lt;<a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../style/dom/struct.OpaqueNode.html' title='style::dom::OpaqueNode'>OpaqueNode</a>,&nbsp;<a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../style/animation/struct.Animation.html' title='style::animation::Animation'>Animation</a>&gt;&gt;&gt;&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The list of currently-running animations.</p>
+</div><span id='structfield.expired_animations'><code>expired_animations: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/sync/rwlock/struct.RwLock.html' title='std::sync::rwlock::RwLock'>RwLock</a>&lt;<a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../style/dom/struct.OpaqueNode.html' title='style::dom::OpaqueNode'>OpaqueNode</a>,&nbsp;<a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../style/animation/struct.Animation.html' title='style::animation::Animation'>Animation</a>&gt;&gt;&gt;&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The list of animations that have expired since the last style recalculation.</p>
+</div><span id='structfield.epoch'><code>epoch: <a class='struct' href='../gfx_traits/struct.Epoch.html' title='gfx_traits::Epoch'>Epoch</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>A counter for epoch messages</p>
+</div><span id='structfield.viewport_size'><code>viewport_size: <a class='struct' href='../euclid/size/struct.Size2D.html' title='euclid::size::Size2D'>Size2D</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>The size of the viewport. This may be different from the size of the screen due to viewport
+constraints.</p>
+</div><span id='structfield.rw_data'><code>rw_data: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/sync/mutex/struct.Mutex.html' title='std::sync::mutex::Mutex'>Mutex</a>&lt;<a class='struct' href='../layout/query/struct.LayoutThreadData.html' title='layout::query::LayoutThreadData'>LayoutThreadData</a>&gt;&gt;</code></span>
+                           <span class='stab '></span><div class='docblock'><p>A mutex to allow for fast, read-only RPC of layout&#39;s internal data
+structures, while still letting the LayoutThread modify them.</p>
+
+<p>All the other elements of this struct are read-only.</p>
+</div><span id='structfield.error_reporter'><code>error_reporter: <a class='struct' href='../script_layout_interface/reporter/struct.CSSErrorReporter.html' title='script_layout_interface::reporter::CSSErrorReporter'>CSSErrorReporter</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>The CSS error reporter for all CSS loaded in this layout thread</p>
+</div><span id='structfield.webrender_image_cache'><code>webrender_image_cache: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../std/sync/rwlock/struct.RwLock.html' title='std::sync::rwlock::RwLock'>RwLock</a>&lt;<a class='struct' href='../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='struct' href='../url/struct.Url.html' title='url::Url'>Url</a>, <a class='enum' href='../net_traits/image_cache_thread/enum.UsePlaceholder.html' title='net_traits::image_cache_thread::UsePlaceholder'>UsePlaceholder</a><a class='primitive' href='../std/primitive.tuple.html'>)</a>,&nbsp;<a class='struct' href='../gfx/display_list/struct.WebRenderImageInfo.html' title='gfx::display_list::WebRenderImageInfo'>WebRenderImageInfo</a>,&nbsp;<a class='struct' href='../core/hash/struct.BuildHasherDefault.html' title='core::hash::BuildHasherDefault'>BuildHasherDefault</a>&lt;<a class='struct' href='../fnv/struct.FnvHasher.html' title='fnv::FnvHasher'>FnvHasher</a>&gt;&gt;&gt;&gt;</code></span>
+                           <span class='stab '></span><span id='structfield.webrender_api'><code>webrender_api: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../webrender_traits/api/struct.RenderApi.html' title='webrender_traits::api::RenderApi'>RenderApi</a>&gt;</code></span>
+                           <span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../layout_thread/struct.LayoutThread.html' title='layout_thread::LayoutThread'>LayoutThread</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-214' class='srclink' href='../src/layout_thread/lib.rs.html#365-1488' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, url: <a class='struct' href='../url/struct.Url.html' title='url::Url'>Url</a>, is_iframe: <a class='primitive' href='../std/primitive.bool.html'>bool</a>, port: <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../script_layout_interface/message/enum.Msg.html' title='script_layout_interface::message::Msg'>Msg</a>&gt;, pipeline_port: <a class='struct' href='../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='enum' href='../script_traits/enum.LayoutControlMsg.html' title='script_traits::LayoutControlMsg'>LayoutControlMsg</a>&gt;, constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/script_msg/enum.LayoutMsg.html' title='script_traits::script_msg::LayoutMsg'>ConstellationMsg</a>&gt;, script_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;, paint_chan: <a class='enum' href='../util/ipc/enum.OptionalIpcSender.html' title='util::ipc::OptionalIpcSender'>OptionalIpcSender</a>&lt;<a class='enum' href='../gfx/paint_thread/enum.LayoutToPaintMsg.html' title='gfx::paint_thread::LayoutToPaintMsg'>LayoutToPaintMsg</a>&gt;, image_cache_thread: <a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a>, font_cache_thread: <a class='struct' href='../gfx/font_cache_thread/struct.FontCacheThread.html' title='gfx::font_cache_thread::FontCacheThread'>FontCacheThread</a>, time_profiler_chan: <a class='struct' href='../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a>, mem_profiler_chan: <a class='struct' href='../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a>, webrender_api_sender: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../webrender_traits/api/struct.RenderApiSender.html' title='webrender_traits::api::RenderApiSender'>RenderApiSender</a>&gt;) -&gt; <a class='struct' href='../layout_thread/struct.LayoutThread.html' title='layout_thread::LayoutThread'>LayoutThread</a></code></h4>
+<div class='docblock'><p>Creates a new <code>LayoutThread</code> structure.</p>
+</div><h4 id='method.start' class='method'><code>fn <a href='#method.start' class='fnname'>start</a>(self)</code></h4>
+<div class='docblock'><p>Starts listening on the port.</p>
+</div><h4 id='method.build_shared_layout_context' class='method'><code>fn <a href='#method.build_shared_layout_context' class='fnname'>build_shared_layout_context</a>(&amp;self, rw_data: &amp;<a class='struct' href='../layout/query/struct.LayoutThreadData.html' title='layout::query::LayoutThreadData'>LayoutThreadData</a>, screen_size_changed: <a class='primitive' href='../std/primitive.bool.html'>bool</a>, goal: <a class='enum' href='../style/context/enum.ReflowGoal.html' title='style::context::ReflowGoal'>ReflowGoal</a>) -&gt; <a class='struct' href='../layout/context/struct.SharedLayoutContext.html' title='layout::context::SharedLayoutContext'>SharedLayoutContext</a></code></h4>
+<h4 id='method.handle_request' class='method'><code>fn <a href='#method.handle_request' class='fnname'>handle_request</a>&lt;'a,&nbsp;'b&gt;(&amp;mut self, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Receives and dispatches messages from the script and constellation threads</p>
+</div><h4 id='method.repaint' class='method'><code>fn <a href='#method.repaint' class='fnname'>repaint</a>&lt;'a,&nbsp;'b&gt;(&amp;mut self, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Repaint the scene, without performing style matching. This is typically
+used when an image arrives asynchronously and triggers a relayout and
+repaint.
+TODO: In the future we could detect if the image size hasn&#39;t changed
+since last time and avoid performing a complete layout pass.</p>
+</div><h4 id='method.handle_request_helper' class='method'><code>fn <a href='#method.handle_request_helper' class='fnname'>handle_request_helper</a>&lt;'a,&nbsp;'b&gt;(&amp;mut self, request: <a class='enum' href='../script_layout_interface/message/enum.Msg.html' title='script_layout_interface::message::Msg'>Msg</a>, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Receives and dispatches messages from other threads.</p>
+</div><h4 id='method.collect_reports' class='method'><code>fn <a href='#method.collect_reports' class='fnname'>collect_reports</a>&lt;'a,&nbsp;'b&gt;(&amp;self, reports_chan: <a class='struct' href='../profile_traits/mem/struct.ReportsChan.html' title='profile_traits::mem::ReportsChan'>ReportsChan</a>, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;)</code></h4>
+<h4 id='method.create_layout_thread' class='method'><code>fn <a href='#method.create_layout_thread' class='fnname'>create_layout_thread</a>(&amp;self, info: <a class='struct' href='../script_layout_interface/message/struct.NewLayoutThreadInfo.html' title='script_layout_interface::message::NewLayoutThreadInfo'>NewLayoutThreadInfo</a>)</code></h4>
+<h4 id='method.prepare_to_exit' class='method'><code>fn <a href='#method.prepare_to_exit' class='fnname'>prepare_to_exit</a>(&amp;mut self, response_chan: <a class='struct' href='../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;)</code></h4>
+<div class='docblock'><p>Enters a quiescent state in which no new messages will be processed until an <code>ExitNow</code> is
+received. A pong is immediately sent on the given response channel.</p>
+</div><h4 id='method.exit_now' class='method'><code>fn <a href='#method.exit_now' class='fnname'>exit_now</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>Shuts down the layout thread now. If there are any DOM nodes left, layout will now (safely)
+crash.</p>
+</div><h4 id='method.handle_add_stylesheet' class='method'><code>fn <a href='#method.handle_add_stylesheet' class='fnname'>handle_add_stylesheet</a>&lt;'a,&nbsp;'b&gt;(&amp;self, stylesheet: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='type' href='../style/servo/type.Stylesheet.html' title='style::servo::Stylesheet'>Stylesheet</a>&gt;, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;)</code></h4>
+<h4 id='method.handle_set_quirks_mode' class='method'><code>fn <a href='#method.handle_set_quirks_mode' class='fnname'>handle_set_quirks_mode</a>&lt;'a,&nbsp;'b&gt;(&amp;self, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;)</code></h4>
+<div class='docblock'><p>Sets quirks mode for the document, causing the quirks mode stylesheet to be used.</p>
+</div><h4 id='method.try_get_layout_root' class='method'><code>fn <a href='#method.try_get_layout_root' class='fnname'>try_get_layout_root</a>&lt;N:&nbsp;<a class='trait' href='../script_layout_interface/wrapper_traits/trait.LayoutNode.html' title='script_layout_interface::wrapper_traits::LayoutNode'>LayoutNode</a>&gt;(&amp;self, node: N) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>&gt;</code></h4>
+<h4 id='method.solve_constraints' class='method'><code>fn <a href='#method.solve_constraints' class='fnname'>solve_constraints</a>(layout_root: &amp;mut <a class='type' href='../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, shared_layout_context: &amp;<a class='struct' href='../layout/context/struct.SharedLayoutContext.html' title='layout::context::SharedLayoutContext'>SharedLayoutContext</a>)</code></h4>
+<div class='docblock'><p>Performs layout constraint solving.</p>
+
+<p>This corresponds to <code>Reflow()</code> in Gecko and <code>layout()</code> in WebKit/Blink and should be
+benchmarked against those two. It is marked <code>#[inline(never)]</code> to aid profiling.</p>
+</div><h4 id='method.solve_constraints_parallel' class='method'><code>fn <a href='#method.solve_constraints_parallel' class='fnname'>solve_constraints_parallel</a>(traversal: &amp;mut <a class='struct' href='../util/workqueue/struct.WorkQueue.html' title='util::workqueue::WorkQueue'>WorkQueue</a>&lt;<a class='struct' href='../layout/context/struct.SharedLayoutContext.html' title='layout::context::SharedLayoutContext'>SharedLayoutContext</a>,&nbsp;<a class='struct' href='../style/parallel/struct.WorkQueueData.html' title='style::parallel::WorkQueueData'>WorkQueueData</a>&gt;, layout_root: &amp;mut <a class='type' href='../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, profiler_metadata: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../profile_traits/time/struct.TimerMetadata.html' title='profile_traits::time::TimerMetadata'>TimerMetadata</a>&gt;, time_profiler_chan: <a class='struct' href='../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a>, shared_layout_context: &amp;<a class='struct' href='../layout/context/struct.SharedLayoutContext.html' title='layout::context::SharedLayoutContext'>SharedLayoutContext</a>)</code></h4>
+<div class='docblock'><p>Performs layout constraint solving in parallel.</p>
+
+<p>This corresponds to <code>Reflow()</code> in Gecko and <code>layout()</code> in WebKit/Blink and should be
+benchmarked against those two. It is marked <code>#[inline(never)]</code> to aid profiling.</p>
+</div><h4 id='method.compute_abs_pos_and_build_display_list' class='method'><code>fn <a href='#method.compute_abs_pos_and_build_display_list' class='fnname'>compute_abs_pos_and_build_display_list</a>(&amp;mut self, data: &amp;<a class='struct' href='../script_layout_interface/message/struct.Reflow.html' title='script_layout_interface::message::Reflow'>Reflow</a>, layout_root: &amp;mut <a class='type' href='../layout/flow_ref/type.FlowRef.html' title='layout::flow_ref::FlowRef'>FlowRef</a>, shared_layout_context: &amp;mut <a class='struct' href='../layout/context/struct.SharedLayoutContext.html' title='layout::context::SharedLayoutContext'>SharedLayoutContext</a>, rw_data: &amp;mut <a class='struct' href='../layout/query/struct.LayoutThreadData.html' title='layout::query::LayoutThreadData'>LayoutThreadData</a>)</code></h4>
+<h4 id='method.handle_reflow' class='method'><code>fn <a href='#method.handle_reflow' class='fnname'>handle_reflow</a>&lt;'a,&nbsp;'b&gt;(&amp;mut self, data: &amp;<a class='struct' href='../script_layout_interface/message/struct.ScriptReflow.html' title='script_layout_interface::message::ScriptReflow'>ScriptReflow</a>, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;)</code></h4>
+<div class='docblock'><p>The high-level routine that performs layout threads.</p>
+</div><h4 id='method.set_visible_rects' class='method'><code>fn <a href='#method.set_visible_rects' class='fnname'>set_visible_rects</a>&lt;'a,&nbsp;'b&gt;(&amp;mut self, new_visible_rects: <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='struct' href='../gfx_traits/struct.LayerId.html' title='gfx_traits::LayerId'>LayerId</a>, <a class='struct' href='../euclid/rect/struct.Rect.html' title='euclid::rect::Rect'>Rect</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;<a class='primitive' href='../std/primitive.tuple.html'>)</a>&gt;, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;) -&gt; <a class='primitive' href='../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.set_stacking_context_scroll_states' class='method'><code>fn <a href='#method.set_stacking_context_scroll_states' class='fnname'>set_stacking_context_scroll_states</a>&lt;'a,&nbsp;'b&gt;(&amp;mut self, new_scroll_states: <a class='struct' href='../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../script_traits/struct.StackingContextScrollState.html' title='script_traits::StackingContextScrollState'>StackingContextScrollState</a>&gt;, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;)</code></h4>
+<h4 id='method.tick_all_animations' class='method'><code>fn <a href='#method.tick_all_animations' class='fnname'>tick_all_animations</a>&lt;'a,&nbsp;'b&gt;(&amp;mut self, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;)</code></h4>
+<h4 id='method.tick_animations' class='method'><code>fn <a href='#method.tick_animations' class='fnname'>tick_animations</a>(&amp;mut self, rw_data: &amp;mut <a class='struct' href='../layout/query/struct.LayoutThreadData.html' title='layout::query::LayoutThreadData'>LayoutThreadData</a>)</code></h4>
+<h4 id='method.reflow_with_newly_loaded_web_font' class='method'><code>fn <a href='#method.reflow_with_newly_loaded_web_font' class='fnname'>reflow_with_newly_loaded_web_font</a>&lt;'a,&nbsp;'b&gt;(&amp;mut self, possibly_locked_rw_data: &amp;mut <a class='struct' href='../layout_thread/struct.RwData.html' title='layout_thread::RwData'>RwData</a>&lt;'a,&nbsp;'b&gt;)</code></h4>
+<h4 id='method.perform_post_style_recalc_layout_passes' class='method'><code>fn <a href='#method.perform_post_style_recalc_layout_passes' class='fnname'>perform_post_style_recalc_layout_passes</a>(&amp;mut self, data: &amp;<a class='struct' href='../script_layout_interface/message/struct.Reflow.html' title='script_layout_interface::message::Reflow'>Reflow</a>, rw_data: &amp;mut <a class='struct' href='../layout/query/struct.LayoutThreadData.html' title='layout::query::LayoutThreadData'>LayoutThreadData</a>, layout_context: &amp;mut <a class='struct' href='../layout/context/struct.SharedLayoutContext.html' title='layout::context::SharedLayoutContext'>SharedLayoutContext</a>)</code></h4>
+<h4 id='method.perform_post_main_layout_passes' class='method'><code>fn <a href='#method.perform_post_main_layout_passes' class='fnname'>perform_post_main_layout_passes</a>(&amp;mut self, data: &amp;<a class='struct' href='../script_layout_interface/message/struct.Reflow.html' title='script_layout_interface::message::Reflow'>Reflow</a>, rw_data: &amp;mut <a class='struct' href='../layout/query/struct.LayoutThreadData.html' title='layout::query::LayoutThreadData'>LayoutThreadData</a>, layout_context: &amp;mut <a class='struct' href='../layout/context/struct.SharedLayoutContext.html' title='layout::context::SharedLayoutContext'>SharedLayoutContext</a>)</code></h4>
+<h4 id='method.dirty_all_nodes' class='method'><code>unsafe fn <a href='#method.dirty_all_nodes' class='fnname'>dirty_all_nodes</a>&lt;N:&nbsp;<a class='trait' href='../script_layout_interface/wrapper_traits/trait.LayoutNode.html' title='script_layout_interface::wrapper_traits::LayoutNode'>LayoutNode</a>&gt;(node: N)</code></h4>
+<h4 id='method.reflow_all_nodes' class='method'><code>fn <a href='#method.reflow_all_nodes' class='fnname'>reflow_all_nodes</a>(flow: &amp;mut <a class='trait' href='../layout/flow/trait.Flow.html' title='layout::flow::Flow'>Flow</a>)</code></h4>
+<h4 id='method.handle_reap_style_and_layout_data' class='method'><code>unsafe fn <a href='#method.handle_reap_style_and_layout_data' class='fnname'>handle_reap_style_and_layout_data</a>(&amp;self, data: <a class='struct' href='../script_layout_interface/struct.OpaqueStyleAndLayoutData.html' title='script_layout_interface::OpaqueStyleAndLayoutData'>OpaqueStyleAndLayoutData</a>)</code></h4>
+<div class='docblock'><p>Handles a message to destroy layout data. Layout data must be destroyed on <em>this</em> thread
+because the struct type is transmuted to a different type on the script side.</p>
+</div><h4 id='method.profiler_metadata' class='method'><code>fn <a href='#method.profiler_metadata' class='fnname'>profiler_metadata</a>(&amp;self) -&gt; <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../profile_traits/time/struct.TimerMetadata.html' title='profile_traits::time::TimerMetadata'>TimerMetadata</a>&gt;</code></h4>
+<div class='docblock'><p>Returns profiling information which is passed to the time profiler.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../layout_traits/trait.LayoutThreadFactory.html' title='layout_traits::LayoutThreadFactory'>LayoutThreadFactory</a> for <a class='struct' href='../layout_thread/struct.LayoutThread.html' title='layout_thread::LayoutThread'>LayoutThread</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-139' class='srclink' href='../src/layout_thread/lib.rs.html#232-278' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Message' class='type'><code>type <a href='../layout_traits/trait.LayoutThreadFactory.html#associatedtype.Message' class='type'>Message</a> = <a class='enum' href='../script_layout_interface/message/enum.Msg.html' title='script_layout_interface::message::Msg'>Msg</a></code></h4>
+<h4 id='method.create' class='method'><code>fn <a href='../layout_traits/trait.LayoutThreadFactory.html#tymethod.create' class='fnname'>create</a>(id: <a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, url: <a class='struct' href='../url/struct.Url.html' title='url::Url'>Url</a>, is_iframe: <a class='primitive' href='../std/primitive.bool.html'>bool</a>, chan: <a class='primitive' href='../std/primitive.tuple.html'>(</a><a class='struct' href='../std/sync/mpsc/struct.Sender.html' title='std::sync::mpsc::Sender'>Sender</a>&lt;<a class='enum' href='../script_layout_interface/message/enum.Msg.html' title='script_layout_interface::message::Msg'>Msg</a>&gt;, <a class='struct' href='../std/sync/mpsc/struct.Receiver.html' title='std::sync::mpsc::Receiver'>Receiver</a>&lt;<a class='enum' href='../script_layout_interface/message/enum.Msg.html' title='script_layout_interface::message::Msg'>Msg</a>&gt;<a class='primitive' href='../std/primitive.tuple.html'>)</a>, pipeline_port: <a class='struct' href='../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;<a class='enum' href='../script_traits/enum.LayoutControlMsg.html' title='script_traits::LayoutControlMsg'>LayoutControlMsg</a>&gt;, constellation_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/script_msg/enum.LayoutMsg.html' title='script_traits::script_msg::LayoutMsg'>ConstellationMsg</a>&gt;, panic_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='type' href='../msg/constellation_msg/type.PanicMsg.html' title='msg::constellation_msg::PanicMsg'>PanicMsg</a>&gt;, script_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='enum' href='../script_traits/enum.ConstellationControlMsg.html' title='script_traits::ConstellationControlMsg'>ConstellationControlMsg</a>&gt;, paint_chan: <a class='enum' href='../util/ipc/enum.OptionalIpcSender.html' title='util::ipc::OptionalIpcSender'>OptionalIpcSender</a>&lt;<a class='enum' href='../gfx/paint_thread/enum.LayoutToPaintMsg.html' title='gfx::paint_thread::LayoutToPaintMsg'>LayoutToPaintMsg</a>&gt;, image_cache_thread: <a class='struct' href='../net_traits/image_cache_thread/struct.ImageCacheThread.html' title='net_traits::image_cache_thread::ImageCacheThread'>ImageCacheThread</a>, font_cache_thread: <a class='struct' href='../gfx/font_cache_thread/struct.FontCacheThread.html' title='gfx::font_cache_thread::FontCacheThread'>FontCacheThread</a>, time_profiler_chan: <a class='struct' href='../profile_traits/time/struct.ProfilerChan.html' title='profile_traits::time::ProfilerChan'>ProfilerChan</a>, mem_profiler_chan: <a class='struct' href='../profile_traits/mem/struct.ProfilerChan.html' title='profile_traits::mem::ProfilerChan'>ProfilerChan</a>, content_process_shutdown_chan: <a class='struct' href='../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;, webrender_api_sender: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../webrender_traits/api/struct.RenderApiSender.html' title='webrender_traits::api::RenderApiSender'>RenderApiSender</a>&gt;)</code></h4>
+<div class='docblock'><p>Spawns a new layout thread.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "layout_thread";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

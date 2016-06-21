@@ -384,11 +384,6 @@
 <span id="340">340</span>
 <span id="341">341</span>
 <span id="342">342</span>
-<span id="343">343</span>
-<span id="344">344</span>
-<span id="345">345</span>
-<span id="346">346</span>
-<span id="347">347</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -422,6 +417,7 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>HandleValue</span>, <span class='ident'>JSContext</span>};
 <span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::<span class='ident'>GLContextAttributes</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>base64</span>::{<span class='ident'>STANDARD</span>, <span class='ident'>ToBase64</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>HTMLCanvasData</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::<span class='ident'>repeat</span>;
 <span class='kw'>use</span> <span class='ident'>string_cache</span>::<span class='ident'>Atom</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>attr</span>::<span class='ident'>AttrValue</span>;
@@ -482,12 +478,6 @@
             _ <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
         }
     }
-}
-
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>HTMLCanvasData</span> {
-    <span class='kw'>pub</span> <span class='ident'>ipc_renderer</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>width</span>: <span class='ident'>u32</span>,
-    <span class='kw'>pub</span> <span class='ident'>height</span>: <span class='ident'>u32</span>,
 }
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>LayoutHTMLCanvasElementHelpers</span> {

@@ -2214,7 +2214,6 @@
 <span id="2170">2170</span>
 <span id="2171">2171</span>
 <span id="2172">2172</span>
-<span id="2173">2173</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2326,7 +2325,10 @@
     <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// Channels through which messages can be sent to the resource-related threads.</span>
-    <span class='ident'>resource_threads</span>: <span class='ident'>ResourceThreads</span>,
+    <span class='ident'>public_resource_threads</span>: <span class='ident'>ResourceThreads</span>,
+
+    <span class='doccomment'>/// Channels through which messages can be sent to the resource-related threads.</span>
+    <span class='ident'>private_resource_threads</span>: <span class='ident'>ResourceThreads</span>,
 
     <span class='doccomment'>/// A channel through which messages can be sent to the image cache thread.</span>
     <span class='ident'>image_cache_thread</span>: <span class='ident'>ImageCacheThread</span>,
@@ -2419,7 +2421,9 @@
     <span class='doccomment'>/// A channel to the font cache thread.</span>
     <span class='kw'>pub</span> <span class='ident'>font_cache_thread</span>: <span class='ident'>FontCacheThread</span>,
     <span class='doccomment'>/// A channel to the resource thread.</span>
-    <span class='kw'>pub</span> <span class='ident'>resource_threads</span>: <span class='ident'>ResourceThreads</span>,
+    <span class='kw'>pub</span> <span class='ident'>public_resource_threads</span>: <span class='ident'>ResourceThreads</span>,
+    <span class='doccomment'>/// A channel to the resource thread.</span>
+    <span class='kw'>pub</span> <span class='ident'>private_resource_threads</span>: <span class='ident'>ResourceThreads</span>,
     <span class='doccomment'>/// A channel to the time profiler thread.</span>
     <span class='kw'>pub</span> <span class='ident'>time_profiler_chan</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>,
     <span class='doccomment'>/// A channel to the memory profiler thread.</span>
@@ -2549,7 +2553,8 @@
                 <span class='ident'>compositor_proxy</span>: <span class='ident'>state</span>.<span class='ident'>compositor_proxy</span>,
                 <span class='ident'>devtools_chan</span>: <span class='ident'>state</span>.<span class='ident'>devtools_chan</span>,
                 <span class='ident'>bluetooth_thread</span>: <span class='ident'>state</span>.<span class='ident'>bluetooth_thread</span>,
-                <span class='ident'>resource_threads</span>: <span class='ident'>state</span>.<span class='ident'>resource_threads</span>,
+                <span class='ident'>public_resource_threads</span>: <span class='ident'>state</span>.<span class='ident'>public_resource_threads</span>,
+                <span class='ident'>private_resource_threads</span>: <span class='ident'>state</span>.<span class='ident'>private_resource_threads</span>,
                 <span class='ident'>image_cache_thread</span>: <span class='ident'>state</span>.<span class='ident'>image_cache_thread</span>,
                 <span class='ident'>font_cache_thread</span>: <span class='ident'>state</span>.<span class='ident'>font_cache_thread</span>,
                 <span class='ident'>pipelines</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
@@ -2622,8 +2627,15 @@
                     <span class='ident'>parent_info</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>FrameType</span>)<span class='op'>&gt;</span>,
                     <span class='ident'>initial_window_size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>PagePx</span>, <span class='ident'>f32</span><span class='op'>&gt;&gt;</span>,
                     <span class='ident'>script_channel</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationControlMsg</span><span class='op'>&gt;&gt;</span>,
-                    <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>) {
+                    <span class='ident'>load_data</span>: <span class='ident'>LoadData</span>,
+                    <span class='ident'>is_private</span>: <span class='ident'>bool</span>) {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>shutting_down</span> { <span class='kw'>return</span>; }
+
+        <span class='kw'>let</span> <span class='ident'>resource_threads</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>is_private</span> {
+            <span class='self'>self</span>.<span class='ident'>private_resource_threads</span>.<span class='ident'>clone</span>()
+        } <span class='kw'>else</span> {
+            <span class='self'>self</span>.<span class='ident'>public_resource_threads</span>.<span class='ident'>clone</span>()
+        };
 
         <span class='kw'>let</span> <span class='ident'>parent_visibility</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>parent_pipeline_id</span>, _, _)) <span class='op'>=</span> <span class='ident'>parent_info</span> {
             <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>parent_pipeline_id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>visible</span>)
@@ -2643,7 +2655,7 @@
             <span class='ident'>bluetooth_thread</span>: <span class='self'>self</span>.<span class='ident'>bluetooth_thread</span>.<span class='ident'>clone</span>(),
             <span class='ident'>image_cache_thread</span>: <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>clone</span>(),
             <span class='ident'>font_cache_thread</span>: <span class='self'>self</span>.<span class='ident'>font_cache_thread</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>resource_threads</span>: <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>resource_threads</span>: <span class='ident'>resource_threads</span>,
             <span class='ident'>time_profiler_chan</span>: <span class='self'>self</span>.<span class='ident'>time_profiler_chan</span>.<span class='ident'>clone</span>(),
             <span class='ident'>mem_profiler_chan</span>: <span class='self'>self</span>.<span class='ident'>mem_profiler_chan</span>.<span class='ident'>clone</span>(),
             <span class='ident'>window_size</span>: <span class='ident'>initial_window_size</span>,
@@ -2653,6 +2665,7 @@
             <span class='ident'>pipeline_namespace_id</span>: <span class='self'>self</span>.<span class='ident'>next_pipeline_namespace_id</span>(),
             <span class='ident'>parent_visibility</span>: <span class='ident'>parent_visibility</span>,
             <span class='ident'>webrender_api_sender</span>: <span class='self'>self</span>.<span class='ident'>webrender_api_sender</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>is_private</span>: <span class='ident'>is_private</span>,
         });
 
         <span class='kw'>let</span> (<span class='ident'>pipeline</span>, <span class='ident'>child_process</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>result</span> {
@@ -3068,7 +3081,7 @@
         <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>exit</span>();
 
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting core resource threads.&quot;</span>);
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>net_traits</span>::<span class='ident'>CoreResourceMsg</span>::<span class='ident'>Exit</span>(<span class='ident'>core_sender</span>)) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>public_resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>net_traits</span>::<span class='ident'>CoreResourceMsg</span>::<span class='ident'>Exit</span>(<span class='ident'>core_sender</span>)) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit resource thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }
 
@@ -3081,12 +3094,12 @@
         }
 
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting storage resource threads.&quot;</span>);
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>StorageThreadMsg</span>::<span class='ident'>Exit</span>(<span class='ident'>storage_sender</span>)) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>public_resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>StorageThreadMsg</span>::<span class='ident'>Exit</span>(<span class='ident'>storage_sender</span>)) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit storage thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }
 
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Exiting file manager resource threads.&quot;</span>);
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>Exit</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>public_resource_threads</span>.<span class='ident'>send</span>(<span class='ident'>FileManagerThreadMsg</span>::<span class='ident'>Exit</span>) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Exit storage thread failed ({})&quot;</span>, <span class='ident'>e</span>);
         }
 
@@ -3169,7 +3182,7 @@
 
             <span class='kw'>let</span> <span class='ident'>new_pipeline_id</span> <span class='op'>=</span> <span class='ident'>PipelineId</span>::<span class='ident'>new</span>();
             <span class='kw'>let</span> <span class='ident'>load_data</span> <span class='op'>=</span> <span class='ident'>LoadData</span>::<span class='ident'>new</span>(<span class='ident'>failure_url</span>, <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>);
-            <span class='self'>self</span>.<span class='ident'>new_pipeline</span>(<span class='ident'>new_pipeline_id</span>, <span class='ident'>parent_info</span>, <span class='ident'>window_size</span>, <span class='prelude-val'>None</span>, <span class='ident'>load_data</span>);
+            <span class='self'>self</span>.<span class='ident'>new_pipeline</span>(<span class='ident'>new_pipeline_id</span>, <span class='ident'>parent_info</span>, <span class='ident'>window_size</span>, <span class='prelude-val'>None</span>, <span class='ident'>load_data</span>, <span class='bool-val'>false</span>);
 
             <span class='self'>self</span>.<span class='ident'>push_pending_frame</span>(<span class='ident'>new_pipeline_id</span>, <span class='prelude-val'>Some</span>(<span class='ident'>pipeline_id</span>));
 
@@ -3183,7 +3196,7 @@
         <span class='kw'>let</span> <span class='ident'>root_pipeline_id</span> <span class='op'>=</span> <span class='ident'>PipelineId</span>::<span class='ident'>new</span>();
         <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='ident'>PipelineId</span>::<span class='ident'>fake_root_pipeline_id</span>() <span class='op'>==</span> <span class='ident'>root_pipeline_id</span>);
         <span class='self'>self</span>.<span class='ident'>new_pipeline</span>(<span class='ident'>root_pipeline_id</span>, <span class='prelude-val'>None</span>, <span class='prelude-val'>Some</span>(<span class='ident'>window_size</span>), <span class='prelude-val'>None</span>,
-                          <span class='ident'>LoadData</span>::<span class='ident'>new</span>(<span class='ident'>url</span>.<span class='ident'>clone</span>(), <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>));
+                          <span class='ident'>LoadData</span>::<span class='ident'>new</span>(<span class='ident'>url</span>.<span class='ident'>clone</span>(), <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>), <span class='bool-val'>false</span>);
         <span class='self'>self</span>.<span class='ident'>handle_load_start_msg</span>(<span class='kw-2'>&amp;</span><span class='ident'>root_pipeline_id</span>);
         <span class='self'>self</span>.<span class='ident'>push_pending_frame</span>(<span class='ident'>root_pipeline_id</span>, <span class='prelude-val'>None</span>);
         <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>ChangePageUrl</span>(<span class='ident'>root_pipeline_id</span>, <span class='ident'>url</span>));
@@ -3248,7 +3261,7 @@
             .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>old_subpage_id</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>subpage_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span>(<span class='ident'>load_info</span>.<span class='ident'>containing_pipeline_id</span>, <span class='ident'>old_subpage_id</span>)))
             .<span class='ident'>cloned</span>();
 
-        <span class='kw'>let</span> (<span class='ident'>load_data</span>, <span class='ident'>script_chan</span>, <span class='ident'>window_size</span>) <span class='op'>=</span> {
+        <span class='kw'>let</span> (<span class='ident'>load_data</span>, <span class='ident'>script_chan</span>, <span class='ident'>window_size</span>, <span class='ident'>is_private</span>) <span class='op'>=</span> {
             <span class='kw'>let</span> <span class='ident'>old_pipeline</span> <span class='op'>=</span> <span class='ident'>old_pipeline_id</span>
                 .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>old_pipeline_id</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_pipeline_id</span>));
 
@@ -3272,11 +3285,14 @@
             <span class='comment'>// then reuse the script thread in creating the new pipeline</span>
             <span class='kw'>let</span> <span class='ident'>source_url</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>source_pipeline</span>.<span class='ident'>url</span>;
 
+            <span class='kw'>let</span> <span class='ident'>is_private</span> <span class='op'>=</span> <span class='ident'>load_info</span>.<span class='ident'>is_private</span> <span class='op'>||</span> <span class='ident'>source_pipeline</span>.<span class='ident'>is_private</span>;
+
             <span class='comment'>// FIXME(#10968): this should probably match the origin check in</span>
             <span class='comment'>//                HTMLIFrameElement::contentDocument.</span>
             <span class='kw'>let</span> <span class='ident'>same_script</span> <span class='op'>=</span> <span class='ident'>source_url</span>.<span class='ident'>host</span>() <span class='op'>==</span> <span class='ident'>load_data</span>.<span class='ident'>url</span>.<span class='ident'>host</span>() <span class='op'>&amp;&amp;</span>
                               <span class='ident'>source_url</span>.<span class='ident'>port</span>() <span class='op'>==</span> <span class='ident'>load_data</span>.<span class='ident'>url</span>.<span class='ident'>port</span>() <span class='op'>&amp;&amp;</span>
-                              <span class='ident'>load_info</span>.<span class='ident'>sandbox</span> <span class='op'>==</span> <span class='ident'>IFrameSandboxState</span>::<span class='ident'>IFrameUnsandboxed</span>;
+                              <span class='ident'>load_info</span>.<span class='ident'>sandbox</span> <span class='op'>==</span> <span class='ident'>IFrameSandboxState</span>::<span class='ident'>IFrameUnsandboxed</span> <span class='op'>&amp;&amp;</span>
+                              <span class='ident'>source_pipeline</span>.<span class='ident'>is_private</span> <span class='op'>==</span> <span class='ident'>is_private</span>;
 
             <span class='comment'>// Reuse the script thread if the URL is same-origin</span>
             <span class='kw'>let</span> <span class='ident'>script_chan</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>same_script</span> {
@@ -3295,16 +3311,17 @@
                 <span class='ident'>old_pipeline</span>.<span class='ident'>freeze</span>();
             }
 
-            (<span class='ident'>load_data</span>, <span class='ident'>script_chan</span>, <span class='ident'>window_size</span>)
-
+            (<span class='ident'>load_data</span>, <span class='ident'>script_chan</span>, <span class='ident'>window_size</span>, <span class='ident'>is_private</span>)
         };
+
 
         <span class='comment'>// Create the new pipeline, attached to the parent and push to pending frames</span>
         <span class='self'>self</span>.<span class='ident'>new_pipeline</span>(<span class='ident'>load_info</span>.<span class='ident'>new_pipeline_id</span>,
                           <span class='prelude-val'>Some</span>((<span class='ident'>load_info</span>.<span class='ident'>containing_pipeline_id</span>, <span class='ident'>load_info</span>.<span class='ident'>new_subpage_id</span>, <span class='ident'>load_info</span>.<span class='ident'>frame_type</span>)),
                           <span class='ident'>window_size</span>,
                           <span class='ident'>script_chan</span>,
-                          <span class='ident'>load_data</span>);
+                          <span class='ident'>load_data</span>,
+                          <span class='ident'>is_private</span>);
 
         <span class='self'>self</span>.<span class='ident'>subpage_map</span>.<span class='ident'>insert</span>((<span class='ident'>load_info</span>.<span class='ident'>containing_pipeline_id</span>, <span class='ident'>load_info</span>.<span class='ident'>new_subpage_id</span>),
                                 <span class='ident'>load_info</span>.<span class='ident'>new_pipeline_id</span>);
@@ -3435,7 +3452,7 @@
                 <span class='comment'>// Create the new pipeline</span>
                 <span class='kw'>let</span> <span class='ident'>window_size</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>source_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>source</span><span class='op'>|</span> <span class='ident'>source</span>.<span class='ident'>size</span>);
                 <span class='kw'>let</span> <span class='ident'>new_pipeline_id</span> <span class='op'>=</span> <span class='ident'>PipelineId</span>::<span class='ident'>new</span>();
-                <span class='self'>self</span>.<span class='ident'>new_pipeline</span>(<span class='ident'>new_pipeline_id</span>, <span class='prelude-val'>None</span>, <span class='ident'>window_size</span>, <span class='prelude-val'>None</span>, <span class='ident'>load_data</span>);
+                <span class='self'>self</span>.<span class='ident'>new_pipeline</span>(<span class='ident'>new_pipeline_id</span>, <span class='prelude-val'>None</span>, <span class='ident'>window_size</span>, <span class='prelude-val'>None</span>, <span class='ident'>load_data</span>, <span class='bool-val'>false</span>);
                 <span class='self'>self</span>.<span class='ident'>push_pending_frame</span>(<span class='ident'>new_pipeline_id</span>, <span class='prelude-val'>Some</span>(<span class='ident'>source_id</span>));
 
                 <span class='comment'>// Send message to ScriptThread that will suspend all timers</span>
@@ -4122,25 +4139,6 @@
 
         <span class='comment'>// All script threads are idle and layout epochs match compositor, so output image!</span>
         <span class='ident'>ReadyToSave</span>::<span class='ident'>Ready</span>
-    }
-
-    <span class='doccomment'>/// Checks whether the pipeline or its ancestors are private</span>
-    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>check_is_pipeline_private</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>loop</span> {
-            <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
-                <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='kw'>if</span> <span class='ident'>pipeline</span>.<span class='ident'>is_private</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='bool-val'>true</span>,
-                <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>pipeline</span>.<span class='ident'>parent_info</span> {
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='bool-val'>false</span>,
-                    <span class='prelude-val'>Some</span>((_, _, <span class='ident'>FrameType</span>::<span class='ident'>MozBrowserIFrame</span>)) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='bool-val'>false</span>,
-                    <span class='prelude-val'>Some</span>((<span class='ident'>parent_id</span>, _, _)) <span class='op'>=&gt;</span> <span class='ident'>pipeline_id</span> <span class='op'>=</span> <span class='ident'>parent_id</span>,
-                },
-                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                    <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Finding private ancestor for pipeline {} after closure.&quot;</span>, <span class='ident'>pipeline_id</span>);
-                    <span class='kw'>return</span> <span class='bool-val'>false</span>;
-                },
-            }
-        }
     }
 
     <span class='comment'>// Close a frame (and all children)</span>

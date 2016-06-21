@@ -577,6 +577,11 @@
 <span id="533">533</span>
 <span id="534">534</span>
 <span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -644,6 +649,7 @@
     <span class='doccomment'>/// animations cause composites to be continually scheduled.</span>
     <span class='kw'>pub</span> <span class='ident'>running_animations</span>: <span class='ident'>bool</span>,
     <span class='kw'>pub</span> <span class='ident'>children</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FrameId</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// Whether this pipeline is considered distinct from public pipelines.</span>
     <span class='kw'>pub</span> <span class='ident'>is_private</span>: <span class='ident'>bool</span>,
     <span class='doccomment'>/// Whether this pipeline should be treated as visible for the purposes of scheduling and</span>
     <span class='doccomment'>/// resource management.</span>
@@ -699,6 +705,8 @@
     <span class='kw'>pub</span> <span class='ident'>parent_visibility</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// Optional webrender api (if enabled).</span>
     <span class='kw'>pub</span> <span class='ident'>webrender_api_sender</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>webrender_traits</span>::<span class='ident'>RenderApiSender</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// Whether this pipeline is considered private.</span>
+    <span class='kw'>pub</span> <span class='ident'>is_private</span>: <span class='ident'>bool</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>Pipeline</span> {
@@ -834,6 +842,7 @@
                                      <span class='ident'>pipeline_chan</span>,
                                      <span class='ident'>state</span>.<span class='ident'>compositor_proxy</span>,
                                      <span class='ident'>chrome_to_paint_chan</span>,
+                                     <span class='ident'>state</span>.<span class='ident'>is_private</span>,
                                      <span class='ident'>state</span>.<span class='ident'>load_data</span>.<span class='ident'>url</span>,
                                      <span class='ident'>state</span>.<span class='ident'>window_size</span>,
                                      <span class='ident'>state</span>.<span class='ident'>parent_visibility</span>.<span class='ident'>unwrap_or</span>(<span class='bool-val'>true</span>));
@@ -849,6 +858,7 @@
            <span class='ident'>layout_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>LayoutControlMsg</span><span class='op'>&gt;</span>,
            <span class='ident'>compositor_proxy</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>CompositorProxy</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>,
            <span class='ident'>chrome_to_paint_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ChromeToPaintMsg</span><span class='op'>&gt;</span>,
+           <span class='ident'>is_private</span>: <span class='ident'>bool</span>,
            <span class='ident'>url</span>: <span class='ident'>Url</span>,
            <span class='ident'>size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>PagePx</span>, <span class='ident'>f32</span><span class='op'>&gt;&gt;</span>,
            <span class='ident'>visible</span>: <span class='ident'>bool</span>)
@@ -865,8 +875,8 @@
             <span class='ident'>children</span>: <span class='macro'>vec</span><span class='macro'>!</span>(),
             <span class='ident'>size</span>: <span class='ident'>size</span>,
             <span class='ident'>running_animations</span>: <span class='bool-val'>false</span>,
-            <span class='ident'>is_private</span>: <span class='bool-val'>false</span>,
             <span class='ident'>visible</span>: <span class='ident'>visible</span>,
+            <span class='ident'>is_private</span>: <span class='ident'>is_private</span>,
         }
     }
 

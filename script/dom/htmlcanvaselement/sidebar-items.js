@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["DEFAULT_HEIGHT",""],["DEFAULT_WIDTH",""]],"enum":[["CanvasContext",""]],"mod":[["utils",""]],"struct":[["HTMLCanvasData",""],["HTMLCanvasElement",""]],"trait":[["LayoutHTMLCanvasElementHelpers",""]]});
+initSidebarItems({"constant":[["DEFAULT_HEIGHT",""],["DEFAULT_WIDTH",""]],"enum":[["CanvasContext",""]],"mod":[["utils",""]],"struct":[["HTMLCanvasElement",""]],"trait":[["LayoutHTMLCanvasElementHelpers",""]]});

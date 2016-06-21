@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ContentBoxResponse",""],["ContentBoxesResponse",""],["HitTestResponse",""],["MarginStyleResponse",""],["NodeGeometryResponse",""],["NodeLayerIdResponse",""],["NodeOverflowResponse",""],["OffsetParentResponse",""],["ResolvedStyleResponse",""]],"trait":[["LayoutRPC","Synchronous messages that script can send to layout."]]});

@@ -773,6 +773,56 @@
 <span id="729">729</span>
 <span id="730">730</span>
 <span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -788,13 +838,16 @@
 <span class='kw'>use</span> <span class='ident'>flow</span>;
 <span class='kw'>use</span> <span class='ident'>flow_ref</span>::<span class='ident'>FlowRef</span>;
 <span class='kw'>use</span> <span class='ident'>fragment</span>::{<span class='ident'>Fragment</span>, <span class='ident'>FragmentBorderBoxIterator</span>, <span class='ident'>SpecificFragmentInfo</span>};
-<span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>display_list</span>::<span class='ident'>OpaqueNode</span>;
+<span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>display_list</span>::{<span class='ident'>DisplayItemMetadata</span>, <span class='ident'>DisplayList</span>, <span class='ident'>OpaqueNode</span>, <span class='ident'>ScrollOffsetMap</span>};
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>LayerId</span>;
-<span class='kw'>use</span> <span class='ident'>layout_thread</span>::<span class='ident'>LayoutThreadData</span>;
+<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
 <span class='kw'>use</span> <span class='ident'>opaque_node</span>::<span class='ident'>OpaqueNodeMethods</span>;
-<span class='kw'>use</span> <span class='ident'>script</span>::<span class='ident'>layout_interface</span>::{<span class='ident'>ContentBoxResponse</span>, <span class='ident'>NodeOverflowResponse</span>, <span class='ident'>ContentBoxesResponse</span>, <span class='ident'>NodeGeometryResponse</span>};
-<span class='kw'>use</span> <span class='ident'>script</span>::<span class='ident'>layout_interface</span>::{<span class='ident'>HitTestResponse</span>, <span class='ident'>LayoutRPC</span>, <span class='ident'>OffsetParentResponse</span>, <span class='ident'>NodeLayerIdResponse</span>};
-<span class='kw'>use</span> <span class='ident'>script</span>::<span class='ident'>layout_interface</span>::{<span class='ident'>ResolvedStyleResponse</span>, <span class='ident'>MarginStyleResponse</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>rpc</span>::{<span class='ident'>ContentBoxResponse</span>, <span class='ident'>ContentBoxesResponse</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>rpc</span>::{<span class='ident'>HitTestResponse</span>, <span class='ident'>LayoutRPC</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>rpc</span>::{<span class='ident'>MarginStyleResponse</span>, <span class='ident'>NodeGeometryResponse</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>rpc</span>::{<span class='ident'>NodeLayerIdResponse</span>, <span class='ident'>NodeOverflowResponse</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>rpc</span>::{<span class='ident'>OffsetParentResponse</span>, <span class='ident'>ResolvedStyleResponse</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>wrapper_traits</span>::{<span class='ident'>LayoutNode</span>, <span class='ident'>ThreadSafeLayoutNode</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>LayoutMsg</span> <span class='kw'>as</span> <span class='ident'>ConstellationMsg</span>;
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::<span class='ident'>UntrustedNodeAddress</span>;
 <span class='kw'>use</span> <span class='ident'>sequential</span>;
@@ -808,9 +861,56 @@
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::<span class='ident'>longhands</span>::{<span class='ident'>display</span>, <span class='ident'>position</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::<span class='ident'>style_structs</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>selector_impl</span>::<span class='ident'>PseudoElement</span>;
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>servo</span>::<span class='ident'>Stylist</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>values</span>::<span class='ident'>AuExtensionMethods</span>;
 <span class='kw'>use</span> <span class='ident'>style_traits</span>::<span class='ident'>cursor</span>::<span class='ident'>Cursor</span>;
-<span class='kw'>use</span> <span class='ident'>wrapper</span>::{<span class='ident'>LayoutNode</span>, <span class='ident'>ThreadSafeLayoutNode</span>};
+<span class='kw'>use</span> <span class='ident'>wrapper</span>::<span class='ident'>ThreadSafeLayoutNodeHelpers</span>;
+
+<span class='doccomment'>/// Mutable data belonging to the LayoutThread.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This needs to be protected by a mutex so we can do fast RPCs.</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LayoutThreadData</span> {
+    <span class='doccomment'>/// The channel on which messages can be sent to the constellation.</span>
+    <span class='kw'>pub</span> <span class='ident'>constellation_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// The root stacking context.</span>
+    <span class='kw'>pub</span> <span class='ident'>display_list</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>DisplayList</span><span class='op'>&gt;&gt;</span>,
+
+    <span class='doccomment'>/// Performs CSS selector matching and style resolution.</span>
+    <span class='kw'>pub</span> <span class='ident'>stylist</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Stylist</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// A queued response for the union of the content boxes of a node.</span>
+    <span class='kw'>pub</span> <span class='ident'>content_box_response</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>Au</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// A queued response for the content boxes of a node.</span>
+    <span class='kw'>pub</span> <span class='ident'>content_boxes_response</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>Au</span><span class='op'>&gt;&gt;</span>,
+
+    <span class='doccomment'>/// A queued response for the client {top, left, width, height} of a node in pixels.</span>
+    <span class='kw'>pub</span> <span class='ident'>client_rect_response</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>,
+
+    <span class='kw'>pub</span> <span class='ident'>layer_id_response</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>LayerId</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// A queued response for the node at a given point</span>
+    <span class='kw'>pub</span> <span class='ident'>hit_test_response</span>: (<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DisplayItemMetadata</span><span class='op'>&gt;</span>, <span class='ident'>bool</span>),
+
+    <span class='doccomment'>/// A pair of overflow property in x and y</span>
+    <span class='kw'>pub</span> <span class='ident'>overflow_response</span>: <span class='ident'>NodeOverflowResponse</span>,
+
+    <span class='doccomment'>/// A queued response for the scroll {top, left, width, height} of a node in pixels.</span>
+    <span class='kw'>pub</span> <span class='ident'>scroll_area_response</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// A queued response for the resolved style property of an element.</span>
+    <span class='kw'>pub</span> <span class='ident'>resolved_style_response</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// A queued response for the offset parent/rect of a node.</span>
+    <span class='kw'>pub</span> <span class='ident'>offset_parent_response</span>: <span class='ident'>OffsetParentResponse</span>,
+
+    <span class='doccomment'>/// A queued response for the offset parent/rect of a node.</span>
+    <span class='kw'>pub</span> <span class='ident'>margin_style_response</span>: <span class='ident'>MarginStyleResponse</span>,
+
+    <span class='doccomment'>/// Scroll offsets of stacking contexts. This will only be populated if WebRender is in use.</span>
+    <span class='kw'>pub</span> <span class='ident'>stacking_context_scroll_offsets</span>: <span class='ident'>ScrollOffsetMap</span>,
+}
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LayoutRPCImpl</span>(<span class='kw'>pub</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>LayoutThreadData</span><span class='op'>&gt;&gt;</span>);
 

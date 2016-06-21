@@ -2904,7 +2904,6 @@
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>text</span>::<span class='ident'>glyph</span>::<span class='ident'>ByteIndex</span>;
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>text</span>::<span class='ident'>text_run</span>::{<span class='ident'>TextRun</span>, <span class='ident'>TextRunSlice</span>};
 <span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>FragmentType</span>, <span class='ident'>LayerId</span>, <span class='ident'>LayerType</span>, <span class='ident'>StackingContextId</span>};
-<span class='kw'>use</span> <span class='ident'>incremental</span>::{<span class='ident'>RECONSTRUCT_FLOW</span>, <span class='ident'>RestyleDamage</span>};
 <span class='kw'>use</span> <span class='ident'>inline</span>::{<span class='ident'>FIRST_FRAGMENT_OF_ELEMENT</span>, <span class='ident'>InlineFragmentContext</span>, <span class='ident'>InlineFragmentNodeInfo</span>};
 <span class='kw'>use</span> <span class='ident'>inline</span>::{<span class='ident'>InlineMetrics</span>, <span class='ident'>LAST_FRAGMENT_OF_ELEMENT</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
@@ -2916,7 +2915,9 @@
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>image_cache_thread</span>::{<span class='ident'>ImageOrMetadataAvailable</span>, <span class='ident'>UsePlaceholder</span>};
 <span class='kw'>use</span> <span class='ident'>range</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::{<span class='ident'>Encodable</span>, <span class='ident'>Encoder</span>};
-<span class='kw'>use</span> <span class='ident'>script</span>::<span class='ident'>layout_interface</span>::<span class='ident'>HTMLCanvasData</span>;
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>HTMLCanvasData</span>;
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>restyle_damage</span>::{<span class='ident'>RECONSTRUCT_FLOW</span>, <span class='ident'>RestyleDamage</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>wrapper_traits</span>::{<span class='ident'>PseudoElementType</span>, <span class='ident'>ThreadSafeLayoutElement</span>, <span class='ident'>ThreadSafeLayoutNode</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::{<span class='ident'>max</span>, <span class='ident'>min</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>LinkedList</span>;
@@ -2935,7 +2936,6 @@
 <span class='kw'>use</span> <span class='ident'>text</span>::<span class='ident'>TextRunScanner</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>;
-<span class='kw'>use</span> <span class='ident'>wrapper</span>::{<span class='ident'>PseudoElementType</span>, <span class='ident'>ThreadSafeLayoutElement</span>, <span class='ident'>ThreadSafeLayoutNode</span>};
 
 <span class='doccomment'>/// Fragments (`struct Fragment`) are the leaves of the layout tree. They cannot position</span>
 <span class='doccomment'>/// themselves. In general, fragments do not have a simple correspondence with CSS fragments in the</span>

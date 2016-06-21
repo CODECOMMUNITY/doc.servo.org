@@ -142,11 +142,6 @@
 <span id="98"> 98</span>
 <span id="99"> 99</span>
 <span id="100">100</span>
-<span id="101">101</span>
-<span id="102">102</span>
-<span id="103">103</span>
-<span id="104">104</span>
-<span id="105">105</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -156,7 +151,6 @@
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>box_patterns</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>box_syntax</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>custom_derive</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>mpsc_select</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>nonzero</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>plugin</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>raw</span>)]</span>
@@ -182,7 +176,6 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>gfx_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>heapsize</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>ipc_channel</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>layout_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>log</span>;
@@ -196,10 +189,9 @@
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>range</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>script</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>script_layout_interface</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>script_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>selectors</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde_json</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>smallvec</span>;
 <span class='attribute'>#[<span class='ident'>macro_use</span>(<span class='ident'>atom</span>, <span class='ident'>ns</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>string_cache</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>style</span>;
@@ -212,32 +204,31 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>webrender_traits</span>;
 
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>mod</span> <span class='ident'>layout_debug</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>layout_debug</span>;
 
-<span class='kw'>mod</span> <span class='ident'>animation</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>animation</span>;
 <span class='kw'>mod</span> <span class='ident'>block</span>;
-<span class='kw'>mod</span> <span class='ident'>construct</span>;
-<span class='kw'>mod</span> <span class='ident'>context</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>construct</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>context</span>;
 <span class='kw'>mod</span> <span class='ident'>data</span>;
-<span class='kw'>mod</span> <span class='ident'>display_list_builder</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>display_list_builder</span>;
 <span class='kw'>mod</span> <span class='ident'>flex</span>;
 <span class='kw'>mod</span> <span class='ident'>floats</span>;
-<span class='kw'>mod</span> <span class='ident'>flow</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>flow</span>;
 <span class='kw'>mod</span> <span class='ident'>flow_list</span>;
-<span class='kw'>mod</span> <span class='ident'>flow_ref</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>flow_ref</span>;
 <span class='kw'>mod</span> <span class='ident'>fragment</span>;
 <span class='kw'>mod</span> <span class='ident'>generated_content</span>;
-<span class='kw'>mod</span> <span class='ident'>incremental</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>incremental</span>;
 <span class='kw'>mod</span> <span class='ident'>inline</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>layout_thread</span>;
 <span class='kw'>mod</span> <span class='ident'>list_item</span>;
 <span class='kw'>mod</span> <span class='ident'>model</span>;
 <span class='kw'>mod</span> <span class='ident'>multicol</span>;
 <span class='kw'>mod</span> <span class='ident'>opaque_node</span>;
-<span class='kw'>mod</span> <span class='ident'>parallel</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>parallel</span>;
 <span class='kw'>mod</span> <span class='ident'>persistent_list</span>;
-<span class='kw'>mod</span> <span class='ident'>query</span>;
-<span class='kw'>mod</span> <span class='ident'>sequential</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>query</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>sequential</span>;
 <span class='kw'>mod</span> <span class='ident'>table</span>;
 <span class='kw'>mod</span> <span class='ident'>table_caption</span>;
 <span class='kw'>mod</span> <span class='ident'>table_cell</span>;
@@ -246,13 +237,12 @@
 <span class='kw'>mod</span> <span class='ident'>table_rowgroup</span>;
 <span class='kw'>mod</span> <span class='ident'>table_wrapper</span>;
 <span class='kw'>mod</span> <span class='ident'>text</span>;
-<span class='kw'>mod</span> <span class='ident'>traversal</span>;
-<span class='kw'>mod</span> <span class='ident'>webrender_helpers</span>;
-<span class='kw'>mod</span> <span class='ident'>wrapper</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>traversal</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>webrender_helpers</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>wrapper</span>;
 
 <span class='comment'>// For unit tests:</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>fragment</span>::<span class='ident'>Fragment</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>wrapper</span>::<span class='ident'>ServoThreadSafeLayoutNode</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

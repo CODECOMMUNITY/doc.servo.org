@@ -773,7 +773,6 @@
 <span class='kw'>use</span> <span class='ident'>request</span>::{<span class='ident'>Request</span>, <span class='ident'>RequestInit</span>};
 <span class='kw'>use</span> <span class='ident'>response</span>::{<span class='ident'>HttpsState</span>, <span class='ident'>Response</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>IOError</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::<span class='ident'>Sender</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 <span class='kw'>use</span> <span class='ident'>storage_thread</span>::<span class='ident'>StorageThreadMsg</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
@@ -1383,9 +1382,10 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Hash</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>, <span class='ident'>HeapSizeOf</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ResourceId</span>(<span class='kw'>pub</span> <span class='ident'>u32</span>);
 
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ConstellationMsg</span> {
     <span class='doccomment'>/// Queries whether a pipeline or its ancestors are private</span>
-    <span class='ident'>IsPrivate</span>(<span class='ident'>PipelineId</span>, <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>),
+    <span class='ident'>IsPrivate</span>(<span class='ident'>PipelineId</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>),
 }
 
 <span class='doccomment'>/// Network errors that have to be exported out of the loaders</span>

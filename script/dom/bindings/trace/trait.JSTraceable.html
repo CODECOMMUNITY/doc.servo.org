@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3296' class='srclink' href='../../../../src/script/dom/bindings/trace.rs.html#100-103' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3300' class='srclink' href='../../../../src/script/dom/bindings/trace.rs.html#102-105' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait JSTraceable {
     fn <a href='#tymethod.trace' class='fnname'>trace</a>(&amp;self, trc: <a class='primitive' href='../../../../std/primitive.pointer.html'>*mut </a><a class='struct' href='../../../../js/jsapi/struct.JSTracer.html' title='js::jsapi::JSTracer'>JSTracer</a>);
 }</pre><div class='docblock'><p>A trait to allow tracing (only) DOM objects.</p>
@@ -176,12 +176,14 @@
 <li><code>impl JSTraceable for <a class='struct' href='../../../../net_traits/struct.ResourceThreads.html' title='net_traits::ResourceThreads'>ResourceThreads</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../std/time/struct.SystemTime.html' title='std::time::SystemTime'>SystemTime</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../net_traits/filemanager_thread/struct.SelectedFileId.html' title='net_traits::filemanager_thread::SelectedFileId'>SelectedFileId</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../script_layout_interface/struct.OpaqueStyleAndLayoutData.html' title='script_layout_interface::OpaqueStyleAndLayoutData'>OpaqueStyleAndLayoutData</a></code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../script_layout_interface/reporter/struct.CSSErrorReporter.html' title='script_layout_interface::reporter::CSSErrorReporter'>CSSErrorReporter</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/script_runtime/trait.ScriptChan.html' title='script::script_runtime::ScriptChan'>ScriptChan</a> + <a class='trait' href='../../../../core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;</code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../alloc/boxed/trait.FnBox.html' title='alloc::boxed::FnBox'>FnBox</a>(<a class='primitive' href='../../../../std/primitive.f64.html'>f64</a>)&gt;</code></li>
 <li><code>impl&lt;'a&gt; JSTraceable for &amp;'a <a class='primitive' href='../../../../std/primitive.str.html'>str</a></code></li>
 <li><code>impl&lt;A,&nbsp;B&gt; JSTraceable for fn(A) -&gt; B</code></li>
 <li><code>impl&lt;T&gt; JSTraceable for <a class='struct' href='../../../../ipc_channel/ipc/struct.IpcSender.html' title='ipc_channel::ipc::IpcSender'>IpcSender</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='../../../../serde/de/trait.Deserialize.html' title='serde::de::Deserialize'>Deserialize</a> + <a class='trait' href='../../../../serde/ser/trait.Serialize.html' title='serde::ser::Serialize'>Serialize</a></span></code></li>
-<li><code>impl JSTraceable for <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script/layout_interface/trait.LayoutRPC.html' title='script::layout_interface::LayoutRPC'>LayoutRPC</a> + 'static&gt;</code></li>
+<li><code>impl JSTraceable for <a class='struct' href='../../../../alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../../script_layout_interface/rpc/trait.LayoutRPC.html' title='script_layout_interface::rpc::LayoutRPC'>LayoutRPC</a> + 'static&gt;</code></li>
 <li><code>impl JSTraceable for <a class='primitive' href='../../../../std/primitive.tuple.html'>()</a></code></li>
 <li><code>impl&lt;T&gt; JSTraceable for <a class='struct' href='../../../../ipc_channel/ipc/struct.IpcReceiver.html' title='ipc_channel::ipc::IpcReceiver'>IpcReceiver</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='../../../../serde/de/trait.Deserialize.html' title='serde::de::Deserialize'>Deserialize</a> + <a class='trait' href='../../../../serde/ser/trait.Serialize.html' title='serde::ser::Serialize'>Serialize</a></span></code></li>
 <li><code>impl&lt;'a,&nbsp;T:&nbsp;<a class='trait' href='../../../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a> + 'a + <a class='trait' href='../../../../script/dom/bindings/trace/trait.JSTraceable.html' title='script::dom::bindings::trace::JSTraceable'>JSTraceable</a>&gt; JSTraceable for <a class='struct' href='../../../../script/dom/bindings/trace/struct.RootedTraceable.html' title='script::dom::bindings::trace::RootedTraceable'>RootedTraceable</a>&lt;'a,&nbsp;T&gt;</code></li>
@@ -390,7 +392,6 @@
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/navigator/struct.Navigator.html' title='script::dom::navigator::Navigator'>Navigator</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/node/struct.Node.html' title='script::dom::node::Node'>Node</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/node/struct.NodeFlags.html' title='script::dom::node::NodeFlags'>NodeFlags</a></code></li>
-<li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/node/struct.OpaqueStyleAndLayoutData.html' title='script::dom::node::OpaqueStyleAndLayoutData'>OpaqueStyleAndLayoutData</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/node/struct.UniqueId.html' title='script::dom::node::UniqueId'>UniqueId</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/dom/nodeiterator/struct.NodeIterator.html' title='script::dom::nodeiterator::NodeIterator'>NodeIterator</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/dom/nodeiterator/enum.Filter.html' title='script::dom::nodeiterator::Filter'>Filter</a></code></li>
@@ -473,7 +474,6 @@
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/origin/struct.Origin.html' title='script::origin::Origin'>Origin</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/parse/enum.ParserField.html' title='script::parse::ParserField'>ParserField</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/parse/struct.MutNullableParserField.html' title='script::parse::MutNullableParserField'>MutNullableParserField</a></code></li>
-<li><code>impl JSTraceable for <a class='struct' href='../../../../script/reporter/struct.CSSErrorReporter.html' title='script::reporter::CSSErrorReporter'>CSSErrorReporter</a></code></li>
 <li><code>impl JSTraceable for <a class='enum' href='../../../../script/script_runtime/enum.ScriptThreadEventCategory.html' title='script::script_runtime::ScriptThreadEventCategory'>ScriptThreadEventCategory</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/script_thread/struct.InProgressLoad.html' title='script::script_thread::InProgressLoad'>InProgressLoad</a></code></li>
 <li><code>impl JSTraceable for <a class='struct' href='../../../../script/script_thread/struct.SendableMainThreadScriptChan.html' title='script::script_thread::SendableMainThreadScriptChan'>SendableMainThreadScriptChan</a></code></li>

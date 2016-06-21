@@ -299,6 +299,17 @@
 <span id="255">255</span>
 <span id="256">256</span>
 <span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -317,6 +328,9 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>heapsize</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>layers</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>msg</span>;
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>range</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde</span>;
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>color</span>;
@@ -327,6 +341,7 @@
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>Matrix4D</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>rect</span>::<span class='ident'>Rect</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::<span class='ident'>PipelineId</span>;
+<span class='kw'>use</span> <span class='ident'>range</span>::<span class='ident'>RangeIndex</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='self'>self</span>, <span class='ident'>Debug</span>, <span class='ident'>Formatter</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>ATOMIC_USIZE_INIT</span>, <span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};
 
@@ -557,6 +572,13 @@
     }
 }
 
+<span class='macro'>int_range_index</span><span class='macro'>!</span> {
+    <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>, <span class='ident'>RustcEncodable</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>doc</span> <span class='op'>=</span> <span class='string'>&quot;An index that refers to a byte offset in a text run. This could \
+             point to the middle of a glyph.&quot;</span>]</span>
+    <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>)]</span>
+    <span class='kw'>struct</span> <span class='ident'>ByteIndex</span>(<span class='ident'>isize</span>)
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

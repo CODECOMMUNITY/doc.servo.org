@@ -603,6 +603,10 @@
 <span id="559">559</span>
 <span id="560">560</span>
 <span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -661,7 +665,6 @@
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsapi</span>::{<span class='ident'>GCTraceKindToAscii</span>, <span class='ident'>Heap</span>, <span class='ident'>TraceKind</span>, <span class='ident'>JSObject</span>, <span class='ident'>JSTracer</span>};
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>jsval</span>::<span class='ident'>JSVal</span>;
 <span class='kw'>use</span> <span class='ident'>js</span>::<span class='ident'>rust</span>::<span class='ident'>Runtime</span>;
-<span class='kw'>use</span> <span class='ident'>layout_interface</span>::<span class='ident'>LayoutRPC</span>;
 <span class='kw'>use</span> <span class='ident'>libc</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameType</span>, <span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>, <span class='ident'>WindowSizeData</span>, <span class='ident'>WindowSizeType</span>, <span class='ident'>ReferrerPolicy</span>};
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>filemanager_thread</span>::<span class='ident'>SelectedFileId</span>;
@@ -673,6 +676,9 @@
 <span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::<span class='ident'>GLLimits</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>::<span class='ident'>ProfilerChan</span> <span class='kw'>as</span> <span class='ident'>MemProfilerChan</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>::<span class='ident'>ProfilerChan</span> <span class='kw'>as</span> <span class='ident'>TimeProfilerChan</span>;
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>OpaqueStyleAndLayoutData</span>;
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>reporter</span>::<span class='ident'>CSSErrorReporter</span>;
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>rpc</span>::<span class='ident'>LayoutRPC</span>;
 <span class='kw'>use</span> <span class='ident'>script_runtime</span>::<span class='ident'>ScriptChan</span>;
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>TimerEventId</span>, <span class='ident'>TimerSource</span>, <span class='ident'>TouchpadPressurePhase</span>, <span class='ident'>UntrustedNodeAddress</span>};
 <span class='kw'>use</span> <span class='ident'>serde</span>::{<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>};
@@ -934,6 +940,8 @@
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>ResourceThreads</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>SystemTime</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>SelectedFileId</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>OpaqueStyleAndLayoutData</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>CSSErrorReporter</span>);
 
 <span class='kw'>impl</span> <span class='ident'>JSTraceable</span> <span class='kw'>for</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>

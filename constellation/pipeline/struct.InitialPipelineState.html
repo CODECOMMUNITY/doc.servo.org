@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1560' class='srclink' href='../../src/constellation/pipeline.rs.html#77-122' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1554' class='srclink' href='../../src/constellation/pipeline.rs.html#78-125' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct InitialPipelineState {
     pub id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,
     pub parent_info: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.tuple.html'>(</a><a class='struct' href='../../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>, <a class='struct' href='../../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>, <a class='enum' href='../../msg/constellation_msg/enum.FrameType.html' title='msg::constellation_msg::FrameType'>FrameType</a><a class='primitive' href='../../std/primitive.tuple.html'>)</a>&gt;,
@@ -70,6 +70,7 @@
     pub pipeline_namespace_id: <a class='struct' href='../../msg/constellation_msg/struct.PipelineNamespaceId.html' title='msg::constellation_msg::PipelineNamespaceId'>PipelineNamespaceId</a>,
     pub parent_visibility: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='../../std/primitive.bool.html'>bool</a>&gt;,
     pub webrender_api_sender: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender_traits/api/struct.RenderApiSender.html' title='webrender_traits::api::RenderApiSender'>RenderApiSender</a>&gt;,
+    pub is_private: <a class='primitive' href='../../std/primitive.bool.html'>bool</a>,
 }</pre><div class='docblock'><p>Initial setup data needed to construct a pipeline.</p>
 
 <p><em>DO NOT</em> add any Senders to this unless you absolutely know what you&#39;re doing, or pcwalton will
@@ -118,6 +119,8 @@ then <code>parent_info</code> must also be <code>Some</code>.</p>
                            <span class='stab '></span><div class='docblock'><p>Pipeline visibility is inherited from parent</p>
 </div><span id='structfield.webrender_api_sender'><code>webrender_api_sender: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../webrender_traits/api/struct.RenderApiSender.html' title='webrender_traits::api::RenderApiSender'>RenderApiSender</a>&gt;</code></span>
                            <span class='stab '></span><div class='docblock'><p>Optional webrender api (if enabled).</p>
+</div><span id='structfield.is_private'><code>is_private: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
+                           <span class='stab '></span><div class='docblock'><p>Whether this pipeline is considered private.</p>
 </div></section>
     <section id='search' class="content hidden"></section>
 

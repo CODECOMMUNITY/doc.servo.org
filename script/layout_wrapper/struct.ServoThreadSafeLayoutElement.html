@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ServoThreadSafeLayoutElement` struct in crate `script`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ServoThreadSafeLayoutElement">
+
+    <title>script::layout_wrapper::ServoThreadSafeLayoutElement - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>script</a>::<wbr><a href='index.html'>layout_wrapper</a></p><script>window.sidebarCurrent = {name: 'ServoThreadSafeLayoutElement', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>script</a>::<wbr><a href='index.html'>layout_wrapper</a>::<wbr><a class='struct' href=''>ServoThreadSafeLayoutElement</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-116543' class='srclink' href='../../src/script/layout_wrapper.rs.html#867-869' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ServoThreadSafeLayoutElement&lt;'le&gt; {
+    element: &amp;'le <a class='struct' href='../../script/dom/element/struct.Element.html' title='script::dom::element::Element'>Element</a>,
+}</pre><div class='docblock'><p>A wrapper around elements that ensures layout can only
+ever access safe properties and cannot race on elements.</p>
+</div><h2 class='fields'>Fields</h2><span id='structfield.element'><code>element: &amp;'le <a class='struct' href='../../script/dom/element/struct.Element.html' title='script::dom::element::Element'>Element</a></code></span>
+                           <span class='stab '></span><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'le&gt; <a class='trait' href='../../script_layout_interface/wrapper_traits/trait.ThreadSafeLayoutElement.html' title='script_layout_interface::wrapper_traits::ThreadSafeLayoutElement'>ThreadSafeLayoutElement</a> for <a class='struct' href='../../script/layout_wrapper/struct.ServoThreadSafeLayoutElement.html' title='script::layout_wrapper::ServoThreadSafeLayoutElement'>ServoThreadSafeLayoutElement</a>&lt;'le&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-116553' class='srclink' href='../../src/script/layout_wrapper.rs.html#871-889' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.ConcreteThreadSafeLayoutNode' class='type'><code>type <a href='../../script_layout_interface/wrapper_traits/trait.ThreadSafeLayoutElement.html#associatedtype.ConcreteThreadSafeLayoutNode' class='type'>ConcreteThreadSafeLayoutNode</a> = <a class='struct' href='../../script/layout_wrapper/struct.ServoThreadSafeLayoutNode.html' title='script::layout_wrapper::ServoThreadSafeLayoutNode'>ServoThreadSafeLayoutNode</a>&lt;'le&gt;</code></h4>
+<h4 id='method.get_attr' class='method'><code>fn <a href='../../script_layout_interface/wrapper_traits/trait.ThreadSafeLayoutElement.html#tymethod.get_attr' class='fnname'>get_attr</a>&lt;'a&gt;(&amp;'a self, namespace: &amp;<a class='struct' href='../../string_cache/namespace/struct.Namespace.html' title='string_cache::namespace::Namespace'>Namespace</a>, name: &amp;<a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='primitive' href='../../std/primitive.str.html'>str</a>&gt;</code></h4>
+<h4 id='method.get_local_name' class='method'><code>fn <a href='../../script_layout_interface/wrapper_traits/trait.ThreadSafeLayoutElement.html#tymethod.get_local_name' class='fnname'>get_local_name</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='struct' href='../../string_cache/atom/struct.BorrowedAtom.html' title='string_cache::atom::BorrowedAtom'>BorrowedAtom</a>&lt;'a&gt;</code></h4>
+<h4 id='method.get_namespace' class='method'><code>fn <a href='../../script_layout_interface/wrapper_traits/trait.ThreadSafeLayoutElement.html#tymethod.get_namespace' class='fnname'>get_namespace</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='struct' href='../../string_cache/namespace/struct.BorrowedNamespace.html' title='string_cache::namespace::BorrowedNamespace'>BorrowedNamespace</a>&lt;'a&gt;</code></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl&lt;'le&gt; <a class='trait' href='../../selectors/tree/trait.Element.html' title='selectors::tree::Element'>Element</a> for <a class='struct' href='../../script/layout_wrapper/struct.ServoThreadSafeLayoutElement.html' title='script::layout_wrapper::ServoThreadSafeLayoutElement'>ServoThreadSafeLayoutElement</a>&lt;'le&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-116567' class='srclink' href='../../src/script/layout_wrapper.rs.html#903-994' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'><p>This implementation of <code>::selectors::Element</code> is used for implementing lazy
+pseudo-elements.</p>
+
+<p>Lazy pseudo-elements in Servo only allows selectors using safe properties,
+i.e., local_name, attributes, so they can only be used for <strong>private</strong>
+pseudo-elements (like <code>::-servo-details-content</code>).</p>
+
+<p>Probably a few more of this functions can be implemented (like <code>has_class</code>,
+<code>each_class</code>, etc), but they have no use right now.</p>
+
+<p>Note that the element implementation is needed only for selector matching,
+not for inheritance (styles are inherited appropiately).</p>
+</div><div class='impl-items'><h4 id='associatedtype.Impl' class='type'><code>type <a href='../../selectors/tree/trait.Element.html#associatedtype.Impl' class='type'>Impl</a> = <a class='struct' href='../../style/selector_impl/struct.ServoSelectorImpl.html' title='style::selector_impl::ServoSelectorImpl'>ServoSelectorImpl</a></code></h4>
+<h4 id='method.parent_element' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.parent_element' class='fnname'>parent_element</a>(&amp;self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;</code></h4>
+<h4 id='method.first_child_element' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.first_child_element' class='fnname'>first_child_element</a>(&amp;self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;</code></h4>
+<h4 id='method.last_child_element' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.last_child_element' class='fnname'>last_child_element</a>(&amp;self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;</code></h4>
+<h4 id='method.prev_sibling_element' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.prev_sibling_element' class='fnname'>prev_sibling_element</a>(&amp;self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;</code></h4>
+<h4 id='method.next_sibling_element' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.next_sibling_element' class='fnname'>next_sibling_element</a>(&amp;self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;</code></h4>
+<h4 id='method.is_html_element_in_html_document' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.is_html_element_in_html_document' class='fnname'>is_html_element_in_html_document</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.get_local_name-1' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.get_local_name' class='fnname'>get_local_name</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='struct' href='../../string_cache/atom/struct.BorrowedAtom.html' title='string_cache::atom::BorrowedAtom'>BorrowedAtom</a>&lt;'a&gt;</code></h4>
+<h4 id='method.get_namespace-1' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.get_namespace' class='fnname'>get_namespace</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class='struct' href='../../string_cache/namespace/struct.BorrowedNamespace.html' title='string_cache::namespace::BorrowedNamespace'>BorrowedNamespace</a>&lt;'a&gt;</code></h4>
+<h4 id='method.match_non_ts_pseudo_class' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.match_non_ts_pseudo_class' class='fnname'>match_non_ts_pseudo_class</a>(&amp;self, _: <a class='enum' href='../../style/selector_impl/enum.NonTSPseudoClass.html' title='style::selector_impl::NonTSPseudoClass'>NonTSPseudoClass</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.get_id' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.get_id' class='fnname'>get_id</a>(&amp;self) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>&gt;</code></h4>
+<h4 id='method.has_class' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.has_class' class='fnname'>has_class</a>(&amp;self, _name: &amp;<a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.match_attr' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.match_attr' class='fnname'>match_attr</a>&lt;F&gt;(&amp;self, attr: &amp;<a class='struct' href='../../selectors/parser/struct.AttrSelector.html' title='selectors::parser::AttrSelector'>AttrSelector</a>, test: F) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a> <span class='where'>where F: <a class='trait' href='../../core/ops/trait.Fn.html' title='core::ops::Fn'>Fn</a>(&amp;<a class='primitive' href='../../std/primitive.str.html'>str</a>) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></span></code></h4>
+<h4 id='method.is_empty' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns whether this element matches <code>:empty</code>. <a href="../../selectors/tree/trait.Element.html#tymethod.is_empty">Read more</a></p>
+</div><h4 id='method.is_root' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.is_root' class='fnname'>is_root</a>(&amp;self) -&gt; <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns whether this element matches <code>:root</code>, i.e. whether it is the root element of a document. <a href="../../selectors/tree/trait.Element.html#tymethod.is_root">Read more</a></p>
+</div><h4 id='method.each_class' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#tymethod.each_class' class='fnname'>each_class</a>&lt;F&gt;(&amp;self, _callback: F) <span class='where'>where F: <a class='trait' href='../../core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(&amp;<a class='struct' href='../../string_cache/atom/struct.Atom.html' title='string_cache::atom::Atom'>Atom</a>)</span></code></h4>
+<h4 id='method.insert_flags' class='method'><code>fn <a href='../../selectors/tree/trait.Element.html#method.insert_flags' class='fnname'>insert_flags</a>(&amp;self, _flags: <a class='struct' href='../../selectors/matching/struct.ElementFlags.html' title='selectors::matching::ElementFlags'>ElementFlags</a>)</code></h4>
+<div class='docblock'><p>Add flags to the element. See the <code>ElementFlags</code> docs for details. <a href="../../selectors/tree/trait.Element.html#method.insert_flags">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'le&gt; <a class='trait' href='../../style/dom/trait.PresentationalHintsSynthetizer.html' title='style::dom::PresentationalHintsSynthetizer'>PresentationalHintsSynthetizer</a> for <a class='struct' href='../../script/layout_wrapper/struct.ServoThreadSafeLayoutElement.html' title='script::layout_wrapper::ServoThreadSafeLayoutElement'>ServoThreadSafeLayoutElement</a>&lt;'le&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-116649' class='srclink' href='../../src/script/layout_wrapper.rs.html#996-999' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.synthesize_presentational_hints_for_legacy_attributes' class='method'><code>fn <a href='../../style/dom/trait.PresentationalHintsSynthetizer.html#tymethod.synthesize_presentational_hints_for_legacy_attributes' class='fnname'>synthesize_presentational_hints_for_legacy_attributes</a>&lt;V&gt;(&amp;self, _hints: &amp;mut V) <span class='where'>where V: <a class='trait' href='../../smallvec/trait.VecLike.html' title='smallvec::VecLike'>VecLike</a>&lt;<a class='struct' href='../../selectors/matching/struct.DeclarationBlock.html' title='selectors::matching::DeclarationBlock'>DeclarationBlock</a>&lt;<a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../style/properties/enum.PropertyDeclaration.html' title='style::properties::PropertyDeclaration'>PropertyDeclaration</a>&gt;&gt;&gt;</span></code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl&lt;'le&gt; <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../script/layout_wrapper/struct.ServoThreadSafeLayoutElement.html' title='script::layout_wrapper::ServoThreadSafeLayoutElement'>ServoThreadSafeLayoutElement</a>&lt;'le&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-116546' class='srclink' href='../../src/script/layout_wrapper.rs.html#866' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../script/layout_wrapper/struct.ServoThreadSafeLayoutElement.html' title='script::layout_wrapper::ServoThreadSafeLayoutElement'>ServoThreadSafeLayoutElement</a>&lt;'le&gt;</code></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="../../core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="../../core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'le&gt; <a class='trait' href='../../core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../script/layout_wrapper/struct.ServoThreadSafeLayoutElement.html' title='script::layout_wrapper::ServoThreadSafeLayoutElement'>ServoThreadSafeLayoutElement</a>&lt;'le&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-116551' class='srclink' href='../../src/script/layout_wrapper.rs.html#866' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "script";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

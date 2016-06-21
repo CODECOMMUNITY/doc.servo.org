@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Msg","Asynchronous messages that script can send to layout."],["ReflowQueryType","Any query to perform with this reflow."]],"struct":[["NewLayoutThreadInfo",""],["Reflow","Information needed for a reflow."],["ScriptReflow","Information needed for a script-initiated reflow."]]});

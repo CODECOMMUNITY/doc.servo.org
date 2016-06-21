@@ -287,6 +287,14 @@
 <span id="243">243</span>
 <span id="244">244</span>
 <span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -300,22 +308,30 @@
 <span class='kw'>use</span> <span class='ident'>flow</span>::{<span class='ident'>CAN_BE_FRAGMENTED</span>, <span class='ident'>Flow</span>, <span class='ident'>ImmutableFlowUtils</span>, <span class='ident'>PostorderFlowTraversal</span>};
 <span class='kw'>use</span> <span class='ident'>flow</span>::{<span class='ident'>PreorderFlowTraversal</span>, <span class='self'>self</span>};
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>display_list</span>::<span class='ident'>OpaqueNode</span>;
-<span class='kw'>use</span> <span class='ident'>incremental</span>::{<span class='ident'>BUBBLE_ISIZES</span>, <span class='ident'>REFLOW</span>, <span class='ident'>REFLOW_OUT_OF_FLOW</span>, <span class='ident'>REPAINT</span>, <span class='ident'>RestyleDamage</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>restyle_damage</span>::{<span class='ident'>BUBBLE_ISIZES</span>, <span class='ident'>REFLOW</span>, <span class='ident'>REFLOW_OUT_OF_FLOW</span>, <span class='ident'>REPAINT</span>, <span class='ident'>RestyleDamage</span>};
+<span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>wrapper_traits</span>::{<span class='ident'>LayoutNode</span>, <span class='ident'>ThreadSafeLayoutNode</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>context</span>::<span class='ident'>StyleContext</span>;
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>dom</span>::<span class='ident'>TNode</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>matching</span>::<span class='ident'>MatchMethods</span>;
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::<span class='ident'>ServoComputedValues</span>;
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>selector_impl</span>::<span class='ident'>ServoSelectorImpl</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>traversal</span>::{<span class='ident'>DomTraversalContext</span>, <span class='ident'>STYLE_BLOOM</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>traversal</span>::{<span class='ident'>put_thread_local_bloom_filter</span>, <span class='ident'>recalc_style_at</span>};
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>opts</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>tid</span>::<span class='ident'>tid</span>;
-<span class='kw'>use</span> <span class='ident'>wrapper</span>::{<span class='ident'>LayoutNode</span>, <span class='ident'>ServoLayoutNode</span>, <span class='ident'>ThreadSafeLayoutNode</span>};
+<span class='kw'>use</span> <span class='ident'>wrapper</span>::{<span class='ident'>LayoutNodeLayoutData</span>, <span class='ident'>ThreadSafeLayoutNodeHelpers</span>};
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RecalcStyleAndConstructFlows</span><span class='op'>&lt;</span><span class='lifetime'>&#39;lc</span><span class='op'>&gt;</span> {
     <span class='ident'>context</span>: <span class='ident'>LayoutContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;lc</span><span class='op'>&gt;</span>,
     <span class='ident'>root</span>: <span class='ident'>OpaqueNode</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;lc</span>, <span class='lifetime'>&#39;ln</span><span class='op'>&gt;</span> <span class='ident'>DomTraversalContext</span><span class='op'>&lt;</span><span class='ident'>ServoLayoutNode</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ln</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>RecalcStyleAndConstructFlows</span><span class='op'>&lt;</span><span class='lifetime'>&#39;lc</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;lc</span>, <span class='ident'>N</span><span class='op'>&gt;</span> <span class='ident'>DomTraversalContext</span><span class='op'>&lt;</span><span class='ident'>N</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>RecalcStyleAndConstructFlows</span><span class='op'>&lt;</span><span class='lifetime'>&#39;lc</span><span class='op'>&gt;</span>
+    <span class='kw'>where</span> <span class='ident'>N</span>: <span class='ident'>LayoutNode</span> <span class='op'>+</span> <span class='ident'>TNode</span><span class='op'>&lt;</span><span class='ident'>ConcreteComputedValues</span><span class='op'>=</span><span class='ident'>ServoComputedValues</span><span class='op'>&gt;</span>,
+          <span class='ident'>N</span>::<span class='ident'>ConcreteElement</span>: ::<span class='ident'>selectors</span>::<span class='ident'>Element</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>=</span><span class='ident'>ServoSelectorImpl</span><span class='op'>&gt;</span>
+
+{
     <span class='kw'>type</span> <span class='ident'>SharedContext</span> <span class='op'>=</span> <span class='ident'>SharedLayoutContext</span>;
     <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>shared</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>Self</span>::<span class='ident'>SharedContext</span>, <span class='ident'>root</span>: <span class='ident'>OpaqueNode</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
@@ -355,7 +371,7 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>process_preorder</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='ident'>ServoLayoutNode</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ln</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>process_preorder</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='ident'>N</span>) {
         <span class='comment'>// FIXME(pcwalton): Stop allocating here. Ideally this should just be done by the HTML</span>
         <span class='comment'>// parser.</span>
         <span class='ident'>node</span>.<span class='ident'>initialize_data</span>();
@@ -363,7 +379,7 @@
         <span class='ident'>recalc_style_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>context</span>, <span class='self'>self</span>.<span class='ident'>root</span>, <span class='ident'>node</span>);
     }
 
-    <span class='kw'>fn</span> <span class='ident'>process_postorder</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='ident'>ServoLayoutNode</span><span class='op'>&lt;</span><span class='lifetime'>&#39;ln</span><span class='op'>&gt;</span>) { <span class='ident'>construct_flows_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>context</span>, <span class='self'>self</span>.<span class='ident'>root</span>, <span class='ident'>node</span>); }
+    <span class='kw'>fn</span> <span class='ident'>process_postorder</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='ident'>N</span>) { <span class='ident'>construct_flows_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>context</span>, <span class='self'>self</span>.<span class='ident'>root</span>, <span class='ident'>node</span>); }
 }
 
 <span class='doccomment'>/// A bottom-up, parallelizable traversal.</span>
