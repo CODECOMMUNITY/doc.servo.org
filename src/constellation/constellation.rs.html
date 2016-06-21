@@ -2213,7 +2213,6 @@
 <span id="2169">2169</span>
 <span id="2170">2170</span>
 <span id="2171">2171</span>
-<span id="2172">2172</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2344,9 +2343,6 @@
 
     <span class='doccomment'>/// A list of all the frames</span>
     <span class='ident'>frames</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>FrameId</span>, <span class='ident'>Frame</span><span class='op'>&gt;</span>,
-
-    <span class='doccomment'>/// Maps from pipeline ID to the frame that contains it.</span>
-    <span class='ident'>pipeline_to_frame_map</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>PipelineId</span>, <span class='ident'>FrameId</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// Maps from a (parent pipeline, subpage) to the actual child pipeline ID.</span>
     <span class='ident'>subpage_map</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span>(<span class='ident'>PipelineId</span>, <span class='ident'>SubpageId</span>), <span class='ident'>PipelineId</span><span class='op'>&gt;</span>,
@@ -2559,7 +2555,6 @@
                 <span class='ident'>font_cache_thread</span>: <span class='ident'>state</span>.<span class='ident'>font_cache_thread</span>,
                 <span class='ident'>pipelines</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
                 <span class='ident'>frames</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
-                <span class='ident'>pipeline_to_frame_map</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
                 <span class='ident'>subpage_map</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
                 <span class='ident'>pending_frames</span>: <span class='macro'>vec</span><span class='macro'>!</span>(),
                 <span class='ident'>next_pipeline_namespace_id</span>: <span class='ident'>PipelineNamespaceId</span>(<span class='number'>0</span>),
@@ -2709,10 +2704,10 @@
 
         <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>Frame</span>::<span class='ident'>new</span>(<span class='ident'>pipeline_id</span>);
 
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>contains_key</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>));
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>).<span class='ident'>is_none</span>());
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>contains_key</span>(<span class='kw-2'>&amp;</span><span class='ident'>id</span>));
 
-        <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>insert</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>id</span>);
+        <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>id</span>));
         <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>insert</span>(<span class='ident'>id</span>, <span class='ident'>frame</span>);
 
         <span class='ident'>id</span>
@@ -3466,8 +3461,8 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_load_start_msg</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='kw-2'>&amp;</span><span class='ident'>PipelineId</span>) {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='ident'>pipeline_id</span>) {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>get</span>(<span class='ident'>frame_id</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>) {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame_id</span>) {
                 <span class='kw'>let</span> <span class='ident'>forward</span> <span class='op'>=</span> <span class='op'>!</span><span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>is_empty</span>();
                 <span class='kw'>let</span> <span class='ident'>back</span> <span class='op'>=</span> <span class='op'>!</span><span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>is_empty</span>();
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>send</span>(<span class='ident'>ToCompositorMsg</span>::<span class='ident'>LoadStart</span>(<span class='ident'>back</span>, <span class='ident'>forward</span>));
@@ -3476,7 +3471,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_load_complete_msg</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='kw-2'>&amp;</span><span class='ident'>PipelineId</span>) {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='ident'>pipeline_id</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>) {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame_id</span>) {
                 <span class='kw'>let</span> <span class='ident'>forward</span> <span class='op'>=</span> <span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>is_empty</span>();
                 <span class='kw'>let</span> <span class='ident'>back</span> <span class='op'>=</span> <span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>is_empty</span>();
@@ -3511,8 +3506,8 @@
         <span class='comment'>// the navigate message, or use root frame id by default.</span>
         <span class='kw'>let</span> <span class='ident'>frame_id</span> <span class='op'>=</span> <span class='ident'>pipeline_info</span>
             .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>info</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>subpage_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>info</span>))
-            .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline_id</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>))
-            .<span class='ident'>cloned</span>()
+            .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline_id</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>))
+            .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>)
             .<span class='ident'>or</span>(<span class='self'>self</span>.<span class='ident'>root_frame_id</span>);
 
         <span class='comment'>// If the frame_id lookup fails, then we are in the middle of tearing down</span>
@@ -3687,7 +3682,7 @@
     <span class='kw'>fn</span> <span class='ident'>handle_get_frame</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
                         <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>,
                         <span class='ident'>resp_chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FrameId</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>frame_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>x</span>);
+        <span class='kw'>let</span> <span class='ident'>frame_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>resp_chan</span>.<span class='ident'>send</span>(<span class='ident'>frame_id</span>) {
             <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Failed get_frame response ({}).&quot;</span>, <span class='ident'>e</span>);
         }
@@ -3724,7 +3719,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_remove_iframe_msg</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>) {
-        <span class='kw'>let</span> <span class='ident'>frame_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>id</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>id</span>);
+        <span class='kw'>let</span> <span class='ident'>frame_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>);
         <span class='kw'>match</span> <span class='ident'>frame_id</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>frame_id</span>) <span class='op'>=&gt;</span> {
                 <span class='comment'>// This iframe has already loaded and been added to the frame tree.</span>
@@ -3740,7 +3735,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_set_visible_msg</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>visible</span>: <span class='ident'>bool</span>) {
-        <span class='kw'>let</span> <span class='ident'>frame_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>frame_id</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>frame_id</span>);
+        <span class='kw'>let</span> <span class='ident'>frame_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>);
         <span class='kw'>let</span> <span class='ident'>child_pipeline_ids</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PipelineId</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>current_frame_tree_iter</span>(<span class='ident'>frame_id</span>)
                                                       .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>frame</span><span class='op'>|</span> <span class='ident'>frame</span>.<span class='ident'>current</span>)
                                                       .<span class='ident'>collect</span>();
@@ -3866,7 +3861,7 @@
         <span class='comment'>// of the pipeline being changed) then update the focus pipeline to be</span>
         <span class='comment'>// the replacement.</span>
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>old_pipeline_id</span>) <span class='op'>=</span> <span class='ident'>frame_change</span>.<span class='ident'>old_pipeline_id</span> {
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_frame_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_pipeline_id</span>) {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>old_frame_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>) {
                 <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>focused_pipeline_in_tree</span>(<span class='ident'>old_frame_id</span>) {
                     <span class='self'>self</span>.<span class='ident'>focus_pipeline_id</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame_change</span>.<span class='ident'>new_pipeline_id</span>);
                 }
@@ -3879,11 +3874,14 @@
             <span class='self'>self</span>.<span class='ident'>revoke_paint_permission</span>(<span class='ident'>old_pipeline_id</span>);
 
             <span class='comment'>// Add new pipeline to navigation frame, and return frames evicted from history.</span>
-            <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_pipeline_id</span>).<span class='ident'>cloned</span>()
+            <span class='self'>self</span>.<span class='ident'>pipelines</span>
+                .<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_pipeline_id</span>)
+                .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>)
                 .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>frame_id</span><span class='op'>|</span> {
-                    <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>insert</span>(<span class='ident'>frame_change</span>.<span class='ident'>new_pipeline_id</span>, <span class='ident'>frame_id</span>);
-                    <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame_id</span>)
-                }).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>frame</span><span class='op'>|</span> <span class='ident'>frame</span>.<span class='ident'>load</span>(<span class='ident'>frame_change</span>.<span class='ident'>new_pipeline_id</span>))
+                    <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame_change</span>.<span class='ident'>new_pipeline_id</span>)
+                                  .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame_id</span>));
+                    <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame_id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>frame</span><span class='op'>|</span> <span class='ident'>frame</span>.<span class='ident'>load</span>(<span class='ident'>frame_change</span>.<span class='ident'>new_pipeline_id</span>))
+                })
         });
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>None</span> <span class='op'>=</span> <span class='ident'>evicted_frames</span> {
@@ -3959,7 +3957,7 @@
         <span class='comment'>// a dependent pipeline to be ready to paint.</span>
         <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>valid_frame_change</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pending_frames</span>.<span class='ident'>iter</span>().<span class='ident'>rposition</span>(<span class='op'>|</span><span class='ident'>frame_change</span><span class='op'>|</span> {
             <span class='kw'>let</span> <span class='ident'>waiting_on_dependency</span> <span class='op'>=</span> <span class='ident'>frame_change</span>.<span class='ident'>old_pipeline_id</span>.<span class='ident'>map_or</span>(<span class='bool-val'>false</span>, <span class='op'>|</span><span class='ident'>old_pipeline_id</span><span class='op'>|</span> {
-                <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_pipeline_id</span>).<span class='ident'>is_none</span>()
+                <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>old_pipeline_id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>).<span class='ident'>is_none</span>()
             });
             <span class='ident'>frame_change</span>.<span class='ident'>document_ready</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>waiting_on_dependency</span>
         }) {
@@ -4201,7 +4199,7 @@
             <span class='self'>self</span>.<span class='ident'>close_frame</span>(<span class='op'>*</span><span class='ident'>child_frame</span>, <span class='ident'>exit_mode</span>);
         }
 
-        <span class='kw'>let</span> <span class='ident'>pipeline</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
+        <span class='kw'>let</span> <span class='ident'>pipeline</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=&gt;</span> <span class='ident'>pipeline</span>,
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Closing pipeline {:?} twice.&quot;</span>, <span class='ident'>pipeline_id</span>),
         };
@@ -4212,7 +4210,7 @@
         }
 
         <span class='comment'>// Remove assocation between this pipeline and its holding frame</span>
-        <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>);
+        <span class='ident'>pipeline</span>.<span class='ident'>frame</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 
         <span class='comment'>// Remove this pipeline from pending frames if it hasn&#39;t loaded yet.</span>
         <span class='kw'>let</span> <span class='ident'>pending_index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pending_frames</span>.<span class='ident'>iter</span>().<span class='ident'>position</span>(<span class='op'>|</span><span class='ident'>frame_change</span><span class='op'>|</span> {
@@ -4278,7 +4276,7 @@
 
     <span class='comment'>// Revoke paint permission from a pipeline, and all children.</span>
     <span class='kw'>fn</span> <span class='ident'>revoke_paint_permission</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>) {
-        <span class='kw'>let</span> <span class='ident'>frame_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>frame_id</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>frame_id</span>);
+        <span class='kw'>let</span> <span class='ident'>frame_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>);
         <span class='kw'>for</span> <span class='ident'>frame</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>current_frame_tree_iter</span>(<span class='ident'>frame_id</span>) {
             <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame</span>.<span class='ident'>current</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>revoke_paint_permission</span>());
         }
@@ -4339,7 +4337,7 @@
         <span class='comment'>// If this is a mozbrowser iframe, then send the event with new url</span>
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>, <span class='ident'>FrameType</span>::<span class='ident'>MozBrowserIFrame</span>, <span class='ident'>url</span>)) <span class='op'>=</span> <span class='ident'>event_info</span> {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>parent_pipeline</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>containing_pipeline_id</span>) {
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipeline_to_frame_map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>pipeline</span><span class='op'>|</span> <span class='ident'>pipeline</span>.<span class='ident'>frame</span>) {
                     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>frame_id</span>) {
                         <span class='kw'>let</span> <span class='ident'>can_go_backward</span> <span class='op'>=</span> <span class='op'>!</span><span class='ident'>frame</span>.<span class='ident'>prev</span>.<span class='ident'>is_empty</span>();
                         <span class='kw'>let</span> <span class='ident'>can_go_forward</span> <span class='op'>=</span> <span class='op'>!</span><span class='ident'>frame</span>.<span class='ident'>next</span>.<span class='ident'>is_empty</span>();

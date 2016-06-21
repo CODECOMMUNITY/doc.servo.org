@@ -582,6 +582,10 @@
 <span id="538">538</span>
 <span id="539">539</span>
 <span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -654,6 +658,9 @@
     <span class='doccomment'>/// Whether this pipeline should be treated as visible for the purposes of scheduling and</span>
     <span class='doccomment'>/// resource management.</span>
     <span class='kw'>pub</span> <span class='ident'>visible</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Frame that contains this Pipeline. Can be `None` if the pipeline is not apart of the</span>
+    <span class='doccomment'>/// frame tree.</span>
+    <span class='kw'>pub</span> <span class='ident'>frame</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FrameId</span><span class='op'>&gt;</span>,
 }
 
 <span class='doccomment'>/// Initial setup data needed to construct a pipeline.</span>
@@ -877,6 +884,7 @@
             <span class='ident'>running_animations</span>: <span class='bool-val'>false</span>,
             <span class='ident'>visible</span>: <span class='ident'>visible</span>,
             <span class='ident'>is_private</span>: <span class='ident'>is_private</span>,
+            <span class='ident'>frame</span>: <span class='prelude-val'>None</span>,
         }
     }
 
