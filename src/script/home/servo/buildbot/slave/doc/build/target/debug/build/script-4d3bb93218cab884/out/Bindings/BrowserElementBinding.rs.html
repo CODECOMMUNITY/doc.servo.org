@@ -1336,7 +1336,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>BrowserElementLocationChangeEventDetail</span> {
     <span class='kw'>pub</span> <span class='ident'>canGoBack</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>canGoForward</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>uri</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>url</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DOMString</span><span class='op'>&gt;</span>,
 }
 <span class='kw'>impl</span> <span class='ident'>BrowserElementLocationChangeEventDetail</span> {
     <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>empty</span>(<span class='ident'>cx</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>JSContext</span>) <span class='op'>-&gt;</span> <span class='ident'>BrowserElementLocationChangeEventDetail</span> {
@@ -1380,9 +1380,9 @@
                 },
             }
             },
-            <span class='ident'>uri</span>: {
+            <span class='ident'>url</span>: {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rval</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>UndefinedValue</span>());
-            <span class='kw'>match</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>get_dictionary_property</span>(<span class='ident'>cx</span>, <span class='ident'>object</span>.<span class='ident'>handle</span>(), <span class='string'>&quot;uri&quot;</span>, <span class='ident'>rval</span>.<span class='ident'>handle_mut</span>())) {
+            <span class='kw'>match</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>get_dictionary_property</span>(<span class='ident'>cx</span>, <span class='ident'>object</span>.<span class='ident'>handle</span>(), <span class='string'>&quot;url&quot;</span>, <span class='ident'>rval</span>.<span class='ident'>handle_mut</span>())) {
                 <span class='bool-val'>true</span> <span class='op'>=&gt;</span> {
                     <span class='prelude-val'>Some</span>(<span class='kw'>match</span> <span class='ident'>FromJSValConvertible</span>::<span class='ident'>from_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>rval</span>.<span class='ident'>handle</span>(), <span class='ident'>StringificationBehavior</span>::<span class='ident'>Default</span>) {
                         <span class='prelude-val'>Ok</span>(<span class='ident'>strval</span>) <span class='op'>=&gt;</span> <span class='ident'>strval</span>,
@@ -1419,10 +1419,10 @@
             <span class='ident'>canGoForward</span>.<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>canGoForward_js</span>.<span class='ident'>handle_mut</span>());
             <span class='ident'>set_dictionary_property</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>.<span class='ident'>handle</span>(), <span class='string'>&quot;canGoForward&quot;</span>, <span class='ident'>canGoForward_js</span>.<span class='ident'>handle</span>()).<span class='ident'>unwrap</span>();
         }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>uri</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>uri</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>uri_js</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>UndefinedValue</span>());
-            <span class='ident'>uri</span>.<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>uri_js</span>.<span class='ident'>handle_mut</span>());
-            <span class='ident'>set_dictionary_property</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>.<span class='ident'>handle</span>(), <span class='string'>&quot;uri&quot;</span>, <span class='ident'>uri_js</span>.<span class='ident'>handle</span>()).<span class='ident'>unwrap</span>();
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>url</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>url</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>url_js</span> <span class='op'>=</span> <span class='ident'>RootedValue</span>::<span class='ident'>new</span>(<span class='ident'>cx</span>, <span class='ident'>UndefinedValue</span>());
+            <span class='ident'>url</span>.<span class='ident'>to_jsval</span>(<span class='ident'>cx</span>, <span class='ident'>url_js</span>.<span class='ident'>handle_mut</span>());
+            <span class='ident'>set_dictionary_property</span>(<span class='ident'>cx</span>, <span class='ident'>obj</span>.<span class='ident'>handle</span>(), <span class='string'>&quot;url&quot;</span>, <span class='ident'>url_js</span>.<span class='ident'>handle</span>()).<span class='ident'>unwrap</span>();
         }
         <span class='ident'>rval</span>.<span class='ident'>set</span>(<span class='ident'>ObjectOrNullValue</span>(<span class='ident'>obj</span>.<span class='ident'>ptr</span>))
     }
