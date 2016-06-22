@@ -2730,6 +2730,8 @@
 <span id="2686">2686</span>
 <span id="2687">2687</span>
 <span id="2688">2688</span>
+<span id="2689">2689</span>
+<span id="2690">2690</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2925,7 +2927,9 @@
         <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='ident'>thread_state</span>::<span class='ident'>get</span>().<span class='ident'>is_script</span>());
         <span class='kw'>let</span> <span class='ident'>win</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>);
         <span class='self'>self</span>.<span class='ident'>style_and_layout_data</span>.<span class='ident'>set</span>(<span class='prelude-val'>None</span>);
-        <span class='ident'>win</span>.<span class='ident'>layout_chan</span>().<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>ReapStyleAndLayoutData</span>(<span class='ident'>data</span>)).<span class='ident'>unwrap</span>();
+        <span class='kw'>if</span> <span class='ident'>win</span>.<span class='ident'>layout_chan</span>().<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>ReapStyleAndLayoutData</span>(<span class='ident'>data</span>)).<span class='ident'>is_err</span>() {
+            <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;layout thread unreachable - leaking layout data&quot;</span>);
+        }
     }
 
     <span class='doccomment'>/// Adds a new child to the end of this node&#39;s list of children.</span>

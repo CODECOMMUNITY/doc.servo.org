@@ -344,6 +344,7 @@
 <span id="300">300</span>
 <span id="301">301</span>
 <span id="302">302</span>
+<span id="303">303</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -378,7 +379,8 @@
 <span class='doccomment'>/// Because the script task&#39;s GC does not trace layout, node data cannot be safely stored in layout</span>
 <span class='doccomment'>/// data structures. Also, layout code tends to be faster when the DOM is not being accessed, for</span>
 <span class='doccomment'>/// locality reasons. Using `OpaqueNode` enforces this invariant.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>Hash</span>, <span class='ident'>Eq</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>Hash</span>, <span class='ident'>Eq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OpaqueNode</span>(<span class='kw'>pub</span> <span class='ident'>usize</span>);
 
 <span class='kw'>impl</span> <span class='ident'>OpaqueNode</span> {

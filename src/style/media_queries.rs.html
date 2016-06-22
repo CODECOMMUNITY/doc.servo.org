@@ -280,6 +280,14 @@
 <span id="236">236</span>
 <span id="237">237</span>
 <span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -293,12 +301,14 @@
 <span class='kw'>use</span> <span class='ident'>values</span>::<span class='ident'>specified</span>;
 
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MediaQueryList</span> {
     <span class='kw'>pub</span> <span class='ident'>media_queries</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>MediaQuery</span><span class='op'>&gt;</span>
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Range</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='ident'>Min</span>(<span class='ident'>T</span>),
     <span class='ident'>Max</span>(<span class='ident'>T</span>),
@@ -341,20 +351,23 @@
 }
 
 <span class='doccomment'>/// http://dev.w3.org/csswg/mediaqueries-3/#media1</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Expression</span> {
     <span class='doccomment'>/// http://dev.w3.org/csswg/mediaqueries-3/#width</span>
     <span class='ident'>Width</span>(<span class='ident'>Range</span><span class='op'>&lt;</span><span class='ident'>specified</span>::<span class='ident'>Length</span><span class='op'>&gt;</span>),
 }
 
 <span class='doccomment'>/// http://dev.w3.org/csswg/mediaqueries-3/#media0</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Qualifier</span> {
     <span class='ident'>Only</span>,
     <span class='ident'>Not</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MediaQuery</span> {
     <span class='kw'>pub</span> <span class='ident'>qualifier</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Qualifier</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>media_type</span>: <span class='ident'>MediaQueryType</span>,
@@ -373,20 +386,23 @@
 }
 
 <span class='doccomment'>/// http://dev.w3.org/csswg/mediaqueries-3/#media0</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>MediaQueryType</span> {
     <span class='ident'>All</span>,  <span class='comment'>// Always true</span>
     <span class='ident'>MediaType</span>(<span class='ident'>MediaType</span>),
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>MediaType</span> {
     <span class='ident'>Screen</span>,
     <span class='ident'>Print</span>,
     <span class='ident'>Unknown</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Device</span> {
     <span class='kw'>pub</span> <span class='ident'>media_type</span>: <span class='ident'>MediaType</span>,
     <span class='kw'>pub</span> <span class='ident'>viewport_size</span>: <span class='ident'>TypedSize2D</span><span class='op'>&lt;</span><span class='ident'>ViewportPx</span>, <span class='ident'>f32</span><span class='op'>&gt;</span>,

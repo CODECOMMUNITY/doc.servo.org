@@ -94,18 +94,19 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
+<span id="53">53</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>backtrace</span>::<span class='ident'>Backtrace</span>;
-<span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
-<span class='kw'>use</span> <span class='ident'>panicking</span>;
-<span class='kw'>use</span> <span class='ident'>serde</span>::<span class='ident'>Serialize</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>any</span>::<span class='ident'>Any</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>backtrace</span>::<span class='ident'>Backtrace</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>panicking</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>serde</span>::<span class='ident'>Serialize</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>any</span>::<span class='ident'>Any</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>use</span> <span class='ident'>thread_state</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
-<span class='kw'>use</span> <span class='ident'>thread_state</span>;
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>spawn_named</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>name</span>: <span class='ident'>String</span>, <span class='ident'>f</span>: <span class='ident'>F</span>)
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>FnOnce</span>() <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>
@@ -114,6 +115,7 @@
 }
 
 <span class='doccomment'>/// Arrange to send a particular message to a channel if the thread fails.</span>
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>spawn_named_with_send_on_panic</span><span class='op'>&lt;</span><span class='ident'>F</span>, <span class='ident'>Id</span><span class='op'>&gt;</span>(<span class='ident'>name</span>: <span class='ident'>String</span>,
                                              <span class='ident'>state</span>: <span class='ident'>thread_state</span>::<span class='ident'>ThreadState</span>,
                                              <span class='ident'>f</span>: <span class='ident'>F</span>,

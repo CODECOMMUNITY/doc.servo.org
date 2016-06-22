@@ -195,6 +195,10 @@
 <span id="151">151</span>
 <span id="152">152</span>
 <span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -207,19 +211,22 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Source</span> {
     <span class='ident'>Url</span>(<span class='ident'>UrlSource</span>),
     <span class='ident'>Local</span>(<span class='ident'>FontFamily</span>),
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>UrlSource</span> {
     <span class='kw'>pub</span> <span class='ident'>url</span>: <span class='ident'>Url</span>,
     <span class='kw'>pub</span> <span class='ident'>format_hints</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FontFaceRule</span> {
     <span class='kw'>pub</span> <span class='ident'>family</span>: <span class='ident'>FontFamily</span>,
     <span class='kw'>pub</span> <span class='ident'>sources</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Source</span><span class='op'>&gt;</span>,
@@ -257,7 +264,8 @@
     }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EffectiveSources</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Source</span><span class='op'>&gt;</span>);
 
 <span class='kw'>impl</span> <span class='ident'>FontFaceRule</span> {

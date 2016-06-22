@@ -1111,6 +1111,8 @@
 <span id="1067">1067</span>
 <span id="1068">1068</span>
 <span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1119,7 +1121,8 @@
 <span class='doccomment'>//! Geometry in flow-relative space.</span>
 
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>num</span>::<span class='ident'>Zero</span>;
-<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Point2D</span>, <span class='ident'>Rect</span>, <span class='ident'>SideOffsets2D</span>, <span class='ident'>Size2D</span>};
+<span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>side_offsets</span>::<span class='ident'>SideOffsets2D</span>;
+<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Point2D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::{<span class='ident'>max</span>, <span class='ident'>min</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='self'>self</span>, <span class='ident'>Debug</span>, <span class='ident'>Error</span>, <span class='ident'>Formatter</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::{<span class='ident'>Add</span>, <span class='ident'>Sub</span>};
@@ -1136,7 +1139,8 @@
 }
 
 <span class='macro'>bitflags</span><span class='macro'>!</span>(
-    <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>, <span class='ident'>RustcEncodable</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>RustcEncodable</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
     <span class='kw'>pub</span> <span class='ident'>flags</span> <span class='ident'>WritingMode</span>: <span class='ident'>u8</span> {
         <span class='kw'>const</span> <span class='ident'>FLAG_RTL</span> <span class='op'>=</span> <span class='number'>1</span> <span class='op'>&lt;&lt;</span> <span class='number'>0</span>,
         <span class='kw'>const</span> <span class='ident'>FLAG_VERTICAL</span> <span class='op'>=</span> <span class='number'>1</span> <span class='op'>&lt;&lt;</span> <span class='number'>1</span>,

@@ -1797,6 +1797,11 @@
 <span id="1753">1753</span>
 <span id="1754">1754</span>
 <span id="1755">1755</span>
+<span id="1756">1756</span>
+<span id="1757">1757</span>
+<span id="1758">1758</span>
+<span id="1759">1759</span>
+<span id="1760">1760</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1861,7 +1866,7 @@
 <span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>reporter</span>::<span class='ident'>CSSErrorReporter</span>;
 <span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>rpc</span>::{<span class='ident'>ContentBoxResponse</span>, <span class='ident'>ContentBoxesResponse</span>, <span class='ident'>LayoutRPC</span>};
 <span class='kw'>use</span> <span class='ident'>script_layout_interface</span>::<span class='ident'>rpc</span>::{<span class='ident'>MarginStyleResponse</span>, <span class='ident'>ResolvedStyleResponse</span>};
-<span class='kw'>use</span> <span class='ident'>script_runtime</span>::{<span class='ident'>ScriptChan</span>, <span class='ident'>ScriptPort</span>};
+<span class='kw'>use</span> <span class='ident'>script_runtime</span>::{<span class='ident'>ScriptChan</span>, <span class='ident'>ScriptPort</span>, <span class='ident'>maybe_take_panic_result</span>};
 <span class='kw'>use</span> <span class='ident'>script_thread</span>::<span class='ident'>SendableMainThreadScriptChan</span>;
 <span class='kw'>use</span> <span class='ident'>script_thread</span>::{<span class='ident'>MainThreadScriptChan</span>, <span class='ident'>MainThreadScriptMsg</span>, <span class='ident'>RunnableWrapper</span>};
 <span class='kw'>use</span> <span class='ident'>script_traits</span>::{<span class='ident'>ConstellationControlMsg</span>, <span class='ident'>UntrustedNodeAddress</span>};
@@ -1874,6 +1879,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>default</span>::<span class='ident'>Default</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>CString</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Write</span>, <span class='ident'>stderr</span>, <span class='ident'>stdout</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>panic</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicBool</span>, <span class='ident'>Ordering</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::<span class='ident'>TryRecvError</span>::{<span class='ident'>Disconnected</span>, <span class='ident'>Empty</span>};
@@ -2713,6 +2719,10 @@
                         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;error evaluating JS string&quot;</span>);
                         <span class='ident'>report_pending_exception</span>(<span class='ident'>cx</span>, <span class='ident'>globalhandle</span>.<span class='ident'>get</span>());
                     }
+                }
+
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>error</span>) <span class='op'>=</span> <span class='ident'>maybe_take_panic_result</span>() {
+                    <span class='ident'>panic</span>::<span class='ident'>resume_unwind</span>(<span class='ident'>error</span>);
                 }
             }
         )

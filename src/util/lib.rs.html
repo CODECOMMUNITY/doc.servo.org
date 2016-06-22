@@ -110,56 +110,36 @@
 <span id="66">66</span>
 <span id="67">67</span>
 <span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>box_syntax</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>core_intrinsics</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>custom_derive</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>fnbox</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>plugin</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>reflect_marker</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>step_by</span>)]</span>
-
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>plugin</span>(<span class='ident'>heapsize_plugin</span>, <span class='ident'>plugins</span>, <span class='ident'>serde_macros</span>)]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>core_intrinsics</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>custom_derive</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>fnbox</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>plugin</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>reflect_marker</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>plugin</span>(<span class='ident'>serde_macros</span>))]</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>unsafe_code</span>)]</span>
 
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>app_units</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>backtrace</span>;
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_extern_crates</span>)]</span>
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bitflags</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>backtrace</span>;
+<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_extern_crates</span>)]</span> <span class='attribute'>#[<span class='ident'>macro_use</span>]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bitflags</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>deque</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>euclid</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>getopts</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>heapsize</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>ipc_channel</span>;
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_extern_crates</span>)]</span>
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>lazy_static</span>;
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>heapsize</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>ipc_channel</span>;
+<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_extern_crates</span>)]</span> <span class='attribute'>#[<span class='ident'>macro_use</span>]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>lazy_static</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>log</span>;
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>log</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_cpus</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num_traits</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>smallvec</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>url</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>unix</span>, <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>), <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;ios&quot;</span>), <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>)))]</span>
@@ -169,28 +149,24 @@
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>basedir</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>cache</span>;
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>debug_utils</span>;
+<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span> <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>debug_utils</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>geometry</span>;
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ipc</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>linked_list</span>;
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>opts</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>panicking</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span> <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ipc</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>linked_list</span>;
+<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span> <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>opts</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>panicking</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>prefs</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>print_tree</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>print_tree</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>resource_files</span>;
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>str</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>thread</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>thread_state</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>tid</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>time</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span> <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>time</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>vec</span>;
-<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>workqueue</span>;
+<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span> <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>workqueue</span>;
 
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>breakpoint</span>() {
     <span class='kw'>unsafe</span> { ::<span class='ident'>std</span>::<span class='ident'>intrinsics</span>::<span class='ident'>breakpoint</span>() };

@@ -752,6 +752,10 @@
 <span id="708">708</span>
 <span id="709">709</span>
 <span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -776,7 +780,8 @@
 <span class='kw'>use</span> <span class='ident'>values</span>::<span class='ident'>computed</span>::{<span class='ident'>Context</span>, <span class='ident'>ToComputedValue</span>};
 <span class='kw'>use</span> <span class='ident'>values</span>::<span class='ident'>specified</span>::{<span class='ident'>Length</span>, <span class='ident'>LengthOrPercentageOrAuto</span>, <span class='ident'>ViewportPercentageLength</span>};
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ViewportDescriptor</span> {
     <span class='ident'>MinWidth</span>(<span class='ident'>ViewportLength</span>),
     <span class='ident'>MaxWidth</span>(<span class='ident'>ViewportLength</span>),
@@ -800,7 +805,8 @@
 <span class='comment'>// See:</span>
 <span class='comment'>// * http://dev.w3.org/csswg/css-device-adapt/#min-max-width-desc</span>
 <span class='comment'>// * http://dev.w3.org/csswg/css-device-adapt/#extend-to-zoom</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ViewportLength</span> {
     <span class='ident'>Specified</span>(<span class='ident'>LengthOrPercentageOrAuto</span>),
     <span class='ident'>ExtendToZoom</span>
@@ -888,7 +894,8 @@
     <span class='ident'>context</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>ParserContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ViewportDescriptorDeclaration</span> {
     <span class='kw'>pub</span> <span class='ident'>origin</span>: <span class='ident'>Origin</span>,
     <span class='kw'>pub</span> <span class='ident'>descriptor</span>: <span class='ident'>ViewportDescriptor</span>,
@@ -983,7 +990,8 @@
     }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ViewportRule</span> {
     <span class='kw'>pub</span> <span class='ident'>declarations</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ViewportDescriptorDeclaration</span><span class='op'>&gt;</span>
 }

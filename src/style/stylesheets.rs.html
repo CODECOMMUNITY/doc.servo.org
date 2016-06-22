@@ -553,6 +553,11 @@
 <span id="509">509</span>
 <span id="510">510</span>
 <span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -580,7 +585,8 @@
 <span class='doccomment'>/// Each style rule has an origin, which determines where it enters the cascade.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// http://dev.w3.org/csswg/css-cascade/#cascading-origins</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Origin</span> {
     <span class='doccomment'>/// http://dev.w3.org/csswg/css-cascade/#cascade-origin-ua</span>
     <span class='ident'>UserAgent</span>,
@@ -593,7 +599,8 @@
 }
 
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Stylesheet</span><span class='op'>&lt;</span><span class='ident'>Impl</span>: <span class='ident'>SelectorImpl</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// List of rules in the order they were found (important for</span>
     <span class='doccomment'>/// cascading order)</span>
@@ -605,7 +612,8 @@
 }
 
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>CSSRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span>: <span class='ident'>SelectorImpl</span><span class='op'>&gt;</span> {
     <span class='ident'>Charset</span>(<span class='ident'>String</span>),
     <span class='ident'>Namespace</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>, <span class='ident'>Namespace</span>),
@@ -615,7 +623,8 @@
     <span class='ident'>Viewport</span>(<span class='ident'>ViewportRule</span>),
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MediaRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span>: <span class='ident'>SelectorImpl</span><span class='op'>&gt;</span> {
     <span class='kw'>pub</span> <span class='ident'>media_queries</span>: <span class='ident'>MediaQueryList</span>,
     <span class='kw'>pub</span> <span class='ident'>rules</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>CSSRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span>,
@@ -628,7 +637,8 @@
     }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>StyleRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span>: <span class='ident'>SelectorImpl</span><span class='op'>&gt;</span> {
     <span class='kw'>pub</span> <span class='ident'>selectors</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Selector</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>declarations</span>: <span class='ident'>PropertyDeclarationBlock</span>,

@@ -126,6 +126,9 @@
 <span id="82">82</span>
 <span id="83">83</span>
 <span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -138,10 +141,13 @@
 <span class='comment'>// TODO(pcwalton): Speed up with SIMD, or better yet, find some way to not do this.</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>byte_swap</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) {
     <span class='kw'>let</span> <span class='ident'>length</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> (<span class='number'>0</span>..<span class='ident'>length</span>).<span class='ident'>step_by</span>(<span class='number'>4</span>) {
+    <span class='comment'>// FIXME(rust #27741): Range::step_by is not stable yet as of this writing.</span>
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
+    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>length</span> {
         <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>data</span>[<span class='ident'>i</span> <span class='op'>+</span> <span class='number'>2</span>];
         <span class='ident'>data</span>[<span class='ident'>i</span> <span class='op'>+</span> <span class='number'>2</span>] <span class='op'>=</span> <span class='ident'>data</span>[<span class='ident'>i</span> <span class='op'>+</span> <span class='number'>0</span>];
         <span class='ident'>data</span>[<span class='ident'>i</span> <span class='op'>+</span> <span class='number'>0</span>] <span class='op'>=</span> <span class='ident'>r</span>;
+        <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>4</span>;
     }
 }
 

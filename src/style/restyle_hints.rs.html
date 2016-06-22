@@ -378,6 +378,10 @@
 <span id="334">334</span>
 <span id="335">335</span>
 <span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -431,7 +435,8 @@
 <span class='doccomment'>/// now to reduce complexity, but it&#39;s worth measuring the performance impact (if any) of the</span>
 <span class='doccomment'>/// mStateMask approach.</span>
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>, <span class='ident'>Clone</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ElementSnapshot</span> {
     <span class='kw'>pub</span> <span class='ident'>state</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ElementState</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>attrs</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>AttrIdentifier</span>, <span class='ident'>AttrValue</span>)<span class='op'>&gt;&gt;</span>,
@@ -606,7 +611,8 @@
     }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>struct</span> <span class='ident'>Sensitivities</span> {
     <span class='kw'>pub</span> <span class='ident'>states</span>: <span class='ident'>ElementState</span>,
     <span class='kw'>pub</span> <span class='ident'>attrs</span>: <span class='ident'>bool</span>,
@@ -643,14 +649,16 @@
 <span class='comment'>// us to quickly scan through the dependency sites of all style rules and determine the</span>
 <span class='comment'>// maximum effect that a given state or attribute change may have on the style of</span>
 <span class='comment'>// elements in the document.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>struct</span> <span class='ident'>Dependency</span><span class='op'>&lt;</span><span class='ident'>Impl</span>: <span class='ident'>SelectorImplExt</span><span class='op'>&gt;</span> {
     <span class='ident'>selector</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>CompoundSelector</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>combinator</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Combinator</span><span class='op'>&gt;</span>,
     <span class='ident'>sensitivities</span>: <span class='ident'>Sensitivities</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>))]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DependencySet</span><span class='op'>&lt;</span><span class='ident'>Impl</span>: <span class='ident'>SelectorImplExt</span><span class='op'>&gt;</span> {
     <span class='ident'>deps</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Dependency</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span>,
 }

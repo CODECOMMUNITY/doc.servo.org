@@ -97,6 +97,32 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -105,12 +131,38 @@
 <span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>define_css_keyword_enum</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: <span class='ident'>ident</span>: $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span>: <span class='ident'>expr</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>: <span class='ident'>ident</span> ),<span class='op'>+</span>,) <span class='op'>=&gt;</span> {
-        <span class='macro'>define_css_keyword_enum</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span>);
+        <span class='macro'>__define_css_keyword_enum__add_optional_traits</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> [ $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> ]);
     };
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: <span class='ident'>ident</span>: $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span>: <span class='ident'>expr</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>: <span class='ident'>ident</span> ),<span class='op'>+</span>) <span class='op'>=&gt;</span> {
+        <span class='macro'>__define_css_keyword_enum__add_optional_traits</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> [ $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> ]);
+    };
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>)]</span>
+<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>__define_css_keyword_enum__add_optional_traits</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: <span class='ident'>ident</span> [ $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span>: <span class='ident'>expr</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>: <span class='ident'>ident</span> ),<span class='op'>+</span> ]) <span class='op'>=&gt;</span> {
+        <span class='macro'>__define_css_keyword_enum__actual</span><span class='macro'>!</span> {
+            <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> [ <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>, <span class='ident'>HeapSizeOf</span> ] [ $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> ]
+        }
+    };
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>))]</span>
+<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>__define_css_keyword_enum__add_optional_traits</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: <span class='ident'>ident</span> [ $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span>: <span class='ident'>expr</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>: <span class='ident'>ident</span> ),<span class='op'>+</span> ]) <span class='op'>=&gt;</span> {
+        <span class='macro'>__define_css_keyword_enum__actual</span><span class='macro'>!</span> {
+            <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> [] [ $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span> ]
+        }
+    };
+}
+
+<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>__define_css_keyword_enum__actual</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: <span class='ident'>ident</span> [ $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>derived_trait</span>: <span class='ident'>ident</span>),<span class='op'>*</span> ] [ $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>css</span>: <span class='ident'>expr</span> <span class='op'>=&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>: <span class='ident'>ident</span> ),<span class='op'>+</span> ]) <span class='op'>=&gt;</span> {
         <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>non_camel_case_types</span>)]</span>
-        <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Hash</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>)]</span>
-        <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
+        <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Hash</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>Debug</span> $(, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>derived_trait</span> )<span class='op'>*</span> )]</span>
         <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
             $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> ),<span class='op'>+</span>
         }
