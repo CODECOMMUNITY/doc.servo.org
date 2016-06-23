@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1718' class='srclink' href='../src/script_traits/lib.rs.html#145-196' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1718' class='srclink' href='../src/script_traits/lib.rs.html#145-198' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum ConstellationControlMsg {
     AttachLayout(<a class='struct' href='../script_traits/struct.NewLayoutInfo.html' title='script_traits::NewLayoutInfo'>NewLayoutInfo</a>),
     Resize(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,&nbsp;<a class='struct' href='../msg/constellation_msg/struct.WindowSizeData.html' title='msg::constellation_msg::WindowSizeData'>WindowSizeData</a>,&nbsp;<a class='enum' href='../msg/constellation_msg/enum.WindowSizeType.html' title='msg::constellation_msg::WindowSizeType'>WindowSizeType</a>),
@@ -74,6 +74,7 @@
     },
     FramedContentChanged(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,&nbsp;<a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>),
     ReportCSSError(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,&nbsp;<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>,&nbsp;<a class='primitive' href='../std/primitive.usize.html'>usize</a>,&nbsp;<a class='primitive' href='../std/primitive.usize.html'>usize</a>,&nbsp;<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>),
+    Reload(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>),
 }</pre><div class='docblock'><p>Messages sent from the constellation or layout to the script thread.</p>
 </div><h2 class='variants'>Variants</h2>
 <span id='variant.AttachLayout' class='variant'><code>AttachLayout(<a class='struct' href='../script_traits/struct.NewLayoutInfo.html' title='script_traits::NewLayoutInfo'>NewLayoutInfo</a>)</code></span><div class='docblock'><p>Gives a channel and ID to a layout thread, as well as the ID of that layout&#39;s parent</p>
@@ -103,6 +104,7 @@ reflowed.</p>
 </div></td></tr><tr><td id='variant.DispatchFrameLoadEvent.field.parent'><code>parent:&nbsp;<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a></code></td><td><div class='docblock'><p>The pipeline that contains a frame loading the target pipeline.</p>
 </div></td></tr></table><span id='variant.FramedContentChanged' class='variant'><code>FramedContentChanged(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,&nbsp;<a class='struct' href='../msg/constellation_msg/struct.SubpageId.html' title='msg::constellation_msg::SubpageId'>SubpageId</a>)</code></span><div class='docblock'><p>Notifies a parent frame that one of its child frames is now active.</p>
 </div><span id='variant.ReportCSSError' class='variant'><code>ReportCSSError(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>,&nbsp;<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>,&nbsp;<a class='primitive' href='../std/primitive.usize.html'>usize</a>,&nbsp;<a class='primitive' href='../std/primitive.usize.html'>usize</a>,&nbsp;<a class='struct' href='../collections/string/struct.String.html' title='collections::string::String'>String</a>)</code></span><div class='docblock'><p>Report an error from a CSS parser for the given pipeline</p>
+</div><span id='variant.Reload' class='variant'><code>Reload(<a class='struct' href='../msg/constellation_msg/struct.PipelineId.html' title='msg::constellation_msg::PipelineId'>PipelineId</a>)</code></span><div class='docblock'><p>Reload the given page.</p>
 </div></section>
     <section id='search' class="content hidden"></section>
 

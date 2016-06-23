@@ -2213,6 +2213,28 @@
 <span id="2169">2169</span>
 <span id="2170">2170</span>
 <span id="2171">2171</span>
+<span id="2172">2172</span>
+<span id="2173">2173</span>
+<span id="2174">2174</span>
+<span id="2175">2175</span>
+<span id="2176">2176</span>
+<span id="2177">2177</span>
+<span id="2178">2178</span>
+<span id="2179">2179</span>
+<span id="2180">2180</span>
+<span id="2181">2181</span>
+<span id="2182">2182</span>
+<span id="2183">2183</span>
+<span id="2184">2184</span>
+<span id="2185">2185</span>
+<span id="2186">2186</span>
+<span id="2187">2187</span>
+<span id="2188">2188</span>
+<span id="2189">2189</span>
+<span id="2190">2190</span>
+<span id="2191">2191</span>
+<span id="2192">2192</span>
+<span id="2193">2193</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2833,6 +2855,10 @@
             <span class='ident'>FromCompositorMsg</span>::<span class='ident'>WebDriverCommand</span>(<span class='ident'>command</span>) <span class='op'>=&gt;</span> {
                 <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got webdriver command message&quot;</span>);
                 <span class='self'>self</span>.<span class='ident'>handle_webdriver_msg</span>(<span class='ident'>command</span>);
+            }
+            <span class='ident'>FromCompositorMsg</span>::<span class='ident'>Reload</span> <span class='op'>=&gt;</span> {
+                <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;constellation got reload message&quot;</span>);
+                <span class='self'>self</span>.<span class='ident'>handle_reload_msg</span>();
             }
         }
     }
@@ -3633,6 +3659,24 @@
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>event</span> <span class='op'>=</span> <span class='ident'>ToCompositorMsg</span>::<span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>mods</span>);
                 <span class='self'>self</span>.<span class='ident'>compositor_proxy</span>.<span class='ident'>clone_compositor_proxy</span>().<span class='ident'>send</span>(<span class='ident'>event</span>);
+            }
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>handle_reload_msg</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+        <span class='comment'>// Send Reload constellation msg to root script channel.</span>
+        <span class='kw'>let</span> <span class='ident'>root_pipeline_id</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>root_frame_id</span>
+            .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>root_frame_id</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>frames</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>root_frame_id</span>))
+            .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>root_frame</span><span class='op'>|</span> <span class='ident'>root_frame</span>.<span class='ident'>current</span>);
+
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=</span> <span class='ident'>root_pipeline_id</span> {
+            <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>Reload</span>(<span class='ident'>pipeline_id</span>);
+            <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
+                <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=&gt;</span> <span class='ident'>pipeline</span>.<span class='ident'>script_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>),
+                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got reload event after closure.&quot;</span>, <span class='ident'>pipeline_id</span>),
+            };
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>result</span> {
+                <span class='self'>self</span>.<span class='ident'>handle_send_error</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>e</span>);
             }
         }
     }

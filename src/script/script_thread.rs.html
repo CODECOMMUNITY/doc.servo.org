@@ -2202,6 +2202,18 @@
 <span id="2158">2158</span>
 <span id="2159">2159</span>
 <span id="2160">2160</span>
+<span id="2161">2161</span>
+<span id="2162">2162</span>
+<span id="2163">2163</span>
+<span id="2164">2164</span>
+<span id="2165">2165</span>
+<span id="2166">2166</span>
+<span id="2167">2167</span>
+<span id="2168">2168</span>
+<span id="2169">2169</span>
+<span id="2170">2170</span>
+<span id="2171">2171</span>
+<span id="2172">2172</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2229,6 +2241,8 @@
 <span class='kw'>use</span> <span class='ident'>document_loader</span>::<span class='ident'>DocumentLoader</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>cell</span>::<span class='ident'>DOMRefCell</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>DocumentBinding</span>::{<span class='ident'>DocumentMethods</span>, <span class='ident'>DocumentReadyState</span>};
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>LocationBinding</span>::<span class='ident'>LocationMethods</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>codegen</span>::<span class='ident'>Bindings</span>::<span class='ident'>WindowBinding</span>::<span class='ident'>WindowMethods</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>conversions</span>::{<span class='ident'>FromJSValConvertible</span>, <span class='ident'>StringificationBehavior</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>global</span>::<span class='ident'>GlobalRef</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>inheritance</span>::<span class='ident'>Castable</span>;
@@ -3160,6 +3174,8 @@
                 <span class='self'>self</span>.<span class='ident'>handle_framed_content_changed</span>(<span class='ident'>containing_pipeline_id</span>, <span class='ident'>subpage_id</span>),
             <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>ReportCSSError</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>filename</span>, <span class='ident'>line</span>, <span class='ident'>column</span>, <span class='ident'>msg</span>) <span class='op'>=&gt;</span>
                 <span class='self'>self</span>.<span class='ident'>handle_css_error_reporting</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>filename</span>, <span class='ident'>line</span>, <span class='ident'>column</span>, <span class='ident'>msg</span>),
+            <span class='ident'>ConstellationControlMsg</span>::<span class='ident'>Reload</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span>
+                <span class='self'>self</span>.<span class='ident'>handle_reload</span>(<span class='ident'>pipeline_id</span>),
         }
     }
 
@@ -4309,6 +4325,14 @@
             };
             <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='ident'>ScriptToDevtoolsControlMsg</span>::<span class='ident'>ReportCSSError</span>(<span class='ident'>pipeline_id</span>, <span class='ident'>css_error</span>);
             <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='ident'>message</span>).<span class='ident'>unwrap</span>();
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>handle_reload</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>context</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>find_child_context</span>(<span class='ident'>pipeline_id</span>) {
+            <span class='kw'>let</span> <span class='ident'>win</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_window</span>();
+            <span class='kw'>let</span> <span class='ident'>location</span> <span class='op'>=</span> <span class='ident'>win</span>.<span class='ident'>Location</span>();
+            <span class='ident'>location</span>.<span class='ident'>Reload</span>();
         }
     }
 }
