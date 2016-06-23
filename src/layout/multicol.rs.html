@@ -360,6 +360,7 @@
 <span id="316">316</span>
 <span id="317">317</span>
 <span id="318">318</span>
+<span id="319">319</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -386,6 +387,7 @@
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>context</span>::<span class='ident'>StyleContext</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>logical_geometry</span>::<span class='ident'>LogicalSize</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::{<span class='ident'>ComputedValues</span>, <span class='ident'>ServoComputedValues</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>servo</span>::<span class='ident'>SharedStyleContext</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>values</span>::<span class='ident'>computed</span>::{<span class='ident'>LengthOrPercentageOrAuto</span>, <span class='ident'>LengthOrPercentageOrNone</span>};
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>print_tree</span>::<span class='ident'>PrintTree</span>;
 
@@ -440,9 +442,9 @@
         <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>bubble_inline_sizes</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>assign_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>layout_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>) {
+    <span class='kw'>fn</span> <span class='ident'>assign_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>shared_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>SharedStyleContext</span>) {
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;assign_inline_sizes({}): assigning inline_size for flow&quot;</span>, <span class='string'>&quot;multicol&quot;</span>);
-        <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>compute_inline_sizes</span>(<span class='ident'>layout_context</span>);
+        <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>compute_inline_sizes</span>(<span class='ident'>shared_context</span>);
 
         <span class='comment'>// Move in from the inline-start border edge.</span>
         <span class='kw'>let</span> <span class='ident'>inline_start_content_edge</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>border_box</span>.<span class='ident'>start</span>.<span class='ident'>i</span> <span class='op'>+</span>
@@ -453,7 +455,7 @@
             <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>margin</span>.<span class='ident'>inline_end</span> <span class='op'>+</span>
             <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>border_padding</span>.<span class='ident'>inline_end</span>;
 
-        <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>assign_inline_sizes</span>(<span class='ident'>layout_context</span>);
+        <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>assign_inline_sizes</span>(<span class='ident'>shared_context</span>);
         <span class='kw'>let</span> <span class='ident'>padding_and_borders</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>border_padding</span>.<span class='ident'>inline_start_end</span>();
         <span class='kw'>let</span> <span class='ident'>content_inline_size</span> <span class='op'>=</span>
             <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>border_box</span>.<span class='ident'>size</span>.<span class='ident'>inline</span> <span class='op'>-</span> <span class='ident'>padding_and_borders</span>;
@@ -482,7 +484,7 @@
         <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>border_box</span>.<span class='ident'>size</span>.<span class='ident'>inline</span> <span class='op'>=</span> <span class='ident'>content_inline_size</span> <span class='op'>+</span> <span class='ident'>padding_and_borders</span>;
 
         <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>propagate_assigned_inline_size_to_children</span>(
-            <span class='ident'>layout_context</span>, <span class='ident'>inline_start_content_edge</span>, <span class='ident'>inline_end_content_edge</span>, <span class='ident'>column_width</span>,
+            <span class='ident'>shared_context</span>, <span class='ident'>inline_start_content_edge</span>, <span class='ident'>inline_end_content_edge</span>, <span class='ident'>column_width</span>,
             <span class='op'>|</span>_, _, _, _, _, _<span class='op'>|</span> {});
     }
 
@@ -600,9 +602,9 @@
         <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>bubble_inline_sizes</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>assign_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>layout_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>) {
+    <span class='kw'>fn</span> <span class='ident'>assign_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>shared_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>SharedStyleContext</span>) {
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;assign_inline_sizes({}): assigning inline_size for flow&quot;</span>, <span class='string'>&quot;multicol column&quot;</span>);
-        <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>assign_inline_sizes</span>(<span class='ident'>layout_context</span>);
+        <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>assign_inline_sizes</span>(<span class='ident'>shared_context</span>);
     }
 
     <span class='kw'>fn</span> <span class='ident'>assign_block_size</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ctx</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>LayoutContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>) {

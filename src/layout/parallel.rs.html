@@ -285,7 +285,6 @@
 <span id="241">241</span>
 <span id="242">242</span>
 <span id="243">243</span>
-<span id="244">244</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -492,9 +491,8 @@
 <span class='kw'>fn</span> <span class='ident'>assign_inline_sizes</span>(<span class='ident'>unsafe_flows</span>: <span class='ident'>UnsafeFlowList</span>,
                        <span class='ident'>proxy</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>WorkerProxy</span><span class='op'>&lt;</span><span class='ident'>SharedLayoutContext</span>, <span class='ident'>UnsafeFlowList</span><span class='op'>&gt;</span>) {
     <span class='kw'>let</span> <span class='ident'>shared_layout_context</span> <span class='op'>=</span> <span class='ident'>proxy</span>.<span class='ident'>user_data</span>();
-    <span class='kw'>let</span> <span class='ident'>layout_context</span> <span class='op'>=</span> <span class='ident'>LayoutContext</span>::<span class='ident'>new</span>(<span class='ident'>shared_layout_context</span>);
     <span class='kw'>let</span> <span class='ident'>assign_inline_sizes_traversal</span> <span class='op'>=</span> <span class='ident'>AssignISizes</span> {
-        <span class='ident'>layout_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>layout_context</span>,
+        <span class='ident'>shared_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>shared_layout_context</span>.<span class='ident'>style_context</span>,
     };
     <span class='ident'>assign_inline_sizes_traversal</span>.<span class='ident'>run_parallel</span>(<span class='ident'>unsafe_flows</span>, <span class='ident'>proxy</span>)
 }

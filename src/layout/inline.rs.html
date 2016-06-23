@@ -1895,6 +1895,8 @@
 <span id="1851">1851</span>
 <span id="1852">1852</span>
 <span id="1853">1853</span>
+<span id="1854">1854</span>
+<span id="1855">1855</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1931,8 +1933,10 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::{<span class='ident'>fmt</span>, <span class='ident'>i32</span>, <span class='ident'>isize</span>, <span class='ident'>mem</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::{<span class='ident'>display</span>, <span class='ident'>overflow_x</span>, <span class='ident'>position</span>, <span class='ident'>text_align</span>, <span class='ident'>text_justify</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::{<span class='ident'>text_overflow</span>, <span class='ident'>vertical_align</span>, <span class='ident'>white_space</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>context</span>::<span class='ident'>StyleContext</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>logical_geometry</span>::{<span class='ident'>LogicalRect</span>, <span class='ident'>LogicalSize</span>, <span class='ident'>WritingMode</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::{<span class='ident'>ComputedValues</span>, <span class='ident'>ServoComputedValues</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>servo</span>::<span class='ident'>SharedStyleContext</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>values</span>::<span class='ident'>computed</span>::<span class='ident'>LengthOrPercentage</span>;
 <span class='kw'>use</span> <span class='ident'>text</span>;
 <span class='kw'>use</span> <span class='ident'>unicode_bidi</span>;
@@ -3246,7 +3250,7 @@
 
     <span class='doccomment'>/// Recursively (top-down) determines the actual inline-size of child contexts and fragments.</span>
     <span class='doccomment'>/// When called on this context, the context has had its inline-size set by the parent context.</span>
-    <span class='kw'>fn</span> <span class='ident'>assign_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, _: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>) {
+    <span class='kw'>fn</span> <span class='ident'>assign_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, _: <span class='kw-2'>&amp;</span><span class='ident'>SharedStyleContext</span>) {
         <span class='kw'>let</span> <span class='ident'>_scope</span> <span class='op'>=</span> <span class='macro'>layout_debug_scope</span><span class='macro'>!</span>(<span class='string'>&quot;inline::assign_inline_sizes {:x}&quot;</span>, <span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>debug_id</span>());
 
         <span class='comment'>// Initialize content fragment inline-sizes if they haven&#39;t been initialized already.</span>
@@ -3364,7 +3368,7 @@
             <span class='comment'>// This is preorder because the block-size of an absolute flow may depend on</span>
             <span class='comment'>// the block-size of its containing block, which may also be an absolute flow.</span>
             (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='self'>self</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Flow</span>).<span class='ident'>traverse_preorder_absolute_flows</span>(
-                <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>AbsoluteAssignBSizesTraversal</span>(<span class='ident'>layout_context</span>));
+                <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>AbsoluteAssignBSizesTraversal</span>(<span class='ident'>layout_context</span>.<span class='ident'>shared_context</span>()));
         }
 
         <span class='self'>self</span>.<span class='ident'>base</span>.<span class='ident'>position</span>.<span class='ident'>size</span>.<span class='ident'>block</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>last</span>() {

@@ -894,6 +894,7 @@
 <span id="850">850</span>
 <span id="851">851</span>
 <span id="852">852</span>
+<span id="853">853</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -924,6 +925,7 @@
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::{<span class='ident'>border_collapse</span>, <span class='ident'>border_spacing</span>, <span class='ident'>border_top_style</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>logical_geometry</span>::{<span class='ident'>LogicalSize</span>, <span class='ident'>PhysicalSide</span>, <span class='ident'>WritingMode</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::{<span class='ident'>ComputedValues</span>, <span class='ident'>ServoComputedValues</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>servo</span>::<span class='ident'>SharedStyleContext</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>values</span>::<span class='ident'>computed</span>::<span class='ident'>LengthOrPercentageOrAuto</span>;
 <span class='kw'>use</span> <span class='ident'>table</span>::{<span class='ident'>ColumnComputedInlineSize</span>, <span class='ident'>ColumnIntrinsicInlineSize</span>, <span class='ident'>InternalTable</span>, <span class='ident'>VecExt</span>};
 <span class='kw'>use</span> <span class='ident'>table_cell</span>::{<span class='ident'>CollapsedBordersForCell</span>, <span class='ident'>TableCellFlow</span>};
@@ -1208,7 +1210,7 @@
                                                                                 <span class='ident'>pref_inline_size</span>);
     }
 
-    <span class='kw'>fn</span> <span class='ident'>assign_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>layout_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>LayoutContext</span>) {
+    <span class='kw'>fn</span> <span class='ident'>assign_inline_sizes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>shared_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>SharedStyleContext</span>) {
         <span class='kw'>let</span> <span class='ident'>_scope</span> <span class='op'>=</span> <span class='macro'>layout_debug_scope</span><span class='macro'>!</span>(<span class='string'>&quot;table_row::assign_inline_sizes {:x}&quot;</span>,
                                          <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>base</span>.<span class='ident'>debug_id</span>());
         <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;assign_inline_sizes({}): assigning inline_size for flow&quot;</span>, <span class='string'>&quot;table_row&quot;</span>);
@@ -1224,7 +1226,7 @@
             <span class='ident'>border_collapse</span>: <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>fragment</span>.<span class='ident'>style</span>.<span class='ident'>get_inheritedtable</span>().<span class='ident'>border_collapse</span>,
         };
         <span class='ident'>inline_size_computer</span>.<span class='ident'>compute_used_inline_size</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>block_flow</span>,
-                                                      <span class='ident'>layout_context</span>,
+                                                      <span class='ident'>shared_context</span>,
                                                       <span class='ident'>containing_block_inline_size</span>);
 
         <span class='comment'>// Spread out the completed inline sizes among columns with spans &gt; 1.</span>
@@ -1277,7 +1279,7 @@
         <span class='kw'>let</span> <span class='ident'>spacing</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>spacing</span>;
         <span class='kw'>let</span> <span class='ident'>row_writing_mode</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>base</span>.<span class='ident'>writing_mode</span>;
         <span class='kw'>let</span> <span class='ident'>table_writing_mode</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>table_writing_mode</span>;
-        <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>propagate_assigned_inline_size_to_children</span>(<span class='ident'>layout_context</span>,
+        <span class='self'>self</span>.<span class='ident'>block_flow</span>.<span class='ident'>propagate_assigned_inline_size_to_children</span>(<span class='ident'>shared_context</span>,
                                                                    <span class='ident'>inline_start_content_edge</span>,
                                                                    <span class='ident'>inline_end_content_edge</span>,
                                                                    <span class='ident'>containing_block_inline_size</span>,
