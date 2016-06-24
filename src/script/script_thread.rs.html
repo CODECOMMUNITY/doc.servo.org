@@ -2214,6 +2214,34 @@
 <span id="2170">2170</span>
 <span id="2171">2171</span>
 <span id="2172">2172</span>
+<span id="2173">2173</span>
+<span id="2174">2174</span>
+<span id="2175">2175</span>
+<span id="2176">2176</span>
+<span id="2177">2177</span>
+<span id="2178">2178</span>
+<span id="2179">2179</span>
+<span id="2180">2180</span>
+<span id="2181">2181</span>
+<span id="2182">2182</span>
+<span id="2183">2183</span>
+<span id="2184">2184</span>
+<span id="2185">2185</span>
+<span id="2186">2186</span>
+<span id="2187">2187</span>
+<span id="2188">2188</span>
+<span id="2189">2189</span>
+<span id="2190">2190</span>
+<span id="2191">2191</span>
+<span id="2192">2192</span>
+<span id="2193">2193</span>
+<span id="2194">2194</span>
+<span id="2195">2195</span>
+<span id="2196">2196</span>
+<span id="2197">2197</span>
+<span id="2198">2198</span>
+<span id="2199">2199</span>
+<span id="2200">2200</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -3225,7 +3253,10 @@
         <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>();
         <span class='kw'>match</span> <span class='ident'>msg</span> {
             <span class='ident'>DevtoolScriptControlMsg</span>::<span class='ident'>EvaluateJS</span>(<span class='ident'>id</span>, <span class='ident'>s</span>, <span class='ident'>reply</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='ident'>context</span>, <span class='ident'>id</span>).<span class='ident'>active_window</span>();
+                <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>context</span>.<span class='ident'>find</span>(<span class='ident'>id</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_window</span>(),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>id</span>),
+                };
                 <span class='kw'>let</span> <span class='ident'>global_ref</span> <span class='op'>=</span> <span class='ident'>GlobalRef</span>::<span class='ident'>Window</span>(<span class='ident'>window</span>.<span class='ident'>r</span>());
                 <span class='ident'>devtools</span>::<span class='ident'>handle_evaluate_js</span>(<span class='kw-2'>&amp;</span><span class='ident'>global_ref</span>, <span class='ident'>s</span>, <span class='ident'>reply</span>)
             },
@@ -3242,7 +3273,10 @@
             <span class='ident'>DevtoolScriptControlMsg</span>::<span class='ident'>ModifyAttribute</span>(<span class='ident'>id</span>, <span class='ident'>node_id</span>, <span class='ident'>modifications</span>) <span class='op'>=&gt;</span>
                 <span class='ident'>devtools</span>::<span class='ident'>handle_modify_attribute</span>(<span class='kw-2'>&amp;</span><span class='ident'>context</span>, <span class='ident'>id</span>, <span class='ident'>node_id</span>, <span class='ident'>modifications</span>),
             <span class='ident'>DevtoolScriptControlMsg</span>::<span class='ident'>WantsLiveNotifications</span>(<span class='ident'>id</span>, <span class='ident'>to_send</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='ident'>context</span>, <span class='ident'>id</span>).<span class='ident'>active_window</span>();
+                <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>context</span>.<span class='ident'>find</span>(<span class='ident'>id</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_window</span>(),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>id</span>),
+                };
                 <span class='kw'>let</span> <span class='ident'>global_ref</span> <span class='op'>=</span> <span class='ident'>GlobalRef</span>::<span class='ident'>Window</span>(<span class='ident'>window</span>.<span class='ident'>r</span>());
                 <span class='ident'>devtools</span>::<span class='ident'>handle_wants_live_notifications</span>(<span class='kw-2'>&amp;</span><span class='ident'>global_ref</span>, <span class='ident'>to_send</span>)
             },
@@ -3325,8 +3359,7 @@
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>inner_context</span>) <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>find</span>(<span class='ident'>id</span>) {
                 <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>inner_context</span>.<span class='ident'>active_window</span>();
                 <span class='kw'>if</span> <span class='ident'>window</span>.<span class='ident'>set_page_clip_rect_with_new_viewport</span>(<span class='ident'>rect</span>) {
-                    <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='ident'>context</span>, <span class='ident'>id</span>);
-                    <span class='self'>self</span>.<span class='ident'>rebuild_and_force_reflow</span>(<span class='kw-2'>&amp;</span><span class='ident'>context</span>, <span class='ident'>ReflowReason</span>::<span class='ident'>Viewport</span>);
+                    <span class='self'>self</span>.<span class='ident'>rebuild_and_force_reflow</span>(<span class='kw-2'>&amp;</span><span class='ident'>inner_context</span>, <span class='ident'>ReflowReason</span>::<span class='ident'>Viewport</span>);
                 }
                 <span class='kw'>return</span>;
             }
@@ -3336,7 +3369,7 @@
             <span class='ident'>load</span>.<span class='ident'>clip_rect</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>rect</span>);
             <span class='kw'>return</span>;
         }
-        <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Page rect message sent to nonexistent pipeline&quot;</span>);
+        <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Page rect message sent to nonexistent pipeline&quot;</span>);
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_set_scroll_state</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
@@ -3351,7 +3384,7 @@
                     }
                 }
             }
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Set scroll state message sent to nonexistent pipeline: {:?}&quot;</span>, <span class='ident'>id</span>),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Set scroll state message sent to nonexistent pipeline: {:?}&quot;</span>, <span class='ident'>id</span>),
         };
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>scroll_offsets</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>new</span>();
@@ -3416,8 +3449,10 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_loads_complete</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pipeline</span>: <span class='ident'>PipelineId</span>) {
-        <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline</span>);
-        <span class='kw'>let</span> <span class='ident'>doc</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
+        <span class='kw'>let</span> <span class='ident'>doc</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>pipeline</span>) {
+            <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>pipeline</span>),
+        };
         <span class='kw'>let</span> <span class='ident'>doc</span> <span class='op'>=</span> <span class='ident'>doc</span>.<span class='ident'>r</span>();
         <span class='kw'>if</span> <span class='ident'>doc</span>.<span class='ident'>loader</span>().<span class='ident'>is_blocked</span>() {
             <span class='kw'>return</span>;
@@ -3523,7 +3558,7 @@
             <span class='ident'>load</span>.<span class='ident'>is_frozen</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
             <span class='kw'>return</span>;
         }
-        <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;freeze sent to nonexistent pipeline&quot;</span>);
+        <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;freeze sent to nonexistent pipeline&quot;</span>);
     }
 
     <span class='doccomment'>/// Handles thaw message</span>
@@ -3542,7 +3577,7 @@
             <span class='ident'>load</span>.<span class='ident'>is_frozen</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
             <span class='kw'>return</span>;
         }
-        <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;thaw sent to nonexistent pipeline&quot;</span>);
+        <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;thaw sent to nonexistent pipeline&quot;</span>);
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_focus_iframe_msg</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
@@ -3661,8 +3696,10 @@
 
     <span class='doccomment'>/// Handles a request for the window title.</span>
     <span class='kw'>fn</span> <span class='ident'>handle_get_title_msg</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>) {
-        <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline_id</span>);
-        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
+        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>pipeline_id</span>) {
+            <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>pipeline_id</span>),
+        };
         <span class='ident'>document</span>.<span class='ident'>send_title_to_compositor</span>();
     }
 
@@ -3716,8 +3753,10 @@
 
     <span class='doccomment'>/// Handles when layout thread finishes all animation in one tick</span>
     <span class='kw'>fn</span> <span class='ident'>handle_tick_all_animations</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>id</span>: <span class='ident'>PipelineId</span>) {
-        <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>id</span>);
-        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
+        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>id</span>) {
+            <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>id</span>),
+        };
         <span class='ident'>document</span>.<span class='ident'>run_the_animation_frame_callbacks</span>();
     }
 
@@ -3730,8 +3769,10 @@
 
     <span class='doccomment'>/// Notify the containing document of a child frame that has completed loading.</span>
     <span class='kw'>fn</span> <span class='ident'>handle_frame_load_event</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>containing_pipeline</span>: <span class='ident'>PipelineId</span>, <span class='ident'>id</span>: <span class='ident'>PipelineId</span>) {
-        <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>containing_pipeline</span>);
-        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
+        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>containing_pipeline</span>) {
+            <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>containing_pipeline</span>),
+        };
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>iframe</span>) <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>find_iframe_by_pipeline</span>(<span class='ident'>id</span>) {
             <span class='ident'>iframe</span>.<span class='ident'>iframe_load_event_steps</span>(<span class='ident'>id</span>);
         }
@@ -4056,8 +4097,10 @@
             }
 
             <span class='ident'>MouseMoveEvent</span>(<span class='ident'>point</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline_id</span>);
-                <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
+                <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>pipeline_id</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>pipeline_id</span>),
+                };
 
                 <span class='comment'>// Get the previous target temporarily</span>
                 <span class='kw'>let</span> <span class='ident'>prev_mouse_over_target</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>topmost_mouse_over_target</span>.<span class='ident'>get</span>();
@@ -4126,14 +4169,18 @@
             }
 
             <span class='ident'>TouchpadPressureEvent</span>(<span class='ident'>point</span>, <span class='ident'>pressure</span>, <span class='ident'>phase</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline_id</span>);
-                <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
+                <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>pipeline_id</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>pipeline_id</span>),
+                };
                 <span class='ident'>document</span>.<span class='ident'>r</span>().<span class='ident'>handle_touchpad_pressure_event</span>(<span class='self'>self</span>.<span class='ident'>js_runtime</span>.<span class='ident'>rt</span>(), <span class='ident'>point</span>, <span class='ident'>pressure</span>, <span class='ident'>phase</span>);
             }
 
             <span class='ident'>KeyEvent</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline_id</span>);
-                <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
+                <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>pipeline_id</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>pipeline_id</span>),
+                };
                 <span class='ident'>document</span>.<span class='ident'>dispatch_key_event</span>(<span class='ident'>key</span>, <span class='ident'>state</span>, <span class='ident'>modifiers</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>constellation_chan</span>);
             }
         }
@@ -4144,8 +4191,10 @@
                           <span class='ident'>mouse_event_type</span>: <span class='ident'>MouseEventType</span>,
                           <span class='ident'>button</span>: <span class='ident'>MouseButton</span>,
                           <span class='ident'>point</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline_id</span>);
-        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
+        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>pipeline_id</span>) {
+            <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>pipeline_id</span>),
+        };
         <span class='ident'>document</span>.<span class='ident'>handle_mouse_event</span>(<span class='self'>self</span>.<span class='ident'>js_runtime</span>.<span class='ident'>rt</span>(), <span class='ident'>button</span>, <span class='ident'>point</span>, <span class='ident'>mouse_event_type</span>);
     }
 
@@ -4155,8 +4204,10 @@
                           <span class='ident'>identifier</span>: <span class='ident'>TouchId</span>,
                           <span class='ident'>point</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>)
                           <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline_id</span>);
-        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
+        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>pipeline_id</span>) {
+            <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>pipeline_id</span>); <span class='kw'>return</span> <span class='bool-val'>true</span> },
+        };
         <span class='ident'>document</span>.<span class='ident'>handle_touch_event</span>(<span class='self'>self</span>.<span class='ident'>js_runtime</span>.<span class='ident'>rt</span>(), <span class='ident'>event_type</span>, <span class='ident'>identifier</span>, <span class='ident'>point</span>)
     }
 
@@ -4168,9 +4219,10 @@
         {
             <span class='kw'>let</span> <span class='ident'>nurl</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>load_data</span>.<span class='ident'>url</span>;
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>fragment</span>) <span class='op'>=</span> <span class='ident'>nurl</span>.<span class='ident'>fragment</span>() {
-                <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline_id</span>);
-                <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_document</span>();
-                <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>r</span>();
+                <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>pipeline_id</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>.<span class='ident'>active_document</span>(),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>pipeline_id</span>),
+                };
                 <span class='kw'>let</span> <span class='ident'>url</span> <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>url</span>();
                 <span class='kw'>if</span> <span class='kw-2'>&amp;</span><span class='ident'>url</span>[..<span class='ident'>Position</span>::<span class='ident'>AfterQuery</span>] <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='ident'>nurl</span>[..<span class='ident'>Position</span>::<span class='ident'>AfterQuery</span>] <span class='op'>&amp;&amp;</span>
                     <span class='ident'>load_data</span>.<span class='ident'>method</span> <span class='op'>==</span> <span class='ident'>Method</span>::<span class='ident'>Get</span> {
@@ -4205,7 +4257,10 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>handle_resize_event</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>new_size</span>: <span class='ident'>WindowSizeData</span>, <span class='ident'>size_type</span>: <span class='ident'>WindowSizeType</span>) {
-        <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>get_browsing_context</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>root_browsing_context</span>(), <span class='ident'>pipeline_id</span>);
+        <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>root_browsing_context</span>().<span class='ident'>find</span>(<span class='ident'>pipeline_id</span>) {
+            <span class='prelude-val'>Some</span>(<span class='ident'>browsing_context</span>) <span class='op'>=&gt;</span> <span class='ident'>browsing_context</span>,
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Message sent to closed pipeline {}.&quot;</span>, <span class='ident'>pipeline_id</span>),
+        };
         <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>active_window</span>();
         <span class='ident'>window</span>.<span class='ident'>set_window_size</span>(<span class='ident'>new_size</span>);
         <span class='ident'>window</span>.<span class='ident'>force_reflow</span>(<span class='ident'>ReflowGoal</span>::<span class='ident'>ForDisplay</span>,
@@ -4376,6 +4431,7 @@
     }
 }
 
+<span class='comment'>// TODO: remove this function, as it&#39;s a source of panic.</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_browsing_context</span>(<span class='ident'>context</span>: <span class='kw-2'>&amp;</span><span class='ident'>BrowsingContext</span>,
                             <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>)
                             <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>BrowsingContext</span><span class='op'>&gt;</span> {
