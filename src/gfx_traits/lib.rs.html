@@ -310,6 +310,25 @@
 <span id="266">266</span>
 <span id="267">267</span>
 <span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -328,6 +347,7 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>heapsize</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>layers</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>msg</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>profile_traits</span>;
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>range</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
@@ -340,7 +360,9 @@
 <span class='kw'>use</span> <span class='ident'>azure</span>::<span class='ident'>azure_hl</span>::<span class='ident'>Color</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>Matrix4D</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>rect</span>::<span class='ident'>Rect</span>;
+<span class='kw'>use</span> <span class='ident'>layers</span>::<span class='ident'>layers</span>::<span class='ident'>BufferRequest</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::<span class='ident'>PipelineId</span>;
+<span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>::<span class='ident'>ReportsChan</span>;
 <span class='kw'>use</span> <span class='ident'>range</span>::<span class='ident'>RangeIndex</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='self'>self</span>, <span class='ident'>Debug</span>, <span class='ident'>Formatter</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>ATOMIC_USIZE_INIT</span>, <span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};
@@ -578,6 +600,22 @@
              point to the middle of a glyph.&quot;</span>]</span>
     <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>)]</span>
     <span class='kw'>struct</span> <span class='ident'>ByteIndex</span>(<span class='ident'>isize</span>)
+}
+
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>PaintRequest</span> {
+    <span class='kw'>pub</span> <span class='ident'>buffer_requests</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>BufferRequest</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>scale</span>: <span class='ident'>f32</span>,
+    <span class='kw'>pub</span> <span class='ident'>layer_id</span>: <span class='ident'>LayerId</span>,
+    <span class='kw'>pub</span> <span class='ident'>epoch</span>: <span class='ident'>Epoch</span>,
+    <span class='kw'>pub</span> <span class='ident'>layer_kind</span>: <span class='ident'>LayerKind</span>,
+}
+
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ChromeToPaintMsg</span> {
+    <span class='ident'>Paint</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PaintRequest</span><span class='op'>&gt;</span>, <span class='ident'>FrameTreeId</span>),
+    <span class='ident'>PaintPermissionGranted</span>,
+    <span class='ident'>PaintPermissionRevoked</span>,
+    <span class='ident'>CollectReports</span>(<span class='ident'>ReportsChan</span>),
+    <span class='ident'>Exit</span>,
 }
 </pre>
 </section>

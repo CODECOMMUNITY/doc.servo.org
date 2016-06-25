@@ -835,22 +835,6 @@
 <span id="791">791</span>
 <span id="792">792</span>
 <span id="793">793</span>
-<span id="794">794</span>
-<span id="795">795</span>
-<span id="796">796</span>
-<span id="797">797</span>
-<span id="798">798</span>
-<span id="799">799</span>
-<span id="800">800</span>
-<span id="801">801</span>
-<span id="802">802</span>
-<span id="803">803</span>
-<span id="804">804</span>
-<span id="805">805</span>
-<span id="806">806</span>
-<span id="807">807</span>
-<span id="808">808</span>
-<span id="809">809</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -869,14 +853,14 @@
 <span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>size</span>::<span class='ident'>Size2D</span>;
 <span class='kw'>use</span> <span class='ident'>font_cache_thread</span>::<span class='ident'>FontCacheThread</span>;
 <span class='kw'>use</span> <span class='ident'>font_context</span>::<span class='ident'>FontContext</span>;
-<span class='kw'>use</span> <span class='ident'>gfx_traits</span>::<span class='ident'>StackingContextId</span>;
-<span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>Epoch</span>, <span class='ident'>FrameTreeId</span>, <span class='ident'>LayerId</span>, <span class='ident'>LayerKind</span>, <span class='ident'>LayerProperties</span>, <span class='ident'>PaintListener</span>};
+<span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>ChromeToPaintMsg</span>, <span class='ident'>Epoch</span>, <span class='ident'>LayerId</span>, <span class='ident'>LayerKind</span>, <span class='ident'>LayerProperties</span>};
+<span class='kw'>use</span> <span class='ident'>gfx_traits</span>::{<span class='ident'>PaintListener</span>, <span class='ident'>PaintRequest</span>, <span class='ident'>StackingContextId</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
 <span class='kw'>use</span> <span class='ident'>layers</span>::<span class='ident'>layers</span>::{<span class='ident'>BufferRequest</span>, <span class='ident'>LayerBuffer</span>, <span class='ident'>LayerBufferSet</span>};
 <span class='kw'>use</span> <span class='ident'>layers</span>::<span class='ident'>platform</span>::<span class='ident'>surface</span>::{<span class='ident'>NativeDisplay</span>, <span class='ident'>NativeSurface</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>PanicMsg</span>, <span class='ident'>PipelineId</span>};
 <span class='kw'>use</span> <span class='ident'>paint_context</span>::<span class='ident'>PaintContext</span>;
-<span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>::{<span class='self'>self</span>, <span class='ident'>ReportsChan</span>};
+<span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>profile_traits</span>::<span class='ident'>time</span>;
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='self'>self</span>, <span class='ident'>Rng</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
@@ -1179,14 +1163,6 @@
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>PaintRequest</span> {
-    <span class='kw'>pub</span> <span class='ident'>buffer_requests</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>BufferRequest</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>scale</span>: <span class='ident'>f32</span>,
-    <span class='kw'>pub</span> <span class='ident'>layer_id</span>: <span class='ident'>LayerId</span>,
-    <span class='kw'>pub</span> <span class='ident'>epoch</span>: <span class='ident'>Epoch</span>,
-    <span class='kw'>pub</span> <span class='ident'>layer_kind</span>: <span class='ident'>LayerKind</span>,
-}
-
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Msg</span> {
     <span class='ident'>FromLayout</span>(<span class='ident'>LayoutToPaintMsg</span>),
     <span class='ident'>FromChrome</span>(<span class='ident'>ChromeToPaintMsg</span>),
@@ -1195,14 +1171,6 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LayoutToPaintMsg</span> {
     <span class='ident'>PaintInit</span>(<span class='ident'>Epoch</span>, <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>DisplayList</span><span class='op'>&gt;</span>),
-    <span class='ident'>Exit</span>,
-}
-
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ChromeToPaintMsg</span> {
-    <span class='ident'>Paint</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PaintRequest</span><span class='op'>&gt;</span>, <span class='ident'>FrameTreeId</span>),
-    <span class='ident'>PaintPermissionGranted</span>,
-    <span class='ident'>PaintPermissionRevoked</span>,
-    <span class='ident'>CollectReports</span>(<span class='ident'>ReportsChan</span>),
     <span class='ident'>Exit</span>,
 }
 
