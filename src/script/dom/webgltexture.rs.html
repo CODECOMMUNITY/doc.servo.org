@@ -450,6 +450,20 @@
 <span id="406">406</span>
 <span id="407">407</span>
 <span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -463,6 +477,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>global</span>::<span class='ident'>GlobalRef</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::<span class='ident'>Root</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>reflector</span>::<span class='ident'>reflect_dom_object</span>;
+<span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>webgl_validations</span>::<span class='ident'>types</span>::{<span class='ident'>TexImageTarget</span>, <span class='ident'>TexFormat</span>, <span class='ident'>TexDataType</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>webglobject</span>::<span class='ident'>WebGLObject</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
@@ -557,13 +572,13 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>initialize</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                      <span class='ident'>target</span>: <span class='ident'>u32</span>,
+                      <span class='ident'>target</span>: <span class='ident'>TexImageTarget</span>,
                       <span class='ident'>width</span>: <span class='ident'>u32</span>,
                       <span class='ident'>height</span>: <span class='ident'>u32</span>,
                       <span class='ident'>depth</span>: <span class='ident'>u32</span>,
-                      <span class='ident'>internal_format</span>: <span class='ident'>u32</span>,
+                      <span class='ident'>internal_format</span>: <span class='ident'>TexFormat</span>,
                       <span class='ident'>level</span>: <span class='ident'>u32</span>,
-                      <span class='ident'>data_type</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+                      <span class='ident'>data_type</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TexDataType</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>image_info</span> <span class='op'>=</span> <span class='ident'>ImageInfo</span> {
             <span class='ident'>width</span>: <span class='ident'>width</span>,
             <span class='ident'>height</span>: <span class='ident'>height</span>,
@@ -573,17 +588,8 @@
             <span class='ident'>data_type</span>: <span class='ident'>data_type</span>,
         };
 
-        <span class='kw'>let</span> <span class='ident'>face</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>target</span> {
-            <span class='ident'>constants</span>::<span class='ident'>TEXTURE_2D</span> <span class='op'>|</span> <span class='ident'>constants</span>::<span class='ident'>TEXTURE_CUBE_MAP_POSITIVE_X</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
-            <span class='ident'>constants</span>::<span class='ident'>TEXTURE_CUBE_MAP_NEGATIVE_X</span> <span class='op'>=&gt;</span> <span class='number'>1</span>,
-            <span class='ident'>constants</span>::<span class='ident'>TEXTURE_CUBE_MAP_POSITIVE_Y</span> <span class='op'>=&gt;</span> <span class='number'>2</span>,
-            <span class='ident'>constants</span>::<span class='ident'>TEXTURE_CUBE_MAP_NEGATIVE_Y</span> <span class='op'>=&gt;</span> <span class='number'>3</span>,
-            <span class='ident'>constants</span>::<span class='ident'>TEXTURE_CUBE_MAP_POSITIVE_Z</span> <span class='op'>=&gt;</span> <span class='number'>4</span>,
-            <span class='ident'>constants</span>::<span class='ident'>TEXTURE_CUBE_MAP_NEGATIVE_Z</span> <span class='op'>=&gt;</span> <span class='number'>5</span>,
-            _ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
-        };
-
-        <span class='self'>self</span>.<span class='ident'>set_image_infos_at_level_and_face</span>(<span class='ident'>level</span>, <span class='ident'>face</span>, <span class='ident'>image_info</span>);
+        <span class='kw'>let</span> <span class='ident'>face_index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>face_index_for_target</span>(<span class='kw-2'>&amp;</span><span class='ident'>target</span>);
+        <span class='self'>self</span>.<span class='ident'>set_image_infos_at_level_and_face</span>(<span class='ident'>level</span>, <span class='ident'>face_index</span>, <span class='ident'>image_info</span>);
         <span class='prelude-val'>Ok</span>(())
     }
 
@@ -765,7 +771,27 @@
         <span class='bool-val'>true</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>image_info_at_face</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>face</span>: <span class='ident'>u8</span>, <span class='ident'>level</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageInfo</span> {
+    <span class='kw'>fn</span> <span class='ident'>face_index_for_target</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
+                             <span class='ident'>target</span>: <span class='kw-2'>&amp;</span><span class='ident'>TexImageTarget</span>) <span class='op'>-&gt;</span> <span class='ident'>u8</span> {
+        <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>target</span> {
+            <span class='ident'>TexImageTarget</span>::<span class='ident'>Texture2D</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
+            <span class='ident'>TexImageTarget</span>::<span class='ident'>CubeMapPositiveX</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
+            <span class='ident'>TexImageTarget</span>::<span class='ident'>CubeMapNegativeX</span> <span class='op'>=&gt;</span> <span class='number'>1</span>,
+            <span class='ident'>TexImageTarget</span>::<span class='ident'>CubeMapPositiveY</span> <span class='op'>=&gt;</span> <span class='number'>2</span>,
+            <span class='ident'>TexImageTarget</span>::<span class='ident'>CubeMapNegativeY</span> <span class='op'>=&gt;</span> <span class='number'>3</span>,
+            <span class='ident'>TexImageTarget</span>::<span class='ident'>CubeMapPositiveZ</span> <span class='op'>=&gt;</span> <span class='number'>4</span>,
+            <span class='ident'>TexImageTarget</span>::<span class='ident'>CubeMapNegativeZ</span> <span class='op'>=&gt;</span> <span class='number'>5</span>,
+        }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>image_info_for_target</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
+                                 <span class='ident'>target</span>: <span class='kw-2'>&amp;</span><span class='ident'>TexImageTarget</span>,
+                                 <span class='ident'>level</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageInfo</span> {
+        <span class='kw'>let</span> <span class='ident'>face_index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>face_index_for_target</span>(<span class='kw-2'>&amp;</span><span class='ident'>target</span>);
+        <span class='self'>self</span>.<span class='ident'>image_info_at_face</span>(<span class='ident'>face_index</span>, <span class='ident'>level</span>)
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>image_info_at_face</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>face</span>: <span class='ident'>u8</span>, <span class='ident'>level</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageInfo</span> {
         <span class='kw'>let</span> <span class='ident'>pos</span> <span class='op'>=</span> (<span class='ident'>level</span> <span class='op'>*</span> <span class='self'>self</span>.<span class='ident'>face_count</span>.<span class='ident'>get</span>() <span class='kw'>as</span> <span class='ident'>u32</span>) <span class='op'>+</span> <span class='ident'>face</span> <span class='kw'>as</span> <span class='ident'>u32</span>;
         <span class='self'>self</span>.<span class='ident'>image_info_array</span>.<span class='ident'>borrow</span>()[<span class='ident'>pos</span> <span class='kw'>as</span> <span class='ident'>usize</span>]
     }
@@ -800,9 +826,9 @@
     <span class='ident'>width</span>: <span class='ident'>u32</span>,
     <span class='ident'>height</span>: <span class='ident'>u32</span>,
     <span class='ident'>depth</span>: <span class='ident'>u32</span>,
-    <span class='ident'>internal_format</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>,
+    <span class='ident'>internal_format</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TexFormat</span><span class='op'>&gt;</span>,
     <span class='ident'>is_initialized</span>: <span class='ident'>bool</span>,
-    <span class='ident'>data_type</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>,
+    <span class='ident'>data_type</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TexDataType</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>ImageInfo</span> {
@@ -825,16 +851,18 @@
         <span class='self'>self</span>.<span class='ident'>height</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>internal_format</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>internal_format</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TexFormat</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>internal_format</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>data_type</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>data_type</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TexDataType</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>data_type</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>is_power_of_two</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>width</span>.<span class='ident'>is_power_of_two</span>() <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>height</span>.<span class='ident'>is_power_of_two</span>() <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>depth</span>.<span class='ident'>is_power_of_two</span>()
+        <span class='self'>self</span>.<span class='ident'>width</span>.<span class='ident'>is_power_of_two</span>() <span class='op'>&amp;&amp;</span>
+        <span class='self'>self</span>.<span class='ident'>height</span>.<span class='ident'>is_power_of_two</span>() <span class='op'>&amp;&amp;</span>
+        <span class='self'>self</span>.<span class='ident'>depth</span>.<span class='ident'>is_power_of_two</span>()
     }
 
     <span class='kw'>fn</span> <span class='ident'>is_initialized</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {

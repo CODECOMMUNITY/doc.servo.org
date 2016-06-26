@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["TexImageValidationError","The errors that the texImage* family of functions can generate."]],"fn":[["log2",""]],"struct":[["CommonTexImage2DValidator",""],["CommonTexImage2DValidatorResult",""],["TexImage2DValidator",""],["TexImage2DValidatorResult","The validated result of a TexImage2DValidator-validated call."]]});

@@ -3415,6 +3415,7 @@
 
     <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>PartialOrd</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>)]</span>
     <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;servo&quot;</span>, <span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>))]</span>
+    <span class='doccomment'>/// An angle, normalized to radians.</span>
     <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Angle</span>(<span class='kw'>pub</span> <span class='ident'>CSSFloat</span>);
 
     <span class='kw'>impl</span> <span class='ident'>ToCss</span> <span class='kw'>for</span> <span class='ident'>Angle</span> {
@@ -3426,8 +3427,7 @@
     <span class='kw'>impl</span> <span class='ident'>Angle</span> {
         <span class='attribute'>#[<span class='ident'>inline</span>]</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>radians</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>f32</span> {
-            <span class='kw'>let</span> <span class='ident'>Angle</span>(<span class='ident'>radians</span>) <span class='op'>=</span> <span class='self'>self</span>;
-            <span class='ident'>radians</span>
+            <span class='self'>self</span>.<span class='number'>0</span>
         }
     }
 
