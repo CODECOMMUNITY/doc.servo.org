@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Map",""],["MapConsumer",""],["MapFolder",""],["MapProducer",""]]});
+initSidebarItems({"struct":[["Map",""],["MapCloned",""],["MapConsumer",""],["MapFn",""],["MapFolder",""],["MapInspect",""],["MapIter",""],["MapProducer",""]],"trait":[["MapOp",""]]});

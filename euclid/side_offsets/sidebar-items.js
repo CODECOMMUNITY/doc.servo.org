@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_SideOffsets2D",""],["_IMPL_SERIALIZE_FOR_SideOffsets2D",""]],"struct":[["SideOffsets2D","A group of side offsets, which correspond to top/left/bottom/right for borders, padding, and margins in CSS."],["SideOffsets2DSimdI32","A SIMD enabled version of SideOffsets2D specialized for i32."]]});
+initSidebarItems({"struct":[["SideOffsets2D",""],["SideOffsets2DSimdI32","A SIMD enabled version of SideOffsets2D specialized for i32."]]});

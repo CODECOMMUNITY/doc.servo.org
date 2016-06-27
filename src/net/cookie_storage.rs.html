@@ -159,6 +159,15 @@
 <span id="115">115</span>
 <span id="116">116</span>
 <span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -168,6 +177,7 @@
 <span class='doccomment'>//! http://tools.ietf.org/html/rfc6265</span>
 
 <span class='kw'>use</span> <span class='ident'>cookie</span>::<span class='ident'>Cookie</span>;
+<span class='kw'>use</span> <span class='ident'>cookie_rs</span>;
 <span class='kw'>use</span> <span class='ident'>net_traits</span>::<span class='ident'>CookieSource</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>Ordering</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
@@ -275,6 +285,14 @@
             <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
             _ <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>result</span>)
         }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cookies_data_for_url</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>url</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Url</span>,
+                                    <span class='ident'>source</span>: <span class='ident'>CookieSource</span>) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>cookie_rs</span>::<span class='ident'>Cookie</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+        <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>cookies</span>.<span class='ident'>iter_mut</span>().<span class='ident'>filter</span>(<span class='kw'>move</span> <span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> { <span class='ident'>c</span>.<span class='ident'>appropriate_for_url</span>(<span class='ident'>url</span>, <span class='ident'>source</span>) }).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> {
+            <span class='ident'>c</span>.<span class='ident'>touch</span>();
+            <span class='ident'>c</span>.<span class='ident'>cookie</span>.<span class='ident'>clone</span>()
+        }))
     }
 }
 </pre>

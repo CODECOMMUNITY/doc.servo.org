@@ -145,26 +145,31 @@
 <span id="101">101</span>
 <span id="102">102</span>
 <span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>app_units</span>::<span class='ident'>Au</span>;
-<span class='kw'>use</span> <span class='ident'>display_list</span>::<span class='ident'>ItemRange</span>;
-<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Point2D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
-<span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>BorderRadius</span>, <span class='ident'>BoxShadowClipMode</span>, <span class='ident'>ImageRendering</span>};
-<span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ClipRegion</span>, <span class='ident'>ColorF</span>, <span class='ident'>FontKey</span>, <span class='ident'>ImageKey</span>, <span class='ident'>BorderSide</span>};
-<span class='kw'>use</span> <span class='ident'>webgl</span>::{<span class='ident'>WebGLContextId</span>};
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>BorderDisplayItem</span> {
-    <span class='kw'>pub</span> <span class='ident'>left</span>: <span class='ident'>BorderSide</span>,
-    <span class='kw'>pub</span> <span class='ident'>right</span>: <span class='ident'>BorderSide</span>,
-    <span class='kw'>pub</span> <span class='ident'>top</span>: <span class='ident'>BorderSide</span>,
-    <span class='kw'>pub</span> <span class='ident'>bottom</span>: <span class='ident'>BorderSide</span>,
-    <span class='kw'>pub</span> <span class='ident'>radius</span>: <span class='ident'>BorderRadius</span>,
-}
+<span class='kw'>use</span> <span class='ident'>display_list</span>::<span class='ident'>AuxiliaryListsBuilder</span>;
+<span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
+<span class='kw'>use</span> {<span class='ident'>BorderRadius</span>, <span class='ident'>BorderDisplayItem</span>, <span class='ident'>ClipRegion</span>, <span class='ident'>ColorF</span>, <span class='ident'>ComplexClipRegion</span>};
+<span class='kw'>use</span> {<span class='ident'>FontKey</span>, <span class='ident'>ImageKey</span>, <span class='ident'>PipelineId</span>, <span class='ident'>ScrollLayerId</span>, <span class='ident'>ScrollLayerInfo</span>};
 
 <span class='kw'>impl</span> <span class='ident'>BorderDisplayItem</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>top_left_inner_radius</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
@@ -188,66 +193,93 @@
     }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>BoxShadowDisplayItem</span> {
-    <span class='kw'>pub</span> <span class='ident'>box_bounds</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>offset</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>color</span>: <span class='ident'>ColorF</span>,
-    <span class='kw'>pub</span> <span class='ident'>blur_radius</span>: <span class='ident'>f32</span>,
-    <span class='kw'>pub</span> <span class='ident'>spread_radius</span>: <span class='ident'>f32</span>,
-    <span class='kw'>pub</span> <span class='ident'>border_radius</span>: <span class='ident'>f32</span>,
-    <span class='kw'>pub</span> <span class='ident'>clip_mode</span>: <span class='ident'>BoxShadowClipMode</span>,
+<span class='kw'>impl</span> <span class='ident'>BorderRadius</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>zero</span>() <span class='op'>-&gt;</span> <span class='ident'>BorderRadius</span> {
+        <span class='ident'>BorderRadius</span> {
+            <span class='ident'>top_left</span>: <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>),
+            <span class='ident'>top_right</span>: <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>),
+            <span class='ident'>bottom_left</span>: <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>),
+            <span class='ident'>bottom_right</span>: <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>),
+        }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>uniform</span>(<span class='ident'>radius</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>BorderRadius</span> {
+        <span class='ident'>BorderRadius</span> {
+            <span class='ident'>top_left</span>: <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>radius</span>, <span class='ident'>radius</span>),
+            <span class='ident'>top_right</span>: <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>radius</span>, <span class='ident'>radius</span>),
+            <span class='ident'>bottom_left</span>: <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>radius</span>, <span class='ident'>radius</span>),
+            <span class='ident'>bottom_right</span>: <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='ident'>radius</span>, <span class='ident'>radius</span>),
+        }
+    }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>GradientDisplayItem</span> {
-    <span class='kw'>pub</span> <span class='ident'>start_point</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>end_point</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>stops</span>: <span class='ident'>ItemRange</span>,
+<span class='kw'>impl</span> <span class='ident'>ClipRegion</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>rect</span>: <span class='kw-2'>&amp;</span><span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+               <span class='ident'>complex</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ComplexClipRegion</span><span class='op'>&gt;</span>,
+               <span class='ident'>auxiliary_lists_builder</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>AuxiliaryListsBuilder</span>)
+               <span class='op'>-&gt;</span> <span class='ident'>ClipRegion</span> {
+        <span class='ident'>ClipRegion</span> {
+            <span class='ident'>main</span>: <span class='op'>*</span><span class='ident'>rect</span>,
+            <span class='ident'>complex</span>: <span class='ident'>auxiliary_lists_builder</span>.<span class='ident'>add_complex_clip_regions</span>(<span class='kw-2'>&amp;</span><span class='ident'>complex</span>),
+        }
+    }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ImageDisplayItem</span> {
-    <span class='kw'>pub</span> <span class='ident'>image_key</span>: <span class='ident'>ImageKey</span>,
-    <span class='kw'>pub</span> <span class='ident'>stretch_size</span>: <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>image_rendering</span>: <span class='ident'>ImageRendering</span>,
+<span class='kw'>impl</span> <span class='ident'>ColorF</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>r</span>: <span class='ident'>f32</span>, <span class='ident'>g</span>: <span class='ident'>f32</span>, <span class='ident'>b</span>: <span class='ident'>f32</span>, <span class='ident'>a</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>ColorF</span> {
+        <span class='ident'>ColorF</span> {
+            <span class='ident'>r</span>: <span class='ident'>r</span>,
+            <span class='ident'>g</span>: <span class='ident'>g</span>,
+            <span class='ident'>b</span>: <span class='ident'>b</span>,
+            <span class='ident'>a</span>: <span class='ident'>a</span>,
+        }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scale_rgb</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>scale</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>ColorF</span> {
+        <span class='ident'>ColorF</span> {
+            <span class='ident'>r</span>: <span class='self'>self</span>.<span class='ident'>r</span> <span class='op'>*</span> <span class='ident'>scale</span>,
+            <span class='ident'>g</span>: <span class='self'>self</span>.<span class='ident'>g</span> <span class='op'>*</span> <span class='ident'>scale</span>,
+            <span class='ident'>b</span>: <span class='self'>self</span>.<span class='ident'>b</span> <span class='op'>*</span> <span class='ident'>scale</span>,
+            <span class='ident'>a</span>: <span class='self'>self</span>.<span class='ident'>a</span>,
+        }
+    }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebGLDisplayItem</span> {
-    <span class='kw'>pub</span> <span class='ident'>context_id</span>: <span class='ident'>WebGLContextId</span>,
+<span class='kw'>impl</span> <span class='ident'>ComplexClipRegion</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>rect</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>radii</span>: <span class='ident'>BorderRadius</span>) <span class='op'>-&gt;</span> <span class='ident'>ComplexClipRegion</span> {
+        <span class='ident'>ComplexClipRegion</span> {
+            <span class='ident'>rect</span>: <span class='ident'>rect</span>,
+            <span class='ident'>radii</span>: <span class='ident'>radii</span>,
+        }
+    }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RectangleDisplayItem</span> {
-    <span class='kw'>pub</span> <span class='ident'>color</span>: <span class='ident'>ColorF</span>,
+<span class='kw'>impl</span> <span class='ident'>FontKey</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>key0</span>: <span class='ident'>u32</span>, <span class='ident'>key1</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>FontKey</span> {
+        <span class='ident'>FontKey</span>(<span class='ident'>key0</span>, <span class='ident'>key1</span>)
+    }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TextDisplayItem</span> {
-    <span class='kw'>pub</span> <span class='ident'>glyphs</span>: <span class='ident'>ItemRange</span>,
-    <span class='kw'>pub</span> <span class='ident'>font_key</span>: <span class='ident'>FontKey</span>,
-    <span class='kw'>pub</span> <span class='ident'>size</span>: <span class='ident'>Au</span>,
-    <span class='kw'>pub</span> <span class='ident'>color</span>: <span class='ident'>ColorF</span>,
-    <span class='kw'>pub</span> <span class='ident'>blur_radius</span>: <span class='ident'>Au</span>,
+<span class='kw'>impl</span> <span class='ident'>ImageKey</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>key0</span>: <span class='ident'>u32</span>, <span class='ident'>key1</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>ImageKey</span> {
+        <span class='ident'>ImageKey</span>(<span class='ident'>key0</span>, <span class='ident'>key1</span>)
+    }
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>SpecificDisplayItem</span> {
-    <span class='ident'>Rectangle</span>(<span class='ident'>RectangleDisplayItem</span>),
-    <span class='ident'>Text</span>(<span class='ident'>TextDisplayItem</span>),
-    <span class='ident'>Image</span>(<span class='ident'>ImageDisplayItem</span>),
-    <span class='ident'>WebGL</span>(<span class='ident'>WebGLDisplayItem</span>),
-    <span class='ident'>Border</span>(<span class='ident'>BorderDisplayItem</span>),
-    <span class='ident'>BoxShadow</span>(<span class='ident'>BoxShadowDisplayItem</span>),
-    <span class='ident'>Gradient</span>(<span class='ident'>GradientDisplayItem</span>),
-}
+<span class='kw'>impl</span> <span class='ident'>ScrollLayerId</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>ScrollLayerId</span> {
+        <span class='ident'>ScrollLayerId</span> {
+            <span class='ident'>pipeline_id</span>: <span class='ident'>pipeline_id</span>,
+            <span class='ident'>info</span>: <span class='ident'>ScrollLayerInfo</span>::<span class='ident'>Scrollable</span>(<span class='ident'>index</span>),
+        }
+    }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DisplayItem</span> {
-    <span class='kw'>pub</span> <span class='ident'>item</span>: <span class='ident'>SpecificDisplayItem</span>,
-    <span class='kw'>pub</span> <span class='ident'>rect</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>clip</span>: <span class='ident'>ClipRegion</span>,
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>create_fixed</span>(<span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>) <span class='op'>-&gt;</span> <span class='ident'>ScrollLayerId</span> {
+        <span class='ident'>ScrollLayerId</span> {
+            <span class='ident'>pipeline_id</span>: <span class='ident'>pipeline_id</span>,
+            <span class='ident'>info</span>: <span class='ident'>ScrollLayerInfo</span>::<span class='ident'>Fixed</span>,
+        }
+    }
 }
 </pre>
 </section>

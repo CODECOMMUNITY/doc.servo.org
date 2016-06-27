@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["AU_PER_PX","The number of app units in a pixel."],["MAX_AU",""],["MIN_AU",""],["_IMPL_DESERIALIZE_FOR_Au",""],["_IMPL_SERIALIZE_FOR_Au",""]],"struct":[["Au",""]]});
+initSidebarItems({"constant":[["AU_PER_PX","The number of app units in a pixel."],["MAX_AU",""],["MIN_AU",""]],"struct":[["Au",""]]});

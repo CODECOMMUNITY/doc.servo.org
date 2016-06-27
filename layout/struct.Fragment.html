@@ -89,40 +89,40 @@ moved around a lot and thus their size impacts performance of layout quite a bit
 
 <p>FIXME(#2260, pcwalton): This can be slimmed down some by (at least) moving <code>inline_context</code>
 to be on <code>InlineFlow</code> only.</p>
-</div><h2 class='fields'>Fields</h2><span id='structfield.node'><code>node: <a class='struct' href='../style/dom/struct.OpaqueNode.html' title='style::dom::OpaqueNode'>OpaqueNode</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>An opaque reference to the DOM node that this <code>Fragment</code> originates from.</p>
-</div><span id='structfield.style'><code>style: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>The CSS style of this fragment.</p>
-</div><span id='structfield.selected_style'><code>selected_style: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>The CSS style of this fragment when it&#39;s selected</p>
-</div><span id='structfield.border_box'><code>border_box: <a class='struct' href='../style/logical_geometry/struct.LogicalRect.html' title='style::logical_geometry::LogicalRect'>LogicalRect</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>The position of this fragment relative to its owning flow. The size includes padding and
+</div><h2 class='fields'>Fields</h2><span id='structfield.node' class='structfield'><code>node: <a class='struct' href='../style/dom/struct.OpaqueNode.html' title='style::dom::OpaqueNode'>OpaqueNode</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>An opaque reference to the DOM node that this <code>Fragment</code> originates from.</p>
+</div><span id='structfield.style' class='structfield'><code>style: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>The CSS style of this fragment.</p>
+</div><span id='structfield.selected_style' class='structfield'><code>selected_style: <a class='struct' href='../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../style/properties/struct.ServoComputedValues.html' title='style::properties::ServoComputedValues'>ServoComputedValues</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>The CSS style of this fragment when it&#39;s selected</p>
+</div><span id='structfield.border_box' class='structfield'><code>border_box: <a class='struct' href='../style/logical_geometry/struct.LogicalRect.html' title='style::logical_geometry::LogicalRect'>LogicalRect</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>The position of this fragment relative to its owning flow. The size includes padding and
 border, but not margin.</p>
 
 <p>NB: This does not account for relative positioning.
 NB: Collapsed borders are not included in this.</p>
-</div><span id='structfield.border_padding'><code>border_padding: <a class='struct' href='../style/logical_geometry/struct.LogicalMargin.html' title='style::logical_geometry::LogicalMargin'>LogicalMargin</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>The sum of border and padding; i.e. the distance from the edge of the border box to the
+</div><span id='structfield.border_padding' class='structfield'><code>border_padding: <a class='struct' href='../style/logical_geometry/struct.LogicalMargin.html' title='style::logical_geometry::LogicalMargin'>LogicalMargin</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>The sum of border and padding; i.e. the distance from the edge of the border box to the
 content edge of the fragment.</p>
-</div><span id='structfield.margin'><code>margin: <a class='struct' href='../style/logical_geometry/struct.LogicalMargin.html' title='style::logical_geometry::LogicalMargin'>LogicalMargin</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>The margin of the content box.</p>
-</div><span id='structfield.specific'><code>specific: <a class='enum' href='../layout/fragment/enum.SpecificFragmentInfo.html' title='layout::fragment::SpecificFragmentInfo'>SpecificFragmentInfo</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>Info specific to the kind of fragment. Keep this enum small.</p>
-</div><span id='structfield.inline_context'><code>inline_context: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../layout/inline/struct.InlineFragmentContext.html' title='layout::inline::InlineFragmentContext'>InlineFragmentContext</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>Holds the style context information for fragments that are part of an inline formatting
+</div><span id='structfield.margin' class='structfield'><code>margin: <a class='struct' href='../style/logical_geometry/struct.LogicalMargin.html' title='style::logical_geometry::LogicalMargin'>LogicalMargin</a>&lt;<a class='struct' href='../app_units/app_unit/struct.Au.html' title='app_units::app_unit::Au'>Au</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>The margin of the content box.</p>
+</div><span id='structfield.specific' class='structfield'><code>specific: <a class='enum' href='../layout/fragment/enum.SpecificFragmentInfo.html' title='layout::fragment::SpecificFragmentInfo'>SpecificFragmentInfo</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>Info specific to the kind of fragment. Keep this enum small.</p>
+</div><span id='structfield.inline_context' class='structfield'><code>inline_context: <a class='enum' href='../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../layout/inline/struct.InlineFragmentContext.html' title='layout::inline::InlineFragmentContext'>InlineFragmentContext</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>Holds the style context information for fragments that are part of an inline formatting
 context.</p>
-</div><span id='structfield.restyle_damage'><code>restyle_damage: <a class='struct' href='../script_layout_interface/restyle_damage/struct.RestyleDamage.html' title='script_layout_interface::restyle_damage::RestyleDamage'>RestyleDamage</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>How damaged this fragment is since last reflow.</p>
-</div><span id='structfield.pseudo'><code>pseudo: <a class='enum' href='../script_layout_interface/wrapper_traits/enum.PseudoElementType.html' title='script_layout_interface::wrapper_traits::PseudoElementType'>PseudoElementType</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>The pseudo-element that this fragment represents.</p>
-</div><span id='structfield.flags'><code>flags: <a class='struct' href='../layout/fragment/struct.FragmentFlags.html' title='layout::fragment::FragmentFlags'>FragmentFlags</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>Various flags for this fragment.</p>
-</div><span id='structfield.debug_id'><code>debug_id: <a class='struct' href='../layout/fragment/struct.DebugId.html' title='layout::fragment::DebugId'>DebugId</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>A debug ID that is consistent for the life of this fragment (via transform etc).
+</div><span id='structfield.restyle_damage' class='structfield'><code>restyle_damage: <a class='struct' href='../script_layout_interface/restyle_damage/struct.RestyleDamage.html' title='script_layout_interface::restyle_damage::RestyleDamage'>RestyleDamage</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>How damaged this fragment is since last reflow.</p>
+</div><span id='structfield.pseudo' class='structfield'><code>pseudo: <a class='enum' href='../script_layout_interface/wrapper_traits/enum.PseudoElementType.html' title='script_layout_interface::wrapper_traits::PseudoElementType'>PseudoElementType</a>&lt;<a class='primitive' href='../std/primitive.tuple.html'>()</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>The pseudo-element that this fragment represents.</p>
+</div><span id='structfield.flags' class='structfield'><code>flags: <a class='struct' href='../layout/fragment/struct.FragmentFlags.html' title='layout::fragment::FragmentFlags'>FragmentFlags</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>Various flags for this fragment.</p>
+</div><span id='structfield.debug_id' class='structfield'><code>debug_id: <a class='struct' href='../layout/fragment/struct.DebugId.html' title='layout::fragment::DebugId'>DebugId</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>A debug ID that is consistent for the life of this fragment (via transform etc).
 This ID should not be considered stable across multiple layouts or fragment
 manipulations.</p>
-</div><span id='structfield.stacking_context_id'><code>stacking_context_id: <a class='struct' href='../gfx_traits/struct.StackingContextId.html' title='gfx_traits::StackingContextId'>StackingContextId</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>The ID of the StackingContext that contains this fragment. This is initialized
+</div><span id='structfield.stacking_context_id' class='structfield'><code>stacking_context_id: <a class='struct' href='../gfx_traits/struct.StackingContextId.html' title='gfx_traits::StackingContextId'>StackingContextId</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>The ID of the StackingContext that contains this fragment. This is initialized
 to 0, but it assigned during the collect_stacking_contexts phase of display
 list construction.</p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../layout/struct.Fragment.html' title='layout::Fragment'>Fragment</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-5516' class='srclink' href='../src/layout/fragment.rs.html#794-2612' title='goto source code'>[src]</a></span></h3>

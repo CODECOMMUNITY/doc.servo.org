@@ -57,19 +57,19 @@
 <p>This cache is reused between multiple invocations of the same regex
 program. (It is not shared simultaneously between threads. If there is
 contention, then new caches are created.)</p>
-</div><h2 class='fields'>Fields</h2><span id='structfield.inner'><code>inner: <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>Group persistent DFA related cache state together. The sparse sets
+</div><h2 class='fields'>Fields</h2><span id='structfield.inner' class='structfield'><code>inner: <a class='struct' href='../../regex/dfa/struct.CacheInner.html' title='regex::dfa::CacheInner'>CacheInner</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>Group persistent DFA related cache state together. The sparse sets
 listed below are used as scratch space while computing uncached states.</p>
-</div><span id='structfield.qcur'><code>qcur: <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>qcur and qnext are ordered sets with constant time
+</div><span id='structfield.qcur' class='structfield'><code>qcur: <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>qcur and qnext are ordered sets with constant time
 addition/membership/clearing-whole-set and linear time iteration. They
 are used to manage the sets of NFA states in DFA states when computing
 cached DFA states. In particular, the order of the NFA states matters
 for leftmost-first style matching. Namely, when computing a cached
 state, the set of NFA states stops growing as soon as the first Match
 instruction is observed.</p>
-</div><span id='structfield.qnext'><code>qnext: <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a></code></span>
-                           <span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../regex/dfa/struct.Cache.html' title='regex::dfa::Cache'>Cache</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1207' class='srclink' href='../../src/regex/dfa.rs.html#418-436' title='goto source code'>[src]</a></span></h3>
+</div><span id='structfield.qnext' class='structfield'><code>qnext: <a class='struct' href='../../regex/sparse/struct.SparseSet.html' title='regex::sparse::SparseSet'>SparseSet</a></code>
+                           </span><span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../regex/dfa/struct.Cache.html' title='regex::dfa::Cache'>Cache</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1207' class='srclink' href='../../src/regex/dfa.rs.html#418-436' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(prog: &amp;<a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a>) -&gt; Self</code></h4>
 <div class='docblock'><p>Create new empty cache for the DFA engine.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../regex/dfa/struct.Cache.html' title='regex::dfa::Cache'>Cache</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-913' class='srclink' href='../../src/regex/dfa.rs.html#91' title='goto source code'>[src]</a></span></h3>

@@ -1499,6 +1499,61 @@
 <span id="1455">1455</span>
 <span id="1456">1456</span>
 <span id="1457">1457</span>
+<span id="1458">1458</span>
+<span id="1459">1459</span>
+<span id="1460">1460</span>
+<span id="1461">1461</span>
+<span id="1462">1462</span>
+<span id="1463">1463</span>
+<span id="1464">1464</span>
+<span id="1465">1465</span>
+<span id="1466">1466</span>
+<span id="1467">1467</span>
+<span id="1468">1468</span>
+<span id="1469">1469</span>
+<span id="1470">1470</span>
+<span id="1471">1471</span>
+<span id="1472">1472</span>
+<span id="1473">1473</span>
+<span id="1474">1474</span>
+<span id="1475">1475</span>
+<span id="1476">1476</span>
+<span id="1477">1477</span>
+<span id="1478">1478</span>
+<span id="1479">1479</span>
+<span id="1480">1480</span>
+<span id="1481">1481</span>
+<span id="1482">1482</span>
+<span id="1483">1483</span>
+<span id="1484">1484</span>
+<span id="1485">1485</span>
+<span id="1486">1486</span>
+<span id="1487">1487</span>
+<span id="1488">1488</span>
+<span id="1489">1489</span>
+<span id="1490">1490</span>
+<span id="1491">1491</span>
+<span id="1492">1492</span>
+<span id="1493">1493</span>
+<span id="1494">1494</span>
+<span id="1495">1495</span>
+<span id="1496">1496</span>
+<span id="1497">1497</span>
+<span id="1498">1498</span>
+<span id="1499">1499</span>
+<span id="1500">1500</span>
+<span id="1501">1501</span>
+<span id="1502">1502</span>
+<span id="1503">1503</span>
+<span id="1504">1504</span>
+<span id="1505">1505</span>
+<span id="1506">1506</span>
+<span id="1507">1507</span>
+<span id="1508">1508</span>
+<span id="1509">1509</span>
+<span id="1510">1510</span>
+<span id="1511">1511</span>
+<span id="1512">1512</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1511,8 +1566,8 @@
 <span class='kw'>use</span> <span class='ident'>fnv</span>::<span class='ident'>FnvHasher</span>;
 <span class='kw'>use</span> <span class='ident'>geometry</span>::<span class='ident'>ray_intersects_rect</span>;
 <span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>AxisDirection</span>, <span class='ident'>LowLevelFilterOp</span>, <span class='ident'>CompositionOp</span>, <span class='ident'>DrawListItemIndex</span>};
-<span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>BatchUpdateList</span>, <span class='ident'>ChildLayerIndex</span>, <span class='ident'>DrawListId</span>};
-<span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>CompositeBatchInfo</span>, <span class='ident'>CompositeBatchJob</span>, <span class='ident'>MaskRegion</span>};
+<span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>BatchUpdateList</span>, <span class='ident'>ChildLayerIndex</span>, <span class='ident'>DrawListId</span>, <span class='ident'>DrawCompositeBatchInfo</span>};
+<span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>CompositeBatchInfo</span>, <span class='ident'>CompositeBatchJob</span>, <span class='ident'>DrawCompositeBatchJob</span>, <span class='ident'>MaskRegion</span>};
 <span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>RendererFrame</span>, <span class='ident'>StackingContextInfo</span>, <span class='ident'>BatchInfo</span>, <span class='ident'>DrawCall</span>, <span class='ident'>StackingContextIndex</span>};
 <span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>ANGLE_FLOAT_TO_FIXED</span>, <span class='ident'>MAX_RECT</span>, <span class='ident'>BatchUpdate</span>, <span class='ident'>BatchUpdateOp</span>, <span class='ident'>DrawLayer</span>};
 <span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>DrawCommand</span>, <span class='ident'>ClearInfo</span>, <span class='ident'>RenderTargetId</span>, <span class='ident'>DrawListGroupId</span>};
@@ -1608,8 +1663,16 @@
     <span class='ident'>fixed_scroll_layer_id</span>: <span class='ident'>ScrollLayerId</span>,
     <span class='ident'>offset_from_origin</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
     <span class='ident'>offset_from_current_layer</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='ident'>transform</span>: <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='ident'>perspective</span>: <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// The transform relative to the parent layer.</span>
+    <span class='ident'>local_transform</span>: <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// The perspective relative to the parent layer.</span>
+    <span class='ident'>local_perspective</span>: <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+
+    <span class='doccomment'>/// The final concatenated transform, taking perspective into account.</span>
+    <span class='ident'>world_transform</span>: <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+
     <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>,
 }
 
@@ -1623,7 +1686,10 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RenderTarget</span> {
     <span class='ident'>id</span>: <span class='ident'>RenderTargetId</span>,
     <span class='ident'>size</span>: <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// The origin in render target space.</span>
     <span class='ident'>origin</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// The origin in world space.</span>
+    <span class='ident'>world_origin</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
     <span class='ident'>items</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>FrameRenderItem</span><span class='op'>&gt;</span>,
     <span class='ident'>texture_id</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TextureId</span><span class='op'>&gt;</span>,
     <span class='ident'>children</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>RenderTarget</span><span class='op'>&gt;</span>,
@@ -1635,12 +1701,14 @@
 <span class='kw'>impl</span> <span class='ident'>RenderTarget</span> {
     <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>id</span>: <span class='ident'>RenderTargetId</span>,
            <span class='ident'>origin</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+           <span class='ident'>world_origin</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
            <span class='ident'>size</span>: <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
            <span class='ident'>texture_id</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TextureId</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>RenderTarget</span> {
         <span class='ident'>RenderTarget</span> {
             <span class='ident'>id</span>: <span class='ident'>id</span>,
             <span class='ident'>size</span>: <span class='ident'>size</span>,
             <span class='ident'>origin</span>: <span class='ident'>origin</span>,
+            <span class='ident'>world_origin</span>: <span class='ident'>world_origin</span>,
             <span class='ident'>items</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
             <span class='ident'>texture_id</span>: <span class='ident'>texture_id</span>,
             <span class='ident'>children</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
@@ -1710,6 +1778,11 @@
         <span class='kw'>for</span> <span class='ident'>item</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>items</span> {
             <span class='kw'>match</span> <span class='ident'>item</span> {
                 <span class='kw-2'>&amp;</span><span class='ident'>FrameRenderItem</span>::<span class='ident'>CompositeBatch</span>(<span class='kw-2'>ref</span> <span class='ident'>info</span>, <span class='ident'>z_clear_needed</span>) <span class='op'>=&gt;</span> {
+                    <span class='kw'>let</span> <span class='ident'>layer</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>layers</span>[<span class='kw-2'>&amp;</span><span class='ident'>info</span>.<span class='ident'>scroll_layer_id</span>];
+                    <span class='kw'>let</span> <span class='ident'>world_transform</span> <span class='op'>=</span> <span class='ident'>layer</span>.<span class='ident'>world_transform</span>
+                                               .<span class='ident'>as_ref</span>()
+                                               .<span class='ident'>expect</span>(<span class='string'>&quot;No world transform set!&quot;</span>);
+
                     <span class='kw'>if</span> <span class='ident'>z_clear_needed</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>commands</span>.<span class='ident'>is_empty</span>() {
                         <span class='ident'>commands</span>.<span class='ident'>push</span>(<span class='ident'>DrawCommand</span>::<span class='ident'>Clear</span>(<span class='ident'>ClearInfo</span> {
                             <span class='ident'>clear_color</span>: <span class='bool-val'>false</span>,
@@ -1717,7 +1790,23 @@
                             <span class='ident'>clear_stencil</span>: <span class='bool-val'>true</span>,
                         }))
                     }
-                    <span class='ident'>commands</span>.<span class='ident'>push</span>(<span class='ident'>DrawCommand</span>::<span class='ident'>CompositeBatch</span>(<span class='ident'>info</span>.<span class='ident'>clone</span>()));
+
+                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>draw_jobs</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
+                    <span class='kw'>for</span> <span class='ident'>job</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>info</span>.<span class='ident'>jobs</span> {
+                        <span class='ident'>draw_jobs</span>.<span class='ident'>push</span>(<span class='ident'>DrawCompositeBatchJob</span> {
+                            <span class='ident'>rect</span>: <span class='ident'>job</span>.<span class='ident'>rect</span>,
+                            <span class='ident'>local_transform</span>: <span class='ident'>job</span>.<span class='ident'>transform</span>,
+                            <span class='ident'>world_transform</span>: <span class='ident'>job</span>.<span class='ident'>transform</span>.<span class='ident'>mul</span>(<span class='ident'>world_transform</span>),
+                            <span class='ident'>child_layer_index</span>: <span class='ident'>job</span>.<span class='ident'>child_layer_index</span>,
+                        })
+                    }
+
+                    <span class='ident'>commands</span>.<span class='ident'>push</span>(<span class='ident'>DrawCommand</span>::<span class='ident'>CompositeBatch</span>(<span class='ident'>DrawCompositeBatchInfo</span> {
+                        <span class='ident'>operation</span>: <span class='ident'>info</span>.<span class='ident'>operation</span>,
+                        <span class='ident'>texture_id</span>: <span class='ident'>info</span>.<span class='ident'>texture_id</span>,
+                        <span class='ident'>scroll_layer_id</span>: <span class='ident'>info</span>.<span class='ident'>scroll_layer_id</span>,
+                        <span class='ident'>jobs</span>: <span class='ident'>draw_jobs</span>,
+                    }))
                 }
                 <span class='kw-2'>&amp;</span><span class='ident'>FrameRenderItem</span>::<span class='ident'>DrawListBatch</span>(<span class='ident'>draw_list_group_id</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>let</span> <span class='ident'>draw_list_group</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>draw_list_groups</span>[<span class='kw-2'>&amp;</span><span class='ident'>draw_list_group_id</span>];
@@ -1741,7 +1830,17 @@
                                     <span class='ident'>z_clear_needed</span> <span class='op'>=</span> <span class='bool-val'>true</span>
                                 }
 
-                                <span class='kw'>let</span> <span class='ident'>transform</span> <span class='op'>=</span> <span class='ident'>layer</span>.<span class='ident'>world_transform</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>context</span>.<span class='ident'>transform</span>);
+                                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>world_transform_in_render_target_space</span> <span class='op'>=</span>
+                                    <span class='ident'>layer</span>.<span class='ident'>world_transform</span>.<span class='ident'>expect</span>(<span class='string'>&quot;No world transform set!&quot;</span>);
+                                <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>texture_id</span>.<span class='ident'>is_some</span>() {
+                                    <span class='comment'>// If we&#39;re rendering to a temporary target, the X/Y</span>
+                                    <span class='comment'>// translation part of the transform will be applied by whoever</span>
+                                    <span class='comment'>// composites us.</span>
+                                    <span class='ident'>world_transform_in_render_target_space</span>.<span class='ident'>m41</span> <span class='op'>=</span> <span class='number'>0.0</span>;
+                                    <span class='ident'>world_transform_in_render_target_space</span>.<span class='ident'>m42</span> <span class='op'>=</span> <span class='number'>0.0</span>;
+                                };
+                                <span class='kw'>let</span> <span class='ident'>transform</span> <span class='op'>=</span>
+                                    <span class='ident'>world_transform_in_render_target_space</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>context</span>.<span class='ident'>transform</span>);
                                 <span class='ident'>matrix_palette</span>[<span class='ident'>index</span>] <span class='op'>=</span> <span class='ident'>transform</span>;
 
                                 <span class='ident'>offset_palette</span>[<span class='ident'>index</span>].<span class='ident'>stacking_context_x0</span> <span class='op'>=</span>
@@ -1784,7 +1883,9 @@
                                     <span class='comment'>// Mask out anything outside this AABB tree node.</span>
                                     <span class='comment'>// This is a requirement to ensure paint order is correctly</span>
                                     <span class='comment'>// maintained since the batches are built in parallel.</span>
-                                    <span class='ident'>region</span>.<span class='ident'>add_mask</span>(<span class='ident'>node</span>.<span class='ident'>split_rect</span>, <span class='ident'>layer</span>.<span class='ident'>world_transform</span>);
+                                    <span class='ident'>region</span>.<span class='ident'>add_mask</span>(<span class='ident'>node</span>.<span class='ident'>split_rect</span>,
+                                                    <span class='ident'>layer</span>.<span class='ident'>world_transform</span>
+                                                         .<span class='ident'>expect</span>(<span class='string'>&quot;No world transform set!&quot;</span>));
 
                                     <span class='comment'>// Mask out anything outside this viewport. This is used</span>
                                     <span class='comment'>// for things like clipping content that is outside a</span>
@@ -1839,7 +1940,8 @@
             <span class='ident'>child_layers</span>.<span class='ident'>push</span>(<span class='ident'>child_layer</span>);
         }
 
-        <span class='ident'>DrawLayer</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>origin</span>,
+        <span class='ident'>DrawLayer</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>id</span>,
+                       <span class='self'>self</span>.<span class='ident'>origin</span>,
                        <span class='self'>self</span>.<span class='ident'>size</span>,
                        <span class='self'>self</span>.<span class='ident'>texture_id</span>,
                        <span class='ident'>commands</span>,
@@ -1867,6 +1969,7 @@
                       <span class='ident'>target</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
                       <span class='ident'>transform</span>: <span class='kw-2'>&amp;</span><span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
                       <span class='ident'>child_layer_index</span>: <span class='ident'>ChildLayerIndex</span>,
+                      <span class='ident'>scroll_layer_id</span>: <span class='ident'>ScrollLayerId</span>,
                       <span class='ident'>z_clear_needed</span>: <span class='ident'>bool</span>) {
         <span class='comment'>// TODO(gw): Relax the restriction on batch breaks for FB reads</span>
         <span class='comment'>//           once the proper render target allocation code is done!</span>
@@ -1882,6 +1985,7 @@
                 <span class='ident'>operation</span>: <span class='ident'>op</span>,
                 <span class='ident'>texture_id</span>: <span class='ident'>texture_id</span>,
                 <span class='ident'>jobs</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
+                <span class='ident'>scroll_layer_id</span>: <span class='ident'>scroll_layer_id</span>,
             }, <span class='ident'>z_clear_needed</span>));
         }
 
@@ -2109,17 +2213,11 @@
         <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>pending_updates</span>, <span class='ident'>BatchUpdateList</span>::<span class='ident'>new</span>())
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_scroll_layer</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                            <span class='ident'>cursor</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-                            <span class='ident'>scroll_layer_id</span>: <span class='ident'>ScrollLayerId</span>,
-                            <span class='ident'>parent_transform</span>: <span class='kw-2'>&amp;</span><span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ScrollLayerId</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_scroll_layer</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>cursor</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>scroll_layer_id</span>: <span class='ident'>ScrollLayerId</span>)
+                            <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ScrollLayerId</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>layers</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>scroll_layer_id</span>).<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>layer</span><span class='op'>|</span> {
-            <span class='kw'>let</span> <span class='ident'>transform</span> <span class='op'>=</span> <span class='ident'>parent_transform</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer</span>.<span class='ident'>local_transform</span>);
-
             <span class='kw'>for</span> <span class='ident'>child_layer_id</span> <span class='kw'>in</span> <span class='ident'>layer</span>.<span class='ident'>children</span>.<span class='ident'>iter</span>().<span class='ident'>rev</span>() {
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>layer_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_scroll_layer</span>(<span class='ident'>cursor</span>,
-                                                              <span class='op'>*</span><span class='ident'>child_layer_id</span>,
-                                                              <span class='kw-2'>&amp;</span><span class='ident'>transform</span>) {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>layer_id</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_scroll_layer</span>(<span class='ident'>cursor</span>, <span class='op'>*</span><span class='ident'>child_layer_id</span>) {
                     <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>layer_id</span>);
                 }
             }
@@ -2129,7 +2227,7 @@
                     <span class='prelude-val'>None</span>
                 }
                 <span class='ident'>ScrollLayerInfo</span>::<span class='ident'>Scrollable</span>(..) <span class='op'>=&gt;</span> {
-                    <span class='kw'>let</span> <span class='ident'>inv</span> <span class='op'>=</span> <span class='ident'>transform</span>.<span class='ident'>invert</span>();
+                    <span class='kw'>let</span> <span class='ident'>inv</span> <span class='op'>=</span> <span class='ident'>layer</span>.<span class='ident'>viewport_transform</span>.<span class='ident'>invert</span>();
                     <span class='kw'>let</span> <span class='ident'>z0</span> <span class='op'>=</span> <span class='op'>-</span><span class='number'>10000.0</span>;
                     <span class='kw'>let</span> <span class='ident'>z1</span> <span class='op'>=</span>  <span class='number'>10000.0</span>;
 
@@ -2152,7 +2250,7 @@
         })
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_scroll_layer_state</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ScrollLayerState</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_scroll_layer_state</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>device_pixel_ratio</span>: <span class='ident'>f32</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ScrollLayerState</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
         <span class='kw'>for</span> (<span class='ident'>scroll_layer_id</span>, <span class='ident'>scroll_layer</span>) <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>layers</span> {
             <span class='kw'>match</span> <span class='ident'>scroll_layer_id</span>.<span class='ident'>info</span> {
@@ -2160,7 +2258,7 @@
                     <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='ident'>ScrollLayerState</span> {
                         <span class='ident'>pipeline_id</span>: <span class='ident'>scroll_layer</span>.<span class='ident'>pipeline_id</span>,
                         <span class='ident'>stacking_context_id</span>: <span class='ident'>scroll_layer</span>.<span class='ident'>stacking_context_id</span>,
-                        <span class='ident'>scroll_offset</span>: <span class='ident'>scroll_layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>
+                        <span class='ident'>scroll_offset</span>: <span class='ident'>scroll_layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>,
                     })
                 }
                 <span class='ident'>ScrollLayerInfo</span>::<span class='ident'>Fixed</span> <span class='op'>=&gt;</span> {}
@@ -2178,9 +2276,7 @@
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
         };
 
-        <span class='kw'>let</span> <span class='ident'>scroll_layer_id</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_scroll_layer</span>(<span class='kw-2'>&amp;</span><span class='ident'>cursor</span>,
-                                                          <span class='ident'>root_scroll_layer_id</span>,
-                                                          <span class='kw-2'>&amp;</span><span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>()) {
+        <span class='kw'>let</span> <span class='ident'>scroll_layer_id</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>get_scroll_layer</span>(<span class='kw-2'>&amp;</span><span class='ident'>cursor</span>, <span class='ident'>root_scroll_layer_id</span>) {
             <span class='prelude-val'>Some</span>(<span class='ident'>scroll_layer_id</span>) <span class='op'>=&gt;</span> <span class='ident'>scroll_layer_id</span>,
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
         };
@@ -2270,6 +2366,7 @@
 
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>root_target</span> <span class='op'>=</span> <span class='ident'>RenderTarget</span>::<span class='ident'>new</span>(<span class='ident'>root_target_id</span>,
                                                         <span class='ident'>Point2D</span>::<span class='ident'>zero</span>(),
+                                                        <span class='ident'>Point2D</span>::<span class='ident'>zero</span>(),
                                                         <span class='ident'>root_pipeline</span>.<span class='ident'>viewport_size</span>,
                                                         <span class='prelude-val'>None</span>);
 
@@ -2282,7 +2379,8 @@
                                <span class='ident'>root_stacking_context</span>.<span class='ident'>stacking_context</span>.<span class='ident'>overflow</span>.<span class='ident'>size</span>,
                                <span class='kw-2'>&amp;</span><span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>Point2D</span>::<span class='ident'>zero</span>(), <span class='ident'>root_pipeline</span>.<span class='ident'>viewport_size</span>),
                                <span class='kw-2'>&amp;</span><span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
-                               <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
+                               <span class='kw-2'>&amp;</span><span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
+                               <span class='kw-2'>&amp;</span><span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
                                <span class='ident'>root_pipeline_id</span>,
                                <span class='ident'>root_stacking_context</span>.<span class='ident'>stacking_context</span>.<span class='ident'>servo_id</span>));
 
@@ -2305,8 +2403,9 @@
                         <span class='ident'>actual_scroll_layer_id</span>: <span class='ident'>root_scroll_layer_id</span>,
                         <span class='ident'>fixed_scroll_layer_id</span>: <span class='ident'>root_fixed_layer_id</span>,
                         <span class='ident'>current_clip_rect</span>: <span class='ident'>MAX_RECT</span>,
-                        <span class='ident'>transform</span>: <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
-                        <span class='ident'>perspective</span>: <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
+                        <span class='ident'>local_transform</span>: <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
+                        <span class='ident'>local_perspective</span>: <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
+                        <span class='ident'>world_transform</span>: <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
                         <span class='ident'>pipeline_id</span>: <span class='ident'>root_pipeline_id</span>,
                     };
 
@@ -2348,8 +2447,7 @@
         <span class='self'>self</span>.<span class='ident'>stacking_context_info</span>.<span class='ident'>push</span>(<span class='ident'>StackingContextInfo</span> {
             <span class='ident'>offset_from_layer</span>: <span class='ident'>info</span>.<span class='ident'>offset_from_current_layer</span>,
             <span class='ident'>local_clip_rect</span>: <span class='ident'>info</span>.<span class='ident'>current_clip_rect</span>,
-            <span class='ident'>transform</span>: <span class='ident'>info</span>.<span class='ident'>transform</span>,
-            <span class='ident'>perspective</span>: <span class='ident'>info</span>.<span class='ident'>perspective</span>,
+            <span class='ident'>transform</span>: <span class='ident'>info</span>.<span class='ident'>world_transform</span>,
             <span class='ident'>z_clear_needed</span>: <span class='ident'>z_clear_needed</span>,
         });
 
@@ -2428,26 +2526,34 @@
 
                         <span class='kw'>let</span> <span class='ident'>iframe_fixed_layer_id</span> <span class='op'>=</span> <span class='ident'>ScrollLayerId</span>::<span class='ident'>create_fixed</span>(<span class='ident'>pipeline</span>.<span class='ident'>pipeline_id</span>);
 
+                        <span class='kw'>let</span> <span class='ident'>viewport_transform</span> <span class='op'>=</span> <span class='ident'>info</span>.<span class='ident'>world_transform</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>info</span>.<span class='ident'>local_perspective</span>)
+                                                                     .<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>info</span>.<span class='ident'>local_transform</span>);
+
                         <span class='comment'>// TODO(servo/servo#9983, pcwalton): Support rounded rectangle clipping.</span>
                         <span class='comment'>// Currently we take the main part of the clip rect only.</span>
+                        <span class='comment'>// TODO(pcwalton): Allow this to work even when transformed</span>
                         <span class='kw'>let</span> <span class='ident'>offset_from_origin</span> <span class='op'>=</span> <span class='ident'>info</span>.<span class='ident'>offset_from_origin</span> <span class='op'>+</span>
                             <span class='ident'>iframe_info</span>.<span class='ident'>bounds</span>.<span class='ident'>origin</span>;
                         <span class='kw'>let</span> <span class='ident'>clipped_iframe_bounds</span> <span class='op'>=</span>
                             <span class='ident'>iframe_info</span>.<span class='ident'>bounds</span>
                                        .<span class='ident'>intersection</span>(<span class='kw-2'>&amp;</span><span class='ident'>iframe_info</span>.<span class='ident'>clip</span>.<span class='ident'>main</span>)
-                                       .<span class='ident'>unwrap_or</span>(<span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>Point2D</span>::<span class='ident'>zero</span>(), <span class='ident'>Size2D</span>::<span class='ident'>zero</span>()))
-                                       .<span class='ident'>translate</span>(<span class='kw-2'>&amp;</span><span class='ident'>info</span>.<span class='ident'>offset_from_origin</span>);
+                                       .<span class='ident'>unwrap_or</span>(<span class='ident'>Rect</span>::<span class='ident'>zero</span>())
+                                       .<span class='ident'>translate</span>(<span class='kw-2'>&amp;</span><span class='ident'>info</span>.<span class='ident'>offset_from_origin</span>)
+                                       .<span class='ident'>intersection</span>(<span class='kw-2'>&amp;</span><span class='ident'>info</span>.<span class='ident'>viewport_rect</span>)
+                                       .<span class='ident'>unwrap_or</span>(<span class='ident'>Rect</span>::<span class='ident'>zero</span>());
                         <span class='kw'>let</span> <span class='ident'>iframe_info</span> <span class='op'>=</span> <span class='ident'>FlattenInfo</span> {
                             <span class='ident'>viewport_rect</span>: <span class='ident'>clipped_iframe_bounds</span>,
-                            <span class='ident'>viewport_transform</span>: <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>(),
+                            <span class='ident'>viewport_transform</span>: <span class='ident'>viewport_transform</span>,
                             <span class='ident'>offset_from_origin</span>: <span class='ident'>offset_from_origin</span>,
-                            <span class='ident'>offset_from_current_layer</span>: <span class='ident'>info</span>.<span class='ident'>offset_from_current_layer</span> <span class='op'>+</span> <span class='ident'>iframe_info</span>.<span class='ident'>bounds</span>.<span class='ident'>origin</span>,
+                            <span class='ident'>offset_from_current_layer</span>: <span class='ident'>info</span>.<span class='ident'>offset_from_current_layer</span> <span class='op'>+</span>
+                                <span class='ident'>iframe_info</span>.<span class='ident'>bounds</span>.<span class='ident'>origin</span>,
                             <span class='ident'>default_scroll_layer_id</span>: <span class='ident'>info</span>.<span class='ident'>default_scroll_layer_id</span>,
                             <span class='ident'>actual_scroll_layer_id</span>: <span class='ident'>info</span>.<span class='ident'>actual_scroll_layer_id</span>,
                             <span class='ident'>fixed_scroll_layer_id</span>: <span class='ident'>iframe_fixed_layer_id</span>,
                             <span class='ident'>current_clip_rect</span>: <span class='ident'>MAX_RECT</span>,
-                            <span class='ident'>transform</span>: <span class='ident'>info</span>.<span class='ident'>transform</span>,
-                            <span class='ident'>perspective</span>: <span class='ident'>info</span>.<span class='ident'>perspective</span>,
+                            <span class='ident'>local_transform</span>: <span class='ident'>info</span>.<span class='ident'>local_transform</span>,
+                            <span class='ident'>local_perspective</span>: <span class='ident'>info</span>.<span class='ident'>local_perspective</span>,
+                            <span class='ident'>world_transform</span>: <span class='ident'>info</span>.<span class='ident'>world_transform</span>,
                             <span class='ident'>pipeline_id</span>: <span class='ident'>pipeline</span>.<span class='ident'>pipeline_id</span>,
                         };
 
@@ -2459,15 +2565,16 @@
                         <span class='kw'>let</span> <span class='ident'>layer_origin</span> <span class='op'>=</span> <span class='ident'>iframe_info</span>.<span class='ident'>offset_from_origin</span>;
                         <span class='kw'>let</span> <span class='ident'>layer_size</span> <span class='op'>=</span> <span class='ident'>iframe_stacking_context</span>.<span class='ident'>stacking_context</span>.<span class='ident'>overflow</span>.<span class='ident'>size</span>;
 
-                        <span class='self'>self</span>.<span class='ident'>layers</span>.<span class='ident'>insert</span>(<span class='ident'>iframe_fixed_layer_id</span>,
-                                           <span class='ident'>Layer</span>::<span class='ident'>new</span>(<span class='ident'>layer_origin</span>,
-                                                      <span class='ident'>layer_size</span>,
-                                                      <span class='kw-2'>&amp;</span><span class='ident'>iframe_info</span>.<span class='ident'>viewport_rect</span>,
-                                                      <span class='kw-2'>&amp;</span><span class='ident'>iframe_info</span>.<span class='ident'>transform</span>,
-                                                      <span class='ident'>iframe_info</span>.<span class='ident'>transform</span>,
-                                                      <span class='ident'>pipeline</span>.<span class='ident'>pipeline_id</span>,
-                                                      <span class='ident'>iframe_stacking_context</span>.<span class='ident'>stacking_context</span>
-                                                                             .<span class='ident'>servo_id</span>));
+                        <span class='self'>self</span>.<span class='ident'>layers</span>
+                            .<span class='ident'>insert</span>(<span class='ident'>iframe_fixed_layer_id</span>,
+                                    <span class='ident'>Layer</span>::<span class='ident'>new</span>(<span class='ident'>layer_origin</span>,
+                                               <span class='ident'>layer_size</span>,
+                                               <span class='kw-2'>&amp;</span><span class='ident'>iframe_info</span>.<span class='ident'>viewport_rect</span>,
+                                               <span class='kw-2'>&amp;</span><span class='ident'>iframe_info</span>.<span class='ident'>viewport_transform</span>,
+                                               <span class='kw-2'>&amp;</span><span class='ident'>iframe_info</span>.<span class='ident'>local_transform</span>,
+                                               <span class='kw-2'>&amp;</span><span class='ident'>iframe_info</span>.<span class='ident'>local_perspective</span>,
+                                               <span class='ident'>pipeline</span>.<span class='ident'>pipeline_id</span>,
+                                               <span class='ident'>iframe_stacking_context</span>.<span class='ident'>stacking_context</span>.<span class='ident'>servo_id</span>));
 
                         <span class='self'>self</span>.<span class='ident'>flatten</span>(<span class='ident'>iframe</span>,
                                      <span class='kw-2'>&amp;</span><span class='ident'>iframe_info</span>,
@@ -2544,43 +2651,42 @@
                     }
                 }
 
-                <span class='comment'>// Build world space transform</span>
+                <span class='comment'>// Build local and world space transform</span>
                 <span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>parent_info</span>.<span class='ident'>offset_from_current_layer</span> <span class='op'>+</span> <span class='ident'>stacking_context</span>.<span class='ident'>bounds</span>.<span class='ident'>origin</span>;
-                <span class='kw'>let</span> <span class='ident'>local_transform</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>composition_operations</span>.<span class='ident'>is_empty</span>() {
-                    <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>().<span class='ident'>translate</span>(<span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='ident'>origin</span>.<span class='ident'>y</span>, <span class='number'>0.0</span>)
-                                        .<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>stacking_context</span>.<span class='ident'>transform</span>)
-                                        .<span class='ident'>translate</span>(<span class='op'>-</span><span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='op'>-</span><span class='ident'>origin</span>.<span class='ident'>y</span>, <span class='number'>0.0</span>)
-                } <span class='kw'>else</span> {
-                    <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>()
-                };
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>local_transform</span> <span class='op'>=</span> <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>();
+                <span class='kw'>if</span> <span class='ident'>composition_operations</span>.<span class='ident'>is_empty</span>() {
+                    <span class='ident'>local_transform</span> <span class='op'>=</span> <span class='ident'>local_transform</span>.<span class='ident'>translate</span>(<span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='ident'>origin</span>.<span class='ident'>y</span>, <span class='number'>0.0</span>)
+                                                     .<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>stacking_context</span>.<span class='ident'>transform</span>)
+                                                     .<span class='ident'>translate</span>(<span class='op'>-</span><span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='op'>-</span><span class='ident'>origin</span>.<span class='ident'>y</span>, <span class='number'>0.0</span>)
+                }
 
-                <span class='kw'>let</span> <span class='ident'>transform</span> <span class='op'>=</span> <span class='ident'>parent_info</span>.<span class='ident'>perspective</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>parent_info</span>.<span class='ident'>transform</span>)
-                                                       .<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>local_transform</span>);
+                <span class='comment'>// Build local space perspective transform</span>
+                <span class='kw'>let</span> <span class='ident'>local_perspective</span> <span class='op'>=</span> <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>().<span class='ident'>translate</span>(<span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='ident'>origin</span>.<span class='ident'>y</span>, <span class='number'>0.0</span>)
+                                                            .<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>stacking_context</span>.<span class='ident'>perspective</span>)
+                                                            .<span class='ident'>translate</span>(<span class='op'>-</span><span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='op'>-</span><span class='ident'>origin</span>.<span class='ident'>y</span>, <span class='number'>0.0</span>);
 
-                <span class='comment'>// Build world space perspective transform</span>
-                <span class='kw'>let</span> <span class='ident'>perspective</span> <span class='op'>=</span> <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>().<span class='ident'>translate</span>(<span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='ident'>origin</span>.<span class='ident'>y</span>, <span class='number'>0.0</span>)
-                                                      .<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>stacking_context</span>.<span class='ident'>perspective</span>)
-                                                      .<span class='ident'>translate</span>(<span class='op'>-</span><span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='op'>-</span><span class='ident'>origin</span>.<span class='ident'>y</span>, <span class='number'>0.0</span>);
+                <span class='comment'>// Build world space transform</span>
+                <span class='kw'>let</span> <span class='ident'>world_transform</span> <span class='op'>=</span> <span class='ident'>parent_info</span>.<span class='ident'>world_transform</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>local_perspective</span>)
+                                                                 .<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>local_transform</span>);
 
                 <span class='kw'>let</span> <span class='ident'>viewport_rect</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>composition_operations</span>.<span class='ident'>is_empty</span>() {
                     <span class='ident'>parent_info</span>.<span class='ident'>viewport_rect</span>
                 } <span class='kw'>else</span> {
-                    <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>), <span class='ident'>parent_info</span>.<span class='ident'>viewport_rect</span>.<span class='ident'>size</span>)
+                    <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>Point2D</span>::<span class='ident'>zero</span>(), <span class='ident'>parent_info</span>.<span class='ident'>viewport_rect</span>.<span class='ident'>size</span>)
                 };
-
-                <span class='kw'>let</span> <span class='ident'>viewport_transform</span> <span class='op'>=</span> <span class='ident'>transform</span>;
 
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>info</span> <span class='op'>=</span> <span class='ident'>FlattenInfo</span> {
                     <span class='ident'>viewport_rect</span>: <span class='ident'>viewport_rect</span>,
-                    <span class='ident'>viewport_transform</span>: <span class='ident'>viewport_transform</span>,
+                    <span class='ident'>viewport_transform</span>: <span class='ident'>world_transform</span>,
                     <span class='ident'>offset_from_origin</span>: <span class='ident'>parent_info</span>.<span class='ident'>offset_from_origin</span> <span class='op'>+</span> <span class='ident'>stacking_context</span>.<span class='ident'>bounds</span>.<span class='ident'>origin</span>,
                     <span class='ident'>offset_from_current_layer</span>: <span class='ident'>parent_info</span>.<span class='ident'>offset_from_current_layer</span> <span class='op'>+</span> <span class='ident'>stacking_context</span>.<span class='ident'>bounds</span>.<span class='ident'>origin</span>,
                     <span class='ident'>default_scroll_layer_id</span>: <span class='ident'>parent_info</span>.<span class='ident'>default_scroll_layer_id</span>,
                     <span class='ident'>actual_scroll_layer_id</span>: <span class='ident'>parent_info</span>.<span class='ident'>default_scroll_layer_id</span>,
                     <span class='ident'>fixed_scroll_layer_id</span>: <span class='ident'>parent_info</span>.<span class='ident'>fixed_scroll_layer_id</span>,
                     <span class='ident'>current_clip_rect</span>: <span class='ident'>local_clip_rect</span>,
-                    <span class='ident'>transform</span>: <span class='ident'>transform</span>,
-                    <span class='ident'>perspective</span>: <span class='ident'>perspective</span>,
+                    <span class='ident'>local_transform</span>: <span class='ident'>local_transform</span>,
+                    <span class='ident'>local_perspective</span>: <span class='ident'>local_perspective</span>,
+                    <span class='ident'>world_transform</span>: <span class='ident'>world_transform</span>,
                     <span class='ident'>pipeline_id</span>: <span class='ident'>parent_info</span>.<span class='ident'>pipeline_id</span>,
                 };
 
@@ -2591,31 +2697,35 @@
                     }
                     (<span class='ident'>ScrollPolicy</span>::<span class='ident'>Scrollable</span>, <span class='prelude-val'>Some</span>(<span class='ident'>scroll_layer_id</span>)) <span class='op'>=&gt;</span> {
                         <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='self'>self</span>.<span class='ident'>layers</span>.<span class='ident'>contains_key</span>(<span class='kw-2'>&amp;</span><span class='ident'>scroll_layer_id</span>));
-                        <span class='kw'>let</span> (<span class='ident'>viewport_rect</span>, <span class='ident'>viewport_transform</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>scroll_layer_id</span>.<span class='ident'>info</span> {
-                            <span class='ident'>ScrollLayerInfo</span>::<span class='ident'>Scrollable</span>(<span class='ident'>index</span>) <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>=&gt;</span> {
-                                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stacking_context_rect</span> <span class='op'>=</span>
+                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>viewport_transform</span> <span class='op'>=</span>
+                            <span class='ident'>world_transform</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>parent_info</span>.<span class='ident'>local_perspective</span>)
+                                           .<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>parent_info</span>.<span class='ident'>local_transform</span>);
+                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>viewport_rect</span> <span class='op'>=</span> <span class='ident'>parent_info</span>.<span class='ident'>viewport_rect</span>;
+
+                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>ScrollLayerInfo</span>::<span class='ident'>Scrollable</span>(<span class='ident'>index</span>) <span class='op'>=</span> <span class='ident'>scroll_layer_id</span>.<span class='ident'>info</span> {
+                            <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>viewport_transform</span> <span class='op'>==</span> <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>() {
+                                <span class='kw'>let</span> <span class='ident'>stacking_context_rect</span> <span class='op'>=</span>
                                     <span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>parent_info</span>.<span class='ident'>offset_from_origin</span>,
                                               <span class='ident'>stacking_context</span>.<span class='ident'>bounds</span>.<span class='ident'>size</span>);
-                                (<span class='ident'>parent_info</span>.<span class='ident'>viewport_rect</span>
-                                            .<span class='ident'>intersection</span>(<span class='kw-2'>&amp;</span><span class='ident'>stacking_context_rect</span>)
-                                            .<span class='ident'>unwrap_or</span>(<span class='ident'>Rect</span>::<span class='ident'>new</span>(<span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>),
-                                                                 <span class='ident'>Size2D</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>))),
-                                 <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>())
+                                <span class='ident'>viewport_rect</span> <span class='op'>=</span> <span class='ident'>viewport_rect</span>.<span class='ident'>intersection</span>(<span class='kw-2'>&amp;</span><span class='ident'>stacking_context_rect</span>)
+                                                             .<span class='ident'>unwrap_or</span>(<span class='ident'>Rect</span>::<span class='ident'>zero</span>())
                             }
-                            _ <span class='kw'>if</span> <span class='ident'>transform</span>.<span class='ident'>can_losslessly_transform_a_2d_rect</span>() <span class='op'>=&gt;</span> {
-                                <span class='comment'>// FIXME(pcwalton): This is pretty much just a hack for</span>
-                                <span class='comment'>// browser.html to stave off `viewport_rect` becoming a full stack</span>
-                                <span class='comment'>// of matrices and clipping regions as long as we can.</span>
-                                (<span class='ident'>transform</span>.<span class='ident'>transform_rect</span>(<span class='kw-2'>&amp;</span><span class='ident'>parent_info</span>.<span class='ident'>viewport_rect</span>),
-                                 <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>())
-                            }
-                            _ <span class='op'>=&gt;</span> (<span class='ident'>parent_info</span>.<span class='ident'>viewport_rect</span>, <span class='ident'>transform</span>),
-                        };
+                        }
+
+                        <span class='kw'>if</span> <span class='ident'>viewport_transform</span>.<span class='ident'>can_losslessly_transform_a_2d_rect</span>() {
+                            <span class='comment'>// FIXME(pcwalton): This is pretty much just a hack for</span>
+                            <span class='comment'>// browser.html to stave off `viewport_rect` becoming a full stack</span>
+                            <span class='comment'>// of matrices and clipping regions as long as we can.</span>
+                            <span class='ident'>viewport_rect</span> <span class='op'>=</span> <span class='ident'>viewport_transform</span>.<span class='ident'>transform_rect</span>(<span class='kw-2'>&amp;</span><span class='ident'>viewport_rect</span>);
+                            <span class='ident'>viewport_transform</span> <span class='op'>=</span> <span class='ident'>viewport_transform</span>.<span class='ident'>reset_after_transforming_rect</span>()
+                        }
+
                         <span class='kw'>let</span> <span class='ident'>layer</span> <span class='op'>=</span> <span class='ident'>Layer</span>::<span class='ident'>new</span>(<span class='ident'>parent_info</span>.<span class='ident'>offset_from_origin</span>,
                                                <span class='ident'>stacking_context</span>.<span class='ident'>overflow</span>.<span class='ident'>size</span>,
                                                <span class='kw-2'>&amp;</span><span class='ident'>viewport_rect</span>,
                                                <span class='kw-2'>&amp;</span><span class='ident'>viewport_transform</span>,
-                                               <span class='ident'>transform</span>,
+                                               <span class='kw-2'>&amp;</span><span class='ident'>local_transform</span>,
+                                               <span class='kw-2'>&amp;</span><span class='ident'>local_perspective</span>,
                                                <span class='ident'>parent_info</span>.<span class='ident'>pipeline_id</span>,
                                                <span class='ident'>stacking_context</span>.<span class='ident'>servo_id</span>);
                         <span class='kw'>if</span> <span class='ident'>parent_info</span>.<span class='ident'>actual_scroll_layer_id</span> <span class='op'>!=</span> <span class='ident'>scroll_layer_id</span> {
@@ -2623,11 +2733,10 @@
                         }
                         <span class='self'>self</span>.<span class='ident'>layers</span>.<span class='ident'>insert</span>(<span class='ident'>scroll_layer_id</span>, <span class='ident'>layer</span>);
                         <span class='ident'>info</span>.<span class='ident'>viewport_rect</span> <span class='op'>=</span> <span class='ident'>viewport_rect</span>;
+                        <span class='ident'>info</span>.<span class='ident'>viewport_transform</span> <span class='op'>=</span> <span class='ident'>viewport_transform</span>;
                         <span class='ident'>info</span>.<span class='ident'>default_scroll_layer_id</span> <span class='op'>=</span> <span class='ident'>scroll_layer_id</span>;
                         <span class='ident'>info</span>.<span class='ident'>actual_scroll_layer_id</span> <span class='op'>=</span> <span class='ident'>scroll_layer_id</span>;
                         <span class='ident'>info</span>.<span class='ident'>offset_from_current_layer</span> <span class='op'>=</span> <span class='ident'>Point2D</span>::<span class='ident'>zero</span>();
-                        <span class='ident'>info</span>.<span class='ident'>transform</span> <span class='op'>=</span> <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>();
-                        <span class='ident'>info</span>.<span class='ident'>perspective</span> <span class='op'>=</span> <span class='ident'>Matrix4D</span>::<span class='ident'>identity</span>();
                     }
                     (<span class='ident'>ScrollPolicy</span>::<span class='ident'>Scrollable</span>, <span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> {
                         <span class='comment'>// Nothing to do - use defaults as set above.</span>
@@ -2682,6 +2791,7 @@
 
                     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new_target</span> <span class='op'>=</span> <span class='ident'>RenderTarget</span>::<span class='ident'>new</span>(<span class='ident'>render_target_id</span>,
                                                            <span class='ident'>origin</span>,
+                                                           <span class='ident'>target_rect</span>.<span class='ident'>origin</span>,
                                                            <span class='ident'>render_target_size</span>,
                                                            <span class='prelude-val'>Some</span>(<span class='ident'>texture_id</span>));
 
@@ -2695,6 +2805,7 @@
                                               <span class='ident'>target_rect</span>,
                                               <span class='kw-2'>&amp;</span><span class='ident'>local_transform</span>,
                                               <span class='ident'>child_layer_index</span>,
+                                              <span class='ident'>info</span>.<span class='ident'>actual_scroll_layer_id</span>,
                                               <span class='ident'>z_clear_needed</span>);
                     }
 
@@ -2751,26 +2862,24 @@
 
     <span class='kw'>fn</span> <span class='ident'>update_layer_transform</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
                               <span class='ident'>layer_id</span>: <span class='ident'>ScrollLayerId</span>,
-                              <span class='ident'>parent_transform</span>: <span class='kw-2'>&amp;</span><span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) {
+                              <span class='ident'>parent_world_transform</span>: <span class='kw-2'>&amp;</span><span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>) {
         <span class='comment'>// TODO(gw): This is an ugly borrow check workaround to clone these.</span>
         <span class='comment'>//           Restructure this to avoid the clones!</span>
         <span class='kw'>let</span> (<span class='ident'>layer_transform_for_children</span>, <span class='ident'>layer_children</span>) <span class='op'>=</span> {
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>layers</span>.<span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer_id</span>) {
                 <span class='prelude-val'>Some</span>(<span class='ident'>layer</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>let</span> <span class='ident'>layer_transform_for_children</span> <span class='op'>=</span>
-                        <span class='ident'>parent_transform</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer</span>.<span class='ident'>local_transform</span>);
+                        <span class='ident'>parent_world_transform</span>.<span class='ident'>mul</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer</span>.<span class='ident'>local_transform</span>);
                     <span class='ident'>layer</span>.<span class='ident'>world_transform</span> <span class='op'>=</span>
-                        <span class='ident'>layer_transform_for_children</span>.<span class='ident'>translate</span>(<span class='ident'>layer</span>.<span class='ident'>world_origin</span>.<span class='ident'>x</span>,
-                                                               <span class='ident'>layer</span>.<span class='ident'>world_origin</span>.<span class='ident'>y</span>,
-                                                               <span class='number'>0.0</span>)
-                                                    .<span class='ident'>translate</span>(<span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>.<span class='ident'>x</span>,
-                                                               <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>.<span class='ident'>y</span>,
-                                                               <span class='number'>0.0</span>);
+                        <span class='prelude-val'>Some</span>(<span class='ident'>layer_transform_for_children</span>.<span class='ident'>translate</span>(<span class='ident'>layer</span>.<span class='ident'>world_origin</span>.<span class='ident'>x</span>,
+                                                                    <span class='ident'>layer</span>.<span class='ident'>world_origin</span>.<span class='ident'>y</span>,
+                                                                    <span class='number'>0.0</span>)
+                                                            .<span class='ident'>translate</span>(<span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>.<span class='ident'>x</span>,
+                                                                       <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>.<span class='ident'>y</span>,
+                                                                       <span class='number'>0.0</span>));
                     (<span class='ident'>layer_transform_for_children</span>, <span class='ident'>layer</span>.<span class='ident'>children</span>.<span class='ident'>clone</span>())
                 }
-                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>return</span>;
-                }
+                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
             }
         };
 
@@ -2910,7 +3019,8 @@
                                                        <span class='ident'>device_pixel_ratio</span>)
             }
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                <span class='ident'>DrawLayer</span>::<span class='ident'>new</span>(<span class='ident'>Point2D</span>::<span class='ident'>zero</span>(),
+                <span class='ident'>DrawLayer</span>::<span class='ident'>new</span>(<span class='ident'>RenderTargetId</span>(<span class='number'>0</span>),
+                               <span class='ident'>Point2D</span>::<span class='ident'>zero</span>(),
                                <span class='ident'>Size2D</span>::<span class='ident'>zero</span>(),
                                <span class='prelude-val'>None</span>,
                                <span class='ident'>Vec</span>::<span class='ident'>new</span>(),

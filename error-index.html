@@ -1117,7 +1117,7 @@ recursion limit (which can be set via the <code>recursion_limit</code> attribute
 create an infinite recursion of dereferencing, in which case the only fix is to
 somehow break the recursion.</p>
 </div>
-<div class="error-described error-used"><h2 id="E0057" class="section-header"><a href="#E0057">E0057</a></h2>
+<div class="error-described error-unused"><h2 id="E0057" class="section-header"><a href="#E0057">E0057</a></h2>
 <p>When invoking closures or other implementations of the function traits <code>Fn</code>,
 <code>FnMut</code> or <code>FnOnce</code> using call notation, the number of parameters passed to the
 function must match its definition.</p>
@@ -1158,7 +1158,7 @@ wrapping the function argument type into a tuple, for example:</p>
 <p>Note that <code>(T,)</code> always denotes the type of a 1-tuple containing an element of
 type <code>T</code>. The comma is necessary for syntactic disambiguation.</p>
 </div>
-<div class="error-described error-used"><h2 id="E0060" class="section-header"><a href="#E0060">E0060</a></h2>
+<div class="error-described error-unused"><h2 id="E0060" class="section-header"><a href="#E0060">E0060</a></h2>
 <p>External C functions are allowed to be variadic. However, a variadic function
 takes a minimum number of arguments. For example, consider C&#39;s variadic <code>printf</code>
 function:</p>
@@ -1183,7 +1183,7 @@ simply calling <code>printf()</code> is invalid. But the following uses are allo
     <span class='ident'>printf</span>(<span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='string'>&quot;%d, %d\n&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_ptr</span>(), <span class='number'>10</span>, <span class='number'>5</span>);
 }</pre>
 </div>
-<div class="error-described error-used"><h2 id="E0061" class="section-header"><a href="#E0061">E0061</a></h2>
+<div class="error-described error-unused"><h2 id="E0061" class="section-header"><a href="#E0061">E0061</a></h2>
 <p>The number of arguments passed to a function must match the number of arguments
 specified in the function signature.</p>
 
@@ -3464,22 +3464,41 @@ for <code>Fn</code>-family traits.</p>
 Erroneous code example:</p>
 
 <pre class='rust rust-example-rendered'>
-<span class='kw'>trait</span> <span class='ident'>Trait</span> {
+<span class='kw'>trait</span> <span class='ident'>T1</span> {
     <span class='kw'>type</span> <span class='ident'>Bar</span>;
 }
 
-<span class='kw'>type</span> <span class='ident'>Foo</span> <span class='op'>=</span> <span class='ident'>Trait</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>=</span><span class='ident'>i32</span><span class='op'>&gt;</span>; <span class='comment'>// error: associated type `F` not found for</span>
-                         <span class='comment'>//        `Trait`</span></pre>
+<span class='kw'>type</span> <span class='ident'>Foo</span> <span class='op'>=</span> <span class='ident'>T1</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>=</span><span class='ident'>i32</span><span class='op'>&gt;</span>; <span class='comment'>// error: associated type `F` not found for `T1`</span>
 
-<p>Please verify you used the right trait or you didn&#39;t misspell the
+<span class='comment'>// or:</span>
+
+<span class='kw'>trait</span> <span class='ident'>T2</span> {
+    <span class='kw'>type</span> <span class='ident'>Bar</span>;
+
+    <span class='comment'>// error: Baz is used but not declared</span>
+    <span class='kw'>fn</span> <span class='ident'>return_bool</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Bar</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Baz</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
+}</pre>
+
+<p>Make sure that you have defined the associated type in the trait body.
+Also, verify that you used the right trait or you didn&#39;t misspell the
 associated type name. Example:</p>
 
 <pre class='rust rust-example-rendered'>
-<span class='kw'>trait</span> <span class='ident'>Trait</span> {
+<span class='kw'>trait</span> <span class='ident'>T1</span> {
     <span class='kw'>type</span> <span class='ident'>Bar</span>;
 }
 
-<span class='kw'>type</span> <span class='ident'>Foo</span> <span class='op'>=</span> <span class='ident'>Trait</span><span class='op'>&lt;</span><span class='ident'>Bar</span><span class='op'>=</span><span class='ident'>i32</span><span class='op'>&gt;</span>; <span class='comment'>// ok!</span></pre>
+<span class='kw'>type</span> <span class='ident'>Foo</span> <span class='op'>=</span> <span class='ident'>T1</span><span class='op'>&lt;</span><span class='ident'>Bar</span><span class='op'>=</span><span class='ident'>i32</span><span class='op'>&gt;</span>; <span class='comment'>// ok!</span>
+
+<span class='comment'>// or:</span>
+
+<span class='kw'>trait</span> <span class='ident'>T2</span> {
+    <span class='kw'>type</span> <span class='ident'>Bar</span>;
+    <span class='kw'>type</span> <span class='ident'>Baz</span>; <span class='comment'>// we declare `Baz` in our trait.</span>
+
+    <span class='comment'>// and now we can use it here:</span>
+    <span class='kw'>fn</span> <span class='ident'>return_bool</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Bar</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Baz</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
+}</pre>
 </div>
 <div class="error-described error-used"><h2 id="E0221" class="section-header"><a href="#E0221">E0221</a></h2>
 <p>An attempt was made to retrieve an associated type, but the type was ambiguous.
@@ -6029,9 +6048,6 @@ was imported. Example:</p>
 <span class='kw'>impl</span> <span class='ident'>SomeTrait</span> <span class='kw'>for</span> <span class='ident'>Foo</span> { <span class='comment'>// ok!</span>
     <span class='comment'>// implements functions</span>
 }</pre>
-</div>
-<div class="error-undescribed error-used"><h2 id="E0406" class="section-header"><a href="#E0406">E0406</a></h2>
-<p>No description.</p>
 </div>
 <div class="error-described error-used"><h2 id="E0407" class="section-header"><a href="#E0407">E0407</a></h2>
 <p>A definition of a method not in the implemented trait was given in a trait

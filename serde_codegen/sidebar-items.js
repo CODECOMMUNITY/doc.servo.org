@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["register",""]],"mod":[["attr",""],["bound",""],["de",""],["error",""],["ser",""]]});
+initSidebarItems({"fn":[["register",""]],"mod":[["bound",""],["de",""],["error",""],["ser",""]]});

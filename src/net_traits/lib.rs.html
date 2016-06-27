@@ -731,6 +731,12 @@
 <span id="687">687</span>
 <span id="688">688</span>
 <span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -746,6 +752,7 @@
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>unsafe_code</span>)]</span>
 
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>cookie</span> <span class='kw'>as</span> <span class='ident'>cookie_rs</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>heapsize</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>hyper</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>image</span> <span class='kw'>as</span> <span class='ident'>piston_image</span>;
@@ -762,6 +769,7 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>uuid</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>websocket</span>;
 
+<span class='kw'>use</span> <span class='ident'>cookie_rs</span>::<span class='ident'>Cookie</span>;
 <span class='kw'>use</span> <span class='ident'>filemanager_thread</span>::<span class='ident'>FileManagerThreadMsg</span>;
 <span class='kw'>use</span> <span class='ident'>heapsize</span>::<span class='ident'>HeapSizeOf</span>;
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::{<span class='ident'>ContentType</span>, <span class='ident'>Headers</span>};
@@ -1157,8 +1165,12 @@
     <span class='ident'>WebsocketConnect</span>(<span class='ident'>WebSocketCommunicate</span>, <span class='ident'>WebSocketConnectData</span>),
     <span class='doccomment'>/// Store a set of cookies for a given originating URL</span>
     <span class='ident'>SetCookiesForUrl</span>(<span class='ident'>Url</span>, <span class='ident'>String</span>, <span class='ident'>CookieSource</span>),
+    <span class='doccomment'>/// Store a set of cookies for a given originating URL</span>
+    <span class='ident'>SetCookiesForUrlWithData</span>(<span class='ident'>Url</span>, <span class='ident'>Cookie</span>, <span class='ident'>CookieSource</span>),
     <span class='doccomment'>/// Retrieve the stored cookies for a given URL</span>
     <span class='ident'>GetCookiesForUrl</span>(<span class='ident'>Url</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>, <span class='ident'>CookieSource</span>),
+    <span class='doccomment'>/// Get a cookie by name for a given originating URL</span>
+    <span class='ident'>GetCookiesDataForUrl</span>(<span class='ident'>Url</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Cookie</span><span class='op'>&gt;&gt;</span>, <span class='ident'>CookieSource</span>),
     <span class='doccomment'>/// Cancel a network request corresponding to a given `ResourceId`</span>
     <span class='ident'>Cancel</span>(<span class='ident'>ResourceId</span>),
     <span class='doccomment'>/// Synchronization message solely for knowing the state of the ResourceChannelManager loop</span>

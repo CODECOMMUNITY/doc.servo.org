@@ -75,25 +75,14 @@
 <span id="31">31</span>
 <span id="32">32</span>
 <span id="33">33</span>
-<span id="34">34</span>
-<span id="35">35</span>
-<span id="36">36</span>
-<span id="37">37</span>
-<span id="38">38</span>
-<span id="39">39</span>
-<span id="40">40</span>
-<span id="41">41</span>
-<span id="42">42</span>
-<span id="43">43</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>plugin</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>custom_derive</span>)]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde_macros&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>custom_derive</span>, <span class='ident'>plugin</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde_macros&quot;</span>, <span class='ident'>plugin</span>(<span class='ident'>serde_macros</span>))]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>nonzero</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>plugin</span>(<span class='ident'>serde_macros</span>)]</span>
 
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>app_units</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>byteorder</span>;
@@ -106,29 +95,20 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>core_graphics</span>;
 
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde_codegen&quot;</span>)]</span>
+<span class='macro'>include</span><span class='macro'>!</span>(<span class='macro'>concat</span><span class='macro'>!</span>(<span class='macro'>env</span><span class='macro'>!</span>(<span class='string'>&quot;OUT_DIR&quot;</span>), <span class='string'>&quot;/types.rs&quot;</span>));
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde_macros&quot;</span>)]</span>
+<span class='macro'>include</span><span class='macro'>!</span>(<span class='string'>&quot;types.rs&quot;</span>);
+
 <span class='kw'>mod</span> <span class='ident'>api</span>;
 <span class='kw'>mod</span> <span class='ident'>display_item</span>;
 <span class='kw'>mod</span> <span class='ident'>display_list</span>;
 <span class='kw'>mod</span> <span class='ident'>stacking_context</span>;
-<span class='kw'>mod</span> <span class='ident'>types</span>;
 <span class='kw'>mod</span> <span class='ident'>webgl</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::{<span class='ident'>ApiMsg</span>, <span class='ident'>IdNamespace</span>, <span class='ident'>ResourceId</span>, <span class='ident'>RenderApi</span>, <span class='ident'>RenderApiSender</span>, <span class='ident'>ScrollEventPhase</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>display_list</span>::{<span class='ident'>AuxiliaryLists</span>, <span class='ident'>AuxiliaryListsBuilder</span>, <span class='ident'>BuiltDisplayList</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>display_list</span>::{<span class='ident'>DisplayListBuilder</span>, <span class='ident'>DisplayListItem</span>, <span class='ident'>IframeInfo</span>, <span class='ident'>ItemRange</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>display_list</span>::{<span class='ident'>SpecificDisplayListItem</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>display_item</span>::{<span class='ident'>DisplayItem</span>, <span class='ident'>SpecificDisplayItem</span>, <span class='ident'>ImageDisplayItem</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>display_item</span>::{<span class='ident'>BorderDisplayItem</span>, <span class='ident'>GradientDisplayItem</span>, <span class='ident'>RectangleDisplayItem</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>stacking_context</span>::<span class='ident'>StackingContext</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>types</span>::<span class='ident'>NativeFontHandle</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>BorderRadius</span>, <span class='ident'>BorderSide</span>, <span class='ident'>BorderStyle</span>, <span class='ident'>BoxShadowClipMode</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ColorF</span>, <span class='ident'>ClipRegion</span>, <span class='ident'>ComplexClipRegion</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>DisplayListId</span>, <span class='ident'>DisplayListMode</span>, <span class='ident'>ImageRendering</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>Epoch</span>, <span class='ident'>FilterOp</span>, <span class='ident'>FontKey</span>, <span class='ident'>FragmentType</span>, <span class='ident'>GlyphInstance</span>, <span class='ident'>GradientStop</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ImageFormat</span>, <span class='ident'>ImageKey</span>, <span class='ident'>MixBlendMode</span>, <span class='ident'>PipelineId</span>, <span class='ident'>RenderNotifier</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ScrollLayerId</span>, <span class='ident'>ScrollPolicy</span>, <span class='ident'>ServoStackingContextId</span>, <span class='ident'>StackingContextId</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ScrollLayerInfo</span>, <span class='ident'>ScrollLayerState</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>webgl</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>api</span>::<span class='ident'>RenderApi</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>display_list</span>::{<span class='ident'>AuxiliaryListsBuilder</span>, <span class='ident'>DisplayListBuilder</span>};
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

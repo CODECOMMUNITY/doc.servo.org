@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/offscreen_gl_context-0.1.6/src/gl_limits.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/offscreen_gl_context-0.1.9/src/gl_limits.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>gl_limits.rs.html -- source</title>
@@ -86,10 +86,6 @@
 <span id="42">42</span>
 <span id="43">43</span>
 <span id="44">44</span>
-<span id="45">45</span>
-<span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>gleam</span>::<span class='ident'>gl</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde&quot;</span>)]</span>
@@ -107,13 +103,11 @@
     <span class='kw'>fn</span> <span class='ident'>deserialize</span><span class='op'>&lt;</span><span class='ident'>D</span><span class='op'>&gt;</span>(<span class='ident'>deserializer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>D</span>: <span class='ident'>Deserializer</span>
     {
-        <span class='kw'>let</span> <span class='ident'>max_vertex_attribs</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>u32</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
-        <span class='kw'>let</span> <span class='ident'>max_tex_size</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>u32</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
-        <span class='kw'>let</span> <span class='ident'>max_cube_map_tex_size</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>u32</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
+        <span class='kw'>let</span> <span class='ident'>values</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='op'>&lt;</span>[_; <span class='number'>3</span>]<span class='op'>&gt;</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
         <span class='prelude-val'>Ok</span>(<span class='ident'>GLLimits</span> {
-            <span class='ident'>max_vertex_attribs</span>: <span class='ident'>max_vertex_attribs</span>,
-            <span class='ident'>max_tex_size</span>: <span class='ident'>max_tex_size</span>,
-            <span class='ident'>max_cube_map_tex_size</span>: <span class='ident'>max_cube_map_tex_size</span>,
+            <span class='ident'>max_vertex_attribs</span>: <span class='ident'>values</span>[<span class='number'>0</span>],
+            <span class='ident'>max_tex_size</span>: <span class='ident'>values</span>[<span class='number'>1</span>],
+            <span class='ident'>max_cube_map_tex_size</span>: <span class='ident'>values</span>[<span class='number'>2</span>],
         })
     }
 }
@@ -123,10 +117,8 @@
     <span class='kw'>fn</span> <span class='ident'>serialize</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>serializer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>Serializer</span>
     {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>max_vertex_attribs</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>max_tex_size</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>max_cube_map_tex_size</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>));
-        <span class='prelude-val'>Ok</span>(())
+        [<span class='self'>self</span>.<span class='ident'>max_vertex_attribs</span>, <span class='self'>self</span>.<span class='ident'>max_tex_size</span>, <span class='self'>self</span>.<span class='ident'>max_cube_map_tex_size</span>]
+            .<span class='ident'>serialize</span>(<span class='ident'>serializer</span>)
     }
 }
 

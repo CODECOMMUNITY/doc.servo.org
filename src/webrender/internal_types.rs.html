@@ -1108,6 +1108,26 @@
 <span id="1064">1064</span>
 <span id="1065">1065</span>
 <span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1122,6 +1142,7 @@
 <span class='kw'>use</span> <span class='ident'>num_traits</span>::<span class='ident'>Zero</span>;
 <span class='kw'>use</span> <span class='ident'>profiler</span>::<span class='ident'>BackendProfileCounters</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::{<span class='ident'>HashMap</span>, <span class='ident'>HashSet</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>f32</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>BuildHasherDefault</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::{<span class='ident'>Add</span>, <span class='ident'>Sub</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
@@ -1204,12 +1225,12 @@
 
 <span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>MAX_RECT</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Rect</span> {
     <span class='ident'>origin</span>: <span class='ident'>Point2D</span> {
-        <span class='ident'>x</span>: <span class='op'>-</span><span class='number'>1000.0</span>,
-        <span class='ident'>y</span>: <span class='op'>-</span><span class='number'>1000.0</span>,
+        <span class='ident'>x</span>: <span class='ident'>f32</span>::<span class='ident'>MIN</span>,
+        <span class='ident'>y</span>: <span class='ident'>f32</span>::<span class='ident'>MIN</span>,
     },
     <span class='ident'>size</span>: <span class='ident'>Size2D</span> {
-        <span class='ident'>width</span>: <span class='number'>10000.0</span>,
-        <span class='ident'>height</span>: <span class='number'>10000.0</span>,
+        <span class='ident'>width</span>: <span class='ident'>f32</span>::<span class='ident'>INFINITY</span>,
+        <span class='ident'>height</span>: <span class='ident'>f32</span>::<span class='ident'>INFINITY</span>,
     },
 };
 
@@ -1623,16 +1644,33 @@
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DrawCompositeBatchJob</span> {
+    <span class='kw'>pub</span> <span class='ident'>rect</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>local_transform</span>: <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>world_transform</span>: <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>child_layer_index</span>: <span class='ident'>ChildLayerIndex</span>,
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>CompositeBatchInfo</span> {
     <span class='kw'>pub</span> <span class='ident'>operation</span>: <span class='ident'>CompositionOp</span>,
     <span class='kw'>pub</span> <span class='ident'>texture_id</span>: <span class='ident'>TextureId</span>,
+    <span class='kw'>pub</span> <span class='ident'>scroll_layer_id</span>: <span class='ident'>ScrollLayerId</span>,
     <span class='kw'>pub</span> <span class='ident'>jobs</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>CompositeBatchJob</span><span class='op'>&gt;</span>,
+}
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DrawCompositeBatchInfo</span> {
+    <span class='kw'>pub</span> <span class='ident'>operation</span>: <span class='ident'>CompositionOp</span>,
+    <span class='kw'>pub</span> <span class='ident'>texture_id</span>: <span class='ident'>TextureId</span>,
+    <span class='kw'>pub</span> <span class='ident'>scroll_layer_id</span>: <span class='ident'>ScrollLayerId</span>,
+    <span class='kw'>pub</span> <span class='ident'>jobs</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DrawCompositeBatchJob</span><span class='op'>&gt;</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>DrawCommand</span> {
     <span class='ident'>Batch</span>(<span class='ident'>BatchInfo</span>),
-    <span class='ident'>CompositeBatch</span>(<span class='ident'>CompositeBatchInfo</span>),
+    <span class='ident'>CompositeBatch</span>(<span class='ident'>DrawCompositeBatchInfo</span>),
     <span class='ident'>Clear</span>(<span class='ident'>ClearInfo</span>),
 }
 
@@ -1642,6 +1680,7 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DrawLayer</span> {
     <span class='comment'>// This layer</span>
+    <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>RenderTargetId</span>,
     <span class='kw'>pub</span> <span class='ident'>commands</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DrawCommand</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>texture_id</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TextureId</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>origin</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
@@ -1652,13 +1691,15 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>DrawLayer</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>origin</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>id</span>: <span class='ident'>RenderTargetId</span>,
+               <span class='ident'>origin</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
                <span class='ident'>size</span>: <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
                <span class='ident'>texture_id</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TextureId</span><span class='op'>&gt;</span>,
                <span class='ident'>commands</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DrawCommand</span><span class='op'>&gt;</span>,
                <span class='ident'>child_layers</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DrawLayer</span><span class='op'>&gt;</span>)
                <span class='op'>-&gt;</span> <span class='ident'>DrawLayer</span> {
         <span class='ident'>DrawLayer</span> {
+            <span class='ident'>id</span>: <span class='ident'>id</span>,
             <span class='ident'>origin</span>: <span class='ident'>origin</span>,
             <span class='ident'>size</span>: <span class='ident'>size</span>,
             <span class='ident'>texture_id</span>: <span class='ident'>texture_id</span>,
@@ -1713,7 +1754,6 @@
     <span class='kw'>pub</span> <span class='ident'>offset_from_layer</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>local_clip_rect</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>transform</span>: <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>perspective</span>: <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>z_clear_needed</span>: <span class='ident'>bool</span>,
 }
 

@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_Matrix2D",""],["_IMPL_SERIALIZE_FOR_Matrix2D",""]],"struct":[["Matrix2D",""]]});
+initSidebarItems({"struct":[["Matrix2D",""]]});

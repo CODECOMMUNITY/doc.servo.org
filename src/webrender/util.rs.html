@@ -287,6 +287,19 @@
 <span id="243">243</span>
 <span id="244">244</span>
 <span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -337,6 +350,10 @@
     <span class='doccomment'>/// Returns true if this matrix will transforms an axis-aligned 2D rectangle to another axis-</span>
     <span class='doccomment'>/// aligned 2D rectangle after perspective divide.</span>
     <span class='kw'>fn</span> <span class='ident'>can_losslessly_transform_and_perspective_project_a_2d_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
+
+    <span class='doccomment'>/// Clears out the portions of the matrix that `transform_rect()` uses. This allows the use of</span>
+    <span class='doccomment'>/// `transform_rect()` while keeping the Z/W transform portions of the matrix intact.</span>
+    <span class='kw'>fn</span> <span class='ident'>reset_after_transforming_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>;
 }
 
 <span class='kw'>impl</span> <span class='ident'>MatrixHelpers</span> <span class='kw'>for</span> <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
@@ -359,6 +376,15 @@
 
     <span class='kw'>fn</span> <span class='ident'>can_losslessly_transform_and_perspective_project_a_2d_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='self'>self</span>.<span class='ident'>m12</span> <span class='op'>==</span> <span class='number'>0.0</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>m21</span> <span class='op'>==</span> <span class='number'>0.0</span>
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>reset_after_transforming_rect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Matrix4D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span> {
+        <span class='ident'>Matrix4D</span> {
+            <span class='ident'>m11</span>: <span class='number'>1.0</span>,      <span class='ident'>m12</span>: <span class='number'>0.0</span>,      <span class='ident'>m13</span>: <span class='self'>self</span>.<span class='ident'>m13</span>, <span class='ident'>m14</span>: <span class='number'>0.0</span>,
+            <span class='ident'>m21</span>: <span class='number'>0.0</span>,      <span class='ident'>m22</span>: <span class='number'>1.0</span>,      <span class='ident'>m23</span>: <span class='self'>self</span>.<span class='ident'>m23</span>, <span class='ident'>m24</span>: <span class='number'>0.0</span>,
+            <span class='ident'>m31</span>: <span class='self'>self</span>.<span class='ident'>m31</span>, <span class='ident'>m32</span>: <span class='self'>self</span>.<span class='ident'>m32</span>, <span class='ident'>m33</span>: <span class='self'>self</span>.<span class='ident'>m33</span>, <span class='ident'>m34</span>: <span class='self'>self</span>.<span class='ident'>m34</span>,
+            <span class='ident'>m41</span>: <span class='number'>0.0</span>,      <span class='ident'>m42</span>: <span class='number'>0.0</span>,      <span class='ident'>m43</span>: <span class='self'>self</span>.<span class='ident'>m43</span>, <span class='ident'>m44</span>: <span class='number'>1.0</span>,
+        }
     }
 }
 

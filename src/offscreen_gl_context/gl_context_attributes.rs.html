@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/offscreen_gl_context-0.1.6/src/gl_context_attributes.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/servo/.cargo/registry/src/github.com-1ecc6299db9ec823/offscreen_gl_context-0.1.9/src/gl_context_attributes.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>gl_context_attributes.rs.html -- source</title>
@@ -115,13 +115,6 @@
 <span id="71">71</span>
 <span id="72">72</span>
 <span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>serde</span>::{<span class='ident'>Deserialize</span>, <span class='ident'>Deserializer</span>, <span class='ident'>Serialize</span>, <span class='ident'>Serializer</span>};
@@ -143,19 +136,14 @@
     <span class='kw'>fn</span> <span class='ident'>deserialize</span><span class='op'>&lt;</span><span class='ident'>D</span><span class='op'>&gt;</span>(<span class='ident'>deserializer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>D</span>: <span class='ident'>Deserializer</span>
     {
-        <span class='kw'>let</span> <span class='ident'>alpha</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>bool</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
-        <span class='kw'>let</span> <span class='ident'>depth</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>bool</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
-        <span class='kw'>let</span> <span class='ident'>stencil</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>bool</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
-        <span class='kw'>let</span> <span class='ident'>antialias</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>bool</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
-        <span class='kw'>let</span> <span class='ident'>premultiplied_alpha</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>bool</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
-        <span class='kw'>let</span> <span class='ident'>preserve_drawing_buffer</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>bool</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
+        <span class='kw'>let</span> <span class='ident'>values</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='op'>&lt;</span>[_; <span class='number'>6</span>]<span class='op'>&gt;</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
         <span class='prelude-val'>Ok</span>(<span class='ident'>GLContextAttributes</span> {
-            <span class='ident'>alpha</span>: <span class='ident'>alpha</span>,
-            <span class='ident'>depth</span>: <span class='ident'>depth</span>,
-            <span class='ident'>stencil</span>: <span class='ident'>stencil</span>,
-            <span class='ident'>antialias</span>: <span class='ident'>antialias</span>,
-            <span class='ident'>premultiplied_alpha</span>: <span class='ident'>premultiplied_alpha</span>,
-            <span class='ident'>preserve_drawing_buffer</span>: <span class='ident'>preserve_drawing_buffer</span>,
+            <span class='ident'>alpha</span>: <span class='ident'>values</span>[<span class='number'>0</span>],
+            <span class='ident'>depth</span>: <span class='ident'>values</span>[<span class='number'>1</span>],
+            <span class='ident'>stencil</span>: <span class='ident'>values</span>[<span class='number'>2</span>],
+            <span class='ident'>antialias</span>: <span class='ident'>values</span>[<span class='number'>3</span>],
+            <span class='ident'>premultiplied_alpha</span>: <span class='ident'>values</span>[<span class='number'>4</span>],
+            <span class='ident'>preserve_drawing_buffer</span>: <span class='ident'>values</span>[<span class='number'>5</span>],
         })
     }
 }
@@ -165,13 +153,11 @@
     <span class='kw'>fn</span> <span class='ident'>serialize</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>serializer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>Serializer</span>
     {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>alpha</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>depth</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>stencil</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>antialias</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>premultiplied_alpha</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>preserve_drawing_buffer</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>));
-        <span class='prelude-val'>Ok</span>(())
+        <span class='kw'>let</span> <span class='ident'>values</span> <span class='op'>=</span> [
+            <span class='self'>self</span>.<span class='ident'>alpha</span>, <span class='self'>self</span>.<span class='ident'>depth</span>, <span class='self'>self</span>.<span class='ident'>stencil</span>,
+            <span class='self'>self</span>.<span class='ident'>antialias</span>, <span class='self'>self</span>.<span class='ident'>premultiplied_alpha</span>, <span class='self'>self</span>.<span class='ident'>preserve_drawing_buffer</span>,
+        ];
+        <span class='ident'>values</span>.<span class='ident'>serialize</span>(<span class='ident'>serializer</span>)
     }
 }
 

@@ -254,130 +254,25 @@
 <span id="210">210</span>
 <span id="211">211</span>
 <span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
-<span id="228">228</span>
-<span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
-<span id="233">233</span>
-<span id="234">234</span>
-<span id="235">235</span>
-<span id="236">236</span>
-<span id="237">237</span>
-<span id="238">238</span>
-<span id="239">239</span>
-<span id="240">240</span>
-<span id="241">241</span>
-<span id="242">242</span>
-<span id="243">243</span>
-<span id="244">244</span>
-<span id="245">245</span>
-<span id="246">246</span>
-<span id="247">247</span>
-<span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
-<span id="252">252</span>
-<span id="253">253</span>
-<span id="254">254</span>
-<span id="255">255</span>
-<span id="256">256</span>
-<span id="257">257</span>
-<span id="258">258</span>
-<span id="259">259</span>
-<span id="260">260</span>
-<span id="261">261</span>
-<span id="262">262</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
 <span class='kw'>use</span> <span class='ident'>byteorder</span>::{<span class='ident'>LittleEndian</span>, <span class='ident'>WriteBytesExt</span>};
-<span class='kw'>use</span> <span class='ident'>display_list</span>::{<span class='ident'>AuxiliaryLists</span>, <span class='ident'>AuxiliaryListsDescriptor</span>, <span class='ident'>BuiltDisplayList</span>};
-<span class='kw'>use</span> <span class='ident'>display_list</span>::{<span class='ident'>BuiltDisplayListDescriptor</span>};
 <span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Point2D</span>, <span class='ident'>Size2D</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcBytesSender</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::{<span class='ident'>GLContextAttributes</span>, <span class='ident'>GLLimits</span>};
-<span class='kw'>use</span> <span class='ident'>stacking_context</span>::<span class='ident'>StackingContext</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
-<span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ColorF</span>, <span class='ident'>DisplayListId</span>, <span class='ident'>Epoch</span>, <span class='ident'>FontKey</span>, <span class='ident'>StackingContextId</span>};
-<span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ImageKey</span>, <span class='ident'>ImageFormat</span>, <span class='ident'>NativeFontHandle</span>, <span class='ident'>PipelineId</span>, <span class='ident'>ScrollLayerState</span>};
-<span class='kw'>use</span> <span class='ident'>webgl</span>::{<span class='ident'>WebGLContextId</span>, <span class='ident'>WebGLCommand</span>};
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>IdNamespace</span>(<span class='kw'>pub</span> <span class='ident'>u32</span>);
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ResourceId</span>(<span class='kw'>pub</span> <span class='ident'>u32</span>);
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ScrollEventPhase</span> {
-    <span class='doccomment'>/// The user started scrolling.</span>
-    <span class='ident'>Start</span>,
-    <span class='doccomment'>/// The user performed a scroll. The Boolean flag indicates whether the user&#39;s fingers are</span>
-    <span class='doccomment'>/// down, if a touchpad is in use. (If false, the event is a touchpad fling.)</span>
-    <span class='ident'>Move</span>(<span class='ident'>bool</span>),
-    <span class='doccomment'>/// The user ended scrolling.</span>
-    <span class='ident'>End</span>,
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ApiMsg</span> {
-    <span class='ident'>AddRawFont</span>(<span class='ident'>FontKey</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),
-    <span class='ident'>AddNativeFont</span>(<span class='ident'>FontKey</span>, <span class='ident'>NativeFontHandle</span>),
-    <span class='ident'>AddImage</span>(<span class='ident'>ImageKey</span>, <span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>ImageFormat</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),
-    <span class='ident'>UpdateImage</span>(<span class='ident'>ImageKey</span>, <span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>ImageFormat</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),
-    <span class='ident'>CloneApi</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>IdNamespace</span><span class='op'>&gt;</span>),
-    <span class='doccomment'>/// Supplies a new frame to WebRender.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// The first `StackingContextId` describes the root stacking context. The actual stacking</span>
-    <span class='doccomment'>/// contexts are supplied as the sixth parameter, while the display lists that make up those</span>
-    <span class='doccomment'>/// stacking contexts are supplied as the seventh parameter.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// After receiving this message, WebRender will read the display lists, followed by the</span>
-    <span class='doccomment'>/// auxiliary lists, from the payload channel.</span>
-    <span class='ident'>SetRootStackingContext</span>(<span class='ident'>StackingContextId</span>,
-                           <span class='ident'>ColorF</span>,
-                           <span class='ident'>Epoch</span>,
-                           <span class='ident'>PipelineId</span>,
-                           <span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-                           <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>StackingContextId</span>, <span class='ident'>StackingContext</span>)<span class='op'>&gt;</span>,
-                           <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>DisplayListId</span>, <span class='ident'>BuiltDisplayListDescriptor</span>)<span class='op'>&gt;</span>,
-                           <span class='ident'>AuxiliaryListsDescriptor</span>),
-    <span class='ident'>SetRootPipeline</span>(<span class='ident'>PipelineId</span>),
-    <span class='ident'>Scroll</span>(<span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>ScrollEventPhase</span>),
-    <span class='ident'>TickScrollingBounce</span>,
-    <span class='ident'>TranslatePointToLayerSpace</span>(<span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span>(<span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>, <span class='ident'>PipelineId</span>)<span class='op'>&gt;</span>),
-    <span class='ident'>GetScrollLayerState</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ScrollLayerState</span><span class='op'>&gt;&gt;</span>),
-    <span class='ident'>RequestWebGLContext</span>(<span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>GLContextAttributes</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>WebGLContextId</span>, <span class='ident'>GLLimits</span>), <span class='ident'>String</span><span class='op'>&gt;&gt;</span>),
-    <span class='ident'>WebGLCommand</span>(<span class='ident'>WebGLContextId</span>, <span class='ident'>WebGLCommand</span>),
-}
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RenderApiSender</span> {
-    <span class='ident'>api_sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ApiMsg</span><span class='op'>&gt;</span>,
-    <span class='ident'>payload_sender</span>: <span class='ident'>IpcBytesSender</span>,
-}
+<span class='kw'>use</span> {<span class='ident'>ApiMsg</span>, <span class='ident'>AuxiliaryLists</span>, <span class='ident'>BuiltDisplayList</span>, <span class='ident'>ColorF</span>, <span class='ident'>DisplayListId</span>, <span class='ident'>Epoch</span>};
+<span class='kw'>use</span> {<span class='ident'>FontKey</span>, <span class='ident'>IdNamespace</span>, <span class='ident'>ImageFormat</span>, <span class='ident'>ImageKey</span>, <span class='ident'>NativeFontHandle</span>, <span class='ident'>PipelineId</span>};
+<span class='kw'>use</span> {<span class='ident'>RenderApiSender</span>, <span class='ident'>ResourceId</span>, <span class='ident'>ScrollEventPhase</span>, <span class='ident'>ScrollLayerState</span>};
+<span class='kw'>use</span> {<span class='ident'>StackingContext</span>, <span class='ident'>StackingContextId</span>, <span class='ident'>WebGLContextId</span>, <span class='ident'>WebGLCommand</span>};
 
 <span class='kw'>impl</span> <span class='ident'>RenderApiSender</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>api_sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ApiMsg</span><span class='op'>&gt;</span>, <span class='ident'>payload_sender</span>: <span class='ident'>IpcBytesSender</span>) <span class='op'>-&gt;</span> <span class='ident'>RenderApiSender</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>api_sender</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>ApiMsg</span><span class='op'>&gt;</span>,
+               <span class='ident'>payload_sender</span>: <span class='ident'>IpcBytesSender</span>)
+               <span class='op'>-&gt;</span> <span class='ident'>RenderApiSender</span> {
         <span class='ident'>RenderApiSender</span> {
             <span class='ident'>api_sender</span>: <span class='ident'>api_sender</span>,
             <span class='ident'>payload_sender</span>: <span class='ident'>payload_sender</span>,
@@ -454,6 +349,11 @@
                         <span class='ident'>format</span>: <span class='ident'>ImageFormat</span>,
                         <span class='ident'>bytes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ApiMsg</span>::<span class='ident'>UpdateImage</span>(<span class='ident'>key</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>format</span>, <span class='ident'>bytes</span>);
+        <span class='self'>self</span>.<span class='ident'>api_sender</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>delete_image</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>key</span>: <span class='ident'>ImageKey</span>) {
+        <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ApiMsg</span>::<span class='ident'>DeleteImage</span>(<span class='ident'>key</span>);
         <span class='self'>self</span>.<span class='ident'>api_sender</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
     }
 

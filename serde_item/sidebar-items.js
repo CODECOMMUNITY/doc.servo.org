@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Body",""],["Error",""],["Style",""]],"fn":[["enum_from_ast",""],["fields_from_ast",""],["struct_from_ast",""]],"mod":[["attr",""],["error",""]],"struct":[["Field",""],["Item",""],["Variant",""]]});

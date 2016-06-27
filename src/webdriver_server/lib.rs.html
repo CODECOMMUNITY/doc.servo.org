@@ -882,6 +882,77 @@
 <span id="838">838</span>
 <span id="839">839</span>
 <span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -895,6 +966,7 @@
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>unsafe_code</span>)]</span>
 
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>cookie</span> <span class='kw'>as</span> <span class='ident'>cookie_rs</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>euclid</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>hyper</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>image</span>;
@@ -917,7 +989,8 @@
 <span class='kw'>use</span> <span class='ident'>keys</span>::<span class='ident'>keycodes_to_keys</span>;
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>FrameId</span>, <span class='ident'>LoadData</span>, <span class='ident'>PipelineId</span>};
 <span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>constellation_msg</span>::{<span class='ident'>NavigationDirection</span>, <span class='ident'>PixelFormat</span>, <span class='ident'>WebDriverCommandMsg</span>};
-<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>webdriver_msg</span>::{<span class='ident'>LoadStatus</span>, <span class='ident'>WebDriverFrameId</span>, <span class='ident'>WebDriverJSError</span>, <span class='ident'>WebDriverJSResult</span>, <span class='ident'>WebDriverScriptCommand</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>webdriver_msg</span>::{<span class='ident'>LoadStatus</span>, <span class='ident'>WebDriverCookieError</span>, <span class='ident'>WebDriverFrameId</span>};
+<span class='kw'>use</span> <span class='ident'>msg</span>::<span class='ident'>webdriver_msg</span>::{<span class='ident'>WebDriverJSError</span>, <span class='ident'>WebDriverJSResult</span>, <span class='ident'>WebDriverScriptCommand</span>};
 <span class='kw'>use</span> <span class='ident'>regex</span>::<span class='ident'>Captures</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>base64</span>::{<span class='ident'>CharacterSet</span>, <span class='ident'>Config</span>, <span class='ident'>Newline</span>, <span class='ident'>ToBase64</span>};
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>json</span>::{<span class='ident'>Json</span>, <span class='ident'>ToJson</span>};
@@ -932,13 +1005,15 @@
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>::{<span class='ident'>get_pref</span>, <span class='ident'>reset_all_prefs</span>, <span class='ident'>reset_pref</span>, <span class='ident'>set_pref</span>, <span class='ident'>PrefValue</span>};
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>thread</span>::<span class='ident'>spawn_named</span>;
 <span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
-<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>command</span>::{<span class='ident'>GetParameters</span>, <span class='ident'>JavascriptCommandParameters</span>, <span class='ident'>LocatorParameters</span>};
-<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>command</span>::{<span class='ident'>Parameters</span>, <span class='ident'>SendKeysParameters</span>, <span class='ident'>SwitchToFrameParameters</span>};
-<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>command</span>::{<span class='ident'>TimeoutsParameters</span>, <span class='ident'>WindowSizeParameters</span>};
+<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>command</span>::<span class='ident'>WindowSizeParameters</span>;
+<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>command</span>::{<span class='ident'>AddCookieParameters</span>, <span class='ident'>GetParameters</span>, <span class='ident'>JavascriptCommandParameters</span>};
+<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>command</span>::{<span class='ident'>LocatorParameters</span>, <span class='ident'>Parameters</span>};
+<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>command</span>::{<span class='ident'>SendKeysParameters</span>, <span class='ident'>SwitchToFrameParameters</span>, <span class='ident'>TimeoutsParameters</span>};
 <span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>command</span>::{<span class='ident'>WebDriverCommand</span>, <span class='ident'>WebDriverExtensionCommand</span>, <span class='ident'>WebDriverMessage</span>};
-<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>common</span>::{<span class='ident'>LocatorStrategy</span>, <span class='ident'>WebElement</span>};
+<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>common</span>::{<span class='ident'>Date</span>, <span class='ident'>LocatorStrategy</span>, <span class='ident'>Nullable</span>, <span class='ident'>WebElement</span>};
 <span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>error</span>::{<span class='ident'>ErrorStatus</span>, <span class='ident'>WebDriverError</span>, <span class='ident'>WebDriverResult</span>};
 <span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>httpapi</span>::<span class='ident'>WebDriverExtensionRoute</span>;
+<span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>response</span>::{<span class='ident'>Cookie</span>, <span class='ident'>CookieResponse</span>};
 <span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>response</span>::{<span class='ident'>ElementRectResponse</span>, <span class='ident'>NewSessionResponse</span>, <span class='ident'>ValueResponse</span>};
 <span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>response</span>::{<span class='ident'>WebDriverResponse</span>, <span class='ident'>WindowSizeResponse</span>};
 <span class='kw'>use</span> <span class='ident'>webdriver</span>::<span class='ident'>server</span>::{<span class='self'>self</span>, <span class='ident'>Session</span>, <span class='ident'>WebDriverHandler</span>};
@@ -947,6 +1022,25 @@
     <span class='kw'>return</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Post</span>, <span class='string'>&quot;/session/{sessionId}/servo/prefs/get&quot;</span>, <span class='ident'>ServoExtensionRoute</span>::<span class='ident'>GetPrefs</span>),
                 (<span class='ident'>Post</span>, <span class='string'>&quot;/session/{sessionId}/servo/prefs/set&quot;</span>, <span class='ident'>ServoExtensionRoute</span>::<span class='ident'>SetPrefs</span>),
                 (<span class='ident'>Post</span>, <span class='string'>&quot;/session/{sessionId}/servo/prefs/reset&quot;</span>, <span class='ident'>ServoExtensionRoute</span>::<span class='ident'>ResetPrefs</span>)]
+}
+
+<span class='kw'>fn</span> <span class='ident'>cookie_msg_to_cookie</span>(<span class='ident'>cookie</span>: <span class='ident'>cookie_rs</span>::<span class='ident'>Cookie</span>) <span class='op'>-&gt;</span> <span class='ident'>Cookie</span> {
+    <span class='ident'>Cookie</span> {
+        <span class='ident'>name</span>: <span class='ident'>cookie</span>.<span class='ident'>name</span>,
+        <span class='ident'>value</span>: <span class='ident'>cookie</span>.<span class='ident'>value</span>,
+        <span class='ident'>path</span>: <span class='ident'>cookie</span>.<span class='ident'>path</span>.<span class='ident'>map</span>(<span class='ident'>Nullable</span>::<span class='ident'>Value</span>).<span class='ident'>unwrap_or</span>(<span class='ident'>Nullable</span>::<span class='ident'>Null</span>),
+        <span class='ident'>domain</span>: <span class='ident'>cookie</span>.<span class='ident'>domain</span>.<span class='ident'>map</span>(<span class='ident'>Nullable</span>::<span class='ident'>Value</span>).<span class='ident'>unwrap_or</span>(<span class='ident'>Nullable</span>::<span class='ident'>Null</span>),
+        <span class='ident'>expiry</span>: <span class='kw'>match</span> <span class='ident'>cookie</span>.<span class='ident'>expires</span> {
+            <span class='prelude-val'>Some</span>(<span class='ident'>time</span>) <span class='op'>=&gt;</span> <span class='ident'>Nullable</span>::<span class='ident'>Value</span>(<span class='ident'>Date</span>::<span class='ident'>new</span>(<span class='ident'>time</span>.<span class='ident'>to_timespec</span>().<span class='ident'>sec</span> <span class='kw'>as</span> <span class='ident'>u64</span>)),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>Nullable</span>::<span class='ident'>Null</span>
+        },
+        <span class='ident'>maxAge</span>: <span class='kw'>match</span> <span class='ident'>cookie</span>.<span class='ident'>max_age</span> {
+            <span class='prelude-val'>Some</span>(<span class='ident'>time</span>) <span class='op'>=&gt;</span> <span class='ident'>Nullable</span>::<span class='ident'>Value</span>(<span class='ident'>Date</span>::<span class='ident'>new</span>(<span class='ident'>time</span>)),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>Nullable</span>::<span class='ident'>Null</span>
+        },
+        <span class='ident'>secure</span>: <span class='ident'>cookie</span>.<span class='ident'>secure</span>,
+        <span class='ident'>httpOnly</span>: <span class='ident'>cookie</span>.<span class='ident'>httponly</span>,
+    }
 }
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start_server</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>, <span class='ident'>constellation_chan</span>: <span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>ConstellationMsg</span><span class='op'>&gt;</span>) {
@@ -1500,6 +1594,51 @@
         }
     }
 
+    <span class='kw'>fn</span> <span class='ident'>handle_get_cookies</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebDriverResult</span><span class='op'>&lt;</span><span class='ident'>WebDriverResponse</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
+        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>frame_script_command</span>(<span class='ident'>WebDriverScriptCommand</span>::<span class='ident'>GetCookies</span>(<span class='ident'>sender</span>)));
+        <span class='kw'>let</span> <span class='ident'>cookies</span> <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>cookies</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>cookie</span><span class='op'>|</span> {
+            <span class='ident'>cookie_msg_to_cookie</span>(<span class='ident'>cookie</span>)
+        }).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Cookie</span><span class='op'>&gt;&gt;</span>();
+        <span class='prelude-val'>Ok</span>(<span class='ident'>WebDriverResponse</span>::<span class='ident'>Cookie</span>(<span class='ident'>CookieResponse</span>::<span class='ident'>new</span>(<span class='ident'>response</span>)))
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>handle_get_cookie</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>WebDriverResult</span><span class='op'>&lt;</span><span class='ident'>WebDriverResponse</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
+        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>frame_script_command</span>(<span class='ident'>WebDriverScriptCommand</span>::<span class='ident'>GetCookie</span>(<span class='ident'>name</span>.<span class='ident'>to_owned</span>(), <span class='ident'>sender</span>)));
+        <span class='kw'>let</span> <span class='ident'>cookies</span> <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>cookies</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>cookie</span><span class='op'>|</span> {
+            <span class='ident'>cookie_msg_to_cookie</span>(<span class='ident'>cookie</span>)
+        }).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Cookie</span><span class='op'>&gt;&gt;</span>();
+        <span class='prelude-val'>Ok</span>(<span class='ident'>WebDriverResponse</span>::<span class='ident'>Cookie</span>(<span class='ident'>CookieResponse</span>::<span class='ident'>new</span>(<span class='ident'>response</span>)))
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>handle_add_cookie</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>params</span>: <span class='kw-2'>&amp;</span><span class='ident'>AddCookieParameters</span>) <span class='op'>-&gt;</span> <span class='ident'>WebDriverResult</span><span class='op'>&lt;</span><span class='ident'>WebDriverResponse</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> (<span class='ident'>sender</span>, <span class='ident'>receiver</span>) <span class='op'>=</span> <span class='ident'>ipc</span>::<span class='ident'>channel</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>cookie</span> <span class='op'>=</span> <span class='ident'>cookie_rs</span>::<span class='ident'>Cookie</span> {
+            <span class='ident'>name</span>: <span class='ident'>params</span>.<span class='ident'>name</span>.<span class='ident'>to_owned</span>(),
+            <span class='ident'>value</span>: <span class='ident'>params</span>.<span class='ident'>value</span>.<span class='ident'>to_owned</span>(),
+            <span class='ident'>path</span>: <span class='ident'>params</span>.<span class='ident'>path</span>.<span class='ident'>to_owned</span>().<span class='ident'>into</span>(),
+            <span class='ident'>domain</span>: <span class='ident'>params</span>.<span class='ident'>domain</span>.<span class='ident'>to_owned</span>().<span class='ident'>into</span>(),
+            <span class='ident'>expires</span>: <span class='prelude-val'>None</span>,
+            <span class='ident'>max_age</span>: <span class='prelude-val'>None</span>,
+            <span class='ident'>secure</span>: <span class='ident'>params</span>.<span class='ident'>secure</span>,
+            <span class='ident'>httponly</span>: <span class='ident'>params</span>.<span class='ident'>httpOnly</span>,
+            <span class='ident'>custom</span>: <span class='ident'>BTreeMap</span>::<span class='ident'>new</span>()
+        };
+        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>frame_script_command</span>(<span class='ident'>WebDriverScriptCommand</span>::<span class='ident'>AddCookie</span>(<span class='ident'>cookie</span>, <span class='ident'>sender</span>)));
+        <span class='kw'>match</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>() {
+            <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>WebDriverResponse</span>::<span class='ident'>Void</span>),
+            <span class='prelude-val'>Err</span>(<span class='ident'>response</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>response</span> {
+                <span class='ident'>WebDriverCookieError</span>::<span class='ident'>InvalidDomain</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>WebDriverError</span>::<span class='ident'>new</span>(<span class='ident'>ErrorStatus</span>::<span class='ident'>InvalidCookieDomain</span>,
+                                                                               <span class='string'>&quot;Invalid cookie domain&quot;</span>)),
+                <span class='ident'>WebDriverCookieError</span>::<span class='ident'>UnableToSetCookie</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>WebDriverError</span>::<span class='ident'>new</span>(<span class='ident'>ErrorStatus</span>::<span class='ident'>UnableToSetCookie</span>,
+                                                                                   <span class='string'>&quot;Unable to set cookie&quot;</span>))
+            }
+        }
+    }
+
     <span class='kw'>fn</span> <span class='ident'>handle_set_timeouts</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>parameters</span>: <span class='kw-2'>&amp;</span><span class='ident'>TimeoutsParameters</span>) <span class='op'>-&gt;</span> <span class='ident'>WebDriverResult</span><span class='op'>&lt;</span><span class='ident'>WebDriverResponse</span><span class='op'>&gt;</span> {
         <span class='comment'>//TODO: this conversion is crazy, spec should limit these to u32 and check upstream</span>
         <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>parameters</span>.<span class='ident'>ms</span> <span class='kw'>as</span> <span class='ident'>u32</span>;
@@ -1675,6 +1814,7 @@
         <span class='kw'>match</span> <span class='ident'>msg</span>.<span class='ident'>command</span> {
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>NewSession</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_new_session</span>(),
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>DeleteSession</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_delete_session</span>(),
+            <span class='ident'>WebDriverCommand</span>::<span class='ident'>AddCookie</span>(<span class='kw-2'>ref</span> <span class='ident'>parameters</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_add_cookie</span>(<span class='ident'>parameters</span>),
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>Get</span>(<span class='kw-2'>ref</span> <span class='ident'>parameters</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_get</span>(<span class='ident'>parameters</span>),
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>GetCurrentUrl</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_current_url</span>(),
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>GetWindowSize</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_window_size</span>(),
@@ -1691,6 +1831,8 @@
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>SwitchToParentFrame</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_switch_to_parent_frame</span>(),
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>FindElement</span>(<span class='kw-2'>ref</span> <span class='ident'>parameters</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_find_element</span>(<span class='ident'>parameters</span>),
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>FindElements</span>(<span class='kw-2'>ref</span> <span class='ident'>parameters</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_find_elements</span>(<span class='ident'>parameters</span>),
+            <span class='ident'>WebDriverCommand</span>::<span class='ident'>GetCookie</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_get_cookie</span>(<span class='ident'>name</span>),
+            <span class='ident'>WebDriverCommand</span>::<span class='ident'>GetCookies</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_get_cookies</span>(),
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>GetActiveElement</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_active_element</span>(),
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>GetElementRect</span>(<span class='kw-2'>ref</span> <span class='ident'>element</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_element_rect</span>(<span class='ident'>element</span>),
             <span class='ident'>WebDriverCommand</span>::<span class='ident'>GetElementText</span>(<span class='kw-2'>ref</span> <span class='ident'>element</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>handle_element_text</span>(<span class='ident'>element</span>),

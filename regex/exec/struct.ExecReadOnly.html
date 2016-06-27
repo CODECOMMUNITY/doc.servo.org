@@ -57,31 +57,31 @@
     match_type: <a class='enum' href='../../regex/exec/enum.MatchType.html' title='regex::exec::MatchType'>MatchType</a>,
 }</pre><div class='docblock'><p>ExecReadOnly comprises all read only state for a regex. Namely, all such
 state is determined at compile time and never changes during search.</p>
-</div><h2 class='fields'>Fields</h2><span id='structfield.res'><code>res: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>The original regular expressions given by the caller to compile.</p>
-</div><span id='structfield.nfa'><code>nfa: <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>A compiled program that is used in the NFA simulation and backtracking.
+</div><h2 class='fields'>Fields</h2><span id='structfield.res' class='structfield'><code>res: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>The original regular expressions given by the caller to compile.</p>
+</div><span id='structfield.nfa' class='structfield'><code>nfa: <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>A compiled program that is used in the NFA simulation and backtracking.
 It can be byte-based or Unicode codepoint based.</p>
 
 <p>N.B. It is not possibly to make this byte-based from the public API.
 It is only used for testing byte based programs in the NFA simulations.</p>
-</div><span id='structfield.dfa'><code>dfa: <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>A compiled byte based program for DFA execution. This is only used
+</div><span id='structfield.dfa' class='structfield'><code>dfa: <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>A compiled byte based program for DFA execution. This is only used
 if a DFA can be executed. (Currently, only word boundary assertions are
 not supported.) Note that this program contains an embedded <code>.*?</code>
 preceding the first capture group, unless the regex is anchored at the
 beginning.</p>
-</div><span id='structfield.dfa_reverse'><code>dfa_reverse: <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>The same as above, except the program is reversed (and there is no
+</div><span id='structfield.dfa_reverse' class='structfield'><code>dfa_reverse: <a class='struct' href='../../regex/prog/struct.Program.html' title='regex::prog::Program'>Program</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>The same as above, except the program is reversed (and there is no
 preceding <code>.*?</code>). This is used by the DFA to find the starting location
 of matches.</p>
-</div><span id='structfield.suffixes'><code>suffixes: <a class='struct' href='../../regex/literals/struct.LiteralSearcher.html' title='regex::literals::LiteralSearcher'>LiteralSearcher</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>A set of suffix literals extracted from the regex.</p>
+</div><span id='structfield.suffixes' class='structfield'><code>suffixes: <a class='struct' href='../../regex/literals/struct.LiteralSearcher.html' title='regex::literals::LiteralSearcher'>LiteralSearcher</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>A set of suffix literals extracted from the regex.</p>
 
 <p>Prefix literals are stored on the <code>Program</code>, since they are used inside
 the matching engines.</p>
-</div><span id='structfield.match_type'><code>match_type: <a class='enum' href='../../regex/exec/enum.MatchType.html' title='regex::exec::MatchType'>MatchType</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>match_type encodes as much upfront knowledge about how we&#39;re going to
+</div><span id='structfield.match_type' class='structfield'><code>match_type: <a class='enum' href='../../regex/exec/enum.MatchType.html' title='regex::exec::MatchType'>MatchType</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>match_type encodes as much upfront knowledge about how we&#39;re going to
 execute a search as possible.</p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../regex/exec/struct.ExecReadOnly.html' title='regex::exec::ExecReadOnly'>ExecReadOnly</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2083' class='srclink' href='../../src/regex/exec.rs.html#1099-1175' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.choose_match_type' class='method'><code>fn <a href='#method.choose_match_type' class='fnname'>choose_match_type</a>(&amp;self, hint: <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../regex/exec/enum.MatchType.html' title='regex::exec::MatchType'>MatchType</a>&gt;) -&gt; <a class='enum' href='../../regex/exec/enum.MatchType.html' title='regex::exec::MatchType'>MatchType</a></code></h4>

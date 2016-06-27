@@ -82,49 +82,15 @@
 <span id="38">38</span>
 <span id="39">39</span>
 <span id="40">40</span>
-<span id="41">41</span>
-<span id="42">42</span>
-<span id="43">43</span>
-<span id="44">44</span>
-<span id="45">45</span>
-<span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
-<span id="49">49</span>
-<span id="50">50</span>
-<span id="51">51</span>
-<span id="52">52</span>
-<span id="53">53</span>
-<span id="54">54</span>
-<span id="55">55</span>
-<span id="56">56</span>
-<span id="57">57</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>display_list</span>::{<span class='ident'>AuxiliaryListsBuilder</span>, <span class='ident'>ItemRange</span>};
+<span class='kw'>use</span> <span class='ident'>display_list</span>::<span class='ident'>AuxiliaryListsBuilder</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Matrix4</span>, <span class='ident'>Rect</span>};
-<span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>DisplayListId</span>, <span class='ident'>FilterOp</span>, <span class='ident'>MixBlendMode</span>, <span class='ident'>ScrollLayerId</span>, <span class='ident'>ScrollPolicy</span>};
-<span class='kw'>use</span> <span class='ident'>types</span>::{<span class='ident'>ServoStackingContextId</span>};
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Serialize</span>, <span class='ident'>Deserialize</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>StackingContext</span> {
-    <span class='kw'>pub</span> <span class='ident'>servo_id</span>: <span class='ident'>ServoStackingContextId</span>,
-    <span class='kw'>pub</span> <span class='ident'>scroll_layer_id</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ScrollLayerId</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>scroll_policy</span>: <span class='ident'>ScrollPolicy</span>,
-    <span class='kw'>pub</span> <span class='ident'>bounds</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>overflow</span>: <span class='ident'>Rect</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>z_index</span>: <span class='ident'>i32</span>,
-    <span class='kw'>pub</span> <span class='ident'>display_lists</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DisplayListId</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>transform</span>: <span class='ident'>Matrix4</span>,
-    <span class='kw'>pub</span> <span class='ident'>perspective</span>: <span class='ident'>Matrix4</span>,
-    <span class='kw'>pub</span> <span class='ident'>establishes_3d_context</span>: <span class='ident'>bool</span>,
-    <span class='kw'>pub</span> <span class='ident'>mix_blend_mode</span>: <span class='ident'>MixBlendMode</span>,
-    <span class='kw'>pub</span> <span class='ident'>filters</span>: <span class='ident'>ItemRange</span>,
-    <span class='kw'>pub</span> <span class='ident'>has_stacking_contexts</span>: <span class='ident'>bool</span>,
-}
+<span class='kw'>use</span> {<span class='ident'>FilterOp</span>, <span class='ident'>MixBlendMode</span>, <span class='ident'>ScrollLayerId</span>, <span class='ident'>ScrollPolicy</span>};
+<span class='kw'>use</span> {<span class='ident'>ServoStackingContextId</span>, <span class='ident'>StackingContext</span>};
 
 <span class='kw'>impl</span> <span class='ident'>StackingContext</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>servo_id</span>: <span class='ident'>ServoStackingContextId</span>,

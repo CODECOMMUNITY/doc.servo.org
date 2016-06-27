@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_Rect",""],["_IMPL_SERIALIZE_FOR_Rect",""]],"fn":[["max",""],["min",""]],"struct":[["Rect",""]],"type":[["TypedRect",""]]});
+initSidebarItems({"fn":[["max",""],["min",""]],"struct":[["Rect",""]],"type":[["TypedRect",""]]});

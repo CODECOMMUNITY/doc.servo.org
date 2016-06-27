@@ -66,48 +66,48 @@
     pub dfa_size_limit: <a class='primitive' href='../../std/primitive.usize.html'>usize</a>,
 }</pre><div class='docblock'><p>Program is a sequence of instructions and various facts about thos
 instructions.</p>
-</div><h2 class='fields'>Fields</h2><span id='structfield.insts'><code>insts: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../regex/prog/enum.Inst.html' title='regex::prog::Inst'>Inst</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>A sequence of instructions that represents an NFA.</p>
-</div><span id='structfield.matches'><code>matches: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../regex/prog/type.InstPtr.html' title='regex::prog::InstPtr'>InstPtr</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>Pointers to each Match instruction in the sequence.</p>
+</div><h2 class='fields'>Fields</h2><span id='structfield.insts' class='structfield'><code>insts: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../regex/prog/enum.Inst.html' title='regex::prog::Inst'>Inst</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>A sequence of instructions that represents an NFA.</p>
+</div><span id='structfield.matches' class='structfield'><code>matches: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='type' href='../../regex/prog/type.InstPtr.html' title='regex::prog::InstPtr'>InstPtr</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>Pointers to each Match instruction in the sequence.</p>
 
 <p>This is always length 1 unless this program represents a regex set.</p>
-</div><span id='structfield.captures'><code>captures: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>The ordered sequence of all capture groups extracted from the AST.
+</div><span id='structfield.captures' class='structfield'><code>captures: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>The ordered sequence of all capture groups extracted from the AST.
 Unnamed groups are <code>None</code>.</p>
-</div><span id='structfield.capture_name_idx'><code>capture_name_idx: <a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>,&nbsp;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>Pointers to all named capture groups into <code>captures</code>.</p>
-</div><span id='structfield.start'><code>start: <a class='type' href='../../regex/prog/type.InstPtr.html' title='regex::prog::InstPtr'>InstPtr</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>A pointer to the start instruction. This can vary depending on how
+</div><span id='structfield.capture_name_idx' class='structfield'><code>capture_name_idx: <a class='struct' href='../../alloc/arc/struct.Arc.html' title='alloc::arc::Arc'>Arc</a>&lt;<a class='struct' href='../../std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../collections/string/struct.String.html' title='collections::string::String'>String</a>,&nbsp;<a class='primitive' href='../../std/primitive.usize.html'>usize</a>&gt;&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>Pointers to all named capture groups into <code>captures</code>.</p>
+</div><span id='structfield.start' class='structfield'><code>start: <a class='type' href='../../regex/prog/type.InstPtr.html' title='regex::prog::InstPtr'>InstPtr</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>A pointer to the start instruction. This can vary depending on how
 the program was compiled. For example, programs for use with the DFA
 engine have a <code>.*?</code> inserted at the beginning of unanchored regular
 expressions. The actual starting point of the program is after the
 <code>.*?</code>.</p>
-</div><span id='structfield.byte_classes'><code>byte_classes: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;</code></span>
-                           <span class='stab '></span><div class='docblock'><p>A set of equivalence classes for discriminating bytes in the compiled
+</div><span id='structfield.byte_classes' class='structfield'><code>byte_classes: <a class='struct' href='../../collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='../../std/primitive.u8.html'>u8</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p>A set of equivalence classes for discriminating bytes in the compiled
 program.</p>
-</div><span id='structfield.only_utf8'><code>only_utf8: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>When true, this program can only match valid UTF-8.</p>
-</div><span id='structfield.is_bytes'><code>is_bytes: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>When true, this program uses byte range instructions instead of Unicode
+</div><span id='structfield.only_utf8' class='structfield'><code>only_utf8: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>When true, this program can only match valid UTF-8.</p>
+</div><span id='structfield.is_bytes' class='structfield'><code>is_bytes: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>When true, this program uses byte range instructions instead of Unicode
 range instructions.</p>
-</div><span id='structfield.is_dfa'><code>is_dfa: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>When true, the program is compiled for DFA matching. For example, this
+</div><span id='structfield.is_dfa' class='structfield'><code>is_dfa: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>When true, the program is compiled for DFA matching. For example, this
 implies <code>is_bytes</code> and also inserts a preceding <code>.*?</code> for unanchored
 regexes.</p>
-</div><span id='structfield.is_reverse'><code>is_reverse: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>When true, the program matches text in reverse (for use only in the
+</div><span id='structfield.is_reverse' class='structfield'><code>is_reverse: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>When true, the program matches text in reverse (for use only in the
 DFA).</p>
-</div><span id='structfield.is_anchored_start'><code>is_anchored_start: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>Whether the regex must match from the start of the input.</p>
-</div><span id='structfield.is_anchored_end'><code>is_anchored_end: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>Whether the regex must match at the end of the input.</p>
-</div><span id='structfield.has_unicode_word_boundary'><code>has_unicode_word_boundary: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>Whether this program contains a Unicode word boundary instruction.</p>
-</div><span id='structfield.prefixes'><code>prefixes: <a class='struct' href='../../regex/literals/struct.LiteralSearcher.html' title='regex::literals::LiteralSearcher'>LiteralSearcher</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>A possibly empty machine for very quickly matching prefix literals.</p>
-</div><span id='structfield.dfa_size_limit'><code>dfa_size_limit: <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code></span>
-                           <span class='stab '></span><div class='docblock'><p>A limit on the size of the cache that the DFA is allowed to use while
+</div><span id='structfield.is_anchored_start' class='structfield'><code>is_anchored_start: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>Whether the regex must match from the start of the input.</p>
+</div><span id='structfield.is_anchored_end' class='structfield'><code>is_anchored_end: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>Whether the regex must match at the end of the input.</p>
+</div><span id='structfield.has_unicode_word_boundary' class='structfield'><code>has_unicode_word_boundary: <a class='primitive' href='../../std/primitive.bool.html'>bool</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>Whether this program contains a Unicode word boundary instruction.</p>
+</div><span id='structfield.prefixes' class='structfield'><code>prefixes: <a class='struct' href='../../regex/literals/struct.LiteralSearcher.html' title='regex::literals::LiteralSearcher'>LiteralSearcher</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>A possibly empty machine for very quickly matching prefix literals.</p>
+</div><span id='structfield.dfa_size_limit' class='structfield'><code>dfa_size_limit: <a class='primitive' href='../../std/primitive.usize.html'>usize</a></code>
+                           </span><span class='stab '></span><div class='docblock'><p>A limit on the size of the cache that the DFA is allowed to use while
 matching.</p>
 
 <p>The cache limit specifies approximately how much space we&#39;re willing to
