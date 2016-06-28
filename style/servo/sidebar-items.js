@@ -1,1 +1,1 @@
-initSidebarItems({"type":[["PrivateStyleData",""],["SharedStyleContext",""],["Stylesheet","Concrete types for servo Style implementation"],["Stylist",""]]});
+initSidebarItems({"type":[["PrivateStyleData",""],["SharedStyleContext",""],["Stylesheet",""],["Stylist",""]]});

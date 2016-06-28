@@ -289,10 +289,15 @@
 <span id="245">245</span>
 <span id="246">246</span>
 <span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+
+<span class='doccomment'>//! Traversing the DOM tree; the bloom filter.</span>
 
 <span class='kw'>use</span> <span class='ident'>context</span>::{<span class='ident'>SharedStyleContext</span>, <span class='ident'>StyleContext</span>};
 <span class='kw'>use</span> <span class='ident'>dom</span>::{<span class='ident'>OpaqueNode</span>, <span class='ident'>TNode</span>, <span class='ident'>TRestyleDamage</span>, <span class='ident'>UnsafeNode</span>};
@@ -434,12 +439,13 @@
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>DomTraversalContext</span><span class='op'>&lt;</span><span class='ident'>N</span>: <span class='ident'>TNode</span><span class='op'>&gt;</span>  {
     <span class='kw'>type</span> <span class='ident'>SharedContext</span>: <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>;
     <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>Self</span>::<span class='ident'>SharedContext</span>, <span class='ident'>OpaqueNode</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='doccomment'>/// Process `node` on the way down, before its children have been processed.</span>
     <span class='kw'>fn</span> <span class='ident'>process_preorder</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='ident'>N</span>);
+    <span class='doccomment'>/// Process `node` on the way up, after its children have been processed.</span>
     <span class='kw'>fn</span> <span class='ident'>process_postorder</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node</span>: <span class='ident'>N</span>);
 }
 
-<span class='doccomment'>/// The recalc-style-for-node traversal, which styles each node and must run before</span>
-<span class='doccomment'>/// layout computation. This computes the styles applied to each node.</span>
+<span class='doccomment'>/// Calculates the style for a single node.</span>
 <span class='attribute'>#[<span class='ident'>inline</span>]</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>recalc_style_at</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>N</span>, <span class='ident'>C</span><span class='op'>&gt;</span>(<span class='ident'>context</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>C</span>,
