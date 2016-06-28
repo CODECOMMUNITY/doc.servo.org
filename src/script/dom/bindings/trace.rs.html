@@ -607,6 +607,14 @@
 <span id="563">563</span>
 <span id="564">564</span>
 <span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -706,7 +714,8 @@
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Origin</span> <span class='kw'>as</span> <span class='ident'>UrlOrigin</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>uuid</span>::<span class='ident'>Uuid</span>;
-<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::<span class='ident'>WebGLError</span>;
+<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>WebGLBufferId</span>, <span class='ident'>WebGLError</span>, <span class='ident'>WebGLFramebufferId</span>, <span class='ident'>WebGLProgramId</span>};
+<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>WebGLRenderbufferId</span>, <span class='ident'>WebGLShaderId</span>, <span class='ident'>WebGLTextureId</span>};
 
 <span class='doccomment'>/// A trait to allow tracing (only) DOM objects.</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>JSTraceable</span> {
@@ -942,6 +951,13 @@
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>SelectedFileId</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>OpaqueStyleAndLayoutData</span>);
 <span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>CSSErrorReporter</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>WebGLBufferId</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>WebGLFramebufferId</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>WebGLProgramId</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>WebGLRenderbufferId</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>WebGLShaderId</span>);
+<span class='macro'>no_jsmanaged_fields</span><span class='macro'>!</span>(<span class='ident'>WebGLTextureId</span>);
+
 
 <span class='kw'>impl</span> <span class='ident'>JSTraceable</span> <span class='kw'>for</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ScriptChan</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>

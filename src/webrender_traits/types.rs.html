@@ -616,6 +616,102 @@
 <span id="572">572</span>
 <span id="573">573</span>
 <span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -625,6 +721,7 @@
 <span class='comment'>// for the serde implementations.</span>
 
 <span class='kw'>use</span> <span class='ident'>app_units</span>::<span class='ident'>Au</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>nonzero</span>::<span class='ident'>NonZero</span>;
 <span class='kw'>use</span> <span class='ident'>euclid</span>::{<span class='ident'>Matrix4</span>, <span class='ident'>Point2D</span>, <span class='ident'>Rect</span>, <span class='ident'>Size2D</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='ident'>IpcBytesSender</span>, <span class='ident'>IpcSender</span>};
@@ -1054,9 +1151,9 @@
     <span class='ident'>BlendEquationSeparate</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>),
     <span class='ident'>BlendFunc</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>),
     <span class='ident'>BlendFuncSeparate</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>u32</span>),
-    <span class='ident'>AttachShader</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>),
-    <span class='ident'>DetachShader</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>),
-    <span class='ident'>BindAttribLocation</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>String</span>),
+    <span class='ident'>AttachShader</span>(<span class='ident'>WebGLProgramId</span>, <span class='ident'>WebGLShaderId</span>),
+    <span class='ident'>DetachShader</span>(<span class='ident'>WebGLProgramId</span>, <span class='ident'>WebGLShaderId</span>),
+    <span class='ident'>BindAttribLocation</span>(<span class='ident'>WebGLProgramId</span>, <span class='ident'>u32</span>, <span class='ident'>String</span>),
     <span class='ident'>BufferData</span>(<span class='ident'>u32</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>, <span class='ident'>u32</span>),
     <span class='ident'>BufferSubData</span>(<span class='ident'>u32</span>, <span class='ident'>isize</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),
     <span class='ident'>Clear</span>(<span class='ident'>u32</span>),
@@ -1071,36 +1168,36 @@
     <span class='ident'>DepthRange</span>(<span class='ident'>f64</span>, <span class='ident'>f64</span>),
     <span class='ident'>Enable</span>(<span class='ident'>u32</span>),
     <span class='ident'>Disable</span>(<span class='ident'>u32</span>),
-    <span class='ident'>CompileShader</span>(<span class='ident'>u32</span>, <span class='ident'>String</span>),
+    <span class='ident'>CompileShader</span>(<span class='ident'>WebGLShaderId</span>, <span class='ident'>String</span>),
     <span class='ident'>CopyTexImage2D</span>(<span class='ident'>u32</span>, <span class='ident'>i32</span>, <span class='ident'>u32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>),
     <span class='ident'>CopyTexSubImage2D</span>(<span class='ident'>u32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>),
-    <span class='ident'>CreateBuffer</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
-    <span class='ident'>CreateFramebuffer</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
-    <span class='ident'>CreateRenderbuffer</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
-    <span class='ident'>CreateTexture</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
-    <span class='ident'>CreateProgram</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
-    <span class='ident'>CreateShader</span>(<span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>),
-    <span class='ident'>DeleteBuffer</span>(<span class='ident'>u32</span>),
-    <span class='ident'>DeleteFramebuffer</span>(<span class='ident'>u32</span>),
-    <span class='ident'>DeleteRenderbuffer</span>(<span class='ident'>u32</span>),
-    <span class='ident'>DeleteTexture</span>(<span class='ident'>u32</span>),
-    <span class='ident'>DeleteProgram</span>(<span class='ident'>u32</span>),
-    <span class='ident'>DeleteShader</span>(<span class='ident'>u32</span>),
-    <span class='ident'>BindBuffer</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>),
+    <span class='ident'>CreateBuffer</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLBufferId</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>CreateFramebuffer</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLFramebufferId</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>CreateRenderbuffer</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLRenderbufferId</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>CreateTexture</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLTextureId</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>CreateProgram</span>(<span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLProgramId</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>CreateShader</span>(<span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLShaderId</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>DeleteBuffer</span>(<span class='ident'>WebGLBufferId</span>),
+    <span class='ident'>DeleteFramebuffer</span>(<span class='ident'>WebGLFramebufferId</span>),
+    <span class='ident'>DeleteRenderbuffer</span>(<span class='ident'>WebGLRenderbufferId</span>),
+    <span class='ident'>DeleteTexture</span>(<span class='ident'>WebGLTextureId</span>),
+    <span class='ident'>DeleteProgram</span>(<span class='ident'>WebGLProgramId</span>),
+    <span class='ident'>DeleteShader</span>(<span class='ident'>WebGLShaderId</span>),
+    <span class='ident'>BindBuffer</span>(<span class='ident'>u32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLBufferId</span><span class='op'>&gt;</span>),
     <span class='ident'>BindFramebuffer</span>(<span class='ident'>u32</span>, <span class='ident'>WebGLFramebufferBindingRequest</span>),
-    <span class='ident'>BindRenderbuffer</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>),
-    <span class='ident'>BindTexture</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>),
+    <span class='ident'>BindRenderbuffer</span>(<span class='ident'>u32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLRenderbufferId</span><span class='op'>&gt;</span>),
+    <span class='ident'>BindTexture</span>(<span class='ident'>u32</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLTextureId</span><span class='op'>&gt;</span>),
     <span class='ident'>DrawArrays</span>(<span class='ident'>u32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>),
     <span class='ident'>DrawElements</span>(<span class='ident'>u32</span>, <span class='ident'>i32</span>, <span class='ident'>u32</span>, <span class='ident'>i64</span>),
     <span class='ident'>EnableVertexAttribArray</span>(<span class='ident'>u32</span>),
     <span class='ident'>GetBufferParameter</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span><span class='ident'>WebGLParameter</span><span class='op'>&gt;&gt;</span>),
     <span class='ident'>GetParameter</span>(<span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span><span class='ident'>WebGLParameter</span><span class='op'>&gt;&gt;</span>),
-    <span class='ident'>GetProgramParameter</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span><span class='ident'>WebGLParameter</span><span class='op'>&gt;&gt;</span>),
-    <span class='ident'>GetShaderParameter</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span><span class='ident'>WebGLParameter</span><span class='op'>&gt;&gt;</span>),
-    <span class='ident'>GetActiveAttrib</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span>(<span class='ident'>i32</span>, <span class='ident'>u32</span>, <span class='ident'>String</span>)<span class='op'>&gt;&gt;</span>),
-    <span class='ident'>GetActiveUniform</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span>(<span class='ident'>i32</span>, <span class='ident'>u32</span>, <span class='ident'>String</span>)<span class='op'>&gt;&gt;</span>),
-    <span class='ident'>GetAttribLocation</span>(<span class='ident'>u32</span>, <span class='ident'>String</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;&gt;</span>),
-    <span class='ident'>GetUniformLocation</span>(<span class='ident'>u32</span>, <span class='ident'>String</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>GetProgramParameter</span>(<span class='ident'>WebGLProgramId</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span><span class='ident'>WebGLParameter</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>GetShaderParameter</span>(<span class='ident'>WebGLShaderId</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span><span class='ident'>WebGLParameter</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>GetActiveAttrib</span>(<span class='ident'>WebGLProgramId</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span>(<span class='ident'>i32</span>, <span class='ident'>u32</span>, <span class='ident'>String</span>)<span class='op'>&gt;&gt;</span>),
+    <span class='ident'>GetActiveUniform</span>(<span class='ident'>WebGLProgramId</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span>(<span class='ident'>i32</span>, <span class='ident'>u32</span>, <span class='ident'>String</span>)<span class='op'>&gt;&gt;</span>),
+    <span class='ident'>GetAttribLocation</span>(<span class='ident'>WebGLProgramId</span>, <span class='ident'>String</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;&gt;</span>),
+    <span class='ident'>GetUniformLocation</span>(<span class='ident'>WebGLProgramId</span>, <span class='ident'>String</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;&gt;</span>),
     <span class='ident'>GetVertexAttrib</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span><span class='ident'>WebGLParameter</span><span class='op'>&gt;&gt;</span>),
     <span class='ident'>PolygonOffset</span>(<span class='ident'>f32</span>, <span class='ident'>f32</span>),
     <span class='ident'>ReadPixels</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>u32</span>, <span class='ident'>u32</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>),
@@ -1115,7 +1212,7 @@
     <span class='ident'>Hint</span>(<span class='ident'>u32</span>, <span class='ident'>u32</span>),
     <span class='ident'>LineWidth</span>(<span class='ident'>f32</span>),
     <span class='ident'>PixelStorei</span>(<span class='ident'>u32</span>, <span class='ident'>i32</span>),
-    <span class='ident'>LinkProgram</span>(<span class='ident'>u32</span>),
+    <span class='ident'>LinkProgram</span>(<span class='ident'>WebGLProgramId</span>),
     <span class='ident'>Uniform1f</span>(<span class='ident'>i32</span>, <span class='ident'>f32</span>),
     <span class='ident'>Uniform1fv</span>(<span class='ident'>i32</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>),
     <span class='ident'>Uniform1i</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>),
@@ -1135,7 +1232,7 @@
     <span class='ident'>UniformMatrix2fv</span>(<span class='ident'>i32</span>, <span class='ident'>bool</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>),
     <span class='ident'>UniformMatrix3fv</span>(<span class='ident'>i32</span>, <span class='ident'>bool</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>),
     <span class='ident'>UniformMatrix4fv</span>(<span class='ident'>i32</span>, <span class='ident'>bool</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>),
-    <span class='ident'>UseProgram</span>(<span class='ident'>u32</span>),
+    <span class='ident'>UseProgram</span>(<span class='ident'>WebGLProgramId</span>),
     <span class='ident'>VertexAttrib</span>(<span class='ident'>u32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>, <span class='ident'>f32</span>),
     <span class='ident'>VertexAttribPointer2f</span>(<span class='ident'>u32</span>, <span class='ident'>i32</span>, <span class='ident'>bool</span>, <span class='ident'>i32</span>, <span class='ident'>u32</span>),
     <span class='ident'>Viewport</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>),
@@ -1149,6 +1246,101 @@
     <span class='ident'>Flush</span>,
     <span class='ident'>GenerateMipmap</span>(<span class='ident'>u32</span>),
 }
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>)]</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>define_resource_id_struct</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>) <span class='op'>=&gt;</span> {
+        <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>PartialEq</span>)]</span>
+        <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>(<span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>);
+
+        <span class='kw'>impl</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
+            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+            <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>id</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>(<span class='ident'>NonZero</span>::<span class='ident'>new</span>(<span class='ident'>id</span>))
+            }
+
+            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+            <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
+                <span class='op'>*</span><span class='self'>self</span>.<span class='number'>0</span>
+            }
+        }
+
+    };
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>))]</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>define_resource_id_struct</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>) <span class='op'>=&gt;</span> {
+        <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>PartialEq</span>)]</span>
+        <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>(<span class='ident'>u32</span>);
+
+        <span class='kw'>impl</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
+            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+            <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>id</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>(<span class='ident'>id</span>)
+            }
+
+            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+            <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
+                <span class='self'>self</span>.<span class='number'>0</span>
+            }
+        }
+    };
+}
+
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>define_resource_id</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>) <span class='op'>=&gt;</span> {
+        <span class='macro'>define_resource_id_struct</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>);
+
+        <span class='kw'>impl</span> ::<span class='ident'>serde</span>::<span class='ident'>Deserialize</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
+            <span class='kw'>fn</span> <span class='ident'>deserialize</span><span class='op'>&lt;</span><span class='ident'>D</span><span class='op'>&gt;</span>(<span class='ident'>deserializer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>
+                <span class='kw'>where</span> <span class='ident'>D</span>: ::<span class='ident'>serde</span>::<span class='ident'>Deserializer</span>
+            {
+                <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>u32</span>::<span class='ident'>deserialize</span>(<span class='ident'>deserializer</span>));
+                <span class='kw'>if</span> <span class='ident'>id</span> <span class='op'>==</span> <span class='number'>0</span> {
+                    <span class='prelude-val'>Err</span>(::<span class='ident'>serde</span>::<span class='ident'>Error</span>::<span class='ident'>invalid_value</span>(<span class='string'>&quot;expected a non-zero value&quot;</span>))
+                } <span class='kw'>else</span> {
+                    <span class='prelude-val'>Ok</span>(<span class='kw'>unsafe</span> { <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>::<span class='ident'>new</span>(<span class='ident'>id</span>) })
+                }
+            }
+        }
+
+        <span class='kw'>impl</span> ::<span class='ident'>serde</span>::<span class='ident'>Serialize</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
+            <span class='kw'>fn</span> <span class='ident'>serialize</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>serializer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>
+                <span class='kw'>where</span> <span class='ident'>S</span>: ::<span class='ident'>serde</span>::<span class='ident'>Serializer</span>
+            {
+                <span class='self'>self</span>.<span class='ident'>get</span>().<span class='ident'>serialize</span>(<span class='ident'>serializer</span>)
+            }
+        }
+
+        <span class='kw'>impl</span> ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
+            <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>fmt</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Formatter</span>)
+                  <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
+                <span class='ident'>fmt</span>.<span class='ident'>debug_tuple</span>(<span class='macro'>stringify</span><span class='macro'>!</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>))
+                   .<span class='ident'>field</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>get</span>())
+                   .<span class='ident'>finish</span>()
+            }
+        }
+
+        <span class='kw'>impl</span> ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
+            <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>fmt</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Formatter</span>)
+                  <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), ::<span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
+                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>fmt</span>, <span class='string'>&quot;{}&quot;</span>, <span class='self'>self</span>.<span class='ident'>get</span>())
+            }
+        }
+
+        <span class='kw'>impl</span> ::<span class='ident'>heapsize</span>::<span class='ident'>HeapSizeOf</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> {
+            <span class='kw'>fn</span> <span class='ident'>heap_size_of_children</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> { <span class='number'>0</span> }
+        }
+    }
+}
+
+<span class='macro'>define_resource_id</span><span class='macro'>!</span>(<span class='ident'>WebGLBufferId</span>);
+<span class='macro'>define_resource_id</span><span class='macro'>!</span>(<span class='ident'>WebGLFramebufferId</span>);
+<span class='macro'>define_resource_id</span><span class='macro'>!</span>(<span class='ident'>WebGLRenderbufferId</span>);
+<span class='macro'>define_resource_id</span><span class='macro'>!</span>(<span class='ident'>WebGLTextureId</span>);
+<span class='macro'>define_resource_id</span><span class='macro'>!</span>(<span class='ident'>WebGLProgramId</span>);
+<span class='macro'>define_resource_id</span><span class='macro'>!</span>(<span class='ident'>WebGLShaderId</span>);
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Eq</span>, <span class='ident'>Hash</span>, <span class='ident'>Ord</span>, <span class='ident'>PartialEq</span>, <span class='ident'>PartialOrd</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebGLContextId</span>(<span class='kw'>pub</span> <span class='ident'>usize</span>);
@@ -1169,7 +1361,7 @@
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>WebGLFramebufferBindingRequest</span> {
-    <span class='ident'>Explicit</span>(<span class='ident'>u32</span>),
+    <span class='ident'>Explicit</span>(<span class='ident'>WebGLFramebufferId</span>),
     <span class='ident'>Default</span>,
 }
 

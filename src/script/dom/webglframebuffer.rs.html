@@ -127,6 +127,12 @@
 <span id="83">83</span>
 <span id="84">84</span>
 <span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -141,12 +147,12 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>webglobject</span>::<span class='ident'>WebGLObject</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
-<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>WebGLCommand</span>, <span class='ident'>WebGLFramebufferBindingRequest</span>};
+<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>WebGLCommand</span>, <span class='ident'>WebGLFramebufferBindingRequest</span>, <span class='ident'>WebGLFramebufferId</span>};
 
 <span class='attribute'>#[<span class='ident'>dom_struct</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebGLFramebuffer</span> {
     <span class='ident'>webgl_object</span>: <span class='ident'>WebGLObject</span>,
-    <span class='ident'>id</span>: <span class='ident'>u32</span>,
+    <span class='ident'>id</span>: <span class='ident'>WebGLFramebufferId</span>,
     <span class='doccomment'>/// target can only be gl::FRAMEBUFFER at the moment</span>
     <span class='ident'>target</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>is_deleted</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
@@ -155,7 +161,9 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>WebGLFramebuffer</span> {
-    <span class='kw'>fn</span> <span class='ident'>new_inherited</span>(<span class='ident'>renderer</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>, <span class='ident'>id</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLFramebuffer</span> {
+    <span class='kw'>fn</span> <span class='ident'>new_inherited</span>(<span class='ident'>renderer</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>,
+                     <span class='ident'>id</span>: <span class='ident'>WebGLFramebufferId</span>)
+                     <span class='op'>-&gt;</span> <span class='ident'>WebGLFramebuffer</span> {
         <span class='ident'>WebGLFramebuffer</span> {
             <span class='ident'>webgl_object</span>: <span class='ident'>WebGLObject</span>::<span class='ident'>new_inherited</span>(),
             <span class='ident'>id</span>: <span class='ident'>id</span>,
@@ -171,18 +179,22 @@
         <span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>CanvasMsg</span>::<span class='ident'>WebGL</span>(<span class='ident'>WebGLCommand</span>::<span class='ident'>CreateFramebuffer</span>(<span class='ident'>sender</span>))).<span class='ident'>unwrap</span>();
 
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>result</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>fb_id</span><span class='op'>|</span> <span class='ident'>WebGLFramebuffer</span>::<span class='ident'>new</span>(<span class='ident'>global</span>, <span class='ident'>renderer</span>, <span class='op'>*</span><span class='ident'>fb_id</span>))
+        <span class='ident'>result</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>fb_id</span><span class='op'>|</span> <span class='ident'>WebGLFramebuffer</span>::<span class='ident'>new</span>(<span class='ident'>global</span>, <span class='ident'>renderer</span>, <span class='ident'>fb_id</span>))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>global</span>: <span class='ident'>GlobalRef</span>, <span class='ident'>renderer</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>, <span class='ident'>id</span>: <span class='ident'>u32</span>)
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>global</span>: <span class='ident'>GlobalRef</span>,
+               <span class='ident'>renderer</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>,
+               <span class='ident'>id</span>: <span class='ident'>WebGLFramebufferId</span>)
                <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>WebGLFramebuffer</span><span class='op'>&gt;</span> {
-        <span class='ident'>reflect_dom_object</span>(<span class='kw'>box</span> <span class='ident'>WebGLFramebuffer</span>::<span class='ident'>new_inherited</span>(<span class='ident'>renderer</span>, <span class='ident'>id</span>), <span class='ident'>global</span>, <span class='ident'>WebGLFramebufferBinding</span>::<span class='ident'>Wrap</span>)
+        <span class='ident'>reflect_dom_object</span>(<span class='kw'>box</span> <span class='ident'>WebGLFramebuffer</span>::<span class='ident'>new_inherited</span>(<span class='ident'>renderer</span>, <span class='ident'>id</span>),
+                           <span class='ident'>global</span>,
+                           <span class='ident'>WebGLFramebufferBinding</span>::<span class='ident'>Wrap</span>)
     }
 }
 
 
 <span class='kw'>impl</span> <span class='ident'>WebGLFramebuffer</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLFramebufferId</span> {
         <span class='self'>self</span>.<span class='ident'>id</span>
     }
 

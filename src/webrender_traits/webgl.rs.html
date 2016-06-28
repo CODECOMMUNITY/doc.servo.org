@@ -717,13 +717,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
-<span class='kw'>use</span> <span class='ident'>core</span>::<span class='ident'>nonzero</span>::<span class='ident'>NonZero</span>;
 <span class='kw'>use</span> <span class='ident'>gleam</span>::<span class='ident'>gl</span>;
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::<span class='ident'>IpcSender</span>;
 <span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::{<span class='ident'>GLContext</span>, <span class='ident'>NativeGLContextMethods</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
-<span class='kw'>use</span> {<span class='ident'>WebGLCommand</span>, <span class='ident'>WebGLError</span>, <span class='ident'>WebGLFramebufferBindingRequest</span>};
-<span class='kw'>use</span> {<span class='ident'>WebGLParameter</span>, <span class='ident'>WebGLResult</span>};
+<span class='kw'>use</span> {<span class='ident'>WebGLBufferId</span>, <span class='ident'>WebGLCommand</span>, <span class='ident'>WebGLError</span>, <span class='ident'>WebGLFramebufferBindingRequest</span>};
+<span class='kw'>use</span> {<span class='ident'>WebGLFramebufferId</span>, <span class='ident'>WebGLParameter</span>, <span class='ident'>WebGLProgramId</span>, <span class='ident'>WebGLRenderbufferId</span>};
+<span class='kw'>use</span> {<span class='ident'>WebGLResult</span>, <span class='ident'>WebGLShaderId</span>, <span class='ident'>WebGLTextureId</span>};
 
 <span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>WebGLCommand</span> {
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
@@ -845,11 +845,11 @@
             <span class='ident'>WebGLCommand</span>::<span class='ident'>ActiveTexture</span>(<span class='ident'>target</span>) <span class='op'>=&gt;</span>
                 <span class='ident'>gl</span>::<span class='ident'>active_texture</span>(<span class='ident'>target</span>),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>AttachShader</span>(<span class='ident'>program_id</span>, <span class='ident'>shader_id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>attach_shader</span>(<span class='ident'>program_id</span>, <span class='ident'>shader_id</span>),
+                <span class='ident'>gl</span>::<span class='ident'>attach_shader</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='ident'>shader_id</span>.<span class='ident'>get</span>()),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>DetachShader</span>(<span class='ident'>program_id</span>, <span class='ident'>shader_id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>detach_shader</span>(<span class='ident'>program_id</span>, <span class='ident'>shader_id</span>),
+                <span class='ident'>gl</span>::<span class='ident'>detach_shader</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='ident'>shader_id</span>.<span class='ident'>get</span>()),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>BindAttribLocation</span>(<span class='ident'>program_id</span>, <span class='ident'>index</span>, <span class='ident'>name</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>bind_attrib_location</span>(<span class='ident'>program_id</span>, <span class='ident'>index</span>, <span class='kw-2'>&amp;</span><span class='ident'>name</span>),
+                <span class='ident'>gl</span>::<span class='ident'>bind_attrib_location</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='ident'>index</span>, <span class='kw-2'>&amp;</span><span class='ident'>name</span>),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>BlendColor</span>(<span class='ident'>r</span>, <span class='ident'>g</span>, <span class='ident'>b</span>, <span class='ident'>a</span>) <span class='op'>=&gt;</span>
                 <span class='ident'>gl</span>::<span class='ident'>blend_color</span>(<span class='ident'>r</span>, <span class='ident'>g</span>, <span class='ident'>b</span>, <span class='ident'>a</span>),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>BlendEquation</span>(<span class='ident'>mode</span>) <span class='op'>=&gt;</span>
@@ -957,27 +957,27 @@
             <span class='ident'>WebGLCommand</span>::<span class='ident'>CreateShader</span>(<span class='ident'>shader_type</span>, <span class='ident'>chan</span>) <span class='op'>=&gt;</span>
                 <span class='self'>Self</span>::<span class='ident'>create_shader</span>(<span class='ident'>shader_type</span>, <span class='ident'>chan</span>),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteBuffer</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>delete_buffers</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>id</span>]),
+                <span class='ident'>gl</span>::<span class='ident'>delete_buffers</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>id</span>.<span class='ident'>get</span>()]),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteFramebuffer</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>delete_framebuffers</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>id</span>]),
+                <span class='ident'>gl</span>::<span class='ident'>delete_framebuffers</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>id</span>.<span class='ident'>get</span>()]),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteRenderbuffer</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>delete_renderbuffers</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>id</span>]),
+                <span class='ident'>gl</span>::<span class='ident'>delete_renderbuffers</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>id</span>.<span class='ident'>get</span>()]),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteTexture</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>delete_textures</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>id</span>]),
+                <span class='ident'>gl</span>::<span class='ident'>delete_textures</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>id</span>.<span class='ident'>get</span>()]),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteProgram</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>delete_program</span>(<span class='ident'>id</span>),
+                <span class='ident'>gl</span>::<span class='ident'>delete_program</span>(<span class='ident'>id</span>.<span class='ident'>get</span>()),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>DeleteShader</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>delete_shader</span>(<span class='ident'>id</span>),
+                <span class='ident'>gl</span>::<span class='ident'>delete_shader</span>(<span class='ident'>id</span>.<span class='ident'>get</span>()),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>BindBuffer</span>(<span class='ident'>target</span>, <span class='ident'>id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>bind_buffer</span>(<span class='ident'>target</span>, <span class='ident'>id</span>),
+                <span class='ident'>gl</span>::<span class='ident'>bind_buffer</span>(<span class='ident'>target</span>, <span class='ident'>id</span>.<span class='ident'>map_or</span>(<span class='number'>0</span>, <span class='ident'>WebGLBufferId</span>::<span class='ident'>get</span>)),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>BindFramebuffer</span>(<span class='ident'>target</span>, <span class='ident'>request</span>) <span class='op'>=&gt;</span>
                 <span class='self'>Self</span>::<span class='ident'>bind_framebuffer</span>(<span class='ident'>target</span>, <span class='ident'>request</span>, <span class='ident'>ctx</span>),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>BindRenderbuffer</span>(<span class='ident'>target</span>, <span class='ident'>id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>bind_renderbuffer</span>(<span class='ident'>target</span>, <span class='ident'>id</span>),
+                <span class='ident'>gl</span>::<span class='ident'>bind_renderbuffer</span>(<span class='ident'>target</span>, <span class='ident'>id</span>.<span class='ident'>map_or</span>(<span class='number'>0</span>, <span class='ident'>WebGLRenderbufferId</span>::<span class='ident'>get</span>)),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>BindTexture</span>(<span class='ident'>target</span>, <span class='ident'>id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>bind_texture</span>(<span class='ident'>target</span>, <span class='ident'>id</span>),
+                <span class='ident'>gl</span>::<span class='ident'>bind_texture</span>(<span class='ident'>target</span>, <span class='ident'>id</span>.<span class='ident'>map_or</span>(<span class='number'>0</span>, <span class='ident'>WebGLTextureId</span>::<span class='ident'>get</span>)),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>LinkProgram</span>(<span class='ident'>program_id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>link_program</span>(<span class='ident'>program_id</span>),
+                <span class='ident'>gl</span>::<span class='ident'>link_program</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>()),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>Uniform1f</span>(<span class='ident'>uniform_id</span>, <span class='ident'>v</span>) <span class='op'>=&gt;</span>
                 <span class='ident'>gl</span>::<span class='ident'>uniform_1f</span>(<span class='ident'>uniform_id</span>, <span class='ident'>v</span>),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>Uniform1fv</span>(<span class='ident'>uniform_id</span>, <span class='ident'>v</span>) <span class='op'>=&gt;</span>
@@ -1017,7 +1017,7 @@
             <span class='ident'>WebGLCommand</span>::<span class='ident'>UniformMatrix4fv</span>(<span class='ident'>uniform_id</span>, <span class='ident'>transpose</span>,  <span class='ident'>v</span>) <span class='op'>=&gt;</span>
                 <span class='ident'>gl</span>::<span class='ident'>uniform_matrix_4fv</span>(<span class='ident'>uniform_id</span>, <span class='ident'>transpose</span>, <span class='kw-2'>&amp;</span><span class='ident'>v</span>),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>UseProgram</span>(<span class='ident'>program_id</span>) <span class='op'>=&gt;</span>
-                <span class='ident'>gl</span>::<span class='ident'>use_program</span>(<span class='ident'>program_id</span>),
+                <span class='ident'>gl</span>::<span class='ident'>use_program</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>()),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>VertexAttrib</span>(<span class='ident'>attrib_id</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>z</span>, <span class='ident'>w</span>) <span class='op'>=&gt;</span>
                 <span class='ident'>gl</span>::<span class='ident'>vertex_attrib_4f</span>(<span class='ident'>attrib_id</span>, <span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>z</span>, <span class='ident'>w</span>),
             <span class='ident'>WebGLCommand</span>::<span class='ident'>VertexAttribPointer2f</span>(<span class='ident'>attrib_id</span>, <span class='ident'>size</span>, <span class='ident'>normalized</span>, <span class='ident'>stride</span>, <span class='ident'>offset</span>) <span class='op'>=&gt;</span>
@@ -1055,32 +1055,32 @@
       <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>result</span>).<span class='ident'>unwrap</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>active_attrib</span>(<span class='ident'>program_id</span>: <span class='ident'>u32</span>,
+    <span class='kw'>fn</span> <span class='ident'>active_attrib</span>(<span class='ident'>program_id</span>: <span class='ident'>WebGLProgramId</span>,
                      <span class='ident'>index</span>: <span class='ident'>u32</span>,
                      <span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span>(<span class='ident'>i32</span>, <span class='ident'>u32</span>, <span class='ident'>String</span>)<span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&gt;=</span> <span class='ident'>gl</span>::<span class='ident'>get_program_iv</span>(<span class='ident'>program_id</span>, <span class='ident'>gl</span>::<span class='ident'>ACTIVE_ATTRIBUTES</span>) <span class='kw'>as</span> <span class='ident'>u32</span> {
+        <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&gt;=</span> <span class='ident'>gl</span>::<span class='ident'>get_program_iv</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='ident'>gl</span>::<span class='ident'>ACTIVE_ATTRIBUTES</span>) <span class='kw'>as</span> <span class='ident'>u32</span> {
             <span class='prelude-val'>Err</span>(<span class='ident'>WebGLError</span>::<span class='ident'>InvalidValue</span>)
         } <span class='kw'>else</span> {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>gl</span>::<span class='ident'>get_active_attrib</span>(<span class='ident'>program_id</span>, <span class='ident'>index</span>))
+            <span class='prelude-val'>Ok</span>(<span class='ident'>gl</span>::<span class='ident'>get_active_attrib</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='ident'>index</span>))
         };
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>result</span>).<span class='ident'>unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>active_uniform</span>(<span class='ident'>program_id</span>: <span class='ident'>u32</span>,
+    <span class='kw'>fn</span> <span class='ident'>active_uniform</span>(<span class='ident'>program_id</span>: <span class='ident'>WebGLProgramId</span>,
                       <span class='ident'>index</span>: <span class='ident'>u32</span>,
                       <span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span>(<span class='ident'>i32</span>, <span class='ident'>u32</span>, <span class='ident'>String</span>)<span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&gt;=</span> <span class='ident'>gl</span>::<span class='ident'>get_program_iv</span>(<span class='ident'>program_id</span>, <span class='ident'>gl</span>::<span class='ident'>ACTIVE_UNIFORMS</span>) <span class='kw'>as</span> <span class='ident'>u32</span> {
+        <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&gt;=</span> <span class='ident'>gl</span>::<span class='ident'>get_program_iv</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='ident'>gl</span>::<span class='ident'>ACTIVE_UNIFORMS</span>) <span class='kw'>as</span> <span class='ident'>u32</span> {
             <span class='prelude-val'>Err</span>(<span class='ident'>WebGLError</span>::<span class='ident'>InvalidValue</span>)
         } <span class='kw'>else</span> {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>gl</span>::<span class='ident'>get_active_uniform</span>(<span class='ident'>program_id</span>, <span class='ident'>index</span>))
+            <span class='prelude-val'>Ok</span>(<span class='ident'>gl</span>::<span class='ident'>get_active_uniform</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='ident'>index</span>))
         };
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>result</span>).<span class='ident'>unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>attrib_location</span>(<span class='ident'>program_id</span>: <span class='ident'>u32</span>,
+    <span class='kw'>fn</span> <span class='ident'>attrib_location</span>(<span class='ident'>program_id</span>: <span class='ident'>WebGLProgramId</span>,
                        <span class='ident'>name</span>: <span class='ident'>String</span>,
                        <span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;&gt;</span> ) {
-        <span class='kw'>let</span> <span class='ident'>attrib_location</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>get_attrib_location</span>(<span class='ident'>program_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>name</span>);
+        <span class='kw'>let</span> <span class='ident'>attrib_location</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>get_attrib_location</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='kw-2'>&amp;</span><span class='ident'>name</span>);
 
         <span class='kw'>let</span> <span class='ident'>attrib_location</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>attrib_location</span> <span class='op'>==</span> <span class='op'>-</span><span class='number'>1</span> {
             <span class='prelude-val'>None</span>
@@ -1255,43 +1255,43 @@
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>result</span>).<span class='ident'>unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>program_parameter</span>(<span class='ident'>program_id</span>: <span class='ident'>u32</span>,
+    <span class='kw'>fn</span> <span class='ident'>program_parameter</span>(<span class='ident'>program_id</span>: <span class='ident'>WebGLProgramId</span>,
                          <span class='ident'>param_id</span>: <span class='ident'>u32</span>,
                          <span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span><span class='ident'>WebGLParameter</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>param_id</span> {
             <span class='ident'>gl</span>::<span class='ident'>DELETE_STATUS</span> <span class='op'>|</span>
             <span class='ident'>gl</span>::<span class='ident'>LINK_STATUS</span> <span class='op'>|</span>
             <span class='ident'>gl</span>::<span class='ident'>VALIDATE_STATUS</span> <span class='op'>=&gt;</span>
-                <span class='prelude-val'>Ok</span>(<span class='ident'>WebGLParameter</span>::<span class='ident'>Bool</span>(<span class='ident'>gl</span>::<span class='ident'>get_program_iv</span>(<span class='ident'>program_id</span>, <span class='ident'>param_id</span>) <span class='op'>!=</span> <span class='number'>0</span>)),
+                <span class='prelude-val'>Ok</span>(<span class='ident'>WebGLParameter</span>::<span class='ident'>Bool</span>(<span class='ident'>gl</span>::<span class='ident'>get_program_iv</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='ident'>param_id</span>) <span class='op'>!=</span> <span class='number'>0</span>)),
             <span class='ident'>gl</span>::<span class='ident'>ATTACHED_SHADERS</span> <span class='op'>|</span>
             <span class='ident'>gl</span>::<span class='ident'>ACTIVE_ATTRIBUTES</span> <span class='op'>|</span>
             <span class='ident'>gl</span>::<span class='ident'>ACTIVE_UNIFORMS</span> <span class='op'>=&gt;</span>
-                <span class='prelude-val'>Ok</span>(<span class='ident'>WebGLParameter</span>::<span class='ident'>Int</span>(<span class='ident'>gl</span>::<span class='ident'>get_program_iv</span>(<span class='ident'>program_id</span>, <span class='ident'>param_id</span>))),
+                <span class='prelude-val'>Ok</span>(<span class='ident'>WebGLParameter</span>::<span class='ident'>Int</span>(<span class='ident'>gl</span>::<span class='ident'>get_program_iv</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='ident'>param_id</span>))),
             _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>WebGLError</span>::<span class='ident'>InvalidEnum</span>),
         };
 
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>result</span>).<span class='ident'>unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>shader_parameter</span>(<span class='ident'>shader_id</span>: <span class='ident'>u32</span>,
+    <span class='kw'>fn</span> <span class='ident'>shader_parameter</span>(<span class='ident'>shader_id</span>: <span class='ident'>WebGLShaderId</span>,
                         <span class='ident'>param_id</span>: <span class='ident'>u32</span>,
                         <span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>WebGLResult</span><span class='op'>&lt;</span><span class='ident'>WebGLParameter</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>param_id</span> {
             <span class='ident'>gl</span>::<span class='ident'>SHADER_TYPE</span> <span class='op'>=&gt;</span>
-                <span class='prelude-val'>Ok</span>(<span class='ident'>WebGLParameter</span>::<span class='ident'>Int</span>(<span class='ident'>gl</span>::<span class='ident'>get_shader_iv</span>(<span class='ident'>shader_id</span>, <span class='ident'>param_id</span>))),
+                <span class='prelude-val'>Ok</span>(<span class='ident'>WebGLParameter</span>::<span class='ident'>Int</span>(<span class='ident'>gl</span>::<span class='ident'>get_shader_iv</span>(<span class='ident'>shader_id</span>.<span class='ident'>get</span>(), <span class='ident'>param_id</span>))),
             <span class='ident'>gl</span>::<span class='ident'>DELETE_STATUS</span> <span class='op'>|</span>
             <span class='ident'>gl</span>::<span class='ident'>COMPILE_STATUS</span> <span class='op'>=&gt;</span>
-                <span class='prelude-val'>Ok</span>(<span class='ident'>WebGLParameter</span>::<span class='ident'>Bool</span>(<span class='ident'>gl</span>::<span class='ident'>get_shader_iv</span>(<span class='ident'>shader_id</span>, <span class='ident'>param_id</span>) <span class='op'>!=</span> <span class='number'>0</span>)),
+                <span class='prelude-val'>Ok</span>(<span class='ident'>WebGLParameter</span>::<span class='ident'>Bool</span>(<span class='ident'>gl</span>::<span class='ident'>get_shader_iv</span>(<span class='ident'>shader_id</span>.<span class='ident'>get</span>(), <span class='ident'>param_id</span>) <span class='op'>!=</span> <span class='number'>0</span>)),
             _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>WebGLError</span>::<span class='ident'>InvalidEnum</span>),
         };
 
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>result</span>).<span class='ident'>unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>uniform_location</span>(<span class='ident'>program_id</span>: <span class='ident'>u32</span>,
+    <span class='kw'>fn</span> <span class='ident'>uniform_location</span>(<span class='ident'>program_id</span>: <span class='ident'>WebGLProgramId</span>,
                         <span class='ident'>name</span>: <span class='ident'>String</span>,
                         <span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>location</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>get_uniform_location</span>(<span class='ident'>program_id</span>, <span class='kw-2'>&amp;</span><span class='ident'>name</span>);
+        <span class='kw'>let</span> <span class='ident'>location</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>get_uniform_location</span>(<span class='ident'>program_id</span>.<span class='ident'>get</span>(), <span class='kw-2'>&amp;</span><span class='ident'>name</span>);
         <span class='kw'>let</span> <span class='ident'>location</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>location</span> <span class='op'>==</span> <span class='op'>-</span><span class='number'>1</span> {
             <span class='prelude-val'>None</span>
         } <span class='kw'>else</span> {
@@ -1301,64 +1301,64 @@
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>location</span>).<span class='ident'>unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>create_buffer</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>create_buffer</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLBufferId</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>buffer</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>gen_buffers</span>(<span class='number'>1</span>)[<span class='number'>0</span>];
         <span class='kw'>let</span> <span class='ident'>buffer</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>buffer</span> <span class='op'>==</span> <span class='number'>0</span> {
             <span class='prelude-val'>None</span>
         } <span class='kw'>else</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>NonZero</span>::<span class='ident'>new</span>(<span class='ident'>buffer</span>) })
+            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>WebGLBufferId</span>::<span class='ident'>new</span>(<span class='ident'>buffer</span>) })
         };
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>buffer</span>).<span class='ident'>unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>create_framebuffer</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>create_framebuffer</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLFramebufferId</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>framebuffer</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>gen_framebuffers</span>(<span class='number'>1</span>)[<span class='number'>0</span>];
         <span class='kw'>let</span> <span class='ident'>framebuffer</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>framebuffer</span> <span class='op'>==</span> <span class='number'>0</span> {
             <span class='prelude-val'>None</span>
         } <span class='kw'>else</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>NonZero</span>::<span class='ident'>new</span>(<span class='ident'>framebuffer</span>) })
+            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>WebGLFramebufferId</span>::<span class='ident'>new</span>(<span class='ident'>framebuffer</span>) })
         };
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>framebuffer</span>).<span class='ident'>unwrap</span>();
     }
 
 
-    <span class='kw'>fn</span> <span class='ident'>create_renderbuffer</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>create_renderbuffer</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLRenderbufferId</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>renderbuffer</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>gen_renderbuffers</span>(<span class='number'>1</span>)[<span class='number'>0</span>];
         <span class='kw'>let</span> <span class='ident'>renderbuffer</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>renderbuffer</span> <span class='op'>==</span> <span class='number'>0</span> {
             <span class='prelude-val'>None</span>
         } <span class='kw'>else</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>NonZero</span>::<span class='ident'>new</span>(<span class='ident'>renderbuffer</span>) })
+            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>WebGLRenderbufferId</span>::<span class='ident'>new</span>(<span class='ident'>renderbuffer</span>) })
         };
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>renderbuffer</span>).<span class='ident'>unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>create_texture</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>create_texture</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLTextureId</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>texture</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>gen_textures</span>(<span class='number'>1</span>)[<span class='number'>0</span>];
         <span class='kw'>let</span> <span class='ident'>texture</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>texture</span> <span class='op'>==</span> <span class='number'>0</span> {
             <span class='prelude-val'>None</span>
         } <span class='kw'>else</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>NonZero</span>::<span class='ident'>new</span>(<span class='ident'>texture</span>) })
+            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>WebGLTextureId</span>::<span class='ident'>new</span>(<span class='ident'>texture</span>) })
         };
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>texture</span>).<span class='ident'>unwrap</span>();
     }
 
 
-    <span class='kw'>fn</span> <span class='ident'>create_program</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>create_program</span>(<span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLProgramId</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>program</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>create_program</span>();
         <span class='kw'>let</span> <span class='ident'>program</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>program</span> <span class='op'>==</span> <span class='number'>0</span> {
             <span class='prelude-val'>None</span>
         } <span class='kw'>else</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>NonZero</span>::<span class='ident'>new</span>(<span class='ident'>program</span>) })
+            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>WebGLProgramId</span>::<span class='ident'>new</span>(<span class='ident'>program</span>) })
         };
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>program</span>).<span class='ident'>unwrap</span>();
     }
 
-    <span class='kw'>fn</span> <span class='ident'>create_shader</span>(<span class='ident'>shader_type</span>: <span class='ident'>u32</span>, <span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NonZero</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>create_shader</span>(<span class='ident'>shader_type</span>: <span class='ident'>u32</span>, <span class='ident'>chan</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebGLShaderId</span><span class='op'>&gt;&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>shader</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>create_shader</span>(<span class='ident'>shader_type</span>);
         <span class='kw'>let</span> <span class='ident'>shader</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>shader</span> <span class='op'>==</span> <span class='number'>0</span> {
             <span class='prelude-val'>None</span>
         } <span class='kw'>else</span> {
-            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>NonZero</span>::<span class='ident'>new</span>(<span class='ident'>shader</span>) })
+            <span class='prelude-val'>Some</span>(<span class='kw'>unsafe</span> { <span class='ident'>WebGLShaderId</span>::<span class='ident'>new</span>(<span class='ident'>shader</span>) })
         };
         <span class='ident'>chan</span>.<span class='ident'>send</span>(<span class='ident'>shader</span>).<span class='ident'>unwrap</span>();
     }
@@ -1368,7 +1368,7 @@
                                                         <span class='ident'>request</span>: <span class='ident'>WebGLFramebufferBindingRequest</span>,
                                                         <span class='ident'>ctx</span>: <span class='kw-2'>&amp;</span><span class='ident'>GLContext</span><span class='op'>&lt;</span><span class='ident'>Native</span><span class='op'>&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>request</span> {
-            <span class='ident'>WebGLFramebufferBindingRequest</span>::<span class='ident'>Explicit</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> <span class='ident'>id</span>,
+            <span class='ident'>WebGLFramebufferBindingRequest</span>::<span class='ident'>Explicit</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> <span class='ident'>id</span>.<span class='ident'>get</span>(),
             <span class='ident'>WebGLFramebufferBindingRequest</span>::<span class='ident'>Default</span> <span class='op'>=&gt;</span>
                 <span class='ident'>ctx</span>.<span class='ident'>borrow_draw_buffer</span>().<span class='ident'>unwrap</span>().<span class='ident'>get_framebuffer</span>(),
         };
@@ -1378,9 +1378,9 @@
 
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>compile_shader</span>(<span class='ident'>shader_id</span>: <span class='ident'>u32</span>, <span class='ident'>source</span>: <span class='ident'>String</span>) {
-        <span class='ident'>gl</span>::<span class='ident'>shader_source</span>(<span class='ident'>shader_id</span>, <span class='kw-2'>&amp;</span>[<span class='ident'>source</span>.<span class='ident'>as_bytes</span>()]);
-        <span class='ident'>gl</span>::<span class='ident'>compile_shader</span>(<span class='ident'>shader_id</span>);
+    <span class='kw'>fn</span> <span class='ident'>compile_shader</span>(<span class='ident'>shader_id</span>: <span class='ident'>WebGLShaderId</span>, <span class='ident'>source</span>: <span class='ident'>String</span>) {
+        <span class='ident'>gl</span>::<span class='ident'>shader_source</span>(<span class='ident'>shader_id</span>.<span class='ident'>get</span>(), <span class='kw-2'>&amp;</span>[<span class='ident'>source</span>.<span class='ident'>as_bytes</span>()]);
+        <span class='ident'>gl</span>::<span class='ident'>compile_shader</span>(<span class='ident'>shader_id</span>.<span class='ident'>get</span>());
     }
 }
 </pre>

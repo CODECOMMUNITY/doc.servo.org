@@ -464,6 +464,14 @@
 <span id="420">420</span>
 <span id="421">421</span>
 <span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -482,7 +490,7 @@
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='self'>self</span>, <span class='ident'>IpcSender</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>;
-<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>WebGLCommand</span>, <span class='ident'>WebGLError</span>, <span class='ident'>WebGLResult</span>};
+<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>WebGLCommand</span>, <span class='ident'>WebGLError</span>, <span class='ident'>WebGLResult</span>, <span class='ident'>WebGLTextureId</span>};
 
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>TexParameterValue</span> {
     <span class='ident'>Float</span>(<span class='ident'>f32</span>),
@@ -497,7 +505,7 @@
 <span class='attribute'>#[<span class='ident'>dom_struct</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebGLTexture</span> {
     <span class='ident'>webgl_object</span>: <span class='ident'>WebGLObject</span>,
-    <span class='ident'>id</span>: <span class='ident'>u32</span>,
+    <span class='ident'>id</span>: <span class='ident'>WebGLTextureId</span>,
     <span class='doccomment'>/// The target to which this texture was bound the first time</span>
     <span class='ident'>target</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>is_deleted</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
@@ -512,7 +520,9 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>WebGLTexture</span> {
-    <span class='kw'>fn</span> <span class='ident'>new_inherited</span>(<span class='ident'>renderer</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>, <span class='ident'>id</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLTexture</span> {
+    <span class='kw'>fn</span> <span class='ident'>new_inherited</span>(<span class='ident'>renderer</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>,
+                     <span class='ident'>id</span>: <span class='ident'>WebGLTextureId</span>)
+                     <span class='op'>-&gt;</span> <span class='ident'>WebGLTexture</span> {
         <span class='ident'>WebGLTexture</span> {
             <span class='ident'>webgl_object</span>: <span class='ident'>WebGLObject</span>::<span class='ident'>new_inherited</span>(),
             <span class='ident'>id</span>: <span class='ident'>id</span>,
@@ -531,17 +541,22 @@
         <span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>CanvasMsg</span>::<span class='ident'>WebGL</span>(<span class='ident'>WebGLCommand</span>::<span class='ident'>CreateTexture</span>(<span class='ident'>sender</span>))).<span class='ident'>unwrap</span>();
 
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>receiver</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>result</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>texture_id</span><span class='op'>|</span> <span class='ident'>WebGLTexture</span>::<span class='ident'>new</span>(<span class='ident'>global</span>, <span class='ident'>renderer</span>, <span class='op'>*</span><span class='ident'>texture_id</span>))
+        <span class='ident'>result</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>texture_id</span><span class='op'>|</span> <span class='ident'>WebGLTexture</span>::<span class='ident'>new</span>(<span class='ident'>global</span>, <span class='ident'>renderer</span>, <span class='ident'>texture_id</span>))
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>global</span>: <span class='ident'>GlobalRef</span>, <span class='ident'>renderer</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>, <span class='ident'>id</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>WebGLTexture</span><span class='op'>&gt;</span> {
-        <span class='ident'>reflect_dom_object</span>(<span class='kw'>box</span> <span class='ident'>WebGLTexture</span>::<span class='ident'>new_inherited</span>(<span class='ident'>renderer</span>, <span class='ident'>id</span>), <span class='ident'>global</span>, <span class='ident'>WebGLTextureBinding</span>::<span class='ident'>Wrap</span>)
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>global</span>: <span class='ident'>GlobalRef</span>,
+               <span class='ident'>renderer</span>: <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>CanvasMsg</span><span class='op'>&gt;</span>,
+               <span class='ident'>id</span>: <span class='ident'>WebGLTextureId</span>)
+               <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>WebGLTexture</span><span class='op'>&gt;</span> {
+        <span class='ident'>reflect_dom_object</span>(<span class='kw'>box</span> <span class='ident'>WebGLTexture</span>::<span class='ident'>new_inherited</span>(<span class='ident'>renderer</span>, <span class='ident'>id</span>),
+                           <span class='ident'>global</span>,
+                           <span class='ident'>WebGLTextureBinding</span>::<span class='ident'>Wrap</span>)
     }
 }
 
 
 <span class='kw'>impl</span> <span class='ident'>WebGLTexture</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLTextureId</span> {
         <span class='self'>self</span>.<span class='ident'>id</span>
     }
 
@@ -566,7 +581,8 @@
             <span class='self'>self</span>.<span class='ident'>target</span>.<span class='ident'>set</span>(<span class='prelude-val'>Some</span>(<span class='ident'>target</span>));
         }
 
-        <span class='self'>self</span>.<span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>CanvasMsg</span>::<span class='ident'>WebGL</span>(<span class='ident'>WebGLCommand</span>::<span class='ident'>BindTexture</span>(<span class='ident'>target</span>, <span class='self'>self</span>.<span class='ident'>id</span>))).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>CanvasMsg</span>::<span class='ident'>WebGL</span>(<span class='ident'>WebGLCommand</span>::<span class='ident'>BindTexture</span>(<span class='ident'>target</span>, <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>id</span>)));
+        <span class='self'>self</span>.<span class='ident'>renderer</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
 
         <span class='prelude-val'>Ok</span>(())
     }

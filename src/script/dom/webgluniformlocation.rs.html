@@ -81,6 +81,13 @@
 <span id="37">37</span>
 <span id="38">38</span>
 <span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -91,16 +98,19 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>global</span>::<span class='ident'>GlobalRef</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>js</span>::<span class='ident'>Root</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>bindings</span>::<span class='ident'>reflector</span>::{<span class='ident'>Reflector</span>, <span class='ident'>reflect_dom_object</span>};
+<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::<span class='ident'>WebGLProgramId</span>;
 
 <span class='attribute'>#[<span class='ident'>dom_struct</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebGLUniformLocation</span> {
     <span class='ident'>reflector_</span>: <span class='ident'>Reflector</span>,
     <span class='ident'>id</span>: <span class='ident'>i32</span>,
-    <span class='ident'>program_id</span>: <span class='ident'>u32</span>,
+    <span class='ident'>program_id</span>: <span class='ident'>WebGLProgramId</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>WebGLUniformLocation</span> {
-    <span class='kw'>fn</span> <span class='ident'>new_inherited</span>(<span class='ident'>id</span>: <span class='ident'>i32</span>, <span class='ident'>program_id</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLUniformLocation</span> {
+    <span class='kw'>fn</span> <span class='ident'>new_inherited</span>(<span class='ident'>id</span>: <span class='ident'>i32</span>,
+                     <span class='ident'>program_id</span>: <span class='ident'>WebGLProgramId</span>)
+                     <span class='op'>-&gt;</span> <span class='ident'>WebGLUniformLocation</span> {
         <span class='ident'>WebGLUniformLocation</span> {
             <span class='ident'>reflector_</span>: <span class='ident'>Reflector</span>::<span class='ident'>new</span>(),
             <span class='ident'>id</span>: <span class='ident'>id</span>,
@@ -108,16 +118,20 @@
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>global</span>: <span class='ident'>GlobalRef</span>, <span class='ident'>id</span>: <span class='ident'>i32</span>, <span class='ident'>program_id</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>WebGLUniformLocation</span><span class='op'>&gt;</span> {
-        <span class='ident'>reflect_dom_object</span>(
-            <span class='kw'>box</span> <span class='ident'>WebGLUniformLocation</span>::<span class='ident'>new_inherited</span>(<span class='ident'>id</span>, <span class='ident'>program_id</span>), <span class='ident'>global</span>, <span class='ident'>WebGLUniformLocationBinding</span>::<span class='ident'>Wrap</span>)
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>global</span>: <span class='ident'>GlobalRef</span>,
+               <span class='ident'>id</span>: <span class='ident'>i32</span>,
+               <span class='ident'>program_id</span>: <span class='ident'>WebGLProgramId</span>)
+               <span class='op'>-&gt;</span> <span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>WebGLUniformLocation</span><span class='op'>&gt;</span> {
+        <span class='ident'>reflect_dom_object</span>(<span class='kw'>box</span> <span class='ident'>WebGLUniformLocation</span>::<span class='ident'>new_inherited</span>(<span class='ident'>id</span>, <span class='ident'>program_id</span>),
+                           <span class='ident'>global</span>,
+                           <span class='ident'>WebGLUniformLocationBinding</span>::<span class='ident'>Wrap</span>)
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
         <span class='self'>self</span>.<span class='ident'>id</span>
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>program_id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>program_id</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebGLProgramId</span> {
         <span class='self'>self</span>.<span class='ident'>program_id</span>
     }
 }
