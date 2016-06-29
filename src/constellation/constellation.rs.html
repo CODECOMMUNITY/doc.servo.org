@@ -3374,7 +3374,7 @@
                 <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>LayoutControlMsg</span>::<span class='ident'>TickAnimations</span>;
                 <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>pipelines</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>pipeline_id</span>) {
                     <span class='prelude-val'>Some</span>(<span class='ident'>pipeline</span>) <span class='op'>=&gt;</span> <span class='ident'>pipeline</span>.<span class='ident'>layout_chan</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>),
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got script tick after closure.&quot;</span>, <span class='ident'>pipeline_id</span>),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='macro'>warn</span><span class='macro'>!</span>(<span class='string'>&quot;Pipeline {:?} got layout tick after closure.&quot;</span>, <span class='ident'>pipeline_id</span>),
                 }
             }
         };

@@ -835,6 +835,12 @@
 <span id="791">791</span>
 <span id="792">792</span>
 <span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1405,6 +1411,12 @@
              <span class='ident'>font_cache_thread</span>: <span class='ident'>FontCacheThread</span>,
              <span class='ident'>time_profiler_chan</span>: <span class='ident'>time</span>::<span class='ident'>ProfilerChan</span>)
              <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>WorkerThreadProxy</span><span class='op'>&gt;</span> {
+        <span class='comment'>// Don&#39;t make any paint threads if we&#39;re using WebRender. They&#39;re just a waste of</span>
+        <span class='comment'>// resources.</span>
+        <span class='kw'>if</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>use_webrender</span> {
+            <span class='kw'>return</span> <span class='macro'>vec</span><span class='macro'>!</span>[]
+        }
+
         <span class='kw'>let</span> <span class='ident'>thread_count</span> <span class='op'>=</span> <span class='ident'>opts</span>::<span class='ident'>get</span>().<span class='ident'>paint_threads</span>;
         (<span class='number'>0</span>..<span class='ident'>thread_count</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> {
             <span class='kw'>let</span> (<span class='ident'>from_worker_sender</span>, <span class='ident'>from_worker_receiver</span>) <span class='op'>=</span> <span class='ident'>channel</span>();

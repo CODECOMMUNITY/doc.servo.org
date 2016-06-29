@@ -560,6 +560,47 @@
 <span id="516">516</span>
 <span id="517">517</span>
 <span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -568,10 +609,11 @@
 <span class='doccomment'>//! Style sheets and their CSS rules.</span>
 
 <span class='kw'>use</span> <span class='ident'>cssparser</span>::{<span class='ident'>AtRuleParser</span>, <span class='ident'>Parser</span>, <span class='ident'>QualifiedRuleParser</span>, <span class='ident'>decode_stylesheet_bytes</span>};
-<span class='kw'>use</span> <span class='ident'>cssparser</span>::{<span class='ident'>AtRuleType</span>, <span class='ident'>RuleListParser</span>};
+<span class='kw'>use</span> <span class='ident'>cssparser</span>::{<span class='ident'>AtRuleType</span>, <span class='ident'>RuleListParser</span>, <span class='ident'>Token</span>};
 <span class='kw'>use</span> <span class='ident'>encoding</span>::<span class='ident'>EncodingRef</span>;
 <span class='kw'>use</span> <span class='ident'>error_reporting</span>::<span class='ident'>ParseErrorReporter</span>;
 <span class='kw'>use</span> <span class='ident'>font_face</span>::{<span class='ident'>FontFaceRule</span>, <span class='ident'>parse_font_face_block</span>};
+<span class='kw'>use</span> <span class='ident'>keyframes</span>::{<span class='ident'>Keyframe</span>, <span class='ident'>parse_keyframe_list</span>};
 <span class='kw'>use</span> <span class='ident'>media_queries</span>::{<span class='ident'>Device</span>, <span class='ident'>MediaQueryList</span>, <span class='ident'>parse_media_query_list</span>};
 <span class='kw'>use</span> <span class='ident'>parser</span>::{<span class='ident'>ParserContext</span>, <span class='ident'>ParserContextExtraData</span>, <span class='ident'>log_css_error</span>};
 <span class='kw'>use</span> <span class='ident'>properties</span>::{<span class='ident'>PropertyDeclarationBlock</span>, <span class='ident'>parse_property_declaration_list</span>};
@@ -625,6 +667,14 @@
     <span class='ident'>Media</span>(<span class='ident'>MediaRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span>),
     <span class='ident'>FontFace</span>(<span class='ident'>FontFaceRule</span>),
     <span class='ident'>Viewport</span>(<span class='ident'>ViewportRule</span>),
+    <span class='ident'>Keyframes</span>(<span class='ident'>KeyframesRule</span>),
+}
+
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>HeapSizeOf</span>, <span class='ident'>PartialEq</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>KeyframesRule</span> {
+    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>Atom</span>,
+    <span class='kw'>pub</span> <span class='ident'>keyframes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Keyframe</span><span class='op'>&gt;</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>)]</span>
@@ -633,6 +683,7 @@
     <span class='kw'>pub</span> <span class='ident'>media_queries</span>: <span class='ident'>MediaQueryList</span>,
     <span class='kw'>pub</span> <span class='ident'>rules</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>CSSRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span>,
 }
+
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>Impl</span>: <span class='ident'>SelectorImpl</span><span class='op'>&gt;</span> <span class='ident'>MediaRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -690,7 +741,7 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>Parser</span>::<span class='ident'>new</span>(<span class='ident'>css</span>);
         <span class='ident'>input</span>.<span class='ident'>look_for_viewport_percentages</span>();
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rules</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rules</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
         {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iter</span> <span class='op'>=</span> <span class='ident'>RuleListParser</span>::<span class='ident'>new_for_stylesheet</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>input</span>, <span class='ident'>rule_parser</span>);
             <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>result</span>) <span class='op'>=</span> <span class='ident'>iter</span>.<span class='ident'>next</span>() {
@@ -705,6 +756,7 @@
                                     <span class='prelude-val'>Some</span>(<span class='ident'>namespace</span>.<span class='ident'>clone</span>());
                             }
                         }
+
                         <span class='ident'>rules</span>.<span class='ident'>push</span>(<span class='ident'>rule</span>);
                     }
                     <span class='prelude-val'>Err</span>(<span class='ident'>range</span>) <span class='op'>=&gt;</span> {
@@ -716,6 +768,7 @@
                 }
             }
         }
+
         <span class='ident'>Stylesheet</span> {
             <span class='ident'>origin</span>: <span class='ident'>origin</span>,
             <span class='ident'>rules</span>: <span class='ident'>rules</span>,
@@ -816,7 +869,7 @@
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>marker</span>::<span class='ident'>PhantomData</span>;
     <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw'>super</span>::<span class='ident'>font_face</span>::<span class='ident'>FontFaceRule</span>;
     <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw'>super</span>::<span class='ident'>viewport</span>::<span class='ident'>ViewportRule</span>;
-    <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>CSSRule</span>, <span class='ident'>MediaRule</span>, <span class='ident'>StyleRule</span>};
+    <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>CSSRule</span>, <span class='ident'>KeyframesRule</span>, <span class='ident'>MediaRule</span>, <span class='ident'>StyleRule</span>};
 
     <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>rule_filter</span> {
         (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span>:<span class='ident'>ident</span> <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>value</span>:<span class='ident'>ty</span>) <span class='op'>=&gt;</span> {
@@ -829,6 +882,7 @@
 
             <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>, <span class='ident'>Impl</span>: <span class='ident'>SelectorImpl</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span>
                 <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>CSSRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span> {
+                <span class='attribute'>#[<span class='ident'>inline</span>]</span>
                 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>iter</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
                     <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>variant</span> {
                         <span class='ident'>iter</span>: <span class='ident'>iter</span>,
@@ -863,6 +917,7 @@
     <span class='macro'>rule_filter</span><span class='macro'>!</span>(<span class='ident'>Style</span> <span class='op'>-&gt;</span> <span class='ident'>StyleRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span>);
     <span class='macro'>rule_filter</span><span class='macro'>!</span>(<span class='ident'>FontFace</span> <span class='op'>-&gt;</span> <span class='ident'>FontFaceRule</span>);
     <span class='macro'>rule_filter</span><span class='macro'>!</span>(<span class='ident'>Viewport</span> <span class='op'>-&gt;</span> <span class='ident'>ViewportRule</span>);
+    <span class='macro'>rule_filter</span><span class='macro'>!</span>(<span class='ident'>Keyframes</span> <span class='op'>-&gt;</span> <span class='ident'>KeyframesRule</span>);
 }
 
 <span class='doccomment'>/// Extension methods for `CSSRule` iterators.</span>
@@ -878,6 +933,9 @@
 
     <span class='doccomment'>/// Yield only @viewport rules.</span>
     <span class='kw'>fn</span> <span class='ident'>viewport</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>rule_filter</span>::<span class='ident'>Viewport</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='self'>Self</span><span class='op'>&gt;</span>;
+
+    <span class='doccomment'>/// Yield only @keyframes rules.</span>
+    <span class='kw'>fn</span> <span class='ident'>keyframes</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>rule_filter</span>::<span class='ident'>Keyframes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='self'>Self</span><span class='op'>&gt;</span>;
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>, <span class='ident'>Impl</span>: <span class='ident'>SelectorImpl</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>CSSRuleIteratorExt</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>Impl</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>I</span> <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>CSSRule</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span> {
@@ -899,6 +957,11 @@
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>viewport</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>rule_filter</span>::<span class='ident'>Viewport</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
         <span class='ident'>rule_filter</span>::<span class='ident'>Viewport</span>::<span class='ident'>new</span>(<span class='self'>self</span>)
+    }
+
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>keyframes</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>rule_filter</span>::<span class='ident'>Keyframes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
+        <span class='ident'>rule_filter</span>::<span class='ident'>Keyframes</span>::<span class='ident'>new</span>(<span class='self'>self</span>)
     }
 }
 
@@ -939,9 +1002,14 @@
 
 
 <span class='kw'>enum</span> <span class='ident'>AtRulePrelude</span> {
+    <span class='doccomment'>/// A @font-face rule prelude.</span>
     <span class='ident'>FontFace</span>,
+    <span class='doccomment'>/// A @media rule prelude, with its media queries.</span>
     <span class='ident'>Media</span>(<span class='ident'>MediaQueryList</span>),
+    <span class='doccomment'>/// A @viewport rule prelude.</span>
     <span class='ident'>Viewport</span>,
+    <span class='doccomment'>/// A @keyframes rule, with its animation name.</span>
+    <span class='ident'>Keyframes</span>(<span class='ident'>Atom</span>),
 }
 
 
@@ -1041,6 +1109,15 @@
                     <span class='prelude-val'>Err</span>(())
                 }
             },
+            <span class='string'>&quot;keyframes&quot;</span> <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>input</span>.<span class='ident'>next</span>() {
+                    <span class='prelude-val'>Ok</span>(<span class='ident'>Token</span>::<span class='ident'>Ident</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>)) <span class='kw'>if</span> <span class='ident'>value</span> <span class='op'>!=</span> <span class='string'>&quot;none&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Atom</span>::<span class='ident'>from</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>value</span>),
+                    <span class='prelude-val'>Ok</span>(<span class='ident'>Token</span>::<span class='ident'>QuotedString</span>(<span class='ident'>value</span>)) <span class='op'>=&gt;</span> <span class='ident'>Atom</span>::<span class='ident'>from</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>value</span>),
+                    _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(())
+                };
+
+                <span class='prelude-val'>Ok</span>(<span class='ident'>AtRuleType</span>::<span class='ident'>WithBlock</span>(<span class='ident'>AtRulePrelude</span>::<span class='ident'>Keyframes</span>(<span class='ident'>Atom</span>::<span class='ident'>from</span>(<span class='ident'>name</span>))))
+            },
             _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(())
         }
     }
@@ -1059,10 +1136,15 @@
             <span class='ident'>AtRulePrelude</span>::<span class='ident'>Viewport</span> <span class='op'>=&gt;</span> {
                 <span class='ident'>ViewportRule</span>::<span class='ident'>parse</span>(<span class='ident'>input</span>, <span class='self'>self</span>.<span class='ident'>context</span>).<span class='ident'>map</span>(<span class='ident'>CSSRule</span>::<span class='ident'>Viewport</span>)
             }
+            <span class='ident'>AtRulePrelude</span>::<span class='ident'>Keyframes</span>(<span class='ident'>name</span>) <span class='op'>=&gt;</span> {
+                <span class='prelude-val'>Ok</span>(<span class='ident'>CSSRule</span>::<span class='ident'>Keyframes</span>(<span class='ident'>KeyframesRule</span> {
+                    <span class='ident'>name</span>: <span class='ident'>name</span>,
+                    <span class='ident'>keyframes</span>: <span class='ident'>parse_keyframe_list</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>context</span>, <span class='ident'>input</span>),
+                }))
+            }
         }
     }
 }
-
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>Impl</span>: <span class='ident'>SelectorImpl</span><span class='op'>&gt;</span> <span class='ident'>QualifiedRuleParser</span> <span class='kw'>for</span> <span class='ident'>NestedRuleParser</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>Impl</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>Prelude</span> <span class='op'>=</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Selector</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span>;

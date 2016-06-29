@@ -148,16 +148,16 @@
 
     <span class='doccomment'>/// A channel on which new animations that have been triggered by style recalculation can be</span>
     <span class='doccomment'>/// sent.</span>
-    <span class='kw'>pub</span> <span class='ident'>new_animations_sender</span>: <span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>Animation</span><span class='op'>&gt;&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>new_animations_sender</span>: <span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>Sender</span><span class='op'>&lt;</span><span class='ident'>Animation</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// Why is this reflow occurring</span>
     <span class='kw'>pub</span> <span class='ident'>goal</span>: <span class='ident'>ReflowGoal</span>,
 
     <span class='doccomment'>/// The animations that are currently running.</span>
-    <span class='kw'>pub</span> <span class='ident'>running_animations</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>OpaqueNode</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Animation</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>running_animations</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>OpaqueNode</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Animation</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>/// The list of animations that have expired since the last style recalculation.</span>
-    <span class='kw'>pub</span> <span class='ident'>expired_animations</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>OpaqueNode</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Animation</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>expired_animations</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>OpaqueNode</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Animation</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>///The CSS error reporter for all CSS loaded in this layout thread</span>
     <span class='kw'>pub</span> <span class='ident'>error_reporter</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ParseErrorReporter</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span>,

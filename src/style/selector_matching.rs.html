@@ -535,6 +535,38 @@
 <span id="491">491</span>
 <span id="492">492</span>
 <span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -545,6 +577,7 @@
 <span class='kw'>use</span> <span class='ident'>dom</span>::<span class='ident'>PresentationalHintsSynthetizer</span>;
 <span class='kw'>use</span> <span class='ident'>element_state</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>error_reporting</span>::<span class='ident'>StdoutErrorReporter</span>;
+<span class='kw'>use</span> <span class='ident'>keyframes</span>::<span class='ident'>KeyframesAnimation</span>;
 <span class='kw'>use</span> <span class='ident'>media_queries</span>::{<span class='ident'>Device</span>, <span class='ident'>MediaType</span>};
 <span class='kw'>use</span> <span class='ident'>parser</span>::<span class='ident'>ParserContextExtraData</span>;
 <span class='kw'>use</span> <span class='ident'>properties</span>::{<span class='self'>self</span>, <span class='ident'>PropertyDeclaration</span>, <span class='ident'>PropertyDeclarationBlock</span>};
@@ -560,8 +593,9 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>BuildHasherDefault</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>process</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
+<span class='kw'>use</span> <span class='ident'>string_cache</span>::<span class='ident'>Atom</span>;
 <span class='kw'>use</span> <span class='ident'>style_traits</span>::<span class='ident'>viewport</span>::<span class='ident'>ViewportConstraints</span>;
-<span class='kw'>use</span> <span class='ident'>stylesheets</span>::{<span class='ident'>CSSRuleIteratorExt</span>, <span class='ident'>Origin</span>, <span class='ident'>Stylesheet</span>};
+<span class='kw'>use</span> <span class='ident'>stylesheets</span>::{<span class='ident'>CSSRule</span>, <span class='ident'>CSSRuleIteratorExt</span>, <span class='ident'>Origin</span>, <span class='ident'>Stylesheet</span>};
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>opts</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>resource_files</span>::<span class='ident'>read_resource_file</span>;
@@ -664,6 +698,9 @@
                          <span class='ident'>PerPseudoElementSelectorMap</span><span class='op'>&lt;</span><span class='ident'>Impl</span><span class='op'>&gt;</span>,
                          <span class='ident'>BuildHasherDefault</span><span class='op'>&lt;</span>::<span class='ident'>fnv</span>::<span class='ident'>FnvHasher</span><span class='op'>&gt;&gt;</span>,
 
+    <span class='doccomment'>/// A map with all the animations indexed by name.</span>
+    <span class='ident'>animations</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>Atom</span>, <span class='ident'>KeyframesAnimation</span><span class='op'>&gt;</span>,
+
     <span class='doccomment'>/// Applicable declarations for a given non-eagerly cascaded pseudo-element.</span>
     <span class='doccomment'>/// These are eagerly computed once, and then used to resolve the new</span>
     <span class='doccomment'>/// computed values on the fly on layout.</span>
@@ -688,6 +725,7 @@
 
             <span class='ident'>element_map</span>: <span class='ident'>PerPseudoElementSelectorMap</span>::<span class='ident'>new</span>(),
             <span class='ident'>pseudos_map</span>: <span class='ident'>HashMap</span>::<span class='ident'>with_hasher</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>()),
+            <span class='ident'>animations</span>: <span class='ident'>HashMap</span>::<span class='ident'>with_hasher</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>()),
             <span class='ident'>precomputed_pseudo_element_decls</span>: <span class='ident'>HashMap</span>::<span class='ident'>with_hasher</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>()),
             <span class='ident'>rules_source_order</span>: <span class='number'>0</span>,
             <span class='ident'>state_deps</span>: <span class='ident'>DependencySet</span>::<span class='ident'>new</span>(),
@@ -711,6 +749,7 @@
 
         <span class='self'>self</span>.<span class='ident'>element_map</span> <span class='op'>=</span> <span class='ident'>PerPseudoElementSelectorMap</span>::<span class='ident'>new</span>();
         <span class='self'>self</span>.<span class='ident'>pseudos_map</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>with_hasher</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>());
+        <span class='self'>self</span>.<span class='ident'>animations</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>with_hasher</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>());
         <span class='ident'>Impl</span>::<span class='ident'>each_eagerly_cascaded_pseudo_element</span>(<span class='op'>|</span><span class='ident'>pseudo</span><span class='op'>|</span> {
             <span class='self'>self</span>.<span class='ident'>pseudos_map</span>.<span class='ident'>insert</span>(<span class='ident'>pseudo</span>, <span class='ident'>PerPseudoElementSelectorMap</span>::<span class='ident'>new</span>());
         });
@@ -771,16 +810,35 @@
             };
         );
 
-        <span class='kw'>for</span> <span class='ident'>style_rule</span> <span class='kw'>in</span> <span class='ident'>stylesheet</span>.<span class='ident'>effective_rules</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>device</span>).<span class='ident'>style</span>() {
-            <span class='macro'>append</span><span class='macro'>!</span>(<span class='ident'>style_rule</span>, <span class='ident'>normal</span>);
-            <span class='macro'>append</span><span class='macro'>!</span>(<span class='ident'>style_rule</span>, <span class='ident'>important</span>);
-            <span class='ident'>rules_source_order</span> <span class='op'>+=</span> <span class='number'>1</span>;
-            <span class='kw'>for</span> <span class='ident'>selector</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>style_rule</span>.<span class='ident'>selectors</span> {
-                <span class='self'>self</span>.<span class='ident'>state_deps</span>.<span class='ident'>note_selector</span>(<span class='ident'>selector</span>.<span class='ident'>compound_selectors</span>.<span class='ident'>clone</span>());
+        <span class='kw'>for</span> <span class='ident'>rule</span> <span class='kw'>in</span> <span class='ident'>stylesheet</span>.<span class='ident'>effective_rules</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>device</span>) {
+            <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>rule</span> {
+                <span class='ident'>CSSRule</span>::<span class='ident'>Style</span>(<span class='kw-2'>ref</span> <span class='ident'>style_rule</span>) <span class='op'>=&gt;</span> {
+                    <span class='macro'>append</span><span class='macro'>!</span>(<span class='ident'>style_rule</span>, <span class='ident'>normal</span>);
+                    <span class='macro'>append</span><span class='macro'>!</span>(<span class='ident'>style_rule</span>, <span class='ident'>important</span>);
+                    <span class='ident'>rules_source_order</span> <span class='op'>+=</span> <span class='number'>1</span>;
+                    <span class='kw'>for</span> <span class='ident'>selector</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>style_rule</span>.<span class='ident'>selectors</span> {
+                        <span class='self'>self</span>.<span class='ident'>state_deps</span>.<span class='ident'>note_selector</span>(<span class='ident'>selector</span>.<span class='ident'>compound_selectors</span>.<span class='ident'>clone</span>());
+                    }
+
+                    <span class='self'>self</span>.<span class='ident'>rules_source_order</span> <span class='op'>=</span> <span class='ident'>rules_source_order</span>;
+                }
+                <span class='ident'>CSSRule</span>::<span class='ident'>Keyframes</span>(<span class='kw-2'>ref</span> <span class='ident'>keyframes_rule</span>) <span class='op'>=&gt;</span> {
+                    <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Found valid keyframes rule: {:?}&quot;</span>, <span class='ident'>keyframes_rule</span>);
+                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>animation</span>) <span class='op'>=</span> <span class='ident'>KeyframesAnimation</span>::<span class='ident'>from_keyframes</span>(<span class='kw-2'>&amp;</span><span class='ident'>keyframes_rule</span>.<span class='ident'>keyframes</span>) {
+                        <span class='macro'>debug</span><span class='macro'>!</span>(<span class='string'>&quot;Found valid keyframe animation: {:?}&quot;</span>, <span class='ident'>animation</span>);
+                        <span class='self'>self</span>.<span class='ident'>animations</span>.<span class='ident'>insert</span>(<span class='ident'>keyframes_rule</span>.<span class='ident'>name</span>.<span class='ident'>clone</span>(),
+                                               <span class='ident'>animation</span>);
+                    } <span class='kw'>else</span> {
+                        <span class='comment'>// If there&#39;s a valid keyframes rule, even if it doesn&#39;t</span>
+                        <span class='comment'>// produce an animation, should shadow other animations</span>
+                        <span class='comment'>// with the same name.</span>
+                        <span class='self'>self</span>.<span class='ident'>animations</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>keyframes_rule</span>.<span class='ident'>name</span>);
+                    }
+                }
+                <span class='comment'>// We don&#39;t care about any other rule.</span>
+                _ <span class='op'>=&gt;</span> {}
             }
         }
-
-        <span class='self'>self</span>.<span class='ident'>rules_source_order</span> <span class='op'>=</span> <span class='ident'>rules_source_order</span>;
 
         <span class='ident'>Impl</span>::<span class='ident'>each_precomputed_pseudo_element</span>(<span class='op'>|</span><span class='ident'>pseudo</span><span class='op'>|</span> {
             <span class='comment'>// TODO: Consider not doing this and just getting the rules on the</span>
@@ -808,7 +866,8 @@
             <span class='kw'>let</span> (<span class='ident'>computed</span>, _) <span class='op'>=</span>
                 <span class='ident'>properties</span>::<span class='ident'>cascade</span>(<span class='self'>self</span>.<span class='ident'>device</span>.<span class='ident'>au_viewport_size</span>(),
                                     <span class='kw-2'>&amp;</span><span class='ident'>declarations</span>, <span class='bool-val'>false</span>,
-                                    <span class='ident'>parent</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>p</span>), <span class='prelude-val'>None</span>,
+                                    <span class='ident'>parent</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>p</span>),
+                                    <span class='prelude-val'>None</span>,
                                     <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>StdoutErrorReporter</span>));
             <span class='prelude-val'>Some</span>(<span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>computed</span>))
         } <span class='kw'>else</span> {
@@ -974,6 +1033,11 @@
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_device_dirty</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='self'>self</span>.<span class='ident'>is_device_dirty</span>
+    }
+
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>animations</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>Atom</span>, <span class='ident'>KeyframesAnimation</span><span class='op'>&gt;</span> {
+        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>animations</span>
     }
 }
 

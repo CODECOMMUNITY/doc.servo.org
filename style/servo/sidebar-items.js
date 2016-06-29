@@ -1,1 +1,1 @@
-initSidebarItems({"type":[["PrivateStyleData",""],["SharedStyleContext",""],["Stylesheet",""],["Stylist",""]]});
+initSidebarItems({"type":[["Animation",""],["PrivateStyleData",""],["SharedStyleContext",""],["Stylesheet",""],["Stylist",""]]});
