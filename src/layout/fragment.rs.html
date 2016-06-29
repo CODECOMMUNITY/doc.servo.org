@@ -2883,6 +2883,11 @@
 <span id="2839">2839</span>
 <span id="2840">2840</span>
 <span id="2841">2841</span>
+<span id="2842">2842</span>
+<span id="2843">2843</span>
+<span id="2844">2844</span>
+<span id="2845">2845</span>
+<span id="2846">2846</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2924,9 +2929,9 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::<span class='ident'>content</span>::<span class='ident'>ContentItem</span>;
-<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::{<span class='ident'>border_collapse</span>, <span class='ident'>clear</span>, <span class='ident'>display</span>, <span class='ident'>mix_blend_mode</span>, <span class='ident'>overflow_wrap</span>};
-<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::{<span class='ident'>overflow_x</span>, <span class='ident'>position</span>, <span class='ident'>text_decoration</span>, <span class='ident'>transform_style</span>};
-<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::{<span class='ident'>vertical_align</span>, <span class='ident'>white_space</span>, <span class='ident'>word_break</span>, <span class='ident'>z_index</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::{<span class='ident'>border_collapse</span>, <span class='ident'>clear</span>, <span class='ident'>color</span>, <span class='ident'>display</span>, <span class='ident'>mix_blend_mode</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::{<span class='ident'>overflow_wrap</span>, <span class='ident'>overflow_x</span>, <span class='ident'>position</span>, <span class='ident'>text_decoration</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>computed_values</span>::{<span class='ident'>transform_style</span>, <span class='ident'>vertical_align</span>, <span class='ident'>white_space</span>, <span class='ident'>word_break</span>, <span class='ident'>z_index</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>dom</span>::<span class='ident'>TRestyleDamage</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>logical_geometry</span>::{<span class='ident'>LogicalMargin</span>, <span class='ident'>LogicalRect</span>, <span class='ident'>LogicalSize</span>, <span class='ident'>WritingMode</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::{<span class='ident'>ComputedValues</span>, <span class='ident'>ServoComputedValues</span>};
@@ -4190,6 +4195,10 @@
         <span class='self'>self</span>.<span class='ident'>style</span>().<span class='ident'>get_inheritedtext</span>().<span class='ident'>white_space</span>
     }
 
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>color</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>color</span>::<span class='ident'>T</span> {
+        <span class='self'>self</span>.<span class='ident'>style</span>().<span class='ident'>get_color</span>().<span class='ident'>color</span>
+    }
+
     <span class='doccomment'>/// Returns the text decoration of this fragment, according to the style of the nearest ancestor</span>
     <span class='doccomment'>/// element.</span>
     <span class='doccomment'>///</span>
@@ -4928,7 +4937,8 @@
                 <span class='comment'>// FIXME: Should probably use a whitelist of styles that can safely differ (#3165)</span>
                 <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>style</span>().<span class='ident'>get_font</span>() <span class='op'>!=</span> <span class='ident'>other</span>.<span class='ident'>style</span>().<span class='ident'>get_font</span>() <span class='op'>||</span>
                         <span class='self'>self</span>.<span class='ident'>text_decoration</span>() <span class='op'>!=</span> <span class='ident'>other</span>.<span class='ident'>text_decoration</span>() <span class='op'>||</span>
-                        <span class='self'>self</span>.<span class='ident'>white_space</span>() <span class='op'>!=</span> <span class='ident'>other</span>.<span class='ident'>white_space</span>() {
+                        <span class='self'>self</span>.<span class='ident'>white_space</span>() <span class='op'>!=</span> <span class='ident'>other</span>.<span class='ident'>white_space</span>() <span class='op'>||</span>
+                        <span class='self'>self</span>.<span class='ident'>color</span>() <span class='op'>!=</span> <span class='ident'>other</span>.<span class='ident'>color</span>() {
                     <span class='kw'>return</span> <span class='bool-val'>false</span>
                 }
 

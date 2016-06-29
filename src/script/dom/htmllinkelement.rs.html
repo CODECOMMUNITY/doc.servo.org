@@ -428,6 +428,9 @@
 <span id="384">384</span>
 <span id="385">385</span>
 <span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -720,43 +723,46 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>response_complete</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>status</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>NetworkError</span><span class='op'>&gt;</span>) {
+        <span class='kw'>let</span> <span class='ident'>elem</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>elem</span>.<span class='ident'>root</span>();
+        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>document_from_node</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>elem</span>);
+
         <span class='kw'>if</span> <span class='ident'>status</span>.<span class='ident'>is_err</span>() {
             <span class='self'>self</span>.<span class='ident'>elem</span>.<span class='ident'>root</span>().<span class='ident'>upcast</span>::<span class='op'>&lt;</span><span class='ident'>EventTarget</span><span class='op'>&gt;</span>().<span class='ident'>fire_simple_event</span>(<span class='string'>&quot;error&quot;</span>);
-            <span class='kw'>return</span>;
+        } <span class='kw'>else</span> {
+            <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>data</span>, <span class='macro'>vec</span><span class='macro'>!</span>());
+            <span class='kw'>let</span> <span class='ident'>metadata</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>metadata</span>.<span class='ident'>take</span>() {
+                <span class='prelude-val'>Some</span>(<span class='ident'>meta</span>) <span class='op'>=&gt;</span> <span class='ident'>meta</span>,
+                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
+            };
+            <span class='comment'>// TODO: Get the actual value. http://dev.w3.org/csswg/css-syntax/#environment-encoding</span>
+            <span class='kw'>let</span> <span class='ident'>environment_encoding</span> <span class='op'>=</span> <span class='ident'>UTF_8</span> <span class='kw'>as</span> <span class='ident'>EncodingRef</span>;
+            <span class='kw'>let</span> <span class='ident'>protocol_encoding_label</span> <span class='op'>=</span> <span class='ident'>metadata</span>.<span class='ident'>charset</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>s</span>);
+            <span class='kw'>let</span> <span class='ident'>final_url</span> <span class='op'>=</span> <span class='ident'>metadata</span>.<span class='ident'>final_url</span>;
+
+            <span class='kw'>let</span> <span class='ident'>win</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>elem</span>);
+
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sheet</span> <span class='op'>=</span> <span class='ident'>Stylesheet</span>::<span class='ident'>from_bytes</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>, <span class='ident'>final_url</span>, <span class='ident'>protocol_encoding_label</span>,
+                                                   <span class='prelude-val'>Some</span>(<span class='ident'>environment_encoding</span>), <span class='ident'>Origin</span>::<span class='ident'>Author</span>,
+                                                   <span class='ident'>win</span>.<span class='ident'>css_error_reporter</span>(),
+                                                   <span class='ident'>ParserContextExtraData</span>::<span class='ident'>default</span>());
+            <span class='kw'>let</span> <span class='ident'>media</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>media</span>.<span class='ident'>take</span>().<span class='ident'>unwrap</span>();
+            <span class='ident'>sheet</span>.<span class='ident'>set_media</span>(<span class='prelude-val'>Some</span>(<span class='ident'>media</span>));
+            <span class='kw'>let</span> <span class='ident'>sheet</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>sheet</span>);
+
+            <span class='kw'>let</span> <span class='ident'>elem</span> <span class='op'>=</span> <span class='ident'>elem</span>.<span class='ident'>r</span>();
+            <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>r</span>();
+
+            <span class='kw'>let</span> <span class='ident'>win</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='ident'>elem</span>);
+            <span class='ident'>win</span>.<span class='ident'>layout_chan</span>().<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>AddStylesheet</span>(<span class='ident'>sheet</span>.<span class='ident'>clone</span>())).<span class='ident'>unwrap</span>();
+
+            <span class='op'>*</span><span class='ident'>elem</span>.<span class='ident'>stylesheet</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>sheet</span>);
+            <span class='ident'>document</span>.<span class='ident'>invalidate_stylesheets</span>();
         }
-        <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>data</span>, <span class='macro'>vec</span><span class='macro'>!</span>());
-        <span class='kw'>let</span> <span class='ident'>metadata</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>metadata</span>.<span class='ident'>take</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>meta</span>) <span class='op'>=&gt;</span> <span class='ident'>meta</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span>,
-        };
-        <span class='comment'>// TODO: Get the actual value. http://dev.w3.org/csswg/css-syntax/#environment-encoding</span>
-        <span class='kw'>let</span> <span class='ident'>environment_encoding</span> <span class='op'>=</span> <span class='ident'>UTF_8</span> <span class='kw'>as</span> <span class='ident'>EncodingRef</span>;
-        <span class='kw'>let</span> <span class='ident'>protocol_encoding_label</span> <span class='op'>=</span> <span class='ident'>metadata</span>.<span class='ident'>charset</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>s</span>);
-        <span class='kw'>let</span> <span class='ident'>final_url</span> <span class='op'>=</span> <span class='ident'>metadata</span>.<span class='ident'>final_url</span>;
 
-        <span class='kw'>let</span> <span class='ident'>elem</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>elem</span>.<span class='ident'>root</span>();
-        <span class='kw'>let</span> <span class='ident'>win</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>elem</span>);
-
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sheet</span> <span class='op'>=</span> <span class='ident'>Stylesheet</span>::<span class='ident'>from_bytes</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>, <span class='ident'>final_url</span>, <span class='ident'>protocol_encoding_label</span>,
-                                               <span class='prelude-val'>Some</span>(<span class='ident'>environment_encoding</span>), <span class='ident'>Origin</span>::<span class='ident'>Author</span>,
-                                               <span class='ident'>win</span>.<span class='ident'>css_error_reporter</span>(),
-                                               <span class='ident'>ParserContextExtraData</span>::<span class='ident'>default</span>());
-        <span class='kw'>let</span> <span class='ident'>media</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>media</span>.<span class='ident'>take</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>sheet</span>.<span class='ident'>set_media</span>(<span class='prelude-val'>Some</span>(<span class='ident'>media</span>));
-        <span class='kw'>let</span> <span class='ident'>sheet</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>sheet</span>);
-
-        <span class='kw'>let</span> <span class='ident'>elem</span> <span class='op'>=</span> <span class='ident'>elem</span>.<span class='ident'>r</span>();
-        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>document_from_node</span>(<span class='ident'>elem</span>);
-        <span class='kw'>let</span> <span class='ident'>document</span> <span class='op'>=</span> <span class='ident'>document</span>.<span class='ident'>r</span>();
-
-        <span class='kw'>let</span> <span class='ident'>win</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='ident'>elem</span>);
-        <span class='ident'>win</span>.<span class='ident'>layout_chan</span>().<span class='ident'>send</span>(<span class='ident'>Msg</span>::<span class='ident'>AddStylesheet</span>(<span class='ident'>sheet</span>.<span class='ident'>clone</span>())).<span class='ident'>unwrap</span>();
-
-        <span class='op'>*</span><span class='ident'>elem</span>.<span class='ident'>stylesheet</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>sheet</span>);
-        <span class='ident'>document</span>.<span class='ident'>invalidate_stylesheets</span>();
         <span class='kw'>if</span> <span class='ident'>elem</span>.<span class='ident'>parser_inserted</span>.<span class='ident'>get</span>() {
             <span class='ident'>document</span>.<span class='ident'>decrement_script_blocking_stylesheet_count</span>();
         }
+
         <span class='ident'>document</span>.<span class='ident'>finish_load</span>(<span class='ident'>LoadType</span>::<span class='ident'>Stylesheet</span>(<span class='self'>self</span>.<span class='ident'>url</span>.<span class='ident'>clone</span>()));
     }
 }

@@ -1475,10 +1475,6 @@
 <span id="1431">1431</span>
 <span id="1432">1432</span>
 <span id="1433">1433</span>
-<span id="1434">1434</span>
-<span id="1435">1435</span>
-<span id="1436">1436</span>
-<span id="1437">1437</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1697,13 +1693,8 @@
 
 <span class='kw'>impl</span> <span class='ident'>DisplayList</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='kw-2'>mut</span> <span class='ident'>root_stacking_context</span>: <span class='ident'>StackingContext</span>,
-               <span class='ident'>items</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DisplayItem</span><span class='op'>&gt;&gt;</span>)
+               <span class='ident'>items</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DisplayItem</span><span class='op'>&gt;</span>)
                <span class='op'>-&gt;</span> <span class='ident'>DisplayList</span> {
-        <span class='kw'>let</span> <span class='ident'>items</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>items</span>.<span class='ident'>take</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>items</span>) <span class='op'>=&gt;</span> <span class='ident'>items</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Tried to create empty display list.&quot;</span>),
-        };
-
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>offsets</span> <span class='op'>=</span> <span class='ident'>FnvHashMap</span>(<span class='ident'>HashMap</span>::<span class='ident'>with_hasher</span>(<span class='ident'>Default</span>::<span class='ident'>default</span>()));
         <span class='ident'>DisplayList</span>::<span class='ident'>sort_and_count_stacking_contexts</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>root_stacking_context</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>offsets</span>, <span class='number'>0</span>);
 
@@ -1967,9 +1958,8 @@
             <span class='kw-2'>&amp;</span><span class='ident'>draw_target</span>, <span class='kw-2'>&amp;</span><span class='ident'>stacking_context</span>.<span class='ident'>filters</span>, <span class='ident'>stacking_context</span>.<span class='ident'>blend_mode</span>);
     }
 
-    <span class='doccomment'>/// Places all nodes containing the point of interest into `result`, topmost first. Respects</span>
-    <span class='doccomment'>/// the `pointer-events` CSS property If `topmost_only` is true, stops after placing one node</span>
-    <span class='doccomment'>/// into the list. `result` must be empty upon entry to this function.</span>
+    <span class='doccomment'>/// Return all nodes containing the point of interest, bottommost first,</span>
+    <span class='doccomment'>/// and respecting the `pointer-events` CSS property.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>hit_test</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>point</span>: <span class='kw-2'>&amp;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>Au</span><span class='op'>&gt;</span>, <span class='ident'>scroll_offsets</span>: <span class='kw-2'>&amp;</span><span class='ident'>ScrollOffsetMap</span>)
                     <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DisplayItemMetadata</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>traversal</span> <span class='op'>=</span> <span class='ident'>DisplayListTraversal</span> {
@@ -1979,7 +1969,6 @@
         };
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
         <span class='self'>self</span>.<span class='ident'>root_stacking_context</span>.<span class='ident'>hit_test</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>traversal</span>, <span class='ident'>point</span>, <span class='ident'>scroll_offsets</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result</span>);
-        <span class='ident'>result</span>.<span class='ident'>reverse</span>();
         <span class='ident'>result</span>
     }
 }
@@ -2123,13 +2112,17 @@
 
         <span class='kw'>for</span> <span class='ident'>child</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>children</span>.<span class='ident'>iter</span>() {
             <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>item</span>) <span class='op'>=</span> <span class='ident'>traversal</span>.<span class='ident'>advance</span>(<span class='self'>self</span>) {
-                <span class='ident'>item</span>.<span class='ident'>hit_test</span>(<span class='ident'>point</span>, <span class='ident'>result</span>);
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>meta</span>) <span class='op'>=</span> <span class='ident'>item</span>.<span class='ident'>hit_test</span>(<span class='ident'>point</span>) {
+                    <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='ident'>meta</span>);
+                }
             }
             <span class='ident'>child</span>.<span class='ident'>hit_test</span>(<span class='ident'>traversal</span>, <span class='kw-2'>&amp;</span><span class='ident'>point</span>, <span class='ident'>scroll_offsets</span>, <span class='ident'>result</span>);
         }
 
         <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>item</span>) <span class='op'>=</span> <span class='ident'>traversal</span>.<span class='ident'>advance</span>(<span class='self'>self</span>) {
-            <span class='ident'>item</span>.<span class='ident'>hit_test</span>(<span class='ident'>point</span>, <span class='ident'>result</span>);
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>meta</span>) <span class='op'>=</span> <span class='ident'>item</span>.<span class='ident'>hit_test</span>(<span class='ident'>point</span>) {
+                <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='ident'>meta</span>);
+            }
         }
     }
 
@@ -2818,21 +2811,21 @@
         <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}+ {:?}&quot;</span>, <span class='ident'>indent</span>, <span class='self'>self</span>);
     }
 
-    <span class='kw'>fn</span> <span class='ident'>hit_test</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>point</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>Au</span><span class='op'>&gt;</span>, <span class='ident'>result</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>DisplayItemMetadata</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>hit_test</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>point</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>Au</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DisplayItemMetadata</span><span class='op'>&gt;</span> {
         <span class='comment'>// TODO(pcwalton): Use a precise algorithm here. This will allow us to properly hit</span>
         <span class='comment'>// test elements with `border-radius`, for example.</span>
         <span class='kw'>let</span> <span class='ident'>base_item</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>base</span>();
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>base_item</span>.<span class='ident'>clip</span>.<span class='ident'>might_intersect_point</span>(<span class='kw-2'>&amp;</span><span class='ident'>point</span>) {
             <span class='comment'>// Clipped out.</span>
-            <span class='kw'>return</span>;
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
         }
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>bounds</span>().<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>point</span>) {
             <span class='comment'>// Can&#39;t possibly hit.</span>
-            <span class='kw'>return</span>;
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
         }
         <span class='kw'>if</span> <span class='ident'>base_item</span>.<span class='ident'>metadata</span>.<span class='ident'>pointing</span>.<span class='ident'>is_none</span>() {
             <span class='comment'>// `pointer-events` is `none`. Ignore this item.</span>
-            <span class='kw'>return</span>;
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
         }
 
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
@@ -2851,18 +2844,17 @@
                                     (<span class='ident'>border</span>.<span class='ident'>border_widths</span>.<span class='ident'>top</span> <span class='op'>+</span>
                                      <span class='ident'>border</span>.<span class='ident'>border_widths</span>.<span class='ident'>bottom</span>)));
                 <span class='kw'>if</span> <span class='ident'>interior_rect</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>point</span>) {
-                    <span class='kw'>return</span>;
+                    <span class='kw'>return</span> <span class='prelude-val'>None</span>;
                 }
             }
             <span class='ident'>DisplayItem</span>::<span class='ident'>BoxShadowClass</span>(_) <span class='op'>=&gt;</span> {
                 <span class='comment'>// Box shadows can never be hit.</span>
-                <span class='kw'>return</span>
+                <span class='kw'>return</span> <span class='prelude-val'>None</span>;
             }
             _ <span class='op'>=&gt;</span> {}
         }
 
-        <span class='comment'>// We found a hit!</span>
-        <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='ident'>base_item</span>.<span class='ident'>metadata</span>);
+        <span class='prelude-val'>Some</span>(<span class='ident'>base_item</span>.<span class='ident'>metadata</span>)
     }
 }
 
