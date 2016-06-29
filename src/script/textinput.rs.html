@@ -713,6 +713,22 @@
 <span id="669">669</span>
 <span id="670">670</span>
 <span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -931,6 +947,16 @@
         })
     }
 
+    <span class='comment'>// Check that the selection is valid.</span>
+    <span class='kw'>fn</span> <span class='ident'>assert_ok_selection</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>begin</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>selection_begin</span> {
+            <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='ident'>begin</span>.<span class='ident'>line</span> <span class='op'>&lt;</span> <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>len</span>());
+            <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='ident'>begin</span>.<span class='ident'>index</span> <span class='op'>&lt;=</span> <span class='self'>self</span>.<span class='ident'>lines</span>[<span class='ident'>begin</span>.<span class='ident'>line</span>].<span class='ident'>len</span>());
+        }
+        <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>line</span> <span class='op'>&lt;</span> <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>len</span>());
+        <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>index</span> <span class='op'>&lt;=</span> <span class='self'>self</span>.<span class='ident'>lines</span>[<span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>line</span>].<span class='ident'>len</span>());
+    }
+
     <span class='doccomment'>/// Return the selection range as UTF-8 byte offsets from the start of the content.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// If there is no selection, returns an empty range at the insertion point.</span>
@@ -1035,6 +1061,7 @@
 
             <span class='self'>self</span>.<span class='ident'>lines</span> <span class='op'>=</span> <span class='ident'>new_lines</span>;
         }
+        <span class='self'>self</span>.<span class='ident'>assert_ok_selection</span>();
     }
 
     <span class='doccomment'>/// Return the length in UTF-8 bytes of the current line under the editing point.</span>
@@ -1076,6 +1103,7 @@
 
         <span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>line</span> <span class='op'>=</span> <span class='ident'>target_line</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
         <span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>index</span> <span class='op'>=</span> <span class='ident'>len_of_first_n_chars</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>lines</span>[<span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>line</span>], <span class='ident'>col</span>);
+        <span class='self'>self</span>.<span class='ident'>assert_ok_selection</span>();
     }
 
     <span class='doccomment'>/// Adjust the editing point position by a given number of bytes. If the adjustment</span>
@@ -1157,6 +1185,7 @@
                                             <span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>index</span> <span class='op'>+</span> <span class='ident'>adjust</span> <span class='kw'>as</span> <span class='ident'>usize</span>);
             }
         }
+        <span class='self'>self</span>.<span class='ident'>assert_ok_selection</span>();
     }
 
     <span class='doccomment'>/// Deal with a newline input.</span>
@@ -1178,6 +1207,7 @@
         <span class='kw'>let</span> <span class='ident'>last_line</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>;
         <span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>line</span> <span class='op'>=</span> <span class='ident'>last_line</span>;
         <span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>lines</span>[<span class='ident'>last_line</span>].<span class='ident'>len</span>();
+        <span class='self'>self</span>.<span class='ident'>assert_ok_selection</span>();
     }
 
     <span class='doccomment'>/// Remove the current selection.</span>
@@ -1250,6 +1280,7 @@
             }
             <span class='ident'>Key</span>::<span class='ident'>End</span> <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>current_line_length</span>();
+                <span class='self'>self</span>.<span class='ident'>assert_ok_selection</span>();
                 <span class='ident'>KeyReaction</span>::<span class='ident'>RedrawSelection</span>
             }
             <span class='ident'>Key</span>::<span class='ident'>PageUp</span> <span class='op'>=&gt;</span> {
@@ -1314,6 +1345,7 @@
         <span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>line</span> <span class='op'>=</span> <span class='ident'>min</span>(<span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>line</span>, <span class='self'>self</span>.<span class='ident'>lines</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>);
         <span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>index</span> <span class='op'>=</span> <span class='ident'>min</span>(<span class='self'>self</span>.<span class='ident'>edit_point</span>.<span class='ident'>index</span>, <span class='self'>self</span>.<span class='ident'>current_line_length</span>());
         <span class='self'>self</span>.<span class='ident'>selection_begin</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
+        <span class='self'>self</span>.<span class='ident'>assert_ok_selection</span>();
     }
 
     <span class='doccomment'>/// Get the insertion point as a byte offset from the start of the content.</span>
@@ -1362,16 +1394,16 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>end</span> <span class='op'>=</span> <span class='ident'>end</span> <span class='kw'>as</span> <span class='ident'>usize</span>;
         <span class='kw'>let</span> <span class='ident'>text_end</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_content</span>().<span class='ident'>len</span>();
 
-        <span class='kw'>if</span> <span class='ident'>start</span> <span class='op'>&gt;</span> <span class='ident'>text_end</span> {
-            <span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>text_end</span>;
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>end</span> <span class='op'>&gt;</span> <span class='ident'>text_end</span> {
+        <span class='kw'>if</span> <span class='ident'>end</span> <span class='op'>&gt;</span> <span class='ident'>text_end</span> {
             <span class='ident'>end</span> <span class='op'>=</span> <span class='ident'>text_end</span>;
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>start</span> <span class='op'>&gt;=</span> <span class='ident'>end</span> {
+        }
+        <span class='kw'>if</span> <span class='ident'>start</span> <span class='op'>&gt;</span> <span class='ident'>end</span> {
             <span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>end</span>;
         }
 
         <span class='self'>self</span>.<span class='ident'>selection_begin</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>get_text_point_for_absolute_point</span>(<span class='ident'>start</span>));
         <span class='self'>self</span>.<span class='ident'>edit_point</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>get_text_point_for_absolute_point</span>(<span class='ident'>end</span>);
+        <span class='self'>self</span>.<span class='ident'>assert_ok_selection</span>();
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_selection_start</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
