@@ -1590,7 +1590,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>glutin_mods_to_script_mods</span>(<span class='ident'>modifiers</span>: <span class='ident'>KeyModifiers</span>) <span class='op'>-&gt;</span> <span class='ident'>constellation_msg</span>::<span class='ident'>KeyModifiers</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>constellation_msg</span>::<span class='ident'>KeyModifiers</span>::<span class='ident'>from_bits</span>(<span class='number'>0</span>).<span class='ident'>expect</span>(<span class='string'>&quot;infallible&quot;</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>constellation_msg</span>::<span class='ident'>KeyModifiers</span>::<span class='ident'>empty</span>();
         <span class='kw'>if</span> <span class='ident'>modifiers</span>.<span class='ident'>intersects</span>(<span class='ident'>LEFT_SHIFT</span> <span class='op'>|</span> <span class='ident'>RIGHT_SHIFT</span>) {
             <span class='ident'>result</span>.<span class='ident'>insert</span>(<span class='ident'>SHIFT</span>);
         }
