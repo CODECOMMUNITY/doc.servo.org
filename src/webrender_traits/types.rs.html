@@ -711,7 +711,6 @@
 <span id="667">667</span>
 <span id="668">668</span>
 <span id="669">669</span>
-<span id="670">670</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1043,9 +1042,8 @@
 
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>RenderNotifier</span>: <span class='ident'>Send</span> {
     <span class='kw'>fn</span> <span class='ident'>new_frame_ready</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>);
-    <span class='kw'>fn</span> <span class='ident'>pipeline_size_changed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
-                             <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>,
-                             <span class='ident'>size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;&gt;</span>);
+    <span class='kw'>fn</span> <span class='ident'>new_scroll_frame_ready</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>composite_needed</span>: <span class='ident'>bool</span>);
+    <span class='kw'>fn</span> <span class='ident'>pipeline_size_changed</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pipeline_id</span>: <span class='ident'>PipelineId</span>, <span class='ident'>size</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Size2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;&gt;</span>);
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Debug</span>, <span class='ident'>Deserialize</span>, <span class='ident'>Serialize</span>)]</span>

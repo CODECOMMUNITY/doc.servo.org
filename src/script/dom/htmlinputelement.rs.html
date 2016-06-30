@@ -1294,6 +1294,20 @@
 <span id="1250">1250</span>
 <span id="1251">1251</span>
 <span id="1252">1252</span>
+<span id="1253">1253</span>
+<span id="1254">1254</span>
+<span id="1255">1255</span>
+<span id="1256">1256</span>
+<span id="1257">1257</span>
+<span id="1258">1258</span>
+<span id="1259">1259</span>
+<span id="1260">1260</span>
+<span id="1261">1261</span>
+<span id="1262">1262</span>
+<span id="1263">1263</span>
+<span id="1264">1264</span>
+<span id="1265">1265</span>
+<span id="1266">1266</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1597,6 +1611,14 @@
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-fae-form</span>
     <span class='kw'>fn</span> <span class='ident'>GetForm</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>HTMLFormElement</span><span class='op'>&gt;&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>form_owner</span>()
+    }
+
+    <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-input-files</span>
+    <span class='kw'>fn</span> <span class='ident'>GetFiles</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Root</span><span class='op'>&lt;</span><span class='ident'>FileList</span><span class='op'>&gt;&gt;</span> {
+        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>filelist</span>.<span class='ident'>get</span>() {
+            <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>fl</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>fl</span>.<span class='ident'>clone</span>()),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+        }
     }
 
     <span class='comment'>// https://html.spec.whatwg.org/multipage/#dom-input-defaultchecked</span>
@@ -2091,6 +2113,12 @@
                             <span class='ident'>el</span>.<span class='ident'>set_read_write_state</span>(<span class='ident'>read_write</span>);
                         } <span class='kw'>else</span> {
                             <span class='ident'>el</span>.<span class='ident'>set_read_write_state</span>(<span class='bool-val'>false</span>);
+                        }
+
+                        <span class='kw'>if</span> <span class='ident'>new_type</span> <span class='op'>==</span> <span class='ident'>InputType</span>::<span class='ident'>InputFile</span> {
+                            <span class='kw'>let</span> <span class='ident'>window</span> <span class='op'>=</span> <span class='ident'>window_from_node</span>(<span class='self'>self</span>);
+                            <span class='kw'>let</span> <span class='ident'>filelist</span> <span class='op'>=</span> <span class='ident'>FileList</span>::<span class='ident'>new</span>(<span class='ident'>window</span>.<span class='ident'>r</span>(), <span class='macro'>vec</span><span class='macro'>!</span>[]);
+                            <span class='self'>self</span>.<span class='ident'>filelist</span>.<span class='ident'>set</span>(<span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>filelist</span>));
                         }
 
                         <span class='kw'>let</span> <span class='ident'>new_value_mode</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>value_mode</span>();

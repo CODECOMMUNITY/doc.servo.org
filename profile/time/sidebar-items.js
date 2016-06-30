@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["enforce_range",""]],"struct":[["Profiler",""]],"trait":[["Formattable",""]],"type":[["ProfilerBuckets",""]]});
+initSidebarItems({"fn":[["duration_from_seconds",""],["enforce_range",""]],"struct":[["Profiler",""]],"trait":[["Formattable",""]],"type":[["ProfilerBuckets",""]]});

@@ -437,13 +437,78 @@
 <span id="393">393</span>
 <span id="394">394</span>
 <span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
 <span class='kw'>use</span> <span class='ident'>byteorder</span>::{<span class='ident'>LittleEndian</span>, <span class='ident'>ReadBytesExt</span>};
-<span class='kw'>use</span> <span class='ident'>euclid</span>::<span class='ident'>Matrix4D</span>;
 <span class='kw'>use</span> <span class='ident'>frame</span>::<span class='ident'>Frame</span>;
 <span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>FontTemplate</span>, <span class='ident'>ResultMsg</span>, <span class='ident'>RendererFrame</span>};
 <span class='kw'>use</span> <span class='ident'>ipc_channel</span>::<span class='ident'>ipc</span>::{<span class='ident'>IpcBytesReceiver</span>, <span class='ident'>IpcBytesSender</span>, <span class='ident'>IpcReceiver</span>};
@@ -453,14 +518,16 @@
 <span class='kw'>use</span> <span class='ident'>scoped_threadpool</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Cursor</span>, <span class='ident'>Read</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>::<span class='ident'>Sender</span>;
 <span class='kw'>use</span> <span class='ident'>texture_cache</span>::{<span class='ident'>TextureCache</span>, <span class='ident'>TextureCacheItemId</span>};
-<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>ApiMsg</span>, <span class='ident'>AuxiliaryLists</span>, <span class='ident'>BuiltDisplayList</span>, <span class='ident'>IdNamespace</span>, <span class='ident'>RenderNotifier</span>};
-<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>PipelineId</span>, <span class='ident'>WebGLContextId</span>, <span class='ident'>ScrollLayerId</span>};
+<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>ApiMsg</span>, <span class='ident'>AuxiliaryLists</span>, <span class='ident'>BuiltDisplayList</span>, <span class='ident'>IdNamespace</span>};
+<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>PipelineId</span>, <span class='ident'>RenderNotifier</span>, <span class='ident'>WebGLContextId</span>};
 <span class='kw'>use</span> <span class='ident'>batch</span>::<span class='ident'>new_id</span>;
 <span class='kw'>use</span> <span class='ident'>device</span>::<span class='ident'>TextureId</span>;
-<span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::{<span class='ident'>NativeGLContext</span>, <span class='ident'>GLContext</span>, <span class='ident'>ColorAttachmentType</span>, <span class='ident'>NativeGLContextMethods</span>, <span class='ident'>NativeGLContextHandle</span>};
+<span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::{<span class='ident'>ColorAttachmentType</span>, <span class='ident'>GLContext</span>};
+<span class='kw'>use</span> <span class='ident'>offscreen_gl_context</span>::{<span class='ident'>NativeGLContext</span>, <span class='ident'>NativeGLContextHandle</span>};
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RenderBackend</span> {
     <span class='ident'>api_rx</span>: <span class='ident'>IpcReceiver</span><span class='op'>&lt;</span><span class='ident'>ApiMsg</span><span class='op'>&gt;</span>,
@@ -526,219 +593,269 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>profile_counters</span> <span class='op'>=</span> <span class='ident'>BackendProfileCounters</span>::<span class='ident'>new</span>();
 
         <span class='kw'>loop</span> {
-            <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>api_rx</span>.<span class='ident'>recv</span>();
-            <span class='kw'>match</span> <span class='ident'>msg</span> {
-                <span class='prelude-val'>Ok</span>(<span class='ident'>msg</span>) <span class='op'>=&gt;</span> {
-                    <span class='kw'>match</span> <span class='ident'>msg</span> {
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>AddRawFont</span>(<span class='ident'>id</span>, <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> {
-                            <span class='ident'>profile_counters</span>.<span class='ident'>font_templates</span>.<span class='ident'>inc</span>(<span class='ident'>bytes</span>.<span class='ident'>len</span>());
-                            <span class='self'>self</span>.<span class='ident'>resource_cache</span>
-                                .<span class='ident'>add_font_template</span>(<span class='ident'>id</span>, <span class='ident'>FontTemplate</span>::<span class='ident'>Raw</span>(<span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>bytes</span>)));
-                        }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>AddNativeFont</span>(<span class='ident'>id</span>, <span class='ident'>native_font_handle</span>) <span class='op'>=&gt;</span> {
-                            <span class='self'>self</span>.<span class='ident'>resource_cache</span>
-                                .<span class='ident'>add_font_template</span>(<span class='ident'>id</span>, <span class='ident'>FontTemplate</span>::<span class='ident'>Native</span>(<span class='ident'>native_font_handle</span>));
-                        }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>AddImage</span>(<span class='ident'>id</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>format</span>, <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> {
-                            <span class='ident'>profile_counters</span>.<span class='ident'>image_templates</span>.<span class='ident'>inc</span>(<span class='ident'>bytes</span>.<span class='ident'>len</span>());
-                            <span class='self'>self</span>.<span class='ident'>resource_cache</span>.<span class='ident'>add_image_template</span>(<span class='ident'>id</span>,
-                                                                   <span class='ident'>width</span>,
-                                                                   <span class='ident'>height</span>,
-                                                                   <span class='ident'>format</span>,
-                                                                   <span class='ident'>bytes</span>);
-                        }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>UpdateImage</span>(<span class='ident'>id</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>format</span>, <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> {
-                            <span class='self'>self</span>.<span class='ident'>resource_cache</span>.<span class='ident'>update_image_template</span>(<span class='ident'>id</span>,
-                                                                      <span class='ident'>width</span>,
-                                                                      <span class='ident'>height</span>,
-                                                                      <span class='ident'>format</span>,
-                                                                      <span class='ident'>bytes</span>);
-                        }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>DeleteImage</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> {
-                            <span class='self'>self</span>.<span class='ident'>resource_cache</span>.<span class='ident'>delete_image_template</span>(<span class='ident'>id</span>);
-                        }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>CloneApi</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
-                            <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>next_namespace_id</span>;
+            <span class='comment'>// Preprocess messages to guard against message floods.</span>
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>msgs</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>index_of_last_set_root_stacking_context_msg</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>api_rx</span>.<span class='ident'>recv</span>() {
+                <span class='prelude-val'>Ok</span>(<span class='ident'>msg</span>) <span class='op'>=&gt;</span> <span class='ident'>msg</span>,
+                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
+            };
+            <span class='kw'>loop</span> {
+                <span class='kw'>match</span> <span class='ident'>msg</span> {
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>SetRootStackingContext</span>(..) <span class='op'>=&gt;</span> {
+                        <span class='ident'>index_of_last_set_root_stacking_context_msg</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>msgs</span>.<span class='ident'>len</span>())
+                    }
+                    _ <span class='op'>=&gt;</span> {}
+                }
+                <span class='ident'>msgs</span>.<span class='ident'>push</span>(<span class='ident'>msg</span>);
+                <span class='ident'>msg</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>api_rx</span>.<span class='ident'>try_recv</span>() {
+                    <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
+                    <span class='prelude-val'>Ok</span>(<span class='ident'>msg</span>) <span class='op'>=&gt;</span> <span class='ident'>msg</span>,
+                }
+            }
 
-                            <span class='kw'>let</span> <span class='ident'>IdNamespace</span>(<span class='ident'>id_namespace</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>next_namespace_id</span>;
-                            <span class='self'>self</span>.<span class='ident'>next_namespace_id</span> <span class='op'>=</span> <span class='ident'>IdNamespace</span>(<span class='ident'>id_namespace</span> <span class='op'>+</span> <span class='number'>1</span>);
+            <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>msg</span>) <span class='kw'>in</span> <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>msgs</span>, <span class='macro'>vec</span><span class='macro'>!</span>[]).<span class='ident'>into_iter</span>().<span class='ident'>enumerate</span>() {
+                <span class='kw'>match</span> <span class='ident'>msg</span> {
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>SetRootStackingContext</span>(..) <span class='kw'>if</span> <span class='prelude-val'>Some</span>(<span class='ident'>i</span>) <span class='op'>!=</span>
+                            <span class='ident'>index_of_last_set_root_stacking_context_msg</span> <span class='op'>=&gt;</span> {
+                        <span class='comment'>// We&#39;re getting flooded with new frames. Ignore all but the last one.</span>
+                    }
+                    _ <span class='op'>=&gt;</span> <span class='ident'>msgs</span>.<span class='ident'>push</span>(<span class='ident'>msg</span>),
+                }
+            }
 
-                            <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='ident'>result</span>).<span class='ident'>unwrap</span>();
-                        }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>SetRootStackingContext</span>(<span class='ident'>stacking_context_id</span>,
-                                                       <span class='ident'>background_color</span>,
-                                                       <span class='ident'>epoch</span>,
-                                                       <span class='ident'>pipeline_id</span>,
-                                                       <span class='ident'>viewport_size</span>,
-                                                       <span class='ident'>stacking_contexts</span>,
-                                                       <span class='ident'>display_lists</span>,
-                                                       <span class='ident'>auxiliary_lists_descriptor</span>) <span class='op'>=&gt;</span> {
-                            <span class='kw'>for</span> (<span class='ident'>id</span>, <span class='ident'>stacking_context</span>) <span class='kw'>in</span> <span class='ident'>stacking_contexts</span>.<span class='ident'>into_iter</span>() {
-                                <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>add_stacking_context</span>(<span class='ident'>id</span>,
-                                                                <span class='ident'>pipeline_id</span>,
-                                                                <span class='ident'>epoch</span>,
-                                                                <span class='ident'>stacking_context</span>);
-                            }
+            <span class='comment'>// Process the messages that survived.</span>
+            <span class='kw'>for</span> <span class='ident'>msg</span> <span class='kw'>in</span> <span class='ident'>msgs</span> {
+                <span class='kw'>match</span> <span class='ident'>msg</span> {
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>AddRawFont</span>(<span class='ident'>id</span>, <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> {
+                        <span class='ident'>profile_counters</span>.<span class='ident'>font_templates</span>.<span class='ident'>inc</span>(<span class='ident'>bytes</span>.<span class='ident'>len</span>());
+                        <span class='self'>self</span>.<span class='ident'>resource_cache</span>
+                            .<span class='ident'>add_font_template</span>(<span class='ident'>id</span>, <span class='ident'>FontTemplate</span>::<span class='ident'>Raw</span>(<span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>bytes</span>)));
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>AddNativeFont</span>(<span class='ident'>id</span>, <span class='ident'>native_font_handle</span>) <span class='op'>=&gt;</span> {
+                        <span class='self'>self</span>.<span class='ident'>resource_cache</span>
+                            .<span class='ident'>add_font_template</span>(<span class='ident'>id</span>, <span class='ident'>FontTemplate</span>::<span class='ident'>Native</span>(<span class='ident'>native_font_handle</span>));
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>AddImage</span>(<span class='ident'>id</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>format</span>, <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> {
+                        <span class='ident'>profile_counters</span>.<span class='ident'>image_templates</span>.<span class='ident'>inc</span>(<span class='ident'>bytes</span>.<span class='ident'>len</span>());
+                        <span class='self'>self</span>.<span class='ident'>resource_cache</span>.<span class='ident'>add_image_template</span>(<span class='ident'>id</span>,
+                                                               <span class='ident'>width</span>,
+                                                               <span class='ident'>height</span>,
+                                                               <span class='ident'>format</span>,
+                                                               <span class='ident'>bytes</span>);
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>UpdateImage</span>(<span class='ident'>id</span>, <span class='ident'>width</span>, <span class='ident'>height</span>, <span class='ident'>format</span>, <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> {
+                        <span class='self'>self</span>.<span class='ident'>resource_cache</span>.<span class='ident'>update_image_template</span>(<span class='ident'>id</span>,
+                                                                  <span class='ident'>width</span>,
+                                                                  <span class='ident'>height</span>,
+                                                                  <span class='ident'>format</span>,
+                                                                  <span class='ident'>bytes</span>);
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>DeleteImage</span>(<span class='ident'>id</span>) <span class='op'>=&gt;</span> {
+                        <span class='self'>self</span>.<span class='ident'>resource_cache</span>.<span class='ident'>delete_image_template</span>(<span class='ident'>id</span>);
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>CloneApi</span>(<span class='ident'>sender</span>) <span class='op'>=&gt;</span> {
+                        <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>next_namespace_id</span>;
 
-                            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>leftover_auxiliary_data</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
-                            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auxiliary_data</span>;
-                            <span class='kw'>loop</span> {
-                                <span class='ident'>auxiliary_data</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>payload_rx</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
-                                {
-                                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>payload_reader</span> <span class='op'>=</span> <span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>auxiliary_data</span>[..]);
-                                    <span class='kw'>let</span> <span class='ident'>payload_stacking_context_id</span> <span class='op'>=</span>
-                                        <span class='ident'>payload_reader</span>.<span class='ident'>read_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>();
-                                    <span class='kw'>let</span> <span class='ident'>payload_epoch</span> <span class='op'>=</span>
-                                        <span class='ident'>payload_reader</span>.<span class='ident'>read_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>();
-                                    <span class='kw'>if</span> <span class='ident'>payload_epoch</span> <span class='op'>==</span> <span class='ident'>epoch</span>.<span class='number'>0</span> <span class='op'>&amp;&amp;</span>
-                                            <span class='ident'>payload_stacking_context_id</span> <span class='op'>==</span> <span class='ident'>stacking_context_id</span>.<span class='number'>0</span> {
-                                        <span class='kw'>break</span>
-                                    }
-                                }
-                                <span class='ident'>leftover_auxiliary_data</span>.<span class='ident'>push</span>(<span class='ident'>auxiliary_data</span>)
-                            }
-                            <span class='kw'>for</span> <span class='ident'>leftover_auxiliary_data</span> <span class='kw'>in</span> <span class='ident'>leftover_auxiliary_data</span> {
-                                <span class='self'>self</span>.<span class='ident'>payload_tx</span>.<span class='ident'>send</span>(<span class='kw-2'>&amp;</span><span class='ident'>leftover_auxiliary_data</span>[..]).<span class='ident'>unwrap</span>()
-                            }
+                        <span class='kw'>let</span> <span class='ident'>IdNamespace</span>(<span class='ident'>id_namespace</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>next_namespace_id</span>;
+                        <span class='self'>self</span>.<span class='ident'>next_namespace_id</span> <span class='op'>=</span> <span class='ident'>IdNamespace</span>(<span class='ident'>id_namespace</span> <span class='op'>+</span> <span class='number'>1</span>);
 
-                            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auxiliary_data</span> <span class='op'>=</span> <span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>auxiliary_data</span>[<span class='number'>8</span>..]);
-                            <span class='kw'>for</span> (<span class='ident'>display_list_id</span>,
-                                 <span class='ident'>display_list_descriptor</span>) <span class='kw'>in</span> <span class='ident'>display_lists</span>.<span class='ident'>into_iter</span>() {
-                                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>built_display_list_data</span> <span class='op'>=</span>
-                                    <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='ident'>display_list_descriptor</span>.<span class='ident'>size</span>()];
-                                <span class='ident'>auxiliary_data</span>.<span class='ident'>read_exact</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>built_display_list_data</span>[..])
-                                              .<span class='ident'>unwrap</span>();
-                                <span class='kw'>let</span> <span class='ident'>built_display_list</span> <span class='op'>=</span>
-                                    <span class='ident'>BuiltDisplayList</span>::<span class='ident'>from_data</span>(<span class='ident'>built_display_list_data</span>,
-                                                                <span class='ident'>display_list_descriptor</span>);
-                                <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>add_display_list</span>(<span class='ident'>display_list_id</span>,
+                        <span class='ident'>sender</span>.<span class='ident'>send</span>(<span class='ident'>result</span>).<span class='ident'>unwrap</span>();
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>SetRootStackingContext</span>(<span class='ident'>stacking_context_id</span>,
+                                                   <span class='ident'>background_color</span>,
+                                                   <span class='ident'>epoch</span>,
+                                                   <span class='ident'>pipeline_id</span>,
+                                                   <span class='ident'>viewport_size</span>,
+                                                   <span class='ident'>stacking_contexts</span>,
+                                                   <span class='ident'>display_lists</span>,
+                                                   <span class='ident'>auxiliary_lists_descriptor</span>) <span class='op'>=&gt;</span> {
+                        <span class='kw'>for</span> (<span class='ident'>id</span>, <span class='ident'>stacking_context</span>) <span class='kw'>in</span> <span class='ident'>stacking_contexts</span>.<span class='ident'>into_iter</span>() {
+                            <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>add_stacking_context</span>(<span class='ident'>id</span>,
                                                             <span class='ident'>pipeline_id</span>,
                                                             <span class='ident'>epoch</span>,
-                                                            <span class='ident'>built_display_list</span>,
-                                                            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>resource_cache</span>);
+                                                            <span class='ident'>stacking_context</span>);
+                        }
+
+                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>leftover_auxiliary_data</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
+                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auxiliary_data</span>;
+                        <span class='kw'>loop</span> {
+                            <span class='ident'>auxiliary_data</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>payload_rx</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
+                            {
+                                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>payload_reader</span> <span class='op'>=</span> <span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>auxiliary_data</span>[..]);
+                                <span class='kw'>let</span> <span class='ident'>payload_stacking_context_id</span> <span class='op'>=</span>
+                                    <span class='ident'>payload_reader</span>.<span class='ident'>read_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>();
+                                <span class='kw'>let</span> <span class='ident'>payload_epoch</span> <span class='op'>=</span>
+                                    <span class='ident'>payload_reader</span>.<span class='ident'>read_u32</span>::<span class='op'>&lt;</span><span class='ident'>LittleEndian</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>();
+                                <span class='kw'>if</span> <span class='ident'>payload_epoch</span> <span class='op'>==</span> <span class='ident'>epoch</span>.<span class='number'>0</span> <span class='op'>&amp;&amp;</span>
+                                        <span class='ident'>payload_stacking_context_id</span> <span class='op'>==</span>
+                                            <span class='ident'>stacking_context_id</span>.<span class='number'>0</span> {
+                                    <span class='kw'>break</span>
+                                }
                             }
-
-                            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auxiliary_lists_data</span> <span class='op'>=</span>
-                                <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='ident'>auxiliary_lists_descriptor</span>.<span class='ident'>size</span>()];
-                            <span class='ident'>auxiliary_data</span>.<span class='ident'>read_exact</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>auxiliary_lists_data</span>[..]).<span class='ident'>unwrap</span>();
-                            <span class='kw'>let</span> <span class='ident'>auxiliary_lists</span> <span class='op'>=</span>
-                                <span class='ident'>AuxiliaryLists</span>::<span class='ident'>from_data</span>(<span class='ident'>auxiliary_lists_data</span>,
-                                                          <span class='ident'>auxiliary_lists_descriptor</span>);
-                            <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>profile_counters</span>.<span class='ident'>total_time</span>.<span class='ident'>profile</span>(<span class='op'>||</span> {
-                                <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>set_root_stacking_context</span>(<span class='ident'>pipeline_id</span>,
-                                                                     <span class='ident'>epoch</span>,
-                                                                     <span class='ident'>stacking_context_id</span>,
-                                                                     <span class='ident'>background_color</span>,
-                                                                     <span class='ident'>viewport_size</span>,
-                                                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>resource_cache</span>,
-                                                                     <span class='ident'>auxiliary_lists</span>);
-
-                                <span class='self'>self</span>.<span class='ident'>build_scene</span>();
-                                <span class='self'>self</span>.<span class='ident'>render</span>()
-                            });
-
-                            <span class='self'>self</span>.<span class='ident'>publish_frame</span>(<span class='ident'>frame</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>profile_counters</span>);
+                            <span class='ident'>leftover_auxiliary_data</span>.<span class='ident'>push</span>(<span class='ident'>auxiliary_data</span>)
                         }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>SetRootPipeline</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span> {
-                            <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>profile_counters</span>.<span class='ident'>total_time</span>.<span class='ident'>profile</span>(<span class='op'>||</span> {
-                                <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>set_root_pipeline_id</span>(<span class='ident'>pipeline_id</span>);
-
-                                <span class='self'>self</span>.<span class='ident'>build_scene</span>();
-                                <span class='self'>self</span>.<span class='ident'>render</span>()
-                            });
-
-                            <span class='self'>self</span>.<span class='ident'>publish_frame</span>(<span class='ident'>frame</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>profile_counters</span>);
+                        <span class='kw'>for</span> <span class='ident'>leftover_auxiliary_data</span> <span class='kw'>in</span> <span class='ident'>leftover_auxiliary_data</span> {
+                            <span class='self'>self</span>.<span class='ident'>payload_tx</span>.<span class='ident'>send</span>(<span class='kw-2'>&amp;</span><span class='ident'>leftover_auxiliary_data</span>[..]).<span class='ident'>unwrap</span>()
                         }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>Scroll</span>(<span class='ident'>delta</span>, <span class='ident'>cursor</span>, <span class='ident'>move_phase</span>) <span class='op'>=&gt;</span> {
-                            <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>profile_counters</span>.<span class='ident'>total_time</span>.<span class='ident'>profile</span>(<span class='op'>||</span> {
-                                <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>scroll</span>(<span class='ident'>delta</span>, <span class='ident'>cursor</span>, <span class='ident'>move_phase</span>);
-                                <span class='self'>self</span>.<span class='ident'>render</span>()
-                            });
 
-                            <span class='self'>self</span>.<span class='ident'>publish_frame</span>(<span class='ident'>frame</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>profile_counters</span>);
+                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auxiliary_data</span> <span class='op'>=</span> <span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>auxiliary_data</span>[<span class='number'>8</span>..]);
+                        <span class='kw'>for</span> (<span class='ident'>display_list_id</span>,
+                             <span class='ident'>display_list_descriptor</span>) <span class='kw'>in</span> <span class='ident'>display_lists</span>.<span class='ident'>into_iter</span>() {
+                            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>built_display_list_data</span> <span class='op'>=</span>
+                                <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='ident'>display_list_descriptor</span>.<span class='ident'>size</span>()];
+                            <span class='ident'>auxiliary_data</span>.<span class='ident'>read_exact</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>built_display_list_data</span>[..])
+                                          .<span class='ident'>unwrap</span>();
+                            <span class='kw'>let</span> <span class='ident'>built_display_list</span> <span class='op'>=</span>
+                                <span class='ident'>BuiltDisplayList</span>::<span class='ident'>from_data</span>(<span class='ident'>built_display_list_data</span>,
+                                                            <span class='ident'>display_list_descriptor</span>);
+                            <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>add_display_list</span>(<span class='ident'>display_list_id</span>,
+                                                        <span class='ident'>pipeline_id</span>,
+                                                        <span class='ident'>epoch</span>,
+                                                        <span class='ident'>built_display_list</span>,
+                                                        <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>resource_cache</span>);
                         }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>TickScrollingBounce</span> <span class='op'>=&gt;</span> {
-                            <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>profile_counters</span>.<span class='ident'>total_time</span>.<span class='ident'>profile</span>(<span class='op'>||</span> {
-                                <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>tick_scrolling_bounce_animations</span>();
-                                <span class='self'>self</span>.<span class='ident'>render</span>()
-                            });
 
-                            <span class='self'>self</span>.<span class='ident'>publish_frame</span>(<span class='ident'>frame</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>profile_counters</span>);
+                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>auxiliary_lists_data</span> <span class='op'>=</span>
+                            <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='ident'>auxiliary_lists_descriptor</span>.<span class='ident'>size</span>()];
+                        <span class='ident'>auxiliary_data</span>.<span class='ident'>read_exact</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>auxiliary_lists_data</span>[..]).<span class='ident'>unwrap</span>();
+                        <span class='kw'>let</span> <span class='ident'>auxiliary_lists</span> <span class='op'>=</span>
+                            <span class='ident'>AuxiliaryLists</span>::<span class='ident'>from_data</span>(<span class='ident'>auxiliary_lists_data</span>,
+                                                      <span class='ident'>auxiliary_lists_descriptor</span>);
+                        <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>profile_counters</span>.<span class='ident'>total_time</span>.<span class='ident'>profile</span>(<span class='op'>||</span> {
+                            <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>set_root_stacking_context</span>(<span class='ident'>pipeline_id</span>,
+                                                                 <span class='ident'>epoch</span>,
+                                                                 <span class='ident'>stacking_context_id</span>,
+                                                                 <span class='ident'>background_color</span>,
+                                                                 <span class='ident'>viewport_size</span>,
+                                                                 <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>resource_cache</span>,
+                                                                 <span class='ident'>auxiliary_lists</span>);
+
+                            <span class='self'>self</span>.<span class='ident'>build_scene</span>();
+                            <span class='self'>self</span>.<span class='ident'>render</span>()
+                        });
+
+                        <span class='self'>self</span>.<span class='ident'>publish_frame_and_notify_compositor</span>(<span class='ident'>frame</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>profile_counters</span>);
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>SetRootPipeline</span>(<span class='ident'>pipeline_id</span>) <span class='op'>=&gt;</span> {
+                        <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>profile_counters</span>.<span class='ident'>total_time</span>.<span class='ident'>profile</span>(<span class='op'>||</span> {
+                            <span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>set_root_pipeline_id</span>(<span class='ident'>pipeline_id</span>);
+
+                            <span class='self'>self</span>.<span class='ident'>build_scene</span>();
+                            <span class='self'>self</span>.<span class='ident'>render</span>()
+                        });
+
+                        <span class='self'>self</span>.<span class='ident'>publish_frame</span>(<span class='ident'>frame</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>profile_counters</span>);
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>Scroll</span>(<span class='ident'>delta</span>, <span class='ident'>cursor</span>, <span class='ident'>move_phase</span>) <span class='op'>=&gt;</span> {
+                        <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>profile_counters</span>.<span class='ident'>total_time</span>.<span class='ident'>profile</span>(<span class='op'>||</span> {
+                            <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>scroll</span>(<span class='ident'>delta</span>, <span class='ident'>cursor</span>, <span class='ident'>move_phase</span>) {
+                                <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>render</span>())
+                            } <span class='kw'>else</span> {
+                                <span class='prelude-val'>None</span>
+                            }
+                        });
+
+                        <span class='kw'>match</span> <span class='ident'>frame</span> {
+                            <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>) <span class='op'>=&gt;</span> {
+                                <span class='self'>self</span>.<span class='ident'>publish_frame</span>(<span class='ident'>frame</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>profile_counters</span>);
+                                <span class='self'>self</span>.<span class='ident'>notify_compositor_of_new_scroll_frame</span>(<span class='bool-val'>true</span>)
+                            }
+                            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>notify_compositor_of_new_scroll_frame</span>(<span class='bool-val'>false</span>),
                         }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>TranslatePointToLayerSpace</span>(<span class='ident'>point</span>, <span class='ident'>tx</span>) <span class='op'>=&gt;</span> {
-                            <span class='comment'>// First, find the specific layer that contains the point.</span>
-                            <span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>point</span> <span class='op'>/</span> <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>;
-                            <span class='kw'>if</span> <span class='kw'>let</span> (<span class='prelude-val'>Some</span>(<span class='ident'>root_pipeline_id</span>), <span class='prelude-val'>Some</span>(<span class='ident'>root_scroll_layer_id</span>)) <span class='op'>=</span>
-                                    (<span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>root_pipeline_id</span>,
-                                     <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>root_scroll_layer_id</span>) {
-                                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>scroll_layer_id</span>) <span class='op'>=</span>
-                                        <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>get_scroll_layer</span>(<span class='kw-2'>&amp;</span><span class='ident'>point</span>, <span class='ident'>root_scroll_layer_id</span>) {
-                                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>layer</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>layers</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>scroll_layer_id</span>) {
-                                        <span class='comment'>// Now, because we send a *pipeline ID*, not a layer ID, as</span>
-                                        <span class='comment'>// a response, we need the translated point to be relative</span>
-                                        <span class='comment'>// to the origin of that pipeline in the scene. So we need</span>
-                                        <span class='comment'>// to find the root layer for the pipeline. (We don&#39;t send</span>
-                                        <span class='comment'>// layer IDs because layer IDs are internal to WebRender;</span>
-                                        <span class='comment'>// Servo won&#39;t know what to do with them.)</span>
-                                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>layer_id</span>) <span class='op'>=</span>
-                                                <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>root_scroll_layer_for_pipeline</span>(
-                                                    <span class='ident'>layer</span>.<span class='ident'>pipeline_id</span>) {
-                                            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>layer</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>layers</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer_id</span>) {
-                                                <span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>point</span> <span class='op'>-</span> <span class='ident'>layer</span>.<span class='ident'>world_origin</span> <span class='op'>-</span>
-                                                    <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>;
-                                                <span class='ident'>tx</span>.<span class='ident'>send</span>((<span class='ident'>point</span>, <span class='ident'>layer</span>.<span class='ident'>pipeline_id</span>)).<span class='ident'>unwrap</span>();
-                                                <span class='kw'>continue</span>
-                                            }
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>TickScrollingBounce</span> <span class='op'>=&gt;</span> {
+                        <span class='kw'>let</span> <span class='ident'>frame</span> <span class='op'>=</span> <span class='ident'>profile_counters</span>.<span class='ident'>total_time</span>.<span class='ident'>profile</span>(<span class='op'>||</span> {
+                            <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>tick_scrolling_bounce_animations</span>();
+                            <span class='self'>self</span>.<span class='ident'>render</span>()
+                        });
+
+                        <span class='self'>self</span>.<span class='ident'>publish_frame_and_notify_compositor</span>(<span class='ident'>frame</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>profile_counters</span>);
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>TranslatePointToLayerSpace</span>(<span class='ident'>point</span>, <span class='ident'>tx</span>) <span class='op'>=&gt;</span> {
+                        <span class='comment'>// First, find the specific layer that contains the point.</span>
+                        <span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>point</span> <span class='op'>/</span> <span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>;
+                        <span class='kw'>if</span> <span class='kw'>let</span> (<span class='prelude-val'>Some</span>(_), <span class='prelude-val'>Some</span>(<span class='ident'>root_scroll_layer_id</span>)) <span class='op'>=</span>
+                                (<span class='self'>self</span>.<span class='ident'>scene</span>.<span class='ident'>root_pipeline_id</span>,
+                                 <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>root_scroll_layer_id</span>) {
+                            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>scroll_layer_id</span>) <span class='op'>=</span>
+                                    <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>get_scroll_layer</span>(<span class='kw-2'>&amp;</span><span class='ident'>point</span>,
+                                                                <span class='ident'>root_scroll_layer_id</span>) {
+                                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>layer</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frame</span>
+                                                         .<span class='ident'>layers</span>
+                                                         .<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>scroll_layer_id</span>) {
+                                    <span class='comment'>// Now, because we send a *pipeline ID*, not a layer</span>
+                                    <span class='comment'>// ID, as a response, we need the translated point to</span>
+                                    <span class='comment'>// be relative to the origin of that pipeline in the</span>
+                                    <span class='comment'>// scene. So we need to find the root layer for the</span>
+                                    <span class='comment'>// pipeline. (We don&#39;t send layer IDs because layer IDs</span>
+                                    <span class='comment'>// are internal to WebRender; Servo won&#39;t know what to</span>
+                                    <span class='comment'>// do with them.)</span>
+                                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>layer_id</span>) <span class='op'>=</span>
+                                            <span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>root_scroll_layer_for_pipeline</span>(
+                                                <span class='ident'>layer</span>.<span class='ident'>pipeline_id</span>) {
+                                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>layer</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>frame</span>
+                                                                 .<span class='ident'>layers</span>
+                                                                     .<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>layer_id</span>) {
+                                            <span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>point</span> <span class='op'>-</span> <span class='ident'>layer</span>.<span class='ident'>world_origin</span> <span class='op'>-</span>
+                                                <span class='ident'>layer</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span>;
+                                            <span class='ident'>tx</span>.<span class='ident'>send</span>((<span class='ident'>point</span>, <span class='ident'>layer</span>.<span class='ident'>pipeline_id</span>)).<span class='ident'>unwrap</span>();
+                                            <span class='kw'>continue</span>
                                         }
                                     }
                                 }
                             }
-                            <span class='ident'>tx</span>.<span class='ident'>send</span>((<span class='ident'>point</span>, <span class='ident'>PipelineId</span>(<span class='number'>0</span>, <span class='number'>0</span>))).<span class='ident'>unwrap</span>()
                         }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>GetScrollLayerState</span>(<span class='ident'>tx</span>) <span class='op'>=&gt;</span> {
-                            <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>get_scroll_layer_state</span>(<span class='self'>self</span>.<span class='ident'>device_pixel_ratio</span>))
-                              .<span class='ident'>unwrap</span>()
-                        }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>RequestWebGLContext</span>(<span class='ident'>size</span>, <span class='ident'>attributes</span>, <span class='ident'>tx</span>) <span class='op'>=&gt;</span> {
-                            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>handle</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>webrender_context_handle</span> {
-                                <span class='kw'>match</span> <span class='ident'>GLContext</span>::<span class='op'>&lt;</span><span class='ident'>NativeGLContext</span><span class='op'>&gt;</span>::<span class='ident'>new</span>(<span class='ident'>size</span>, <span class='ident'>attributes</span>, <span class='ident'>ColorAttachmentType</span>::<span class='ident'>Texture</span>, <span class='prelude-val'>Some</span>(<span class='ident'>handle</span>)) {
-                                    <span class='prelude-val'>Ok</span>(<span class='ident'>ctx</span>) <span class='op'>=&gt;</span> {
-                                        <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='ident'>WebGLContextId</span>(<span class='ident'>new_id</span>());
+                        <span class='ident'>tx</span>.<span class='ident'>send</span>((<span class='ident'>point</span>, <span class='ident'>PipelineId</span>(<span class='number'>0</span>, <span class='number'>0</span>))).<span class='ident'>unwrap</span>()
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>GetScrollLayerState</span>(<span class='ident'>tx</span>) <span class='op'>=&gt;</span> {
+                        <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='self'>self</span>.<span class='ident'>frame</span>.<span class='ident'>get_scroll_layer_state</span>())
+                          .<span class='ident'>unwrap</span>()
+                    }
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>RequestWebGLContext</span>(<span class='ident'>size</span>, <span class='ident'>attributes</span>, <span class='ident'>tx</span>) <span class='op'>=&gt;</span> {
+                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>handle</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>webrender_context_handle</span> {
+                            <span class='kw'>match</span> <span class='ident'>GLContext</span>::<span class='op'>&lt;</span><span class='ident'>NativeGLContext</span><span class='op'>&gt;</span>::<span class='ident'>new</span>(
+                                    <span class='ident'>size</span>,
+                                    <span class='ident'>attributes</span>,
+                                    <span class='ident'>ColorAttachmentType</span>::<span class='ident'>Texture</span>,
+                                    <span class='prelude-val'>Some</span>(<span class='ident'>handle</span>)) {
+                                <span class='prelude-val'>Ok</span>(<span class='ident'>ctx</span>) <span class='op'>=&gt;</span> {
+                                    <span class='kw'>let</span> <span class='ident'>id</span> <span class='op'>=</span> <span class='ident'>WebGLContextId</span>(<span class='ident'>new_id</span>());
 
-                                        <span class='kw'>let</span> (<span class='ident'>real_size</span>, <span class='ident'>texture_id</span>) <span class='op'>=</span> {
-                                            <span class='kw'>let</span> <span class='ident'>draw_buffer</span> <span class='op'>=</span> <span class='ident'>ctx</span>.<span class='ident'>borrow_draw_buffer</span>().<span class='ident'>unwrap</span>();
-                                            (<span class='ident'>draw_buffer</span>.<span class='ident'>size</span>(), <span class='ident'>draw_buffer</span>.<span class='ident'>get_bound_texture_id</span>().<span class='ident'>unwrap</span>())
-                                        };
+                                    <span class='kw'>let</span> (<span class='ident'>real_size</span>, <span class='ident'>texture_id</span>) <span class='op'>=</span> {
+                                        <span class='kw'>let</span> <span class='ident'>draw_buffer</span> <span class='op'>=</span> <span class='ident'>ctx</span>.<span class='ident'>borrow_draw_buffer</span>()
+                                                             .<span class='ident'>unwrap</span>();
+                                        (<span class='ident'>draw_buffer</span>.<span class='ident'>size</span>(),
+                                         <span class='ident'>draw_buffer</span>.<span class='ident'>get_bound_texture_id</span>().<span class='ident'>unwrap</span>())
+                                    };
 
-                                        <span class='kw'>let</span> <span class='ident'>limits</span> <span class='op'>=</span> <span class='ident'>ctx</span>.<span class='ident'>borrow_limits</span>().<span class='ident'>clone</span>();
+                                    <span class='kw'>let</span> <span class='ident'>limits</span> <span class='op'>=</span> <span class='ident'>ctx</span>.<span class='ident'>borrow_limits</span>().<span class='ident'>clone</span>();
 
-                                        <span class='self'>self</span>.<span class='ident'>webgl_contexts</span>.<span class='ident'>insert</span>(<span class='ident'>id</span>, <span class='ident'>ctx</span>);
+                                    <span class='self'>self</span>.<span class='ident'>webgl_contexts</span>.<span class='ident'>insert</span>(<span class='ident'>id</span>, <span class='ident'>ctx</span>);
 
-                                        <span class='self'>self</span>.<span class='ident'>resource_cache</span>
-                                            .<span class='ident'>add_webgl_texture</span>(<span class='ident'>id</span>, <span class='ident'>TextureId</span>(<span class='ident'>texture_id</span>), <span class='ident'>real_size</span>);
+                                    <span class='self'>self</span>.<span class='ident'>resource_cache</span>
+                                        .<span class='ident'>add_webgl_texture</span>(<span class='ident'>id</span>,
+                                                           <span class='ident'>TextureId</span>(<span class='ident'>texture_id</span>),
+                                                           <span class='ident'>real_size</span>);
 
-                                        <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='prelude-val'>Ok</span>((<span class='ident'>id</span>, <span class='ident'>limits</span>))).<span class='ident'>unwrap</span>();
-                                    },
-                                    <span class='prelude-val'>Err</span>(<span class='ident'>msg</span>) <span class='op'>=&gt;</span> {
-                                        <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>msg</span>.<span class='ident'>to_owned</span>())).<span class='ident'>unwrap</span>();
-                                    }
+                                    <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='prelude-val'>Ok</span>((<span class='ident'>id</span>, <span class='ident'>limits</span>))).<span class='ident'>unwrap</span>();
+                                },
+                                <span class='prelude-val'>Err</span>(<span class='ident'>msg</span>) <span class='op'>=&gt;</span> {
+                                    <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='ident'>msg</span>.<span class='ident'>to_owned</span>())).<span class='ident'>unwrap</span>();
                                 }
-                            } <span class='kw'>else</span> {
-                                <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='string'>&quot;Not implemented yet&quot;</span>.<span class='ident'>to_owned</span>())).<span class='ident'>unwrap</span>();
                             }
-                        }
-                        <span class='ident'>ApiMsg</span>::<span class='ident'>WebGLCommand</span>(<span class='ident'>context_id</span>, <span class='ident'>command</span>) <span class='op'>=&gt;</span> {
-                            <span class='comment'>// TODO: Buffer the commands and only apply them here if they need to</span>
-                            <span class='comment'>// be synchronous.</span>
-                            <span class='kw'>let</span> <span class='ident'>ctx</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>webgl_contexts</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>context_id</span>).<span class='ident'>unwrap</span>();
-                            <span class='ident'>ctx</span>.<span class='ident'>make_current</span>().<span class='ident'>unwrap</span>();
-                            <span class='ident'>command</span>.<span class='ident'>apply</span>(<span class='ident'>ctx</span>);
-                            <span class='self'>self</span>.<span class='ident'>current_bound_webgl_context_id</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>context_id</span>);
+                        } <span class='kw'>else</span> {
+                            <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='prelude-val'>Err</span>(<span class='string'>&quot;Not implemented yet&quot;</span>.<span class='ident'>to_owned</span>())).<span class='ident'>unwrap</span>();
                         }
                     }
-                }
-                <span class='prelude-val'>Err</span>(..) <span class='op'>=&gt;</span> {
-                    <span class='kw'>break</span>;
+                    <span class='ident'>ApiMsg</span>::<span class='ident'>WebGLCommand</span>(<span class='ident'>context_id</span>, <span class='ident'>command</span>) <span class='op'>=&gt;</span> {
+                        <span class='comment'>// TODO: Buffer the commands and only apply them here if they need</span>
+                        <span class='comment'>// to be synchronous.</span>
+                        <span class='kw'>let</span> <span class='ident'>ctx</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>webgl_contexts</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>context_id</span>).<span class='ident'>unwrap</span>();
+                        <span class='ident'>ctx</span>.<span class='ident'>make_current</span>().<span class='ident'>unwrap</span>();
+                        <span class='ident'>command</span>.<span class='ident'>apply</span>(<span class='ident'>ctx</span>);
+                        <span class='self'>self</span>.<span class='ident'>current_bound_webgl_context_id</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>context_id</span>);
+                    }
                 }
             }
         }
@@ -823,6 +940,12 @@
         <span class='kw'>let</span> <span class='ident'>msg</span> <span class='op'>=</span> <span class='ident'>ResultMsg</span>::<span class='ident'>NewFrame</span>(<span class='ident'>frame</span>, <span class='ident'>pending_updates</span>, <span class='ident'>profile_counters</span>.<span class='ident'>clone</span>());
         <span class='self'>self</span>.<span class='ident'>result_tx</span>.<span class='ident'>send</span>(<span class='ident'>msg</span>).<span class='ident'>unwrap</span>();
         <span class='ident'>profile_counters</span>.<span class='ident'>reset</span>();
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>publish_frame_and_notify_compositor</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
+                                           <span class='ident'>frame</span>: <span class='ident'>RendererFrame</span>,
+                                           <span class='ident'>profile_counters</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>BackendProfileCounters</span>) {
+        <span class='self'>self</span>.<span class='ident'>publish_frame</span>(<span class='ident'>frame</span>, <span class='ident'>profile_counters</span>);
 
         <span class='comment'>// TODO(gw): This is kindof bogus to have to lock the notifier</span>
         <span class='comment'>//           each time it&#39;s used. This is due to some nastiness</span>
@@ -830,6 +953,15 @@
         <span class='comment'>//           cleaner way to do this, or use the OnceMutex on crates.io?</span>
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>notifier</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>notifier</span>.<span class='ident'>lock</span>();
         <span class='ident'>notifier</span>.<span class='ident'>as_mut</span>().<span class='ident'>unwrap</span>().<span class='ident'>as_mut</span>().<span class='ident'>unwrap</span>().<span class='ident'>new_frame_ready</span>();
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>notify_compositor_of_new_scroll_frame</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>composite_needed</span>: <span class='ident'>bool</span>) {
+        <span class='comment'>// TODO(gw): This is kindof bogus to have to lock the notifier</span>
+        <span class='comment'>//           each time it&#39;s used. This is due to some nastiness</span>
+        <span class='comment'>//           in initialization order for Servo. Perhaps find a</span>
+        <span class='comment'>//           cleaner way to do this, or use the OnceMutex on crates.io?</span>
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>notifier</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>notifier</span>.<span class='ident'>lock</span>();
+        <span class='ident'>notifier</span>.<span class='ident'>as_mut</span>().<span class='ident'>unwrap</span>().<span class='ident'>as_mut</span>().<span class='ident'>unwrap</span>().<span class='ident'>new_scroll_frame_ready</span>(<span class='ident'>composite_needed</span>);
     }
 }
 

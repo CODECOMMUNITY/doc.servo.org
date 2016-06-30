@@ -1939,7 +1939,6 @@
 <span id="1895">1895</span>
 <span id="1896">1896</span>
 <span id="1897">1897</span>
-<span id="1898">1898</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1973,6 +1972,7 @@
 <span class='kw'>use</span> <span class='ident'>gfx</span>::<span class='ident'>display_list</span>::<span class='ident'>OpaqueNode</span>;
 <span class='kw'>use</span> <span class='ident'>inline</span>::{<span class='ident'>FIRST_FRAGMENT_OF_ELEMENT</span>, <span class='ident'>InlineFlow</span>, <span class='ident'>InlineFragmentNodeFlags</span>};
 <span class='kw'>use</span> <span class='ident'>inline</span>::{<span class='ident'>InlineFragmentNodeInfo</span>, <span class='ident'>LAST_FRAGMENT_OF_ELEMENT</span>};
+<span class='kw'>use</span> <span class='ident'>linked_list</span>::<span class='ident'>prepend_from</span>;
 <span class='kw'>use</span> <span class='ident'>list_item</span>::{<span class='ident'>ListItemFlow</span>, <span class='ident'>ListStyleTypeContent</span>};
 <span class='kw'>use</span> <span class='ident'>multicol</span>::{<span class='ident'>MulticolFlow</span>, <span class='ident'>MulticolColumnFlow</span>};
 <span class='kw'>use</span> <span class='ident'>parallel</span>;
@@ -2000,7 +2000,6 @@
 <span class='kw'>use</span> <span class='ident'>text</span>::<span class='ident'>TextRunScanner</span>;
 <span class='kw'>use</span> <span class='ident'>traversal</span>::<span class='ident'>PostorderNodeMutTraversal</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
-<span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>linked_list</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>opts</span>;
 <span class='kw'>use</span> <span class='ident'>wrapper</span>::{<span class='ident'>TextContent</span>, <span class='ident'>ThreadSafeLayoutNodeHelpers</span>};
 
@@ -3748,8 +3747,7 @@
             }
         }
     }
-    <span class='ident'>linked_list</span>::<span class='ident'>prepend_from</span>(<span class='ident'>this</span>,
-                              <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>leading_fragments_consisting_of_solely_bidi_control_characters</span>);
+    <span class='ident'>prepend_from</span>(<span class='ident'>this</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>leading_fragments_consisting_of_solely_bidi_control_characters</span>);
 }
 
 <span class='doccomment'>/// Strips ignorable whitespace from the end of a list of fragments.</span>

@@ -1742,6 +1742,12 @@
 <span id="1698">1698</span>
 <span id="1699">1699</span>
 <span id="1700">1700</span>
+<span id="1701">1701</span>
+<span id="1702">1702</span>
+<span id="1703">1703</span>
+<span id="1704">1704</span>
+<span id="1705">1705</span>
+<span id="1706">1706</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1776,7 +1782,13 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;gonk&quot;</span>))]</span>
 <span class='kw'>const</span> <span class='ident'>GL_FORMAT_BGRA</span>: <span class='ident'>gl</span>::<span class='ident'>GLuint</span> <span class='op'>=</span> <span class='ident'>gl</span>::<span class='ident'>BGRA_EXT</span>;
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;gonk&quot;</span>)))]</span>
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;linux&quot;</span>)]</span>
+<span class='kw'>const</span> <span class='ident'>SHADER_VERSION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;#version 130\n&quot;</span>;
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span>
+<span class='kw'>const</span> <span class='ident'>SHADER_VERSION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;#version 150\n&quot;</span>;
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span>
 <span class='kw'>const</span> <span class='ident'>SHADER_VERSION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;#version 150\n&quot;</span>;
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;android&quot;</span>, <span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;gonk&quot;</span>))]</span>

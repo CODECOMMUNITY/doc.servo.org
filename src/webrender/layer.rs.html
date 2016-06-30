@@ -204,6 +204,8 @@
 <span id="160">160</span>
 <span id="161">161</span>
 <span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -214,7 +216,7 @@
 <span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>BatchUpdate</span>, <span class='ident'>BatchUpdateList</span>, <span class='ident'>BatchUpdateOp</span>};
 <span class='kw'>use</span> <span class='ident'>internal_types</span>::{<span class='ident'>DrawListItemIndex</span>, <span class='ident'>DrawListId</span>, <span class='ident'>DrawListGroupId</span>};
 <span class='kw'>use</span> <span class='ident'>spring</span>::{<span class='ident'>DAMPING</span>, <span class='ident'>STIFFNESS</span>, <span class='ident'>Spring</span>};
-<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>PipelineId</span>, <span class='ident'>ScrollLayerId</span>, <span class='ident'>ServoStackingContextId</span>, <span class='ident'>StackingContextId</span>};
+<span class='kw'>use</span> <span class='ident'>webrender_traits</span>::{<span class='ident'>PipelineId</span>, <span class='ident'>ScrollLayerId</span>, <span class='ident'>ServoStackingContextId</span>};
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Layer</span> {
     <span class='comment'>// TODO: Remove pub from here if possible in the future</span>
@@ -345,7 +347,7 @@
         <span class='kw'>let</span> <span class='ident'>finished</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>scrolling</span>.<span class='ident'>spring</span>.<span class='ident'>animate</span>();
         <span class='self'>self</span>.<span class='ident'>scrolling</span>.<span class='ident'>offset</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>scrolling</span>.<span class='ident'>spring</span>.<span class='ident'>current</span>();
         <span class='kw'>if</span> <span class='ident'>finished</span> {
-            <span class='self'>self</span>.<span class='ident'>scrolling</span>.<span class='ident'>started_bouncing_back</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+            <span class='self'>self</span>.<span class='ident'>scrolling</span>.<span class='ident'>bouncing_back</span> <span class='op'>=</span> <span class='bool-val'>false</span>
         }
     }
 }
@@ -355,6 +357,7 @@
     <span class='kw'>pub</span> <span class='ident'>offset</span>: <span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>spring</span>: <span class='ident'>Spring</span>,
     <span class='kw'>pub</span> <span class='ident'>started_bouncing_back</span>: <span class='ident'>bool</span>,
+    <span class='kw'>pub</span> <span class='ident'>bouncing_back</span>: <span class='ident'>bool</span>,
 }
 
 <span class='kw'>impl</span> <span class='ident'>ScrollingState</span> {
@@ -363,6 +366,7 @@
             <span class='ident'>offset</span>: <span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>),
             <span class='ident'>spring</span>: <span class='ident'>Spring</span>::<span class='ident'>at</span>(<span class='ident'>Point2D</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>), <span class='ident'>STIFFNESS</span>, <span class='ident'>DAMPING</span>),
             <span class='ident'>started_bouncing_back</span>: <span class='bool-val'>false</span>,
+            <span class='ident'>bouncing_back</span>: <span class='bool-val'>false</span>,
         }
     }
 }

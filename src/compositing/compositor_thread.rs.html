@@ -292,6 +292,10 @@
 <span id="248">248</span>
 <span id="249">249</span>
 <span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -480,6 +484,9 @@
     <span class='ident'>GetScrollOffset</span>(<span class='ident'>PipelineId</span>, <span class='ident'>LayerId</span>, <span class='ident'>IpcSender</span><span class='op'>&lt;</span><span class='ident'>Point2D</span><span class='op'>&lt;</span><span class='ident'>f32</span><span class='op'>&gt;&gt;</span>),
     <span class='doccomment'>/// Pipeline visibility changed</span>
     <span class='ident'>PipelineVisibilityChanged</span>(<span class='ident'>PipelineId</span>, <span class='ident'>bool</span>),
+    <span class='doccomment'>/// WebRender has successfully processed a scroll. The boolean specifies whether a composite is</span>
+    <span class='doccomment'>/// needed.</span>
+    <span class='ident'>NewScrollFrameReady</span>(<span class='ident'>bool</span>),
     <span class='doccomment'>/// A pipeline was shut down.</span>
     <span class='comment'>// This message acts as a synchronization point between the constellation,</span>
     <span class='comment'>// when it shuts down a pipeline, to the compositor; when the compositor</span>
@@ -523,6 +530,7 @@
             <span class='ident'>Msg</span>::<span class='ident'>PipelineVisibilityChanged</span>(..) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;PipelineVisibilityChanged&quot;</span>),
             <span class='ident'>Msg</span>::<span class='ident'>PipelineExited</span>(..) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;PipelineExited&quot;</span>),
             <span class='ident'>Msg</span>::<span class='ident'>GetScrollOffset</span>(..) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;GetScrollOffset&quot;</span>),
+            <span class='ident'>Msg</span>::<span class='ident'>NewScrollFrameReady</span>(..) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;NewScrollFrameReady&quot;</span>),
         }
     }
 }
