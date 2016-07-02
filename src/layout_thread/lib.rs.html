@@ -1554,6 +1554,8 @@
 <span id="1510">1510</span>
 <span id="1511">1511</span>
 <span id="1512">1512</span>
+<span id="1513">1513</span>
+<span id="1514">1514</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1665,7 +1667,7 @@
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>properties</span>::<span class='ident'>ComputedValues</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>refcell</span>::<span class='ident'>RefCell</span>;
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>selector_matching</span>::<span class='ident'>USER_OR_USER_AGENT_STYLESHEETS</span>;
-<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>servo</span>::{<span class='ident'>Animation</span>, <span class='ident'>SharedStyleContext</span>, <span class='ident'>Stylesheet</span>, <span class='ident'>Stylist</span>};
+<span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>servo</span>::{<span class='ident'>Animation</span>, <span class='ident'>LocalStyleContextCreationInfo</span>, <span class='ident'>SharedStyleContext</span>, <span class='ident'>Stylesheet</span>, <span class='ident'>Stylist</span>};
 <span class='kw'>use</span> <span class='ident'>style</span>::<span class='ident'>stylesheets</span>::<span class='ident'>CSSRuleIteratorExt</span>;
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>geometry</span>::<span class='ident'>MAX_RECT</span>;
@@ -2045,6 +2047,8 @@
                                    <span class='ident'>screen_size_changed</span>: <span class='ident'>bool</span>,
                                    <span class='ident'>goal</span>: <span class='ident'>ReflowGoal</span>)
                                    <span class='op'>-&gt;</span> <span class='ident'>SharedLayoutContext</span> {
+        <span class='kw'>let</span> <span class='ident'>local_style_context_creation_data</span> <span class='op'>=</span> <span class='ident'>LocalStyleContextCreationInfo</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>new_animations_sender</span>.<span class='ident'>clone</span>());
+
         <span class='ident'>SharedLayoutContext</span> {
             <span class='ident'>style_context</span>: <span class='ident'>SharedStyleContext</span> {
                 <span class='ident'>viewport_size</span>: <span class='self'>self</span>.<span class='ident'>viewport_size</span>.<span class='ident'>clone</span>(),
@@ -2052,10 +2056,10 @@
                 <span class='ident'>stylist</span>: <span class='ident'>rw_data</span>.<span class='ident'>stylist</span>.<span class='ident'>clone</span>(),
                 <span class='ident'>generation</span>: <span class='self'>self</span>.<span class='ident'>generation</span>,
                 <span class='ident'>goal</span>: <span class='ident'>goal</span>,
-                <span class='ident'>new_animations_sender</span>: <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>new_animations_sender</span>.<span class='ident'>clone</span>()),
                 <span class='ident'>running_animations</span>: <span class='self'>self</span>.<span class='ident'>running_animations</span>.<span class='ident'>clone</span>(),
                 <span class='ident'>expired_animations</span>: <span class='self'>self</span>.<span class='ident'>expired_animations</span>.<span class='ident'>clone</span>(),
                 <span class='ident'>error_reporter</span>: <span class='self'>self</span>.<span class='ident'>error_reporter</span>.<span class='ident'>clone</span>(),
+                <span class='ident'>local_context_creation_data</span>: <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>local_style_context_creation_data</span>),
             },
             <span class='ident'>image_cache_thread</span>: <span class='self'>self</span>.<span class='ident'>image_cache_thread</span>.<span class='ident'>clone</span>(),
             <span class='ident'>image_cache_sender</span>: <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>image_cache_sender</span>.<span class='ident'>clone</span>()),

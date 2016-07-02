@@ -723,6 +723,8 @@
 <span id="679">679</span>
 <span id="680">680</span>
 <span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -776,15 +778,17 @@
 <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>Url</span>;
 <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>prefs</span>::<span class='ident'>mozbrowser_enabled</span>;
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>HeapSizeOf</span>)]</span>
-<span class='kw'>enum</span> <span class='ident'>SandboxAllowance</span> {
-    <span class='ident'>AllowNothing</span> <span class='op'>=</span> <span class='number'>0x00</span>,
-    <span class='ident'>AllowSameOrigin</span> <span class='op'>=</span> <span class='number'>0x01</span>,
-    <span class='ident'>AllowTopNavigation</span> <span class='op'>=</span> <span class='number'>0x02</span>,
-    <span class='ident'>AllowForms</span> <span class='op'>=</span> <span class='number'>0x04</span>,
-    <span class='ident'>AllowScripts</span> <span class='op'>=</span> <span class='number'>0x08</span>,
-    <span class='ident'>AllowPointerLock</span> <span class='op'>=</span> <span class='number'>0x10</span>,
-    <span class='ident'>AllowPopups</span> <span class='op'>=</span> <span class='number'>0x20</span>
+<span class='macro'>bitflags</span><span class='macro'>!</span> {
+    <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>JSTraceable</span>, <span class='ident'>HeapSizeOf</span>)]</span>
+    <span class='ident'>flags</span> <span class='ident'>SandboxAllowance</span>: <span class='ident'>u8</span> {
+        <span class='kw'>const</span> <span class='ident'>ALLOW_NOTHING</span> <span class='op'>=</span> <span class='number'>0x00</span>,
+        <span class='kw'>const</span> <span class='ident'>ALLOW_SAME_ORIGIN</span> <span class='op'>=</span> <span class='number'>0x01</span>,
+        <span class='kw'>const</span> <span class='ident'>ALLOW_TOP_NAVIGATION</span> <span class='op'>=</span> <span class='number'>0x02</span>,
+        <span class='kw'>const</span> <span class='ident'>ALLOW_FORMS</span> <span class='op'>=</span> <span class='number'>0x04</span>,
+        <span class='kw'>const</span> <span class='ident'>ALLOW_SCRIPTS</span> <span class='op'>=</span> <span class='number'>0x08</span>,
+        <span class='kw'>const</span> <span class='ident'>ALLOW_POINTER_LOCK</span> <span class='op'>=</span> <span class='number'>0x10</span>,
+        <span class='kw'>const</span> <span class='ident'>ALLOW_POPUPS</span> <span class='op'>=</span> <span class='number'>0x20</span>
+    }
 }
 
 <span class='attribute'>#[<span class='ident'>dom_struct</span>]</span>
@@ -793,7 +797,7 @@
     <span class='ident'>pipeline_id</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>PipelineId</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>subpage_id</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>SubpageId</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>sandbox</span>: <span class='ident'>MutNullableHeap</span><span class='op'>&lt;</span><span class='ident'>JS</span><span class='op'>&lt;</span><span class='ident'>DOMTokenList</span><span class='op'>&gt;&gt;</span>,
-    <span class='ident'>sandbox_allowance</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span>,
+    <span class='ident'>sandbox_allowance</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>SandboxAllowance</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>load_blocker</span>: <span class='ident'>DOMRefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>LoadBlocker</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>visibility</span>: <span class='ident'>Cell</span><span class='op'>&lt;</span><span class='ident'>bool</span><span class='op'>&gt;</span>,
 }
@@ -1315,17 +1319,17 @@
         <span class='kw'>match</span> <span class='ident'>attr</span>.<span class='ident'>local_name</span>() {
             <span class='kw-2'>&amp;</span><span class='macro'>atom</span><span class='macro'>!</span>(<span class='string'>&quot;sandbox&quot;</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>sandbox_allowance</span>.<span class='ident'>set</span>(<span class='ident'>mutation</span>.<span class='ident'>new_value</span>(<span class='ident'>attr</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>value</span><span class='op'>|</span> {
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>modes</span> <span class='op'>=</span> <span class='ident'>SandboxAllowance</span>::<span class='ident'>AllowNothing</span> <span class='kw'>as</span> <span class='ident'>u8</span>;
+                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>modes</span> <span class='op'>=</span> <span class='ident'>ALLOW_NOTHING</span>;
                     <span class='kw'>for</span> <span class='ident'>token</span> <span class='kw'>in</span> <span class='ident'>value</span>.<span class='ident'>as_tokens</span>() {
                         <span class='ident'>modes</span> <span class='op'>|=</span> <span class='kw'>match</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>token</span>.<span class='ident'>to_ascii_lowercase</span>() {
-                            <span class='string'>&quot;allow-same-origin&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>SandboxAllowance</span>::<span class='ident'>AllowSameOrigin</span>,
-                            <span class='string'>&quot;allow-forms&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>SandboxAllowance</span>::<span class='ident'>AllowForms</span>,
-                            <span class='string'>&quot;allow-pointer-lock&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>SandboxAllowance</span>::<span class='ident'>AllowPointerLock</span>,
-                            <span class='string'>&quot;allow-popups&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>SandboxAllowance</span>::<span class='ident'>AllowPopups</span>,
-                            <span class='string'>&quot;allow-scripts&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>SandboxAllowance</span>::<span class='ident'>AllowScripts</span>,
-                            <span class='string'>&quot;allow-top-navigation&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>SandboxAllowance</span>::<span class='ident'>AllowTopNavigation</span>,
-                            _ <span class='op'>=&gt;</span> <span class='ident'>SandboxAllowance</span>::<span class='ident'>AllowNothing</span>
-                        } <span class='kw'>as</span> <span class='ident'>u8</span>;
+                            <span class='string'>&quot;allow-same-origin&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>ALLOW_SAME_ORIGIN</span>,
+                            <span class='string'>&quot;allow-forms&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>ALLOW_FORMS</span>,
+                            <span class='string'>&quot;allow-pointer-lock&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>ALLOW_POINTER_LOCK</span>,
+                            <span class='string'>&quot;allow-popups&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>ALLOW_POPUPS</span>,
+                            <span class='string'>&quot;allow-scripts&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>ALLOW_SCRIPTS</span>,
+                            <span class='string'>&quot;allow-top-navigation&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>ALLOW_TOP_NAVIGATION</span>,
+                            _ <span class='op'>=&gt;</span> <span class='ident'>ALLOW_NOTHING</span>
+                        };
                     }
                     <span class='ident'>modes</span>
                 }));

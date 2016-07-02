@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["SandboxAllowance",""]],"fn":[["Navigate",""]],"struct":[["HTMLIFrameElement",""]],"trait":[["HTMLIFrameElementLayoutMethods",""],["MozBrowserEventDetailBuilder",""]]});
+initSidebarItems({"constant":[["ALLOW_FORMS",""],["ALLOW_NOTHING",""],["ALLOW_POINTER_LOCK",""],["ALLOW_POPUPS",""],["ALLOW_SAME_ORIGIN",""],["ALLOW_SCRIPTS",""],["ALLOW_TOP_NAVIGATION",""]],"fn":[["Navigate",""]],"struct":[["HTMLIFrameElement",""],["SandboxAllowance",""]],"trait":[["HTMLIFrameElementLayoutMethods",""],["MozBrowserEventDetailBuilder",""]]});

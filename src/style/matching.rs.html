@@ -790,6 +790,12 @@
 <span id="746">746</span>
 <span id="747">747</span>
 <span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
 </pre><pre class='rust '>
 <span class='comment'>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -800,7 +806,7 @@
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>unsafe_code</span>)]</span>
 
 <span class='kw'>use</span> <span class='ident'>animation</span>::{<span class='self'>self</span>, <span class='ident'>Animation</span>};
-<span class='kw'>use</span> <span class='ident'>context</span>::{<span class='ident'>SharedStyleContext</span>, <span class='ident'>LocalStyleContext</span>};
+<span class='kw'>use</span> <span class='ident'>context</span>::{<span class='ident'>StyleContext</span>, <span class='ident'>SharedStyleContext</span>};
 <span class='kw'>use</span> <span class='ident'>data</span>::<span class='ident'>PrivateStyleData</span>;
 <span class='kw'>use</span> <span class='ident'>dom</span>::{<span class='ident'>TElement</span>, <span class='ident'>TNode</span>, <span class='ident'>TRestyleDamage</span>};
 <span class='kw'>use</span> <span class='ident'>properties</span>::{<span class='ident'>ComputedValues</span>, <span class='ident'>PropertyDeclaration</span>, <span class='ident'>cascade</span>};
@@ -1164,19 +1170,22 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Note that animations only apply to nodes or ::before or ::after</span>
     <span class='doccomment'>/// pseudo-elements.</span>
-    <span class='kw'>fn</span> <span class='ident'>cascade_node_pseudo_element</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                                   <span class='ident'>context</span>: <span class='kw-2'>&amp;</span><span class='ident'>SharedStyleContext</span><span class='op'>&lt;&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span><span class='op'>&gt;</span>,
-                                   <span class='ident'>parent_style</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;&gt;</span>,
-                                   <span class='ident'>applicable_declarations</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>DeclarationBlock</span>],
-                                   <span class='kw-2'>mut</span> <span class='ident'>style</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;&gt;</span>,
-                                   <span class='ident'>applicable_declarations_cache</span>:
-                                    <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ApplicableDeclarationsCache</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;</span>,
-                                   <span class='ident'>shareable</span>: <span class='ident'>bool</span>,
-                                   <span class='ident'>animate_properties</span>: <span class='ident'>bool</span>)
-                                   <span class='op'>-&gt;</span> (<span class='self'>Self</span>::<span class='ident'>ConcreteRestyleDamage</span>, <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;</span>) {
+    <span class='kw'>fn</span> <span class='ident'>cascade_node_pseudo_element</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>Ctx</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
+                                            <span class='ident'>context</span>: <span class='kw-2'>&amp;</span><span class='ident'>Ctx</span>,
+                                            <span class='ident'>parent_style</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>Arc</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;&gt;</span>,
+                                            <span class='ident'>applicable_declarations</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>DeclarationBlock</span>],
+                                            <span class='kw-2'>mut</span> <span class='ident'>style</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;&gt;</span>,
+                                            <span class='ident'>applicable_declarations_cache</span>:
+                                             <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ApplicableDeclarationsCache</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;</span>,
+                                            <span class='ident'>shareable</span>: <span class='ident'>bool</span>,
+                                            <span class='ident'>animate_properties</span>: <span class='ident'>bool</span>)
+                                            <span class='op'>-&gt;</span> (<span class='self'>Self</span>::<span class='ident'>ConcreteRestyleDamage</span>, <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;</span>)
+    <span class='kw'>where</span> <span class='ident'>Ctx</span>: <span class='ident'>StyleContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cacheable</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+        <span class='kw'>let</span> <span class='ident'>shared_context</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>shared_context</span>();
         <span class='kw'>if</span> <span class='ident'>animate_properties</span> {
-            <span class='ident'>cacheable</span> <span class='op'>=</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>update_animations_for_cascade</span>(<span class='ident'>context</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>style</span>) <span class='op'>&amp;&amp;</span> <span class='ident'>cacheable</span>;
+            <span class='ident'>cacheable</span> <span class='op'>=</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>update_animations_for_cascade</span>(<span class='ident'>shared_context</span>,
+                                                            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>style</span>) <span class='op'>&amp;&amp;</span> <span class='ident'>cacheable</span>;
         }
 
         <span class='kw'>let</span> <span class='ident'>this_style</span>;
@@ -1188,22 +1197,22 @@
                     <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
                 };
 
-                <span class='kw'>let</span> (<span class='ident'>the_style</span>, <span class='ident'>is_cacheable</span>) <span class='op'>=</span> <span class='ident'>cascade</span>(<span class='ident'>context</span>.<span class='ident'>viewport_size</span>,
+                <span class='kw'>let</span> (<span class='ident'>the_style</span>, <span class='ident'>is_cacheable</span>) <span class='op'>=</span> <span class='ident'>cascade</span>(<span class='ident'>shared_context</span>.<span class='ident'>viewport_size</span>,
                                                         <span class='ident'>applicable_declarations</span>,
                                                         <span class='ident'>shareable</span>,
                                                         <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>parent_style</span>),
                                                         <span class='ident'>cached_computed_values</span>,
-                                                        <span class='ident'>context</span>.<span class='ident'>error_reporter</span>.<span class='ident'>clone</span>());
+                                                        <span class='ident'>shared_context</span>.<span class='ident'>error_reporter</span>.<span class='ident'>clone</span>());
                 <span class='ident'>cacheable</span> <span class='op'>=</span> <span class='ident'>cacheable</span> <span class='op'>&amp;&amp;</span> <span class='ident'>is_cacheable</span>;
                 <span class='ident'>this_style</span> <span class='op'>=</span> <span class='ident'>the_style</span>
             }
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> (<span class='ident'>the_style</span>, <span class='ident'>is_cacheable</span>) <span class='op'>=</span> <span class='ident'>cascade</span>(<span class='ident'>context</span>.<span class='ident'>viewport_size</span>,
+                <span class='kw'>let</span> (<span class='ident'>the_style</span>, <span class='ident'>is_cacheable</span>) <span class='op'>=</span> <span class='ident'>cascade</span>(<span class='ident'>shared_context</span>.<span class='ident'>viewport_size</span>,
                                                         <span class='ident'>applicable_declarations</span>,
                                                         <span class='ident'>shareable</span>,
                                                         <span class='prelude-val'>None</span>,
                                                         <span class='prelude-val'>None</span>,
-                                                        <span class='ident'>context</span>.<span class='ident'>error_reporter</span>.<span class='ident'>clone</span>());
+                                                        <span class='ident'>shared_context</span>.<span class='ident'>error_reporter</span>.<span class='ident'>clone</span>());
                 <span class='ident'>cacheable</span> <span class='op'>=</span> <span class='ident'>cacheable</span> <span class='op'>&amp;&amp;</span> <span class='ident'>is_cacheable</span>;
                 <span class='ident'>this_style</span> <span class='op'>=</span> <span class='ident'>the_style</span>
             }
@@ -1212,10 +1221,12 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>this_style</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>this_style</span>);
 
         <span class='kw'>if</span> <span class='ident'>animate_properties</span> {
+            <span class='kw'>let</span> <span class='ident'>new_animations_sender</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>context</span>.<span class='ident'>local_context</span>().<span class='ident'>new_animations_sender</span>;
             <span class='kw'>let</span> <span class='ident'>this_opaque</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>opaque</span>();
             <span class='comment'>// Trigger any present animations if necessary.</span>
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>animations_started</span> <span class='op'>=</span> <span class='ident'>animation</span>::<span class='ident'>maybe_start_animations</span>::<span class='op'>&lt;&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span><span class='op'>&gt;</span>(
-                <span class='kw-2'>&amp;</span><span class='ident'>context</span>,
+                <span class='kw-2'>&amp;</span><span class='ident'>shared_context</span>,
+                <span class='ident'>new_animations_sender</span>,
                 <span class='ident'>this_opaque</span>,
                 <span class='kw-2'>&amp;</span><span class='ident'>this_style</span>);
 
@@ -1224,7 +1235,7 @@
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>style</span>) <span class='op'>=</span> <span class='ident'>style</span> {
                 <span class='ident'>animations_started</span> <span class='op'>|=</span>
                     <span class='ident'>animation</span>::<span class='ident'>start_transitions_if_applicable</span>::<span class='op'>&lt;&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span><span class='op'>&gt;</span>(
-                        <span class='kw-2'>&amp;</span><span class='ident'>context</span>.<span class='ident'>new_animations_sender</span>,
+                        <span class='ident'>new_animations_sender</span>,
                         <span class='ident'>this_opaque</span>,
                         <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>style</span>,
                         <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>this_style</span>);
@@ -1451,12 +1462,13 @@
         }
     }
 
-    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>cascade_node</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
-                           <span class='ident'>context</span>: <span class='kw-2'>&amp;</span><span class='ident'>SharedStyleContext</span><span class='op'>&lt;&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span><span class='op'>&gt;</span>,
-                           <span class='ident'>local_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>LocalStyleContext</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;</span>,
-                           <span class='ident'>parent</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>,
-                           <span class='ident'>applicable_declarations</span>: <span class='kw-2'>&amp;</span><span class='ident'>ApplicableDeclarations</span><span class='op'>&lt;&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span><span class='op'>&gt;</span>)
-    <span class='kw'>where</span> <span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span>: <span class='ident'>SelectorImplExt</span><span class='op'>&lt;</span><span class='ident'>ComputedValues</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;</span>
+    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>cascade_node</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>Ctx</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
+                                    <span class='ident'>context</span>: <span class='kw-2'>&amp;</span><span class='ident'>Ctx</span>,
+                                    <span class='ident'>parent</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>,
+                                    <span class='ident'>applicable_declarations</span>:
+                                     <span class='kw-2'>&amp;</span><span class='ident'>ApplicableDeclarations</span><span class='op'>&lt;&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span><span class='op'>&gt;</span>)
+    <span class='kw'>where</span> <span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span>: <span class='ident'>SelectorImplExt</span><span class='op'>&lt;</span><span class='ident'>ComputedValues</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>ConcreteComputedValues</span><span class='op'>&gt;</span>,
+          <span class='ident'>Ctx</span>: <span class='ident'>StyleContext</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>ConcreteElement</span> <span class='kw'>as</span> <span class='ident'>Element</span><span class='op'>&gt;</span>::<span class='ident'>Impl</span><span class='op'>&gt;</span>
     {
         <span class='comment'>// Get our parent&#39;s style. This must be unsafe so that we don&#39;t touch the parent&#39;s</span>
         <span class='comment'>// borrow flags.</span>
@@ -1472,7 +1484,7 @@
         };
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>applicable_declarations_cache</span> <span class='op'>=</span>
-            <span class='ident'>local_context</span>.<span class='ident'>applicable_declarations_cache</span>.<span class='ident'>borrow_mut</span>();
+            <span class='ident'>context</span>.<span class='ident'>local_context</span>().<span class='ident'>applicable_declarations_cache</span>.<span class='ident'>borrow_mut</span>();
 
         <span class='kw'>let</span> <span class='ident'>damage</span>;
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_text_node</span>() {
